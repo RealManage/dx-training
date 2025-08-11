@@ -4,7 +4,28 @@ Use this checklist to verify your Claude Code installation is working correctly.
 
 ## Installation Verification
 
-### Step 1: Verify nvm Installation
+### Step 1: Verify .NET SDK Installation
+
+```bash
+# Check .NET version
+dotnet --version
+# Should show: 9.0.x
+
+# Check available SDKs
+dotnet --list-sdks
+# Should include 9.0.x
+
+# Verify you can build C# projects
+dotnet new console -n TestApp
+cd TestApp
+dotnet build
+dotnet run
+# Should print "Hello, World!"
+cd ..
+rm -rf TestApp
+```
+
+### Step 2: Verify nvm Installation
 
 **Windows (nvm-windows):**
 ```powershell
@@ -24,7 +45,7 @@ nvm ls
 # Should show your installed Node versions with arrow pointing to current
 ```
 
-### Step 2: Ensure Correct Node.js Version
+### Step 3: Ensure Correct Node.js Version
 ```bash
 # Check current version
 node --version
@@ -35,7 +56,7 @@ node --version
 # Mac/Linux: nvm use --lts
 ```
 
-### Step 3: Check npm Version
+### Step 4: Check npm Version
 ```bash
 npm --version
 # Should show: 10.0.0 or higher
@@ -46,7 +67,7 @@ npm config get prefix
 # Mac/Linux: Should be in home directory, NOT /usr/local
 ```
 
-### Step 4: Install Claude Code
+### Step 5: Install Claude Code
 
 **For Windows (Git Bash):**
 ```bash
@@ -59,13 +80,13 @@ npm install -g @anthropic-ai/claude-code
 npm install -g @anthropic-ai/claude-code
 ```
 
-### Step 5: Verify Claude Installation
+### Step 6: Verify Claude Installation
 ```bash
 claude --version
 # Should show: Claude Code version number
 ```
 
-### Step 6: Run Diagnostic
+### Step 7: Run Diagnostic
 ```bash
 claude doctor
 ```
@@ -215,12 +236,15 @@ claude
 
 ## Success Criteria
 
+- [ ] .NET 9 SDK installed and working
+- [ ] VS Code with recommended extensions
 - [ ] Claude Code installed and version shows
 - [ ] `claude doctor` shows all green checks
 - [ ] Authentication completed successfully
 - [ ] Claude can read files in your directory
 - [ ] Claude can generate C# code
 - [ ] Claude can write files when asked
+- [ ] Can build and run the sandbox C# app
 
 ## Troubleshooting Resources
 

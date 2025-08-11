@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "Anthropic.claude-code",
+    "bierner.markdown-mermaid",
+    "GitLab.gitlab-workflow",
+    "ms-dotnettools.vscode-dotnet-runtime",
+    "ms-python.python",
+    "ms-toolsai.jupyter"
+  ],
+  "unwantedRecommendations": []
+}

@@ -11,7 +11,7 @@ Welcome to the RealManage DX Training repository – your central resource for t
 
 Transform how you write code with Anthropic's Claude Code. This comprehensive course takes you from setup to advanced workflows, including Test-Driven Development, MCP integrations, and real-world HOA management scenarios.
 
-[**Start Course →**](./courses/ai-101-claude-code/AI-101-Course.md)
+[**Start Course →**](./courses/ai-101-claude-code/README.md)
 
 ### Coming Soon 🚀
 - **AI 102: Advanced Agent Development** - Build autonomous systems for property management
@@ -160,6 +160,6 @@ Special thanks to:
 
 **Questions?** Reach out in `#dx-training` or email dx-team@realmanage.com
 
-**Ready to level up?** [Start with AI 101: Claude Code →](./courses/ai-101-claude-code/AI-101-Course.md)
+**Ready to level up?** [Start with AI 101: Claude Code →](./courses/ai-101-claude-code/README.md)
 
 *"Investing in our team's growth is investing in RealManage's future."* - DX Team

@@ -1,0 +1,33 @@
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit"
+  },
+  "files.exclude": {
+    "**/bin": true,
+    "**/obj": true,
+    "**/.vs": true
+  },
+  "dotnet.defaultSolution": "disable",
+  "[markdown]": {
+    "editor.wordWrap": "on",
+    "editor.quickSuggestions": {
+      "other": true,
+      "comments": false,
+      "strings": false
+    }
+  },
+  "cSpell.words": [
+    "RealManage",
+    "HOA",
+    "CCRs",
+    "xUnit",
+    "FluentAssertions",
+    "Moq",
+    "CQRS",
+    "MCP",
+    "Claude",
+    "Anthropic",
+    "TDD"
+  ]
+}

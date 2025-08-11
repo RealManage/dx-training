@@ -18,8 +18,10 @@ By the end of this session, participants will be able to:
 ### System Requirements
 - **OS:** Windows 10+, macOS 10.15+, or Ubuntu 20.04+
 - **RAM:** 4GB minimum
+- **.NET:** .NET 9 SDK required for C# development (supports top-level programs)
 - **Node.js:** Version 18+ required, 22 LTS recommended (via nvm)
 - **Shell:** Bash, Zsh, or Fish preferred
+- **IDE:** VS Code with recommended extensions
 
 ### Step 1: Choose Your Windows Environment
 Windows users must choose ONE option:
@@ -68,10 +70,44 @@ nvm use --lts
 node --version  # Should show v22.x.x
 ```
 
-### Step 3: Pre-Session Verification
+### Step 3: Install .NET 9 SDK
+```bash
+# Verify .NET installation
+dotnet --version  # Should show 9.0.x
+
+# If not installed, download from:
+# https://dotnet.microsoft.com/download/dotnet/9.0
+```
+
+### Step 4: Install IDE Extensions
+
+**For VS Code/Windsurf:**
+1. Open Command Palette (Ctrl+Shift+P / Cmd+Shift+P)
+2. Type "Extensions: Show Recommended Extensions"
+3. Install available extensions from `.vscode/extensions.json`
+4. Restart IDE
+
+**For Cursor/Other IDEs:**
+Install equivalent extensions:
+- Claude/AI integration extension
+- C# language support
+- GitLab integration
+- Markdown with Mermaid support
+- .NET runtime support
+
+Key extensions needed:
+- **Claude Code/AI Assistant** - For AI integration
+- **C# Language Support** - For IntelliSense and debugging
+- **GitLab Workflow** - For merge requests and CI/CD
+- **Markdown Preview** - For viewing course materials
+- **.NET Runtime** - For running C# code
+
+### Step 5: Pre-Session Verification
+- [ ] .NET 9 SDK installed (`dotnet --version`)
 - [ ] nvm installed and working (`nvm --version`)
 - [ ] Node.js 22 LTS installed via nvm (`node --version`)
 - [ ] npm 10+ available (`npm --version`)
+- [ ] VS Code with extensions installed
 - [ ] Terminal ready (Git Bash, WSL, or Terminal)
 - [ ] Anthropic account for authentication
 - [ ] Internet connection (no VPN initially)
