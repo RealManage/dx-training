@@ -46,10 +46,10 @@ RealManage is a leader in HOA and community association management. Our technolo
 
 Want to create or improve a course? Here's how:
 
-1. **Fork this repository**
+1. **Fork this repository** on [GitLab](https://gitlab.com/therealmanage/tools/dx/dx-training)
 2. **Follow the course template** in `/templates/course-template.md`
 3. **Test all examples** with actual RealManage codebases
-4. **Submit a PR** with your changes
+4. **Submit a Merge Request** with your changes
 5. **Tag reviewers** from the DX team
 
 ## 📖 Course Structure
@@ -100,12 +100,12 @@ Check each course's README for specific prerequisites and setup instructions.
 - **Slack:** `#dx-training` for general questions
 - **Office Hours:** Thursdays 2-3 PM CT with DX team
 - **Documentation:** [Internal Wiki](https://wiki.realmanage.com/dx-training)
-- **Issues:** [GitHub Issues](https://github.com/realmanage/dx-training/issues)
+- **Issues:** [GitLab Issues](https://gitlab.com/therealmanage/tools/dx/dx-training/-/issues)
 
 ### Give Feedback
 We continuously improve our training based on your input:
 - **Course feedback:** Submit via course feedback forms
-- **Bug reports:** Create a GitHub issue
+- **Bug reports:** Create a GitLab issue
 - **Feature requests:** Discuss in `#dx-training-ideas`
 - **Success stories:** Share in `#dx-wins`
 
