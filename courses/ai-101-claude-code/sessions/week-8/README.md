@@ -64,7 +64,10 @@ Each team presents:
 
 Navigate to the sandbox folder for your project:
 ```bash
+# When example is provided:
+cp -r example sandbox
 cd sandbox
+claude
 ```
 
 This is your workspace for the capstone project.

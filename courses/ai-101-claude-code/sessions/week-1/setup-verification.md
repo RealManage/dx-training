@@ -244,7 +244,7 @@ claude
 - [ ] Claude can read files in your directory
 - [ ] Claude can generate C# code
 - [ ] Claude can write files when asked
-- [ ] Can build and run the sandbox C# app
+- [ ] Can build and run the example C# app
 
 ## Troubleshooting Resources
 
@@ -254,4 +254,4 @@ claude
 
 ---
 
-**Next:** Once setup is verified, proceed to [Week 1 Sandbox](./sandbox/)
+**Next:** Once setup is verified, copy the [Week 1 Example](./example/) to create your sandbox

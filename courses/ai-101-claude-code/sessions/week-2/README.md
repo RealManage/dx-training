@@ -40,9 +40,12 @@ Coming soon! This session will cover:
 
 ## 🧪 Sandbox Exercises
 
-Navigate to the sandbox folder to practice:
+Create your sandbox from the example (when available):
 ```bash
+# When example is provided:
+cp -r example sandbox
 cd sandbox
+claude
 ```
 
 Exercises will include:

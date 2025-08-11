@@ -13,7 +13,7 @@ This is an 8-week training course teaching RealManage teams how to use Claude Co
 ## Course Structure
 - **Duration:** 8 weeks, 2 hours per week
 - **Format:** Self-paced with optional instructor-led cohorts
-- **Hands-on:** Each week has a sandbox folder for practice
+- **Hands-on:** Each week has examples to copy to sandbox for practice
 - **Certification:** Complete all 8 weeks for RealManage AI Practitioner certificate
 
 ## Tech Stack Focus

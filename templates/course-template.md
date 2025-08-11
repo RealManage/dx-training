@@ -1,166 +1,448 @@
-# [Course Name]: [Subtitle] (X Week Training Course)
+# [Course Name]: [Subtitle] 🚀
 
-**Goal:** [Describe the overall objective and expected outcomes. Include target audience, time commitment, and learning approach.]
+[Welcome paragraph describing the course purpose and transformation it will enable for RealManage teams]
 
-## Course Overview
+## 📚 Course Overview
 
-**Duration:** X weeks (X hours/week)  
+**Duration:** X weeks (self-paced, ~2 hours per week)  
 **Level:** [Beginner/Intermediate/Advanced]  
-**Prerequisites:** [List specific requirements]  
-**Target Audience:** [Engineers/Product Managers/Support Staff/Cross-functional]
+**Format:** Self-study with optional group sessions  
+**Goal:** [Progressive immersion objective while leaving time for normal work]
 
-## Session 1 – [Topic Name] (Week 1)
+## 🎯 What You'll Learn
 
-### Objectives
-- [Primary learning objective with relevant documentation link]
-- [Secondary objective focusing on practical application]
-- [Third objective emphasizing RealManage-specific use cases]
+By completing this course, you'll be able to:
+- ✅ [Primary outcome with measurable skill]
+- ✅ [Secondary outcome focusing on practical application]
+- ✅ [Integration outcome with existing workflows]
+- ✅ [Advanced technique or optimization]
+- ✅ [RealManage-specific capability]
+- ✅ [Quality/compliance standard (e.g., 95% test coverage)]
 
-### Agenda (2 hrs)
+## 🗺️ Learning Path
 
-1. **[Activity Name] (XX min):** 
-   - [Key concept or task]
-   - [Hands-on component]
-   - [Reference to documentation] - [Documentation Link](URL)
-   - [RealManage-specific example]
+```mermaid
+graph LR
+    A[Week 1: Foundation] --> B[Week 2: Core Skills]
+    B --> C[Week 3: Intermediate]
+    C --> D[Week 4: Practice]
+    D --> E[Week 5: Advanced]
+    E --> F[Week 6: Integration]
+    F --> G[Week 7: Real-World]
+    G --> H[Week 8: Capstone]
+```
 
-2. **[Activity Name] (XX min):** 
-   - [Step-by-step instruction]
-   - [Interactive element]
-   - [Best practices reference] - [Resource Link](URL)
+## 📁 Course Structure
 
-3. **[Activity Name] (XX min):** 
-   - [Practical exercise description]
-   - Example scenarios:
-     - [Scenario 1 relevant to HOA management]
-     - [Scenario 2 relevant to property management]
-     - [Scenario 3 relevant to resident services]
-   - [Supporting documentation] - [Guide Link](URL)
+```
+[course-folder-name]/
+├── .vscode/                     # IDE workspace settings
+│   ├── extensions.json         # Recommended extensions
+│   ├── settings.json           # Project settings
+│   └── README.md               # IDE setup guide
+├── exercises/                   # Shared practice materials
+│   ├── prompts/                # Domain-specific templates
+│   └── [exercise-files]
+├── resources/                   # Reference materials
+│   ├── cheatsheets/            # Quick reference guides
+│   ├── prompts/                # Prompt templates
+│   ├── troubleshooting.md     # Common issues & solutions
+│   └── quick-reference.md     # Command reference
+├── sessions/                    # Weekly lessons with examples
+│   ├── week-1/                 # [Topic Name]
+│   │   ├── example/            # Reference implementation (in git)
+│   │   └── README.md           # Full lesson plan
+│   ├── week-2/                 # [Topic Name]
+│   │   ├── example/            # Reference implementation (if applicable)
+│   │   └── README.md
+│   └── ... weeks 3-8
+├── CLAUDE.md                    # AI context (if applicable)
+└── README.md                    # You are here
+```
 
-4. **[Activity Name] (XX min):** 
-   - [Group work or paired programming]
-   - [Tools and techniques to practice]
-   - [Integration with existing workflows]
-   - [Best practices] - [Reference Link](URL)
+## 🚀 Quick Start
 
-5. **Reflection (10 min):** 
-   - Key takeaways discussion
-   - Application to current projects
-   - Questions and challenges
-   - Planning for practice between sessions
+### Option 1: Self-Paced Learning (Recommended)
 
-## Session 2 – [Topic Name] (Week 2)
+1. **Complete Prerequisites** → Check the list below
+2. **Start Week 1** → [Foundation & Setup](./sessions/week-1/README.md)
+3. **Practice in Sandbox** → Copy examples to sandbox for hands-on work
+4. **Track Progress** → Use the checklist at the bottom
+5. **Get Help** → Join `#dx-training` on Slack
 
-### Objectives
-- [Build on Week 1 foundation]
-- [Introduce intermediate concepts]
-- [Apply to real-world scenarios]
+### 💡 Sandbox Workflow
 
-### Agenda (2 hrs)
+Each week with code examples follows this pattern:
+```bash
+# Navigate to the week's folder
+cd sessions/week-X
 
-1. **Review & Warm-up (15 min):**
-   - Quick recap of previous session
-   - Share experiences from practice
-   - Address questions
+# Copy the example to create your personal sandbox
+cp -r example sandbox
 
-2. **[Core Topic] (XX min):**
-   - [Conceptual overview]
-   - [Demonstration]
-   - [Documentation] - [Official Docs](URL)
+# Enter your sandbox
+cd sandbox
 
-3. **Hands-On Workshop (XX min):**
-   - Break into pairs/groups
-   - RealManage-specific scenarios:
-     - [Scenario description]
-     - [Expected outcome]
-   - [Supporting resources] - [Tutorial Link](URL)
+# Start your development environment
+```
 
-4. **[Advanced Concept] (XX min):**
-   - [Topic introduction]
-   - [Practical application]
-   - [Best practices]
+**Why this approach?**
+- ✅ **Safe experimentation** - Break things without fear
+- ✅ **Clean git history** - Your work won't be committed (sandbox is gitignored)
+- ✅ **Easy reset** - Just delete sandbox and copy again
+- ✅ **Reference available** - Original example stays pristine
 
-5. **Next Steps (10 min):**
-   - Homework/practice suggestions
-   - Resources for deeper learning
-   - Preview of next session
+### Option 2: Cohort Learning
 
-## Session 3 – [Topic Name] (Week 3)
+Join a scheduled cohort for group learning:
+- Weekly 2-hour sessions
+- Live demonstrations
+- Peer programming
+- Direct Q&A with instructors
 
-### Objectives
-- [Progressive skill building]
-- [Integration of multiple concepts]
-- [Real-world problem solving]
+Check `#dx-training` for upcoming cohorts.
 
-### Agenda (2 hrs)
+## 📋 Prerequisites Checklist
 
-[Continue pattern for remaining sessions...]
+Before starting, ensure you have:
 
-## Session X – Capstone Project (Week X)
+- [ ] **Development Environment**
+  - [ ] [Required software/tools]
+  - [ ] [Language runtimes/SDKs]
+  - [ ] Git configured with GitLab access
+  - [ ] IDE with recommended extensions
 
-### Objectives
-- Consolidate all learned skills
-- Complete a comprehensive project
-- Present solutions to real RealManage challenges
+- [ ] **Accounts & Access**
+  - [ ] [Required accounts]
+  - [ ] GitLab account with RealManage access
+  - [ ] Slack access to `#dx-training` channel
 
-### Agenda (2 hrs)
-
-1. **Project Selection (10 min):**
-   - Teams choose from provided challenges
-   - Or propose their own RealManage-relevant project
-   - Define success criteria
-
-2. **Building (90 min):**
-   - Apply all learned techniques
-   - Document approach and decisions
-   - Test and validate solution
-   - Prepare demonstration
-
-3. **Demo & Celebration (20 min):**
-   - Team presentations
-   - Peer feedback
-   - Discuss production readiness
-   - Celebrate achievements
-
-## Follow-Up and Resources
-
-### Documentation
-- [Primary official documentation]
-- [Secondary resources]
-- [Community guides]
-
-### Internal Support
-- Slack channel: `#[course-topic]`
-- Office hours: [Schedule]
-- Mentorship program
-
-### Continued Learning
-- Advanced topics to explore
-- Related courses
-- External certifications
-
-### Best Practices
-- [Key principle 1]
-- [Key principle 2]
-- [Key principle 3]
+- [ ] **Basic Knowledge**
+  - [ ] [Prerequisite skill 1]
+  - [ ] [Prerequisite skill 2]
+  - [ ] [Domain knowledge if applicable]
 
 ---
 
-*[Course summary statement emphasizing practical application and continuous improvement at RealManage]*
+# 📖 8-Week Training Curriculum
+
+## Week 1: [Foundation Topic]
+
+### Objectives
+- [Understand core concepts]
+- [Set up development environment]
+- [Complete first hands-on exercise]
+- [Identify use cases for daily work]
+
+### Agenda (2 hrs)
+
+#### 1. [Introduction] (20 min)
+- [Key concept overview]
+- [Why this matters for RealManage]
+- [Real-world applications]
+- [Success stories]
+
+#### 2. [Setup & Configuration] (30 min)
+- [Step-by-step installation]
+- [Configuration for RealManage environment]
+- [Verification steps]
+- [Common troubleshooting]
+
+#### 3. [First Hands-On Exercise] (40 min)
+- Copy the [Week 1 Example](./sessions/week-1/example/) to your sandbox
+- [Specific exercise description]
+- [Expected outcomes]
+- [Common pitfalls to avoid]
+
+#### 4. [Core Concept Deep Dive] (20 min)
+- [Detailed explanation]
+- [RealManage-specific examples]
+- [Best practices]
+- [Documentation references]
+
+#### 5. Reflection & Practice (10 min)
+- Discuss takeaways
+- Plan application to current work
+- Share insights in Slack
+
+**[→ Full Week 1 Lesson](./sessions/week-1/README.md)**
+
+---
+
+## Week 2: [Core Skills Topic]
+
+### Objectives
+- [Build on Week 1 foundation]
+- [Master fundamental techniques]
+- [Apply to RealManage scenarios]
+
+### Agenda (2 hrs)
+
+#### 1. Review & Warm-up (15 min)
+- Quick recap of Week 1
+- Share practice experiences
+- Address questions
+
+#### 2. [Core Technique 1] (30 min)
+- [Conceptual overview]
+- [Step-by-step guide]
+- [Practice exercises]
+
+#### 3. [Core Technique 2] (30 min)
+- [Advanced concepts]
+- [RealManage applications]
+- [Hands-on practice]
+
+#### 4. Workshop: [Practical Application] (35 min)
+- Break into pairs
+- Work on RealManage scenarios
+- Share solutions
+
+#### 5. Next Steps (10 min)
+- Homework assignments
+- Resources for deeper learning
+
+**[→ Week 2 Coming Soon](./sessions/week-2/README.md)**
+
+---
+
+## Week 3: [Intermediate Topic]
+
+### Objectives
+- [Advance beyond basics]
+- [Integrate multiple concepts]
+- [Solve complex problems]
+
+### Agenda (2 hrs)
+
+[Content structure similar to Week 2]
+
+**[→ Week 3 Coming Soon](./sessions/week-3/README.md)**
+
+---
+
+## Week 4: [Practical Application]
+
+### Objectives
+- [Apply learned skills]
+- [Build confidence through practice]
+- [Prepare for advanced topics]
+
+### Agenda (2 hrs)
+
+[Content structure similar to Week 2]
+
+**[→ Week 4 Coming Soon](./sessions/week-4/README.md)**
+
+---
+
+## Week 5: [Advanced Features]
+
+### Objectives
+- [Master advanced techniques]
+- [Optimize workflows]
+- [Implement best practices]
+
+### Agenda (2 hrs)
+
+[Content structure similar to Week 2]
+
+**[→ Week 5 Coming Soon](./sessions/week-5/README.md)**
+
+---
+
+## Week 6: [Integration & Automation]
+
+### Objectives
+- [Integrate with existing systems]
+- [Automate repetitive tasks]
+- [Build custom solutions]
+
+### Agenda (2 hrs)
+
+[Content structure similar to Week 2]
+
+**[→ Week 6 Coming Soon](./sessions/week-6/README.md)**
+
+---
+
+## Week 7: Real-World Scenarios
+
+### Objectives
+- [Apply to cross-functional tasks]
+- [Support different team roles]
+- [Implement continuous improvement]
+
+### Agenda (2 hrs)
+
+#### 1. Cross-Functional Use Cases (30 min)
+- **Support staff:** [Specific applications]
+- **Project managers:** [Specific applications]
+- **Product managers:** [Specific applications]
+- **Engineers:** [Specific applications]
+
+#### 2. Group Exercise (60 min)
+- Form cross-functional teams
+- Apply all learned skills
+- Build real RealManage features
+
+#### 3. Iterate & Improve (20 min)
+- Refine approaches
+- Monitor metrics
+- Setup automation
+
+#### 4. Debrief (10 min)
+- Share lessons learned
+
+**[→ Week 7 Coming Soon](./sessions/week-7/README.md)**
+
+---
+
+## Week 8: Capstone Project
+
+### Objectives
+- Consolidate all skills
+- Complete comprehensive project
+- Present solutions
+- Earn certification
+
+### Agenda (2 hrs)
+
+#### 1. Project Selection (10 min)
+Teams choose from RealManage challenges:
+- **Option A:** [Project description]
+- **Option B:** [Project description]
+- **Option C:** [Project description]
+- **Option D:** Custom project (requires approval)
+
+#### 2. Building (90 min)
+Requirements for all projects:
+- Apply all learned skills
+- Document approach
+- Include tests (95% coverage if applicable)
+- Create presentation materials
+
+#### 3. Demo & Celebration (20 min)
+- Team presentations
+- Peer feedback
+- Instructor evaluation
+- Celebration!
+
+**[→ Week 8 Coming Soon](./sessions/week-8/README.md)**
+
+---
+
+## 📊 Track Your Progress
+
+Use this checklist to track your journey:
+
+- [ ] Week 1: [Topic] ✅
+- [ ] Week 2: [Topic]
+- [ ] Week 3: [Topic]
+- [ ] Week 4: [Topic]
+- [ ] Week 5: [Topic]
+- [ ] Week 6: [Topic]
+- [ ] Week 7: Real-World Scenarios
+- [ ] Week 8: Capstone Project
+
+## 🎓 Certification Path
+
+Complete all 8 weeks and submit a capstone project to earn:
+- **RealManage [Course] Practitioner** certificate
+- Recognition in Engineering All-Hands
+- Badge for your GitLab profile
+- Priority access to advanced courses
+
+## 🤝 Getting Help
+
+### Immediate Help
+- **Quick Questions**: `#dx-training` on Slack
+- **Bugs/Issues**: [GitLab Issues](https://gitlab.com/therealmanage/tools/dx/dx-training/-/issues)
+- **Office Hours**: [Day/Time]
+
+### Self-Help Resources
+- [Troubleshooting Guide](./resources/troubleshooting.md)
+- [Quick Reference](./resources/quick-reference.md)
+- [Common Patterns](./resources/common-patterns.md)
+- [Prompt Library](./resources/prompt-library.md) (if applicable)
+
+## 📚 Follow-Up and Resources
+
+### Official Documentation
+- [Primary documentation with link]
+- [Secondary resources]
+- [Best practices guides]
+
+### Internal Support
+- Create `#[topic]-hackerspace` Slack channel
+- Schedule weekly office hours
+- Share libraries and templates
+
+### Continued Learning
+- Advanced topics: [List topics]
+- Compare with other tools: [List alternatives]
+- Explore automation opportunities
+
+### Safety & Ethics
+- [Relevant safety considerations]
+- [Compliance requirements]
+- [Data protection guidelines]
+- [Best practices for production use]
+
+## 🌟 Success Stories
+
+> "[Quote from successful participant]" - *Role*
+
+> "[Quote highlighting business impact]" - *Role*
+
+> "[Quote about skill transformation]" - *Role*
+
+## 📊 Success Metrics
+
+You're ready for the next week when you can:
+- [Measurable skill 1]
+- [Measurable skill 2]
+- [Measurable skill 3]
+- [Measurable skill 4]
+- [Measurable skill 5]
+
+## 🚦 Red Flags
+
+Seek help if:
+- [Common issue 1]
+- [Common issue 2]
+- [Common issue 3]
+- [Common issue 4]
+
+---
 
 ## References
 
 ### Official Documentation
 1. **[Resource Name]** - URL
 2. **[Resource Name]** - URL
-
-### Community Resources
 3. **[Resource Name]** - URL
-4. **[Resource Name]** - URL
 
-### Additional Learning
+### [Technology]-Specific Resources
+4. **[Resource Name]** - URL
 5. **[Resource Name]** - URL
 6. **[Resource Name]** - URL
+
+### Community Resources
+7. **[Resource Name]** - URL
+8. **[Resource Name]** - URL
+
+### Additional Learning
+9. **[Resource Name]** - URL
+10. **[Resource Name]** - URL
+
+---
+
+**Questions?** Reach out in `#dx-training` or email dx-team@realmanage.com
+
+**Course Version:** 1.0.0 | **Last Updated:** [Date]
+
+*"[Inspirational quote about learning and growth at RealManage]"* - DX Team
 
 ---
 
@@ -168,23 +450,46 @@
 
 When creating a new course using this template:
 
+### Required Elements
 1. **Replace all bracketed placeholders** with specific content
-2. **Maintain consistent 2-hour session structure** for scheduling predictability
-3. **Include 3-5 objectives per session** mixing theory and practice
-4. **Provide 5-10 reference links per session** prioritizing official documentation
-5. **Create RealManage-specific examples** for each major concept
-6. **Include reflection/discussion time** in each session
-7. **Build progressively** - each session should build on previous learning
-8. **End with a capstone project** that consolidates all skills
-9. **Provide clear follow-up resources** for continued learning
-10. **Test all links and examples** before course launch
+2. **Create example folders** for each week's reference code
+3. **Maintain 2-hour session structure** for consistency
+4. **Include 3-5 objectives per session** mixing theory and practice
+5. **Build progressively** - each session builds on previous learning
+6. **End with capstone project** that consolidates all skills
 
-### Recommended Structure
-- **Weeks 1-2:** Foundation and basics
-- **Weeks 3-4:** Core concepts and techniques  
-- **Weeks 5-6:** Advanced features and integrations
-- **Weeks 7:** Real-world application
-- **Week 8:** Capstone project
+### Folder Structure Requirements
+```
+courses/[course-name]/
+├── .vscode/               # IDE configuration
+├── exercises/             # Shared exercises
+├── resources/             # Reference materials
+├── sessions/              # Weekly content
+│   └── week-X/
+│       ├── example/       # Reference code (in git)
+│       └── README.md      # Lesson plan
+├── CLAUDE.md             # AI context (if using Claude Code)
+└── README.md             # Main course document
+```
+
+### Content Guidelines
+- **Prerequisites:** Be specific about versions and tools
+- **Objectives:** Use measurable, action-oriented language
+- **Exercises:** Always include hands-on practice in sandbox
+- **Examples:** Use RealManage-specific scenarios (HOA, property management)
+- **Resources:** Prioritize free, accessible documentation
+- **Support:** Establish clear help channels
+
+### Quality Checklist
+Before launching a course:
+- [ ] All links are valid and accessible
+- [ ] Sandbox environments are tested
+- [ ] Prerequisites include version numbers
+- [ ] Time allocations are realistic
+- [ ] Examples use RealManage scenarios
+- [ ] Support channels are established
+- [ ] Success metrics are measurable
+- [ ] Certification criteria are clear
 
 ### RealManage Context
 Always relate concepts to:
@@ -193,15 +498,12 @@ Always relate concepts to:
 - Resident services
 - Financial operations
 - Compliance and reporting
+- 95% test coverage (for development courses)
 - Cross-functional collaboration
 
-### Quality Checklist
-Before launching a course, ensure:
-- [ ] All links are valid and accessible
-- [ ] Examples use RealManage-relevant scenarios
-- [ ] Prerequisites are clearly stated
-- [ ] Time allocations are realistic
-- [ ] Resources are freely accessible (no paywalls)
-- [ ] Hands-on exercises are tested
-- [ ] Support channels are established
-- [ ] Success metrics are defined
+### Recommended Timeline
+- **Weeks 1-2:** Foundation and basics
+- **Weeks 3-4:** Core concepts and techniques  
+- **Weeks 5-6:** Advanced features and integrations
+- **Week 7:** Real-world application
+- **Week 8:** Capstone project

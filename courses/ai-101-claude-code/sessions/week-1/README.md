@@ -297,9 +297,10 @@ claude
 
 ### Part 3: First Queries (30 min)
 
-#### 3.1 Explore the Sandbox CLI App (5 min)
+#### 3.1 Set Up Your Sandbox (5 min)
 ```bash
-# Navigate to sandbox (already in week-1 directory)
+# Copy example to create your personal sandbox
+cp -r example sandbox
 cd sandbox
 
 # See what's here - modern C# with no Main() method!
@@ -322,7 +323,7 @@ claude
 
 **Exercise - Ask these questions in Claude:**
 ```
-> What does this sandbox application do?
+> What does this example application do?
 
 > Explain how top-level programs work in modern C#
 
@@ -336,7 +337,7 @@ claude
 ```
 
 **What to Notice:**
-- Claude reads all files in the sandbox automatically
+- Claude reads all files in your workspace automatically
 - Identifies bugs and TODOs
 - Explains modern C# features
 - Suggests improvements
@@ -344,7 +345,7 @@ claude
 
 #### 3.3 Code Generation Demo (10 min)
 
-**Live coding with the class - Fix and Extend the Sandbox:**
+**Live coding with the class - Fix and Extend the Example:**
 ```
 > Fix the bug in CalculateFine so it compounds 10% monthly
 
@@ -552,9 +553,9 @@ echo "# Project Context" > CLAUDE.md
 3. 🎯 Create a custom slash command for your workflow
 
 ### Skill Check:
-Try this in the sandbox without help:
+Try this in your sandbox without help:
 ```
-> Add a new ViolationAppeal class to the sandbox with these rules:
+> Add a new ViolationAppeal class with these rules:
   - Appeals must be within 30 days of violation
   - Must include justification text
   - Can only appeal once per violation
@@ -572,7 +573,7 @@ Try this in the sandbox without help:
 - [Troubleshooting](https://docs.anthropic.com/en/docs/claude-code/troubleshooting)
 
 ### RealManage Resources
-- [Week 1 Sandbox CLI App](./sandbox/) - Your practice space
+- [Week 1 Example CLI App](./example/) - Reference implementation
 - [C# Coding Standards](https://wiki.realmanage.com/coding-standards)
 - [Architecture Guidelines](https://wiki.realmanage.com/architecture)
 - Slack: `#dx-training` for help

@@ -52,31 +52,24 @@ ai-101-claude-code/
 │   ├── prompt-library.md
 │   ├── quick-reference.md
 │   └── troubleshooting.md
-├── sessions/                    # Weekly lessons with sandboxes
+├── sessions/                    # Weekly lessons with examples
 │   ├── week-1/                 # Setup & Orientation
-│   │   ├── sandbox/            # Practice CLI app
+│   │   ├── example/            # Reference CLI app (in git)
 │   │   ├── README.md           # Full lesson plan
 │   │   └── setup-verification.md
 │   ├── week-2/                 # Prompting Foundations
-│   │   ├── sandbox/
 │   │   └── README.md
 │   ├── week-3/                 # Plan Mode
-│   │   ├── sandbox/
 │   │   └── README.md
 │   ├── week-4/                 # TDD
-│   │   ├── sandbox/
 │   │   └── README.md
 │   ├── week-5/                 # Advanced CLI
-│   │   ├── sandbox/
 │   │   └── README.md
 │   ├── week-6/                 # MCP Servers
-│   │   ├── sandbox/
 │   │   └── README.md
 │   ├── week-7/                 # Real-World
-│   │   ├── sandbox/
 │   │   └── README.md
 │   └── week-8/                 # Capstone
-│       ├── sandbox/
 │       └── README.md
 ├── CLAUDE.md                    # AI context for this course
 └── README.md                    # You are here
@@ -88,9 +81,32 @@ ai-101-claude-code/
 
 1. **Complete Prerequisites** → Check the list below
 2. **Start Week 1** → [Setup & Orientation](./sessions/week-1/README.md)
-3. **Practice in Sandbox** → Each week has hands-on exercises
+3. **Practice in Sandbox** → Copy examples to sandbox for hands-on work
 4. **Track Progress** → Use the checklist at the bottom
 5. **Get Help** → Join `#dx-training` on Slack
+
+### 💡 Sandbox Workflow
+
+Each week with code examples follows this pattern:
+```bash
+# Navigate to the week's folder
+cd sessions/week-1
+
+# Copy the example to create your personal sandbox
+cp -r example sandbox
+
+# Enter your sandbox
+cd sandbox
+
+# Start Claude Code in your sandbox
+claude
+```
+
+**Why this approach?**
+- ✅ **Safe experimentation** - Break things without fear
+- ✅ **Clean git history** - Your work won't be committed
+- ✅ **Easy reset** - Just delete sandbox and copy again
+- ✅ **Reference available** - Original example stays pristine
 
 ### Option 2: Cohort Learning
 
@@ -155,7 +171,7 @@ Before starting, ensure you have:
 - Sonnet 4 pricing: $0.003/1K input, $0.015/1K output
 
 #### 3. First Queries (30 min)
-- Practice with the [Week 1 Sandbox](./sessions/week-1/sandbox/)
+- Copy the [Week 1 Example](./sessions/week-1/example/) to your sandbox
 - Explore a modern C# CLI app with intentional bugs
 - Ask questions about top-level programs, records, and patterns
 - Fix the compound interest bug in CalculateFine

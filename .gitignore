@@ -338,6 +338,10 @@ $RECYCLE.BIN/
 # Course-Specific
 # ================
 
+# Student sandbox work (never commit)
+**/sandbox/
+sandbox/
+
 # Student submissions (if collecting)
 submissions/
 student-work/
