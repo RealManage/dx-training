@@ -1,5 +1,5 @@
 // Modern C# Top-Level Program - No Main() needed! 🚀
-using RealManage.HOA;
+using RealManage.HoaViolation;
 
 Console.WriteLine("🏘️  HOA Violation Tracker CLI");
 Console.WriteLine("==============================\n");
@@ -37,21 +37,18 @@ while (true)
             break;
             
         case "3":
-            // TODO: Implement with Claude's help!
-            Console.WriteLine("❌ Not implemented yet - ask Claude to help!");
-            Console.WriteLine("Hint: Use 'Implement option 3 to show overdue violations'");
+            // TODO: Implement overdue violations check
+            Console.WriteLine("❌ Not implemented yet");
             break;
             
         case "4":
             // TODO: Add new violation
             Console.WriteLine("❌ Feature coming soon...");
-            Console.WriteLine("Challenge: Ask Claude to implement this!");
             break;
             
         case "5":
             // TODO: Generate report
             Console.WriteLine("❌ Report generation not available");
-            Console.WriteLine("Advanced: Ask Claude to create a PDF report!");
             break;
             
         case "6":
@@ -78,18 +75,13 @@ void CalculateFineMenu()
         return;
     }
     
-    var fine = service.CalculateFine(type, days);
+    var fine = ViolationService.CalculateFine(type, days);
     
     Console.WriteLine($"\n📊 Fine Calculation:");
     Console.WriteLine($"   Type: {type}");
     Console.WriteLine($"   Days Overdue: {days}");
     Console.WriteLine($"   Fine Amount: ${fine:F2}");
     
-    // Show the bug hint
-    if (days > 60)
-    {
-        Console.WriteLine("\n⚠️ Note: Does this look right for {0} months overdue?", days / 30);
-    }
 }
 
 void ViewAllViolations()
@@ -119,7 +111,7 @@ void ViewAllViolations()
     Console.WriteLine($"\nTotal Violations: {violations.Count()}");
 }
 
-// Helper function ideas for Claude to implement:
+// TODO: Helper functions to implement:
 // - ColorConsole.WriteLine() for colored output
 // - SaveToFile() for persistence  
 // - GenerateReport() for PDF creation

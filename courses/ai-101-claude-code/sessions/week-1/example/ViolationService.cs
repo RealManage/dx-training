@@ -1,18 +1,18 @@
-namespace RealManage.HOA;
+namespace RealManage.HoaViolation;
 
 /// <summary>
 /// Service for managing HOA violations and calculating fines.
-/// Note: This implementation has several intentional issues for training purposes!
 /// </summary>
 public class ViolationService
 {
-    private readonly List<Violation> _violations = new();
+    private readonly List<Violation> _violations = [];
     
     /// <summary>
     /// Calculates fine for a violation based on type and days overdue.
-    /// TODO: Fix the calculation bug - fines aren't compounding correctly!
+    /// Applies compound interest after 30-day grace period.
+    /// TODO: Convert violationType to enum
     /// </summary>
-    public decimal CalculateFine(string violationType, int daysOverdue)
+    public static decimal CalculateFine(string violationType, int daysOverdue)
     {
         // Base fines by violation type
         var baseFine = violationType.ToLower() switch
@@ -20,15 +20,17 @@ public class ViolationService
             "landscaping" => 50m,
             "parking" => 75m,
             "noise" => 100m,
+            "pets" => 200m,
+            "safety" => 150m,
+            "trash" => 75m,
             "architectural" => 150m,
             _ => 50m
         };
         
-        // BUG: This calculation is wrong! 
-        // Should compound 10% per month, not just once
+        // Should compound 10% per month if days overdue > 30
         if (daysOverdue > 30)
         {
-            return baseFine * 1.1m;  // This only adds 10% once, regardless of how overdue!
+            return baseFine * 1.1m;
         }
         
         return baseFine;
@@ -61,15 +63,15 @@ public class ViolationService
         return _violations;
     }
     
-    // TODO: Implement these methods with Claude's help!
+    // TODO: Implement these methods
     
     /// <summary>
     /// Gets violations that are overdue (>30 days old).
     /// </summary>
     public IEnumerable<Violation> GetOverdueViolations()
     {
-        // TODO: Implement this!
-        throw new NotImplementedException("Ask Claude to help implement this!");
+        // TODO: Implement this
+        throw new NotImplementedException();
     }
     
     /// <summary>
@@ -115,7 +117,7 @@ public record Violation(
     // TODO: Add validation in init accessor
 }
 
-// TODO: Create these additional classes with Claude:
+// TODO: Create these additional classes:
 // - public class ViolationRepository : IViolationRepository
 // - public class NotificationService : INotificationService  
 // - public class ReportGenerator : IReportGenerator

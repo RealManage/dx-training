@@ -53,7 +53,7 @@ Windows users must choose ONE option:
 # NOTE: the `--` prefix is not needed on Windows
 nvm install lts
 nvm use lts
-node version  # Should show v22.x.x
+node --version  # Should show v22.x.x
 ```
 
 #### WSL/macOS/Linux - Official nvm
@@ -230,8 +230,8 @@ claude
 
 #### 2.1 Starting a Session (5 min)
 ```bash
-# Navigate to a project directory
-cd courses/ai-101-claude-code/sessions/week-1/example
+# Navigate to week 1 directory
+cd courses/ai-101-claude-code/sessions/week-1
 
 # Start Claude in current directory
 claude
@@ -247,8 +247,7 @@ claude
 /help              # Show all available commands
 /clear             # Clear conversation history (reset context)
 /cost              # Check token usage and costs
-/init              # Initialize a CLUADE.md file for your project
-/status            # Check account and system status
+/init              # Initialize a CLAUDE.md file for your project
 /memory            # Edit CLAUDE.md file
 /model             # Switch AI models
 /permissions       # Control what Claude can modify
@@ -258,7 +257,6 @@ claude
 
 **Additional Useful Commands:**
 ```bash
-/review            # Request code review
 /compact           # Compress conversation to save tokens
 /add-dir           # Add more directories to context
 /mcp               # Add and manage MCP Servers
@@ -275,21 +273,25 @@ claude
 claude --help
 
 # Continue your last conversation where you left off
-claude -c or --continue
+claude -c
+claude --continue
 
 # Resume any previous conversation
-claude -r or --resume  # Interactive selection
+claude -r          # Resume with selection
+claude --resume    # Same as -r
 
 # Switch models for different tasks
+claude --model default   # Starts with Opus and switch to Sonnet (Opus Usage is based on subscription plan)
 claude --model opus      # Most capable for complex tasks
 claude --model sonnet    # Default, good balance
-claude --model default   # Starts with Opus and switch to Sonnet (Opus Usage is based on subscription plan)
+claude --model haiku     # Fastest, least capable
 
 # Add directories Claude can access
 claude --add-dir ../shared-lib ../api
 
 # Debug mode to see what's happening
-claude -d or --debug
+claude -d
+claude --debug
 ```
 
 **Permission Control:**
@@ -361,8 +363,6 @@ claude
 
 > Explain how top-level programs work in modern C#
 
-> What's the bug in the CalculateFine method?
-
 > What features are marked as TODO in the code?
 
 > How would you improve the code structure?
@@ -381,11 +381,9 @@ claude
 
 **Live coding with the class - Fix and Extend the Example:**
 ```
-> Fix the bug in CalculateFine so it compounds 10% monthly
+> Find and fix the bug in CalculateFine then write a xUnit unit test to cover all cases
 
-> Implement the GetOverdueViolations method that's marked TODO
-
-> Add option 3 to the menu to show overdue violations
+> Implement the GetOverdueViolations method that's marked TODO and add option "3" to the menu to show overdue violations
 
 > Create a new method to save violations to a JSON file
 
@@ -405,11 +403,13 @@ claude
 #### 4.1 Memory Hierarchy (10 min)
 
 ```
-~/.claude/CLAUDE.md         # User-level (all projects)
+~/.claude/CLAUDE.md           # User-level (all projects)
     ↓
-./CLAUDE.md                 # Project-level (this project)
+./CLAUDE.md                   # Project-level (this project)
     ↓
-Session Context             # Current conversation
+./<nested-path(s)>/CLAUDE.md  # Nested project-level (this folder)
+    ↓
+Session Context               # Current conversation
 ```
 
 **Key Points:**
@@ -561,16 +561,16 @@ echo "# Project Context" > CLAUDE.md
 2. **Be Specific** - Vague prompts = vague code
 3. **Trust but Verify** - Always review generated code
 
-### Cost Management
-- Use `/clear` when switching contexts  
-- Monitor with `/cost` regularly
-- Cache helps reduce costs significantly
+### Context Management
+- Use `/compact` to compress long conversations; supply optional instructions if you want to keep something specific
+- Use `/clear` to start with a fresh conversation
+- Monitor usage with `/cost` regularly if not using a subscription
 
 ### Best Practices
 - Start sessions in project root
 - Create project-specific CLAUDE.md files
 - Use TDD approach (tests first!)
-- Review changes with `/diff` before accepting
+- Review changes with git diff before accepting changes
 
 ## 📝 Homework (Before Week 2)
 
@@ -614,7 +614,7 @@ Try this in your sandbox without help:
 
 ### Quick References
 - [Slash Commands Cheatsheet](../../resources/cli-commands.md)
-- [CLAUDE.md Template](../../exercises/week-1/claude-md-template.md)
+- [CLAUDE.md Template](../../exercises/claude-md-template.md)
 - [Common Prompts](../../resources/prompts/getting-started.md)
 
 ## 📊 Success Metrics

@@ -1,0 +1,68 @@
+{
+  // Editor settings
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.formatOnType": true,
+  "editor.insertSpaces": true,
+  "editor.tabSize": 4,
+  "editor.detectIndentation": false,
+  "editor.renderWhitespace": "trailing",
+  "editor.trimAutoWhitespace": true,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  
+  // C# specific settings
+  "[csharp]": {
+    "editor.defaultFormatter": "ms-dotnettools.vscode-dotnet-runtime",
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnType": true
+  },
+  
+  // Enable Roslyn analyzers
+  "omnisharp.enableRoslynAnalyzers": true,
+  "omnisharp.enableEditorConfigSupport": true,
+  "omnisharp.enableImportCompletion": true,
+  "omnisharp.enableAsyncCompletion": true,
+  
+  // Format on save for other file types
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.tabSize": 2,
+    "editor.formatOnSave": true
+  },
+  
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.tabSize": 2,
+    "editor.formatOnSave": true
+  },
+  
+  "[xml]": {
+    "editor.tabSize": 2,
+    "editor.formatOnSave": true
+  },
+  
+  // Exclude generated files
+  "files.exclude": {
+    "**/bin": true,
+    "**/obj": true,
+    "**/.vs": true
+  },
+  
+  // Auto save
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  
+  // Terminal settings
+  "terminal.integrated.defaultProfile.linux": "bash",
+  "terminal.integrated.defaultProfile.windows": "powershell",
+  
+  // Dotnet test settings
+  "dotnet-test-explorer.testProjectPath": "**/*.csproj",
+  "dotnet-test-explorer.autoExpandTree": true,
+  "dotnet-test-explorer.autoWatch": true
+}

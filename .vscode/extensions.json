@@ -3,9 +3,7 @@
     "Anthropic.claude-code",
     "bierner.markdown-mermaid",
     "GitLab.gitlab-workflow",
-    "ms-dotnettools.vscode-dotnet-runtime",
-    "ms-python.python",
-    "ms-toolsai.jupyter"
+    "ms-dotnettools.vscode-dotnet-runtime"
   ],
   "unwantedRecommendations": []
 }
