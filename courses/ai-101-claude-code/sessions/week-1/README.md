@@ -350,9 +350,6 @@ dotnet run
 
 # Now start Claude to help improve it
 claude
-
-# Initialize CLAUDE.md based on the example project
-> /init
 ```
 
 #### 3.2 Codebase Q&A Practice (15 min)
