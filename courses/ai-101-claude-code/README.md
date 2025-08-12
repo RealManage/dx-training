@@ -170,7 +170,7 @@ Before starting, ensure you have:
 - Understanding token usage and costs
 - Sonnet 4 pricing: $0.003/1K input, $0.015/1K output
 
-#### 3. First Queries (30 min)
+#### 3. First Contact (30 min)
 - Copy the [Week 1 Example](./sessions/week-1/example/) to your sandbox
 - Explore a modern C# CLI app with intentional bugs
 - Ask questions about top-level programs, records, and patterns

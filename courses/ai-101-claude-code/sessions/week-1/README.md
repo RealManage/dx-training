@@ -231,7 +231,7 @@ claude
 #### 2.1 Starting a Session (5 min)
 ```bash
 # Navigate to a project directory
-cd ~/projects/realmanage-api
+cd courses/ai-101-claude-code/sessions/week-1/example
 
 # Start Claude in current directory
 claude
@@ -247,10 +247,13 @@ claude
 /help              # Show all available commands
 /clear             # Clear conversation history (reset context)
 /cost              # Check token usage and costs
+/init              # Initialize a CLUADE.md file for your project
+/status            # Check account and system status
 /memory            # Edit CLAUDE.md file
+/model             # Switch AI models
 /permissions       # Control what Claude can modify
 /doctor            # Check installation health
-# Exit with Ctrl+C or Ctrl+D (no /exit command)
+/exit              # Exit Claude session
 ```
 
 **Additional Useful Commands:**
@@ -258,48 +261,76 @@ claude
 /review            # Request code review
 /compact           # Compress conversation to save tokens
 /add-dir           # Add more directories to context
-/model             # Switch AI models
+/mcp               # Add and manage MCP Servers
 /status            # View account and system status
 ```
 
 **Reference:** [Complete Slash Commands](https://docs.anthropic.com/en/docs/claude-code/slash-commands)
 
-#### 2.3 Understanding Costs (5 min)
+#### 2.3 Powerful CLI Arguments (5 min)
 
-**Token Pricing (Claude Sonnet 4 - as of 2025):**
-- Input: $0.003 per 1K tokens
-- Output: $0.015 per 1K tokens  
-- Cache writes (5min): $0.00375 per 1K tokens
-- Cache hits: $0.0003 per 1K tokens
-
-**Actual Usage Costs:**
-- **Average daily cost:** $6 per developer
-- **90% of users:** Under $12 per day
-- **Monthly team usage:** $100-200 per developer
-- **Background processes:** ~$0.04 per session
-
+**Essential Arguments for Daily Use:**
 ```bash
-# Monitor usage during session
-/cost
+# Full CLI arguments list
+claude --help
 
-# For Claude Max subscribers:
-# "No need to monitor cost — your subscription includes Claude Code usage"
+# Continue your last conversation where you left off
+claude -c or --continue
 
-# For API users shows:
-# - Tokens used this session
-# - Estimated cost  
-# - Cache hit rate
+# Resume any previous conversation
+claude -r or --resume  # Interactive selection
+
+# Switch models for different tasks
+claude --model opus      # Most capable for complex tasks
+claude --model sonnet    # Default, good balance
+claude --model default   # Starts with Opus and switch to Sonnet (Opus Usage is based on subscription plan)
+
+# Add directories Claude can access
+claude --add-dir ../shared-lib ../api
+
+# Debug mode to see what's happening
+claude -d or --debug
 ```
 
-**Note:** Claude Max subscription includes works on 5 hours sessions and the number of messages sent. It does not report costs metrics!
+**Permission Control:**
+```bash
+# Bypass all permission checks (sandboxes only!)
+claude --dangerously-skip-permissions
 
-[Detailed Cost Guide](https://docs.anthropic.com/en/docs/claude-code/costs)
+# Start in plan mode (no auto-edits)
+claude --permission-mode plan
 
-### Part 3: First Queries (30 min)
+# Allow specific tools only
+claude --allowedTools "Read Edit"
+
+# Deny dangerous operations
+claude --disallowedTools "Bash(git:*)"
+```
+
+**MCP Server Management:**
+```bash
+# Configure MCP servers
+claude mcp
+
+# Load custom MCP config
+claude --mcp-config ./my-mcp-config.json
+
+# Check for updates and installs if available
+claude update
+```
+
+**Pro Tips:**
+- Use `-c` to quickly continue working
+- Use `-r` to find old conversations
+- Use `--add-dir` for multi-project work
+- Use `--model opus` for architecture decisions
+
+### Part 3: First Contact (30 min)
 
 #### 3.1 Set Up Your Sandbox (5 min)
 ```bash
 # Copy example to create your personal sandbox
+cd courses/ai-101-claude-code/sessions/week-1
 cp -r example sandbox
 cd sandbox
 
@@ -317,6 +348,9 @@ dotnet run
 
 # Now start Claude to help improve it
 claude
+
+# Initialize CLAUDE.md based on the example project
+> /init
 ```
 
 #### 3.2 Codebase Q&A Practice (15 min)
