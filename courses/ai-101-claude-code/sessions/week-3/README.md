@@ -1,6 +1,6 @@
-# Week 3: Plan Mode & Breaking Down Complex Tasks 🗺️
+# Week 3: Tactical Planning & Code Review Excellence 🎯
 
-**Duration:** 2 hours  
+**Duration:** 2.5 hours  
 **Format:** In-person or virtual  
 **Audience:** RealManage cross-functional team  
 **Prerequisites:** Completed Weeks 1-2
@@ -8,370 +8,372 @@
 ## 🎯 Learning Objectives
 
 By the end of this session, participants will be able to:
-- ✅ Know when to ask Claude to plan vs dive straight into coding
-- ✅ Use natural conversation to explore codebases effectively
-- ✅ Break down complex features into manageable chunks
-- ✅ Apply the "Explore → Plan → Implement → Verify" workflow
-- ✅ Recognize when overthinking slows you down
-- ✅ Balance planning with action
+- ✅ Use plan mode as a tactical thinking partner for complex tasks
+- ✅ Iterate on plans in real-time before executing
+- ✅ Organize code review fixes systematically
+- ✅ Plan phases just-in-time rather than everything upfront
+- ✅ Switch to Opus model for deep code analysis
+- ✅ Execute multi-step tasks without forgetting anything
 
 ## 📋 Pre-Session Checklist
 
 ### For Participants
 - [ ] Claude Code working smoothly from Weeks 1-2
-- [ ] A complex feature idea you'd like to plan
-- [ ] Access to a RealManage codebase (or use our example)
-- [ ] Comfortable with natural language prompting
+- [ ] Comfortable with Shift+Tab for plan mode
+- [ ] Ready for 2.5 hour session
+- [ ] A real ticket/issue you're working on (optional)
 
 ### For Instructors
-- [ ] Test Plan Explorer example app
-- [ ] Have a real complex feature to demonstrate
-- [ ] Prepare examples of good vs over-planning
-- [ ] Ready to show actual planning conversations
+- [ ] Test all three example projects
+- [ ] Practice the code review workflow
+- [ ] Prepare real-world examples
+- [ ] Have backup exercises ready
+
+## 🚀 The New Philosophy
+
+> "Plan mode isn't about creating upfront documentation. It's your thinking partner - use it to iterate on complex tasks, organize code reviews, and ensure nothing gets forgotten. Plan tactically, execute systematically."
 
 ## 📚 Session Plan
 
-### Part 1: When Planning Actually Helps (20 min)
+### Part 1: Tactical Planning Fundamentals (30 min)
 
-#### 1.1 The Reality of Plan Mode (5 min)
-```markdown
-"Here's the truth: Most tasks don't need elaborate planning. Claude can help you 
-think through complex problems, but often the best approach is to start coding 
-and iterate. Today we'll learn when planning truly adds value and when it's just 
-procrastination disguised as preparation."
+#### 1.1 Claude's Three Modes: Step, Auto, and Plan (10 min)
+
+**Understanding Claude's Modes:**
+
+**Step Mode (Default):**
+- Claude stops after each action for your approval
+- Perfect for learning what Claude does
+- Provides careful control over each operation
+
+**Auto Mode:**
+- Claude automatically decides when to plan vs execute
+- Great for straightforward tasks and exploration
+- Can sometimes overthink or go off-track
+
+**Plan Mode:**
+- Claude thinks through the approach first
+- Allows iteration on the plan before execution
+- Ideal for complex, multi-step tasks
+
+**Essential Controls:**
+- **Shift+Tab**: Toggle between auto/step/plan modes
+- **Esc**: STOP execution immediately (your emergency brake!)
+- **Ctrl+C**: Cancel current operation
+
+**The Old Way (Wrong):**
+```
+Spend days creating elaborate planning documents →
+Try to implement exactly as planned →
+Reality doesn't match the plan →
+Wasted time
 ```
 
-#### 1.2 When to Plan vs When to Code (10 min)
-
-**Just Start Coding:**
-- Single file changes
-- Bug fixes with clear solutions
-- Adding a simple method or endpoint
-- Refactoring with obvious goals
-- Features you've built before
-
-**Worth Planning First:**
-- Multi-file architectural changes
-- Features touching 5+ components
-- Database schema migrations
-- Breaking changes to APIs
-- Unfamiliar technology decisions
-
-**Real Example:**
+**The New Way (Right):**
 ```
-# Over-planning (don't do this):
-> I need to add a button to export a report to PDF. Let's create a comprehensive 
-  plan with all edge cases, error handling, and architectural considerations.
-
-# Just right:
-> I need to add PDF export to our financial reports. The report data is already 
-  in FinancialService. Can you add a PDF export method using QuestPDF?
-
-# Needs planning:
-> We need to refactor our entire payment system from synchronous to event-driven 
-  using Azure Service Bus. This affects 12 services and our database schema.
+Get a complex task →
+Enter plan mode (Shift+Tab) →
+Iterate on your approach through conversation →
+Refine until the plan feels right →
+Exit plan mode and execute with confidence
 ```
 
-#### 1.3 Claude's Thinking Modes - Myth vs Reality (5 min)
+**Key Insight:** Plan mode is for **thinking through** problems, not documenting them.
 
-**What you might have heard:**
-- "Use 'think hard' for complex problems"
-- "Ultra think for architecture decisions"
-- "Extended thinking prevents mistakes"
+#### 1.2 When to Use Plan Mode (10 min)
 
-**The reality:**
-- Most problems don't need special thinking modes
-- Conversation and iteration work better than upfront thinking
-- Extended thinking can lead to overthinking
-- Real planning happens through dialogue, not monologue
+**Perfect for:**
+- 📝 Code review responses (3+ items to fix)
+- 🔄 Multi-file refactoring
+- 📋 Phased ticket implementation
+- 🐛 Complex debugging sessions
+- 🏗️ Features touching multiple components
 
-### Part 2: Effective Exploration (25 min)
+**Skip plan mode for:**
+- Single-line fixes
+- Obvious bugs
+- Adding a simple field
+- Typo corrections
+- Straightforward test additions
 
-#### 2.1 Exploring a Codebase Naturally (10 min)
+#### 1.3 The Iteration Pattern (10 min)
 
-**Don't do this:**
+**In plan mode, you can refine your thinking:**
 ```
-> Analyze the entire codebase and create a comprehensive architectural document 
-  with all patterns, dependencies, and potential improvements.
-```
-
-**Do this instead:**
-```
-> I'm new to this HOA management system. Can you help me understand how 
-  violation tracking works? I see ViolationService.cs - what does it do?
-
-> Where do we calculate late fees for HOA dues?
-
-> How does the payment processing connect to our accounting system?
+You: "I need to fix these 8 code review comments"
+Claude: "Here's a plan..."
+You: "Actually, let's group the security fixes together"
+Claude: "Updated plan..."
+You: "What if we fix the tests first to ensure safety?"
+Claude: "Even better approach..."
 ```
 
-**Key insight:** Ask specific questions as you need answers, not everything upfront.
+This iteration BEFORE execution saves hours of rework!
 
-#### 2.2 The Explore → Plan → Implement → Verify Workflow (15 min)
+### Part 2: Code Review Mastery (30 min)
 
-**Explore (2-5 min):**
-```
-> Show me how the current notification system works
-> What files handle email sending?
-> Are we using any queuing system?
-```
+#### 2.1 Using Opus for Deep Analysis (10 min)
 
-**Plan (5-10 min):**
-```
-> I need to add SMS notifications alongside emails. Based on what you've shown me,
-  what's the best approach? Should we:
-  1. Add SMS to the existing EmailService?
-  2. Create a new SmsService?
-  3. Make a generic NotificationService?
-```
-
-**Implement (rest of time):**
-```
-> Let's go with option 3. Create a NotificationService that can handle both 
-  email and SMS. Include tests with 95% coverage.
-```
-
-**Verify (ongoing):**
-```
-> Run the tests
-> Does this maintain backward compatibility?
-> Show me what changed
-```
-
-### Part 3: Hands-On Planning Workshop (60 min)
-
-#### 3.1 Set Up Your Planning Lab (5 min)
+**The `/model` command example:**
 ```bash
-# Copy example to sandbox
-cd courses/ai-101-claude-code/sessions/week-3
-cp -r example sandbox
-cd sandbox
+# Switch to Opus 4.1 for thorough code review
+/model opus
 
-# Start Claude
+# Now ask for deep analysis
+> Review this payment processing code for:
+> - Performance issues
+> - Security vulnerabilities  
+> - Missing error handling
+> - Test coverage gaps
+> - Code smells and tech debt
+
+# IMPORTANT: Switch back to Sonnet after review to save costs
+/model sonnet
+```
+
+**Why Opus for reviews?** Deeper analysis, catches subtle bugs, better at architecture.
+**Why switch back?** Sonnet is more cost-effective for implementation work.
+
+#### 2.2 The Code Review Workflow (10 min)
+
+```
+1. Set model to Opus: /model opus
+2. Request comprehensive review
+3. Switch back to Sonnet: /model sonnet
+4. Enter plan mode (Shift+Tab)
+5. Organize fixes by priority/type
+6. Iterate on the plan until satisfied
+7. Exit plan mode
+8. Execute systematically
+9. (Optional) Switch to Opus for final verification
+10. Switch back to Sonnet for regular work
+```
+
+#### 2.3 Managing Claude When Things Go Wrong (10 min)
+
+**Recognizing When to Intervene:**
+- Claude doing unnecessary refactoring
+- Fixing things that aren't broken
+- Creating files you didn't ask for
+- Missing the actual problem while fixing style issues
+- Analysis paralysis in auto mode
+
+**How to Course-Correct:**
+
+**Scenario 1: Claude starts over-engineering**
+```
+You: "Fix the interest calculation bug"
+Claude: [starts refactoring entire codebase]
+You: *Hit Esc*
+You: *Shift+Tab to switch to step mode*
+You: "Just fix the bug on line 29, nothing else"
+Claude: [shows next action, waits for approval]
+```
+
+**Scenario 2: Claude misses the point**
+```
+You: "Review this payment code"
+Claude: [focuses only on formatting]
+You: *Hit Esc*
+You: *Shift+Tab to switch to plan mode*
+You: "Focus on security vulnerabilities and business logic bugs"
+Claude: [creates focused plan]
+```
+
+**Pro tip:** Don't wait for disaster - hit Esc the moment you see Claude going off-track. Switch modes to get back on rails. Think of it like grabbing the wheel when your GPS tries to take you through a lake!
+
+### Part 3: Hands-On Workshop (75 min)
+
+#### 3.1 Exercise C: BugHunter (15 min)
+
+**Setup:**
+```bash
+cd courses/ai-101-claude-code/sessions/week-3
+cp -r examples/bug-hunter sandbox-bug-hunter
+cd sandbox-bug-hunter
+
 claude
 ```
 
-#### 3.2 Exercise 1: Feature Exploration (15 min)
+**Your Mission:**
+1. Users report: "Interest calculations are wrong after 90 days"
+2. Enter plan mode to plan investigation
+3. Execute investigation
+4. Enter plan mode again to plan fix
+5. Execute fix
+6. Verify with tests
 
-**Scenario:** You need to add a "payment plan" feature for residents with overdue HOA fees.
-
-**Practice natural exploration:**
+**The Pattern:**
 ```
-# Start with understanding
-> How do we currently handle overdue payments?
-> Show me the payment processing logic
-> What happens when someone can't pay their full balance?
-
-# Ask about constraints
-> Are there any legal requirements for payment plans in HOAs?
-> What's our current database schema for payments?
-
-# Don't over-explore
-Stop when you have enough info to start planning!
+Bug Report → Plan Investigation → Investigate → Plan Fix → Fix → Verify
 ```
 
-#### 3.3 Exercise 2: Right-Sized Planning (20 min)
+#### 3.2 Exercise A: CodeReviewPro (30 min)
 
-**Compare these approaches:**
+**Setup:**
+```bash
+cd courses/ai-101-claude-code/sessions/week-3
+cp -r examples/codereview-pro sandbox-codereview-pro
+cd sandbox-codereview-pro
 
-**Over-planned approach:**
-```
-> Create a comprehensive 20-step plan for implementing payment plans including:
-  - All database migrations
-  - Every edge case
-  - Full error handling strategy
-  - Complete testing strategy
-  - Deployment plan
-  - Rollback procedures
-  [This takes 30 minutes and you haven't written any code]
+claude
 ```
 
-**Right-sized approach:**
-```
-> Based on what we discussed, here's what I need:
-  - A PaymentPlan model with installments
-  - Method to create plans with configurable terms
-  - Calculate installment amounts
-  - Track payments against installments
-  Let's start with the model and basic creation logic, then iterate.
-```
+**Your Mission:**
+1. Review the payment processing code with Opus
+2. Find at least 8 issues
+3. Enter plan mode and organize all fixes
+4. Iterate on your plan (group related fixes)
+5. Execute the plan
+6. Verify all issues are resolved
 
-#### 3.4 Exercise 3: Real Feature Implementation (20 min)
+**Files to Review:**
+- `PaymentService.cs` - Performance and validation issues
+- `LateFeecalculator.cs` - Calculation bugs and typos
+- `PaymentController.cs` - Security vulnerabilities
+- `Tests/` - Missing coverage
 
-**Pick one of these RealManage features:**
+#### 3.3 Exercise B: PhasedBuilder (30 min)
 
-1. **Board Election System**
-   - Explore: How are board members currently tracked?
-   - Plan: Online voting with eligibility rules
-   - Implement: Start with the data model
+**Setup:**
+```bash
+cd courses/ai-101-claude-code/sessions/week-3
+cp -r examples/phased-builder sandbox-phased-builder
+cd sandbox-phased-builder
 
-2. **Maintenance Request Portal**
-   - Explore: Current request handling process
-   - Plan: Resident submission and tracking
-   - Implement: Basic submission endpoint
-
-3. **Reserve Fund Calculator**
-   - Explore: How do we track reserve funds?
-   - Plan: Projection and contribution calculator
-   - Implement: Core calculation logic
-
-**Use this pattern:**
-```
-> [Explore] How does the current X work?
-> [Plan] I want to add Y. What's the simplest approach?
-> [Implement] Let's start with Z. Include tests.
-> [Verify] Does this work with our existing system?
+claude
 ```
 
-### Part 4: Common Anti-Patterns to Avoid (15 min)
+**Your Mission:**
+Work through a 3-phase ticket:
 
-#### 4.1 Analysis Paralysis (5 min)
+**Phase 1:** Add payment plan model
+- Enter plan mode for Phase 1 only
+- Plan the data model and basic CRUD
+- Execute
 
-**Signs you're overthinking:**
-- Spending 30+ minutes planning a 1-hour task
-- Creating diagrams for simple features
-- Listing every possible edge case upfront
-- Asking for multiple architectural options repeatedly
+**Phase 2:** Add business logic
+- Enter plan mode for Phase 2
+- Plan calculations and rules
+- Execute
 
-**The cure:**
-```
-> Let's just start with a basic implementation and refine it
-```
+**Phase 3:** Add API endpoints
+- Enter plan mode for Phase 3
+- Plan controller and validation
+- Execute
 
-#### 4.2 The "Boil the Ocean" Trap (5 min)
+**Key Learning:** Plan each phase as you reach it, not all upfront!
 
-**Bad:**
-```
-> Let's redesign the entire payment system to be more scalable, implement CQRS,
-  add event sourcing, migrate to microservices, and integrate with 5 payment gateways.
-```
+### Part 4: Q&A and Wrap-Up (15 min)
 
-**Good:**
-```
-> Our payment processing is slow. Let's add async processing for the 
-  payment confirmation step and see if that helps.
-```
+- Questions about the exercises
+- Troubleshooting any issues
+- Preview of Week 4 (TDD with Claude)
+- Reminder about homework assignment
 
-#### 4.3 Premature Optimization (5 min)
+### Common Pitfalls to Avoid
 
-**Don't start with:**
-```
-> Plan a highly optimized, distributed, cached, horizontally scalable solution
-```
+**❌ Don't:**
+- Create 50-step plans
+- Plan more than 1-2 phases ahead
+- Spend more than 10 minutes planning
+- Try to anticipate every edge case
 
-**Start with:**
-```
-> Make it work, make it right, then make it fast (if needed)
-```
-
-### Part 5: Reflection & Best Practices (10 min)
-
-#### 5.1 Key Takeaways (5 min)
-
-**The Planning Sweet Spot:**
-```
-Too Little ←────────→ Too Much
-Jump in blind        Analysis paralysis
-     ↑
- Most tasks should be here
- (5-10 min exploration)
-```
-
-**Remember:**
-1. Conversation beats monologue planning
-2. Start simple, iterate quickly
-3. Most features don't need elaborate plans
-4. Explore only what you need to know now
-5. Implementation teaches you more than planning
-
-#### 5.2 Quick Practice (5 min)
-
-**Which of these needs planning?**
-1. Add a new field to the Resident model → _Just do it_
-2. Replace our database from SQL to NoSQL → _Definitely plan_
-3. Add email validation to a form → _Just do it_
-4. Implement SSO across all our apps → _Plan it_
-5. Fix a calculation bug → _Just do it_
-6. Add real-time notifications → _Light planning_
+**✅ Do:**
+- Keep plans focused and tactical
+- Iterate on plans before executing
+- Plan phases just-in-time
+- Use plan mode for memory/organization
 
 ## 🎯 Key Takeaways
 
-### Planning Best Practices
-1. **Time-box planning** - 10 minutes max for most features
-2. **Start coding sooner** - Implementation reveals unknowns
-3. **Iterate over specify** - Rough plan + quick implementation > perfect plan
-4. **Ask as you go** - Don't front-load all questions
-5. **Trust Claude's suggestions** - But verify with implementation
+### The Tactical Planning Principles
+1. **Plan mode is for thinking, not documenting**
+2. **Iterate on plans before executing**
+3. **Plan phases as you reach them**
+4. **Use Opus for deep code reviews**
+5. **Switch back to Sonnet for implementation**
+6. **Group related changes together**
+7. **Execute systematically, verify completely**
 
 ### Quick Reference Card
 ```
-EXPLORATION PATTERN:
-"How does [current feature] work?"
-"Where is [specific logic] implemented?"
-"What happens when [scenario]?"
+CODE REVIEW PATTERN:
+/model opus → Review → /model sonnet → Plan Mode → Execute → Verify
 
-PLANNING PATTERN:
-"I need to [goal]. Based on what we've seen, what's the simplest approach?"
-"Should I [option A] or [option B]?"
-"Let's start with [specific piece] and iterate"
+MODEL SWITCHING PATTERN:
+Opus for: Deep reviews, security analysis, architecture decisions
+Sonnet for: Implementation, refactoring, tests, regular coding
+Remember: Always switch back to Sonnet after Opus reviews!
 
-ANTI-PATTERNS TO AVOID:
-❌ "Create a comprehensive plan for..."
-❌ "Analyze all possible approaches..."
-❌ "Design the perfect architecture..."
-✅ "Let's start simple and improve"
+PHASED WORK PATTERN:
+Phase 1: Plan → Do → Phase 2: Plan → Do → Phase 3: Plan → Do
+
+BUG FIX PATTERN:
+Report → Plan Investigation → Investigate → Plan Fix → Fix → Test
+
+MULTI-STEP PATTERN:
+Enter Plan Mode → List all tasks → Group/order → Iterate → Execute
 ```
 
 ## 📝 Homework (Before Week 4)
 
 ### Required Tasks:
-1. ✅ Take a complex feature from your backlog
-2. ✅ Practice the Explore → Plan → Implement workflow
-3. ✅ Time how long you spend planning vs coding
+1. ✅ Use plan mode for your next code review response
+2. ✅ Practice the investigation → fix pattern on a real bug
+3. ✅ Time yourself: planning vs execution
 4. ✅ Share your experience in `#dx-training`
-5. ✅ Identify one time you over-planned this week
+5. ✅ Try Opus model for reviewing your own code
 
 ### Stretch Goals:
-1. 🎯 Refactor something without any planning - see what happens
-2. 🎯 Try planning a feature in under 5 minutes
-3. 🎯 Use conversation instead of "think hard" mode
+1. 🎯 Create a phased plan for a complex feature
+2. 🎯 Use plan mode to organize a refactoring
+3. 🎯 Teach someone else the tactical planning pattern
 
 ### Reflection Questions:
-- When did planning help you this week?
-- When did it slow you down?
-- What's your personal planning sweet spot?
+- When did iterating on a plan save you time?
+- What tasks actually benefited from plan mode?
+- How did Opus reviews compare to your usual process?
+
+### Real-World Application
+1. **Choose a real ticket** from your current sprint
+2. **Use Opus** (`/model opus`) to review any existing code
+3. **Enter plan mode** to organize your approach
+4. **Iterate on the plan** - refine it through conversation
+5. **Execute systematically** - follow your plan
+6. **Share in Slack** - Post your experience in #dx-training
 
 ## 🔗 Resources
 
 ### Official Documentation
-- [Claude Code Best Practices](https://www.anthropic.com/engineering/claude-code-best-practices)
-- [Chain of Thought Prompting](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/chain-of-thought)
-- [Let Claude Think](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/let-claude-think)
+- [Claude Code Plan Mode](https://docs.anthropic.com/en/docs/claude-code#plan-mode)
+- [Model Selection](https://docs.anthropic.com/en/docs/claude-code#model-selection)
+- [Opus 4.1 Features](https://www.anthropic.com/news/opus-4-1)
 
 ### RealManage Resources
-- [Week 3 Plan Explorer](./example/) - Practice planning tool
-- [Architecture Decisions](../../resources/architecture-guide.md)
+- [Week 3 Examples](./examples/) - All three practice projects
+- [Code Review Standards](../../resources/code-review-guide.md)
 - Slack: `#dx-training` for planning help
 
 ### Additional Reading
-- [Agile Planning Principles](https://agilemanifesto.org/principles.html)
-- [YAGNI - You Aren't Gonna Need It](https://martinfowler.com/bliki/Yagni.html)
-- [Avoiding Analysis Paralysis](https://en.wikipedia.org/wiki/Analysis_paralysis)
+- [Tactical vs Strategic Planning](https://en.wikipedia.org/wiki/Tactical_planning)
+- [Just-In-Time Planning](https://www.agilealliance.org/glossary/just-in-time/)
+- [Code Review Best Practices](https://google.github.io/eng-practices/review/)
 
 ## 📊 Success Metrics
 
 ### You're ready for Week 4 when you can:
-- [ ] Identify tasks that need planning vs immediate coding
-- [ ] Explore a codebase with targeted questions
-- [ ] Create a simple plan in under 10 minutes
-- [ ] Start implementing without over-specifying
-- [ ] Recognize when you're overthinking
+- [ ] Use plan mode to organize 3+ review comments
+- [ ] Iterate on a plan before executing
+- [ ] Plan phases separately, not all at once
+- [ ] Switch to Opus for code reviews
+- [ ] Execute multi-step tasks without forgetting items
 
 ### Red Flags (seek help if):
-- [ ] Spending 30+ minutes planning simple features
-- [ ] Creating detailed diagrams for every change
-- [ ] Never starting implementation
-- [ ] Feeling paralyzed by options
+- [ ] Still creating long upfront plans
+- [ ] Not iterating on plans in plan mode
+- [ ] Forgetting code review items
+- [ ] Planning taking longer than execution
 
 ## 🚀 Next Week Preview
 
@@ -381,47 +383,57 @@ ANTI-PATTERNS TO AVOID:
 - Refactor while keeping tests green
 - Achieve 95% coverage naturally
 
-**Pre-work:** Think about how you currently write tests
+**Pre-work:** Review your current testing practices
 
 ---
 
 ## Instructor Notes
 
-### Common Issues & Solutions
+### Session Timing (2.5 hours)
+- Part 1: 30 min - Mode controls and planning fundamentals
+- Part 2: 30 min - Code review mastery with Opus
+- Part 3: 75 min - Heart of session, all three exercises
+- Part 4: 15 min - Q&A and wrap-up
+- **Total: 2h 30min**
+- Homework: Apply to real work (self-paced)
 
-**"How detailed should my plan be?"**
-- If you can't implement from it in 5 minutes, it's too vague
-- If it takes 20 minutes to write, it's too detailed
-- Aim for bullet points, not paragraphs
+### Key Points to Emphasize
+- **Iteration in plan mode** - This is the magic
+- **Tactical not strategic** - Just-in-time planning
+- **Opus for reviews** - Worth the model switch
+- **Systematic execution** - The plan prevents forgotten items
 
-**"Claude keeps suggesting complex architectures"**
-- Be explicit: "What's the SIMPLEST approach?"
-- Add constraints: "Using our existing patterns"
-- Time-box: "We have 2 hours to implement this"
+### Common Questions
 
-**"I don't know what questions to ask"**
-- Start with: "How does this currently work?"
-- Then: "What files are involved?"
-- Finally: "What's the simplest way to add X?"
+**"How long should I stay in plan mode?"**
+- 5-10 minutes max for most tasks
+- If you're iterating productively, continue
+- If you're going in circles, exit and start
 
-### Time Management Tips
-- Part 1 & 2: Foundation - keep conceptual
-- Part 3: Heart of the session - full hands-on
-- Part 4: Critical - address bad habits early
-- Always leave time for Q&A
+**"Should I plan everything in one session?"**
+- No! Plan the next phase only
+- Come back to plan mode between phases
+- Keep context focused
 
-### Engagement Strategies
-- Share your own over-planning disasters
-- Celebrate quick wins over perfect plans
-- Show real planning conversations
-- Time-box exercises strictly
+**"When is Opus worth it?"**
+- Code reviews always
+- Security-sensitive code
+- Complex architectural decisions
+- When you need a second opinion
+- Remember: Switch back to Sonnet after!
+
+### Troubleshooting
+- If students struggle with plan mode, show the Shift+Tab toggle
+- If plans are too long, enforce 5-minute timer
+- If they forget `/model opus`, add reminders
+- If exercises run long, skip BugHunter
 
 ### Assessment
 Quick check at end:
-1. Feature X needs 5 files changed - plan or code?
-2. How long should planning take for a 2-hour task?
-3. What's better: perfect plan or quick iteration?
-4. When is "think hard" actually useful?
+1. When should you use plan mode?
+2. How do you switch to Opus model?
+3. What's the benefit of iterating on plans?
+4. Should you plan all phases upfront?
 
 ---
 

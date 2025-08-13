@@ -233,40 +233,41 @@ Practice real RealManage scenarios:
 
 ---
 
-## Week 3: Plan Mode & Exploration
+## Week 3: Tactical Planning & Code Review Excellence
 
 ### Objectives
-- Understand Claude's Plan Mode for breaking down complex tasks
-- Practice the "Explore → Plan → Code → Commit" workflow
-- Apply extended thinking modes to architectural decisions
+- Master Claude's three modes: Auto, Step, and Plan
+- Use plan mode as a tactical thinking partner (not upfront documentation)
+- Iterate on plans in real-time before executing
+- Organize code review fixes systematically
+- Switch to Opus model for deep code analysis
 
-### Agenda (2 hrs)
+### Agenda (2.5 hrs)
 
-#### 1. Plan Mode Overview (20 min)
-- Extended thinking for complex tasks
-- Different depths: "think," "think hard," "ultra think"
-- Workflow: Explore → Plan → Code → Commit
+#### 1. Mode Controls & Planning (30 min)
+- Claude's three modes (Step/Auto/Plan) and when to use each
+- Key controls: Shift+Tab to toggle, Esc to stop
+- Plan mode for tactical thinking, not documentation
+- Iterating on plans through conversation
 
-#### 2. Exploration in Practice (25 min)
-- Read files, mockups, and URLs without writing code
-- Ask architecture and dependency questions
-- Chain of thought techniques
-- Long context best practices
+#### 2. Code Review Mastery (30 min)
+- Using Opus for deep analysis with `/model opus`
+- Review → Plan → Fix workflow
+- Managing Claude when things go wrong
 
-#### 3. Hands-On Plan Mode (45 min)
-Small group exercise: "Add HOA dues dashboard widget"
-- Use Explore to inspect existing Angular components
-- Ask Claude to "think hard" about state management
-- Create step-by-step implementation plan
-- Consider RxJS vs signals architecture
+#### 3. Hands-On Workshop (75 min)
+- **BugHunter:** Find and fix compound interest bugs with TDD
+- **CodeReviewPro:** Review, plan, and fix 15+ issues systematically
+- **PhasedBuilder:** Implement 3-phase payment plan feature
 
-#### 4. Optional Implementation (20 min)
-- Begin coding from the plan
-- Use `/permissions` to control file edits
-- Review changes before accepting
+#### 4. Q&A and Wrap-Up (15 min)
+- Questions and troubleshooting
+- Preview Week 4 (TDD with Claude)
 
-#### 5. Debrief (10 min)
-- Capture plans in CLAUDE.md for reference
+### Key Takeaways
+- Plan mode is for thinking through problems, not documenting them
+- Use Esc and mode switching to keep Claude on track
+- Opus for analysis, Sonnet for implementation
 
 **[→ Full Week 3 Lesson](./sessions/week-3/README.md)**
 
