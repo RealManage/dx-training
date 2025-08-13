@@ -193,39 +193,43 @@ Before starting, ensure you have:
 ## Week 2: Prompting Foundations
 
 ### Objectives
-- Learn how to craft clear prompts that get high-quality responses
-- Practice using system prompts, examples, and XML tags for structure
-- Build a prompt library for RealManage use cases
+- Master clear, conversational communication with Claude
+- Learn when (and when not) to add structure to prompts
+- Build a personal prompt style that works for you
+- Generate code with 95% test coverage consistently
 
 ### Agenda (2 hrs)
 
-#### 1. Prompt Engineering Primer (25 min)
-- [Prompt Engineering Overview](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview)
-- Claude 4 specific techniques
-- Being explicit and providing context
-- System prompts and role assignment
+#### 1. The Truth About Prompting (25 min)
+- **Myth**: You need complex Markdown or XML tags
+- **Reality**: Clear communication is what matters
+- Most successful interactions use natural language
+- Structure is a tool, not a requirement
+- [Be Clear and Direct](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/be-clear-and-direct)
 
-#### 2. Structured Prompts (15 min)
-- Using XML tags for clarity
-- Markdown sections to organize prompts
-- Reducing ambiguity through structure
+#### 2. When Structure Actually Helps (15 min)
+- Complex multi-part requests → Bullet points or headers
+- API specifications → Tables or structured data
+- Nested requirements → Markdown sections
+- Everything else → Natural conversation works great!
 
 #### 3. Hands-On Prompt Workshop (60 min)
-Break into pairs for RealManage scenarios:
-- Summarizing board meeting transcripts
-- Drafting homeowner violation notices
-- Generating financial reports with 95% test coverage
-- Creating Angular components with OnPush change detection
+Practice real RealManage scenarios:
+- Start with natural language
+- See what Claude asks for clarification
+- Add specifics based on feedback
+- Compare results with different approaches
 
-#### 4. Build a Prompt Library (15 min)
-- Collect best prompts in shared CLAUDE.md
-- Add variables and placeholders for dynamic content
+#### 4. Build YOUR Prompt Style (15 min)
+- Find what works for your typing speed and thinking style
+- Create templates only for repetitive tasks
+- Focus on clarity over formatting
 
-#### 5. Feedback & Next Steps (10 min)
-- Discuss what patterns worked
-- Plan daily task integration
+#### 5. Real Examples & Discussion (10 min)
+- Review actual successful prompts (no XML!)
+- Share what communication style feels natural
 
-**[→ Week 2 Coming Soon](./sessions/week-2/README.md)**
+**[→ Full Week 2 Lesson](./sessions/week-2/README.md)**
 
 ---
 
@@ -264,7 +268,7 @@ Small group exercise: "Add HOA dues dashboard widget"
 #### 5. Debrief (10 min)
 - Capture plans in CLAUDE.md for reference
 
-**[→ Week 3 Coming Soon](./sessions/week-3/README.md)**
+**[→ Full Week 3 Lesson](./sessions/week-3/README.md)**
 
 ---
 
@@ -306,7 +310,7 @@ RealManage examples:
 - Compare TDD with AI vs traditional TDD
 - Plan integration into daily workflow
 
-**[→ Week 4 Coming Soon](./sessions/week-4/README.md)**
+**[→ Full Week 4 Lesson](./sessions/week-4/README.md)**
 
 ---
 
@@ -343,7 +347,7 @@ RealManage examples:
 #### 5. Discussion (10 min)
 - Share automation opportunities
 
-**[→ Week 5 Coming Soon](./sessions/week-5/README.md)**
+**[→ Full Week 5 Lesson](./sessions/week-5/README.md)**
 
 ---
 
@@ -382,7 +386,7 @@ RealManage examples:
 - Propose custom MCP server projects
 - Plan Azure integrations
 
-**[→ Week 6 Coming Soon](./sessions/week-6/README.md)**
+**[→ Full Week 6 Lesson](./sessions/week-6/README.md)**
 
 ---
 
@@ -415,7 +419,7 @@ Form cross-functional teams:
 #### 4. Debrief (10 min)
 - Share lessons learned
 
-**[→ Week 7 Coming Soon](./sessions/week-7/README.md)**
+**[→ Full Week 7 Lesson](./sessions/week-7/README.md)**
 
 ---
 
@@ -446,22 +450,9 @@ Teams propose RealManage solutions:
 - Discuss production readiness
 - Future learning paths
 
-**[→ Week 8 Coming Soon](./sessions/week-8/README.md)**
+**[→ Full Week 8 Lesson](./sessions/week-8/README.md)**
 
 ---
-
-## 📊 Track Your Progress
-
-Use this checklist to track your journey:
-
-- [ ] Week 1: Setup & Orientation ✅
-- [ ] Week 2: Prompting Foundations
-- [ ] Week 3: Plan Mode & Exploration
-- [ ] Week 4: Test-Driven Development
-- [ ] Week 5: Advanced CLI Features
-- [ ] Week 6: MCP Servers & Integrations
-- [ ] Week 7: Real-World Scenarios
-- [ ] Week 8: Capstone Project
 
 ## 🎓 Certification Path
 
