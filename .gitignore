@@ -339,8 +339,8 @@ $RECYCLE.BIN/
 # ================
 
 # Student sandbox work (never commit)
-**/sandbox/
-sandbox/
+**/sandbox*/
+sandbox*/
 
 # Student submissions (if collecting)
 submissions/
