@@ -40,9 +40,9 @@ By the end of this session, participants will be able to:
 
 ##### For .NET (C#)
 
-- **SpecFlow** - Most popular .NET BDD framework
+- **Reqnroll** - Open-source BDD framework (successor to SpecFlow)
+- **SpecFlow** - Commercial BDD framework (end-of-life for open-source version)
 - **LightBDD** - Lightweight alternative
-- **NBehave** - Older framework, less active
 
 ##### For JavaScript/TypeScript
 
@@ -54,12 +54,12 @@ By the end of this session, participants will be able to:
 - **Behave** - Python BDD framework
 - **Pytest-BDD** - pytest plugin for BDD
 
-#### 2.2 SpecFlow Architecture (Focus for this session)
+#### 2.2 Reqnroll Architecture (Focus for this session)
 
 ```text
 Feature Files (.feature)
          ↓
-   SpecFlow Runtime
+   Reqnroll Runtime
          ↓  
    Step Definitions (.cs)
          ↓
@@ -94,7 +94,7 @@ Feature Files (.feature)
 
 ---
 
-### 3. Setting Up SpecFlow (30 minutes)
+### 3. Setting Up Reqnroll (30 minutes)
 
 #### 3.1 Project Setup (10 minutes)
 
@@ -104,7 +104,7 @@ Feature Files (.feature)
 # Create solution and projects
 dotnet new sln -n BDDDemo
 dotnet new classlib -n BDDDemo.Library
-dotnet new mstest -n BDDDemo.Tests
+dotnet new xunit -n BDDDemo.Tests
 
 # Add projects to solution
 dotnet sln add BDDDemo.Library
@@ -114,13 +114,13 @@ dotnet sln add BDDDemo.Tests
 dotnet add BDDDemo.Tests reference BDDDemo.Library
 ```
 
-**Add SpecFlow packages:**
+**Add Reqnroll packages:**
 
 ```bash
 cd BDDDemo.Tests
-dotnet add package SpecFlow
-dotnet add package SpecFlow.Tools.MsBuild.Generation
-dotnet add package SpecFlow.xUnit
+dotnet add package Reqnroll
+dotnet add package Reqnroll.Tools.MsBuild.Generation
+dotnet add package Reqnroll.xUnit
 dotnet add package Microsoft.NET.Test.Sdk
 dotnet add package xunit
 dotnet add package xunit.runner.visualstudio
@@ -128,7 +128,7 @@ dotnet add package xunit.runner.visualstudio
 
 #### 3.2 Configuration (10 minutes)
 
-**Create specflow.json:**
+**Create reqnroll.json:**
 
 ```json
 {
@@ -158,7 +158,7 @@ BDDDemo.sln
     │   └── BankAccount.feature
     ├── StepDefinitions/
     │   └── BankAccountSteps.cs
-    └── specflow.json
+    └── reqnroll.json
 ```
 
 #### 3.3 First Feature File (10 minutes)
@@ -267,7 +267,7 @@ namespace BDDDemo.Library.Models
 ```csharp
 using BDDDemo.Library.Models;
 using Xunit;
-using TechTalk.SpecFlow;
+using Reqnroll;
 
 namespace BDDDemo.Tests.StepDefinitions
 {
@@ -298,7 +298,7 @@ namespace BDDDemo.Tests.StepDefinitions
         [When(@"I attempt to withdraw \$(.*)")]
         public void WhenIAttemptToWithdraw(decimal amount)
         {
-            var success = _account?.Withdraw(amount);
+            var success = _account?.Withdraw(amount) ?? false;
             if (!success)
             {
                 _lastError = _account?.LastError;
@@ -348,13 +348,20 @@ dotnet test
 **Expected output:**
 
 ```text
-Test run for BDDDemo.Tests.dll(.NETCoreApp,Version=v9.0)
-Microsoft (R) Test Execution Command Line Tool Version 17.0.0
+Restore complete (0.6s)
+  BDDDemo.Library succeeded (0.2s) → BDDDemo.Library/bin/Debug/net9.0/BDDDemo.Library.dll
+  BDDDemo.Tests succeeded (0.1s) → BDDDemo.Tests/bin/Debug/net9.0/BDDDemo.Tests.dll
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 9.0.8)
+[xUnit.net 00:00:00.09]   Discovering: BDDDemo.Tests
+[xUnit.net 00:00:00.14]   Discovered:  BDDDemo.Tests
+[xUnit.net 00:00:00.16]   Starting:    BDDDemo.Tests
+-> Loading plugin /home/shane/src/bdd-demo/BDDDemo.Tests/bin/Debug/net9.0/Reqnroll.xUnit.ReqnrollPlugin.dll
+-> Loading plugin /home/shane/src/bdd-demo/BDDDemo.Tests/bin/Debug/net9.0/BDDDemo.Tests.dll
+-> Using reqnroll.json
+[xUnit.net 00:00:00.35]   Finished:    BDDDemo.Tests
+  BDDDemo.Tests test succeeded (1.1s)
 
-Starting test execution, please wait...
-A total of 1 files were found that matched the given pattern.
-
-Passed! - Failed: 0, Passed: 3, Skipped: 0, Total: 3
+Test summary: total: 3, failed: 0, succeeded: 3, skipped: 0, duration: 1.1s
 ```
 
 #### 5.2 Understanding Test Results
@@ -369,13 +376,13 @@ Passed! - Failed: 0, Passed: 3, Skipped: 0, Total: 3
 
 - Clear error messages indicate which step failed
 - Stack trace points to specific assertion or code issue
-- SpecFlow provides context about which scenario failed
+- Reqnroll provides context about which scenario failed
 
 #### 5.3 Debugging Failed Tests
 
 **Common issues:**
 
-1. **Missing step definitions** - SpecFlow provides code templates
+1. **Missing step definitions** - Reqnroll provides code templates
 1. **Parameter parsing errors** - Check regex patterns
 1. **Assertion failures** - Verify expected vs actual values
 1. **Application logic bugs** - Debug your business code
@@ -424,6 +431,8 @@ public void WhenIProcessTheFollowingTransactions(Table table)
 
 #### 6.2 Scenario Context
 
+*Note that this example does not actually share data between two step definition classes, but only shows you how to write and read data to and from the context.*
+
 **Sharing data between step definition classes:**
 
 ```csharp
@@ -455,21 +464,23 @@ public class BankAccountSteps
 
 #### 6.3 Hooks for Setup and Teardown
 
+*Note that there are other hooks, but these are the most commonly used.*
+
 **Before and after scenario execution:**
 
 ```csharp
 [Binding]
-public class TestHooks
+public static class TestHooks
 {
     [BeforeScenario]
-    public void BeforeScenario()
+    public static void BeforeScenario()
     {
         // Setup before each scenario
         // Initialize test data, reset state, etc.
     }
 
     [AfterScenario]
-    public void AfterScenario()
+    public static void AfterScenario()
     {
         // Cleanup after each scenario
         // Close connections, delete test data, etc.
@@ -757,7 +768,7 @@ public void WhenITransferMoneyToAccount(decimal amount, string accountNumber)
 
 ##### Week 1: Foundation
 
-- [ ] Choose BDD tool (SpecFlow for .NET teams)
+- [ ] Choose BDD tool (Reqnroll for .NET teams)
 - [ ] Set up basic project structure
 - [ ] Create first feature file
 - [ ] Implement basic step definitions

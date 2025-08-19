@@ -1,9 +1,9 @@
 // Step Definitions Examples for BDD Training
-// This file shows various patterns and techniques for writing SpecFlow step definitions
+// This file shows various patterns and techniques for writing Reqnroll step definitions
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TechTalk.SpecFlow;
-using TechTalk.SpecFlow.Assist;
+using Reqnroll;
+using Reqnroll.Assist;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -70,7 +70,7 @@ namespace BDDDemo.Tests.StepDefinitions
 
         // Step that accepts a data table
         [When(@"I add the following products to my cart:")]
-        public void WhenIAddTheFollowingProductsToMyCart(Table table)
+        public void WhenIAddTheFollowingProductsToMyCart(DataTable table)
         {
             foreach (var row in table.Rows)
             {
@@ -87,9 +87,9 @@ namespace BDDDemo.Tests.StepDefinitions
             _cartTotal = _cart.Sum(p => p.Price * p.Quantity);
         }
 
-        // Alternative: Use SpecFlow.Assist for automatic object creation
+        // Alternative: Use Reqnroll.Assist for automatic object creation
         [When(@"I add these items to my cart:")]
-        public void WhenIAddTheseItemsToMyCart(Table table)
+        public void WhenIAddTheseItemsToMyCart(DataTable table)
         {
             var products = table.CreateSet<Product>();
             _cart.AddRange(products);

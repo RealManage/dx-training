@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide provides step-by-step instructions for setting up BDD automation using SpecFlow for .NET projects. It includes project structure, configuration, and best practices for team adoption.
+This guide provides step-by-step instructions for setting up BDD automation using Reqnroll for .NET projects. It includes project structure, configuration, and best practices for team adoption.
 
 ## Prerequisites
 
@@ -38,10 +38,10 @@ dotnet add MyProject.BDD.Tests reference MyProject.Core
 ```bash
 cd MyProject.BDD.Tests
 
-# Core SpecFlow packages
-dotnet add package SpecFlow
-dotnet add package SpecFlow.Tools.MsBuild.Generation
-dotnet add package SpecFlow.xUnit
+# Core Reqnroll packages
+dotnet add package Reqnroll
+dotnet add package Reqnroll.Tools.MsBuild.Generation
+dotnet add package Reqnroll.xUnit
 
 # Test framework packages
 dotnet add package Microsoft.NET.Test.Sdk
@@ -49,7 +49,6 @@ dotnet add package xunit
 dotnet add package xunit.runner.visualstudio
 
 # Additional helpful packages
-dotnet add package SpecFlow.Assist.Dynamic
 dotnet add package FluentAssertions
 ```
 
@@ -89,7 +88,7 @@ MyProject.BDD/
 
 ## Configuration Files
 
-### specflow.json
+### reqnroll.json
 
 ```json
 {
@@ -128,13 +127,13 @@ MyProject.BDD/
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SpecFlow" Version="3.9.74" />
-    <PackageReference Include="SpecFlow.Tools.MsBuild.Generation" Version="3.9.74" />
-    <PackageReference Include="SpecFlow.xUnit" Version="3.9.74" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
-    <PackageReference Include="xunit" Version="2.4.2" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3" />
-    <PackageReference Include="FluentAssertions" Version="6.7.0" />
+    <PackageReference Include="Reqnroll" Version="2.2.0" />
+    <PackageReference Include="Reqnroll.Tools.MsBuild.Generation" Version="2.2.0" />
+    <PackageReference Include="Reqnroll.xUnit" Version="2.2.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="xunit" Version="2.6.6" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.6" />
+    <PackageReference Include="FluentAssertions" Version="6.12.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -341,8 +340,8 @@ Examples:
 using FluentAssertions;
 using MyProject.Core.Models;
 using MyProject.Core.Services;
-using TechTalk.SpecFlow;
-using TechTalk.SpecFlow.Assist;
+using Reqnroll;
+using Reqnroll.Assist;
 using Xunit;
 
 namespace MyProject.BDD.Tests.StepDefinitions
@@ -404,7 +403,7 @@ namespace MyProject.BDD.Tests.StepDefinitions
         }
 
         [When(@"I add the following items:")]
-        public void WhenIAddTheFollowingItems(Table table)
+        public void WhenIAddTheFollowingItems(DataTable table)
         {
             foreach (var row in table.Rows)
             {
@@ -585,7 +584,7 @@ namespace MyProject.BDD.Tests.Support
 
 // Support/Hooks.cs
 using MyProject.BDD.Tests.Support;
-using TechTalk.SpecFlow;
+using Reqnroll;
 
 namespace MyProject.BDD.Tests.Support
 {
@@ -652,19 +651,19 @@ dotnet test --logger trx --results-directory TestResults
 
 **Visual Studio:**
 
-- Install SpecFlow extension
+- Install Reqnroll extension
 - Tests appear in Test Explorer
 - Right-click to run individual scenarios
 
 **VS Code:**
 
-- Install Cucumber extension
+- Install Reqnroll extension (or Cucumber extension for Gherkin support)
 - Use .NET Test Explorer extension
 - Run tests via command palette
 
 **JetBrains Rider:**
 
-- Built-in SpecFlow support
+- Built-in Reqnroll support
 - Gherkin syntax highlighting
 - Integrated test runner
 

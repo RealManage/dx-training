@@ -1,8 +1,8 @@
-// Complete xUnit step definitions example for SpecFlow BDD automation
-// This demonstrates using xUnit assertions instead of MSTest in SpecFlow step definitions
+// Complete xUnit step definitions example for Reqnroll BDD automation
+// This demonstrates using xUnit assertions instead of MSTest in Reqnroll step definitions
 
-using TechTalk.SpecFlow;
-using TechTalk.SpecFlow.Assist;
+using Reqnroll;
+using Reqnroll.Assist;
 using Xunit;
 
 namespace BDDDemo.Tests.StepDefinitions
@@ -86,7 +86,7 @@ namespace BDDDemo.Tests.StepDefinitions
         }
 
         [When(@"I process the following transactions:")]
-        public void WhenIProcessTheFollowingTransactions(Table table)
+        public void WhenIProcessTheFollowingTransactions(DataTable table)
         {
             foreach (var row in table.Rows)
             {
@@ -337,4 +337,11 @@ xUnit benefits:
 - Better async support
 - Parallel test execution by default
 - Theory-based parameterized tests
+
+Reqnroll vs SpecFlow:
+- Reqnroll is the open-source successor to SpecFlow
+- SpecFlow reached end-of-life on December 31, 2024
+- Reqnroll provides full compatibility with existing SpecFlow tests
+- Migration typically takes less than an hour - mainly package and namespace changes
+- Reqnroll is actively maintained and supports latest .NET versions
 */
