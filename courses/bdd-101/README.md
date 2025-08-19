@@ -57,8 +57,7 @@ bdd-101/
 │   └── session-3/                # From Scenarios to Automation
 ├── CLAUDE.md                      # Course context for AI assistance
 └── README.md                      # You are here
-
-```text
+```
 
 ## 🚀 Quick Start
 
@@ -67,11 +66,8 @@ bdd-101/
 Before starting, ensure your team has:
 
 - [ ] Basic understanding of user stories
-
 - [ ] Familiarity with software testing concepts
-
 - [ ] Access to a text editor or IDE
-
 - [ ] (Optional) .NET development environment for automation examples
 
 ### Getting Started
@@ -86,7 +82,7 @@ Before starting, ensure your team has:
 
 ---
 
-# 📖 Three-Session Curriculum
+## 📖 Three-Session Curriculum
 
 ## Session 1: BDD Foundations & Gherkin Syntax
 
@@ -170,14 +166,14 @@ Before starting, ensure your team has:
 
 1. **BDD Automation Overview** (30 min)
    - How scenarios become executable tests
-   - Tools landscape (SpecFlow, Cucumber, etc.)
+   - Tools landscape (Reqnroll, Cucumber, etc.)
    - The test pyramid and BDD's place
 2. **Step Definitions** (45 min)
    - Writing step definitions in C#
    - Parameter binding and data transformation
    - Sharing state between steps
 3. **Hands-on Automation** (35 min)
-   - Set up a simple SpecFlow project
+   - Set up a simple Reqnroll project
    - Implement step definitions for workshop scenarios
    - Run automated tests
 4. **Team Implementation Planning** (10 min)
@@ -228,9 +224,7 @@ Seek additional help if:
 ### Essential Reading
 
 - [Specification by Example](https://www.manning.com/books/specification-by-example) - Gojko Adzic
-
 - [The Cucumber Book](https://pragprog.com/titles/hwcuc2/the-cucumber-book-second-edition/) - Matt Wynne & Aslak Hellesøy
-
 - [BDD in Action](https://www.manning.com/books/bdd-in-action) - John Ferguson Smart
 
 ### Tools & Frameworks
@@ -247,14 +241,10 @@ Seek additional help if:
 ## 💡 Pro Tips
 
 1. **Start Small**: Begin with one feature or user story
-
-2. **Involve Everyone**: Make sure business stakeholders actively participate
-
-3. **Keep It Simple**: Avoid over-engineering scenarios
-
-4. **Regular Reviews**: Schedule periodic scenario review sessions
-
-5. **Living Documentation**: Keep scenarios up-to-date with code changes
+1. **Involve Everyone**: Make sure business stakeholders actively participate
+1. **Keep It Simple**: Avoid over-engineering scenarios
+1. **Regular Reviews**: Schedule periodic scenario review sessions
+1. **Living Documentation**: Keep scenarios up-to-date with code changes
 
 ---
 
@@ -265,29 +255,21 @@ Track your team's progress through the course:
 ### Session Completion
 
 - [ ] Session 1: BDD Foundations & Gherkin completed
-
 - [ ] Session 2: Writing Effective Scenarios completed  
-
 - [ ] Session 3: From Scenarios to Automation completed
 
 ### Practical Application
 
 - [ ] Converted first user story to Gherkin scenarios
-
 - [ ] Facilitated first Three Amigos session
-
 - [ ] Set up basic BDD automation framework
-
 - [ ] Integrated BDD scenarios into development workflow
 
 ### Team Adoption
 
 - [ ] All team members can write basic scenarios
-
 - [ ] Business stakeholders actively participate in scenario writing
-
 - [ ] Scenarios are maintained as living documentation
-
 - [ ] BDD process is integrated into definition of done
 
 ---
