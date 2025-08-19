@@ -580,7 +580,30 @@ public class ShoppingCart
 1. **Automated testing** in CI pipeline
 1. **Living documentation** generation
 
-**Sample CI configuration (.github/workflows/bdd-tests.yml):**
+**Sample CI configuration (GitLab CI/CD - .gitlab-ci.yml):**
+
+```yaml
+stages:
+  - test
+
+bdd-tests:
+  stage: test
+  image: mcr.microsoft.com/dotnet/sdk:6.0
+  script:
+    - dotnet restore
+    - dotnet test --logger trx --results-directory TestResults
+  artifacts:
+    when: always
+    reports:
+      junit: TestResults/*.trx
+    paths:
+      - TestResults/
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+```
+
+**Sample CI configuration (GitHub Actions - .github/workflows/bdd-tests.yml):**
 
 ```yaml
 name: BDD Tests

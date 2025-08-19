@@ -669,6 +669,80 @@ dotnet test --logger trx --results-directory TestResults
 
 ## CD Integration
 
+### GitLab CI/CD
+
+```yaml
+# .gitlab-ci.yml
+stages:
+  - build
+  - test
+  - report
+
+variables:
+  DOTNET_ROOT: "/opt/dotnet"
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+
+.dotnet-template: &dotnet-template
+  image: mcr.microsoft.com/dotnet/sdk:6.0
+  before_script:
+    - dotnet --version
+
+build:
+  <<: *dotnet-template
+  stage: build
+  script:
+    - dotnet restore
+    - dotnet build --configuration Release --no-restore
+  artifacts:
+    paths:
+      - "*/bin/Release/net6.0/"
+    expire_in: 1 hour
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+bdd-tests:
+  <<: *dotnet-template
+  stage: test
+  dependencies:
+    - build
+  script:
+    - dotnet restore
+    - dotnet test --configuration Release --no-build --verbosity normal --logger trx --results-directory TestResults --logger "junit;LogFilePath=TestResults/junit-results.xml"
+  artifacts:
+    when: always
+    reports:
+      junit: TestResults/junit-results.xml
+      dotnet: TestResults/*.trx
+    paths:
+      - TestResults/
+    expire_in: 1 week
+  coverage: '/Total\s*\|\s*(\d+(?:\.\d+)?%)/'
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+test-report:
+  stage: report
+  image: alpine:latest
+  dependencies:
+    - bdd-tests
+  before_script:
+    - apk add --no-cache curl
+  script:
+    - echo "BDD test results are available in the artifacts"
+    - ls -la TestResults/
+  artifacts:
+    when: always
+    paths:
+      - TestResults/
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - when: on_failure
+```
+
 ### GitHub Actions
 
 ```yaml
