@@ -6,7 +6,7 @@ This guide provides step-by-step instructions for setting up BDD automation usin
 
 ## Prerequisites
 
-- .NET 9.0 or later SDK
+- .NET 9.0 SDK
 - Visual Studio 2022, **VS Code**, or JetBrains Rider
 - Basic C# programming knowledge
 - Git for version control
@@ -41,12 +41,12 @@ cd MyProject.BDD.Tests
 # Core SpecFlow packages
 dotnet add package SpecFlow
 dotnet add package SpecFlow.Tools.MsBuild.Generation
-dotnet add package SpecFlow.MsTest
+dotnet add package SpecFlow.xUnit
 
 # Test framework packages
 dotnet add package Microsoft.NET.Test.Sdk
-dotnet add package MSTest.TestAdapter
-dotnet add package MSTest.TestFramework
+dotnet add package xunit
+dotnet add package xunit.runner.visualstudio
 
 # Additional helpful packages
 dotnet add package SpecFlow.Assist.Dynamic
@@ -97,7 +97,7 @@ MyProject.BDD/
     "feature": "en-US"
   },
   "unitTestProvider": {
-    "name": "mstest"
+    "name": "xunit"
   },
   "runtime": {
     "dependencies": [
@@ -122,7 +122,7 @@ MyProject.BDD/
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -130,10 +130,10 @@ MyProject.BDD/
   <ItemGroup>
     <PackageReference Include="SpecFlow" Version="3.9.74" />
     <PackageReference Include="SpecFlow.Tools.MsBuild.Generation" Version="3.9.74" />
-    <PackageReference Include="SpecFlow.MsTest" Version="3.9.74" />
+    <PackageReference Include="SpecFlow.xUnit" Version="3.9.74" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
-    <PackageReference Include="MSTest.TestAdapter" Version="2.2.10" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.2.10" />
+    <PackageReference Include="xunit" Version="2.4.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3" />
     <PackageReference Include="FluentAssertions" Version="6.7.0" />
   </ItemGroup>
 
@@ -343,6 +343,7 @@ using MyProject.Core.Models;
 using MyProject.Core.Services;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
+using Xunit;
 
 namespace MyProject.BDD.Tests.StepDefinitions
 {
@@ -451,21 +452,21 @@ namespace MyProject.BDD.Tests.StepDefinitions
         public void ThenTheOrderShouldBeInStatus(OrderStatus expectedStatus)
         {
             var order = _orderService.GetOrder(_currentOrder!.Id);
-            order.Status.Should().Be(expectedStatus);
+            Assert.Equal(expectedStatus, order.Status);
         }
 
         [Then(@"the order total should be \$(.*)")]
         public void ThenTheOrderTotalShouldBe(decimal expectedTotal)
         {
             var order = _orderService.GetOrder(_currentOrder!.Id);
-            order.Total.Should().Be(expectedTotal);
+            Assert.Equal(expectedTotal, order.Total);
         }
 
         [Then(@"the order should contain (.*) different products")]
         public void ThenTheOrderShouldContainDifferentProducts(int expectedProductCount)
         {
             var order = _orderService.GetOrder(_currentOrder!.Id);
-            order.Items.Count.Should().Be(expectedProductCount);
+            Assert.Equal(expectedProductCount, order.Items.Count);
         }
 
         [Then(@"I should receive an order confirmation")]
@@ -473,20 +474,20 @@ namespace MyProject.BDD.Tests.StepDefinitions
         {
             // In real implementation, verify confirmation was sent
             var order = _orderService.GetOrder(_currentOrder!.Id);
-            order.Status.Should().Be(OrderStatus.Placed);
+            Assert.Equal(OrderStatus.Placed, order.Status);
         }
 
         [Then(@"I should see an error ""(.*)""")]
         public void ThenIShouldSeeAnError(string expectedError)
         {
-            _lastErrorMessage.Should().Contain(expectedError);
+            Assert.Contains(expectedError, _lastErrorMessage);
         }
 
         [Then(@"the order status should remain ""(.*)""")]
         public void ThenTheOrderStatusShouldRemain(OrderStatus expectedStatus)
         {
             var order = _orderService.GetOrder(_currentOrder!.Id);
-            order.Status.Should().Be(expectedStatus);
+            Assert.Equal(expectedStatus, order.Status);
         }
 
         [Then(@"I should receive a discount of \$(.*)")]
@@ -494,7 +495,7 @@ namespace MyProject.BDD.Tests.StepDefinitions
         {
             // Implementation depends on how discounts are tracked
             // This is a placeholder for the business logic
-            expectedDiscount.Should().BeGreaterThan(0);
+            Assert.True(expectedDiscount > 0);
         }
 
         [Then(@"my order total should be \$(.*)")]
@@ -684,7 +685,7 @@ variables:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
 
 .dotnet-template: &dotnet-template
-  image: mcr.microsoft.com/dotnet/sdk:6.0
+  image: mcr.microsoft.com/dotnet/sdk:9.0
   before_script:
     - dotnet --version
 
@@ -696,7 +697,7 @@ build:
     - dotnet build --configuration Release --no-restore
   artifacts:
     paths:
-      - "*/bin/Release/net6.0/"
+      - "*/bin/Release/net9.0/"
     expire_in: 1 hour
   rules:
     - if: $CI_PIPELINE_SOURCE == "push"
@@ -765,7 +766,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 9.0.x
         
     - name: Restore dependencies
       run: dotnet restore
@@ -811,7 +812,7 @@ steps:
   displayName: 'Use .NET SDK'
   inputs:
     packageType: 'sdk'
-    version: '6.0.x'
+    version: '9.0.x'
 
 - task: DotNetCoreCLI@2
   displayName: 'Restore packages'

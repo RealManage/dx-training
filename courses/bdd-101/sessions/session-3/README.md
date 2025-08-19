@@ -120,10 +120,10 @@ dotnet add BDDDemo.Tests reference BDDDemo.Library
 cd BDDDemo.Tests
 dotnet add package SpecFlow
 dotnet add package SpecFlow.Tools.MsBuild.Generation
-dotnet add package SpecFlow.MsTest
+dotnet add package SpecFlow.xUnit
 dotnet add package Microsoft.NET.Test.Sdk
-dotnet add package MSTest.TestAdapter
-dotnet add package MSTest.TestFramework
+dotnet add package xunit
+dotnet add package xunit.runner.visualstudio
 ```
 
 #### 3.2 Configuration (10 minutes)
@@ -136,7 +136,7 @@ dotnet add package MSTest.TestFramework
     "feature": "en-us"
   },
   "unitTestProvider": {
-    "name": "mstest"
+    "name": "xunit"
   },
   "runtime": {
     "dependencies": []
@@ -266,7 +266,7 @@ namespace BDDDemo.Library.Models
 
 ```csharp
 using BDDDemo.Library.Models;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using TechTalk.SpecFlow;
 
 namespace BDDDemo.Tests.StepDefinitions
@@ -308,19 +308,19 @@ namespace BDDDemo.Tests.StepDefinitions
         [Then(@"my account balance should be \$(.*)")]
         public void ThenMyAccountBalanceShouldBe(decimal expectedBalance)
         {
-            Assert.AreEqual(expectedBalance, _account?.Balance);
+            Assert.Equal(expectedBalance, _account?.Balance);
         }
 
         [Then(@"I should see an error ""(.*)""")]
         public void ThenIShouldSeeAnError(string expectedError)
         {
-            Assert.AreEqual(expectedError, _lastError ?? _account?.LastError);
+            Assert.Equal(expectedError, _lastError ?? _account?.LastError);
         }
 
         [Then(@"my account balance should remain \$(.*)")]
         public void ThenMyAccountBalanceShouldRemain(decimal expectedBalance)
         {
-            Assert.AreEqual(expectedBalance, _account?.Balance);
+            Assert.Equal(expectedBalance, _account?.Balance);
         }
     }
 }
@@ -348,7 +348,7 @@ dotnet test
 **Expected output:**
 
 ```text
-Test run for BDDDemo.Tests.dll(.NETCoreApp,Version=v6.0)
+Test run for BDDDemo.Tests.dll(.NETCoreApp,Version=v9.0)
 Microsoft (R) Test Execution Command Line Tool Version 17.0.0
 
 Starting test execution, please wait...
@@ -588,7 +588,7 @@ stages:
 
 bdd-tests:
   stage: test
-  image: mcr.microsoft.com/dotnet/sdk:6.0
+  image: mcr.microsoft.com/dotnet/sdk:9.0
   script:
     - dotnet restore
     - dotnet test --logger trx --results-directory TestResults
@@ -615,9 +615,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 9.0.x
     - name: Restore dependencies
       run: dotnet restore
     - name: Run BDD tests
