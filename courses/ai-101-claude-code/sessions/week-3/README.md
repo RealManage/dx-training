@@ -210,6 +210,8 @@ Bug Report → Plan Investigation → Investigate → Plan Fix → Fix → Verif
 
 #### 3.2 Exercise A: CodeReviewPro (30 min)
 
+> **Important:** This exercise contains intentional bugs AND 6 build warnings. Fix the warnings plus find at least 8 additional code issues!
+
 **Setup:**
 ```bash
 cd courses/ai-101-claude-code/sessions/week-3
@@ -221,17 +223,39 @@ claude
 
 **Your Mission:**
 1. Review the payment processing code with Opus
-2. Find at least 8 issues
+2. Find at least 8 issues PLUS fix the 6 build warnings
 3. Enter plan mode and organize all fixes
 4. Iterate on your plan (group related fixes)
 5. Execute the plan
-6. Verify all issues are resolved
+6. Verify all issues are resolved AND builds without warnings
 
 **Files to Review:**
 - `PaymentService.cs` - Performance and validation issues
 - `LateFeecalculator.cs` - Calculation bugs and typos
 - `PaymentController.cs` - Security vulnerabilities
 - `Tests/` - Missing coverage
+
+**📊 CodeReviewPro Success Metrics**  
+
+Without giving away the answers, here's how to measure your success:
+
+**Issue Count by Category**  
+- **Build Warnings:** 6 to fix
+- **Security Issues:** 2+ to find
+- **Performance Issues:** 3+ to find  
+- **Logic Bugs:** 8+ to find
+- **Code Smells:** 5+ to find
+- **Typos:** 2+ to find
+
+**Total: 28+ issues available to find and fix!**  
+
+**Success Levels**  
+- 🥉 **Bronze:** Fixed all 6 warnings + found 8 other issues (14 total)
+- 🥈 **Silver:** Found and fixed 20+ issues
+- 🥇 **Gold:** Found and fixed 25+ issues
+- 💎 **Diamond:** Found all 28+ issues
+
+Don't worry if you don't find them all in the session - the important thing is practicing the plan mode workflow and systematic code review!
 
 #### 3.3 Exercise B: PhasedBuilder (30 min)
 
