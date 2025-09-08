@@ -10,8 +10,6 @@ The recommended extensions provide:
 - **bierner.markdown-mermaid** - Renders Mermaid diagrams in markdown preview
 - **GitLab.gitlab-workflow** - GitLab integration for MRs and CI/CD
 - **ms-dotnettools.vscode-dotnet-runtime** - .NET runtime for C# development
-- **ms-python.python** - Python support (optional, for any Python scripts)
-- **ms-toolsai.jupyter** - Jupyter notebook support (optional)
 
 **VS Code Only:**
 - **ms-dotnettools.csharp** - Full C# IntelliSense and debugging (add manually in VS Code)
