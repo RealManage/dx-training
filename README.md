@@ -5,6 +5,7 @@ Welcome to the RealManage DX Training repository – your central resource for t
 ## 📚 Available Courses
 
 ### [RealManage AI 101: Claude Code](./courses/ai-101-claude-code/)
+
 **Duration:** 8 weeks (2 hours/week)  
 **Level:** Beginner to Intermediate  
 **Status:** ✅ Active
@@ -14,6 +15,7 @@ Transform how you write code with Anthropic's Claude Code. This comprehensive co
 [**Start Course →**](./courses/ai-101-claude-code/README.md)
 
 ### Coming Soon 🚀
+
 - **AI 102: Advanced Agent Development** - Build autonomous systems for property management
 - **Platform Engineering 101** - Infrastructure as Code for HOA platforms
 - **Data Engineering Essentials** - Analytics pipelines for community insights
@@ -56,7 +58,7 @@ Want to create or improve a course? Here's how:
 
 Each course follows a consistent structure:
 
-```
+```txt
 courses/
 ├── course-name/
 │   ├── README.md           # Course overview and prerequisites
@@ -69,6 +71,7 @@ courses/
 ## 🛠️ Prerequisites
 
 ### General Requirements
+
 - **Development Environment:** WSL2 (Windows) or macOS/Linux
 - **Node.js:** Version 18+ with npm 10+
 - **Git:** Configured with GitLab access
@@ -76,11 +79,13 @@ courses/
 - **Slack:** Access to RealManage workspace
 
 ### Course-Specific Requirements
+
 Check each course's README for specific prerequisites and setup instructions.
 
 ## 💡 Best Practices
 
 ### During Training
+
 - **Take notes** in your personal CLAUDE.md or notes system
 - **Experiment freely** in sandbox environments
 - **Ask questions** in Slack channels
@@ -88,6 +93,7 @@ Check each course's README for specific prerequisites and setup instructions.
 - **Document learnings** for future reference
 
 ### After Training
+
 - **Apply immediately** to current projects
 - **Share knowledge** in team meetings
 - **Create demos** for lunch-and-learns
@@ -97,13 +103,16 @@ Check each course's README for specific prerequisites and setup instructions.
 ## 🤝 Support
 
 ### Get Help
+
 - **Slack:** `#dx-training` for general questions
 - **Office Hours:** Thursdays 2-3 PM CT with DX team
 - **Documentation:** [Internal Wiki](https://wiki.realmanage.com/dx-training)
 - **Issues:** [GitLab Issues](https://gitlab.com/therealmanage/tools/dx/dx-training/-/issues)
 
 ### Give Feedback
+
 We continuously improve our training based on your input:
+
 - **Course feedback:** Submit via course feedback forms
 - **Bug reports:** Create a GitLab issue
 - **Feature requests:** Discuss in `#dx-training-ideas`
@@ -112,6 +121,7 @@ We continuously improve our training based on your input:
 ## 📊 Success Metrics
 
 We measure training effectiveness through:
+
 - **Completion rates** - Target: 80% of participants
 - **Skill application** - Projects using learned techniques
 - **Team velocity** - Improved delivery speed
@@ -121,6 +131,7 @@ We measure training effectiveness through:
 ## 🏆 Recognition
 
 Celebrate your achievements:
+
 - **Course Completion** - Digital badges for your profile
 - **Project Showcase** - Demo your work at Engineering All-Hands
 - **Peer Recognition** - Nominate colleagues for DX Excellence awards
@@ -129,6 +140,7 @@ Celebrate your achievements:
 ## 📅 Training Calendar
 
 Check the [DX Training Calendar](https://calendar.realmanage.com/dx-training) for:
+
 - Upcoming course cohorts
 - Office hours schedule
 - Demo days
@@ -145,11 +157,12 @@ Check the [DX Training Calendar](https://calendar.realmanage.com/dx-training) fo
 
 ## 📜 License
 
-This training material is proprietary to RealManage and for internal use only. 
+This training material is proprietary to RealManage and for internal use only.
 
 ## 🙏 Acknowledgments
 
 Special thanks to:
+
 - The DX Team for curriculum development
 - Engineering Leadership for supporting continuous learning
 - All contributors who improve these courses
@@ -158,7 +171,7 @@ Special thanks to:
 
 ---
 
-**Questions?** Reach out in `#dx-training` or email dx-team@realmanage.com
+**Questions?** Reach out in `#dx-training` or email <dx-team@realmanage.com>
 
 **Ready to level up?** [Start with AI 101: Claude Code →](./courses/ai-101-claude-code/README.md)
 
