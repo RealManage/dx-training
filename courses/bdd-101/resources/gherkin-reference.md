@@ -350,7 +350,7 @@ Then I should see my dashboard
 
 ## Tools and Integration
 
-### SpecFlow (.NET)
+### Reqnroll (.NET)
 
 ```csharp
 [Given(@"I am on the login page")]
@@ -410,7 +410,7 @@ public void i_should_be_redirected_to_the_dashboard() {
 
 - [Official Gherkin Documentation](https://cucumber.io/docs/gherkin/)
 
-- [SpecFlow Documentation](https://docs.specflow.org/)
+- [Reqnroll Documentation](https://docs.reqnroll.net/latest/index.html)
 
 - [Cucumber Documentation](https://cucumber.io/docs/)
 

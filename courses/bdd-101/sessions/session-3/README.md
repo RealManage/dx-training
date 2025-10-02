@@ -864,7 +864,7 @@ public void WhenITransferMoneyToAccount(decimal amount, string accountNumber)
 
 **Online Resources:**
 
-- [SpecFlow Documentation](https://docs.specflow.org/)
+- [Reqnroll Documentation](https://docs.reqnroll.net/latest/index.html)
 - [Cucumber School](https://school.cucumber.io/)
 - [BDD Community](https://cucumber.io/community/)
 
@@ -881,7 +881,7 @@ public void WhenITransferMoneyToAccount(decimal amount, string accountNumber)
 
 - **Technical issues:** Check [troubleshooting guide](../../resources/troubleshooting.md)
 - **Best practices:** Review [BDD patterns guide](../../resources/bdd-patterns.md)
-- **Community:** Join SpecFlow or Cucumber communities
+- **Community:** Join Reqnroll or Cucumber communities
 - **Internal support:** Create internal BDD community of practice
 
 ## Final Thoughts

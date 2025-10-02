@@ -404,7 +404,7 @@ Once comfortable with these practice templates:
 
 1. Apply BDD to real user stories from your current project
 1. Facilitate Three Amigos sessions with your team
-1. Start automating scenarios using tools like SpecFlow or Cucumber
+1. Start automating scenarios using tools like Reqnroll or Cucumber
 1. Establish BDD practices in your development workflow
 1. Continuously refine and improve your scenario writing skills
 

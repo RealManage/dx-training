@@ -229,14 +229,14 @@ Seek additional help if:
 
 ### Tools & Frameworks
 
-- **SpecFlow** (.NET) - <https://specflow.org/>
+- **Reqnroll** (.NET) - <https://docs.reqnroll.net/latest/index.html>
 - **Cucumber** (Multiple languages) - <https://cucumber.io/>
 - **Gherkin Reference** - <https://cucumber.io/docs/gherkin/>
 
 ### Community Resources
 
 - **BDD Community** - <https://cucumber.io/community/>
-- **SpecFlow Community** - <https://specflow.org/community/>
+- **Reqnroll Documentation** - <https://docs.reqnroll.net/latest/index.html>
 
 ## 💡 Pro Tips
 

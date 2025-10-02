@@ -352,7 +352,7 @@ public class CommonSteps
 
 ## Tool-Specific Issues
 
-### SpecFlow (.NET)
+### Reqnroll (.NET)
 
 **Common Problem:** Step binding not found
 
@@ -374,10 +374,11 @@ public void GivenIAmOnThePage(string pageName)
 
 1. **Verify assembly references**
    - Ensure step definition classes are in test assembly
-   - Check that SpecFlow packages are properly referenced
-1. **Use SpecFlow tools**
-   - Install SpecFlow Visual Studio extension
+   - Check that Reqnroll packages are properly referenced
+1. **Use Reqnroll tools**
+   - Install Reqnroll Visual Studio extension
    - Use "Generate Step Definition" feature
+   - Visit <https://docs.reqnroll.net/latest/index.html> for more information
 
 ### Cucumber (Java/Ruby/JavaScript)
 
@@ -462,7 +463,7 @@ mvn test -Dcucumber.options="--tags ~@slow"
 
 1. **Community Resources**
    - [Cucumber Community](https://cucumber.io/community/)
-   - [SpecFlow Community](https://specflow.org/community/)
+   - [Reqnroll Documentation](https://docs.reqnroll.net/latest/index.html)
    - Stack Overflow with #bdd #gherkin tags
 2. **Training and Consulting**
    - BDD training workshops

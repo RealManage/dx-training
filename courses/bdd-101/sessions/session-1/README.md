@@ -443,7 +443,7 @@ Next session we'll cover:
 ### Tools to Explore
 
 - **Text Editors with Gherkin support:** VS Code with Cucumber extension
-- **BDD Tools:** SpecFlow (.NET), Cucumber (Java/Ruby/JavaScript)
+- **BDD Tools:** Reqnroll (.NET), Cucumber (Java/Ruby/JavaScript)
 
 ### Practice Exercises
 

@@ -585,7 +585,7 @@ Scenario: Fix duplicate order issue
 
 1. **Refactor one poorly written scenario** from your project using today's techniques
 1. **Identify automation candidates** - Which scenarios would be good for automated testing?
-1. **Research BDD tools** - Look into SpecFlow (.NET) or Cucumber (Java/JavaScript/Ruby) depending on your stack
+1. **Research BDD tools** - Look into Reqnroll (.NET) or Cucumber (Java/JavaScript/Ruby) depending on your stack
 1. **Prepare questions** about automation setup for Session 3
 
 #### 8.3 Preview of Session 3: From Scenarios to Automation

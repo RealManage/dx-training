@@ -344,4 +344,5 @@ Reqnroll vs SpecFlow:
 - Reqnroll provides full compatibility with existing SpecFlow tests
 - Migration typically takes less than an hour - mainly package and namespace changes
 - Reqnroll is actively maintained and supports latest .NET versions
+- Learn more at https://docs.reqnroll.net/latest/index.html
 */

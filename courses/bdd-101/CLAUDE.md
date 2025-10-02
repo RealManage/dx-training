@@ -51,7 +51,7 @@ By completion, participants should be able to:
 ## Technology Stack
 
 - **Primary:** Gherkin scenarios (language-agnostic)
-- **Automation Examples:** C# with SpecFlow
+- **Automation Examples:** C# with Reqnroll (<https://docs.reqnroll.net/latest/index.html>)
 - **Alternative Tools:** Cucumber (Java/Ruby/JavaScript)
 - **Text Editors:** Any text editor or IDE
 
