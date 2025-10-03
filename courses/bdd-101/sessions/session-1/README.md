@@ -436,9 +436,9 @@ Next session we'll cover:
 
 ### Essential Reading
 
-- [Cucumber Gherkin Documentation](https://cucumber.io/docs/gherkin/)
+- [Reqnroll Gherkin Documentation](https://docs.reqnroll.net/latest/gherkin/index.html)
 
-- [BDD Introduction - Cucumber Blog](https://cucumber.io/blog/bdd/understanding-bdd/)
+- [BDD Introduction - Dan North](https://dannorth.net/blog/introducing-bdd/)
 
 ### Tools to Explore
 
