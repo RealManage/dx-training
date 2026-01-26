@@ -1,0 +1,18 @@
+{
+  "name": "pm-toolkit",
+  "version": "1.0.0",
+  "description": "Project management toolkit for generating user stories, epics, BDD scenarios, and acceptance criteria in markdown format",
+  "author": {
+    "name": "RealManage DX Team",
+    "email": "dx-team@realmanage.com"
+  },
+  "keywords": [
+    "project-management",
+    "user-stories",
+    "bdd",
+    "gherkin",
+    "acceptance-criteria",
+    "agile"
+  ],
+  "repository": "https://github.com/realmanage/pm-toolkit"
+}

@@ -240,9 +240,8 @@ wheels/
 # Claude Code / AI
 # ================
 
-# Claude memory (keep project-specific, ignore user-specific)
-.claude/
-!CLAUDE.md
+# Claude local settings (user-specific, never commit)
+.claude/*.local.*
 
 # AI-generated artifacts that shouldn't be committed
 *.ai-backup
@@ -339,8 +338,8 @@ $RECYCLE.BIN/
 # ================
 
 # Student sandbox work (never commit)
-**/sandbox*/
-sandbox*/
+**/sandbox/
+sandbox/
 
 # Student submissions (if collecting)
 submissions/
@@ -388,3 +387,5 @@ TestResults/
 # ================
 
 # Add any project-specific exclusions below
+
+**/docs/plans/

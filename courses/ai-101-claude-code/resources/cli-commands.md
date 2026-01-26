@@ -1,97 +1,241 @@
 # Claude Code CLI Commands Quick Reference 🎯
 
+> **Official Documentation:**
+> - [CLI Reference](https://code.claude.com/docs/en/cli-reference) - All CLI flags
+> - [Interactive Mode](https://code.claude.com/docs/en/interactive-mode) - Slash commands
+>
+> **Note:** The official docs are incomplete. This list is from Claude Code v2.1.17 `/help` output.
+
+---
+
 ## Starting & Stopping
 
 | Action | Command | Notes |
 |--------|---------|-------|
 | Start Claude | `claude` | Opens interactive session |
-| Exit Claude | `Ctrl+C` or `Ctrl+D` | `/exit` command |
-| Check version | `claude --version` | From terminal (not in session) |
+| Start with prompt | `claude "your prompt"` | Start with initial query |
+| Exit Claude | `Ctrl+C` or `/exit` | End session |
+| Check version | `claude --version` | From terminal |
 | Health check | `claude doctor` | From terminal |
 
-## Essential Session Commands
+---
 
-| Command | Description | Example |
-|---------|-------------|---------|
-| `/help` | Show all available commands | Just type `/help` |
-| `/clear` | Clear conversation history | Resets context, saves tokens |
-| `/cost` | Show token usage and costs | Monitor spending |
-| `/memory` | Edit CLAUDE.md file | Opens in default editor |
-| `/permissions` | View/update file permissions | Control what Claude can modify |
-| `/doctor` | Check installation health | Diagnose issues |
+## Complete Slash Commands (47 total)
 
-## Working with Code
-
-| Command | Description | When to Use |
-|---------|-------------|-------------|
-| `/review` | Request code review | After generating code |
-| `/compact` | Compress conversation | When context gets too large |
-| `/add-dir` | Add more directories | Need files from other folders |
-| `/init` | Initialize project | Creates CLAUDE.md template |
-
-## Advanced Commands
-
-| Command | Description | Usage |
-|---------|-------------|-------|
-| `/model` | Switch AI models | Choose different Claude version |
-| `/status` | View account status | Check limits and availability |
-| `/config` | View/modify configuration | Adjust settings |
-| `/mcp` | Manage MCP servers | External tool integration |
-| `/agents` | Manage AI subagents | Specialized task automation |
-
-## Account Management
+### Session Management
 
 | Command | Description |
 |---------|-------------|
-| `/login` | Switch Anthropic accounts |
-| `/logout` | Sign out from account |
-| `/bug` | Report bugs to Anthropic |
+| `/help` | Show help and available commands |
+| `/clear` | Clear conversation history and free up context |
+| `/compact` | Clear history but keep summary. Optional: `/compact [focus instructions]` |
+| `/context` | Visualize current context usage as colored grid |
+| `/exit` | Exit the REPL |
+| `/fork` | Create a fork of conversation at this point |
+| `/rename` | Rename current conversation |
+| `/resume` | Resume a previous conversation |
+| `/rewind` | Restore code and/or conversation to previous point |
+| `/export` | Export conversation to file or clipboard |
 
-## Special Modes
+### Usage & Status
 
-| Command | Description | How to Exit |
-|---------|-------------|-------------|
-| `/vim` | Enter vim mode | Type `/vim` again to toggle |
-| `/terminal-setup` | Install Shift+Enter binding | One-time setup |
+| Command | Description |
+|---------|-------------|
+| `/usage` | Show plan usage limits |
+| `/stats` | Show usage statistics and activity |
+| `/status` | Show version, model, account, API connectivity |
 
+### Model & Output
 
-## Cost Management Tips
+| Command | Description |
+|---------|-------------|
+| `/model` | Set the AI model for Claude Code |
+| `/output-style` | Set output style directly or from menu |
+| `/plan` | Enable plan mode or view current session plan |
 
-### Monitor Usage
+### File & Directory Management
+
+| Command | Description |
+|---------|-------------|
+| `/add-dir` | Add a new working directory |
+| `/memory` | Edit Claude memory files (CLAUDE.md) |
+| `/init` | Initialize CLAUDE.md with codebase documentation |
+| `/permissions` | Manage allow & deny tool permission rules |
+
+### Code Review & Security
+
+| Command | Description |
+|---------|-------------|
+| `/review` | Review a pull request |
+| `/pr-comments` | Get comments from a GitHub pull request |
+| `/security-review` | Security review of pending changes on current branch |
+
+### Agents, Skills & Automation
+
+| Command | Description |
+|---------|-------------|
+| `/agents` | Manage agent configurations |
+| `/skills` | List available skills |
+| `/hooks` | Manage hook configurations for tool events |
+| `/tasks` | List and manage background tasks |
+| `/todos` | List current todo items |
+
+### Configuration & Settings
+
+| Command | Description |
+|---------|-------------|
+| `/config` | Open config panel |
+| `/doctor` | Diagnose and verify installation and settings |
+| `/theme` | Change the color theme |
+| `/statusline` | Set up Claude Code's status line UI |
+| `/terminal-setup` | Install Shift+Enter key binding for newlines |
+| `/sandbox` | Configure sandbox settings |
+
+### Integrations
+
+| Command | Description |
+|---------|-------------|
+| `/mcp` | Manage MCP servers |
+| `/plugin` | Manage Claude Code plugins |
+| `/ide` | Manage IDE integrations and show status |
+| `/chrome` | Claude in Chrome (Beta) settings |
+| `/install-github-app` | Set up Claude GitHub Actions for a repository |
+| `/install-slack-app` | Install the Claude Slack app |
+
+### Account & Support
+
+| Command | Description |
+|---------|-------------|
+| `/login` | Sign in with your Anthropic account |
+| `/logout` | Sign out from your Anthropic account |
+| `/feedback` | Submit feedback about Claude Code |
+| `/upgrade` | Upgrade to Max for higher rate limits |
+| `/release-notes` | View release notes |
+| `/mobile` | Show QR code to download Claude mobile app |
+| `/stickers` | Order Claude Code stickers 🎉 |
+
+### Remote Sessions
+
+| Command | Description |
+|---------|-------------|
+| `/teleport` | Resume a remote session from claude.ai |
+| `/remote-env` | Configure default remote environment for teleport |
+
+---
+
+## Quick Input Modes
+
+| Prefix | Mode | Example |
+|--------|------|---------|
+| `/` | Commands/Skills | `/help`, `/model sonnet` |
+| `!` | Bash mode | `!git status` (runs directly without Claude) |
+| `@` | File autocomplete | `@src/` triggers path completion |
+| `#` | Edit CLAUDE.md | Opens memory file |
+
+---
+
+## Keyboard Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl+C` | Exit Claude |
+| `Ctrl+D` | Exit Claude (alternative) |
+| `Ctrl+R` | Reverse history search |
+| `Ctrl+T` | Toggle task list view |
+| `?` | Show available shortcuts |
+| `Tab` | Autocomplete |
+| `Shift+Enter` | Newline (after `/terminal-setup`) |
+
+---
+
+## CLI Flags (from `claude --help`)
+
+### Session & Model
+
+| Flag | Short | Description |
+|------|-------|-------------|
+| `--model <model>` | | Set model (`sonnet`, `opus`, or full name) |
+| `--agent <name>` | | Use specific agent |
+| `--agents <json>` | | Define custom agents via JSON |
+| `--continue` | `-c` | Continue most recent conversation |
+| `--resume [id]` | `-r` | Resume by session ID or open picker |
+| `--fork-session` | | Create new session ID when resuming |
+| `--session-id <uuid>` | | Use specific session UUID |
+
+### Output Modes
+
+| Flag | Short | Description |
+|------|-------|-------------|
+| `--print` | `-p` | Print response and exit (for pipes/scripts) |
+| `--output-format <fmt>` | | `text`, `json`, or `stream-json` |
+| `--input-format <fmt>` | | `text` or `stream-json` |
+| `--json-schema <schema>` | | JSON Schema for structured output |
+| `--verbose` | | Verbose logging |
+| `--debug [filter]` | `-d` | Debug mode with optional filtering |
+
+### Permissions & Tools
+
+| Flag | Description |
+|------|-------------|
+| `--permission-mode <mode>` | `default`, `acceptEdits`, `dontAsk`, `plan`, `bypassPermissions` |
+| `--dangerously-skip-permissions` | Bypass all permission checks |
+| `--allowedTools <tools>` | Tools to allow (e.g., `"Bash(git:*) Edit"`) |
+| `--disallowedTools <tools>` | Tools to deny |
+| `--tools <tools>` | Specify available tools (`""` for none, `"default"` for all) |
+
+### Files & Directories
+
+| Flag | Description |
+|------|-------------|
+| `--add-dir <dirs>` | Additional directories to allow access |
+| `--file <specs>` | Files to download at startup (`file_id:path`) |
+
+### Configuration
+
+| Flag | Description |
+|------|-------------|
+| `--settings <file\|json>` | Load settings from file or JSON string |
+| `--setting-sources <sources>` | Sources to load: `user`, `project`, `local` |
+| `--system-prompt <prompt>` | Custom system prompt |
+| `--append-system-prompt <text>` | Append to default system prompt |
+| `--disable-slash-commands` | Disable all skills |
+
+### Integrations
+
+| Flag | Description |
+|------|-------------|
+| `--plugin-dir <paths>` | Load plugins from directories |
+| `--mcp-config <configs>` | Load MCP servers from JSON |
+| `--strict-mcp-config` | Only use MCP from --mcp-config |
+| `--chrome` / `--no-chrome` | Enable/disable Chrome integration |
+| `--ide` | Auto-connect to IDE on startup |
+
+### Budget & Limits
+
+| Flag | Description |
+|------|-------------|
+| `--max-budget-usd <amount>` | Max spend on API calls (with `--print`) |
+| `--fallback-model <model>` | Fallback when default overloaded |
+
+### Info
+
+| Flag | Short | Description |
+|------|-------|-------------|
+| `--version` | `-v` | Show version |
+| `--help` | `-h` | Show help |
+
+### CLI Subcommands
+
 ```bash
-# Check current session cost
-/cost
-
-# Clear context to reset tokens
-/clear
-
-# Compress long conversations
-/compact {optional instructions for what to keep during compaction}
+claude doctor        # Check installation health
+claude update        # Check for and install updates
+claude mcp           # Configure MCP servers
+claude plugin        # Manage plugins
+claude install       # Install native build
+claude setup-token   # Set up auth token (requires subscription)
 ```
 
-### Token Saving Strategies
-1. Use `/clear` when switching tasks
-2. Use `/compact` for long sessions
-3. Keep CLAUDE.md concise
-4. Be specific in prompts to avoid iterations
-
-## Memory Management
-
-### Create/Edit CLAUDE.md
-```bash
-# Quick edit (in session)
-/memory
-
-# Or use hashtag shortcut
-#
-```
-
-### Memory Hierarchy
-```
-~/.claude/CLAUDE.md    # User level (all projects)
-./CLAUDE.md           # Project level (current project)
-Session context       # Current conversation
-```
+---
 
 ## Common Workflows
 
@@ -99,7 +243,7 @@ Session context       # Current conversation
 ```bash
 cd my-project
 claude
-/init                 # Create CLAUDE.md template
+/init                 # Create CLAUDE.md
 /permissions          # Review file access
 # Start coding...
 ```
@@ -108,46 +252,60 @@ claude
 ```bash
 claude
 # Work for a while...
-/cost                 # Check token usage
-/compact              # Compress if needed
-# Continue working...
+/compact              # Compress context if responses slow
 /clear                # Reset when switching tasks
 ```
 
-### Code Review
+### Code Review Workflow
 ```bash
-# After generating code
-/review               # Request review
-/cost                 # Check cost impact
+claude
+/review               # Review current PR
+/pr-comments          # Get existing PR comments
+/security-review      # Security audit
 ```
 
-## Keyboard Shortcuts
-
-| Shortcut | Action | Context |
-|----------|--------|---------|
-| `Ctrl+C` | Exit Claude | Any time |
-| `Ctrl+D` | Exit Claude | Any time |
-| `#` | Edit CLAUDE.md | Start of line |
-| `Tab` | Autocomplete | While typing |
-
-## Pro Tips 💡
-
-1. **No need to save** - All changes are automatic
-2. **Use `/clear` liberally** - Resets context and saves money
-3. **`/compact` for long sessions** - Preserves context while reducing tokens
-4. **Check `/cost` regularly** - Avoid surprises
-5. **Keep CLAUDE.md updated** - Better context = better code
-
-## Troubleshooting
-
-| Issue | Command to Use |
-|-------|---------------|
-| High costs | `/cost` then `/clear` |
-| Slow responses | `/compact` or `/clear` |
-| Installation issues | Exit and run `claude doctor` |
-| Wrong model | `/model` to switch |
-| Permission errors | `/permissions` to review |
+### Multi-Session Work
+```bash
+claude
+/fork                 # Branch conversation
+/rename "feature-x"   # Name it
+# Later...
+/resume               # Pick up where you left off
+```
 
 ---
 
-*Last updated for Claude Code v1.x | Valid as of January 2025*
+## Memory Hierarchy
+
+```
+~/.claude/CLAUDE.md    # User level (all projects)
+./CLAUDE.md            # Project level (current project)
+Session context        # Current conversation
+```
+
+---
+
+## Pro Tips 💡
+
+1. **Use `/compact` liberally** - Keeps context summary while freeing tokens
+2. **`/context` is your friend** - Visualize what's eating your context
+3. **`/fork` before experiments** - Easy rollback point
+4. **`!` for quick bash** - `!git status` skips Claude interpretation
+5. **`/feedback` not `/bug`** - Report issues the right way
+
+---
+
+## Troubleshooting
+
+| Issue | Command |
+|-------|---------|
+| Slow responses | `/compact` or `/clear` |
+| Quality degrading | `/clear` and start fresh |
+| Installation issues | `/doctor` or `claude doctor` |
+| Wrong model | `/model` to switch |
+| Permission errors | `/permissions` to review |
+| Check connectivity | `/status` |
+
+---
+
+*Complete command list from Claude Code v2.1.17 | January 2026*

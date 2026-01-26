@@ -36,7 +36,7 @@ public class HoaPromptExamples
 - Calculates late fees with 10% monthly compound interest after 30-day grace period
 - Uses async/await for all database operations
 - Implements repository pattern with IPaymentRepository
-- Includes xUnit tests with 95% coverage using FluentAssertions and Moq
+- Includes xUnit tests with 80-90% coverage using FluentAssertions and Moq
 - Handles PCI compliance requirements
 - Returns PaymentResult with success/failure status and transaction ID",
                     Explanation = "The good prompt specifies exact requirements, patterns, testing needs, and domain rules"
@@ -53,7 +53,7 @@ public class HoaPromptExamples
 - Includes a search filter for violation type and date range
 - Uses Angular Material table component
 - Fetches data from ViolationService using RxJS
-- Includes Jasmine tests with 95% coverage
+- Includes Jasmine tests with 80-90% coverage
 - Is mobile-responsive using CSS Grid",
                     Explanation = "Specific component requirements, UI details, and technical implementation details"
                 }
@@ -94,7 +94,7 @@ public class HoaPromptExamples
 - Add logging using ILogger<T>
 - Ensure backward compatibility with existing callers
 - Write tests before refactoring (if missing)
-- Maintain 95% test coverage throughout",
+- Maintain 80-90% test coverage throughout",
                     Explanation = "Clear refactoring goals with specific patterns and requirements"
                 }
             },

@@ -1,14 +1,14 @@
 # Bug Hunter Project Context
 
 ## Tech Stack
-- C# .NET 9
+- C# .NET 10
 - xUnit for testing
 - FluentAssertions
 
 ## Testing Requirements
 - Write tests FIRST to reproduce the bug
 - Use TDD Red-Green-Refactor cycle
-- Achieve 95% test coverage
+- Achieve 80-90% test coverage
 - Test edge cases around 90-day boundary
 
 ## Business Rules

@@ -10,9 +10,9 @@ Copy this template to your project root as `CLAUDE.md` and customize for your sp
 Brief description of what this project does and its purpose within RealManage.
 
 ## Tech Stack
-- **Backend:** C# .NET 9, ASP.NET Core Web API
+- **Backend:** C# .NET 10, ASP.NET Core Web API
 - **Frontend:** Angular 17, TypeScript 5.x, RxJS
-- **Database:** SQL Server 2019, Entity Framework Core 9
+- **Database:** SQL Server 2019, Entity Framework Core 10
 - **Cloud:** Azure App Service, Azure SQL Database, Azure Service Bus
 - **Authentication:** Azure AD B2C
 - **Testing:** xUnit, FluentAssertions, Moq (backend), Jasmine/Karma (frontend)
@@ -28,7 +28,7 @@ Brief description of what this project does and its purpose within RealManage.
 
 ### General Requirements
 - **TDD Required:** Red-Green-Refactor cycle
-- **Test Coverage:** 95% minimum (non-negotiable)
+- **Test Coverage:** 80-90% target (recommended range)
 - **Code Reviews:** Required for all PRs
 - **Documentation:** XML comments for public APIs
 

@@ -5,7 +5,7 @@
 - **YOU MUST** implement C# code in a Best Practices language idiomatic fashion
 - **YOU MUST** help students understand effective prompting techniques
 - **YOU MUST** demonstrate the difference between vague and specific prompts
-- **YOU MUST** emphasize the importance of including test requirements (95% coverage)
+- **YOU MUST** emphasize the importance of including test requirements (80-90% coverage)
 - **YOU MUST** show how structure (XML tags, markdown) improves prompt clarity
 
 ## About This Example
@@ -39,4 +39,4 @@ Students should learn to:
 - 30/60/90 day escalation rules
 - 10% monthly compound interest on late fees
 - 30-day grace period standard
-- 95% test coverage requirement (non-negotiable)
+- 80-90% test coverage requirement (non-negotiable)

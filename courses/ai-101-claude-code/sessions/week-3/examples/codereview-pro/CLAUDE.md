@@ -1,7 +1,7 @@
 # Code Review Pro Project Context
 
 ## Tech Stack
-- C# .NET 9
+- C# .NET 10
 - ASP.NET Core Web API
 - xUnit for testing
 - Entity Framework Core (implied)
@@ -15,7 +15,7 @@
 - Magic numbers and code smells
 
 ## Testing Requirements
-- 95% test coverage minimum
+- 80-90% test coverage minimum
 - Test edge cases (negative amounts, nulls)
 - Test security scenarios
 - Performance tests for large datasets

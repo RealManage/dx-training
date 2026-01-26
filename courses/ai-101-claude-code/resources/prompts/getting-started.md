@@ -149,7 +149,7 @@ Include request/response examples.
 ### Unit Tests
 ```
 Write unit tests for this method.
-Aim for 95% coverage with edge cases.
+Aim for 80-90% coverage with edge cases.
 ```
 
 ### Integration Tests
@@ -184,7 +184,7 @@ Refine your prompts based on results:
 
 ### Be Specific About Requirements
 - ❌ "Add tests"
-- ✅ "Add xUnit tests with 95% coverage using FluentAssertions"
+- ✅ "Add xUnit tests with 80-90% coverage using FluentAssertions"
 
 ## 🎯 Quick Wins
 

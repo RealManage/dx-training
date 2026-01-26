@@ -13,12 +13,14 @@ By the end of this session, participants will be able to:
 - ✅ Create and manage CLAUDE.md memory files
 - ✅ Identify 3+ use cases for their daily work
 
+> **PM/Support Track Note:** Focus on observing and understanding the developer experience. You don't need to complete the coding exercises—watch a developer work through them instead. See [PM Quick-Start Guide](../../resources/quick-start-pm.md) for your customized path.
+
 ## 📋 Pre-Session Checklist
 
 ### System Requirements
 - **OS:** Windows 10+, macOS 10.15+, or Ubuntu 20.04+
 - **RAM:** 4GB minimum
-- **.NET:** .NET 9 SDK required for C# development (supports top-level programs)
+- **.NET:** .NET 10 SDK required for C# development (supports top-level programs)
 - **Node.js:** Version 18+ required, 22 LTS recommended (via nvm)
 - **Shell:** Bash, Zsh, or Fish preferred
 - **IDE:** VS Code with recommended extensions
@@ -70,13 +72,19 @@ nvm use --lts
 node --version  # Should show v22.x.x
 ```
 
-### Step 3: Install .NET 9 SDK
+### Step 3: Install .NET 10 SDK (LTS)
 ```bash
 # Verify .NET installation
-dotnet --version  # Should show 9.0.x
+dotnet --version  # Should show 10.x.x
 
-# If not installed, download from:
-# https://dotnet.microsoft.com/download/dotnet/9.0
+# If not installed on Ubuntu/Debian:
+sudo apt-get update && sudo apt-get install -y dotnet-sdk-10.0
+
+# Or download from:
+# https://dotnet.microsoft.com/download/dotnet/10.0
+
+# For other Linux distros, see:
+# https://learn.microsoft.com/en-us/dotnet/core/install/linux
 ```
 
 ### Step 4: Install IDE Extensions
@@ -103,7 +111,7 @@ Key extensions needed:
 - **.NET Runtime** - For running C# code
 
 ### Step 5: Pre-Session Verification
-- [ ] .NET 9 SDK installed (`dotnet --version`)
+- [ ] .NET 10 SDK installed (`dotnet --version`)
 - [ ] nvm installed and working (`nvm --version`)
 - [ ] Node.js 22 LTS installed via nvm (`node --version`)
 - [ ] npm 10+ available (`npm --version`)
@@ -119,6 +127,47 @@ Key extensions needed:
 - [ ] Test all demo commands
 - [ ] Have `claude doctor` output examples
 - [ ] Slack channel `#dx-training` monitored
+
+## 📂 WHERE to Work
+
+**Each week has its own `sandbox/` folder for your practice work.**
+
+Understanding the folder structure is essential before diving in:
+
+```
+courses/ai-101-claude-code/
+├── sessions/
+│   ├── week-1/
+│   │   ├── README.md      ← You're reading this!
+│   │   ├── example/       ← Reference code (READ-ONLY)
+│   │   └── sandbox/       ← YOUR WORK for Week 1
+│   ├── week-2/
+│   │   ├── example/       ← Reference code (READ-ONLY)
+│   │   └── sandbox/       ← YOUR WORK for Week 2
+│   └── ...
+└── resources/             ← Reference materials (templates, prompts)
+```
+
+### Creating Your Sandbox
+
+```bash
+# Navigate to Week 1
+cd courses/ai-101-claude-code/sessions/week-1
+
+# Copy the example to your sandbox folder
+cp -r example sandbox
+cd sandbox
+
+# Start Claude Code and begin practicing!
+claude
+```
+
+### Important Notes
+
+- **`example/` folders are READ-ONLY** - Don't modify them directly. Copy to `sandbox/` first.
+- **Each week has its own `sandbox/`** - Your Week 1 work stays in `week-1/sandbox/`, Week 2 in `week-2/sandbox/`, etc.
+- **Git ignores `sandbox/` folders** - Your practice code won't clutter the course repo history.
+- **For weeks with multiple examples** - Create subdirectories: `sandbox/example-a/`, `sandbox/example-b/`
 
 ## 📚 Session Plan
 
@@ -184,7 +233,9 @@ claude --version
 - If permission denied, check npm prefix: `npm config get prefix`
 - Should be in your home directory, not system directories
 
-#### 1.3 Verify Installation (2 min)
+#### 1.3 Verification & Authentication (5 min)
+
+**Verify Installation:**
 ```bash
 # Run the diagnostic tool
 claude doctor
@@ -196,7 +247,7 @@ claude doctor
 # - Network connectivity
 ```
 
-#### 1.4 Authentication (3 min)
+**Authenticate:**
 ```bash
 # Start Claude - will open browser for OAuth
 claude
@@ -246,8 +297,8 @@ claude
 # In Claude session
 /help              # Show all available commands
 /clear             # Clear conversation history (reset context)
-/cost              # Check token usage and costs
 /init              # Initialize a CLAUDE.md file for your project
+/context           # View current context window size
 /memory            # Edit CLAUDE.md file
 /model             # Switch AI models
 /permissions       # Control what Claude can modify
@@ -281,10 +332,8 @@ claude -r          # Resume with selection
 claude --resume    # Same as -r
 
 # Switch models for different tasks
-claude --model default   # Starts with Opus and switch to Sonnet (Opus Usage is based on subscription plan)
-claude --model opus      # Most capable for complex tasks
-claude --model sonnet    # Default, good balance
-claude --model haiku     # Fastest, least capable
+claude --model sonnet    # Default - excellent for daily development
+claude --model opus      # Most capable - use for complex analysis & architecture
 
 # Add directories Claude can access
 claude --add-dir ../shared-lib ../api
@@ -445,9 +494,9 @@ echo "# Project Context" > CLAUDE.md
 # RealManage HOA Management System
 
 ## Tech Stack
-- **Backend:** C# (.NET 8), ASP.NET Core Web API
+- **Backend:** C# (.NET 10), ASP.NET Core Web API
 - **Frontend:** Angular 17, TypeScript, RxJS
-- **Database:** SQL Server 2019, Entity Framework Core 8
+- **Database:** SQL Server 2019, Entity Framework Core 10
 - **Cloud:** Azure (App Service, SQL Database, Service Bus)
 - **Auth:** Azure AD B2C
 
@@ -459,7 +508,7 @@ echo "# Project Context" > CLAUDE.md
 - Event-driven with Azure Service Bus
 
 ## Coding Standards
-- **Testing:** TDD with 95-100% coverage REQUIRED
+- **Testing:** TDD with 80-90% coverage REQUIRED
 - **C# Standards:**
   - xUnit for unit tests
   - FluentAssertions for assertions
@@ -509,7 +558,7 @@ echo "# Project Context" > CLAUDE.md
 **Test it works:**
 ```
 > What's our testing coverage requirement?
-# Should respond: 95-100% based on CLAUDE.md
+# Should respond: 80-90% based on CLAUDE.md
 
 > How do late fees work in our system?
 # Should reference the 30-day grace period
@@ -561,7 +610,7 @@ echo "# Project Context" > CLAUDE.md
 ### Context Management
 - Use `/compact` to compress long conversations; supply optional instructions if you want to keep something specific
 - Use `/clear` to start with a fresh conversation
-- Monitor usage with `/cost` regularly if not using a subscription
+- Check `/usage` to see your plan limits
 
 ### Best Practices
 - Start sessions in project root
@@ -611,7 +660,7 @@ Try this in your sandbox without help:
 
 ### Quick References
 - [Slash Commands Cheatsheet](../../resources/cli-commands.md)
-- [CLAUDE.md Template](../../exercises/claude-md-template.md)
+- [CLAUDE.md Template](../../resources/claude-md-template.md)
 - [Common Prompts](../../resources/prompts/getting-started.md)
 
 ## 📊 Success Metrics
@@ -621,13 +670,13 @@ Try this in your sandbox without help:
 - [ ] Use basic slash commands without looking them up
 - [ ] Write a CLAUDE.md that provides context
 - [ ] Generate working C# code with tests
-- [ ] Estimate token costs for your queries
+- [ ] Manage context efficiently with /clear and /compact
 
 ### Red Flags (seek help if):
 - [ ] Claude Code won't start after installation
 - [ ] Authentication keeps failing
 - [ ] Generated code has obvious errors
-- [ ] Costs seem unusually high (>$5/hour)
+- [ ] Response quality degrading significantly
 
 ## 🚀 Next Week Preview
 

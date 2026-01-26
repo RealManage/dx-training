@@ -1,0 +1,28 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "command": "echo \"$(date -Iseconds) | PRE | BASH | $TOOL_INPUT\" >> .claude/audit.log"
+      },
+      {
+        "matcher": "Edit",
+        "command": "echo \"$(date -Iseconds) | PRE | EDIT | $TOOL_INPUT\" >> .claude/audit.log"
+      },
+      {
+        "matcher": "Bash(rm:*)",
+        "command": "echo 'BLOCKED: rm commands require manual approval' && exit 1"
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit",
+        "command": "dotnet build --verbosity quiet 2>/dev/null || echo 'Build may need attention'"
+      }
+    ]
+  },
+  "permissions": {
+    "allow": ["Read", "Edit", "Bash", "Glob", "Grep"],
+    "deny": ["Bash(rm:-rf:*)", "Bash(git:push:--force)"]
+  }
+}

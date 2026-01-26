@@ -1,7 +1,7 @@
 # Prime Directives
 - **YOU MUST** follow Red/Green/Refactor TDD Best Practics using xUnit
 - **YOU MUST** implement C# code in a Best Practices language idiomatic fashion
-- **YOU MUST** achieve 95-100% test coverage for all code
+- **YOU MUST** achieve 80-90% test coverage for all code
 - **YOU MUST** use async/await for all I/O operations
 
 ## About This Example
@@ -17,7 +17,7 @@ There is an intentional bug in the CalculateFine method:
 - Should compound 10% monthly (e.g., 2 months = baseFine * 1.1 * 1.1)
 
 ## Tech Stack
-- **Language:** C# with .NET 9
+- **Language:** C# with .NET 10
 - **Testing:** xUnit, FluentAssertions, Moq
 - **Patterns:** Service pattern, repository ready
 - **Style:** Top-level programs, nullable reference types enabled
@@ -32,7 +32,7 @@ There is an intentional bug in the CalculateFine method:
 - Write tests FIRST (Red phase)
 - Make tests pass (Green phase)
 - Refactor while keeping tests green
-- Minimum 95% code coverage
+- Minimum 80-90% code coverage
 - Test edge cases and error conditions
 
 ## Common Tasks

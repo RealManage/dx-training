@@ -236,7 +236,7 @@ claude
 
 ## Success Criteria
 
-- [ ] .NET 9 SDK installed and working
+- [ ] .NET 10 SDK installed and working
 - [ ] VS Code with recommended extensions
 - [ ] Claude Code installed and version shows
 - [ ] `claude doctor` shows all green checks

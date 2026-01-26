@@ -11,7 +11,7 @@ By the end of this session, participants will be able to:
 - ✅ Communicate clearly with Claude using natural language
 - ✅ Know when structure helps (and when it doesn't)
 - ✅ Build a personal prompting style that works for them
-- ✅ Generate code with 95%+ test coverage consistently
+- ✅ Generate code with 80-90% test coverage consistently
 - ✅ Iterate and refine prompts based on Claude's feedback
 - ✅ Recognize that clarity beats formatting every time
 
@@ -41,7 +41,7 @@ By the end of this session, participants will be able to:
 use Markdown or XML tags. Most of my prompts are just clear, conversational 
 requests. Today, we're learning what ACTUALLY works - clear communication, not 
 complex formatting. By the end, you'll write prompts in YOUR style that consistently 
-get great results with 95%+ test coverage."
+get great results with 80-90% test coverage."
 ```
 
 #### 1.2 The Anatomy of an Effective Prompt (10 min)
@@ -50,7 +50,7 @@ get great results with 95%+ test coverage."
 1. **Clear Intent** - Say what you want directly
 2. **Specific Context** - Include relevant details (file paths, tech stack)
 3. **Domain Knowledge** - Mention business rules when relevant  
-4. **Test Requirements** - Always specify 95%+ coverage
+4. **Test Requirements** - Always specify 80-90% coverage
 5. **Natural Flow** - Write like you're explaining to a colleague
 
 **Real Examples - How Successful Users Actually Prompt:**
@@ -60,10 +60,10 @@ get great results with 95%+ test coverage."
 
 # Natural conversation (works great!):
 > I need a payment service for our HOA system. It should handle monthly, quarterly, 
-  and annual dues payments. We're using C# with .NET 9 and the repository pattern.
+  and annual dues payments. We're using C# with .NET 10 and the repository pattern.
   Important: after a 30-day grace period, we charge 10% monthly compound interest 
   on late payments. Please include async methods and comprehensive xUnit tests 
-  with 95%+ coverage.
+  with 80-90% coverage.
 
 # Notice: No Markdown headers, no XML tags, just clear communication!
 
@@ -108,7 +108,7 @@ Can you help me with these HOA reports:
 - Monthly financial summary with income/expenses
 - Delinquency report showing accounts 30+ days overdue  
 - Violation status report grouped by type
-All should export to PDF and include 95%+ test coverage.
+All should export to PDF and include 80-90% test coverage.
 ```
 
 **Markdown Headers (for complex multi-part requests):**
@@ -122,7 +122,7 @@ and reporting all in one class.
 ### Goals
 Split into separate services with single responsibilities
 Keep all existing tests passing
-Add new tests for the refactored services (95%+ coverage)
+Add new tests for the refactored services (80-90% coverage)
 
 ### Constraints
 Can't break existing API contracts
@@ -140,7 +140,7 @@ Need to deploy by Friday
 
 # New feature:
 > Add a method to ResidentService that returns all residents with outstanding 
-  balances over $500. Make it async and include unit tests with 95%+ coverage.
+  balances over $500. Make it async and include unit tests with 80-90% coverage.
 
 # Code review:
 > Can you review the PaymentController class and suggest improvements? 
@@ -191,8 +191,8 @@ Better: "Generate a monthly financial report"
 
 Best: "Create a C# FinancialReportService that generates monthly P&L statements 
 for HOAs including income from dues, expenses by category, and reserve fund 
-status. Use Entity Framework Core 9 to query SQL Server, return data as 
-ReportDto, include PDF export via QuestPDF, and write xUnit tests with 95%+ coverage."
+status. Use Entity Framework Core 10 to query SQL Server, return data as 
+ReportDto, include PDF export via QuestPDF, and write xUnit tests with 80-90% coverage."
 ```
 
 **Exercise 2: Template Practice**
@@ -274,7 +274,7 @@ claude
 > ## Create a ResidentPortalController for our HOA management system
   
   ### Requirements
-  - ASP.NET Core Web API (.NET 9)
+  - ASP.NET Core Web API (.NET 10)
   - Endpoints: GET account balance, GET violations, GET payment history, POST payment
   - Use existing ResidentService and PaymentService
   - Authorize with Azure AD B2C, resident role only
@@ -287,7 +287,7 @@ claude
   ### Testing
   - xUnit integration tests using WebApplicationFactory
   - Test authorization, validation, and error cases
-  - 95%+ code coverage minimum
+  - 80-90% code coverage minimum
   - Use FluentAssertions for all assertions
 ```
 
@@ -297,9 +297,9 @@ claude
 - Test coverage included
 - Proper error handling
 
-### Part 4: Build Your Prompt Library (15 min)
+### Part 4: Build Your Prompt Library (10 min)
 
-#### 4.1 Creating a Team Library (7 min)
+#### 4.1 Creating a Team Library (5 min)
 
 **In CLAUDE.md or separate prompt file:**
 ```markdown
@@ -309,10 +309,10 @@ claude
 
 ### 1. New Service Class
 Create a C# service class for {FEATURE} that:
-- Uses .NET 9 with nullable reference types
+- Uses .NET 10 with nullable reference types
 - Follows repository pattern with I{NAME}Repository
 - Implements async/await for all I/O operations
-- Includes xUnit tests with 95%+ coverage
+- Includes xUnit tests with 80-90% coverage
 - Uses FluentAssertions and Moq for testing
 - Follows RealManage naming conventions
 - Includes XML documentation
@@ -330,12 +330,12 @@ Create an Angular 17 standalone component named {NAME}Component that:
 - Uses OnPush change detection
 - Implements {FEATURE}
 - Uses RxJS for state management
-- Includes Jasmine tests with 95%+ coverage
+- Includes Jasmine tests with 80-90% coverage
 - Follows RealManage UI patterns
 - Is mobile-responsive
 ```
 
-#### 4.2 Personal Customization (8 min)
+#### 4.2 Personal Customization (5 min)
 
 **Activity: Create Your Top 3 Prompts**
 
@@ -350,7 +350,21 @@ Analyze these support tickets and:
 4. Include step-by-step resolution
 ```
 
-**Product Manager Example:**
+**Product Manager Examples:**
+
+*Requirement Refinement (CLEAR Framework):*
+```
+Help me refine this rough feature idea into a clear spec:
+"We need a way for residents to pay their HOA dues online"
+
+Identify:
+1. Ambiguities I need to clarify with stakeholders
+2. Acceptance criteria (Gherkin format)
+3. Edge cases and error scenarios
+4. MVP scope recommendation
+```
+
+*User Story Generation:*
 ```
 Generate user stories from this feature request:
 <paste requirements>
@@ -362,6 +376,17 @@ Format as:
 - Test scenarios
 - Effort estimate (S/M/L)
 ```
+
+*Implementation Plan Validation:*
+```
+Review my PRD for this feature and identify:
+1. Missing requirements or ambiguities
+2. Technical questions I should ask engineering
+3. Edge cases not covered
+4. Suggested phasing (MVP vs future)
+```
+
+> **PM Tip:** See [PM Quick-Start Guide](../../resources/quick-start-pm.md) for the full CLEAR framework and more PM-specific prompts.
 
 **QA Engineer Example:**
 ```
@@ -417,7 +442,7 @@ Participants fix these in chat/verbally:
 
 **Improved versions:**
 1. "Implement JWT authentication for the resident portal API using Azure AD B2C with role-based authorization"
-2. "Add xUnit tests for PromptAnalyzer.Analyze achieving 95%++ coverage, testing all scoring scenarios and edge cases"
+2. "Add xUnit tests for PromptAnalyzer.Analyze achieving 80-90% coverage, testing all scoring scenarios and edge cases"
 3. "Fix the NullReferenceException in TemplateManager.FillTemplate when template name not found. Return empty template instead"
 4. "Optimize the PromptAnalyzer by caching common action verbs and using compiled regex patterns for better performance"
 
@@ -427,7 +452,7 @@ Participants fix these in chat/verbally:
 1. **Clarity beats structure** - Natural language often works better than formatted prompts
 2. **Conversation beats specification** - Iterative dialogue > trying to specify everything upfront
 3. **Context is crucial** - Include domain knowledge and technical requirements
-4. **Testing is non-negotiable** - Always mention 95%+ coverage requirement
+4. **Testing is non-negotiable** - Always mention 80-90% coverage requirement
 5. **Your style is valid** - Find what works for your thinking and typing speed
 
 ### Quick Reference Card
@@ -437,9 +462,9 @@ NATURAL LANGUAGE APPROACH:
 Important: [domain rules]. Please include [test requirements]."
 
 REAL EXAMPLE:
-"I need a payment service that processes HOA dues. We're using C# .NET 9 
+"I need a payment service that processes HOA dues. We're using C# .NET 10 
 with the repository pattern. Important: 30-day grace period, then 10% 
-monthly compound interest. Please include xUnit tests with 95%+ coverage."
+monthly compound interest. Please include xUnit tests with 80-90% coverage."
 
 ONLY ADD STRUCTURE WHEN:
 - You have 5+ distinct requirements → Use bullet points
@@ -476,7 +501,7 @@ Generates a complete audit logging system for HOA transactions including:
 - Service class with async methods
 - Database models with EF Core
 - API endpoints with authorization
-- 95%+ test coverage
+- 80-90% test coverage
 - Compliance with SOC 2 requirements
 ```
 
@@ -506,7 +531,7 @@ Generates a complete audit logging system for HOA transactions including:
 - [ ] Write prompts that consistently generate working code
 - [ ] Use Markdown or bullet points to structure complex requests
 - [ ] Include all necessary context without Claude asking for clarification
-- [ ] Get 95%+ test coverage in generated code without reminding
+- [ ] Get 80-90% test coverage in generated code without reminding
 - [ ] Score 75+ on the Prompt Analyzer for your prompts
 
 ### Red Flags (seek help if):
@@ -517,11 +542,11 @@ Generates a complete audit logging system for HOA transactions including:
 
 ## 🚀 Next Week Preview
 
-**Week 3: Plan Mode & Exploration**
-- Learn to break down complex tasks
-- Master the "think deeply" approach
-- Explore codebases before making changes
-- Make architectural decisions with AI assistance
+**Week 3: Tactical Planning & Code Review**
+- Use plan mode as a tactical thinking partner
+- Iterate on plans in real-time before executing
+- Organize code review fixes systematically
+- Switch to Opus model for deep code analysis
 
 **Pre-work:** Think of a complex feature that would benefit from planning
 

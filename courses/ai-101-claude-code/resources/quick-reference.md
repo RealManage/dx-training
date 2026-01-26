@@ -17,7 +17,9 @@ claude doctor            # Check installation
 ```
 /help         # Show all commands
 /clear        # Reset conversation context
-/cost         # Check token usage
+/usage        # Check plan usage
+/context      # View current context usage
+/usage        # View overall session usage
 /memory       # Edit CLAUDE.md
 /permissions  # Control file access
 /model        # Switch AI model
@@ -32,19 +34,11 @@ Ctrl+C        # Exit Claude
 Ctrl+D        # Exit Claude (alternative)
 ```
 
-## 💰 Token Costs (Sonnet 4)
-
-| Operation | Input | Output | Cache Hit |
-|-----------|-------|--------|-----------|
-| Per 1K tokens | $0.003 | $0.015 | $0.0003 |
-| Daily average | ~$6 per developer | | |
-| Claude Max | Included in subscription | | |
-
 ## 📝 Prompt Patterns
 
 ### TDD Pattern
 ```
-1. Write xUnit tests for <feature> with 95% coverage
+1. Write xUnit tests for <feature> with 80-90% coverage
 2. [Run tests - confirm red]
 3. Implement <feature> to pass tests
 4. [Run tests - confirm green]
@@ -77,13 +71,13 @@ Review this code for:
 # Project: <NAME>
 
 ## Tech Stack
-- C# .NET 8, ASP.NET Core
+- C# .NET 10, ASP.NET Core
 - Angular 17, TypeScript
-- SQL Server, EF Core 8
+- SQL Server, EF Core 10
 - Azure Services
 
 ## Requirements
-- 95% test coverage minimum
+- 80-90% test coverage minimum
 - TDD for all new features
 - Async/await for I/O
 - OnPush for Angular components
@@ -126,7 +120,7 @@ ng e2e                   # E2E tests
 
 ### Quick Generators
 ```
-> Generate a C# service for <feature> with repository pattern and 95% test coverage
+> Generate a C# service for <feature> with repository pattern and 80-90% test coverage
 
 > Create an Angular component for <feature> with OnPush and signals
 
@@ -183,8 +177,8 @@ claude
 cd ui
 claude
 
-# Terminal 3: Code Review
-claude --role reviewer
+# Terminal 3: Code Review (using custom agent)
+claude --agent reviewer
 ```
 
 ## 📊 Performance Tips
@@ -234,16 +228,18 @@ claude --role reviewer
 
 ### Track Progress
 ```
-/cost                    # Current session cost
 git diff --stat         # Changes made
 dotnet test --logger    # Test results
 ng test --code-coverage # Coverage report
+/usage                   # Plan usage (subscription)
 ```
 
 ## 🎓 Learning Resources
 
 ### Official Docs
 - [Claude Code Docs](https://docs.anthropic.com/en/docs/claude-code)
+- [CLI Reference](https://code.claude.com/docs/en/cli-reference) - All CLI flags
+- [Interactive Mode](https://code.claude.com/docs/en/interactive-mode) - Slash commands
 - [Prompt Engineering](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering)
 - [MCP Protocol](https://docs.anthropic.com/en/docs/mcp)
 
@@ -256,7 +252,7 @@ ng test --code-coverage # Coverage report
 
 1. **Start small:** Test on one file before bulk changes
 2. **Version control:** Commit before major operations
-3. **Review changes:** Always review with `/diff` or git
+3. **Review changes:** Always review with `git diff` before committing
 4. **Document patterns:** Add successful prompts to CLAUDE.md
 5. **Share knowledge:** Post wins in `#dx-wins`
 
