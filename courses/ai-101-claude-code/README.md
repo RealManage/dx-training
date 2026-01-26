@@ -2,12 +2,38 @@
 
 Welcome to the comprehensive Claude Code training course designed specifically for RealManage teams. This self-paced course will transform how you write code, automate tasks, and solve complex problems using AI assistance.
 
+## 🎯 Choose Your Path
+
+| Your Role | Quick Start Guide | Focus Weeks | Skip |
+|-----------|-------------------|-------------|------|
+| Developer | [Developer Track](resources/quick-start-developer.md) | All weeks | Week 0 (optional) |
+| QA Engineer | [QA Track](resources/quick-start-qa.md) | 1, 2, 4, 8, 9 | 5, 6, 7 (skim) |
+| Product Manager | [PM Track](resources/quick-start-pm.md) | 0, 1, 2, 3, 9 | 4-8 (concepts only) |
+| Support | See PM Track | 0, 1, 2, 9 | Technical weeks |
+| **Experienced Dev** | See below | 3, 4, 8 | 0-2, 5-7 |
+
+### ⚡ Experienced Developer Fast Track (~4 hours)
+
+Already comfortable with AI tools? Skip the basics:
+
+1. **[Decision Trees](resources/decision-trees.md)** (30 min) - When to use what
+2. **[Week 3: Code Review](sessions/week-3/README.md)** (1 hr) - Plan Mode + CodeReviewPro exercise
+3. **[Week 4: TDD](sessions/week-4/README.md)** (1 hr) - Tests-first workflow with Claude
+4. **[Week 8: CI/CD](sessions/week-8/README.md)** (1 hr) - Production integration
+5. **Capstone** (as needed) - Validate your skills
+
+*Sam-approved for senior devs who've used Copilot and want to see what's different.*
+
+**Quick Resources:** [Glossary](resources/glossary.md) | [Decision Trees](resources/decision-trees.md) | [Troubleshooting](resources/troubleshooting.md)
+
+---
+
 ## 📚 Course Overview
 
-**Duration:** 8 weeks (self-paced, ~2 hours per week)  
-**Level:** Beginner to Intermediate  
-**Format:** Self-study with optional group sessions  
-**Goal:** Progressively immerse RealManage's cross-functional team in Claude Code, building practical skills while leaving time for normal work
+- **Duration:** 9 weeks (self-paced, ~2 hours per week)
+- **Level:** Beginner to Intermediate
+- **Format:** Self-study with optional group sessions
+- **Goal:** Progressively immerse RealManage's cross-functional team in Claude Code, building practical skills while leaving time for normal work
 
 ## 🎯 What You'll Learn
 
@@ -15,8 +41,8 @@ By completing this course, you'll be able to:
 - ✅ Set up and configure Claude Code for your development environment
 - ✅ Write effective prompts that get high-quality code responses
 - ✅ Use Plan Mode for complex architectural decisions
-- ✅ Implement Test-Driven Development with AI assistance (95-100% coverage)
-- ✅ Build custom MCP servers for RealManage-specific integrations
+- ✅ Implement Test-Driven Development with AI assistance (80-90% coverage)
+- ✅ Build custom skills and use sub-agents for parallel work
 - ✅ Automate repetitive HOA management tasks
 - ✅ Create production-ready C# and Angular code with proper testing
 
@@ -24,13 +50,15 @@ By completing this course, you'll be able to:
 
 ```mermaid
 graph LR
-    A[Week 1: Setup] --> B[Week 2: Prompting]
-    B --> C[Week 3: Plan Mode]
-    C --> D[Week 4: TDD]
-    D --> E[Week 5: Advanced CLI]
-    E --> F[Week 6: MCP Servers]
-    F --> G[Week 7: Real-World]
-    G --> H[Week 8: Capstone]
+    A[Week 0: AI Foundations] -.->|optional| B[Week 1: Setup]
+    B --> C[Week 2: Prompting]
+    C --> D[Week 3: Plan Mode]
+    D --> E[Week 4: TDD]
+    E --> F[Week 5: Components]
+    F --> G[Week 6: Plugins]
+    G --> H[Week 7: Real-World]
+    H --> I[Week 8: Advanced]
+    I --> J[Week 9: Capstone]
 ```
 
 ## 📁 Course Structure
@@ -40,19 +68,25 @@ ai-101-claude-code/
 ├── .vscode/                     # VS Code workspace settings
 │   ├── extensions.json         # Recommended extensions
 │   └── settings.json           # Project settings
-├── exercises/                   # Shared practice materials
+├── resources/                   # Reference materials & templates
 │   ├── prompts/
+│   │   ├── getting-started.md
 │   │   └── hoa-templates.md
-│   └── claude-md-template.md
-├── resources/                   # Reference materials
-│   ├── prompts/
-│   │   └── getting-started.md
 │   ├── cli-commands.md         # Command cheatsheet
+│   ├── claude-md-minimal.md    # Minimal CLAUDE.md starter
+│   ├── claude-md-template.md   # Full CLAUDE.md template
 │   ├── common-patterns.md
+│   ├── decision-trees.md       # When to use what
+│   ├── glossary.md             # Term definitions
 │   ├── prompt-library.md
 │   ├── quick-reference.md
+│   ├── quick-start-developer.md
+│   ├── quick-start-pm.md
+│   ├── quick-start-qa.md
 │   └── troubleshooting.md
 ├── sessions/                    # Weekly lessons with examples
+│   ├── week-0/                 # AI Foundations (optional)
+│   │   └── README.md
 │   ├── week-1/                 # Setup & Orientation
 │   │   ├── example/            # Reference CLI app (in git)
 │   │   ├── README.md           # Full lesson plan
@@ -63,13 +97,15 @@ ai-101-claude-code/
 │   │   └── README.md
 │   ├── week-4/                 # TDD
 │   │   └── README.md
-│   ├── week-5/                 # Advanced CLI
+│   ├── week-5/                 # Commands & Basic Skills
 │   │   └── README.md
-│   ├── week-6/                 # MCP Servers
+│   ├── week-6/                 # Agents & Hooks
 │   │   └── README.md
-│   ├── week-7/                 # Real-World
+│   ├── week-7/                 # Plugins
 │   │   └── README.md
-│   └── week-8/                 # Capstone
+│   ├── week-8/                 # Advanced Patterns
+│   │   └── README.md
+│   └── week-9/                 # Capstone
 │       └── README.md
 ├── CLAUDE.md                    # AI context for this course
 └── README.md                    # You are here
@@ -125,7 +161,7 @@ Before starting, ensure you have:
 - [ ] **Development Environment**
   - [ ] Windows: Git Bash or WSL2 installed
   - [ ] Mac/Linux: Terminal ready
-  - [ ] .NET 9 SDK ([Download](https://dotnet.microsoft.com/download/dotnet/9.0))
+  - [ ] .NET 10 SDK ([Download](https://dotnet.microsoft.com/download/dotnet/9.0))
   - [ ] Node.js 22 LTS via nvm
   - [ ] npm 10+
   - [ ] Git configured with GitLab access
@@ -142,9 +178,24 @@ Before starting, ensure you have:
   - [ ] C# and/or Angular experience
   - [ ] Understanding of TDD principles
 
+### QA Engineer Prerequisites
+If following the QA Track, you need less setup:
+- [ ] Claude Code installed (see Week 1 QUICKSTART)
+- [ ] Basic terminal familiarity (can run commands)
+- [ ] .NET SDK (for running tests, not writing production code)
+- [ ] Slack access to `#dx-training`
+- [ ] *Skip:* Deep C# experience not required—focus on test frameworks (xUnit)
+
+### PM / Support Prerequisites
+If following the PM or Support Track:
+- [ ] Claude Code installed (see Week 1 QUICKSTART)
+- [ ] Can open terminal and run basic commands
+- [ ] Slack access to `#dx-training`
+- [ ] *Skip:* .NET SDK, npm, Angular, and testing tools not required
+
 ---
 
-# 📖 8-Week Training Curriculum
+# 📖 9-Week Training Curriculum
 
 ## Week 1: Setup & Orientation
 
@@ -166,9 +217,9 @@ Before starting, ensure you have:
 
 #### 2. Tour of the CLI (20 min)
 - Start a session with `claude` command
-- Essential slash commands (`/help`, `/cost`, `/memory`)
-- Understanding token usage and costs
-- Sonnet 4 pricing: $0.003/1K input, $0.015/1K output
+- Essential slash commands (`/help`, `/clear`, `/context`, `/memory`)
+- Understanding context management with `/compact`
+- Model selection: Sonnet (fast) vs Opus (most capable)
 
 #### 3. First Contact (30 min)
 - Copy the [Week 1 Example](./sessions/week-1/example/) to your sandbox
@@ -196,7 +247,7 @@ Before starting, ensure you have:
 - Master clear, conversational communication with Claude
 - Learn when (and when not) to add structure to prompts
 - Build a personal prompt style that works for you
-- Generate code with 95% test coverage consistently
+- Generate code with 80-90% test coverage consistently
 
 ### Agenda (2 hrs)
 
@@ -278,7 +329,7 @@ Practice real RealManage scenarios:
 ### Objectives
 - Learn how to pair TDD with Claude for reliable code
 - Master the Red-Green-Refactor cycle with AI
-- Apply TDD to RealManage's 95-100% coverage requirement
+- Apply TDD to RealManage's 80-90% coverage requirement
 
 ### Agenda (2 hrs)
 
@@ -315,116 +366,149 @@ RealManage examples:
 
 ---
 
-## Week 5: Advanced CLI Features & Multi-Claude Workflows
+## Week 5: Commands & Basic Skills
 
 ### Objectives
-- Customize the CLI with themes, permissions and slash commands
-- Learn multi-Claude workflows for parallel tasks
-- Understand safe YOLO mode and when to use it
+- Create custom slash commands for reusable workflows
+- Build skills with supporting files and advanced features
+- Understand the command vs skill decision tree
+- Apply automation to HOA-specific workflows
 
 ### Agenda (2 hrs)
 
-#### 1. Customization & Permissions (30 min)
-- Settings management via `/config`
-- Control permissions with `/permissions`
-- Security best practices for HOA data
-- Share settings via `.claude/settings.json`
-
-#### 2. Custom Slash Commands (20 min)
-- Creating custom commands in `.claude/commands/`
-- Pass arguments with `$ARGUMENTS`
+#### 1. Slash Commands (30 min)
+- Creating commands in `.claude/commands/`
+- YAML frontmatter format
+- Pass arguments with `$ARGUMENTS`, `$1`, `$2`
 - RealManage-specific commands
 
-#### 3. Advanced Workflows (40 min)
-- Safe YOLO mode for repetitive tasks
-- Multiple Claude instances with `git worktrees`
-- Collaborative workflows: code writer + reviewer
-- Parallel C# API and Angular UI development
+#### 2. Skills - Commands Evolved (40 min)
+- Skills vs Commands comparison
+- Supporting files (templates, scripts, data)
+- Skill YAML frontmatter fields
+- When to use commands vs skills (decision tree)
 
-#### 4. Hands-On Practice (20 min)
-- Create custom slash command for HOA violations
-- Experiment with multi-instance review workflow
-
-#### 5. Discussion (10 min)
-- Share automation opportunities
+#### 3. Hands-On Practice (50 min)
+- Create custom command for HOA violations
+- Build a skill with supporting files
+- Convert a command to a skill
+- Test your automation with real scenarios
 
 **[→ Full Week 5 Lesson](./sessions/week-5/README.md)**
 
 ---
 
-## Week 6: MCP Servers & External Integrations
+## Week 6: Agents & Hooks
 
 ### Objectives
-- Understand MCP servers and how they extend Claude Code
-- Build a simple server for HOA-specific tools
-- Integrate with RealManage's existing systems
+- Define custom subagents with specific tools and permissions
+- Configure hooks for compliance and automation
+- Build security patterns with PreToolUse hooks
+- Create audit trails for SOC 2 compliance
 
 ### Agenda (2 hrs)
 
-#### 1. MCP Overview (20 min)
-- [MCP Integration Guide](https://docs.anthropic.com/en/docs/claude-code/mcp)
-- Understanding the protocol
-- Benefits: automation, flexibility, integrations
+#### 1. Custom Subagents (40 min)
+- Define agents in `.claude/agents/`
+- Tool restrictions and permission modes
+- Model selection (sonnet, opus, default)
+- Using `/agents` command to manage agents
 
-#### 2. Examples & Use Cases (15 min)
-- HOA-specific: violation tracking, dues monitoring
-- Financial analysis and reporting
-- Azure Service Bus integration
-- SQL Server data access
+#### 2. Hooks (40 min)
+- PreToolUse, PostToolUse, Notification, Stop
+- Audit logging for SOC 2 compliance
+- Blocking dangerous operations
+- Auto-run tests after edits
 
-#### 3. Server Quickstart (35 min)
-- Build with MCP SDK
-- Implement `get_hoa_fees(account_id)` example
-- Connect to SQL Server via Entity Framework
-- Test locally with mock API
-
-#### 4. Connecting to Claude (30 min)
-- Configure `.claude/.mcp.json`
-- Call custom tools from Claude
-- Logging best practices
-
-#### 5. Reflection & Brainstorming (20 min)
-- Propose custom MCP server projects
-- Plan Azure integrations
+#### 3. Hands-On Practice (40 min)
+- Define a code-reviewer subagent
+- Configure audit hooks
+- Build security guardrails
+- Test hook triggers
 
 **[→ Full Week 6 Lesson](./sessions/week-6/README.md)**
 
 ---
 
-## Week 7: Real-World Scenarios & Continuous Improvement
+## Week 7: Plugins - The Complete Package
 
 ### Objectives
-- Apply learned skills to cross-functional RealManage tasks
-- Show how Claude Code assists different roles
-- Emphasize continuous improvement
+- Understand Plugins as the packaging system for all components
+- Create plugins containing skills, agents, and hooks
+- Package your Week 5-6 work for distribution
+- Distribute plugins via marketplace or local installation
 
 ### Agenda (2 hrs)
 
-#### 1. Cross-Functional Use Cases (30 min)
-- **Support staff:** Summarize tickets, draft responses
-- **Project managers:** Generate release notes, plan sprints
-- **Product managers:** Synthesize feedback into features
-- **Engineers:** Automate refactoring, generate docs
+#### 1. Plugin Architecture (30 min)
+- Plugins package everything (skills + agents + hooks)
+- Plugin manifest and structure
+- Creating plugin from scratch
 
-#### 2. Group Exercise (60 min)
-Form cross-functional teams:
-- Apply Plan Mode, TDD, MCP tools
-- Build real RealManage features
-- Focus on 95% test coverage
+#### 2. Skills in Plugins (30 min)
+- Skills vs Commands comparison
+- Skill YAML frontmatter
+- Supporting files (templates, scripts)
 
-#### 3. Iterate & Improve (20 min)
-- Refine prompts, CLAUDE.md, tests
-- Monitor usage and costs
-- Setup GitHub Actions automation
+#### 3. Agents in Plugins (25 min)
+- Packaging Week 5 agents in plugins
+- Skills spawning agents (`context: fork`, `agent:`)
+- Dynamic context injection (`` !`command` ``)
 
-#### 4. Debrief (10 min)
-- Share lessons learned
+#### 4. Hooks in Plugins (15 min)
+- Plugin-level hooks (hooks.json)
+- Skill-embedded hooks
+- When to use each
+
+#### 5. Distribution & Marketplace (20 min)
+- Local plugin development
+- Marketplace installation
+- Plugin commands
+
+#### 6. Hands-On Workshop (30 min)
+- Build a complete RealManage plugin
+- Add skills, agents, and hooks
+- Test with `--plugin-dir`
 
 **[→ Full Week 7 Lesson](./sessions/week-7/README.md)**
 
 ---
 
-## Week 8: Capstone Hackerspace & Future Roadmap
+## Week 8: Real-World Automation & CI/CD
+
+### Objectives
+- Build cross-functional skills for different team workflows
+- Integrate Claude Code with GitLab CI/CD pipelines
+- Apply efficiency strategies for optimal Claude Code usage
+- Create continuous improvement workflows
+
+### Agenda (2 hrs)
+
+#### 1. Cross-Functional Use Cases (25 min)
+- **Support:** Ticket summarization, response drafting
+- **PM:** Release notes, sprint planning
+- **Engineering:** API docs, refactoring automation
+
+#### 2. GitLab CI/CD Integration (30 min)
+- Pipeline structure for Claude Code
+- Automated MR reviews with error handling
+- Documentation generation pipelines
+
+#### 3. Efficiency & Context Management (20 min)
+- Model selection (Sonnet vs Opus)
+- Context management strategies
+- Efficient prompting patterns
+
+#### 4. Hands-On Workshop (45 min)
+- Build cross-functional skills
+- Implement CI/CD workflow
+- Optimize your workflows
+
+**[→ Full Week 8 Lesson](./sessions/week-8/README.md)**
+
+---
+
+## Week 9: Capstone Hackerspace & Future Roadmap
 
 ### Objectives
 - Consolidate all skills in a larger project
@@ -443,21 +527,21 @@ Teams propose RealManage solutions:
 #### 2. Building (90 min)
 - Apply all learned skills
 - Document in CLAUDE.md
-- Write tests throughout (95% coverage)
-- Use C#/.NET 9 and Angular 17
+- Write tests throughout (80-90% coverage)
+- Use C#/.NET 10 and Angular 17
 
 #### 3. Demo & Celebration (20 min)
 - Team demonstrations
 - Discuss production readiness
 - Future learning paths
 
-**[→ Full Week 8 Lesson](./sessions/week-8/README.md)**
+**[→ Full Week 9 Lesson](./sessions/week-9/README.md)**
 
 ---
 
 ## 🎓 Certification Path
 
-Complete all 8 weeks and submit a capstone project to earn:
+Complete all 9 weeks and submit a capstone project to earn:
 - **RealManage AI Practitioner** certificate
 - Recognition in Engineering All-Hands
 - Badge for your GitLab profile
@@ -471,10 +555,13 @@ Complete all 8 weeks and submit a capstone project to earn:
 - **Office Hours**: Thursdays 2-3 PM CT
 
 ### Self-Help Resources
-- [CLI Commands Cheatsheet](./resources/cli-commands.md)
-- [Troubleshooting Guide](./resources/troubleshooting.md)
-- [Prompt Library](./resources/prompt-library.md)
-- [Quick Reference](./resources/quick-reference.md)
+- [Glossary](./resources/glossary.md) - Key terms and definitions
+- [Quick Reference](./resources/quick-reference.md) - CLAUDE.md templates and shortcuts
+- [Decision Trees](./resources/decision-trees.md) - When to use what
+- [Common Patterns](./resources/common-patterns.md) - Code patterns and examples
+- [CLI Commands Cheatsheet](./resources/cli-commands.md) - Essential commands at a glance
+- [Troubleshooting Guide](./resources/troubleshooting.md) - Common issues and fixes
+- [Prompt Library](./resources/prompt-library.md) - Reusable prompts for HOA tasks
 
 ## 📚 Follow-Up and Resources
 
@@ -509,12 +596,29 @@ Complete all 8 weeks and submit a capstone project to earn:
 
 ## 📊 Success Metrics
 
+### Developer Track
 You're ready for the next week when you can:
 - Start Claude Code in any project directory
 - Use basic slash commands without looking them up
 - Write a CLAUDE.md that provides context
-- Generate working C# code with 95% test coverage
-- Estimate token costs for your queries
+- Generate working C# code with 80-90% test coverage
+- Manage context efficiently for optimal results
+
+### QA Track
+You've completed the QA track when you can:
+- Generate comprehensive test suites for existing code
+- Identify coverage gaps and write tests to fill them
+- Use Claude to create test data and edge case scenarios
+- Review and improve existing test quality
+- Complete Option D capstone (Test Automation Suite)
+
+### PM Track
+You've completed the PM track when you can:
+- Explain AI capabilities and limitations to stakeholders
+- Write AI-ready feature specifications using the CLEAR framework
+- Use Claude to refine requirements and generate user stories
+- Understand developer conversations about Claude Code workflows
+- Complete Option E capstone (PRD + User Stories)
 
 ## 🚦 Red Flags
 
@@ -523,7 +627,7 @@ Seek help if:
 - Authentication keeps failing
 - Generated code has obvious errors
 - Costs seem unusually high (>$5/hour)
-- Test coverage drops below 95%
+- Test coverage drops below 80% *(Developer/QA tracks)*
 
 ---
 
@@ -558,4 +662,4 @@ Seek help if:
 
 **Course Version:** 1.0.0 | **Last Updated:** January 2025
 
-*"The future of coding isn't replacing developers—it's amplifying their capabilities with 95% test coverage."* - DX Team
+*"The future of coding isn't replacing developers—it's amplifying their capabilities with 80-90% test coverage."* - DX Team

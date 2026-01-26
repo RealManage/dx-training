@@ -53,7 +53,7 @@ public class PromptAnalyzer
         // Check for specific technical terms, numbers, or constraints
         var specificIndicators = new[] {
             "c#", ".net", "angular", "typescript", "xunit",
-            "95%", "coverage", "async", "repository", "pattern",
+            "80%", "90%", "coverage", "async", "repository", "pattern",
             "hoa", "violation", "payment", "tdd", "test"
         };
         
@@ -95,7 +95,7 @@ public class PromptAnalyzer
         
         if (!prompt.ToLower().Contains("test"))
         {
-            analysis.Suggestions.Add("Remember to request tests with 95% coverage");
+            analysis.Suggestions.Add("Remember to request tests with 80-90% coverage");
         }
         
         if (prompt.Length < 30)

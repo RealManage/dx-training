@@ -1,0 +1,21 @@
+RealManage Late Fee Schedule
+============================
+
+Grace Period: 30 days
+Interest Rate: 10% monthly (compound)
+Maximum Cap: 3x original amount (per state regulations)
+
+Escalation Timeline:
+- 0-30 days: No fee (grace period)
+- 31-60 days: 10% of principal
+- 61-90 days: 21% of principal (compound)
+- 91+ days: Continues compounding monthly
+
+Formula: Total = Principal * (1.10 ^ months_overdue)
+
+Payment Plan Options:
+- 3 months: No additional fee
+- 6 months: 5% administrative fee
+- 12 months: 10% administrative fee
+
+Contact: collections@realmanage.com

@@ -7,9 +7,9 @@ A collection of proven prompts for common RealManage development tasks. Copy, cu
 ### Generate Service with TDD
 ```
 Create a C# service class for <FUNCTIONALITY> following these requirements:
-- Use .NET 9 with nullable reference types enabled
+- Use .NET 10 with nullable reference types enabled
 - Follow Red/Green/Refactor TDD pattern
-- Write xUnit tests FIRST with 95% coverage minimum
+- Write xUnit tests FIRST with 80-90% coverage minimum
 - Use FluentAssertions for test assertions
 - Mock dependencies with Moq
 - Follow repository pattern
@@ -20,7 +20,7 @@ Create a C# service class for <FUNCTIONALITY> following these requirements:
 
 ### Entity Framework Migration
 ```
-Create an Entity Framework Core 9 migration for:
+Create an Entity Framework Core 10 migration for:
 <DESCRIBE SCHEMA CHANGES>
 
 Requirements:
@@ -42,7 +42,7 @@ Create an ASP.NET Core Web API controller for <RESOURCE> with:
 - Error handling middleware integration
 - Swagger documentation attributes
 - Authorization with Azure AD B2C
-- 95% test coverage with integration tests
+- 80-90% test coverage with integration tests
 ```
 
 ## 🎨 Angular Development Prompts
@@ -54,7 +54,7 @@ Create an Angular 17 component for <FEATURE> with:
 - Standalone component (no modules)
 - RxJS for state management
 - Signals where appropriate
-- Jasmine/Karma tests with 95% coverage
+- Jasmine/Karma tests with 80-90% coverage
 - Responsive design with CSS Grid
 - WCAG 2.1 AA accessibility
 - Error handling with user feedback
@@ -82,7 +82,7 @@ Build a reactive Angular form for <PURPOSE> with:
 - Submit/reset functionality
 - Loading states
 - Error display strategy
-- 95% test coverage
+- 80-90% test coverage
 ```
 
 ## 🏘️ HOA Domain Prompts
@@ -108,7 +108,7 @@ Create a payment processing module for HOA dues that:
 - Generates receipts and statements
 - Integrates with accounting system
 - Includes PCI DSS compliance measures
-- Has 95% test coverage
+- Has 80-90% test coverage
 ```
 
 ### Board Meeting Automation
@@ -162,7 +162,7 @@ Write comprehensive xUnit tests for <CLASS/METHOD> that:
 - Mock all dependencies
 - Use FluentAssertions
 - Include parameterized tests where applicable
-- Achieve 95% code coverage
+- Achieve 80-90% code coverage
 - Test exception scenarios
 - Verify async behavior
 ```
@@ -247,13 +247,13 @@ Create a README.md for <PROJECT> that includes:
 # <PROJECT NAME> Context
 
 ## Tech Stack
-- Backend: C# .NET 8, ASP.NET Core Web API
+- Backend: C# .NET 10, ASP.NET Core Web API
 - Frontend: Angular 17, TypeScript 5.x
-- Database: SQL Server 2019, Entity Framework Core 8
+- Database: SQL Server 2019, Entity Framework Core 10
 - Cloud: Azure (specify services)
 
 ## Coding Standards
-- TDD with 95% minimum coverage
+- TDD with 80-90% minimum coverage
 - xUnit, FluentAssertions, Moq for C#
 - Jasmine/Karma for Angular
 - Async/await for all I/O

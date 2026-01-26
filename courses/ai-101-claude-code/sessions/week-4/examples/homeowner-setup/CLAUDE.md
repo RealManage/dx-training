@@ -5,7 +5,7 @@
 2. **NEVER** modify a passing test  
 3. Write **MINIMAL** code to make tests pass
 4. Refactor **ONLY** when tests are green
-5. Target **95% coverage minimum**
+5. Target **80-90% coverage minimum**
 
 ## TDD Workflow - Red → Green → Refactor
 
@@ -112,7 +112,7 @@ You're building a homeowner management system for HOA administration. Consider:
 ✅ All tests written first  
 ✅ Each test fails before passing  
 ✅ Minimal code to pass each test  
-✅ 95%+ coverage achieved naturally  
+✅ 80-90% coverage achieved naturally  
 ✅ Clean, refactored code with green tests  
 
 ## Sample Test Progression

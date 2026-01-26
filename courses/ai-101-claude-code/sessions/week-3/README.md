@@ -1,8 +1,8 @@
 # Week 3: Tactical Planning & Code Review Excellence 🎯
 
-**Duration:** 2.5 hours  
-**Format:** In-person or virtual  
-**Audience:** RealManage cross-functional team  
+**Duration:** 2 hours
+**Format:** In-person or virtual
+**Audience:** RealManage cross-functional team
 **Prerequisites:** Completed Weeks 1-2
 
 ## 🎯 Learning Objectives
@@ -20,7 +20,7 @@ By the end of this session, participants will be able to:
 ### For Participants
 - [ ] Claude Code working smoothly from Weeks 1-2
 - [ ] Comfortable with Shift+Tab for plan mode
-- [ ] Ready for 2.5 hour session
+- [ ] Ready for 2 hour session
 - [ ] A real ticket/issue you're working on (optional)
 
 ### For Instructors
@@ -80,7 +80,91 @@ Exit plan mode and execute with confidence
 
 **Key Insight:** Plan mode is for **thinking through** problems, not documenting them.
 
-#### 1.2 When to Use Plan Mode (10 min)
+#### 1.2 Plan Mode Demonstration (10 min)
+
+**Activating Plan Mode:**
+- **Shift+Tab**: Toggle through modes (auto → step → plan → auto...)
+- **`/plan`**: Jump directly to plan mode from any mode
+
+**Before/After Example: Multi-File Refactoring**
+
+Let's say you need to rename `CalculateFee` to `CalculateLateFee` across 5 files and update all tests.
+
+**❌ WITHOUT Plan Mode (Auto Mode):**
+```
+You: "Rename CalculateFee to CalculateLateFee everywhere"
+
+Claude: [immediately starts editing]
+- Renamed in PaymentService.cs ✓
+- Renamed in FeeCalculator.cs ✓
+- Renamed in Tests... wait, found 3 more usages
+- [edits more files]
+- Oh, also found it in a comment... [edits]
+- And in a string literal... [edits - maybe wrong!]
+- Done! Made 12 changes across 7 files.
+
+You: "Wait, that string literal was a log message, not code!"
+```
+
+**✅ WITH Plan Mode:**
+```
+You: [Shift+Tab to enter plan mode]
+You: "Rename CalculateFee to CalculateLateFee everywhere"
+
+Claude: "Here's my plan:
+1. Search for all usages of CalculateFee
+2. Categorize by type:
+   - Method definitions (2 files)
+   - Method calls (3 files)
+   - Test files (2 files)
+   - Comments/strings (will skip unless you want)
+3. Rename in this order:
+   - Definition first (FeeCalculator.cs)
+   - Callers (PaymentService.cs, Controller.cs)
+   - Tests last (verify they still compile)
+4. Run tests to verify"
+
+You: "Good, but also update the XML doc comments"
+Claude: "Updated plan - adding XML doc updates after step 2..."
+
+You: "Looks good, execute it"
+[Exit plan mode, Claude executes systematically]
+```
+
+**The Difference:**
+| Without Plan Mode | With Plan Mode |
+|-------------------|----------------|
+| Immediate execution | Think first, act second |
+| May miss edge cases | Comprehensive review |
+| Hard to course-correct | Easy to refine approach |
+| Surprises during execution | No surprises |
+
+**When to Use Which Mode?**
+See the [Decision Trees](../../resources/decision-trees.md) for a visual flowchart on choosing the right mode for your task.
+
+**🎯 Mini-Exercise: Try Plan Mode (5 min)**
+
+Try this right now in your Claude session:
+
+```bash
+# Enter plan mode
+# Press Shift+Tab until you see "plan" indicator
+# Or type: /plan
+
+> I need to add a new property 'GracePeriodDays' (int, default 30)
+> to the LateFeecalculator class, update its constructor,
+> and add unit tests for it.
+```
+
+**What to look for:**
+1. Does Claude's plan include all affected files?
+2. Does it mention constructor changes?
+3. Does it plan for test coverage?
+4. Can you suggest improvements to the plan?
+
+**After reviewing the plan:** Say "looks good" or refine it, then exit plan mode to execute.
+
+#### 1.4 When to Use Plan Mode (10 min)
 
 **Perfect for:**
 - 📝 Code review responses (3+ items to fix)
@@ -96,7 +180,7 @@ Exit plan mode and execute with confidence
 - Typo corrections
 - Straightforward test additions
 
-#### 1.3 The Iteration Pattern (10 min)
+#### 1.5 The Iteration Pattern (10 min)
 
 **In plan mode, you can refine your thinking:**
 ```
@@ -116,7 +200,7 @@ This iteration BEFORE execution saves hours of rework!
 
 **The `/model` command example:**
 ```bash
-# Switch to Opus 4.1 for thorough code review
+# Switch to Opus for thorough code review
 /model opus
 
 # Now ask for deep analysis
@@ -182,15 +266,17 @@ Claude: [creates focused plan]
 
 **Pro tip:** Don't wait for disaster - hit Esc the moment you see Claude going off-track. Switch modes to get back on rails. Think of it like grabbing the wheel when your GPS tries to take you through a lake!
 
-### Part 3: Hands-On Workshop (75 min)
+### Part 3: Hands-On Workshop (45 min)
 
-#### 3.1 Exercise C: BugHunter (15 min)
+> **Note:** Choose ONE exercise based on your interests. Complete the others as homework.
+
+#### 3.1 Exercise A: BugHunter (15 min)
 
 **Setup:**
 ```bash
 cd courses/ai-101-claude-code/sessions/week-3
-cp -r examples/bug-hunter sandbox-bug-hunter
-cd sandbox-bug-hunter
+cp -r examples sandbox
+cd sandbox/bug-hunter
 
 claude
 ```
@@ -208,15 +294,18 @@ claude
 Bug Report → Plan Investigation → Investigate → Plan Fix → Fix → Verify
 ```
 
-#### 3.2 Exercise A: CodeReviewPro (30 min)
+#### 3.2 Exercise B: CodeReviewPro (15 min)
 
 > **Important:** This exercise contains intentional bugs AND 6 build warnings. Fix the warnings plus find at least 8 additional code issues!
 
 **Setup:**
 ```bash
+# If you haven't already created the sandbox:
 cd courses/ai-101-claude-code/sessions/week-3
-cp -r examples/codereview-pro sandbox-codereview-pro
-cd sandbox-codereview-pro
+cp -r examples sandbox
+
+# Navigate to this exercise
+cd sandbox/codereview-pro
 
 claude
 ```
@@ -257,13 +346,16 @@ Without giving away the answers, here's how to measure your success:
 
 Don't worry if you don't find them all in the session - the important thing is practicing the plan mode workflow and systematic code review!
 
-#### 3.3 Exercise B: PhasedBuilder (30 min)
+#### 3.3 Exercise C: PhasedBuilder (15 min)
 
 **Setup:**
 ```bash
+# If you haven't already created the sandbox:
 cd courses/ai-101-claude-code/sessions/week-3
-cp -r examples/phased-builder sandbox-phased-builder
-cd sandbox-phased-builder
+cp -r examples sandbox
+
+# Navigate to this exercise
+cd sandbox/phased-builder
 
 claude
 ```
@@ -372,11 +464,10 @@ Enter Plan Mode → List all tasks → Group/order → Iterate → Execute
 ### Official Documentation
 - [Claude Code Plan Mode](https://docs.anthropic.com/en/docs/claude-code#plan-mode)
 - [Model Selection](https://docs.anthropic.com/en/docs/claude-code#model-selection)
-- [Opus 4.1 Features](https://www.anthropic.com/news/opus-4-1)
+- [Opus 4.5 Features](https://www.anthropic.com/news/claude-opus-4-5)
 
 ### RealManage Resources
 - [Week 3 Examples](./examples/) - All three practice projects
-- [Code Review Standards](../../resources/code-review-guide.md)
 - Slack: `#dx-training` for planning help
 
 ### Additional Reading
@@ -405,7 +496,7 @@ Enter Plan Mode → List all tasks → Group/order → Iterate → Execute
 - Write tests FIRST (Red phase)
 - Let Claude implement to pass tests (Green phase)
 - Refactor while keeping tests green
-- Achieve 95% coverage naturally
+- Achieve 80-90% coverage naturally
 
 **Pre-work:** Review your current testing practices
 
@@ -413,13 +504,13 @@ Enter Plan Mode → List all tasks → Group/order → Iterate → Execute
 
 ## Instructor Notes
 
-### Session Timing (2.5 hours)
+### Session Timing (2 hours)
 - Part 1: 30 min - Mode controls and planning fundamentals
 - Part 2: 30 min - Code review mastery with Opus
-- Part 3: 75 min - Heart of session, all three exercises
+- Part 3: 45 min - Choose ONE exercise (others as homework)
 - Part 4: 15 min - Q&A and wrap-up
-- **Total: 2h 30min**
-- Homework: Apply to real work (self-paced)
+- **Total: 2 hours**
+- Homework: Complete remaining exercises (self-paced)
 
 ### Key Points to Emphasize
 - **Iteration in plan mode** - This is the magic

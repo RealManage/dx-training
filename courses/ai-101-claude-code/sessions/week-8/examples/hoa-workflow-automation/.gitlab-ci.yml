@@ -1,0 +1,164 @@
+# =============================================================================
+# TRAINING EXAMPLE: GitLab CI/CD with Claude Code
+# =============================================================================
+# This file demonstrates CI/CD patterns for Week 7 training.
+# DO NOT use this file as-is - it's for learning purposes only.
+#
+# To use in your project:
+# 1. Copy relevant sections to your project's .gitlab-ci.yml
+# 2. Configure CI/CD variables in GitLab Settings > CI/CD > Variables
+# 3. Adjust stages and rules for your workflow
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# EXAMPLE 1: Basic Build and Test Pipeline
+# -----------------------------------------------------------------------------
+# This example shows a standard .NET build/test pipeline structure.
+#
+# stages:
+#   - build
+#   - test
+#
+# variables:
+#   DOTNET_VERSION: "10.0"
+#
+# cache:
+#   key: ${CI_COMMIT_REF_SLUG}
+#   paths:
+#     - ~/.nuget/packages
+#
+# build:
+#   stage: build
+#   image: mcr.microsoft.com/dotnet/sdk:10.0
+#   script:
+#     - dotnet restore
+#     - dotnet build --no-restore --warnaserror
+#   artifacts:
+#     paths:
+#       - "**/bin/"
+#       - "**/obj/"
+#     expire_in: 1 hour
+#
+# test:
+#   stage: test
+#   image: mcr.microsoft.com/dotnet/sdk:10.0
+#   needs:
+#     - build
+#   script:
+#     - dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage"
+#   coverage: '/Total\s*\|\s*(\d+(?:\.\d+)?%)/'
+#   artifacts:
+#     reports:
+#       coverage_report:
+#         coverage_format: cobertura
+#         path: "**/coverage.cobertura.xml"
+
+# -----------------------------------------------------------------------------
+# EXAMPLE 2: Claude Code Review on Merge Requests
+# -----------------------------------------------------------------------------
+# Automatically reviews code changes when a merge request is opened.
+#
+# Required CI/CD Variables (Settings > CI/CD > Variables):
+#   - ANTHROPIC_API_KEY: Your Anthropic API key (masked)
+#   - GITLAB_TOKEN: GitLab personal access token with api scope
+#
+# claude-review:
+#   stage: review
+#   image: node:22
+#   rules:
+#     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+#   before_script:
+#     - npm install -g @anthropic-ai/claude-code
+#   script:
+#     - |
+#       # Get list of changed files in this merge request
+#       CHANGED_FILES=$(git diff --name-only $CI_MERGE_REQUEST_DIFF_BASE_SHA...HEAD | tr '\n' ' ')
+#
+#       # Run Claude Code to review the changes
+#       claude --print "Review these changed files for:
+#       1. Logic errors or bugs
+#       2. Security vulnerabilities (OWASP Top 10)
+#       3. Performance issues
+#       4. Code style and best practices
+#       5. Missing error handling
+#
+#       Files: $CHANGED_FILES
+#
+#       Format as markdown with file:line references." > review.md
+#
+#       # Post the review as a comment on the merge request
+#       REVIEW_BODY=$(cat review.md | jq -Rs .)
+#       curl --request POST \
+#         --header "PRIVATE-TOKEN: $GITLAB_TOKEN" \
+#         --header "Content-Type: application/json" \
+#         --data "{\"body\": $REVIEW_BODY}" \
+#         "$CI_API_V4_URL/projects/$CI_PROJECT_ID/merge_requests/$CI_MERGE_REQUEST_IID/notes"
+
+# -----------------------------------------------------------------------------
+# EXAMPLE 3: Scheduled Cost Monitoring
+# -----------------------------------------------------------------------------
+# Runs on a schedule to track Claude Code usage and send alerts.
+#
+# Setup:
+# 1. Go to CI/CD > Schedules
+# 2. Create new schedule (e.g., daily at 9am)
+# 3. Set SLACK_WEBHOOK_URL variable
+#
+# cost-monitor:
+#   stage: monitor
+#   image: node:22
+#   rules:
+#     - if: $CI_PIPELINE_SOURCE == "schedule"
+#   script:
+#     - |
+#       # This would query your usage tracking system
+#       # and send alerts if approaching budget limits
+#
+#       DAILY_BUDGET=50.00
+#       CURRENT_USAGE=35.50  # Would be fetched from tracking system
+#
+#       if (( $(echo "$CURRENT_USAGE > $DAILY_BUDGET * 0.8" | bc -l) )); then
+#         curl -X POST -H 'Content-type: application/json' \
+#           --data "{\"text\":\"⚠️ Claude Code usage alert: \$$CURRENT_USAGE of \$$DAILY_BUDGET daily budget used\"}" \
+#           $SLACK_WEBHOOK_URL
+#       fi
+
+# -----------------------------------------------------------------------------
+# EXAMPLE 4: Auto-Generate Documentation on Main Branch
+# -----------------------------------------------------------------------------
+# Updates API documentation when code changes are merged to main.
+#
+# doc-generation:
+#   stage: deploy
+#   image: node:22
+#   rules:
+#     - if: $CI_COMMIT_BRANCH == "main"
+#       changes:
+#         - "src/**/*.cs"
+#   before_script:
+#     - npm install -g @anthropic-ai/claude-code
+#     - apt-get update && apt-get install -y git
+#   script:
+#     - |
+#       claude --print "Scan src/**/*.cs and generate API documentation.
+#       Output as markdown files in docs/api/ directory.
+#       Follow existing documentation style."
+#
+#       # Commit and push documentation updates
+#       git config user.name "GitLab CI"
+#       git config user.email "ci@example.com"
+#       git add docs/
+#       git diff --staged --quiet || git commit -m "docs: Auto-update API documentation"
+#       git push https://oauth2:$GITLAB_TOKEN@$CI_SERVER_HOST/$CI_PROJECT_PATH.git HEAD:main
+
+# -----------------------------------------------------------------------------
+# WORKFLOW RULES
+# -----------------------------------------------------------------------------
+# Controls when pipelines run. Uncomment when using actual pipeline.
+#
+# workflow:
+#   rules:
+#     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+#     - if: $CI_COMMIT_BRANCH == "main"
+#     - if: $CI_COMMIT_BRANCH == "develop"
+#     - if: $CI_PIPELINE_SOURCE == "schedule"

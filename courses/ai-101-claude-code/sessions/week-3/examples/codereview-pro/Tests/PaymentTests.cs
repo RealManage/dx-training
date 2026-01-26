@@ -42,6 +42,6 @@ namespace RealManage.CodeReviewPro.Tests
         // MISSING: Test for refund functionality
         // MISSING: Test for payment summary
         
-        // Only 20% coverage! Need at least 95%
+        // Only 20% coverage! Need at least 80-90%
     }
 }

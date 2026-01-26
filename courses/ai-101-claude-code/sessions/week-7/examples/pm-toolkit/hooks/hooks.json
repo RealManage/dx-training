@@ -1,0 +1,26 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"$(date -Iseconds) | ARTIFACT_CREATED | $TOOL_INPUT\" >> .pm-toolkit/generation.log"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "mkdir -p .pm-toolkit"
+          }
+        ]
+      }
+    ]
+  }
+}

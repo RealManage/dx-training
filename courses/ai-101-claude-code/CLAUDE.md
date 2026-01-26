@@ -1,7 +1,7 @@
 # RealManage AI 101: Claude Code Course Context
 
 ## Course Overview
-This is an 8-week training course teaching RealManage teams how to use Claude Code effectively for HOA management software development.
+This is a 9-week training course teaching RealManage teams how to use Claude Code effectively for HOA management software development.
 
 ## Target Audience
 - RealManage engineers (C#/.NET and Angular developers)
@@ -11,33 +11,35 @@ This is an 8-week training course teaching RealManage teams how to use Claude Co
 - Cross-functional team members
 
 ## Course Structure
-- **Duration:** 8 weeks, 2 hours per week
+- **Duration:** 9 weeks (Week 0 optional), 2 hours per week
 - **Format:** Self-paced with optional instructor-led cohorts
 - **Hands-on:** Each week has examples to copy to sandbox for practice
-- **Certification:** Complete all 8 weeks for RealManage AI Practitioner certificate
+- **Certification:** Complete all 9 weeks for RealManage AI Practitioner certificate
 
 ## Tech Stack Focus
-- **Backend:** C# .NET 9, ASP.NET Core Web API
+- **Backend:** C# .NET 10, ASP.NET Core Web API
 - **Frontend:** Angular 17, TypeScript, RxJS
-- **Database:** SQL Server 2019, Entity Framework Core 9
+- **Database:** SQL Server 2019, Entity Framework Core 10
 - **Cloud:** Azure (App Service, SQL Database, Service Bus)
 - **Testing:** xUnit, FluentAssertions, Moq, Jasmine/Karma
 
 ## Core Requirements
 - **TDD Mandatory:** Red-Green-Refactor cycle
-- **Test Coverage:** 95% minimum (non-negotiable)
+- **Test Coverage:** 80-90% target (recommended range)
 - **Code Style:** Modern C# with top-level programs
 - **Angular:** Standalone components with OnPush
 
 ## Weekly Topics
-1. **Week 1:** Setup, CLI basics, CLAUDE.md
-2. **Week 2:** Prompt engineering, structured inputs
-3. **Week 3:** Plan Mode, architectural thinking
+0. **Week 0:** AI Foundations (optional for experienced devs)
+1. **Week 1:** Setup & Orientation
+2. **Week 2:** Prompting Foundations
+3. **Week 3:** Tactical Planning & Code Review
 4. **Week 4:** Test-Driven Development
-5. **Week 5:** Advanced CLI, multi-instance workflows
-6. **Week 6:** MCP servers, integrations
-7. **Week 7:** Real-world scenarios
-8. **Week 8:** Capstone project
+5. **Week 5:** Commands & Basic Skills
+6. **Week 6:** Agents & Hooks
+7. **Week 7:** Plugins
+8. **Week 8:** Real-World Automation & CI/CD
+9. **Week 9:** Capstone Hackerspace & Certification
 
 ## HOA Domain Knowledge
 - Violations: 30/60/90 day escalation
@@ -48,7 +50,7 @@ This is an 8-week training course teaching RealManage teams how to use Claude Co
 
 ## Success Metrics
 - Complete all weekly exercises
-- Achieve 95% test coverage in all code
+- Achieve 80-90% test coverage in all code
 - Build working HOA feature in capstone
 - Share learnings in #dx-training
 

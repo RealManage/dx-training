@@ -43,9 +43,9 @@ public class TemplateManager
             {
                 Name = "Service with TDD",
                 Content = @"Create a C# service class for <FUNCTIONALITY> following these requirements:
-- Use .NET 9 with nullable reference types enabled
+- Use .NET 10 with nullable reference types enabled
 - Follow Red/Green/Refactor TDD pattern
-- Write xUnit tests FIRST with 95% coverage minimum
+- Write xUnit tests FIRST with 80-90% coverage minimum
 - Use FluentAssertions for test assertions
 - Mock dependencies with Moq
 - Follow repository pattern
@@ -64,7 +64,7 @@ public class TemplateManager
 - Standalone component (no modules)
 - RxJS for state management
 - Signals where appropriate
-- Jasmine/Karma tests with 95% coverage
+- Jasmine/Karma tests with 80-90% coverage
 - Responsive design with CSS Grid
 - WCAG 2.1 AA accessibility
 - Error handling with user feedback",
@@ -97,7 +97,7 @@ public class TemplateManager
 - Error handling and logging
 - Authorization with Azure AD B2C
 - Swagger documentation
-- Integration tests with 95% coverage",
+- Integration tests with 80-90% coverage",
                 Variables = new List<string> { "RESOURCE", "METHOD", "ROUTE" }
             },
             
@@ -111,7 +111,7 @@ public class TemplateManager
 - Mock dependencies with Moq
 - Use FluentAssertions
 - Include parameterized tests where applicable
-- Achieve 95% code coverage minimum
+- Achieve 80-90% code coverage minimum
 - Test exception scenarios
 - Verify async behavior if applicable",
                 Variables = new List<string> { "CLASS_NAME", "METHOD_NAME" }

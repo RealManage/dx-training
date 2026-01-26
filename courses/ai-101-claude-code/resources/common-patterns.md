@@ -56,7 +56,7 @@ public enum ViolationStatus
   - Records who/when for each transition
   - Sends notifications on status change
   - Integrates with payment system
-  - Has 95% test coverage
+  - Has 80-90% test coverage
 ```
 
 ### Payment Processing with Audit
@@ -150,7 +150,7 @@ Dumb Component (Presentational):
   - Dirty checking for unsaved changes
   - Submit/Reset/Cancel actions
   - Loading states
-  - 95% test coverage
+  - 80-90% test coverage
 ```
 
 ### Data Table Pattern
@@ -252,7 +252,7 @@ Dumb Component (Presentational):
   - Full request/response testing
   - Cleanup after each test
   - Parallel test execution
-  - 95% coverage requirement
+  - 80-90% coverage requirement
 ```
 
 ### Mock Data Pattern

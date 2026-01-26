@@ -1,7 +1,7 @@
 # Phased Builder Project Context
 
 ## Tech Stack
-- C# .NET 9
+- C# .NET 10
 - ASP.NET Core Web API
 - Entity Framework Core
 - xUnit for testing
@@ -25,7 +25,7 @@
 
 ## Testing Requirements
 - TDD for all new code
-- 95% coverage minimum
+- 80-90% coverage minimum
 - Test business logic thoroughly
 - Mock external dependencies (email service)
 

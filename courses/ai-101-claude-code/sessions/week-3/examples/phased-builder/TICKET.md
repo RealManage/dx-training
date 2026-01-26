@@ -50,7 +50,7 @@ Residents with overdue HOA fees need the ability to set up payment plans to pay 
 - [ ] Overdue logic working (30 days)
 - [ ] Plan cancellation after 2 missed payments
 - [ ] Email notifications sent
-- [ ] 95% test coverage
+- [ ] 80-90% test coverage
 - [ ] API documented
 
 ## Technical Notes

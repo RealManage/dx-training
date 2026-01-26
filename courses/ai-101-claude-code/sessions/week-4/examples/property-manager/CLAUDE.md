@@ -5,7 +5,7 @@
 2. Mock **ALL** external dependencies
 3. Use in-memory database for tests
 4. Maintain existing test quality
-5. Increase coverage from 60% to 95%+
+5. Increase coverage from 60% to 80-90%
 
 ## Current System State
 
@@ -32,7 +32,7 @@ For EACH new feature:
 3. 🟢 Implement minimal code to pass
 4. 🔄 Refactor while keeping tests green
 5. 📊 Check coverage increased
-6. 🔁 Repeat until 95% coverage
+6. 🔁 Repeat until 80-90% coverage
 ```
 
 ## Testing Patterns to Follow
@@ -137,7 +137,7 @@ public class ServiceTests : IDisposable
 ```
 
 ### Coverage Goals
-- Line coverage: 95%+
+- Line coverage: 80-90%
 - Branch coverage: 90%+
 - All public methods tested
 - All error paths tested
@@ -154,7 +154,7 @@ public class ServiceTests : IDisposable
 ## Success Criteria
 
 ✅ All new code has tests first  
-✅ Coverage increased to 95%+  
+✅ Coverage increased to 80-90%  
 ✅ All tests pass  
 ✅ Mocks used for external services  
 ✅ Code is clean and maintainable  

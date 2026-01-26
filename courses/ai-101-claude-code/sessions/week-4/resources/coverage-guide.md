@@ -49,8 +49,8 @@ dotnet test /p:CollectCoverage=true
 # With format specification
 dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
 
-# With threshold enforcement (fails if below 95%)
-dotnet test /p:CollectCoverage=true /p:Threshold=95
+# With threshold enforcement (fails if below 80%)
+dotnet test /p:CollectCoverage=true /p:Threshold=80
 ```
 
 ### Coverage Output Formats
@@ -182,19 +182,20 @@ public class Service
 
 ## CI/CD Integration
 
-### GitHub Actions
+### GitLab CI/CD
 ```yaml
-- name: Test with Coverage
-  run: |
-    dotnet test /p:CollectCoverage=true \
-                /p:CoverletOutputFormat=opencover \
-                /p:Threshold=95 \
-                /p:ThresholdType=line
-
-- name: Upload Coverage
-  uses: codecov/codecov-action@v3
-  with:
-    file: ./coverage.opencover.xml
+test-with-coverage:
+  stage: test
+  script:
+    - dotnet test /p:CollectCoverage=true
+                  /p:CoverletOutputFormat=cobertura
+                  /p:Threshold=95
+                  /p:ThresholdType=line
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: "**/coverage.cobertura.xml"
 ```
 
 ### Azure DevOps
@@ -243,7 +244,7 @@ dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=console
 # Cycle 1: 25% coverage
 # Cycle 2: 50% coverage
 # Cycle 3: 75% coverage
-# Cycle 4: 95% coverage ✅
+# Cycle 4: 80-90% coverage ✅
 ```
 
 ## Troubleshooting Low Coverage

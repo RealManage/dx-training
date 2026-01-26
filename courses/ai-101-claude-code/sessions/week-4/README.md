@@ -1,9 +1,18 @@
 # Week 4: Test-Driven Development with Claude 🧪
 
-**Duration:** 2 hours  
-**Format:** Self-paced or instructor-led  
-**Prerequisites:** Completed Weeks 1-3  
+**Duration:** 2 hours
+**Format:** Self-paced or instructor-led
+**Prerequisites:** Completed Weeks 1-3
 **Audience:** RealManage development team
+
+## Learning Tracks
+
+This week has role-specific tracks:
+- **Developer Track** - Full TDD content (this README)
+- **[QA Track](./tracks/qa.md)** - Writing tests for existing code, coverage gap analysis
+- **PM Track** - Optional. Skim concepts, focus on understanding test metrics.
+
+---
 
 ## 🎯 Learning Objectives
 
@@ -19,7 +28,7 @@ By the end of this session, you'll be able to:
 
 ### For Participants
 - [ ] Claude Code installed and working
-- [ ] .NET 9 SDK installed
+- [ ] .NET 10 SDK installed
 - [ ] Completed Weeks 1-3
 - [ ] Familiar with basic C# syntax
 
@@ -33,7 +42,7 @@ By the end of this session, you'll be able to:
 
 ### Part 1: Why TDD Helps Prevent AI Hallucinations (10 min)
 
-#### 1.1 The Problem with AI-Generated Code (3 min)
+#### 1.1 The Problem with AI-Generated Code (5 min)
 ```markdown
 Without tests, AI can:
 - Invent methods that don't exist
@@ -48,7 +57,8 @@ With TDD, AI must:
 - Produce verifiable results
 ```
 
-#### 1.2 Tests as Specifications (4 min)
+#### 1.2 Tests as Specifications & The TDD Cycle (5 min)
+
 ```csharp
 // Bad: Asking Claude without tests
 "Create a method to calculate HOA fees"
@@ -61,17 +71,15 @@ public void CalculateMonthlyFee_StandardResident_Returns250()
     // Arrange
     var calculator = new FeeCalculator();
     var resident = new Resident { Type = ResidentType.Standard };
-    
+
     // Act
     var fee = calculator.CalculateMonthlyFee(resident);
-    
+
     // Assert
     fee.Should().Be(250m);
 }
 // Now Claude MUST implement exactly this behavior
 ```
-
-#### 1.3 The Sacred TDD Cycle (3 min)
 
 ```mermaid
 graph LR
@@ -141,11 +149,13 @@ With proper TDD, you'll hit 80-90% coverage naturally because:
 - Critical business logic is tested first
 - Edge cases are handled through tests
 
+> **Why 80-90% and not 100%?** See the [Troubleshooting Guide](../../resources/troubleshooting.md#-coverage-target-explanation) for detailed rationale on coverage targets.
+
 *For coverage commands, see [Coverage Guide](./resources/coverage-guide.md)*
 
 ### Part 3: Hands-On Exercises (75 min)
 
-> **Note:** Both exercises are configured to build without warnings. If you encounter warnings, ensure you're using .NET 9 and have the latest packages.
+> **Note:** Both exercises are configured to build without warnings. If you encounter warnings, ensure you're using .NET 10 and have the latest packages.
 
 #### Exercise 1: Homeowner Setup CLI - Build from Scratch (30 min)
 
@@ -154,8 +164,8 @@ With proper TDD, you'll hit 80-90% coverage naturally because:
 ```bash
 # Set up your workspace
 cd courses/ai-101-claude-code/sessions/week-4
-cp -r examples/homeowner-setup sandbox-homeowner
-cd sandbox-homeowner
+cp -r examples sandbox
+cd sandbox/homeowner-setup
 
 # Start Claude
 claude
@@ -193,10 +203,12 @@ Don't implement the service yet, just the test.
 **Your Mission:** Add features to an existing property management system
 
 ```bash
-# Set up your workspace
+# If you haven't already created the sandbox:
 cd courses/ai-101-claude-code/sessions/week-4
-cp -r examples/property-manager sandbox-property
-cd sandbox-property
+cp -r examples sandbox
+
+# Navigate to this exercise
+cd sandbox/property-manager
 
 # Review existing code
 claude
@@ -407,7 +419,7 @@ Write tests FIRST for:
 ### Red Flags (seek help if):
 - [ ] Writing code before tests
 - [ ] Tests failing after refactoring
-- [ ] Coverage below 90%
+- [ ] Coverage below 80%
 - [ ] Mocking feels confusing
 - [ ] Tests are testing implementation, not behavior
 
@@ -526,11 +538,11 @@ The granular approach teaches you to think in tests. The batched approach with P
 
 ## 🚀 Next Week Preview
 
-**Week 5: Advanced CLI Features & Multi-Claude Workflows**
+**Week 5: Commands & Basic Skills**
 - Custom slash commands
-- Running multiple Claude instances
-- Parallel development workflows
-- Team collaboration patterns
+- Building reusable skills
+- Supporting files and templates
+- Command vs skill decision making
 
 **Pre-work:** Think about repetitive tasks that could benefit from custom commands  
 
@@ -581,5 +593,5 @@ Quick check at end:
 
 ---
 
-*End of Week 4 Session Plan*  
-*Next Session: Week 5 - Advanced CLI Features*
+*End of Week 4 Session Plan*
+*Next Session: Week 5 - Commands & Basic Skills*

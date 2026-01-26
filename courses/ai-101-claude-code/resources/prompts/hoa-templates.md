@@ -6,7 +6,7 @@ Ready-to-use prompts for common HOA management development tasks.
 
 ### Violation Notice Generator
 ```
-Create a C# (.NET 9) service that generates violation notices with:
+Create a C# (.NET 10) service that generates violation notices with:
 - Template-based notice generation
 - Violation type: [Landscaping/Parking/Architectural/Noise/Other]
 - Severity levels: Warning, First Notice, Final Notice
@@ -15,7 +15,7 @@ Create a C# (.NET 9) service that generates violation notices with:
 - Email and print formats
 - Compliance with state HOA laws
 - Multi-language support (English/Spanish)
-- 95% test coverage
+- 80-90% test coverage
 ```
 
 ### Violation Escalation System
@@ -72,7 +72,7 @@ Build a payment processing module that:
 - Receipt generation (email/PDF)
 - QuickBooks integration
 - PCI DSS compliance
-- 95% test coverage
+- 80-90% test coverage
 ```
 
 ### Assessment Generator
@@ -325,4 +325,4 @@ Create document management system for:
 1. Replace placeholder values in brackets with your specific requirements
 2. Add these templates to your CLAUDE.md for consistent results
 3. Combine multiple templates for complex features
-4. Always specify RealManage's 95% test coverage requirement
+4. Always specify RealManage's 80-90% test coverage requirement
