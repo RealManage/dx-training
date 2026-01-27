@@ -418,9 +418,11 @@ COVERAGE ANALYSIS:
 - Generate suggested test cases
 
 TEST GENERATION:
+
 - Provide source file as context
 - Specify requirements (FluentAssertions, Moq, AAA)
 - Review generated tests before committing
+
 ```
 
 ### QA-Specific Skills
@@ -434,10 +436,12 @@ TEST GENERATION:
 ### Quality Metrics to Track
 
 ```markdown
+
 - Coverage percentage per service
 - Test count and growth over time
 - Test quality scores from reviews
 - Time to fix failing tests
+
 ```
 
 ## Homework (Before Week 9)

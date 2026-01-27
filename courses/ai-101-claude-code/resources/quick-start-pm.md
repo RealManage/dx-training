@@ -10,10 +10,11 @@ You define what gets built. You want Claude Code to help you communicate with de
 
 ```mermaid
 graph LR
-    subgraph "Core PM Weeks"
+    subgraph "Core PM Weeks (1-4)"
         W0[Week 0<br>AI Foundations<br>45 min] -.->|optional| W1[Week 1<br>Setup<br>45 min]
         W1 --> W2[Week 2<br>Prompting<br>1.5 hrs]
         W2 --> W3[Week 3<br>Plan Mode<br>1 hr]
+        W3 --> W4[Week 4<br>Requirements<br>1.5 hrs]
     end
 
     subgraph "PM Skills & Automation"
@@ -21,8 +22,7 @@ graph LR
         W8[Week 8<br>Automation<br>1 hr]
     end
 
-    subgraph "Skim/Skip"
-        W4[Week 4<br>TDD<br>skim]
+    subgraph "Skip"
         W67[Weeks 6-7<br>Technical<br>skip]
     end
 
@@ -30,7 +30,6 @@ graph LR
         W9[Week 9<br>Option E<br>2 hrs]
     end
 
-    W3 --> W4
     W4 --> W5
     W5 --> W67
     W67 --> W8
@@ -38,10 +37,10 @@ graph LR
 
     style W2 fill:#4CAF50,color:#fff
     style W3 fill:#4CAF50,color:#fff
+    style W4 fill:#4CAF50,color:#fff
     style W5 fill:#4CAF50,color:#fff
     style W8 fill:#4CAF50,color:#fff
     style W9 fill:#4CAF50,color:#fff
-    style W4 fill:#FFC107,color:#000
     style W67 fill:#9E9E9E,color:#fff
 ```
 
@@ -55,9 +54,9 @@ graph LR
 | 1 | Setup & Orientation | Must Do | Observe, don't need to master |
 | 2 | Prompting Foundations | Must Do | Learn to write good specs |
 | 3 | Plan Mode | Must Do | Understand dev planning |
-| 4 | Test-Driven Development | Skim | Concepts only, skip coding |
+| 4 | Writing Testable Requirements | Must Do | Given/When/Then, edge cases |
 | 5 | Commands & Skills | Must Do | Create PM automation skills |
-| 6 | Agents & Hooks | Skim | Concepts for compliance |
+| 6 | Agents & Hooks | Skip | Developer-focused |
 | 7 | Plugins | Skip | Developer-focused |
 | 8 | Real-World Workflows | Must Do | Use skills with headless CLI |
 | 9 | Capstone | Must Do | PM-specific option available |
@@ -180,23 +179,35 @@ Review the plan with your developer. Does it cover your requirements?
 
 ---
 
-### Week 4: Test-Driven Development (30 min - Concepts Only)
+### Week 4: Writing Testable Requirements (1.5 hours) ⭐
 
-**Goal:** Understand TDD, not practice it.
+**Goal:** Write requirements that developers can directly translate into tests.
 
-**What TDD Means for PMs:**
+**This week has a dedicated [PM Track](../sessions/week-4/tracks/pm.md).**
 
-- Developers write tests BEFORE code
-- Tests are essentially executable specifications
-- 80-90% coverage means most requirements are verified automatically
+**What You'll Learn:**
 
-**Why You Care:**
+- Given/When/Then format for acceptance criteria
+- What makes requirements "TDD-ready"
+- Edge case discovery with Claude
+- Collaborating with QA and developers on test scenarios
 
-- TDD produces more reliable estimates (tests surface complexity early)
-- You can ask "what tests will verify this requirement?"
-- Coverage reports show what's actually being tested
+**Why This Matters:**
 
-**Skip:** All coding exercises. Just read the concepts.
+Your requirements feed developer TDD. Bad requirements = developers guess what to test = bugs.
+Good requirements = developers know exactly what to test = quality software.
+
+**Exercise:** Write Given/When/Then acceptance criteria for violation escalation:
+
+```gherkin
+Given a violation was created 30 days ago
+And the violation status is "Open"
+When the escalation job runs
+Then the violation status changes to "Warning Sent"
+And a warning letter is generated
+```
+
+**Checkpoint:** Can a developer write a test directly from your acceptance criteria?
 
 ---
 
