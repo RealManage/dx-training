@@ -452,6 +452,8 @@ claude --plugin-dir ./plugin-one --plugin-dir ./plugin-two
 
 #### 5.2 Marketplace Distribution (10 min)
 
+> **Note:** The Claude Code plugin marketplace is still evolving. The commands below show the expected patterns, but public marketplaces may have limited content. For now, focus on local plugin development and team-internal distribution via Git repositories. Check [Anthropic's documentation](https://docs.anthropic.com/en/docs/claude-code) for the latest marketplace availability.
+
 **Adding a Marketplace:**
 ```bash
 # Add marketplace from various sources
@@ -694,11 +696,11 @@ INVOKE:
 
 ## Next Week Preview
 
-**Week 8: Real-World Automation & CI/CD**
+**Week 8: Real-World Automation**
 - Cross-functional use cases
-- GitLab CI/CD integration
+- Headless Claude automation (CLI scripting)
 - Cost optimization strategies
-- Production automation patterns
+- Batch processing patterns
 
 **The progression:** Week 6 (Agents & Hooks) -> Week 7 (Plugins) -> Week 8 (Production)
 
@@ -765,4 +767,4 @@ INVOKE:
 ---
 
 *End of Week 7 Session Plan*
-*Next Session: Week 8 - Real-World Automation & CI/CD*
+*Next Session: Week 8 - Real-World Automation*

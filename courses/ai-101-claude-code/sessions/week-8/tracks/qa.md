@@ -1,170 +1,204 @@
-# Week 8: Real-World Automation & CI/CD - QA Track
+# Week 8: Real-World Automation - QA Track
 
-**Track:** QA (Test Integration Focus)
+**Track:** QA (Test Automation Focus)
 **Duration:** 1.5 hours
 **Prerequisites:** Weeks 1-7 completed
 
 ---
 
-This track focuses on CI/CD test integration, coverage in pipelines, and quality automation workflows relevant to QA engineers.
+This track focuses on test automation, coverage analysis, and quality workflows using Claude Code's headless automation capabilities.
 
 ## Learning Objectives
 
 By the end of this session, you will be able to:
-- Integrate Claude Code into test automation pipelines
-- Configure coverage reporting in GitLab CI/CD
-- Build quality gates using Claude-powered analysis
+
+- Use Claude Code CLI for batch test analysis
+- Analyze coverage reports and identify gaps
+- Build quality analysis scripts using headless mode
 - Create test generation workflows for new code
-- Monitor test coverage trends and quality metrics
+- Automate test quality reviews
 
-## Part 1: Test Integration in CI/CD Pipelines (30 min)
+## Part 1: Headless Test Automation (30 min)
 
-### 1.1 Basic Test Pipeline Structure
+### 1.1 Claude Code CLI for QA
 
-**Understanding the Test Stage:**
+**Key CLI Flags for Test Automation:**
 
-GitLab CI/CD pipelines can automatically run your test suite on every commit or merge request. Claude Code can enhance this by:
-- Generating tests for uncovered code paths
-- Analyzing test failures for root cause
-- Suggesting additional test scenarios
-- Reviewing test quality
+| Flag | Description | QA Use Case |
+|------|-------------|-------------|
+| `-p, --print` | Non-interactive mode | Batch test analysis |
+| `--output-format json` | Structured output | Parse results programmatically |
+| `--model sonnet` | Fast model | Quick test reviews |
+| `--model opus` | Thorough model | Deep failure analysis |
+| `--no-session-persistence` | Ephemeral runs | Clean slate each time |
+| `--add-dir` | Add context | Include test directories |
 
-**Basic .NET Test Pipeline:**
-```yaml
-# .gitlab-ci.yml
-stages:
-  - build
-  - test
-  - quality
+**What Claude Code Can Do for QA:**
 
-variables:
-  DOTNET_VERSION: "10.0"
+- Analyze test failures for root cause
+- Generate tests for uncovered code
+- Review test quality and coverage
+- Suggest additional test scenarios
+- Audit tests against requirements
 
-build:
-  stage: build
-  image: mcr.microsoft.com/dotnet/sdk:10.0
-  script:
-    - dotnet restore
-    - dotnet build --no-restore --warnaserror
-  artifacts:
-    paths:
-      - "**/bin/"
-      - "**/obj/"
-    expire_in: 1 hour
+### 1.2 Test Failure Analysis Script
 
-test:
-  stage: test
-  image: mcr.microsoft.com/dotnet/sdk:10.0
-  dependencies:
-    - build
-  script:
-    - dotnet test --verbosity normal --collect:"XPlat Code Coverage" --results-directory TestResults
-  coverage: '/Total\s*\|\s*(\d+(?:\.\d+)?%)/'
-  artifacts:
-    when: always
-    paths:
-      - TestResults/
-    reports:
-      coverage_report:
-        coverage_format: cobertura
-        path: TestResults/**/coverage.cobertura.xml
+**Create `scripts/analyze-failures.sh`:**
+
+```bash
+#!/bin/bash
+# analyze-failures.sh - Analyze test failures with Claude
+# Usage: ./analyze-failures.sh TestResults/
+
+set -e
+
+RESULTS_DIR=${1:-"TestResults"}
+OUTPUT_FILE="test-failure-analysis.md"
+
+echo "# Test Failure Analysis" > "$OUTPUT_FILE"
+echo "**Generated:** $(date)" >> "$OUTPUT_FILE"
+echo "" >> "$OUTPUT_FILE"
+
+# Find test result files
+for trx in "$RESULTS_DIR"/*.trx; do
+    if [[ ! -f "$trx" ]]; then
+        echo "No .trx files found in $RESULTS_DIR"
+        exit 0
+    fi
+
+    echo "📝 Analyzing: $trx"
+    echo "## $(basename "$trx")" >> "$OUTPUT_FILE"
+    echo "" >> "$OUTPUT_FILE"
+
+    claude -p "Analyze these test results. For each failure:
+1. Root cause
+2. Is it a test bug or code bug?
+3. Suggested fix
+4. Priority (high/medium/low)
+
+Format as markdown table.
+
+Results: $(cat "$trx")" \
+      --model sonnet \
+      --no-session-persistence \
+      >> "$OUTPUT_FILE" 2>/dev/null
+
+    echo -e "\n---\n" >> "$OUTPUT_FILE"
+done
+
+echo "✅ Analysis saved to: $OUTPUT_FILE"
 ```
 
-### 1.2 Coverage Reporting Configuration
+### 1.3 Batch Test Generation
 
-**Enabling Coverage in GitLab:**
+**Create `scripts/generate-tests.sh`:**
 
-GitLab can display coverage badges and track coverage trends. Here's how to configure it:
+```bash
+#!/bin/bash
+# generate-tests.sh - Generate tests for files without coverage
+# Usage: ./generate-tests.sh src/Services/NewService.cs
 
-**Coverage Extraction Pattern:**
-```yaml
-# Different patterns for different test frameworks
-test:
-  script:
-    - dotnet test --collect:"XPlat Code Coverage"
-  # Pattern to extract coverage percentage from output
-  coverage: '/Total\s*\|\s*(\d+(?:\.\d+)?%)/'
-```
+set -e
 
-**Coverage Report Artifact:**
-```yaml
-test:
-  artifacts:
-    reports:
-      coverage_report:
-        coverage_format: cobertura
-        path: TestResults/**/coverage.cobertura.xml
-```
+for file in "$@"; do
+    if [[ ! -f "$file" ]]; then
+        echo "⚠️  File not found: $file"
+        continue
+    fi
 
-**Coverage Thresholds (Quality Gates):**
-```yaml
-quality-gate:
-  stage: quality
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-  script:
-    - |
-      # Extract coverage from Cobertura XML
-      COVERAGE=$(grep -oP 'line-rate="\K[^"]+' TestResults/**/coverage.cobertura.xml | head -1)
-      COVERAGE_PCT=$(echo "$COVERAGE * 100" | bc)
-      
-      # Fail if coverage below threshold
-      if (( $(echo "$COVERAGE_PCT < 80" | bc -l) )); then
-        echo "Coverage ${COVERAGE_PCT}% is below 80% threshold"
-        exit 1
-      fi
-      echo "Coverage ${COVERAGE_PCT}% meets threshold"
-```
+    # Determine test file path
+    TEST_FILE="${file%.cs}Tests.cs"
+    TEST_FILE="${TEST_FILE/src\//tests/}"
 
-### 1.3 Claude-Powered Test Analysis
+    echo "📝 Generating tests for: $file"
+    echo "   Output: $TEST_FILE"
 
-**Test Failure Analysis Pipeline:**
-```yaml
-claude-test-analysis:
-  stage: quality
-  image: node:22
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      when: on_failure  # Only runs when tests fail
-  before_script:
-    - npm install -g @anthropic-ai/claude-code
-  script:
-    - |
-      # Get test results
-      TEST_OUTPUT=$(cat TestResults/*.trx 2>/dev/null || echo "No test results found")
-      
-      claude --print "Analyze these test failures:
-      
-      $TEST_OUTPUT
-      
-      For each failure:
-      1. Identify the root cause
-      2. Suggest a fix
-      3. Note if it's a test issue vs code issue
-      4. Prioritize by impact
-      
-      Format as actionable markdown." > analysis.md
-      
-      # Post analysis to MR
-      ANALYSIS=$(cat analysis.md | jq -Rs .)
-      curl --request POST \
-        --header "PRIVATE-TOKEN: $GITLAB_TOKEN" \
-        --header "Content-Type: application/json" \
-        --data "{\"body\": $ANALYSIS}" \
-        "$CI_API_V4_URL/projects/$CI_PROJECT_ID/merge_requests/$CI_MERGE_REQUEST_IID/notes"
+    # Create directory if needed
+    mkdir -p "$(dirname "$TEST_FILE")"
+
+    claude -p "Generate comprehensive xUnit tests for this file.
+Requirements:
+1. Test all public methods
+2. Include happy path and edge cases
+3. Use FluentAssertions
+4. Use Moq for dependencies
+5. Follow AAA pattern (Arrange, Act, Assert)
+
+Output ONLY the complete test file content, no explanations.
+
+File: $file
+Content:
+$(cat "$file")" \
+      --model sonnet \
+      --no-session-persistence \
+      > "$TEST_FILE"
+
+    echo "✅ Generated: $TEST_FILE"
+done
 ```
 
 ## Part 2: Coverage Gap Analysis (25 min)
 
-### 2.1 Identifying Uncovered Code
+### 2.1 Coverage Analysis Script
 
-**Coverage Gap Skill (.claude/skills/coverage-gaps/SKILL.md):**
+**Create `scripts/analyze-coverage.sh`:**
+
+```bash
+#!/bin/bash
+# analyze-coverage.sh - Analyze coverage gaps with Claude
+# Run from sandbox root after: dotnet test --collect:"XPlat Code Coverage"
+# Usage: ./scripts/analyze-coverage.sh
+
+set -e
+
+COVERAGE_FILE=$(find . -name "coverage.cobertura.xml" -type f | head -1)
+OUTPUT_FILE="coverage-gap-analysis.md"
+
+if [[ ! -f "$COVERAGE_FILE" ]]; then
+    echo "❌ No coverage file found. Run tests first:"
+    echo "   dotnet test --collect:\"XPlat Code Coverage\""
+    exit 1
+fi
+
+echo "📊 Analyzing coverage from: $COVERAGE_FILE"
+
+cat > "$OUTPUT_FILE" << EOF
+# Coverage Gap Analysis
+
+**Generated:** $(date)
+**Coverage File:** $COVERAGE_FILE
+
+---
+
+EOF
+
+claude -p "Analyze this Cobertura coverage report and identify:
+
+1. Overall coverage percentage
+2. Files below 80% coverage (list each)
+3. Uncovered methods (high risk)
+4. Suggested test cases for top 3 gaps
+
+Format as markdown with tables.
+
+Coverage XML:
+$(cat "$COVERAGE_FILE")" \
+  --model sonnet \
+  --no-session-persistence \
+  >> "$OUTPUT_FILE"
+
+echo "✅ Analysis saved to: $OUTPUT_FILE"
+```
+
+### 2.2 Coverage Gap Skill
+
+**Create `.claude/skills/coverage-gaps/SKILL.md`:**
+
 ```markdown
 ---
 name: coverage-gaps
 description: Analyze code coverage gaps and suggest tests
 argument-hint: [coverage_report_path]
-disable-model-invocation: true
 ---
 
 Analyze the coverage report at $ARGUMENTS and identify:
@@ -175,7 +209,7 @@ Analyze the coverage report at $ARGUMENTS and identify:
 3. Find uncovered methods and branches
 4. Prioritize by risk (public APIs, complex logic)
 
-## Output:
+## Output Format:
 ### Coverage Gap Analysis
 
 **Overall Coverage:** [X%]
@@ -193,148 +227,70 @@ For each gap, suggest:
 3. Expected assertions
 ```
 
-**Pipeline Job for Coverage Analysis:**
-```yaml
-coverage-analysis:
-  stage: quality
-  image: node:22
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-  dependencies:
-    - test
-  before_script:
-    - npm install -g @anthropic-ai/claude-code
-  script:
-    - |
-      # Get changed files in this MR
-      CHANGED_FILES=$(git diff --name-only $CI_MERGE_REQUEST_DIFF_BASE_SHA...HEAD | grep '\.cs$' | tr '\n' ' ')
-      
-      claude --print "Review coverage for these changed files:
-      Files: $CHANGED_FILES
-      
-      Coverage Report: $(cat TestResults/**/coverage.cobertura.xml)
-      
-      Identify:
-      1. New code without tests
-      2. Modified code with coverage gaps
-      3. Suggest specific test cases
-      
-      Format as markdown checklist." > coverage-review.md
+### 2.3 Batch Test Quality Review
+
+**Create `scripts/review-tests.sh`:**
+
+```bash
+#!/bin/bash
+# review-tests.sh - Review test quality for all test files
+# Usage: ./scripts/review-tests.sh tests/**/*Tests.cs
+
+set -e
+
+OUTPUT_FILE="test-quality-report.md"
+
+cat > "$OUTPUT_FILE" << EOF
+# Test Quality Report
+
+**Generated:** $(date)
+**Files Reviewed:** $#
+
+---
+
+EOF
+
+for file in "$@"; do
+    if [[ ! -f "$file" ]]; then
+        continue
+    fi
+
+    echo "📝 Reviewing: $file"
+    echo "## $(basename "$file")" >> "$OUTPUT_FILE"
+    echo "" >> "$OUTPUT_FILE"
+
+    claude -p "Review this test file for quality:
+
+1. Are all public methods tested?
+2. Are edge cases covered (nulls, empty, boundaries)?
+3. Are assertions specific and meaningful?
+4. Are test names descriptive?
+5. Score 1-10 with brief explanation
+
+File: $file
+Content:
+$(cat "$file")" \
+      --model sonnet \
+      --no-session-persistence \
+      >> "$OUTPUT_FILE"
+
+    echo -e "\n---\n" >> "$OUTPUT_FILE"
+done
+
+echo "✅ Report saved to: $OUTPUT_FILE"
 ```
 
-### 2.2 Test Generation Workflow
+## Part 3: Test Quality Skills (25 min)
 
-**Automated Test Generation Pipeline:**
-```yaml
-generate-tests:
-  stage: quality
-  image: node:22
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-  before_script:
-    - npm install -g @anthropic-ai/claude-code
-  script:
-    - |
-      # Get new/modified source files without corresponding tests
-      CHANGED_FILES=$(git diff --name-only $CI_MERGE_REQUEST_DIFF_BASE_SHA...HEAD | grep -E '^src/.*\.cs$')
-      
-      for FILE in $CHANGED_FILES; do
-        TEST_FILE="tests/${FILE#src/}"
-        TEST_FILE="${TEST_FILE%.cs}Tests.cs"
-        
-        if [ ! -f "$TEST_FILE" ]; then
-          echo "Missing tests for: $FILE"
-          
-          claude --print "Generate xUnit tests for:
-          File: $FILE
-          Content: $(cat $FILE)
-          
-          Requirements:
-          1. Test all public methods
-          2. Include happy path and edge cases
-          3. Use FluentAssertions
-          4. Use Moq for dependencies
-          5. Follow AAA pattern (Arrange, Act, Assert)
-          
-          Output: Complete test file content" >> suggested-tests.md
-        fi
-      done
-  artifacts:
-    paths:
-      - suggested-tests.md
-    when: always
-```
+### 3.1 Test Review Skill
 
-## Part 3: Quality Gates and Automation (25 min)
+**Create `.claude/skills/test-review/SKILL.md`:**
 
-### 3.1 Setting Up Quality Gates
-
-**Comprehensive Quality Gate Pipeline:**
-```yaml
-quality-gate:
-  stage: quality
-  image: node:22
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-  dependencies:
-    - test
-  before_script:
-    - npm install -g @anthropic-ai/claude-code
-  script:
-    - |
-      # Quality checks
-      PASSED=true
-      REPORT=""
-      
-      # 1. Coverage check
-      COVERAGE=$(grep -oP 'line-rate="\K[^"]+' TestResults/**/coverage.cobertura.xml | head -1)
-      COVERAGE_PCT=$(echo "$COVERAGE * 100" | bc)
-      if (( $(echo "$COVERAGE_PCT < 80" | bc -l) )); then
-        REPORT="$REPORT\n- FAIL: Coverage ${COVERAGE_PCT}% < 80%"
-        PASSED=false
-      else
-        REPORT="$REPORT\n- PASS: Coverage ${COVERAGE_PCT}%"
-      fi
-      
-      # 2. Test count check
-      TEST_COUNT=$(grep -c "test name" TestResults/*.trx || echo "0")
-      if [ "$TEST_COUNT" -lt 10 ]; then
-        REPORT="$REPORT\n- WARN: Only $TEST_COUNT tests"
-      else
-        REPORT="$REPORT\n- PASS: $TEST_COUNT tests"
-      fi
-      
-      # 3. Claude quality review
-      CHANGED_FILES=$(git diff --name-only $CI_MERGE_REQUEST_DIFF_BASE_SHA...HEAD | tr '\n' ' ')
-      CLAUDE_REVIEW=$(claude --print "Quick quality check on: $CHANGED_FILES
-      Rate 1-10 on: test coverage, edge cases, error handling
-      One-line verdict: PASS/WARN/FAIL")
-      REPORT="$REPORT\n- Claude Review: $CLAUDE_REVIEW"
-      
-      echo -e "## Quality Gate Report\n$REPORT" > quality-report.md
-      
-      # Post to MR
-      BODY=$(cat quality-report.md | jq -Rs .)
-      curl --request POST \
-        --header "PRIVATE-TOKEN: $GITLAB_TOKEN" \
-        --header "Content-Type: application/json" \
-        --data "{\"body\": $BODY}" \
-        "$CI_API_V4_URL/projects/$CI_PROJECT_ID/merge_requests/$CI_MERGE_REQUEST_IID/notes"
-      
-      if [ "$PASSED" = false ]; then
-        exit 1
-      fi
-```
-
-### 3.2 Test Review Skill
-
-**Test Quality Review Skill (.claude/skills/test-review/SKILL.md):**
 ```markdown
 ---
 name: test-review
 description: Review test quality and coverage
 argument-hint: [test_file_path]
-disable-model-invocation: true
 ---
 
 Review the tests in $ARGUMENTS for quality.
@@ -349,7 +305,7 @@ Review the tests in $ARGUMENTS for quality.
 7. **Performance:** Any slow tests?
 
 ## Output Format:
-### Test Review: $ARGUMENTS
+### Test Review: [filename]
 
 **Overall Score:** [X/10]
 
@@ -366,82 +322,140 @@ Review the tests in $ARGUMENTS for quality.
 [Code snippet for most critical improvement]
 ```
 
+### 3.2 Generate Tests Skill
+
+**Create `.claude/skills/generate-tests/SKILL.md`:**
+
+```markdown
+---
+name: generate-tests
+description: Generate tests for a source file
+argument-hint: [source_file_path]
+---
+
+Generate comprehensive xUnit tests for $ARGUMENTS.
+
+## Requirements:
+1. Test all public methods
+2. Include happy path and edge cases
+3. Use FluentAssertions for assertions
+4. Use Moq for mocking dependencies
+5. Follow AAA pattern (Arrange, Act, Assert)
+6. Use descriptive test names: MethodName_Scenario_ExpectedResult
+
+## Output:
+Complete test file ready to save.
+```
+
 ## Part 4: QA Workshop Exercises (20 min)
 
-### Exercise 1: Configure Coverage Pipeline (10 min)
+### Exercise 1: Run Coverage Analysis (10 min)
 
+```bash
+# From your sandbox directory:
+cd sandbox/hoa-workflow-automation
+
+# Run tests with coverage
+dotnet test --collect:"XPlat Code Coverage"
+
+# Ask Claude to analyze
+claude -p "Analyze the coverage report and identify the top 3 gaps:
+$(find . -name 'coverage.cobertura.xml' -exec cat {} \;)"
 ```
-Set up a GitLab CI/CD pipeline that:
-1. Runs dotnet test with coverage collection
-2. Extracts coverage percentage
-3. Fails if coverage < 80%
-4. Posts coverage summary to MR
 
-Test with the example project in the sandbox.
+> **💡 Edge Case: 0% Coverage**
+> If you see 0% coverage, this usually means production code and test code are in the same assembly. Coverlet only tracks coverage for assemblies *different* from the test assembly. Solution: Ensure your production code is in a separate project (e.g., `HoaServices.csproj`) that the test project references.
+
+### Exercise 2: Review Test Quality (10 min)
+
+```bash
+# Review a specific test file
+claude -p "Review this test file for quality. Score 1-10.
+File: tests/Services/LetterGenerationServiceTests.cs
+$(cat tests/Services/LetterGenerationServiceTests.cs)"
+
+# Or use the skill after creating it
+/test-review tests/Services/LetterGenerationServiceTests.cs
 ```
 
-### Exercise 2: Create Test Gap Analysis (10 min)
+## Exporting to Test Management Tools
 
-```
-Use Claude to:
-1. Analyze the example project's coverage report
-2. Identify the three biggest coverage gaps
-3. Generate test skeletons for uncovered methods
-4. Prioritize by risk level
+> **Pro Tip:** If your team uses TestRail, Xray, or similar tools, Claude can format output for easy import.
 
-Save findings to: coverage-analysis.md
+```bash
+# Generate test cases in TestRail CSV format
+claude -p "Generate test cases for this feature in CSV format.
+Columns: Title, Preconditions, Steps, Expected Result, Priority
+
+Feature: $(cat src/Services/PaymentService.cs)" \
+  --no-session-persistence > test-cases-import.csv
+
+# Generate Xray-compatible JSON
+claude -p "Generate test cases as JSON array with fields:
+testKey, summary, steps (array of {action, result}), priority
+
+Feature: $(cat src/Services/ViolationService.cs)" \
+  --output-format json > xray-import.json
 ```
+
+This lets you use Claude for test case generation while keeping your test management tool as the source of truth.
+
+---
 
 ## Key Takeaways for QA
 
-### CI/CD Test Patterns
-```
-COVERAGE REPORTING:
-- Use Cobertura format for GitLab integration
-- Set coverage regex for badge extraction
-- Store artifacts for trend analysis
+### Headless Automation Patterns
 
-QUALITY GATES:
-- Coverage threshold: 80% minimum
-- Test count validation
-- Claude-powered code review
+```markdown
+BATCH ANALYSIS:
+- Use -p flag for non-interactive runs
+- Use --no-session-persistence for clean runs
+- Pipe output to files for reports
 
-AUTOMATION:
-- Test failure analysis on every failed build
-- Coverage gap detection on MRs
-- Suggested test generation
+COVERAGE ANALYSIS:
+- Parse Cobertura XML with Claude
+- Identify gaps and prioritize by risk
+- Generate suggested test cases
+
+TEST GENERATION:
+- Provide source file as context
+- Specify requirements (FluentAssertions, Moq, AAA)
+- Review generated tests before committing
 ```
 
 ### QA-Specific Skills
-```
+
+```text
 /coverage-gaps <path>     -> Analyze coverage gaps
 /test-review <file>       -> Review test quality
 /generate-tests <file>    -> Generate test skeletons
 ```
 
-### Quality Metrics Dashboard
-```
-Track in GitLab:
-- Coverage trends over time
-- Test count per sprint
-- Failure rate trends
+### Quality Metrics to Track
+
+```markdown
+- Coverage percentage per service
+- Test count and growth over time
+- Test quality scores from reviews
 - Time to fix failing tests
 ```
 
 ## Homework (Before Week 9)
 
-### Required Tasks:
-1. Set up coverage reporting in your project's pipeline
-2. Create a quality gate that blocks MRs below 80% coverage
+### Required Tasks
+
+1. Run coverage analysis on the example project
+2. Create the `/test-review` skill in your sandbox
 3. Use Claude to analyze one coverage gap and generate tests
 4. Document your QA automation workflow
 
-### Stretch Goals:
-1. Implement automated test failure analysis
-2. Create a weekly coverage trend report
+### Stretch Goals
+
+1. Build a batch test review script
+2. Create a coverage trend tracking approach
 3. Build a test quality scorecard
 
 ---
 
 *QA Track - Week 8*
-*Focused on CI/CD test integration and coverage automation*
+*Focused on headless test automation and coverage analysis*

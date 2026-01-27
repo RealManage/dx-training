@@ -10,14 +10,20 @@ You define what gets built. You want Claude Code to help you communicate with de
 
 ```mermaid
 graph LR
-    subgraph "Core PM Weeks (6 hrs)"
+    subgraph "Core PM Weeks"
         W0[Week 0<br>AI Foundations<br>45 min] -.->|optional| W1[Week 1<br>Setup<br>45 min]
         W1 --> W2[Week 2<br>Prompting<br>1.5 hrs]
         W2 --> W3[Week 3<br>Plan Mode<br>1 hr]
     end
 
-    subgraph "Skip (concepts only)"
-        W4[Weeks 4-8<br>Technical<br>skim]
+    subgraph "PM Skills & Automation"
+        W5[Week 5<br>PM Skills<br>1.5 hrs]
+        W8[Week 8<br>Automation<br>1 hr]
+    end
+
+    subgraph "Skim/Skip"
+        W4[Week 4<br>TDD<br>skim]
+        W67[Weeks 6-7<br>Technical<br>skip]
     end
 
     subgraph "Capstone"
@@ -25,15 +31,21 @@ graph LR
     end
 
     W3 --> W4
-    W4 --> W9
+    W4 --> W5
+    W5 --> W67
+    W67 --> W8
+    W8 --> W9
 
     style W2 fill:#4CAF50,color:#fff
     style W3 fill:#4CAF50,color:#fff
+    style W5 fill:#4CAF50,color:#fff
+    style W8 fill:#4CAF50,color:#fff
     style W9 fill:#4CAF50,color:#fff
-    style W4 fill:#9E9E9E,color:#fff
+    style W4 fill:#FFC107,color:#000
+    style W67 fill:#9E9E9E,color:#fff
 ```
 
-**Your Focus Weeks (green):** Week 2 (Prompting) and Week 3 (Plan Mode) are your power weeks. Week 9 has a PM-specific capstone option.
+**Your Focus Weeks (green):** Weeks 2, 3, 5, 8, and 9 are your power weeks. Week 5 teaches PM skill creation, Week 8 shows how to use them with automation.
 
 ### What You'll Cover vs Skip
 
@@ -44,10 +56,10 @@ graph LR
 | 2 | Prompting Foundations | Must Do | Learn to write good specs |
 | 3 | Plan Mode | Must Do | Understand dev planning |
 | 4 | Test-Driven Development | Skim | Concepts only, skip coding |
-| 5 | Commands & Skills | Skip | Developer-focused |
-| 6 | Agents & Hooks | Skip | Developer-focused |
+| 5 | Commands & Skills | Must Do | Create PM automation skills |
+| 6 | Agents & Hooks | Skim | Concepts for compliance |
 | 7 | Plugins | Skip | Developer-focused |
-| 8 | Real-World Workflows | Skim | Concepts for roadmap planning |
+| 8 | Real-World Workflows | Must Do | Use skills with headless CLI |
 | 9 | Capstone | Must Do | PM-specific option available |
 
 ---
@@ -55,9 +67,11 @@ graph LR
 ## Week-by-Week Focus
 
 ### Week 0: AI Foundations (45 min) - Recommended
+
 **Goal:** Speak the language of AI development.
 
 Key concepts you need:
+
 - **LLM (Large Language Model):** The AI type Claude uses
 - **Tokens:** Basic units of text that affect context limits
 - **Context window:** How much the AI can "remember"
@@ -69,9 +83,11 @@ Key concepts you need:
 ---
 
 ### Week 1: Setup & Orientation (45 min)
+
 **Goal:** Understand the developer experience, not master the tool.
 
 **What to do:**
+
 - [ ] Install Claude Code (follow the guide)
 - [ ] Have one conversation with Claude
 - [ ] Observe a developer using it (pair session recommended)
@@ -79,6 +95,7 @@ Key concepts you need:
 **What to skip:** Deep configuration, CLAUDE.md customization.
 
 **PM Insight:** Notice how developers interact with Claude. This helps you:
+
 - Estimate AI-assisted development more accurately
 - Write requirements that work well with AI workflows
 - Understand what makes a "good" vs "bad" spec for AI consumption
@@ -86,6 +103,7 @@ Key concepts you need:
 ---
 
 ### Week 2: Prompting Foundations (1.5 hours)
+
 **Goal:** Learn to write specifications that translate well to AI-assisted development.
 
 **This is your power week.** Good prompts = good specs = good products.
@@ -101,6 +119,7 @@ Key concepts you need:
 | **R**estrictions | What NOT to do | "Never auto-delete violations, only soft-delete..." |
 
 **Spec Template for AI-Ready Requirements:**
+
 ```markdown
 ## Feature: [Name]
 
@@ -134,6 +153,7 @@ As a [role], I want to [action], so that [benefit].
 ---
 
 ### Week 3: Plan Mode & Code Review (1 hour)
+
 **Goal:** Understand how developers plan AI-assisted implementations.
 
 **Key Concept:** When developers use "plan mode" (`Shift+Tab`), Claude creates an implementation plan before writing code. As a PM, you can:
@@ -143,6 +163,7 @@ As a [role], I want to [action], so that [benefit].
 3. **Catch issues early** - Identify missing requirements before code is written
 
 **PM Use Case - Requirement Validation:**
+
 ```
 Given this feature spec:
 [PASTE YOUR SPEC]
@@ -160,14 +181,17 @@ Review the plan with your developer. Does it cover your requirements?
 ---
 
 ### Week 4: Test-Driven Development (30 min - Concepts Only)
+
 **Goal:** Understand TDD, not practice it.
 
 **What TDD Means for PMs:**
+
 - Developers write tests BEFORE code
 - Tests are essentially executable specifications
 - 80-90% coverage means most requirements are verified automatically
 
 **Why You Care:**
+
 - TDD produces more reliable estimates (tests surface complexity early)
 - You can ask "what tests will verify this requirement?"
 - Coverage reports show what's actually being tested
@@ -176,29 +200,50 @@ Review the plan with your developer. Does it cover your requirements?
 
 ---
 
-### Weeks 5-7: Skip
-These weeks are developer-focused (commands, skills, agents, plugins). Skip entirely.
+### Week 5: Commands & Skills (1.5 hours) ⭐
 
-**If curious:** Ask a developer to demo their custom commands. It's interesting but not essential for PMs.
+**Goal:** Create your own PM automation skills.
+
+This is a power week for PMs! You'll create skills that automate your actual work:
+
+- [ ] `/release-notes` - Git history → stakeholder summary
+- [ ] `/meeting-actions` - Meeting notes → Jira-ready tasks
+- [ ] `/sprint-summary` - Sprint data → exec report
+- [ ] `/user-stories` - Epics → broken-down stories
+
+**No coding required** - Skills are just structured markdown files.
+
+**Checkpoint:** Can you run `/release-notes` on a project and get stakeholder-friendly output?
 
 ---
 
-### Week 8: Real-World Workflows (30 min - Skim)
-**Goal:** Understand CI/CD for roadmap planning.
+### Weeks 6-7: Skim/Skip
+
+- **Week 6 (Agents & Hooks):** Skim for compliance concepts
+- **Week 7 (Plugins):** Skip - developer-focused
+
+---
+
+### Week 8: Real-World Workflows (1 hour)
+
+**Goal:** Use your Week 5 skills with headless automation.
 
 **Key Concepts:**
-- **CI (Continuous Integration):** Automated testing on every code change
-- **CD (Continuous Deployment):** Automated releases
-- **AI in CI/CD:** Claude can help with test generation, code review in pipelines
 
-**Why You Care:**
-- Understand deployment frequency possibilities
-- Know what "automation" means when devs mention it
-- Better release planning
+- **Headless Automation:** Running Claude CLI non-interactively with `-p` flag
+- **Skills + CLI:** Use your PM skills in batch automation
+- **PM-Relevant Automation:** Release notes, meeting summaries, sprint reports
+
+**Checkpoint:** Can you run your `/release-notes` skill from the command line and save output to a file?
+
+```bash
+claude -p "/release-notes 2.1.0 2024-01-01" --no-session-persistence > release-notes.md
+```
 
 ---
 
 ### Week 9: Capstone (3-4 hours)
+
 **Goal:** Create PM-focused deliverables using Claude.
 
 **PM Capstone Option: Product Design & Documentation**
@@ -221,6 +266,7 @@ Build a complete product specification package:
    - User-facing documentation
 
 **Deliverables:**
+
 - Complete spec document for an HOA feature
 - User story map with priorities
 - Presentation to stakeholders
@@ -228,6 +274,7 @@ Build a complete product specification package:
 **Non-Coding Exercises:**
 
 Instead of building code, you'll:
+
 ```
 Prompt: "Given this high-level requirement: [PASTE]
 Break it down into:
@@ -242,7 +289,10 @@ Break it down into:
 
 ## PM-Specific Prompt Library
 
+> **Tip:** For content from Jira/Confluence/emails, paste directly. For local files (like `docs/spec.md`), use `@docs/spec.md` - Claude will read it automatically.
+
 ### Requirement Refinement
+
 ```
 Here's a rough feature idea:
 [PASTE IDEA]
@@ -255,6 +305,7 @@ Help me turn this into a complete specification:
 ```
 
 ### User Story Generation
+
 ```
 Break this epic into user stories:
 [PASTE EPIC]
@@ -266,6 +317,7 @@ For each story include:
 ```
 
 ### Edge Case Discovery
+
 ```
 For this feature:
 [PASTE FEATURE]
@@ -276,6 +328,7 @@ error states, user permissions, timing issues.
 ```
 
 ### Spec Review
+
 ```
 Review this specification for completeness:
 [PASTE SPEC]
@@ -288,6 +341,7 @@ Check for:
 ```
 
 ### Stakeholder Communication
+
 ```
 Translate this technical description into stakeholder-friendly language:
 [PASTE TECHNICAL TEXT]
@@ -313,6 +367,7 @@ Tone: [formal / casual / marketing]
 ### Good Specs for AI
 
 **AI-Friendly Spec:**
+
 ```
 Calculate late fees using 10% monthly compound interest.
 Grace period: 30 days from due date.
@@ -321,6 +376,7 @@ Round to 2 decimal places.
 ```
 
 **AI-Unfriendly Spec:**
+
 ```
 Add late fees that seem fair and reasonable.
 Use industry standards.

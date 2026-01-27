@@ -24,7 +24,7 @@ You'll build:
 - Week 5: Custom skills for automation
 - Week 6: Hooks and agents for workflow
 - Week 7: Plugin patterns for reusable components
-- Week 8: CI/CD integration
+- Week 8: Headless automation
 
 ### Option B: Self-Service Knowledge Base
 **Best for:** Full-stack developers who enjoy user-facing features
@@ -54,7 +54,7 @@ You'll build:
 - Week 3: Plan Mode for data modeling
 - Week 4: TDD for prediction accuracy
 - Week 7: Plugin patterns for automation
-- Week 8: CI/CD for scheduled reports
+- Week 8: Batch automation for scheduled reports
 
 ## Getting Started
 

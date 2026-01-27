@@ -13,7 +13,7 @@ Spawn 4 background sub-agents (one per worktree) to attempt the full AI 101 cour
 ## Student Personas & Tracks
 
 | Worktree | Student | Persona | Years Exp | Track | Perspective |
-|----------|---------|---------|-----------|-------|-------------|
+| -------- | ------- | ------- | --------- | ----- | ----------- |
 | dx-training-student-1 | Alex | Junior Dev | 2 | Developer | AI noob, skeptical but open |
 | dx-training-student-2 | Jordan | QA Engineer | 4 | QA | Non-developer, worried about AI |
 | dx-training-student-3 | Sam | Senior Dev | 8 | Developer | Skeptic, tried Copilot, high standards |
@@ -35,9 +35,9 @@ git worktree add ../dx-training-student-2 HEAD --detach
 git worktree add ../dx-training-student-3 HEAD --detach
 git worktree add ../dx-training-student-4 HEAD --detach
 
-# Update all worktrees to latest
+# Update all worktrees to latest (from repo root)
 for i in 1 2 3 4; do
-  cd /home/calilafollett/repos/dx-training-student-$i
+  cd ../dx-training-student-$i
   git fetch origin
   git checkout origin/feature/ai-101-course-completion
 done
@@ -82,7 +82,7 @@ claude --session-id a1b2c3d4-e5f6-7890-abcd-ef1234567890 "continue" --print
 ## Role-Specific Tracks by Week
 
 | Week | Developer Track | QA Track | PM Track |
-|------|-----------------|----------|----------|
+| ---- | --------------- | -------- | -------- |
 | 0 | Main README | Main README | Main README |
 | 1 | Main README | Main README | Main README |
 | 2 | Main README | Main README | Main README |
@@ -100,11 +100,12 @@ claude --session-id a1b2c3d4-e5f6-7890-abcd-ef1234567890 "continue" --print
 
 ### File Naming Convention
 
-```
+```text
 courses/ai-101-claude-code/docs/course-feedback/student-{N}-{name}-review-{X}.md
 ```
 
 Examples:
+
 - `student-1-alex-junior-dev-review-3.md`
 - `student-2-jordan-qa-engineer-review-3.md`
 - `student-3-sam-senior-dev-skeptic-review-3.md`
@@ -175,7 +176,7 @@ Examples:
 ## Session Log
 
 | Week | Session ID | Commands Run | Notes |
-|------|------------|--------------|-------|
+| ---- | ---------- | ------------ | ----- |
 | ... | ... | ... | ... |
 ```
 
@@ -186,7 +187,7 @@ Examples:
 ### Key Flags
 
 | Flag | Description |
-|------|-------------|
+| ---- | ----------- |
 | `--print` / `-p` | Print response and exit (headless mode) |
 | `--session-id <uuid>` | Use specific session UUID |
 | `--resume [id]` | Resume by session ID |
@@ -227,7 +228,7 @@ After agents complete:
 
 Use the Task tool to spawn 4 background agents:
 
-```
+```markdown
 Task tool parameters:
 - subagent_type: "general-purpose"
 - run_in_background: true
@@ -236,13 +237,13 @@ Task tool parameters:
 
 ### Agent Prompt Template
 
-```
+```markdown
 You are {Student Name}, a {Role} with {X} years of experience at RealManage.
 
 **Your Persona:** {Persona description}
 
 **Your Task:**
-1. Work through the AI 101 Claude Code course from your worktree at: /home/calilafollett/repos/dx-training-student-{N}
+1. Work through the AI 101 Claude Code course from your worktree at: `../dx-training-student-{N}` (relative to main repo)
 2. Follow your role-specific track ({Track} track)
 3. Use headless `claude` CLI to attempt exercises
 4. CRITICAL: Capture the session ID from your first claude command and use it for ALL subsequent commands with --session-id <exact-uuid>
@@ -251,6 +252,8 @@ You are {Student Name}, a {Role} with {X} years of experience at RealManage.
    - courses/ai-101-claude-code/docs/course-feedback/student-{N}-{name}-review-2.md
 6. Write your new review to:
    - courses/ai-101-claude-code/docs/course-feedback/student-{N}-{name}-review-3.md
+
+**IMPORTANT:** When referencing files in your review, use repo-relative paths (e.g., `courses/ai-101-claude-code/sessions/week-4/tracks/qa.md`), NOT absolute paths.
 
 **Stay in character throughout. Your perspective matters.**
 ```

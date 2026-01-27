@@ -19,7 +19,7 @@ Already comfortable with AI tools? Skip the basics:
 1. **[Decision Trees](resources/decision-trees.md)** (30 min) - When to use what
 2. **[Week 3: Code Review](sessions/week-3/README.md)** (1 hr) - Plan Mode + CodeReviewPro exercise
 3. **[Week 4: TDD](sessions/week-4/README.md)** (1 hr) - Tests-first workflow with Claude
-4. **[Week 8: CI/CD](sessions/week-8/README.md)** (1 hr) - Production integration
+4. **[Week 8: Automation](sessions/week-8/README.md)** (1 hr) - Headless automation patterns
 5. **Capstone** (as needed) - Validate your skills
 
 *Sam-approved for senior devs who've used Copilot and want to see what's different.*
@@ -474,11 +474,11 @@ RealManage examples:
 
 ---
 
-## Week 8: Real-World Automation & CI/CD
+## Week 8: Real-World Automation
 
 ### Objectives
 - Build cross-functional skills for different team workflows
-- Integrate Claude Code with GitLab CI/CD pipelines
+- Create headless automation scripts using Claude Code CLI
 - Apply efficiency strategies for optimal Claude Code usage
 - Create continuous improvement workflows
 
@@ -489,10 +489,10 @@ RealManage examples:
 - **PM:** Release notes, sprint planning
 - **Engineering:** API docs, refactoring automation
 
-#### 2. GitLab CI/CD Integration (30 min)
-- Pipeline structure for Claude Code
-- Automated MR reviews with error handling
-- Documentation generation pipelines
+#### 2. Headless Claude Automation (30 min)
+- CLI flags for batch processing (`-p`, `--output-format`, etc.)
+- Building automation scripts
+- Multi-stage processing pipelines
 
 #### 3. Efficiency & Context Management (20 min)
 - Model selection (Sonnet vs Opus)
@@ -501,7 +501,7 @@ RealManage examples:
 
 #### 4. Hands-On Workshop (45 min)
 - Build cross-functional skills
-- Implement CI/CD workflow
+- Create batch automation scripts
 - Optimize your workflows
 
 **[→ Full Week 8 Lesson](./sessions/week-8/README.md)**

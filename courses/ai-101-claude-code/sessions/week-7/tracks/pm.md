@@ -62,7 +62,7 @@ The "realmanage-hoa" plugin could include:
 
 Instead of Week 7, consider:
 
-1. **Review Week 8 Preview** - CI/CD and real-world automation are more PM-relevant
+1. **Review Week 8 Preview** - Headless automation and real-world workflows are more PM-relevant
 2. **Identify plugin opportunities** - What repeated tasks could be automated?
 3. **Document requirements** - What should a "violation-management" plugin do?
 4. **Plan team adoption** - How would plugins improve your team's workflow?

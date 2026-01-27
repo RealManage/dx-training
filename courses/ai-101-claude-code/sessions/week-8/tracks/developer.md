@@ -1,4 +1,4 @@
-# Week 8: Real-World Automation & CI/CD - Developer Track
+# Week 8: Real-World Automation - Developer Track
 
 **Track:** Developer (Full Content - Default)
 **Duration:** 2 hours
@@ -6,16 +6,17 @@
 
 ---
 
-This is the complete developer track covering all aspects of real-world automation and CI/CD integration with Claude Code.
+This is the complete developer track covering all aspects of real-world automation with Claude Code, including headless automation scripts and batch processing.
 
 ## Learning Objectives
 
 By the end of this session, you will be able to:
+
 - Build cross-functional skills for different team workflows
-- Implement GitLab CI/CD pipelines with Claude Code integration
+- Create headless automation scripts using Claude Code CLI
 - Apply efficiency strategies for optimal Claude Code usage
 - Create continuous improvement workflows
-- Design production-ready automation pipelines
+- Design batch processing and report generation tools
 - Measure and track productivity gains with metrics
 
 ## Part 1: Cross-Functional Use Cases (25 min)
@@ -25,6 +26,7 @@ By the end of this session, you will be able to:
 As a developer, you may need to create skills that support other teams. Here are patterns for support workflows:
 
 **Ticket Summarization Skill (.claude/skills/ticket-summary/SKILL.md):**
+
 ```markdown
 ---
 name: ticket-summary
@@ -52,6 +54,7 @@ Analyze support ticket $ARGUMENTS and create an executive summary.
 ```
 
 **Response Draft Skill (.claude/skills/draft-response/SKILL.md):**
+
 ```markdown
 ---
 name: draft-response
@@ -81,6 +84,7 @@ Draft a $2 response for ticket $1.
 Skills you can build to help PMs:
 
 **Release Notes Generator (.claude/skills/release-notes/SKILL.md):**
+
 ```markdown
 ---
 name: release-notes
@@ -112,6 +116,7 @@ Generate release notes for changes between $1 and $2.
 ```
 
 **Sprint Planning Assistant (.claude/skills/sprint-plan/SKILL.md):**
+
 ```markdown
 ---
 name: sprint-plan
@@ -135,6 +140,7 @@ Plan sprint $1 with team capacity of $2 story points.
 Core developer skills:
 
 **Code Documentation Generator (.claude/skills/api-docs/SKILL.md):**
+
 ```markdown
 ---
 name: api-docs
@@ -154,6 +160,7 @@ Generate OpenAPI-compatible documentation for $ARGUMENTS.
 ```
 
 **Refactoring Assistant (.claude/skills/refactor/SKILL.md):**
+
 ```markdown
 ---
 name: refactor
@@ -177,203 +184,151 @@ Refactor $1 applying $2 pattern.
 - Create rollback commit point first
 ```
 
-## Part 2: GitLab CI/CD Integration (30 min)
+## Part 2: Headless Claude Automation (30 min)
 
-### 2.1 Claude Code in CI/CD
+### 2.1 Understanding Headless Mode
 
-**Understanding CI/CD Integration:**
+**What is Headless Automation?**
 
-Claude Code can be integrated into GitLab CI/CD pipelines for:
-- Automated code review on merge requests
-- MR description generation
-- Test generation for new code
-- Documentation updates
-- Release automation
+Claude Code can run without interactive prompts using the `-p` (or `--print`) flag. This enables:
 
-**Basic Pipeline Structure:**
-```yaml
-# .gitlab-ci.yml
-stages:
-  - build
-  - test
-  - review
+- Batch processing multiple files
+- Scripted workflows and pipelines
+- Automated report generation
+- Integration with other tools
 
-variables:
-  DOTNET_VERSION: "10.0"
+**Key CLI Flags for Automation:**
 
-# Required CI/CD Variables (Settings > CI/CD > Variables):
-#   - ANTHROPIC_API_KEY: Your Anthropic API key (masked)
-#   - GITLAB_TOKEN: GitLab personal access token with api scope
+| Flag | Description | Example |
+|------|-------------|---------|
+| `-p, --print` | Non-interactive mode, prints result and exits | `claude -p "Review this code"` |
+| `--output-format` | Output format: `text`, `json`, `stream-json` | `--output-format json` |
+| `--model` | Select model: `sonnet`, `opus` | `--model opus` |
+| `--fallback-model` | Fallback if primary overloaded | `--fallback-model sonnet` |
+| `--add-dir` | Add directories to context | `--add-dir ./src` |
+| `--max-budget-usd` | Set spending limit for the run | `--max-budget-usd 1.00` |
+| `--json-schema` | Validate output against JSON schema | `--json-schema '{"type":"object"}'` |
+| `--system-prompt` | Override the system prompt | `--system-prompt "You are a reviewer"` |
+| `--verbose` | Show detailed output | `--verbose` |
+| `-r, --resume` | Resume a previous session by ID | `--resume abc123` |
+| `-c, --continue` | Continue the most recent session | `--continue` |
+| `--no-session-persistence` | Don't save the session (ephemeral) | `--no-session-persistence` |
 
-build:
-  stage: build
-  image: mcr.microsoft.com/dotnet/sdk:10.0
-  script:
-    - dotnet restore
-    - dotnet build --no-restore --warnaserror
+### 2.2 Build a Batch Code Reviewer
 
-test:
-  stage: test
-  image: mcr.microsoft.com/dotnet/sdk:10.0
-  script:
-    - dotnet test --verbosity normal --collect:"XPlat Code Coverage"
-  coverage: '/Total\s*\|\s*(\d+(?:\.\d+)?%)/'
+Let's build a script that reviews multiple files and generates a consolidated report.
 
-claude-review:
-  stage: review
-  image: node:22
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-  before_script:
-    - npm install -g @anthropic-ai/claude-code
-  script:
-    - |
-      claude --print "Review the changes in this MR for:
-      1. Code quality issues
-      2. Security concerns
-      3. Test coverage gaps
-      4. Documentation needs
+**Create `scripts/batch-review.sh`:**
 
-      Output findings as markdown."
+```bash
+#!/bin/bash
+# batch-review.sh - Review multiple files and generate a report
+# Usage: ./batch-review.sh file1.cs file2.cs file3.cs
+#    or: ./batch-review.sh src/Services/*.cs
+
+set -e
+
+OUTPUT_FILE="code-review-report.md"
+TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+
+# Start the report
+cat > "$OUTPUT_FILE" << EOF
+# Code Review Report
+
+**Generated:** $TIMESTAMP
+**Reviewed by:** Claude Code
+**Files:** $#
+
+---
+
+EOF
+
+echo "Starting batch review of $# files..."
+
+for file in "$@"; do
+    if [[ ! -f "$file" ]]; then
+        echo "⚠️  Skipping (not found): $file"
+        continue
+    fi
+
+    echo "📝 Reviewing: $file"
+
+    echo "## $(basename "$file")" >> "$OUTPUT_FILE"
+    echo "\`$file\`" >> "$OUTPUT_FILE"
+    echo "" >> "$OUTPUT_FILE"
+
+    # Run Claude review with automation flags
+    claude -p "Review this file for bugs, security issues, and style problems. Be concise. Format as bullet list. File: $file" \
+      --model sonnet \
+      --no-session-persistence \
+      >> "$OUTPUT_FILE" 2>/dev/null || echo "_Review failed_" >> "$OUTPUT_FILE"
+
+    echo -e "\n---\n" >> "$OUTPUT_FILE"
+done
+
+echo "✅ Report saved to: $OUTPUT_FILE"
 ```
 
-### 2.2 Automated Code Review Workflow
+### 2.3 Advanced Automation Patterns
 
-**MR Review Pipeline (Production-Ready with Error Handling):**
-```yaml
-# Add to .gitlab-ci.yml
-claude-review:
-  stage: review
-  image: node:22
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-  variables:
-    CLAUDE_TIMEOUT_SECONDS: "300"      # 5 minute timeout per attempt
-    RETRY_MAX_ATTEMPTS: "3"
-    RETRY_DELAY_SECONDS: "10"
-  timeout: 10 minutes                  # GitLab job timeout (2x Claude timeout for safety)
-  retry:
-    max: 2                             # Retry failed jobs
-    when:
-      - runner_system_failure
-      - stuck_or_timeout_failure
-      - api_failure
-  before_script:
-    - npm install -g @anthropic-ai/claude-code
-  script:
-    - |
-      set -euo pipefail  # Fail fast on errors
+**JSON Output for Programmatic Use:**
 
-      # Get list of changed files in this merge request
-      CHANGED_FILES=$(git diff --name-only $CI_MERGE_REQUEST_DIFF_BASE_SHA...HEAD | tr '\n' ' ')
-
-      # Skip if no files changed (edge case)
-      if [ -z "$CHANGED_FILES" ]; then
-        echo "No files changed, skipping review"
-        exit 0
-      fi
-
-      # Run Claude Code with timeout and retry logic
-      review_attempt=0
-      review_success=false
-
-      while [ $review_attempt -lt $RETRY_MAX_ATTEMPTS ] && [ "$review_success" = "false" ]; do
-        review_attempt=$((review_attempt + 1))
-        echo "Review attempt $review_attempt of $RETRY_MAX_ATTEMPTS"
-
-        if timeout ${CLAUDE_TIMEOUT_SECONDS}s claude --print \
-          "Review these changed files for:
-          1. Logic errors or bugs
-          2. Security vulnerabilities (OWASP Top 10)
-          3. Performance issues
-          4. Code style consistency
-          5. Missing error handling
-
-          Files: $CHANGED_FILES
-
-          Format as markdown with file:line references." > review.md 2>&1; then
-          review_success=true
-        else
-          exit_code=$?
-          if [ $exit_code -eq 124 ]; then
-            echo "Claude review timed out after ${CLAUDE_TIMEOUT_SECONDS}s"
-          else
-            echo "Claude review failed with exit code $exit_code"
-          fi
-
-          if [ "$review_success" = "false" ] && [ $review_attempt -lt $RETRY_MAX_ATTEMPTS ]; then
-            echo "Retrying in ${RETRY_DELAY_SECONDS}s..."
-            sleep $RETRY_DELAY_SECONDS
-          fi
-        fi
-      done
-
-      # Verify review file exists and has content
-      if [ ! -s review.md ]; then
-        echo "Review generation failed after $RETRY_MAX_ATTEMPTS attempts"
-        echo "**Automated review unavailable** - Please review manually." > review.md
-      fi
-
-      # Post the review as a comment on the merge request
-      REVIEW_BODY=$(cat review.md | jq -Rs .)
-      curl --fail --retry 3 --retry-delay 5 \
-        --request POST \
-        --header "PRIVATE-TOKEN: $GITLAB_TOKEN" \
-        --header "Content-Type: application/json" \
-        --data "{\"body\": $REVIEW_BODY}" \
-        "$CI_API_V4_URL/projects/$CI_PROJECT_ID/merge_requests/$CI_MERGE_REQUEST_IID/notes"
-  allow_failure: true  # Don't block MR on review failures
+```bash
+# Get structured output for parsing
+claude -p "Analyze this code. Output JSON: {file, issues[], severity}" \
+  --output-format json \
+  --model sonnet
 ```
 
-**Key Production Patterns:**
-| Pattern | Purpose | Implementation |
-|---------|---------|----------------|
-| **Timeout** | Prevent runaway jobs | `timeout` command + GitLab job timeout |
-| **Retry** | Handle transient failures | Loop with backoff + GitLab retry |
-| **Fail-safe** | Don't block on failures | `allow_failure: true` |
-| **Validation** | Catch empty results | Check file size before posting |
+**Structured Output with JSON Schema:**
 
-**Key GitLab CI/CD Variables:**
-| Variable | Description | Where to Set |
-|----------|-------------|--------------|
-| `CI_MERGE_REQUEST_DIFF_BASE_SHA` | Base commit of MR | Auto-provided |
-| `CI_MERGE_REQUEST_IID` | MR internal ID | Auto-provided |
-| `CI_API_V4_URL` | GitLab API URL | Auto-provided |
-| `ANTHROPIC_API_KEY` | Claude API key | Settings > CI/CD > Variables |
-| `GITLAB_TOKEN` | PAT with api scope | Settings > CI/CD > Variables |
+```bash
+# Enforce specific output structure
+claude -p "Analyze this code for security issues" \
+  --output-format json \
+  --json-schema '{"type":"object","properties":{"issues":{"type":"array"},"risk_level":{"type":"string"}},"required":["issues","risk_level"]}'
+```
 
-### 2.3 Documentation Generation Pipeline
+**Pipeline Pattern (Multi-Stage Processing):**
 
-**Auto-Update Docs Pipeline:**
-```yaml
-# Add to .gitlab-ci.yml
-doc-generation:
-  stage: deploy
-  image: node:22
-  rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-      changes:
-        - "src/**/*.cs"
-  before_script:
-    - npm install -g @anthropic-ai/claude-code
-    - apt-get update && apt-get install -y git
-  script:
-    - |
-      claude --print "Scan src/Controllers/*.cs and generate:
-      1. API endpoint documentation in docs/api/
-      2. Update README.md API section
-      3. Create changelog entry for new endpoints
+```bash
+#!/bin/bash
+# Process through multiple stages
+INPUT=$1
+mkdir -p ./pipeline-output
 
-      Use existing documentation style and format."
+echo "Stage 1: Analysis..."
+claude -p "Analyze architecture in $INPUT" --model opus --no-session-persistence > ./pipeline-output/analysis.md
 
-      # Commit and push documentation updates
-      git config user.name "GitLab CI"
-      git config user.email "ci@realmanage.com"
-      git add docs/ README.md CHANGELOG.md
-      git diff --staged --quiet || git commit -m "docs: Auto-update documentation
+echo "Stage 2: Recommendations..."
+claude -p "Based on this analysis, suggest improvements: $(cat ./pipeline-output/analysis.md)" \
+  --model sonnet --no-session-persistence > ./pipeline-output/recommendations.md
 
-      Co-Authored-By: Claude <noreply@anthropic.com>"
-      git push https://oauth2:$GITLAB_TOKEN@$CI_SERVER_HOST/$CI_PROJECT_PATH.git HEAD:main
+echo "✅ Pipeline complete!"
+```
+
+**Using --continue for Multi-Turn Scripts:**
+
+```bash
+# First call - analyze
+claude -p "Analyze the architecture in src/Services/" --model opus
+
+# Follow-up call - continues the conversation with full context
+claude --continue -p "Now suggest improvements to the patterns you identified"
+```
+
+**Parallel Processing:**
+
+```bash
+# Review files in parallel for faster processing
+for file in src/Services/*.cs; do
+    claude -p "Brief review of $file" \
+      --model sonnet \
+      --no-session-persistence \
+      > "reviews/$(basename "$file" .cs)-review.md" &
+done
+wait
+echo "All reviews complete"
 ```
 
 ## Part 3: Efficiency & Context Management (20 min)
@@ -399,6 +354,7 @@ claude --model opus
 ```
 
 **When to use Opus:**
+
 - Designing system architecture
 - Complex algorithmic problems
 - Multi-file refactoring with dependencies
@@ -448,6 +404,7 @@ CalculateLateFee(decimal principal, int daysLate) -> decimal
 ```
 
 **Why efficient prompts work better:**
+
 - CLAUDE.md already has your tech stack and TDD requirements
 - Claude remembers session context—don't repeat it
 - Concise prompts = faster responses
@@ -470,6 +427,7 @@ Common mistakes that reduce quality or waste your time:
 #### Before/After Examples
 
 **Retry Hammering (The #1 Anti-Pattern):**
+
 ```markdown
 # ❌ BAD CONVERSATION:
 User: "Fix the null reference in PropertyService"
@@ -489,6 +447,7 @@ User: "Getting closer but now failing on line 47. Let me show you the test outpu
 ```
 
 **Verbose Prompts:**
+
 ```markdown
 # ❌ BAD: Wall of text repeating known context
 "I'm working on the RealManage HOA system which manages properties and
@@ -503,6 +462,7 @@ Grace: 30d = $0, then 10% monthly compound. Tests first."
 ```
 
 **No /clear Discipline:**
+
 ```markdown
 # ❌ BAD: One endless session for everything
 > [Deep in ViolationService refactor with 50 files in context...]
@@ -584,6 +544,7 @@ claude
 ### 5.2 Workshop Exercises
 
 **Exercise 1: Create Cross-Functional Skill (10 min)**
+
 ```
 Create a skill that generates a weekly status report:
 1. Takes sprint_number as argument
@@ -595,18 +556,20 @@ Create a skill that generates a weekly status report:
 Save to: .claude/skills/weekly-status/SKILL.md
 ```
 
-**Exercise 2: Build GitLab CI Job (5 min)**
-```
-Create a pipeline job that:
-1. Triggers on MR to main branch
-2. Runs dotnet test
-3. Uses Claude to review changed files
-4. Posts review as MR comment
+**Exercise 2: Build Batch Review Script (5 min)**
 
-Add to: .gitlab-ci.yml
+```
+Create an automation script that:
+1. Takes a list of files as arguments
+2. Runs Claude review on each file
+3. Generates a consolidated report
+4. Saves to code-review-report.md
+
+Add to: scripts/batch-review.sh
 ```
 
 **Exercise 3: Efficiency Audit (5 min)**
+
 ```
 Analyze the example project for efficiency improvements:
 1. Identify repeated prompts that could be skills
@@ -614,20 +577,32 @@ Analyze the example project for efficiency improvements:
 3. Create a streamlined version of the project CLAUDE.md
 ```
 
+---
+
+## 📚 Quick Resources
+
+- [Troubleshooting](../../resources/troubleshooting.md) - Common issues and solutions
+- [CLI Commands](../../resources/cli-commands.md) - Full CLI reference
+- [Production Hardening Guide](../../resources/production-hardening.md) - Production-ready bash patterns for Claude automation
+
+---
+
 ## Homework (Before Week 9)
 
-### Required Tasks:
+### Required Tasks
+
 1. Create three cross-functional skills for your team
-2. Set up a GitLab CI/CD pipeline with Claude
+2. Build a batch automation script using Claude Code CLI
 3. Update your project CLAUDE.md with lessons learned
 4. Share your best workflow in `#dx-training`
 
-### Stretch Goals:
-1. Build automated PR review pipeline
+### Stretch Goals
+
+1. Build a multi-stage processing pipeline
 2. Create team productivity dashboard
 3. Implement auto-run-tests hook for your projects
 
 ---
 
 *Developer Track - Week 8*
-*Full content for engineers implementing CI/CD automation*
+*Full content for engineers implementing headless automation*

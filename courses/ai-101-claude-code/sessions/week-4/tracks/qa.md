@@ -19,6 +19,7 @@ Week 4 is your **power week**. While developers learn to write tests *before* co
 ## QA-Specific Learning Objectives
 
 By the end of this session, you will be able to:
+
 - ✅ Analyze existing code to identify testable behaviors
 - ✅ Write comprehensive test suites using Claude Code
 - ✅ Identify coverage gaps and prioritize what to test
@@ -42,6 +43,7 @@ cd sandbox/property-manager
 ### The Code You're Testing
 
 Open `Services/PropertyService.cs`. You'll find methods like:
+
 - `GetAllPropertiesAsync()` - Lists properties
 - `GetPropertyByIdAsync(int id)` - Fetches single property
 - `SearchPropertiesAsync(string searchTerm)` - Has a TODO about edge cases!
@@ -52,6 +54,7 @@ Open `Services/PropertyService.cs`. You'll find methods like:
 ### QA Prompts to Use
 
 **1. Analyze the code first:**
+
 ```
 Read Services/PropertyService.cs and Tests/PropertyServiceTests.cs.
 Identify:
@@ -63,12 +66,14 @@ Don't write any tests yet - just analyze.
 ```
 
 **2. Check existing coverage:**
+
 ```
 Run the existing tests and show me the coverage report.
 Which methods have less than 80% coverage?
 ```
 
 **3. Write tests for uncovered code:**
+
 ```
 Write xUnit tests for UpdatePropertyAsync covering:
 - Successful update (happy path)
@@ -79,6 +84,7 @@ Use FluentAssertions for readable assertions.
 ```
 
 **4. Generate edge case test data:**
+
 ```
 Generate test cases for SearchPropertiesAsync covering:
 - Null search term
@@ -90,6 +96,7 @@ Generate test cases for SearchPropertiesAsync covering:
 ```
 
 ### Success Criteria
+
 - [ ] Coverage increased from ~60% to 80%+
 - [ ] `UpdatePropertyAsync` now has tests
 - [ ] `SearchPropertiesAsync` edge cases covered
@@ -113,6 +120,7 @@ cd sandbox/property-manager
 ### QA Prompts to Use
 
 **1. Run coverage and analyze gaps:**
+
 ```
 Run tests with coverage: dotnet test --collect:"XPlat Code Coverage"
 Show me which methods have less than 80% branch coverage.
@@ -120,6 +128,7 @@ For each gap, explain what scenarios aren't tested.
 ```
 
 **2. Prioritize what to test:**
+
 ```
 Looking at the coverage gaps, prioritize them by:
 1. Business risk (what breaks if this fails?)
@@ -129,6 +138,7 @@ Give me a prioritized list of tests to write.
 ```
 
 **3. Write the high-priority tests:**
+
 ```
 Write tests for the top 3 priority gaps you identified.
 Focus on branch coverage, not just line coverage.
@@ -143,6 +153,7 @@ Focus on branch coverage, not just line coverage.
 ### QA Prompts to Use
 
 **1. Generate boundary test data:**
+
 ```
 Generate test data for ViolationEscalation scenarios:
 - Violation at exactly 30 days (warning threshold)
@@ -153,6 +164,7 @@ Generate test data for ViolationEscalation scenarios:
 ```
 
 **2. Use Bogus for realistic data:**
+
 ```
 Create a test data builder using Bogus that generates:
 - Realistic homeowner names and addresses
@@ -179,18 +191,21 @@ Show me how to use it in a test.
 ## QA-Specific Tips
 
 ### When Analyzing Code
+
 - Look for `if/else` branches - each needs a test
 - Check for null handling - test with nulls
 - Find magic numbers - test boundaries around them
 - Look for exception throws - test that they actually throw
 
 ### When Writing Tests
+
 - Name tests by behavior: `CalculateLateFee_WhenBalanceIsZero_ReturnsZero`
 - One assertion per test when possible
 - Use `[Theory]` with `[InlineData]` for data-driven tests
 - Don't test private methods - test through public API
 
 ### Coverage Quality > Coverage Quantity
+
 - 80% meaningful coverage beats 95% trivial coverage
 - Branch coverage matters more than line coverage
 - Test the sad paths, not just happy paths
@@ -207,8 +222,147 @@ After this week, you can provide feedback like:
 
 ---
 
+## API & Integration Testing with Claude (30 min)
+
+Beyond unit tests, QA engineers often need to write API and integration tests. Claude can help with these too.
+
+### API Testing with RestSharp
+
+```csharp
+// Install: dotnet add package RestSharp
+
+using RestSharp;
+using FluentAssertions;
+
+public class PaymentApiTests
+{
+    private readonly RestClient _client;
+
+    public PaymentApiTests()
+    {
+        _client = new RestClient("https://api.example.com");
+    }
+
+    [Fact]
+    public async Task GetPayment_WithValidId_ReturnsPayment()
+    {
+        // Arrange
+        var request = new RestRequest("/api/payments/123", Method.Get);
+
+        // Act
+        var response = await _client.ExecuteAsync<PaymentResponse>(request);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.Data.Should().NotBeNull();
+        response.Data!.Id.Should().Be(123);
+    }
+
+    [Fact]
+    public async Task GetPayment_WithInvalidId_Returns404()
+    {
+        var request = new RestRequest("/api/payments/99999", Method.Get);
+
+        var response = await _client.ExecuteAsync(request);
+
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task CreatePayment_WithValidData_Returns201()
+    {
+        var request = new RestRequest("/api/payments", Method.Post);
+        request.AddJsonBody(new { Amount = 100.00m, ResidentId = 456 });
+
+        var response = await _client.ExecuteAsync<PaymentResponse>(request);
+
+        response.StatusCode.Should().Be(HttpStatusCode.Created);
+        response.Data!.Amount.Should().Be(100.00m);
+    }
+}
+```
+
+### Asking Claude for API Tests
+
+```
+Generate API tests for @Controllers/PaymentController.cs
+Use RestSharp and FluentAssertions.
+Test happy paths, error cases (400, 404, 500), and edge cases.
+```
+
+> **Tip:** Use `@path/to/file` to reference files instead of copy-pasting content. Claude will read the file automatically.
+
+### Integration Test Pattern
+
+For tests that hit real databases (in test containers):
+
+```csharp
+public class PaymentIntegrationTests : IClassFixture<TestDatabaseFixture>
+{
+    private readonly TestDatabaseFixture _fixture;
+
+    public PaymentIntegrationTests(TestDatabaseFixture fixture)
+    {
+        _fixture = fixture;
+    }
+
+    [Fact]
+    public async Task ProcessPayment_UpdatesBalanceInDatabase()
+    {
+        // Arrange - seed test data
+        var resident = await _fixture.SeedResident(balance: 500.00m);
+
+        // Act - call the real service with real DB
+        var service = new PaymentService(_fixture.DbContext);
+        await service.ProcessPaymentAsync(resident.Id, 100.00m);
+
+        // Assert - check database state
+        var updated = await _fixture.DbContext.Residents.FindAsync(resident.Id);
+        updated!.Balance.Should().Be(400.00m);
+    }
+}
+```
+
+### E2E Testing Basics
+
+For full end-to-end tests, consider:
+
+| Tool | Use Case | Complexity |
+|------|----------|------------|
+| Playwright | Browser automation | Medium |
+| Selenium | Legacy browser tests | High |
+| HttpClient | API-only E2E | Low |
+| TestContainers | DB integration | Medium |
+
+> **Pro Tip:** Ask Claude to generate E2E test scaffolding:
+> "Create a Playwright test that logs in as a resident, views their balance, and makes a payment."
+
+### When to Use Each Test Type
+
+```
+Unit Tests (70%)
+├── Fast, isolated, mock dependencies
+├── Test business logic
+└── Run on every commit
+
+Integration Tests (20%)
+├── Test component interactions
+├── Real database (test container)
+└── Run on PR/merge
+
+E2E Tests (10%)
+├── Full user flows
+├── Real browser/API
+└── Run nightly/pre-release
+```
+
+This follows the **Test Pyramid** - more unit tests at the base, fewer E2E tests at the top.
+
+---
+
 ## 📚 Quick Resources
 
 - [Glossary](../../resources/glossary.md) - Testing terms explained
 - [Troubleshooting](../../resources/troubleshooting.md#-coverage-target-explanation) - Coverage target rationale
 - [QA Quick-Start](../../resources/quick-start-qa.md) - Your full learning path
+- [Production Hardening](../../resources/production-hardening.md) - Production-ready automation patterns

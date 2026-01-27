@@ -18,7 +18,7 @@ Choose the track that matches your role for role-specific guidance on which caps
 - **Option A: Violation Escalation System** - Backend focus, state machines, business logic
 - **Option B: Self-Service Knowledge Base** - Full-stack, C# API + Angular frontend
 - **Option C: Financial Forecasting Tool** - Data focus, analytics, reporting
-- **Option D: Test Automation Suite** - QA focus, test frameworks, CI/CD
+- **Option D: Test Automation Suite** - QA focus, test frameworks, batch automation
 
 ### Non-Coding Tracks (Documentation Focus)
 

@@ -41,7 +41,7 @@ Instead of Week 7, consider:
 1. **Review Week 6 (Agents & Hooks)** - Understand the components that go into plugins
 2. **Test existing plugins** - Use developer-created plugins and provide feedback
 3. **Document test cases** - Create test scenarios for plugin functionality
-4. **Prepare for Week 8** - Focus on CI/CD integration and automation testing
+4. **Prepare for Week 8** - Focus on headless automation and batch testing
 
 ## Quick Reference
 

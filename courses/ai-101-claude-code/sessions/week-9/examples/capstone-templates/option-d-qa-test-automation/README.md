@@ -1,7 +1,7 @@
 # Option D: Test Automation Suite
 
 **Track:** QA Engineers
-**Focus:** Comprehensive testing, data generation, CI/CD integration
+**Focus:** Comprehensive testing, data generation, batch automation
 
 ## Overview
 
@@ -10,7 +10,7 @@ Build a test automation framework for the HOA module that includes:
 - Comprehensive test suite for violation, dues, and resident workflows
 - Test data generation tools for realistic scenarios
 - Coverage dashboard with real-time metrics
-- CI/CD integration for automated test runs
+- Batch automation scripts for test runs
 
 ## Getting Started
 
@@ -51,7 +51,8 @@ option-d-qa-test-automation/
 │           └── SKILL.md
 ├── coverage/
 │   └── (generated reports)
-└── .gitlab-ci.yml
+└── scripts/
+    └── run-tests.sh
 ```
 
 ## Key Deliverables
@@ -123,35 +124,38 @@ dotnet test --collect:"XPlat Code Coverage"
 reportgenerator -reports:"**/coverage.cobertura.xml" -targetdir:"coverage" -reporttypes:Html
 ```
 
-### 4. CI/CD Integration (`.gitlab-ci.yml`)
+### 4. Test Automation Script (`scripts/run-tests.sh`)
 
-```yaml
-stages:
-  - build
-  - test
-  - coverage
+```bash
+#!/bin/bash
+# run-tests.sh - Build, test, and generate coverage report
+set -e
 
-build:
-  stage: build
-  script:
-    - dotnet build --warnaserror
+echo "🔨 Building project..."
+dotnet build --warnaserror
 
-test:
-  stage: test
-  script:
-    - dotnet test --collect:"XPlat Code Coverage"
-  artifacts:
-    paths:
-      - "**/coverage.cobertura.xml"
+echo "🧪 Running tests with coverage..."
+dotnet test --collect:"XPlat Code Coverage" --results-directory ./TestResults
 
-coverage:
-  stage: coverage
-  script:
-    - reportgenerator -reports:"**/coverage.cobertura.xml" -targetdir:"coverage" -reporttypes:Html
-  artifacts:
-    paths:
-      - coverage/
-  coverage: '/Total.*?([0-9]{1,3})%/'
+echo "📊 Generating coverage report..."
+reportgenerator \
+  -reports:"TestResults/**/coverage.cobertura.xml" \
+  -targetdir:"coverage" \
+  -reporttypes:Html
+
+# Extract coverage percentage
+COVERAGE=$(grep -oP 'line-rate="\K[^"]+' TestResults/**/coverage.cobertura.xml | head -1)
+COVERAGE_PCT=$(echo "$COVERAGE * 100" | bc)
+
+echo "📈 Coverage: ${COVERAGE_PCT}%"
+
+# Fail if below threshold
+if (( $(echo "$COVERAGE_PCT < 80" | bc -l) )); then
+  echo "❌ Coverage ${COVERAGE_PCT}% is below 80% threshold"
+  exit 1
+fi
+
+echo "✅ All tests passed with ${COVERAGE_PCT}% coverage"
 ```
 
 ## Custom Skill: `/generate-test-data`
@@ -184,7 +188,7 @@ Include edge cases and boundary values.
 [ ] Test suite covers all critical HOA workflows
 [ ] Test data generation creates realistic scenarios
 [ ] Coverage dashboard displays real-time metrics
-[ ] CI/CD pipeline runs tests on every commit
+[ ] Batch test script automates test runs
 [ ] Tests are maintainable and well-documented
 [ ] Coverage >= 80% on critical paths
 ```

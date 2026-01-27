@@ -608,21 +608,21 @@ beats 100% coverage with shallow assertions.
 - Integration points between components
 - The tests that would catch real bugs
 
-## 🔄 CI/CD Pipeline Issues
+## 🔄 Batch Automation Issues
 
-When Claude Code in CI/CD pipelines fails:
+When Claude Code batch scripts fail:
 
-### Pipeline Timeout
+### Script Timeout
 
-**Symptoms:** Job killed after 10+ minutes
+**Symptoms:** Script killed or hangs indefinitely
 
 **Solutions:**
-```yaml
-# Add explicit timeout
-claude-review:
-  timeout: 10 minutes
-  script:
-    - timeout 300s claude --print "..."  # 5 min max for Claude
+```bash
+# Add explicit timeout to Claude calls
+timeout 300s claude -p "Your prompt here" --no-session-persistence
+
+# Or use --max-budget-usd to limit cost/time
+claude -p "Your prompt here" --max-budget-usd 0.50
 ```
 
 ### API Rate Limits
@@ -630,51 +630,124 @@ claude-review:
 **Symptoms:** 429 errors, requests failing
 
 **Solutions:**
-```yaml
-# Add retry with backoff
-retry:
-  max: 3
-  when:
-    - api_failure
-script:
-  - for i in 1 2 3; do claude --print "..." && break || sleep $((i * 10)); done
+```bash
+#!/bin/bash
+# Add retry with exponential backoff
+run_claude_with_retry() {
+  local prompt="$1"
+  for i in 1 2 3; do
+    claude -p "$prompt" && return 0
+    echo "Attempt $i failed, retrying in $((i * 10))s..."
+    sleep $((i * 10))
+  done
+  return 1
+}
 ```
 
 ### Empty or Missing Output
 
-**Symptoms:** review.md is empty, no comment posted
+**Symptoms:** Output file is empty or not created
 
 **Solutions:**
 ```bash
-# Validate output before posting
-if [ ! -s review.md ]; then
-  echo "**Automated review unavailable**" > review.md
+# Validate output before using
+output=$(claude -p "Your prompt" --output-format json 2>&1)
+if [ -z "$output" ] || echo "$output" | grep -q "error"; then
+  echo "Claude automation failed: $output"
+  exit 1
 fi
 ```
 
-### GitLab Token Permission Issues
+### JSON Output Parsing
 
-**Symptoms:** 401/403 when posting comments
+**Symptoms:** Can't parse Claude's JSON output
 
-**Checklist:**
-- [ ] `GITLAB_TOKEN` has `api` scope
-- [ ] Token not expired
-- [ ] Variable is masked but not protected (if running on non-protected branches)
-- [ ] Token owner has access to the project
+**Solutions:**
+```bash
+# Use --output-format json for structured output
+claude -p "Analyze this code and return JSON" --output-format json | jq '.result'
 
-### Debug CI/CD Jobs
-
-```yaml
-# Add debug output
-script:
-  - echo "Changed files: $(git diff --name-only $CI_MERGE_REQUEST_DIFF_BASE_SHA...HEAD)"
-  - claude --verbose --print "..." 2>&1 | tee debug.log
-  - cat debug.log
-artifacts:
-  when: always
-  paths:
-    - debug.log
+# Validate JSON before processing
+output=$(claude -p "..." --output-format json)
+if echo "$output" | jq -e . >/dev/null 2>&1; then
+  echo "$output" | jq '.result'
+else
+  echo "Invalid JSON output: $output"
+fi
 ```
+
+### Debug Batch Scripts
+
+```bash
+#!/bin/bash
+# Add verbose debugging
+set -x  # Print each command before execution
+
+# Log all output
+exec > >(tee -a batch-debug.log) 2>&1
+
+# Use Claude's verbose flag
+claude --verbose -p "Your prompt"
+
+# Check exit codes
+claude -p "..." || echo "Claude failed with exit code $?"
+```
+
+### Silent Failures & Exit Codes
+
+**Symptoms:** Script completes but output is empty or wrong
+
+**Common causes and solutions:**
+
+```bash
+# 1. Check if Claude actually ran (exit code 0 = success)
+claude -p "Your prompt" --no-session-persistence
+echo "Exit code: $?"  # 0 = success, non-zero = failure
+
+# 2. Capture stderr separately to see errors
+claude -p "Your prompt" 2>error.log >output.txt
+if [ -s error.log ]; then
+  echo "Errors occurred:"
+  cat error.log
+fi
+
+# 3. Handle empty output explicitly
+output=$(claude -p "Your prompt" --no-session-persistence)
+if [ -z "$output" ]; then
+  echo "WARNING: Claude returned empty output"
+  exit 1
+fi
+
+# 4. Timeout pattern for long-running prompts
+timeout 120s claude -p "Complex analysis..." || {
+  echo "Claude timed out after 120 seconds"
+  exit 1
+}
+```
+
+**Exit code reference:**
+
+| Exit Code | Meaning | Action |
+|-----------|---------|--------|
+| 0 | Success | Output is valid |
+| 1 | General error | Check stderr, retry |
+| 124 | Timeout (from `timeout` cmd) | Increase timeout or simplify prompt |
+| 137 | Killed (OOM) | Reduce context size |
+
+---
+
+## 📋 Version Compatibility
+
+This course was tested with:
+
+| Component | Version | Notes |
+|-----------|---------|-------|
+| Claude Code CLI | 1.x | `claude --version` to check |
+| Node.js | 22 LTS | Required for Claude Code |
+| npm | 10.x | Comes with Node.js |
+| .NET SDK | 10.0 | For C# exercises |
+
+> **Last verified:** January 2026. Run `claude doctor` to check your setup.
 
 ---
 

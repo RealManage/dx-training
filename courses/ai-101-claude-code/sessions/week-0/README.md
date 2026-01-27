@@ -165,7 +165,7 @@ Can you explain these to a colleague?
 | **Week 5** | Commands & Basic Skills | Custom slash commands, reusable prompts |
 | **Week 6** | Agents & Hooks | Custom agents, lifecycle automation |
 | **Week 7** | Plugins | Packaging and distribution |
-| **Week 8** | Real-World Automation & CI/CD | Production patterns, efficiency strategies |
+| **Week 8** | Real-World Automation | Headless automation, efficiency strategies |
 | **Week 9** | Capstone & Certification | Apply everything, get certified |
 
 ### Role-Specific Tracks

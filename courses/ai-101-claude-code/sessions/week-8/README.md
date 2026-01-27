@@ -1,4 +1,4 @@
-# Week 8: Real-World Automation & CI/CD
+# Week 8: Real-World Automation
 
 **Duration:** 2 hours
 **Format:** In-person or virtual
@@ -7,27 +7,28 @@
 ## Learning Objectives
 
 By the end of this session, participants will be able to:
+
 - Apply Claude Code to cross-functional RealManage workflows
-- Integrate Claude Code with GitLab CI/CD pipelines
+- Build headless automation scripts using Claude Code CLI
 - Implement efficiency and context management strategies
 - Build continuous improvement workflows
-- Create production-ready automation pipelines
+- Create batch processing and report generation tools
 - Measure and track productivity gains
 
 ## Pre-Session Checklist
 
 ### For Participants
+
 - [ ] Completed Weeks 1-7 (especially skills from Week 7)
-- [ ] GitLab account with repository access
-- [ ] Understanding of GitLab CI/CD basics
+- [ ] Comfortable with bash scripting basics
 - [ ] Access to a test repository for exercises
 - [ ] Ready for 2-hour session
 
 ### For Instructors
+
 - [ ] Test all example projects build without warnings
-- [ ] Verify GitLab CI/CD pipeline examples are correct
-- [ ] Prepare cost monitoring examples
-- [ ] Have production workflow examples ready
+- [ ] Verify automation script examples work
+- [ ] Have workflow examples ready
 - [ ] Monitor `#dx-training` Slack channel
 
 ## Session Plan
@@ -37,6 +38,7 @@ By the end of this session, participants will be able to:
 #### 1.1 Support Team Workflows (10 min)
 
 **Ticket Summarization Skill (.claude/skills/ticket-summary/SKILL.md):**
+
 ```markdown
 ---
 name: ticket-summary
@@ -64,6 +66,7 @@ Analyze support ticket $ARGUMENTS and create an executive summary.
 ```
 
 **Response Draft Skill (.claude/skills/draft-response/SKILL.md):**
+
 ```markdown
 ---
 name: draft-response
@@ -98,6 +101,7 @@ Draft a $2 response for ticket $1.
 #### 1.2 Product Manager Workflows (10 min)
 
 **Release Notes Generator (.claude/skills/release-notes/SKILL.md):**
+
 ```markdown
 ---
 name: release-notes
@@ -135,6 +139,7 @@ Generate release notes for changes between $1 and $2.
 ```
 
 **Sprint Planning Assistant (.claude/skills/sprint-plan/SKILL.md):**
+
 ```markdown
 ---
 name: sprint-plan
@@ -173,6 +178,7 @@ Plan sprint $1 with team capacity of $2 story points.
 #### 1.3 Engineering Workflows (5 min)
 
 **Code Documentation Generator (.claude/skills/api-docs/SKILL.md):**
+
 ```markdown
 ---
 name: api-docs
@@ -216,6 +222,7 @@ Generate OpenAPI-compatible documentation for $ARGUMENTS.
 ```
 
 **Refactoring Assistant (.claude/skills/refactor/SKILL.md):**
+
 ```markdown
 ---
 name: refactor
@@ -246,153 +253,237 @@ Refactor $1 applying $2 pattern.
 - Create rollback commit point first
 ```
 
-### Part 2: GitLab CI/CD Integration (30 min)
+### Part 2: Headless Claude Automation (30 min)
 
-#### 2.1 Claude Code in CI/CD (10 min)
+#### 2.1 Understanding Headless Mode (5 min)
 
-**Understanding CI/CD Integration:**
+**What is Headless Automation?**
 
-Claude Code can be integrated into GitLab CI/CD pipelines for:
-- Automated code review on merge requests
-- MR description generation
-- Test generation for new code
-- Documentation updates
-- Release automation
+Claude Code can run without interactive prompts using the `-p` (or `--print`) flag. This enables:
 
-**Basic Pipeline Structure:**
-```yaml
-# .gitlab-ci.yml
-stages:
-  - build
-  - test
-  - review
+- Batch processing multiple files
+- Scripted workflows and pipelines
+- Automated report generation
+- Integration with other tools
 
-variables:
-  DOTNET_VERSION: "10.0"
+**Key CLI Flags for Automation:**
 
-# Required CI/CD Variables (Settings > CI/CD > Variables):
-#   - ANTHROPIC_API_KEY: Your Anthropic API key (masked)
-#   - GITLAB_TOKEN: GitLab personal access token with api scope
+| Flag | Description | Example |
+|------|-------------|---------|
+| `-p, --print` | Non-interactive mode, prints result and exits | `claude -p "Review this code"` |
+| `--output-format` | Output format: `text`, `json`, `stream-json` | `--output-format json` |
+| `--model` | Select model: `sonnet`, `opus` | `--model opus` |
+| `--fallback-model` | Fallback if primary overloaded | `--fallback-model sonnet` |
+| `--add-dir` | Add directories to context | `--add-dir ./src` |
+| `--max-budget-usd` | Set spending limit for the run | `--max-budget-usd 1.00` |
+| `--json-schema` | Validate output against JSON schema | `--json-schema '{"type":"object"}'` |
+| `--system-prompt` | Override the system prompt | `--system-prompt "You are a reviewer"` |
+| `--verbose` | Show detailed output | `--verbose` |
+| `-r, --resume` | Resume a previous session by ID | `--resume <session-id>` |
+| `-c, --continue` | Continue the most recent session | `--continue` |
+| `--no-session-persistence` | Don't save the session (ephemeral) | `--no-session-persistence` |
 
-build:
-  stage: build
-  image: mcr.microsoft.com/dotnet/sdk:10.0
-  script:
-    - dotnet restore
-    - dotnet build --no-restore --warnaserror
+**When to Use Headless Mode:**
 
-test:
-  stage: test
-  image: mcr.microsoft.com/dotnet/sdk:10.0
-  script:
-    - dotnet test --verbosity normal --collect:"XPlat Code Coverage"
-  coverage: '/Total\s*\|\s*(\d+(?:\.\d+)?%)/'
+| Use Case | Interactive | Headless |
+|----------|------------|----------|
+| Exploratory coding | ✅ | |
+| Single file review | ✅ | |
+| Batch file processing | | ✅ |
+| Generating reports | | ✅ |
+| Scripted workflows | | ✅ |
+| Scheduled tasks | | ✅ |
 
-claude-review:
-  stage: review
-  image: node:22
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-  before_script:
-    - npm install -g @anthropic-ai/claude-code
-  script:
-    - |
-      claude --print "Review the changes in this MR for:
-      1. Code quality issues
-      2. Security concerns
-      3. Test coverage gaps
-      4. Documentation needs
+#### 2.2 Build a Batch Code Reviewer (15 min)
 
-      Output findings as markdown."
+Let's build a script that reviews multiple files and generates a consolidated report.
+
+**Create the Script:**
+
+Create `scripts/batch-review.sh` in your sandbox:
+
+```bash
+#!/bin/bash
+# batch-review.sh - Review multiple files and generate a report
+# Usage: ./batch-review.sh file1.cs file2.cs file3.cs
+#    or: ./batch-review.sh src/Services/*.cs
+
+set -e
+
+# Configuration
+OUTPUT_FILE="code-review-report.md"
+TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+
+# Start the report
+cat > "$OUTPUT_FILE" << EOF
+# Code Review Report
+
+**Generated:** $TIMESTAMP
+**Reviewed by:** Claude Code
+**Files:** $#
+
+---
+
+EOF
+
+echo "Starting batch review of $# files..."
+echo ""
+
+# Review each file
+for file in "$@"; do
+    if [[ ! -f "$file" ]]; then
+        echo "⚠️  Skipping (not found): $file"
+        continue
+    fi
+
+    echo "📝 Reviewing: $file"
+
+    # Add file header to report
+    echo "## $(basename "$file")" >> "$OUTPUT_FILE"
+    echo "" >> "$OUTPUT_FILE"
+    echo "\`$file\`" >> "$OUTPUT_FILE"
+    echo "" >> "$OUTPUT_FILE"
+
+    # Run Claude review with automation flags
+    claude -p "Review this file for:
+1. Bugs or logic errors
+2. Security issues
+3. Code style problems
+4. Missing error handling
+
+Be concise. Format findings as a bullet list.
+
+File: $file" \
+      --model sonnet \
+      --no-session-persistence \
+      >> "$OUTPUT_FILE" 2>/dev/null || echo "_Review failed_" >> "$OUTPUT_FILE"
+
+    echo "" >> "$OUTPUT_FILE"
+    echo "---" >> "$OUTPUT_FILE"
+    echo "" >> "$OUTPUT_FILE"
+done
+
+echo ""
+echo "✅ Report saved to: $OUTPUT_FILE"
+echo "   Files reviewed: $#"
 ```
 
-#### 2.2 Automated Code Review Workflow (10 min)
+> **📝 Note:** These examples are simplified for learning. Production automation scripts should include retry logic, error handling, cost controls (`--max-budget-usd`), and timeouts. The goal here is to understand the patterns, not create production-ready code.
 
-**MR Review Pipeline:**
-```yaml
-# Add to .gitlab-ci.yml
-claude-review:
-  stage: review
-  image: node:22
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-  before_script:
-    - npm install -g @anthropic-ai/claude-code
-  script:
-    - |
-      # Get list of changed files in this merge request
-      CHANGED_FILES=$(git diff --name-only $CI_MERGE_REQUEST_DIFF_BASE_SHA...HEAD | tr '\n' ' ')
+**Make it executable:**
 
-      # Run Claude Code to review the changes
-      claude --print "Review these changed files for:
-      1. Logic errors or bugs
-      2. Security vulnerabilities (OWASP Top 10)
-      3. Performance issues
-      4. Code style consistency
-      5. Missing error handling
-
-      Files: $CHANGED_FILES
-
-      Format as markdown with file:line references." > review.md
-
-      # Post the review as a comment on the merge request
-      REVIEW_BODY=$(cat review.md | jq -Rs .)
-      curl --request POST \
-        --header "PRIVATE-TOKEN: $GITLAB_TOKEN" \
-        --header "Content-Type: application/json" \
-        --data "{\"body\": $REVIEW_BODY}" \
-        "$CI_API_V4_URL/projects/$CI_PROJECT_ID/merge_requests/$CI_MERGE_REQUEST_IID/notes"
+```bash
+chmod +x scripts/batch-review.sh
 ```
 
-**Key GitLab CI/CD Variables:**
-| Variable | Description | Where to Set |
-|----------|-------------|--------------|
-| `CI_MERGE_REQUEST_DIFF_BASE_SHA` | Base commit of MR | Auto-provided |
-| `CI_MERGE_REQUEST_IID` | MR internal ID | Auto-provided |
-| `CI_API_V4_URL` | GitLab API URL | Auto-provided |
-| `ANTHROPIC_API_KEY` | Claude API key | Settings > CI/CD > Variables |
-| `GITLAB_TOKEN` | PAT with api scope | Settings > CI/CD > Variables |
+#### 2.3 Run the Batch Reviewer (10 min)
 
-#### 2.3 Documentation Generation Pipeline (10 min)
+**Exercise: Review the Example Services**
 
-**Auto-Update Docs Pipeline:**
-```yaml
-# Add to .gitlab-ci.yml
-doc-generation:
-  stage: deploy
-  image: node:22
-  rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-      changes:
-        - "src/**/*.cs"
-  before_script:
-    - npm install -g @anthropic-ai/claude-code
-    - apt-get update && apt-get install -y git
-  script:
-    - |
-      claude --print "Scan src/Controllers/*.cs and generate:
-      1. API endpoint documentation in docs/api/
-      2. Update README.md API section
-      3. Create changelog entry for new endpoints
+```bash
+# Navigate to your sandbox
+cd courses/ai-101-claude-code/sessions/week-8/sandbox/hoa-workflow-automation
 
-      Use existing documentation style and format."
+# Create scripts directory
+mkdir -p scripts
 
-      # Commit and push documentation updates
-      git config user.name "GitLab CI"
-      git config user.email "ci@realmanage.com"
-      git add docs/ README.md CHANGELOG.md
-      git diff --staged --quiet || git commit -m "docs: Auto-update documentation
+# Create the batch-review.sh script (copy from above)
+# Then make it executable
+chmod +x scripts/batch-review.sh
 
-      Co-Authored-By: Claude <noreply@anthropic.com>"
-      git push https://oauth2:$GITLAB_TOKEN@$CI_SERVER_HOST/$CI_PROJECT_PATH.git HEAD:main
+# Run against the service files
+./scripts/batch-review.sh src/Services/*.cs
 ```
 
-**Setting Up Scheduled Pipelines:**
-1. Go to **CI/CD > Schedules** in your GitLab project
-2. Click **New schedule**
-3. Set interval (e.g., daily at 9am)
-4. Select target branch
-5. Add any schedule-specific variables
+**Expected Output:**
+
+```
+Starting batch review of 3 files...
+
+📝 Reviewing: src/Services/BoardReportService.cs
+📝 Reviewing: src/Services/CostTrackingService.cs
+📝 Reviewing: src/Services/LetterGenerationService.cs
+
+✅ Report saved to: code-review-report.md
+   Files reviewed: 3
+```
+
+**View the Report:**
+
+```bash
+cat code-review-report.md
+```
+
+#### 2.4 Advanced Automation Patterns
+
+**JSON Output for Programmatic Use:**
+
+```bash
+# Get structured output for parsing
+claude -p "Review $file. Output JSON with: file, issues array, severity (low/medium/high)" \
+  --output-format json \
+  --model sonnet
+```
+
+**Structured Output with JSON Schema:**
+
+```bash
+# Enforce specific output structure
+claude -p "Analyze this code for security issues" \
+  --output-format json \
+  --json-schema '{"type":"object","properties":{"issues":{"type":"array"},"risk_level":{"type":"string"}},"required":["issues","risk_level"]}'
+```
+
+**Pipeline Pattern (Multi-Stage Processing):**
+
+```bash
+#!/bin/bash
+# meeting-pipeline.sh - Process meeting notes through stages
+
+INPUT=$1
+WORK_DIR="./pipeline-output"
+mkdir -p "$WORK_DIR"
+
+echo "Stage 1: Summarizing..."
+claude -p "Summarize this meeting in 5 bullet points: $(cat "$INPUT")" \
+  --model sonnet --no-session-persistence > "$WORK_DIR/summary.md"
+
+echo "Stage 2: Extracting action items..."
+claude -p "Extract action items. Format: - [ ] [OWNER] - [TASK]
+$(cat "$WORK_DIR/summary.md")" \
+  --model sonnet --no-session-persistence > "$WORK_DIR/actions.md"
+
+echo "Stage 3: Generating tickets..."
+claude -p "Convert to JSON array with summary, assignee, priority:
+$(cat "$WORK_DIR/actions.md")" \
+  --output-format json --no-session-persistence > "$WORK_DIR/tickets.json"
+
+echo "✅ Pipeline complete! Output in $WORK_DIR/"
+```
+
+**Parallel Processing (Advanced):**
+
+```bash
+# Review files in parallel for faster processing
+for file in src/Services/*.cs; do
+    claude -p "Brief review of $file" \
+      --model sonnet \
+      --no-session-persistence \
+      > "reviews/$(basename "$file" .cs)-review.md" &
+done
+wait
+echo "All reviews complete"
+```
+
+**Using --continue for Multi-Turn Scripts:**
+
+```bash
+# First call - analyze
+claude -p "Analyze the architecture in src/Services/" --model opus
+
+# Follow-up call - continues the conversation
+claude --continue -p "Now suggest improvements to the patterns you identified"
+```
 
 ### Part 3: Model Selection & Context Management (20 min)
 
@@ -406,6 +497,7 @@ doc-generation:
 | **Opus** | Highest | Moderate | Complex analysis, architecture, nuanced tasks |
 
 **Model Selection Commands:**
+
 ```bash
 # Check current model
 /model
@@ -416,6 +508,7 @@ doc-generation:
 ```
 
 **When to Use Opus:**
+
 - Complex architectural decisions
 - Multi-file refactoring with many dependencies
 - Nuanced code review requiring deep understanding
@@ -424,6 +517,7 @@ doc-generation:
 
 **Sonnet as Your Default:**
 Sonnet handles 90%+ of development tasks excellently. Use it for:
+
 - Feature implementation
 - Writing tests
 - Code generation
@@ -433,6 +527,7 @@ Sonnet handles 90%+ of development tasks excellently. Use it for:
 #### 3.2 Context Management Strategies (10 min)
 
 **Strategy 1: Model Selection for Task Type**
+
 ```bash
 # Sonnet for implementation (default)
 claude --model sonnet
@@ -445,6 +540,7 @@ claude --model opus
 ```
 
 **Strategy 2: Context Management**
+
 ```bash
 # Compact conversation to save tokens
 /compact
@@ -457,6 +553,7 @@ claude --add-dir src/Services  # Only relevant code
 ```
 
 **Strategy 3: Efficient Prompting**
+
 ```markdown
 # INEFFICIENT (verbose):
 "I have a C# service that handles HOA violations. The service needs to
@@ -473,6 +570,7 @@ to use compound interest at 10% monthly after 60 days."
 ```
 
 **Strategy 4: Caching and Reuse**
+
 ```markdown
 # Create reusable skills instead of repeating prompts
 # Save to: .claude/skills/fine-calc/SKILL.md
@@ -494,6 +592,7 @@ Show calculation breakdown.
 ```
 
 **Productivity Dashboard Skill (.claude/skills/productivity-report/SKILL.md):**
+
 ```markdown
 ---
 name: productivity-report
@@ -566,6 +665,7 @@ Show fix with test."
 ```
 
 **Knowledge Capture Skill (.claude/skills/capture-learning/SKILL.md):**
+
 ```markdown
 ---
 name: capture-learning
@@ -609,6 +709,7 @@ Append to CLAUDE.md under "## Lessons Learned"
 | Code Review Time | PR open to approve | -50% |
 
 **Productivity Dashboard Skill (.claude/skills/productivity-report/SKILL.md):**
+
 ```markdown
 ---
 name: productivity-report
@@ -628,7 +729,7 @@ Analyze productivity for Sprint $ARGUMENTS.
 
 ## Data Sources:
 - Git history for code metrics
-- GitLab MR data
+- Merge request data
 - Jira tickets for bug tracking
 - Coverage reports for trends
 
@@ -672,6 +773,7 @@ claude
 #### 5.2 Workshop Exercises
 
 **Exercise 1: Create Cross-Functional Skill (10 min)**
+
 ```
 Create a skill that generates a weekly status report:
 1. Takes sprint_number as argument
@@ -683,18 +785,20 @@ Create a skill that generates a weekly status report:
 Save to: .claude/skills/weekly-status/SKILL.md
 ```
 
-**Exercise 2: Build GitLab CI Job (5 min)**
-```
-Create a pipeline job that:
-1. Triggers on MR to main branch
-2. Runs dotnet test
-3. Uses Claude to review changed files
-4. Posts review as MR comment
+**Exercise 2: Build Batch Review Script (5 min)**
 
-Add to: .gitlab-ci.yml
+```
+Create an automation script that:
+1. Takes a list of files as arguments
+2. Runs Claude review on each file
+3. Generates a consolidated report
+4. Saves to code-review-report.md
+
+Add to: scripts/batch-review.sh
 ```
 
 **Exercise 3: Efficiency Audit (5 min)**
+
 ```
 Analyze the example project for efficiency improvements:
 1. Identify repeated prompts that could be skills
@@ -705,18 +809,21 @@ Analyze the example project for efficiency improvements:
 ### Part 6: Q&A and Reflection (5 min)
 
 **Discussion Questions:**
+
 - Which workflow will have the biggest impact for your team?
 - What metrics should we track for ROI?
 - How can we share learnings across teams?
 
 **Quick Poll:**
+
 1. Most valuable topic from today (1-5)?
-2. Will you set up GitLab CI/CD integration?
+2. Will you build batch automation scripts?
 3. What will you automate first?
 
 ## Key Takeaways
 
 ### Cross-Functional Skills Quick Reference
+
 ```
 SUPPORT:
 /ticket-summary <id>           -> Summarize for escalation
@@ -731,25 +838,27 @@ ENGINEERING:
 /refactor <file> <type>        -> Safe refactoring
 ```
 
-### GitLab CI/CD Patterns
+### Headless Automation Patterns
+
 ```
-CODE REVIEW:
-- Trigger: merge_request_event
-- Action: Review changed files
-- Output: MR comment via API
+BATCH CODE REVIEW:
+- Input: List of files to review
+- Action: Run Claude review on each
+- Output: Consolidated report
 
-DOCUMENTATION:
-- Trigger: push to main + file changes
-- Action: Update docs from code
-- Output: Commit to main
+MULTI-STAGE PIPELINE:
+- Stage 1: Summarize/analyze
+- Stage 2: Extract action items
+- Stage 3: Generate output (JSON, tickets, etc.)
 
-COST MONITORING:
-- Trigger: schedule (daily)
-- Action: Check usage vs budget
-- Output: Slack alert if needed
+PARALLEL PROCESSING:
+- Input: Multiple files
+- Action: Review in parallel (background jobs)
+- Output: Individual review files
 ```
 
 ### Efficiency Checklist
+
 ```
 [ ] Use /compact for context management
 [ ] Create skills for repeated tasks
@@ -760,20 +869,24 @@ COST MONITORING:
 
 ## Homework (Before Week 9)
 
-### Required Tasks:
+### Required Tasks
+
 1. Create three cross-functional skills for your team
-2. Set up a GitLab CI/CD pipeline with Claude
+2. Build a batch automation script (code review, test analysis, etc.)
 3. Implement auto-run-tests hook for your projects
 4. Update your project CLAUDE.md with lessons learned
 5. Share your best workflow in `#dx-training`
 
-### Stretch Goals:
-1. Build automated PR review pipeline
+### Stretch Goals
+
+1. Build a multi-stage processing pipeline
 2. Create team productivity dashboard
 3. Document team efficiency gains with metrics
 
-### Skill Check:
+### Skill Check
+
 Design a complete automation workflow that:
+
 ```
 1. Triggers on new violation created
 2. Auto-generates first notice letter
@@ -785,31 +898,35 @@ Design a complete automation workflow that:
 ## Resources
 
 ### Official Documentation
-- [Claude Code CI/CD Integration](https://docs.anthropic.com/en/docs/claude-code/ci-cd)
+
+- [Claude Code CLI Reference](https://docs.anthropic.com/en/docs/claude-code/cli)
 - [Claude Code Best Practices](https://docs.anthropic.com/en/docs/claude-code/best-practices)
 - [Context Management](https://docs.anthropic.com/en/docs/claude-code/context)
 
 ### RealManage Resources
+
 - [Week 8 Examples](./examples/) - HOA Workflows project
 - Slack: `#dx-training` for workflow help
 
 ### Additional Reading
-- [GitLab CI/CD Documentation](https://docs.gitlab.com/ee/ci/)
-- [GitLab CI/CD Variables](https://docs.gitlab.com/ee/ci/variables/)
+
+- [Bash Scripting Guide](https://www.gnu.org/software/bash/manual/)
 - [Measuring Developer Productivity](https://www.microsoft.com/research/group/dev-analytics/)
 
 ## Success Metrics
 
-### You're ready for Week 9 when you can:
+### You're ready for Week 9 when you can
+
 - [ ] Create cross-functional skills for different team roles
-- [ ] Set up GitLab CI/CD integration with Claude
+- [ ] Build headless automation scripts with Claude CLI
 - [ ] Manage context effectively for quality responses
 - [ ] Build continuous improvement into your workflow
 - [ ] Measure productivity gains objectively
 - [ ] Share learnings through CLAUDE.md updates
 
-### Red Flags (seek help if):
-- [ ] GitLab CI/CD pipelines failing
+### Red Flags (seek help if)
+
+- [ ] Automation scripts failing consistently
 - [ ] Claude responses degrading in quality
 - [ ] Skills not providing consistent results
 - [ ] Team not adopting new workflows
@@ -818,6 +935,7 @@ Design a complete automation workflow that:
 ## Next Week Preview
 
 **Week 9: Capstone Hackerspace**
+
 - Choose from three capstone options
 - Apply all skills learned in Weeks 1-8
 - Build production-ready automation
@@ -830,63 +948,73 @@ Design a complete automation workflow that:
 ## Instructor Notes
 
 ### Session Timing (2 hours)
+
 - Part 1: Cross-Functional Use Cases - 25 min
-- Part 2: GitLab CI/CD Integration - 30 min
-- Part 3: Cost Optimization - 20 min
+- Part 2: Headless Claude Automation - 30 min
+- Part 3: Model Selection & Context - 20 min
 - Part 4: Continuous Improvement - 20 min
 - Part 5: Hands-On Workshop - 20 min
 - Part 6: Q&A and Reflection - 5 min
 - **Total: 2h 00min**
 
 ### Key Points to Emphasize
+
 - **Cross-functional value** - Claude helps everyone, not just developers
-- **CI/CD integration** - Automation at scale
+- **Headless automation** - CLI scripting for batch processing
 - **Cost awareness** - Use the right model for the job
 - **Continuous improvement** - CLAUDE.md evolves over time
 
 ### Common Questions
 
-**"How do we handle API keys in GitLab CI/CD?"**
-- Store in CI/CD Variables (Settings > CI/CD > Variables)
-- Mark as "Masked" and "Protected" for security
+**"How do we handle API keys in automation scripts?"**
+
+- Use environment variables (never hardcode)
+- Store in secure credential managers
 - Reference as `$ANTHROPIC_API_KEY` in scripts
 - Never commit keys to repository
 
 **"How do we ensure consistent output from skills?"**
+
 - Include explicit output format in skill
 - Test skills with multiple inputs
 - Version control skill files
 - Review and refine based on results
 
 **"When should I use Sonnet vs Opus?"**
+
 - Sonnet: Daily work, general development (faster)
 - Opus: Complex architecture, nuanced analysis (more capable)
 - Start with Sonnet, switch to Opus for hard problems
 
 ### Troubleshooting
 
-**GitLab CI/CD pipelines not running:**
-- Check `.gitlab-ci.yml` syntax (use CI Lint in GitLab)
-- Verify rules/triggers are correct
-- Check CI/CD settings are enabled for project
-- Review pipeline logs for errors
+**Automation scripts not working:**
+
+- Check script has execute permissions (`chmod +x`)
+- Verify Claude CLI is installed and authenticated
+- Check environment variables are set
+- Test with `--verbose` flag for debugging
 
 **Response quality degrading:**
+
 - Use `/compact` to clean up context
 - Use `/clear` when switching unrelated tasks
 - Check if using right model for task complexity
 - Look for repeated similar prompts (create skills instead)
 
 **Skills producing inconsistent results:**
+
 - Make prompts more explicit
 - Add example outputs
 - Reduce ambiguity
 - Test with edge cases
 
 ### Assessment
+
 Quick check at end of session:
+
 1. Name two cross-functional use cases
-2. What triggers a GitLab CI/CD pipeline?
+2. What CLI flags enable headless automation?
 3. When should you use Opus vs Sonnet?
 4. How do you keep Claude's context clean?
 
@@ -898,6 +1026,7 @@ Quick check at end of session:
 - [Decision Trees](../../resources/decision-trees.md) - When to use what
 - [Troubleshooting](../../resources/troubleshooting.md) - Common issues and fixes
 - [CLI Commands](../../resources/cli-commands.md) - Command cheatsheet
+- [Production Hardening](../../resources/production-hardening.md) - Production-ready bash patterns for automation
 
 ---
 

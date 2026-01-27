@@ -1,102 +1,345 @@
 # Week 5: Commands & Basic Skills - PM Track
 
-## This Week is Optional for PMs
+## PM Skill Creation Workshop
 
-Week 5 covers the technical implementation of commands and skills - creating `.md` files, YAML frontmatter, and directory structures. This is primarily developer-focused content.
+**Time:** 1.5 hours
 
----
-
-## What You Can Skip
-
-- Part 1: Creating Slash Commands (technical implementation)
-- Part 2: Creating Skills (technical implementation)
-- Part 3: Hands-On Exercises (coding exercises)
+This week, PMs learn to create their own skills to automate common PM workflows. No coding required - skills are just structured prompts in markdown files.
 
 ---
 
-## What You Should Know (5 min read)
+## Learning Objectives
 
-### The Big Picture
+By the end of this session, you'll be able to:
 
-**Commands** and **Skills** are reusable automation that developers create. Think of them as "saved prompts" that anyone on the team can run.
-
-**Commands** = Simple prompts
-- Example: `/late-fee 500 3` calculates late fees for $500 over 3 months
-
-**Skills** = Commands + supporting files
-- Example: `/violation-report 12345` generates a report using templates and business rules
-
-### Why This Matters for Product
-
-1. **Standardization** - Teams use the same commands = consistent output
-2. **Efficiency** - Complex workflows reduced to one-liners
-3. **Knowledge capture** - Business rules encoded in prompts
-4. **Onboarding** - New team members get productive faster
-
-### Example Use Cases
-
-| Command/Skill | What It Does | Business Value |
-|---------------|--------------|----------------|
-| `/violation-report` | Generates full violation report | Saves 30 min per report |
-| `/late-fee` | Calculates compound interest | Eliminates calculation errors |
-| `/board-summary` | Creates board meeting summary | Standardizes board packets |
+- [ ] Create skills to automate PM workflows
+- [ ] Use skills with the Claude CLI
+- [ ] Build a personal PM automation toolkit
 
 ---
 
-## Recommended for PMs
+## Why PMs Should Create Skills
 
-### Option A: Observe a Developer Session (30 min)
+Skills aren't just for developers. PMs can create skills that:
 
-Sit in on a developer's Week 5 session to see:
-- How commands are created
-- How skills differ from commands
-- What's possible to automate
+| Skill | What It Automates | Time Saved |
+|-------|-------------------|------------|
+| `/release-notes` | Git log → stakeholder summary | 30 min/release |
+| `/meeting-actions` | Meeting notes → Jira-ready tasks | 15 min/meeting |
+| `/sprint-summary` | Sprint data → exec report | 45 min/sprint |
+| `/user-stories` | Epic → broken-down stories | 20 min/epic |
 
-### Option B: Review Existing Commands (15 min)
-
-Ask your team:
-- What commands exist in your projects?
-- Which commands save the most time?
-- What new commands would be valuable?
-
-### Option C: Skip to Week 6 Prep
-
-Week 6 covers Agents & Hooks, which has more PM-relevant content:
-- Custom AI assistants for specific tasks
-- Compliance and audit logging
-- Permission controls
+**The key:** Skills capture your business knowledge and standardize output.
 
 ---
 
-## Questions to Bring to Week 6
+## Part 1: Your First PM Skill (30 min)
 
-As you think about Week 6 (Agents & Hooks), consider:
+### 1.1 Understanding Skill Structure
 
-1. **What tasks require human oversight?** (Hooks can add approval steps)
-2. **What operations need audit trails?** (Hooks can log everything)
-3. **What specialized AI assistants would help?** (Agents can be domain-specific)
+Skills live in `.claude/skills/` and are just markdown files with YAML frontmatter:
+
+```
+your-project/
+├── .claude/
+│   └── skills/
+│       └── release-notes/
+│           └── SKILL.md    ← Your skill definition
+```
+
+### 1.2 Create the Release Notes Skill
+
+Create `.claude/skills/release-notes/SKILL.md`:
+
+```markdown
+---
+name: release-notes
+description: Generate stakeholder-friendly release notes from git history
+argument-hint: [version] [start_date]
+---
+
+Generate release notes for version $1 starting from $2.
+
+## Input Required
+I'll need the git log output. Run this command and paste the results:
+\`\`\`bash
+git log --oneline --since="$2" --until="today"
+\`\`\`
+
+## Output Format
+
+### Release Notes: v$1
+
+**Release Date:** [Today's date]
+
+#### 🚀 New Features
+- [Feature descriptions in business language]
+
+#### 🐛 Bug Fixes
+- [Fix descriptions, no technical jargon]
+
+#### ⚠️ Breaking Changes
+- [Only if applicable]
+
+#### 📋 What's Next
+- [Upcoming features if known]
+
+## Style Guide
+- Write for stakeholders, not developers
+- Focus on business value, not technical details
+- Use clear, jargon-free language
+- Group related changes together
+```
+
+### 1.3 Test Your Skill
+
+```bash
+cd your-project
+claude
+
+# In Claude Code
+/release-notes 2.1.0 2026-01-01
+```
+
+**Example Output:**
+
+```markdown
+### Release Notes: v2.1.0
+
+**Release Date:** January 27, 2026
+
+#### 🚀 New Features
+- Added violation auto-escalation after 30 days of inactivity
+- New late fee compound interest calculator for accurate billing
+
+#### 🐛 Bug Fixes
+- Fixed payment date calculation that caused off-by-one errors
+- Resolved duplicate notification issue for board members
+
+#### ⚠️ Breaking Changes
+- None
+
+#### 📋 What's Next
+- Resident self-service portal (v2.2.0)
+- Mobile app notifications (v2.3.0)
+```
+
+This is what your stakeholders will see - clean, jargon-free, business-focused!
 
 ---
 
-## Homework (PM Track)
+## Part 2: Meeting Actions Skill (30 min)
 
-1. **Talk to your developers** - Ask what commands they've created or want to create
-2. **Identify 2-3 workflows** that could benefit from standardized commands
-3. **Prepare for Week 6** - Think about compliance and audit requirements
+### 2.1 Create the Meeting Actions Skill
+
+Create `.claude/skills/meeting-actions/SKILL.md`:
+
+```markdown
+---
+name: meeting-actions
+description: Extract action items from meeting notes and format for Jira
+argument-hint: [meeting_type]
+---
+
+Extract action items from the meeting notes I'll provide.
+
+## Meeting Type: $1
+
+## What I Need
+Paste your meeting notes below (raw is fine - bullet points, sentences, whatever format you have).
+
+## Output Format
+
+### Action Items from $1
+
+| # | Action | Owner | Due Date | Priority |
+|---|--------|-------|----------|----------|
+| 1 | [Specific, actionable task] | [Name] | [Date] | [High/Medium/Low] |
+
+### Jira-Ready Format
+For each action item, provide copy-paste ready text:
+
+**Title:** [Short, clear title]
+**Description:**
+- Context: [Why this matters]
+- Acceptance Criteria: [How to know it's done]
+- Related to: [Meeting name/date]
+
+### Decisions Made
+- [List any decisions captured in the meeting]
+
+### Follow-ups Needed
+- [Items that need clarification or future discussion]
+
+## Rules
+- If no owner is mentioned, flag as "TBD - needs assignment"
+- If no due date is mentioned, suggest one based on urgency
+- Convert vague items into specific, actionable tasks
+```
+
+### 2.2 Test It
+
+```bash
+claude
+
+# In Claude Code
+/meeting-actions "Sprint Planning"
+# Then paste your meeting notes
+```
 
 ---
 
-## See You in Week 6
+## Part 3: Sprint Summary Skill (20 min)
 
-Week 6: Agents & Hooks covers:
-- Custom subagents (specialized AI assistants)
-- Lifecycle hooks (automated logging, validation, blocking)
-- SOC 2 compliance patterns
+### 3.1 Create the Sprint Summary Skill
 
-This content has more direct PM relevance for:
-- Compliance requirements
-- Workflow approvals
-- Audit trail needs
+Create `.claude/skills/sprint-summary/SKILL.md`:
+
+```markdown
+---
+name: sprint-summary
+description: Generate executive sprint summary from sprint data
+argument-hint: [sprint_number]
+---
+
+Generate an executive summary for Sprint $1.
+
+## Data I'll Need
+Provide the following (paste from Jira export or type manually):
+
+1. **Completed items:** [list]
+2. **Carried over items:** [list]
+3. **Blockers encountered:** [list]
+4. **Team capacity:** [points planned vs delivered]
+
+## Output Format
+
+### Sprint $1 Summary
+
+**Sprint Goal:** [Inferred from completed work]
+**Delivery:** [X of Y points] ([percentage]%)
+
+#### ✅ Completed
+- [Business-value focused descriptions]
+
+#### ➡️ Carried Over
+- [Item] - Reason: [why it didn't complete]
+
+#### 🚧 Blockers & Risks
+- [Blocker] - Impact: [what it affected] - Status: [resolved/ongoing]
+
+#### 📊 Health Indicators
+| Metric | This Sprint | Trend |
+|--------|-------------|-------|
+| Velocity | X points | ↑/↓/→ |
+| Carryover | X% | ↑/↓/→ |
+| Bug Ratio | X% | ↑/↓/→ |
+
+#### 📅 Next Sprint Focus
+- [Recommendations based on this sprint's learnings]
+
+## Tone
+- Executive-friendly (no technical jargon)
+- Honest about challenges
+- Forward-looking recommendations
+```
+
+---
+
+## Part 4: User Story Breakdown Skill (10 min)
+
+### 4.1 Create the Skill
+
+Create `.claude/skills/user-stories/SKILL.md`:
+
+```markdown
+---
+name: user-stories
+description: Break down an epic into well-formed user stories
+argument-hint: [epic_name]
+---
+
+Break down the epic "$1" into user stories.
+
+## Epic Details
+Provide the epic description, and I'll generate stories.
+
+## Output Format
+
+### Epic: $1
+
+#### Story 1: [Short title]
+**As a** [user type]
+**I want to** [action]
+**So that** [benefit]
+
+**Acceptance Criteria:**
+- [ ] [Specific, testable criterion]
+- [ ] [Another criterion]
+
+**Story Points:** [Estimate with rationale]
+**Dependencies:** [Other stories this depends on]
+
+---
+
+[Repeat for each story]
+
+### Story Map
+
+\`\`\`
+Epic: $1
+├── Story 1 (X pts) - [status]
+├── Story 2 (X pts) - [depends on Story 1]
+└── Story 3 (X pts) - [independent]
+\`\`\`
+
+### MVP Recommendation
+Stories for MVP: [list]
+Stories for Phase 2: [list]
+Rationale: [why this split]
+
+## Guidelines
+- Stories should be independently deliverable
+- Each story should have clear acceptance criteria
+- Estimate based on complexity, not time
+- Flag any stories that seem too large (>8 points)
+```
+
+---
+
+## Exercise: Build Your PM Toolkit
+
+**Time:** 15 min
+
+1. Create all four skills in your sandbox project
+2. Test each skill with real or sample data
+3. Customize the output formats to match your team's templates
+
+**Bonus:** Think of one more PM workflow you'd like to automate and draft the skill.
+
+---
+
+## Homework
+
+1. **Use your skills this week** - Try `/release-notes` or `/meeting-actions` on real work
+2. **Refine based on usage** - Edit the SKILL.md files to improve output
+3. **Share with your team** - Skills in `.claude/skills/` work for anyone with the project
+
+---
+
+## What's Next
+
+**Week 6: Agents & Hooks** - Learn about:
+
+- Custom AI agents for specialized tasks
+- Hooks for automated workflows
+- Compliance and audit logging patterns
+
+**Week 8: Real-World Automation** - Use your skills with:
+
+- Headless CLI automation (`claude -p`)
+- Batch processing scripts
+- Scheduled automation
 
 ---
 

@@ -198,9 +198,13 @@ Restructuring code without changing external behavior. Improve readability, perf
 | TDD | Write tests first, then implementation |
 | Red-Green-Refactor | Fail → Pass → Improve cycle |
 | Coverage | Percentage of code executed by tests (target: 80-90%) |
+| Branch Coverage | Percentage of code branches (if/else paths) executed by tests. More thorough than line coverage. |
 | Mocking | Faking dependencies for isolated testing |
 | Repository Pattern | Abstraction layer for data access |
 | SOLID | Five OOP design principles |
+| Regression Testing | Re-running tests after changes to ensure existing functionality still works. Critical for refactoring. |
+| Smoke Testing | Quick, high-level tests to verify basic functionality works before deeper testing. "Does it turn on?" |
+| Test Pyramid | Testing strategy: many unit tests (base), fewer integration tests (middle), few E2E tests (top). Balances speed and coverage. |
 
 ---
 

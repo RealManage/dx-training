@@ -44,8 +44,9 @@ Use plan mode if ANY of these are true:
 | Command | What It Does |
 |---------|--------------|
 | `Shift+Tab` | Toggle plan mode on/off |
-| `/plan` | Enter plan mode explicitly |
-| `/plan off` | Exit plan mode |
+| `/plan` | Enable plan mode or view current session plan |
+
+> **Tip:** You can also activate plan mode by starting your prompt with "Use plan mode to..." or asking Claude to "create a plan first."
 
 ---
 
