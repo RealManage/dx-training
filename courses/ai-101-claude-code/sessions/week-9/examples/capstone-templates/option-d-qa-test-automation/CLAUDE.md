@@ -1,10 +1,12 @@
 # Capstone Option D: Test Automation Suite
 
 ## Project Purpose
+
 Build a comprehensive test automation framework for the HOA module that includes
-test suites, data generation tools, coverage dashboards, and CI/CD integration.
+test suites, data generation tools, coverage dashboards, and batch automation scripts.
 
 ## Tech Stack
+
 - C# .NET 10
 - xUnit, FluentAssertions, Moq
 - Bogus (test data generation)
@@ -13,14 +15,17 @@ test suites, data generation tools, coverage dashboards, and CI/CD integration.
 ## Requirements
 
 ### Core Features (Must Have)
+
 1. Comprehensive test suite for HOA workflows
 2. Test data generation using Bogus
 3. Coverage tracking and reporting
-4. CI/CD pipeline integration
+4. Batch test automation scripts
 5. Documentation of test patterns
 
 ### Domain Coverage
+
 Tests should cover these HOA workflows:
+
 - Violation lifecycle (create, escalate, resolve)
 - Dues calculation and payment processing
 - Late fee compound interest (10% monthly)
@@ -28,17 +33,21 @@ Tests should cover these HOA workflows:
 - Board meeting integrations
 
 ### Custom Skill Required
+
 Create `/generate-test-data <type> <count>` skill that:
+
 1. Accepts data type (resident, violation, payment, property)
 2. Generates realistic test data using Bogus
 3. Includes edge cases and boundary values
 4. Returns generated data for use in tests
 
-### CI/CD Integration Required
-Create `.gitlab-ci.yml` that:
-1. Builds the project on each commit
-2. Runs all tests
-3. Collects coverage metrics
+### Test Automation Script Required
+
+Create `scripts/run-tests.sh` that:
+
+1. Builds the project
+2. Runs all tests with coverage collection
+3. Generates coverage report
 4. Fails if coverage drops below 80%
 
 ## Getting Started
@@ -68,16 +77,16 @@ claude
 6. Write late fee calculation tests
 7. Configure Coverlet for coverage
 8. Create coverage report generation
-9. Set up CI/CD pipeline
+9. Create test automation script
 10. Document test patterns
 
 ## Success Criteria
 
-```
+```markdown
 [ ] Test suite covers all critical HOA workflows
 [ ] Test data generation creates realistic scenarios
 [ ] Coverage dashboard displays real-time metrics
-[ ] CI/CD pipeline runs tests on every commit
+[ ] Batch test script automates test runs
 [ ] Tests are maintainable and well-documented
 [ ] Coverage >= 80% on critical paths
 ```
@@ -87,9 +96,58 @@ claude
 Use this pattern: `MethodName_Scenario_ExpectedResult`
 
 Examples:
+
 - `CalculateLateFee_PaymentOverdue30Days_Returns10PercentFee`
 - `EscalateViolation_At30Days_TransitionsToFirstNotice`
 - `CreateResident_WithValidData_ReturnsNewAccount`
+
+## Starter Domain Models
+
+Create these models in a `Models/` folder to get started:
+
+```csharp
+// Models/Violation.cs
+public class Violation
+{
+    public Guid Id { get; set; }
+    public string PropertyId { get; set; } = string.Empty;
+    public ViolationType Type { get; set; }
+    public ViolationStatus Status { get; set; }
+    public DateTime CreatedDate { get; set; }
+    public DateTime? ResolvedDate { get; set; }
+    public string Description { get; set; } = string.Empty;
+}
+
+public enum ViolationType { Landscaping, Parking, Noise, Architectural, Other }
+public enum ViolationStatus { Open, FirstNotice, SecondNotice, FinalNotice, BoardReview, Resolved }
+
+// Models/Resident.cs
+public class Resident
+{
+    public Guid Id { get; set; }
+    public string FirstName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public string PropertyAddress { get; set; } = string.Empty;
+    public AccountStatus AccountStatus { get; set; }
+}
+
+public enum AccountStatus { Active, Inactive, Suspended, PendingApproval }
+
+// Models/DuesPayment.cs
+public class DuesPayment
+{
+    public Guid Id { get; set; }
+    public Guid ResidentId { get; set; }
+    public decimal Amount { get; set; }
+    public decimal LateFee { get; set; }
+    public DateTime DueDate { get; set; }
+    public DateTime? PaidDate { get; set; }
+    public PaymentStatus Status { get; set; }
+}
+
+public enum PaymentStatus { Pending, Paid, Overdue, PartiallyPaid }
+```
 
 ## Data Generator Example
 

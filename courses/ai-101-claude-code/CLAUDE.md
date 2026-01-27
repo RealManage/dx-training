@@ -38,7 +38,7 @@ This is a 9-week training course teaching RealManage teams how to use Claude Cod
 5. **Week 5:** Commands & Basic Skills
 6. **Week 6:** Agents & Hooks
 7. **Week 7:** Plugins
-8. **Week 8:** Real-World Automation & CI/CD
+8. **Week 8:** Real-World Automation
 9. **Week 9:** Capstone Hackerspace & Certification
 
 ## HOA Domain Knowledge

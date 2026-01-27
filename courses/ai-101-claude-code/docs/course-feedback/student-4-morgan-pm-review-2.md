@@ -24,7 +24,7 @@ The course team clearly listened to feedback. PMs now have a clear, navigable pa
 
 ### 1. Clear Role Selector in Main README
 
-**File:** `/home/calilafollett/repos/dx-training/courses/ai-101-claude-code/README.md`
+**File:** `courses/ai-101-claude-code/README.md`
 
 The new role table at the top of the README is exactly what I needed:
 
@@ -35,6 +35,7 @@ The new role table at the top of the README is exactly what I needed:
 ```
 
 **Why this works:**
+
 - I immediately know which weeks matter to me
 - I know what to skip entirely
 - I have a dedicated quick-start guide
@@ -43,7 +44,7 @@ This single table saved me hours of confusion. In my first review, I had no idea
 
 ### 2. Dedicated PM Quick-Start Guide
 
-**File:** `/home/calilafollett/repos/dx-training/courses/ai-101-claude-code/resources/quick-start-pm.md`
+**File:** `courses/ai-101-claude-code/resources/quick-start-pm.md`
 
 This 330-line guide is genuinely excellent. Highlights:
 
@@ -58,7 +59,7 @@ This 330-line guide is genuinely excellent. Highlights:
 
 ### 3. Week 0: AI Foundations
 
-**File:** `/home/calilafollett/repos/dx-training/courses/ai-101-claude-code/sessions/week-0/README.md`
+**File:** `courses/ai-101-claude-code/sessions/week-0/README.md`
 
 This is the optional "on-ramp" I desperately needed. Key improvements:
 
@@ -72,7 +73,7 @@ The "Hallucination Awareness" exercise is particularly valuable. As a PM, I need
 
 ### 4. Comprehensive Glossary
 
-**File:** `/home/calilafollett/repos/dx-training/courses/ai-101-claude-code/resources/glossary.md`
+**File:** `courses/ai-101-claude-code/resources/glossary.md`
 
 The glossary now covers terms I actually encounter:
 
@@ -85,12 +86,14 @@ The HOA domain section is particularly helpful. I can now connect technical capa
 ### 5. PM Track Files for Technical Weeks
 
 **Files:**
-- `/home/calilafollett/repos/dx-training/courses/ai-101-claude-code/sessions/week-5/tracks/pm.md`
-- `/home/calilafollett/repos/dx-training/courses/ai-101-claude-code/sessions/week-6/tracks/pm.md`
-- `/home/calilafollett/repos/dx-training/courses/ai-101-claude-code/sessions/week-7/tracks/pm.md`
-- `/home/calilafollett/repos/dx-training/courses/ai-101-claude-code/sessions/week-8/tracks/pm.md`
+
+- `courses/ai-101-claude-code/sessions/week-5/tracks/pm.md`
+- `courses/ai-101-claude-code/sessions/week-6/tracks/pm.md`
+- `courses/ai-101-claude-code/sessions/week-7/tracks/pm.md`
+- `courses/ai-101-claude-code/sessions/week-8/tracks/pm.md`
 
 Each technical week now has a PM-specific track file that:
+
 - Clearly states "This week is optional for PMs"
 - Provides a 5-minute conceptual summary of what developers are learning
 - Suggests alternative activities (observe a developer session, review existing tools)
@@ -102,9 +105,10 @@ The Week 8 PM track on CI/CD is particularly well done - it explains pipeline st
 ### 6. PM-Specific Capstone (Option E)
 
 **Files:**
-- `/home/calilafollett/repos/dx-training/courses/ai-101-claude-code/sessions/week-9/README.md`
-- `/home/calilafollett/repos/dx-training/courses/ai-101-claude-code/sessions/week-9/tracks/pm.md`
-- `/home/calilafollett/repos/dx-training/courses/ai-101-claude-code/sessions/week-9/examples/capstone-templates/option-e-pm-product-design/`
+
+- `courses/ai-101-claude-code/sessions/week-9/README.md`
+- `courses/ai-101-claude-code/sessions/week-9/tracks/pm.md`
+- `courses/ai-101-claude-code/sessions/week-9/examples/capstone-templates/option-e-pm-product-design/`
 
 **Option E: Product Design & Documentation** is a complete non-coding capstone. Deliverables include:
 
@@ -116,6 +120,7 @@ The Week 8 PM track on CI/CD is particularly well done - it explains pipeline st
 **This is exactly what PMs do.** I can earn certification by producing PM artifacts, not by writing C# code.
 
 The capstone template includes:
+
 - Clear directory structure for deliverables
 - Example prompts to get started
 - Success criteria checklist
@@ -130,9 +135,10 @@ The custom skill requirement (`/generate-user-stories`) is accessible - it's ess
 
 ### 1. Prerequisites Checklist Still Code-Heavy
 
-**File:** `/home/calilafollett/repos/dx-training/courses/ai-101-claude-code/README.md` (lines 144-163)
+**File:** `courses/ai-101-claude-code/README.md` (lines 144-163)
 
 The prerequisites section lists:
+
 - .NET 10 SDK
 - Node.js 22 LTS via nvm
 - npm 10+
@@ -144,6 +150,7 @@ The prerequisites section lists:
 **Issue:** A PM following the PM track doesn't need .NET 10 SDK or Angular experience. This list will scare away PMs before they even start.
 
 **Suggestion:** Add a "PM Prerequisites" section that's simpler:
+
 - Claude Code installed (with link to simple install guide)
 - Basic familiarity with terminal (opening it, running one command)
 - Access to Slack channel for help
@@ -153,6 +160,7 @@ The prerequisites section lists:
 **File:** Main README Week 1 description
 
 Week 1 agenda includes:
+
 - "Fix the compound interest bug in CalculateFine"
 - "Create RealManage-specific templates with TDD requirements"
 
@@ -162,7 +170,7 @@ The PM Quick-Start guide softens this ("Observe a developer using it"), but the 
 
 ### 3. Success Metrics Are Code-Centric
 
-**File:** `/home/calilafollett/repos/dx-training/courses/ai-101-claude-code/README.md` (lines 577-583)
+**File:** `courses/ai-101-claude-code/README.md` (lines 577-583)
 
 "You're ready for the next week when you can... Generate working C# code with 80-90% test coverage"
 
@@ -172,7 +180,7 @@ This success metric doesn't apply to PMs at all. We're measuring PM success by w
 
 ### 4. Red Flags Section Mentions Test Coverage
 
-**File:** `/home/calilafollett/repos/dx-training/courses/ai-101-claude-code/README.md` (lines 585-591)
+**File:** `courses/ai-101-claude-code/README.md` (lines 585-591)
 
 "Seek help if... Test coverage drops below 80%"
 
@@ -192,7 +200,7 @@ While the PM Quick-Start guide has great PM prompts, Week 2's main README is sti
 
 ### Suggestion 1: Add PM Prerequisites Section
 
-**File:** `/home/calilafollett/repos/dx-training/courses/ai-101-claude-code/README.md`
+**File:** `courses/ai-101-claude-code/README.md`
 
 Add after the main prerequisites:
 
@@ -207,7 +215,7 @@ If you're following the PM or Support track:
 
 ### Suggestion 2: Add PM Success Metrics
 
-**File:** `/home/calilafollett/repos/dx-training/courses/ai-101-claude-code/README.md`
+**File:** `courses/ai-101-claude-code/README.md`
 
 Add a PM-specific success criteria section:
 
@@ -222,21 +230,23 @@ You've completed the PM track when you can:
 
 ### Suggestion 3: Update Course Overview Duration
 
-**File:** `/home/calilafollett/repos/dx-training/courses/ai-101-claude-code/README.md`
+**File:** `courses/ai-101-claude-code/README.md`
 
 Change:
+
 ```
 - **Duration:** 9 weeks (self-paced, ~2 hours per week)
 ```
 
 To:
+
 ```
 - **Duration:** 9 weeks full course (~18 hours) | PM Track: 4-5 weeks (~8 hours)
 ```
 
 ### Suggestion 4: Add PM Note to Week 1 README
 
-**File:** `/home/calilafollett/repos/dx-training/courses/ai-101-claude-code/sessions/week-1/README.md`
+**File:** `courses/ai-101-claude-code/sessions/week-1/README.md`
 
 Add near the top:
 
@@ -247,7 +257,7 @@ Add near the top:
 
 ### Suggestion 5: Create PM Learning Path Visualization
 
-**File:** `/home/calilafollett/repos/dx-training/courses/ai-101-claude-code/README.md`
+**File:** `courses/ai-101-claude-code/README.md`
 
 Add a PM-specific mermaid diagram:
 
@@ -299,6 +309,7 @@ After this updated course, I can:
 ### Should a PM Complete This Course?
 
 **Yes, if they want to:**
+
 - Write better AI-ready specifications
 - Understand what their engineering team is doing with Claude Code
 - Use Claude for PM tasks (user stories, edge cases, documentation)
@@ -315,12 +326,14 @@ The main course content is still developer-focused (as it should be), but PMs no
 ## Overall Rating: 4/5 Stars
 
 **What would make it 5 stars:**
+
 - PM-specific prerequisites section
 - PM success metrics in main README
 - PM learning path visualization
 - More PM examples integrated into Week 2
 
 **What's excellent:**
+
 - PM Quick-Start Guide (genuinely useful)
 - Week 0 AI Foundations (perfect on-ramp)
 - PM Track files for each week

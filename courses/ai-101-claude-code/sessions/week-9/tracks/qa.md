@@ -11,7 +11,7 @@ This option lets you leverage your testing expertise while learning how Claude C
 - Build comprehensive test suites faster
 - Generate realistic test data automatically
 - Create coverage dashboards
-- Integrate tests into CI/CD pipelines
+- Build batch test automation scripts
 
 ## What You'll Build
 
@@ -33,11 +33,11 @@ This option lets you leverage your testing expertise while learning how Claude C
 - Coverage by module/feature
 - HTML report generation
 
-### 4. CI/CD Integration
-- GitLab pipeline configuration
-- Test runs on every commit
-- Coverage thresholds enforcement
-- Failure notifications
+### 4. Test Automation Scripts
+- Batch test runner scripts
+- Automated coverage analysis
+- Coverage threshold checks
+- Report generation
 
 ## Skills You'll Use
 
@@ -48,7 +48,7 @@ This option lets you leverage your testing expertise while learning how Claude C
 | Week 4 | TDD patterns and practices |
 | Week 5 | Custom skill for `/generate-test-data` |
 | Week 6 | Hook for test coverage tracking |
-| Week 8 | CI/CD pipeline integration |
+| Week 8 | Headless automation scripts |
 
 ## Getting Started
 
@@ -85,9 +85,9 @@ resident accounts with various payment statuses"
 "Set up Coverlet for code coverage and create a script to
 generate HTML reports"
 
-# CI/CD integration
-"Create a GitLab CI pipeline that runs all tests and fails
-if coverage drops below 80%"
+# Batch automation
+"Create a bash script that runs all tests and generates
+a coverage report, failing if coverage drops below 80%"
 ```
 
 ## Success Criteria Checklist
@@ -109,7 +109,7 @@ if coverage drops below 80%"
     - Coverage by namespace/class
     - Uncovered lines highlighted
 
-[ ] CI/CD pipeline runs tests on every commit
+[ ] Batch test script automates test runs
     - Build passes with no warnings
     - All tests execute successfully
     - Coverage threshold enforced
@@ -139,10 +139,10 @@ if coverage drops below 80%"
    - HTML report generation script
    - Coverage threshold settings
 
-4. **CI/CD Configuration**
-   - `.gitlab-ci.yml` with test stages
-   - Coverage artifact collection
-   - Notification setup
+4. **Test Automation Scripts**
+   - Batch test runner (`scripts/run-tests.sh`)
+   - Coverage report generation
+   - Threshold check script
 
 5. **Documentation**
    - CLAUDE.md with test patterns
@@ -161,7 +161,7 @@ if coverage drops below 80%"
 - Writing tests that are too tightly coupled to implementation
 - Generating data that doesn't reflect real-world scenarios
 - Forgetting to test error paths and exceptions
-- Over-complicating the CI/CD pipeline
+- Over-complicating the automation scripts
 
 ---
 

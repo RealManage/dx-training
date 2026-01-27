@@ -26,7 +26,7 @@ Week 0 ──► Week 1 ──► Week 2 ──► Week 3 ──► Week 4 ─�
 | 5 | Commands & Skills | Must Do | Build your toolkit |
 | 6 | Agents & Hooks | Must Do | Automation & personas |
 | 7 | Plugins | Good to Know | Packaging & sharing |
-| 8 | Real-World Workflows | Must Do | CI/CD, production use |
+| 8 | Real-World Workflows | Must Do | Headless automation, batch processing |
 | 9 | Capstone | Must Do | Prove your skills |
 
 ---
@@ -34,6 +34,7 @@ Week 0 ──► Week 1 ──► Week 2 ──► Week 3 ──► Week 4 ─�
 ## Week-by-Week Focus
 
 ### Week 0: AI Foundations (Optional - 30 min)
+
 **Skip if:** You already understand LLMs, tokens, and context windows.
 
 **Do if:** You're new to AI coding tools or want vocabulary definitions.
@@ -43,9 +44,11 @@ Key concepts: LLMs, tokens, context windows, hallucinations, agentic engineering
 ---
 
 ### Week 1: Setup & Orientation (1 hour)
+
 **Goal:** Claude Code installed and working.
 
 Focus on:
+
 - [ ] Installation verification (`claude doctor`)
 - [ ] First conversation
 - [ ] Creating your project `CLAUDE.md`
@@ -56,9 +59,11 @@ Focus on:
 ---
 
 ### Week 2: Prompting Foundations (1.5 hours)
+
 **Goal:** Write prompts that get great results first try.
 
 Focus on:
+
 - [ ] Context + Instruction pattern
 - [ ] Specificity (tech stack, patterns, coverage)
 - [ ] The 4C structure: Context, Constraints, Criteria, Clarifications
@@ -68,9 +73,11 @@ Focus on:
 ---
 
 ### Week 3: Plan Mode & Code Review (1.5 hours)
+
 **Goal:** Handle multi-file changes confidently.
 
 Focus on:
+
 - [ ] When to use plan mode (`Shift+Tab`)
 - [ ] Reviewing AI-generated plans
 - [ ] Code review with Claude
@@ -80,9 +87,11 @@ Focus on:
 ---
 
 ### Week 4: Test-Driven Development (2 hours) ⭐
+
 **Goal:** Master TDD with AI assistance. This is the most valuable week.
 
 Focus on:
+
 - [ ] Red-Green-Refactor cycle
 - [ ] Writing test-first prompts
 - [ ] Achieving 80-90% coverage naturally
@@ -93,9 +102,11 @@ Focus on:
 ---
 
 ### Week 5: Commands & Skills (1.5 hours)
+
 **Goal:** Create reusable prompts.
 
 Focus on:
+
 - [ ] Creating commands in `.claude/commands/`
 - [ ] Creating skills in `.claude/skills/`
 - [ ] Difference: commands (manual) vs skills (auto-discoverable)
@@ -105,9 +116,11 @@ Focus on:
 ---
 
 ### Week 6: Agents & Hooks (1.5 hours)
+
 **Goal:** Specialized personas and automation.
 
 Focus on:
+
 - [ ] Creating agents in `.claude/agents/`
 - [ ] Setting up hooks for automation
 - [ ] Security and audit logging patterns
@@ -117,9 +130,11 @@ Focus on:
 ---
 
 ### Week 7: Plugins (1 hour)
+
 **Goal:** Package and share your tools.
 
 Focus on:
+
 - [ ] Plugin structure and manifest
 - [ ] Packaging commands, skills, agents
 - [ ] Installation and distribution
@@ -129,21 +144,25 @@ Focus on:
 ---
 
 ### Week 8: Real-World Workflows (1.5 hours)
+
 **Goal:** Production-ready Claude Code usage.
 
 Focus on:
-- [ ] CI/CD integration
+
+- [ ] Headless automation scripts
 - [ ] Cost optimization strategies
 - [ ] Multi-session workflows
 
-**Checkpoint:** Can you set up Claude Code in a build pipeline?
+**Checkpoint:** Can you build batch automation scripts with Claude CLI?
 
 ---
 
 ### Week 9: Capstone (3-4 hours)
+
 **Goal:** Build something real.
 
 Options for developers:
+
 - **Option A:** Violation Escalation Service (backend-focused)
 - **Option B:** Knowledge Base Chatbot (full-stack)
 - **Option C:** Financial Forecasting Tool (data-focused)
@@ -155,6 +174,7 @@ Options for developers:
 ## Pro Tips for Developers
 
 ### Prompt Pattern That Works
+
 ```
 Create a [SERVICE/COMPONENT] that [DOES WHAT]
 - Using [TECH STACK]
@@ -163,6 +183,7 @@ Create a [SERVICE/COMPONENT] that [DOES WHAT]
 ```
 
 ### Commands to Know
+
 | Command | When to Use |
 |---------|-------------|
 | `Shift+Tab` | Toggle plan mode |
@@ -172,11 +193,13 @@ Create a [SERVICE/COMPONENT] that [DOES WHAT]
 | `/compact` | Compress conversation |
 
 ### What to Skip
+
 - Week 0 if you know AI basics
 - Detailed prompt structure exercises if you're getting good results
 - Plugin publishing if you're just using locally
 
 ### What to Go Deep On
+
 - **Week 4 (TDD)** - This is the money. Spend extra time here.
 - **Week 5-6 (Commands/Skills/Agents)** - Your productivity multipliers.
 
@@ -184,10 +207,11 @@ Create a [SERVICE/COMPONENT] that [DOES WHAT]
 
 ## Resources
 
-- [Glossary](/resources/glossary.md) - Term definitions
-- [Decision Trees](/resources/decision-trees.md) - When to use what
-- [Troubleshooting](/resources/troubleshooting.md) - Common issues
-- [Prompt Library](/resources/prompt-library.md) - Ready-to-use prompts
+- [Production Hardening](./production-hardening.md) - Production-ready bash patterns for automation
+- [Glossary](./glossary.md) - Term definitions
+- [Decision Trees](./decision-trees.md) - When to use what
+- [Troubleshooting](./troubleshooting.md) - Common issues
+- [Prompt Library](./prompt-library.md) - Ready-to-use prompts
 
 ---
 

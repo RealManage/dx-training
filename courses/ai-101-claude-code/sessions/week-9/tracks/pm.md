@@ -18,6 +18,7 @@ This option lets you use Claude Code for what PMs do best--defining products and
 ## What You'll Build
 
 ### 1. Product Requirements Document (PRD)
+
 - Problem statement with user research
 - Solution overview and scope
 - Success metrics and KPIs
@@ -25,6 +26,7 @@ This option lets you use Claude Code for what PMs do best--defining products and
 - Timeline and milestones
 
 ### 2. User Story Mapping
+
 - Epics aligned to business goals
 - User stories following INVEST principles
 - Acceptance criteria in Gherkin format
@@ -32,6 +34,7 @@ This option lets you use Claude Code for what PMs do best--defining products and
 - Release planning suggestions
 
 ### 3. Stakeholder Documentation
+
 - Executive summary (1-pager)
 - Technical specification for engineering
 - Training materials outline
@@ -39,6 +42,7 @@ This option lets you use Claude Code for what PMs do best--defining products and
 - Presentation deck outline
 
 ### 4. Process Documentation
+
 - How you used Claude Code for PM work
 - Prompts that worked well
 - Iteration and refinement process
@@ -50,8 +54,19 @@ This option lets you use Claude Code for what PMs do best--defining products and
 |------|---------------|
 | Week 2 | Prompt engineering for requirements |
 | Week 3 | Plan Mode for structuring documents |
-| Week 5 | Custom skill for `/generate-user-stories` |
-| Week 6 | Workflow automation for document generation |
+| Week 5 | Custom PM skills (release-notes, user-stories, etc.) |
+| Week 8 | Headless automation with your skills |
+
+### Required: Bring Your Week 5 Skills
+
+Your capstone must include at least one custom PM skill from Week 5:
+
+- `/release-notes` - Generate stakeholder-friendly release notes
+- `/meeting-actions` - Extract action items from meeting notes
+- `/sprint-summary` - Create executive sprint summaries
+- `/user-stories` - Break epics into well-formed stories
+
+**Show how you used these skills in your capstone work.**
 
 ## Getting Started
 
@@ -209,15 +224,20 @@ For each story, provide:
    - `training-outline.md`
    - `faq.md`
 
-4. **Process Documentation** (`docs/process.md`)
-   - How you used Claude Code
+4. **Custom PM Skill** (`.claude/skills/<skill-name>/SKILL.md`)
+   - At least one PM automation skill
+   - Used in your capstone workflow
+   - Examples: `/user-stories`, `/release-notes`, `/sprint-summary`
+
+5. **Process Documentation** (`docs/process.md`)
+   - How you used Claude Code and your custom skills
    - Effective prompts
    - Lessons learned
 
-5. **Presentation Outline** (`docs/presentation-outline.md`)
+6. **Presentation Outline** (`docs/presentation-outline.md`)
    - Slide-by-slide outline
    - Key talking points
-   - Demo script (if applicable)
+   - Demo of your custom skill in action
 
 ## Tips for Success
 

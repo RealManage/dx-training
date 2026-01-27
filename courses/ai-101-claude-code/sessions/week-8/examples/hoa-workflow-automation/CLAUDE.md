@@ -1,14 +1,14 @@
 # Week 8 Example: HOA Workflow Automation
 
 ## Project Purpose
-Training exercise for Week 8: Real-World Automation & CI/CD.
-This project demonstrates cross-functional workflows, GitLab CI/CD integration, and efficiency patterns.
+Training exercise for Week 8: Real-World Automation.
+This project demonstrates cross-functional workflows, headless automation patterns, and efficiency strategies.
 
 ## Tech Stack
 - C# .NET 10
 - xUnit, FluentAssertions, Moq
 - Top-level program pattern
-- GitLab CI/CD pipelines
+- Bash scripting for automation
 
 ## Intentional Bugs (Training Exercise!)
 This code contains INTENTIONAL bugs for learners to find using Claude Code:
@@ -45,13 +45,21 @@ This code contains INTENTIONAL bugs for learners to find using Claude Code:
 - Compliance deadline: 30 days, must be a business day
 - Unknown CCR types should reference "General Rules - Section 1.0"
 
-## GitLab CI/CD Integration
-See `.gitlab-ci.yml` for CI/CD examples:
-- Build and test pipeline patterns
-- Code coverage reporting with Cobertura
-- Automated code review on merge requests (commented template)
-- Scheduled cost monitoring (commented template)
-- Auto-documentation generation (commented template)
+## Headless Automation Examples
+Use Claude Code CLI for batch processing:
+
+```bash
+# Batch code review
+claude -p "Review src/Services/*.cs for bugs" --model sonnet --no-session-persistence
+
+# Generate coverage analysis
+claude -p "Analyze coverage gaps" --output-format json --no-session-persistence
+
+# Multi-file processing
+for file in src/Services/*.cs; do
+  claude -p "Review $file briefly" --no-session-persistence > "reviews/$(basename $file).md"
+done
+```
 
 ## Testing
 ```bash
@@ -72,4 +80,4 @@ dotnet test --collect:"XPlat Code Coverage"
 2. Payment reminder automation
 3. Board meeting report generation
 4. Cost tracking and budget monitoring
-5. CI/CD integration patterns
+5. Headless automation patterns

@@ -13,8 +13,8 @@ Week 0 ──► Week 1 ──► Week 2 ──────────► Week 
 (opt)     Setup     Prompts             ★ TDD ★                        Workflows  Capstone
                       │                    │                               │
                       │                    │                               │
-                   FOCUS:               THIS IS                         CI/CD
-                   Test case            YOUR WEEK                       testing
+                   FOCUS:               THIS IS                         Batch
+                   Test case            YOUR WEEK                       automation
                    generation
 ```
 
@@ -30,7 +30,7 @@ Week 0 ──► Week 1 ──► Week 2 ──────────► Week 
 | 5 | Commands & Skills | Light | Learn to consume, not create |
 | 6 | Agents & Hooks | Light | Learn to consume, not create |
 | 7 | Plugins | Skip | Developer-focused |
-| 8 | Real-World Workflows | Must Do | CI/CD test integration |
+| 8 | Real-World Workflows | Must Do | Batch test automation |
 | 9 | Capstone | Must Do | QA-specific option available |
 
 ---
@@ -95,8 +95,7 @@ Target 80-90% coverage including branches.
 
 **Code Review for Testability:**
 ```
-Review this code for testability issues:
-[PASTE CODE]
+Review @Services/PaymentService.cs for testability issues.
 
 Identify:
 - Hard-to-mock dependencies
@@ -104,6 +103,8 @@ Identify:
 - Complex branching that needs coverage
 - Suggested test cases
 ```
+
+> **Tip:** Use `@path/to/file` to reference code files instead of copy-pasting.
 
 ---
 
@@ -145,13 +146,10 @@ Include:
 
 **Coverage Gap Analysis:**
 ```
-Here's our current test file:
-[PASTE TESTS]
+Analyze coverage gaps between @Tests/PaymentServiceTests.cs
+and the implementation at @Services/PaymentService.cs
 
-And here's the implementation:
-[PASTE CODE]
-
-Identify coverage gaps and generate tests to achieve 80-90% coverage.
+Identify gaps and generate tests to achieve 80-90% coverage.
 Focus on untested branches and edge cases.
 ```
 
@@ -190,27 +188,29 @@ This is packaging for distribution. Developer-focused. Skip entirely.
 ---
 
 ### Week 8: Real-World Workflows (1.5 hours)
-**Goal:** Integrate Claude-generated tests into CI/CD.
+**Goal:** Automate test generation and analysis with Claude CLI.
 
 Focus on:
-- [ ] Running tests in pipelines
-- [ ] Coverage thresholds in CI
-- [ ] Automated test generation in PR workflows
+- [ ] Headless Claude automation with `-p` flag
+- [ ] Batch test generation scripts
+- [ ] Coverage analysis automation
 
 **QA-Relevant Pattern:**
-```yaml
-# In your CI pipeline
-- name: Generate Missing Tests
-  run: |
-    claude "Generate tests for new code in this PR" --output tests/
+```bash
+#!/bin/bash
+# batch-test-coverage.sh - Analyze and improve test coverage
 
-- name: Run Tests
-  run: dotnet test --collect:"XPlat Code Coverage"
-
-- name: Check Coverage
-  run: |
-    # Fail if below 80%
-    reportgenerator -threshold:80
+# Find files with low coverage and generate tests
+for file in $(find src -name "*.cs" -type f); do
+  coverage=$(get-coverage "$file")  # Your coverage tool
+  if [ "$coverage" -lt 80 ]; then
+    echo "Generating tests for $file (coverage: $coverage%)"
+    claude -p "Analyze $file and generate xUnit tests to improve coverage. \
+      Use FluentAssertions. Target 80-90% coverage." \
+      --output-format json \
+      --add-dir "$(dirname "$file")"
+  fi
+done
 ```
 
 ---
@@ -229,7 +229,7 @@ Build a comprehensive test automation project:
 **Deliverables:**
 - Working test suite with 80%+ coverage
 - Documentation of your Claude prompts
-- CI/CD integration example
+- Batch automation script for test runs
 - Presentation to team
 
 ---
@@ -263,9 +263,7 @@ Test: request validation, response schema, error codes, edge cases.
 
 ### Test Refactoring
 ```
-Refactor these tests to reduce duplication:
-[PASTE TESTS]
-
+Refactor @Tests/ViolationServiceTests.cs to reduce duplication.
 Extract common setup, use parameterized tests where appropriate.
 ```
 

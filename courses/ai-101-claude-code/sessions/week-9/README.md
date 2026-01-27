@@ -40,7 +40,7 @@ Before starting your capstone:
 2. **Week 5**: Commands & Basic Skills
 3. **Week 6**: Agents & Hooks
 4. **Week 7**: Plugins
-5. **Week 8**: Real-World Automation & CI/CD
+5. **Week 8**: Real-World Automation
 
 ### Materials Needed
 
@@ -78,6 +78,7 @@ Build an automated violation escalation system that:
 **Starter Template:** `examples/capstone-templates/option-a-violation-escalation/`
 
 **Key Requirements:**
+
 - State machine for violation lifecycle
 - Event-driven architecture for notifications
 - 80-90% test coverage on business logic
@@ -85,6 +86,7 @@ Build an automated violation escalation system that:
 - Hook for audit logging on all state changes
 
 **Success Criteria:**
+
 ```
 [ ] Violation progresses correctly through stages
 [ ] Notices generated with correct fine calculations
@@ -106,6 +108,7 @@ Build an AI-powered knowledge base for residents:
 **Starter Template:** `examples/capstone-templates/option-b-knowledge-base/`
 
 **Key Requirements:**
+
 - C# Web API for search endpoints
 - Angular 17 frontend with search UI
 - Custom skill for `/search-ccr`
@@ -113,6 +116,7 @@ Build an AI-powered knowledge base for residents:
 - Usage analytics for search operations
 
 **Success Criteria:**
+
 ```
 [ ] Natural language search returns relevant CCR sections
 [ ] FAQ generation from ticket patterns
@@ -134,13 +138,15 @@ Build a dues collection and budget forecasting tool:
 **Starter Template:** `examples/capstone-templates/option-c-financial-forecast/`
 
 **Key Requirements:**
+
 - Historical data analysis service
 - Prediction algorithms with confidence intervals
 - Automated report generation
 - Custom skill for `/forecast-collections`
-- GitLab CI/CD pipeline for scheduled reports
+- Batch automation script for scheduled reports
 
 **Success Criteria:**
+
 ```
 [ ] Collection predictions within 10% accuracy
 [ ] At-risk accounts identified 30 days early
@@ -160,32 +166,35 @@ Build a comprehensive test automation framework for the HOA module:
 - Complete test suite covering violation, dues, and resident workflows
 - Test data generation tools for realistic scenarios
 - Coverage dashboard with real-time metrics
-- CI/CD integration for automated test runs
+- Batch test runner script for automation
 
 **Starter Template:** `examples/capstone-templates/option-d-qa-test-automation/`
 
 **Key Requirements:**
+
 - xUnit test framework with FluentAssertions
 - Test data generators using Bogus or AutoFixture
 - Coverage tracking with Coverlet
-- GitLab CI/CD pipeline integration
+- Batch test automation scripts
 - Custom skill for `/generate-test-data`
 
 **Success Criteria:**
+
 ```
 [ ] Test suite covers all critical HOA workflows
 [ ] Test data generation creates realistic scenarios
 [ ] Coverage dashboard displays real-time metrics
-[ ] CI/CD pipeline runs tests on every commit
+[ ] Batch test script automates test runs
 [ ] Tests are maintainable and well-documented
 [ ] Coverage >= 80% on critical paths
 ```
 
 **Deliverables:**
+
 - Comprehensive test suite for HOA module
 - Test data generation tools
 - Coverage dashboard (HTML report or integration)
-- CI/CD test integration configuration
+- Batch test automation scripts
 - Documentation on test patterns and usage
 
 ---
@@ -204,6 +213,7 @@ Use Claude Code to create complete product specifications and documentation:
 **Starter Template:** `examples/capstone-templates/option-e-pm-product-design/`
 
 **Key Requirements:**
+
 - Complete PRD (Product Requirements Document)
 - User story map with epics and stories
 - Acceptance criteria using Gherkin syntax
@@ -211,6 +221,7 @@ Use Claude Code to create complete product specifications and documentation:
 - Custom skill for `/generate-user-stories`
 
 **Success Criteria:**
+
 ```
 [ ] PRD covers problem, solution, and success metrics
 [ ] User stories follow INVEST principles
@@ -221,6 +232,7 @@ Use Claude Code to create complete product specifications and documentation:
 ```
 
 **Deliverables:**
+
 - Complete feature specification document (PRD)
 - User story mapping document
 - Stakeholder documentation package
@@ -243,6 +255,7 @@ Build a support toolkit using Claude Code:
 **Starter Template:** `examples/capstone-templates/option-f-support-knowledge-base/`
 
 **Key Requirements:**
+
 - FAQ document generated from CCRs and policies
 - Response template library (20+ templates)
 - Escalation decision tree
@@ -250,6 +263,7 @@ Build a support toolkit using Claude Code:
 - Quality metrics for response templates
 
 **Success Criteria:**
+
 ```
 [ ] FAQ covers top 20 resident questions
 [ ] Response templates are professional and accurate
@@ -260,6 +274,7 @@ Build a support toolkit using Claude Code:
 ```
 
 **Deliverables:**
+
 - FAQ generation from docs
 - Response template library
 - Customer communication tools
@@ -280,6 +295,7 @@ Propose your own project that:
 - Can be completed in 90 minutes
 
 **Approval Process:**
+
 1. Write 1-paragraph proposal
 2. List which week's skills you'll use
 3. Define 5+ success criteria
@@ -297,15 +313,15 @@ Use Claude Code's Plan Mode to design your solution.
 cd sandbox/capstone-templates/<your-project>
 claude
 
-# In Claude Code
-/plan
+# In Claude Code, press Shift+Tab to toggle plan mode
+# Or start your prompt with "Use plan mode to..."
 ```
 
 #### Step 2: Describe Your Architecture
 
 Use this prompt template:
 
-```
+```markdown
 I'm building [PROJECT NAME] for the RealManage capstone.
 
 ## Requirements
@@ -330,7 +346,7 @@ I'm building [PROJECT NAME] for the RealManage capstone.
 
 Before exiting Plan Mode:
 
-```
+```markdown
 [ ] Architecture makes sense for the problem
 [ ] All requirements are addressed
 [ ] Testing strategy is comprehensive
@@ -339,8 +355,10 @@ Before exiting Plan Mode:
 ```
 
 Exit Plan Mode only when ready:
-```
-/plan exit
+
+```markdown
+# Press Shift+Tab again to exit plan mode
+# Or simply start implementing - Claude will transition naturally
 ```
 
 ---
@@ -462,7 +480,7 @@ dotnet test --collect:"XPlat Code Coverage"
 
 #### Quality Checklist
 
-```
+```markdown
 Code Quality:
 [ ] All tests pass
 [ ] Coverage >= 80% (or higher for critical paths)
@@ -486,7 +504,7 @@ Skills & Hooks:
 
 Before presenting, verify:
 
-```
+```markdown
 [ ] No hardcoded secrets
 [ ] Input validation on all endpoints
 [ ] SQL injection prevention (parameterized queries)
@@ -496,7 +514,7 @@ Before presenting, verify:
 
 ---
 
-### Part 5: Demo Preparation (5 min)
+### Part 5: Demo Preparation (10 min)
 
 #### Demo Script Template
 
@@ -564,6 +582,7 @@ Rate each presentation (1-5):
 #### Q&A Guidelines
 
 Ask questions about:
+
 - Interesting design decisions
 - How Claude Code helped
 - Challenges overcome
@@ -718,7 +737,7 @@ Ways to contribute to the course:
 
 - **Slack**: `#dx-training`, `#claude-hackerspace`
 - **Office Hours**: Thursdays 2-3 PM CT
-- **Email**: dx-team@realmanage.com
+- **Email**: <dx-team@realmanage.com>
 - **Wiki**: Internal AI Guidelines (Confluence)
 
 ### Community Resources
@@ -737,8 +756,8 @@ Ways to contribute to the course:
 claude
 
 # Plan Mode
-# Plan mode is engaged via prompts, not slash commands
-# "Use plan mode to design the architecture for..."
+Shift+Tab                # Toggle plan mode on/off
+# Or start prompt with "Use plan mode to design..."
 
 # Custom Skills
 /<skill-name>            # Run custom skill
@@ -799,7 +818,7 @@ CLAUDE.md                          # Project context
 
 ---
 
-## Congratulations!
+## Congratulations
 
 You've completed the **RealManage AI 101: Claude Code** course!
 
@@ -825,7 +844,7 @@ You're now equipped to:
 **Questions or Feedback?**
 
 - Slack: `#dx-training`
-- Email: dx-team@realmanage.com
+- Email: <dx-team@realmanage.com>
 - GitLab: Submit issues to course repo
 
 *Thank you for being part of the RealManage AI journey!*
