@@ -566,15 +566,19 @@ Create an automation script that:
 4. Saves to code-review-report.md
 
 Add to: scripts/batch-review.sh
+
 ```
 
 **Exercise 3: Efficiency Audit (5 min)**
 
 ```
+
 Analyze the example project for efficiency improvements:
+
 1. Identify repeated prompts that could be skills
 2. Find tasks that could use more focused context
 3. Create a streamlined version of the project CLAUDE.md
+
 ```
 
 ---

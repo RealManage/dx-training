@@ -2,10 +2,11 @@
 
 Common issues and solutions for RealManage developers using Claude Code.
 
-> **Official Documentation:**
-> - [CLI Reference](https://code.claude.com/docs/en/cli-reference)
-> - [Interactive Mode](https://code.claude.com/docs/en/interactive-mode)
-> - [Troubleshooting](https://docs.anthropic.com/en/docs/claude-code/troubleshooting)
+## Official Documentation
+
+- [CLI Reference](https://code.claude.com/docs/en/cli-reference)
+- [Interactive Mode](https://code.claude.com/docs/en/interactive-mode)
+- [Troubleshooting](https://docs.anthropic.com/en/docs/claude-code/troubleshooting)
 
 ## 📊 Test Coverage Target Rationale
 
@@ -20,6 +21,7 @@ Common issues and solutions for RealManage developers using Claude Code.
 ### nvm Not Found
 
 **Windows (nvm-windows):**
+
 ```powershell
 # Close ALL terminals
 # Open NEW terminal as Administrator
@@ -30,6 +32,7 @@ nvm version
 ```
 
 **Mac/Linux/WSL:**
+
 ```bash
 # Reload shell configuration
 source ~/.bashrc  # or ~/.zshrc for Zsh
@@ -60,6 +63,7 @@ nvm use --lts       # Mac/Linux
 ### Claude Command Not Found
 
 **Check npm global path:**
+
 ```bash
 npm config get prefix
 
@@ -73,6 +77,7 @@ source ~/.bashrc
 ```
 
 **Reinstall Claude Code:**
+
 ```bash
 npm uninstall -g @anthropic-ai/claude-code
 npm install -g @anthropic-ai/claude-code
@@ -81,6 +86,7 @@ npm install -g @anthropic-ai/claude-code
 ### Permission Denied
 
 **DO NOT use sudo!** Instead:
+
 ```bash
 # Check npm prefix
 npm config get prefix
@@ -106,6 +112,7 @@ npm install -g @anthropic-ai/claude-code
    - Disable ad blockers
 
 3. **Use API key instead:**
+
 ```bash
 export ANTHROPIC_API_KEY="your-key-here"
 claude
@@ -180,6 +187,7 @@ npm config set cafile /path/to/corporate-cert.pem
 **Symptoms:** Costs exceeding $5/hour
 
 **Solutions:**
+
 - Use `/clear` when switching contexts
 - Limit context with `/add-dir` specific directories
 - Use `/compact` to compress conversation
@@ -188,18 +196,21 @@ npm config set cafile /path/to/corporate-cert.pem
 ### Claude Can't See Files
 
 **Check current directory:**
+
 ```bash
 pwd
 ls -la
 ```
 
 **Start Claude in correct directory:**
+
 ```bash
 cd /path/to/project
 claude
 ```
 
 **Add directories explicitly:**
+
 ```
 /add-dir ./src
 /add-dir ./tests
@@ -208,6 +219,7 @@ claude
 ### Generated Code Has Errors
 
 **Common causes:**
+
 1. **Vague prompts** → Be more specific
 2. **Missing context** → Update CLAUDE.md
 3. **Wrong model** → Use `/model` to switch
@@ -216,9 +228,11 @@ claude
 ### Tests Failing After Generation
 
 **Best practices:**
+
 1. Never let Claude modify existing tests
 2. Run tests before accepting changes
 3. Use TDD approach:
+
    ```
    > Write tests for <feature>
    > [Run tests - should fail]
@@ -282,6 +296,7 @@ claude doctor
 ```
 
 Expected output:
+
 ```
 ✓ Node.js version: 22.x.x
 ✓ npm version: 10.x.x
@@ -312,6 +327,7 @@ Skills are powerful, but they can be finicky. Here's your debugging checklist:
 ### Check File Location
 
 Skills must live in `.claude/skills/` directory:
+
 ```
 project-root/
 ├── .claude/
@@ -341,6 +357,7 @@ Your skill content here...
 ```
 
 **Common mistakes:**
+
 - Missing the `---` delimiters
 - Using tabs instead of spaces for indentation
 - Special characters not quoted
@@ -363,6 +380,7 @@ name: generate-report    # ← This name
 ### Permission Issues
 
 On Mac/Linux/WSL, check file permissions:
+
 ```bash
 # Skills themselves don't need execute permission
 # But referenced scripts do:
@@ -404,6 +422,7 @@ Hooks are configured in `.claude/settings.json`:
 ```
 
 **Check:**
+
 - JSON is valid (no trailing commas!)
 - Paths are relative to project root
 - Hook names match expected triggers
@@ -457,6 +476,7 @@ Different hooks fire at different times:
 ### Debugging Hooks
 
 1. Add debug output to your hook:
+
    ```bash
    #!/bin/bash
    echo "Hook fired at $(date)" >> /tmp/hook-debug.log
@@ -473,6 +493,7 @@ YAML looks simple but bites hard. Here's what breaks:
 ### Missing `---` Delimiters
 
 **Wrong:**
+
 ```markdown
 name: my-skill
 
@@ -480,6 +501,7 @@ name: my-skill
 ```
 
 **Right:**
+
 ```markdown
 ---
 name: my-skill
@@ -493,6 +515,7 @@ name: my-skill
 YAML uses spaces, NOT tabs. And indentation matters:
 
 **Wrong:**
+
 ```yaml
 ---
 name: my-skill
@@ -502,6 +525,7 @@ description: Does stuff
 ```
 
 **Right:**
+
 ```yaml
 ---
 name: my-skill
@@ -603,6 +627,7 @@ beats 100% coverage with shallow assertions.
 ```
 
 **Focus on:**
+
 - Testing behavior, not implementation
 - Edge cases and error conditions
 - Integration points between components
@@ -617,6 +642,7 @@ When Claude Code batch scripts fail:
 **Symptoms:** Script killed or hangs indefinitely
 
 **Solutions:**
+
 ```bash
 # Add explicit timeout to Claude calls
 timeout 300s claude -p "Your prompt here" --no-session-persistence
@@ -630,6 +656,7 @@ claude -p "Your prompt here" --max-budget-usd 0.50
 **Symptoms:** 429 errors, requests failing
 
 **Solutions:**
+
 ```bash
 #!/bin/bash
 # Add retry with exponential backoff
@@ -649,6 +676,7 @@ run_claude_with_retry() {
 **Symptoms:** Output file is empty or not created
 
 **Solutions:**
+
 ```bash
 # Validate output before using
 output=$(claude -p "Your prompt" --output-format json 2>&1)
@@ -663,6 +691,7 @@ fi
 **Symptoms:** Can't parse Claude's JSON output
 
 **Solutions:**
+
 ```bash
 # Use --output-format json for structured output
 claude -p "Analyze this code and return JSON" --output-format json | jq '.result'
@@ -764,6 +793,7 @@ This course was tested with:
 ### Information to Provide
 
 When asking for help, include:
+
 - OS and version
 - Node.js version (`node --version`)
 - npm version (`npm --version`)
@@ -778,7 +808,7 @@ When asking for help, include:
 - **Slack:** `#claude-help` for general Claude issues
 - **Office Hours:** Thursdays 2-3 PM CT
 - **GitLab Issues:** For bug reports
-- **Email:** dx-team@realmanage.com
+- **Email:** <dx-team@realmanage.com>
 
 ## 🔄 Common Workarounds
 

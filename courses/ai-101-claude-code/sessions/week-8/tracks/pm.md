@@ -178,6 +178,7 @@ Meeting action items: 20 min → 5 min
 
 Weekly savings: ~2 hours
 Monthly savings: ~8 hours
+
 ```
 
 ### Success Metrics to Track

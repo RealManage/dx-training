@@ -8,15 +8,17 @@
 ## Learning Tracks
 
 This week has role-specific tracks:
+
 - **Developer Track** - Full TDD content (this README)
 - **[QA Track](./tracks/qa.md)** - Writing tests for existing code, coverage gap analysis
-- **PM Track** - Optional. Skim concepts, focus on understanding test metrics.
+- **[PM Track](./tracks/pm.md)** - Writing testable requirements (Given/When/Then)
 
 ---
 
 ## 🎯 Learning Objectives
 
 By the end of this session, you'll be able to:
+
 - ✅ Implement Red-Green-Refactor cycle with Claude
 - ✅ Write tests FIRST, then code (never the reverse!)
 - ✅ Achieve RealManage's unit test 80-90% code coverage naturally
@@ -27,12 +29,14 @@ By the end of this session, you'll be able to:
 ## 📋 Pre-Session Checklist
 
 ### For Participants
+
 - [ ] Claude Code installed and working
 - [ ] .NET 10 SDK installed
 - [ ] Completed Weeks 1-3
 - [ ] Familiar with basic C# syntax
 
 ### For Instructors
+
 - [ ] Test both example projects build without warnings
 - [ ] Verify coverage tools work
 - [ ] Have backup exercises ready
@@ -43,6 +47,7 @@ By the end of this session, you'll be able to:
 ### Part 1: Why TDD Helps Prevent AI Hallucinations (10 min)
 
 #### 1.1 The Problem with AI-Generated Code (5 min)
+
 ```markdown
 Without tests, AI can:
 - Invent methods that don't exist
@@ -89,6 +94,7 @@ graph LR
 ```
 
 **The Three Laws of TDD:**
+
 1. You may not write production code until you have written a failing test
 2. You may not write more of a test than is sufficient to fail
 3. You may not write more production code than is sufficient to pass
@@ -98,6 +104,7 @@ graph LR
 #### 2.1 The Workflow (5 min)
 
 **Step 1: Write the test first**
+
 ```
 > Claude, I need a test for a HomeownerService that validates email format.
 > Use xUnit and FluentAssertions. The method should be called IsValidEmail
@@ -105,18 +112,21 @@ graph LR
 ```
 
 **Step 2: See it fail (Red)**
+
 ```bash
 dotnet test
 # ❌ Test fails - method doesn't exist
 ```
 
 **Step 3: Implement minimal code (Green)**
+
 ```
 > Now implement just enough code to make this test pass.
 > Don't add any extra functionality.
 ```
 
 **Step 4: Refactor if needed**
+
 ```
 > The test still passes. Can you refactor this for better readability?
 ```
@@ -124,6 +134,7 @@ dotnet test
 #### 2.2 Key Rules When Using Claude for TDD (5 min)
 
 **The Right Prompts:**
+
 ```
 ✅ "Write a test for X functionality"
 ✅ "Make this failing test pass with minimal code"
@@ -136,6 +147,7 @@ dotnet test
 ```
 
 **Golden Rules:**
+
 - Tests come FIRST, always
 - Keep existing tests green
 - Minimal code to pass
@@ -144,6 +156,7 @@ dotnet test
 #### 2.3 Coverage Emerges Naturally (5 min)
 
 With proper TDD, you'll hit 80-90% coverage naturally because:
+
 - Every line exists to make a test pass
 - No unused code gets written
 - Critical business logic is tested first
@@ -172,6 +185,7 @@ claude
 ```
 
 **Requirements to implement via TDD:**
+
 1. Add new homeowner with validation
 2. Assign property to homeowner
 3. Set up payment plans
@@ -179,6 +193,7 @@ claude
 5. Generate welcome packet
 
 **The TDD Dance:**
+
 ```
 For each requirement:
 1. Write test that fails
@@ -188,6 +203,7 @@ For each requirement:
 ```
 
 **Sample starting prompt:**
+
 ```
 I need to build a HomeownerService using TDD. 
 First, write a test for adding a new homeowner. The test should:
@@ -217,12 +233,14 @@ claude
 ```
 
 **Starting Point:**
+
 - Working CLI with basic CRUD
 - 60% test coverage
 - SQLite database with EF Core
 - Some services need enhancement
 
 **Features to add via TDD:**
+
 1. Property valuation tracking with history
 2. Maintenance request system with priorities
 3. Occupancy status management
@@ -230,6 +248,7 @@ claude
 5. Mock IDocumentStorage for files
 
 **Mocking Example:**
+
 ```csharp
 [Fact]
 public async Task NotifyOwner_SendsEmailAndSms()
@@ -254,6 +273,7 @@ public async Task NotifyOwner_SendsEmailAndSms()
 ```
 
 **Key Focus Areas:**
+
 - Dependency injection patterns
 - In-memory database for testing
 - Mocking external services
@@ -355,6 +375,7 @@ Discuss what worked, what was challenging, and how TDD changes your development 
 ## 🎯 Key Takeaways
 
 ### The TDD Promises
+
 1. **No untested code** - If it's not tested, it doesn't exist
 2. **Living documentation** - Tests show how code works
 3. **Confident refactoring** - Tests catch breaking changes
@@ -362,24 +383,29 @@ Discuss what worked, what was challenging, and how TDD changes your development 
 5. **Natural high coverage** - 80-90% without forcing it
 
 ### Quick Reference
+
 See [TDD Cheat Sheet](./resources/tdd-cheatsheet.md) and [Coverage Guide](./resources/coverage-guide.md) for commands and patterns.
 
 ## 📝 Homework (Before Week 5)
 
-### Required Tasks:
+### Required Tasks
+
 1. ✅ Complete both exercises if not finished
 2. ✅ Add one more feature using TDD to either project
 3. ✅ Achieve 80-90% coverage on your additions
 4. ✅ Share your test-first approach in `#dx-training`
 5. ✅ Try TDD on a real work task
 
-### Stretch Goals:
+### Stretch Goals
+
 1. 🎯 Reach 90%+ coverage on Exercise 1
 2. 🎯 Create property tax calculation with complex rules via TDD
 3. 🎯 Build a test helper library for common HOA scenarios
 
-### Skill Check:
+### Skill Check
+
 Write tests FIRST for:
+
 ```csharp
 // A service that:
 // - Calculates HOA reserve funds needed
@@ -391,32 +417,37 @@ Write tests FIRST for:
 ## 🔗 Resources
 
 ### Official Documentation
+
 - [xUnit Documentation](https://xunit.net/docs/getting-started/netcore/cmdline)
 - [FluentAssertions Guide](https://fluentassertions.com/introduction)
 - [Moq Quickstart](https://github.com/moq/moq4/wiki/Quickstart)
 - [Coverlet Documentation](https://github.com/coverlet-coverage/coverlet)
 
 ### RealManage Resources
+
 - [TDD Cheat Sheet](./resources/tdd-cheatsheet.md)
 - [Coverage Guide](./resources/coverage-guide.md)
 - [Week 4 Examples](./examples/) - Both exercise projects
 - Slack: `#dx-training` for TDD help
 
 ### Additional Reading
+
 - [Test Driven Development: By Example](https://www.amazon.com/Test-Driven-Development-Kent-Beck/dp/0321146530) - Kent Beck
 - [Growing Object-Oriented Software, Guided by Tests](https://www.amazon.com/Growing-Object-Oriented-Software-Guided-Tests/dp/0321503627)
 - [The Three Laws of TDD](https://www.youtube.com/watch?v=AoIfc5NwRks) - Uncle Bob
 
 ## 📊 Success Metrics
 
-### You're ready for Week 5 when you can:
+### You're ready for Week 5 when you can
+
 - [ ] Write tests before any production code
 - [ ] Follow Red-Green-Refactor without shortcuts
 - [ ] Achieve 80-90% coverage naturally
 - [ ] Mock external dependencies effectively
 - [ ] Use FluentAssertions fluently
 
-### Red Flags (seek help if):
+### Red Flags (seek help if)
+
 - [ ] Writing code before tests
 - [ ] Tests failing after refactoring
 - [ ] Coverage below 80%
@@ -428,6 +459,7 @@ Write tests FIRST for:
 ### Two Approaches to TDD with Claude Code
 
 #### 1. Granular Approach (Learning Mode) 📚
+
 Perfect for beginners and when learning TDD discipline:
 
 ```markdown
@@ -442,12 +474,14 @@ Perfect for beginners and when learning TDD discipline:
 ```
 
 **Benefits:**
+
 - Forces Red-Green-Refactor discipline
 - Prevents over-engineering
 - Builds muscle memory
 - Clear learning progression
 
 #### 2. Batched Approach (Production Mode) 💯
+
 For experienced developers who've internalized TDD:
 
 ```markdown
@@ -463,6 +497,7 @@ For experienced developers who've internalized TDD:
 ```
 
 **Benefits:**
+
 - 3-5x faster development
 - Natural design emergence
 - Better flow state
@@ -511,6 +546,7 @@ This becomes your configuration-as-code for AI behavior!
 ### Example Session Evolution
 
 **Week 1 (Granular):**
+
 ```
 > Write test for X
 > Implement X
@@ -519,12 +555,14 @@ This becomes your configuration-as-code for AI behavior!
 ```
 
 **Week 4 (Hybrid):**
+
 ```
 > Write all validation tests
 > Implement validation module
 ```
 
 **Week 8 (Batched with Prime Directives):**
+
 ```
 > Build complete payment processing with TDD
 [Claude follows CLAUDE.md rules automatically]
@@ -539,6 +577,7 @@ The granular approach teaches you to think in tests. The batched approach with P
 ## 🚀 Next Week Preview
 
 **Week 5: Commands & Basic Skills**
+
 - Custom slash commands
 - Building reusable skills
 - Supporting files and templates
@@ -553,39 +592,47 @@ The granular approach teaches you to think in tests. The batched approach with P
 ### Common Issues & Solutions
 
 **"Build warnings about Test SDK"**
+
 - Both projects include `<IsTestProject>true</IsTestProject>`
 - This prevents CS7022 warnings with top-level statements
 - Normal for projects mixing app code and tests
 
 **"Should I test private methods?"**
+
 - No! Test public behavior only
 - Private methods are implementation details
 - If it's important, it should affect public behavior
 
 **"My tests are brittle"**
+
 - Test behavior, not implementation
 - Use interfaces and dependency injection
 - Don't over-specify in assertions
 
 **"Coverage is stuck at 90%"**
+
 - Check for error handling paths
 - Look for early returns
 - Consider edge cases
 
 ### Time Management Tips
+
 - Part 1-2: Keep conceptual (25 min)
 - Part 3: Heart of session (75 min)
 - If running late: Skip mocking details
 - Always leave 5 min for wrap-up
 
 ### Engagement Strategies
+
 - Live code the first test together
 - Celebrate first "Green" test
 - Share coverage reports on screen
 - Use real HOA scenarios
 
 ### Assessment
+
 Quick check at end:
+
 1. What comes first: test or code?
 2. What are the three phases of TDD?
 3. Why do tests prevent AI hallucinations?
