@@ -143,7 +143,9 @@ courses/ai-101-claude-code/
 ├── sessions/
 │   ├── week-1/
 │   │   ├── README.md      ← You're reading this!
-│   │   ├── example/       ← Reference code (READ-ONLY)
+│   │   ├── examples/      ← Reference code (READ-ONLY)
+│   │   │   ├── hoa-cli/   ← Developer track example
+│   │   │   └── support/   ← Support track example
 │   │   └── sandbox/       ← YOUR WORK for Week 1
 │   ├── week-2/
 │   │   ├── example/       ← Reference code (READ-ONLY)
@@ -159,8 +161,9 @@ courses/ai-101-claude-code/
 cd courses/ai-101-claude-code/sessions/week-1
 
 # Copy the example to your sandbox folder
-cp -r example sandbox
-cd sandbox
+mkdir -p sandbox
+cp -r examples/hoa-cli sandbox/
+cd sandbox/hoa-cli
 
 # Start Claude Code and begin practicing!
 claude
@@ -168,7 +171,7 @@ claude
 
 ### Important Notes
 
-- **`example/` folders are READ-ONLY** - Don't modify them directly. Copy to `sandbox/` first.
+- **`examples/` folders are READ-ONLY** - Don't modify them directly. Copy to `sandbox/` first.
 - **Each week has its own `sandbox/`** - Your Week 1 work stays in `week-1/sandbox/`, Week 2 in `week-2/sandbox/`, etc.
 - **Git ignores `sandbox/` folders** - Your practice code won't clutter the course repo history.
 - **For weeks with multiple examples** - Create subdirectories: `sandbox/example-a/`, `sandbox/example-b/`
@@ -711,7 +714,7 @@ Try this in your sandbox without help:
 
 ### RealManage Resources
 
-- [Week 1 Example CLI App](./example/) - Reference implementation
+- [Week 1 Example CLI App](./examples/hoa-cli/) - Reference implementation
 - [C# Coding Standards](https://wiki.realmanage.com/coding-standards)
 - [Architecture Guidelines](https://wiki.realmanage.com/architecture)
 - Slack: `#ai-exchange` for help

@@ -273,4 +273,4 @@ claude
 
 ---
 
-**Next:** Once setup is verified, copy the [Week 1 Example](./example/) to create your sandbox
+**Next:** Once setup is verified, copy the [Week 1 Example](./examples/hoa-cli/) to create your sandbox

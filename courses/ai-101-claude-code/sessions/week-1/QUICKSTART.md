@@ -32,7 +32,9 @@ claude           # Opens browser for OAuth login
 
 ```
 courses/ai-101-claude-code/sessions/week-1/
-├── example/    ← Reference (READ-ONLY)
+├── examples/   ← Reference (READ-ONLY)
+│   ├── hoa-cli/    ← Developer track
+│   └── support/    ← Support track
 ├── sandbox/    ← YOUR WORK GOES HERE
 └── README.md   ← Full lesson
 ```
@@ -41,7 +43,8 @@ courses/ai-101-claude-code/sessions/week-1/
 
 ```bash
 cd courses/ai-101-claude-code/sessions/week-1
-cp -r example sandbox
+mkdir -p sandbox
+cp -r examples/hoa-cli sandbox/
 cd sandbox
 ```
 
