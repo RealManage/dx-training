@@ -44,6 +44,7 @@ public class HomeownerServiceTests
 ```
 
 **Run Test - See Failure:**
+
 ```
 error CS0246: The type or namespace name 'HomeownerService' could not be found
 error CS0246: The type or namespace name 'Homeowner' could not be found
@@ -56,6 +57,7 @@ error CS0246: The type or namespace name 'Homeowner' could not be found
 **Step 2: GREEN - Write Minimal Code to Pass**
 
 Create `Models/Homeowner.cs`:
+
 ```csharp
 namespace RealManage.HomeownerSetup.Models;
 
@@ -68,6 +70,7 @@ public class Homeowner
 ```
 
 Create `Services/HomeownerService.cs`:
+
 ```csharp
 using RealManage.HomeownerSetup.Models;
 
@@ -83,6 +86,7 @@ public class HomeownerService
 ```
 
 **Run Test - See Pass:**
+
 ```
 Passed!  - 1 test
 ```
@@ -124,6 +128,7 @@ public void AddHomeowner_NullEmail_ThrowsArgumentException()
 ```
 
 **Run Test - See Failure:**
+
 ```
 Expected a <System.ArgumentException> to be thrown, but no exception was thrown.
 ```
@@ -135,6 +140,7 @@ Expected a <System.ArgumentException> to be thrown, but no exception was thrown.
 **Step 2: GREEN - Add Minimal Validation**
 
 Update `Services/HomeownerService.cs`:
+
 ```csharp
 public bool AddHomeowner(Homeowner homeowner)
 {
@@ -146,6 +152,7 @@ public bool AddHomeowner(Homeowner homeowner)
 ```
 
 **Run Test - See Pass:**
+
 ```
 Passed!  - 2 tests
 ```
@@ -169,6 +176,7 @@ private void ValidateHomeowner(Homeowner homeowner)
 ```
 
 **Run Tests - Still Green:**
+
 ```
 Passed!  - 2 tests
 ```
@@ -206,6 +214,7 @@ public void AddHomeowner_InvalidEmailFormat_ThrowsArgumentException(string inval
 ```
 
 **Run Test - See Failure:**
+
 ```
 Expected exception but none was thrown (for all invalid emails)
 ```
@@ -236,6 +245,7 @@ private static bool IsValidEmailFormat(string email)
 ```
 
 **Run Test - See Pass:**
+
 ```
 Passed!  - 6 tests (2 facts + 4 theory cases)
 ```
@@ -262,6 +272,7 @@ private static bool IsValidEmailFormat(string email)
 ```
 
 **Run Tests - Still Green:**
+
 ```
 Passed!  - 6 tests
 ```
@@ -301,6 +312,7 @@ public void AddHomeowner_DuplicateEmail_ReturnsFalse()
 ```
 
 **Run Test - See Failure:**
+
 ```
 Expected result to be False, but found True.
 ```
@@ -331,6 +343,7 @@ public class HomeownerService
 ```
 
 **Run Test - See Pass:**
+
 ```
 Passed!  - 7 tests
 ```
@@ -372,6 +385,7 @@ public void SetupPaymentPlan_ValidInput_ReturnsPaymentPlan()
 ```
 
 **Run Test - See Failure:**
+
 ```
 error CS0246: The type or namespace name 'PaymentPlan' could not be found
 ```
@@ -381,6 +395,7 @@ error CS0246: The type or namespace name 'PaymentPlan' could not be found
 **Step 2: GREEN - Create PaymentPlan and Implement**
 
 Create `Models/PaymentPlan.cs`:
+
 ```csharp
 namespace RealManage.HomeownerSetup.Models;
 
@@ -394,6 +409,7 @@ public class PaymentPlan
 ```
 
 Add to `HomeownerService.cs`:
+
 ```csharp
 public PaymentPlan SetupPaymentPlan(string email, decimal monthlyAmount, int dayOfMonth)
 {
@@ -407,6 +423,7 @@ public PaymentPlan SetupPaymentPlan(string email, decimal monthlyAmount, int day
 ```
 
 **Run Test - See Pass:**
+
 ```
 Passed!  - 8 tests
 ```
@@ -505,6 +522,7 @@ public class WelcomePacketTests
 ```
 
 **Run Test - See Failure:**
+
 ```
 error CS0246: The type or namespace name 'IEmailService' could not be found
 ```
@@ -514,6 +532,7 @@ error CS0246: The type or namespace name 'IEmailService' could not be found
 **Step 2: GREEN - Create Interface and Implement**
 
 Create `Services/IEmailService.cs`:
+
 ```csharp
 namespace RealManage.HomeownerSetup.Services;
 
@@ -524,6 +543,7 @@ public interface IEmailService
 ```
 
 Update `HomeownerService.cs`:
+
 ```csharp
 public class HomeownerService
 {
@@ -555,6 +575,7 @@ public class HomeownerService
 ```
 
 **Run Test - See Pass:**
+
 ```
 Passed!  - 9 tests
 ```
@@ -568,6 +589,7 @@ This exercise focuses on **enhancing existing code** with TDD, starting from 60%
 ### Finding Coverage Gaps
 
 The existing `PropertyServiceTests.cs` has TODO comments showing what's missing:
+
 - `GetPropertyById` with non-existent ID
 - `SearchProperties` with empty/null term
 - `SearchProperties` with no matches
@@ -742,6 +764,7 @@ public async Task AddValuation_ValidInput_ReturnsValuation()
 ```
 
 **Run Test - See Failure:**
+
 ```
 error CS0246: The type or namespace name 'Valuation' could not be found
 error CS1061: 'PropertyService' does not contain a definition for 'AddValuationAsync'
@@ -752,6 +775,7 @@ error CS1061: 'PropertyService' does not contain a definition for 'AddValuationA
 **Step 2: GREEN - Create Valuation Model and Method**
 
 Create/update `Models/Valuation.cs`:
+
 ```csharp
 namespace RealManage.PropertyManager.Models;
 
@@ -769,11 +793,13 @@ public class Valuation
 ```
 
 Update `PropertyContext.cs`:
+
 ```csharp
 public DbSet<Valuation> Valuations { get; set; } = null!;
 ```
 
 Add to `PropertyService.cs`:
+
 ```csharp
 public async Task<Valuation> AddValuationAsync(int propertyId, decimal amount, DateTime date, string source)
 {
@@ -795,6 +821,7 @@ public async Task<Valuation> AddValuationAsync(int propertyId, decimal amount, D
 ```
 
 **Run Test - See Pass:**
+
 ```
 Passed!
 ```
@@ -1049,7 +1076,7 @@ Your HOA Management Team";
 ### Common Student Mistakes
 
 | Mistake | What They Do | What to Do Instead |
-|---------|--------------|-------------------|
+| ------- | ------------ | ------------------ |
 | Big Bang TDD | Write 10 tests, then implement all | One test at a time |
 | Test After | Write code, then write tests | Write test first, see red |
 | Gold Plating | Add features not required by tests | Minimal code only |

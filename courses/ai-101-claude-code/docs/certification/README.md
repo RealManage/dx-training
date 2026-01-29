@@ -23,7 +23,7 @@ You can:
 ### Additional by Role
 
 | Role | Mandatory | Optional (Encouraged) |
-|------|-----------|----------------------|
+| ---- | --------- | --------------------- |
 | Developer | Weeks 1-4 | Weeks 5-9 (Skills, Agents, Hooks, Plugins) |
 | QA | Weeks 1-4 | QA-specific advanced content |
 | PM | Weeks 1-4 | PM-specific advanced content |
@@ -31,7 +31,7 @@ You can:
 ## Timeline
 
 | Track | Mandatory | Full Course |
-|-------|-----------|-------------|
+| ----- | --------- | ----------- |
 | Developer | 4 weeks | 9 weeks |
 | QA | 4 weeks | 6-7 weeks |
 | PM | 4 weeks | 6-7 weeks |
@@ -72,13 +72,13 @@ What does a "good" capstone look like? Here are examples by role:
 Your submission will be reviewed for:
 
 | Criteria | What We're Looking For |
-|----------|------------------------|
+| -------- | ---------------------- |
 | Completion | Did you attempt all exercises? |
 | Understanding | Do your prompts show comprehension? |
 | Application | Did you apply AI to realistic work? |
 | Reflection | Can you articulate what worked and what didn't? |
 
-**Note:** We're not grading you. We're confirming you got value from the training.
+> **Note:** We're not grading you. We're confirming you got value from the training.
 
 ## Recognition
 
@@ -107,7 +107,7 @@ A: DX Team members.
 
 ## Getting Help
 
-**Slack:** #ai-exchange | **Office Hours:** Monday-Friday | **DM:** Any trainer
+See [Getting Help](../../resources/getting-help.md) for all support channels.
 
 ---
 

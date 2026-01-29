@@ -15,7 +15,7 @@ This review focuses specifically on the Week 8 refactoring from CI/CD integratio
 ### Rating Comparison
 
 | Review | Rating | Key Finding |
-|--------|--------|-------------|
+| ------ | ------ | ----------- |
 | Review #1 | 8/10 | Good content but too technical for PMs |
 | Review #2 | 4/5 stars | Dramatic improvement with PM track |
 | Review #3 | 4.5/5 stars | PM track excellent and practical |
@@ -85,7 +85,7 @@ The new Headless Automation content focuses on:
 3. **Time Savings Table is Realistic:**
 
    | Task | Manual | Automated | Savings |
-   |------|--------|-----------|---------|
+| ---- | ------ | --------- | ------- |
    | Release notes | 60 min | 10 min | 50 min |
    | Sprint summaries | 45 min | 10 min | 35 min |
    | Meeting action items | 20 min | 5 min | 15 min |
@@ -122,7 +122,7 @@ Morgan will update stakeholders on timeline change tomorrow."
 ### What the PM Track Gets Right
 
 | Aspect | Rating | Notes |
-|--------|--------|-------|
+| ------ | ------ | ----- |
 | Relevance to PM work | Excellent | All examples are PM tasks |
 | Accessibility | Excellent | No coding required |
 | Time estimate (45 min) | Accurate | I finished in about 40 minutes |
@@ -183,7 +183,7 @@ The capstone guidance references creating a `/generate-user-stories` skill. For 
 I searched for CI/CD references in Week 8 content. Here's what I found:
 
 | Location | Reference | Appropriate? |
-|----------|-----------|--------------|
+| -------- | --------- | ------------ |
 | README.md | "pipelines" (processing pipelines) | Yes - different context |
 | developer.md | "pipeline-output" (folder name) | Yes - data processing pipeline |
 | pm.md | None found | Correct |
@@ -198,7 +198,7 @@ I searched for CI/CD references in Week 8 content. Here's what I found:
 ### Issues from Review #3 - Status Update
 
 | Issue | Status in Review #4 | Evidence |
-|-------|---------------------|----------|
+| ----- | ------------------- | -------- |
 | More PM examples in main Week 2 | Not addressed | Still developer-focused |
 | PM learning path visualization | Not addressed | No diagram added |
 | PM case studies | Not addressed | No case studies |

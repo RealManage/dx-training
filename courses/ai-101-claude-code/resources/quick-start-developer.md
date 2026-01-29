@@ -17,7 +17,7 @@ Week 0 ──► Week 1 ──► Week 2 ──► Week 3 ──► Week 4 ─�
 ### Week Breakdown
 
 | Week | Topic | Priority | Why It Matters |
-|------|-------|----------|----------------|
+| ---- | ----- | -------- | -------------- |
 | 0 | AI Foundations | Optional | Skip if you know LLMs |
 | 1 | Setup & Orientation | Must Do | Get Claude working |
 | 2 | Prompting Foundations | Must Do | 10x your prompt quality |
@@ -185,7 +185,7 @@ Create a [SERVICE/COMPONENT] that [DOES WHAT]
 ### Commands to Know
 
 | Command | When to Use |
-|---------|-------------|
+| ------- | ----------- |
 | `Shift+Tab` | Toggle plan mode |
 | `/model` | Switch models (sonnet/opus) |
 | `/clear` | Reset context |
@@ -203,6 +203,10 @@ Create a [SERVICE/COMPONENT] that [DOES WHAT]
 - **Week 4 (TDD)** - This is the money. Spend extra time here.
 - **Week 5-6 (Commands/Skills/Agents)** - Your productivity multipliers.
 
+### After Certification
+
+Own testing? Consider the **[QA Track](../docs/certification/tracks/qa-track.md)** for test case generation and automation skills.
+
 ---
 
 ## Resources
@@ -212,7 +216,10 @@ Create a [SERVICE/COMPONENT] that [DOES WHAT]
 - [Decision Trees](./decision-trees.md) - When to use what
 - [Troubleshooting](./troubleshooting.md) - Common issues
 - [Prompt Library](./prompt-library.md) - Ready-to-use prompts
+- [Getting Help](./getting-help.md) - Support channels and how to get assistance
 
 ---
 
-*Questions? Hit up `#dx-training` on Slack.*
+**Need help?** See [Getting Help](getting-help.md) for support channels.
+
+*Questions? Hit up `#ai-exchange` on Slack.*

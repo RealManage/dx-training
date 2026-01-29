@@ -24,12 +24,7 @@ By the end of this session, participants will be able to:
 - [ ] Access to a test repository for exercises
 - [ ] Ready for 2-hour session
 
-### For Instructors
-
-- [ ] Test all example projects build without warnings
-- [ ] Verify automation script examples work
-- [ ] Have workflow examples ready
-- [ ] Monitor `#dx-training` Slack channel
+> **Note:** Not familiar with bash scripting? That's okay - ask Claude to explain any command or write scripts for you. This applies to anything in the course: if you're stuck, Claude is your pair programming partner.
 
 ## Session Plan
 
@@ -269,7 +264,7 @@ Claude Code can run without interactive prompts using the `-p` (or `--print`) fl
 **Key CLI Flags for Automation:**
 
 | Flag | Description | Example |
-|------|-------------|---------|
+| ---- | ----------- | ------- |
 | `-p, --print` | Non-interactive mode, prints result and exits | `claude -p "Review this code"` |
 | `--output-format` | Output format: `text`, `json`, `stream-json` | `--output-format json` |
 | `--model` | Select model: `sonnet`, `opus` | `--model opus` |
@@ -286,7 +281,7 @@ Claude Code can run without interactive prompts using the `-p` (or `--print`) fl
 **When to Use Headless Mode:**
 
 | Use Case | Interactive | Headless |
-|----------|------------|----------|
+| -------- | ----------- | -------- |
 | Exploratory coding | ✅ | |
 | Single file review | ✅ | |
 | Batch file processing | | ✅ |
@@ -414,7 +409,9 @@ Starting batch review of 3 files...
 cat code-review-report.md
 ```
 
-#### 2.4 Advanced Automation Patterns
+#### 2.4 Advanced Automation Patterns *(Stretch Goal)*
+
+> **Note:** These patterns are valuable but optional during the session. Focus on Parts 2.1-2.3 first. Review these as homework if time runs short.
 
 **JSON Output for Programmatic Use:**
 
@@ -492,7 +489,7 @@ claude --continue -p "Now suggest improvements to the patterns you identified"
 **Available Models:**
 
 | Model | Capability | Speed | Best For |
-|-------|------------|-------|----------|
+| ----- | ---------- | ----- | -------- |
 | **Sonnet** | High | Fast | Daily driver, general development (default) |
 | **Opus** | Highest | Moderate | Complex analysis, architecture, nuanced tasks |
 
@@ -701,7 +698,7 @@ Append to CLAUDE.md under "## Lessons Learned"
 **Metrics to Track:**
 
 | Metric | How to Measure | Target |
-|--------|----------------|--------|
+| ------ | -------------- | ------ |
 | Time to PR | Commit to PR creation | -30% |
 | Test Coverage | Coverlet reports | 80-90% |
 | Bug Escape Rate | Production issues/sprint | -40% |
@@ -875,7 +872,7 @@ PARALLEL PROCESSING:
 2. Build a batch automation script (code review, test analysis, etc.)
 3. Implement auto-run-tests hook for your projects
 4. Update your project CLAUDE.md with lessons learned
-5. Share your best workflow in `#dx-training`
+5. Share your best workflow in `#ai-exchange`
 
 ### Stretch Goals
 
@@ -906,7 +903,7 @@ Design a complete automation workflow that:
 ### RealManage Resources
 
 - [Week 8 Examples](./examples/) - HOA Workflows project
-- Slack: `#dx-training` for workflow help
+- Slack: `#ai-exchange` for workflow help
 
 ### Additional Reading
 
@@ -942,81 +939,6 @@ Design a complete automation workflow that:
 - Present to team and get certified!
 
 **Pre-work:** Review all weeks and identify your capstone project preference
-
----
-
-## Instructor Notes
-
-### Session Timing (2 hours)
-
-- Part 1: Cross-Functional Use Cases - 25 min
-- Part 2: Headless Claude Automation - 30 min
-- Part 3: Model Selection & Context - 20 min
-- Part 4: Continuous Improvement - 20 min
-- Part 5: Hands-On Workshop - 20 min
-- Part 6: Q&A and Reflection - 5 min
-- **Total: 2h 00min**
-
-### Key Points to Emphasize
-
-- **Cross-functional value** - Claude helps everyone, not just developers
-- **Headless automation** - CLI scripting for batch processing
-- **Cost awareness** - Use the right model for the job
-- **Continuous improvement** - CLAUDE.md evolves over time
-
-### Common Questions
-
-**"How do we handle API keys in automation scripts?"**
-
-- Use environment variables (never hardcode)
-- Store in secure credential managers
-- Reference as `$ANTHROPIC_API_KEY` in scripts
-- Never commit keys to repository
-
-**"How do we ensure consistent output from skills?"**
-
-- Include explicit output format in skill
-- Test skills with multiple inputs
-- Version control skill files
-- Review and refine based on results
-
-**"When should I use Sonnet vs Opus?"**
-
-- Sonnet: Daily work, general development (faster)
-- Opus: Complex architecture, nuanced analysis (more capable)
-- Start with Sonnet, switch to Opus for hard problems
-
-### Troubleshooting
-
-**Automation scripts not working:**
-
-- Check script has execute permissions (`chmod +x`)
-- Verify Claude CLI is installed and authenticated
-- Check environment variables are set
-- Test with `--verbose` flag for debugging
-
-**Response quality degrading:**
-
-- Use `/compact` to clean up context
-- Use `/clear` when switching unrelated tasks
-- Check if using right model for task complexity
-- Look for repeated similar prompts (create skills instead)
-
-**Skills producing inconsistent results:**
-
-- Make prompts more explicit
-- Add example outputs
-- Reduce ambiguity
-- Test with edge cases
-
-### Assessment
-
-Quick check at end of session:
-
-1. Name two cross-functional use cases
-2. What CLI flags enable headless automation?
-3. When should you use Opus vs Sonnet?
-4. How do you keep Claude's context clean?
 
 ---
 

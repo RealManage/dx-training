@@ -1,6 +1,7 @@
 # Claude Code CLI Commands Quick Reference 🎯
 
 > **Official Documentation:**
+>
 > - [CLI Reference](https://code.claude.com/docs/en/cli-reference) - All CLI flags
 > - [Interactive Mode](https://code.claude.com/docs/en/interactive-mode) - Slash commands
 >
@@ -11,7 +12,7 @@
 ## Starting & Stopping
 
 | Action | Command | Notes |
-|--------|---------|-------|
+| ------ | ------- | ----- |
 | Start Claude | `claude` | Opens interactive session |
 | Start with prompt | `claude "your prompt"` | Start with initial query |
 | Exit Claude | `Ctrl+C` or `/exit` | End session |
@@ -25,7 +26,7 @@
 ### Session Management
 
 | Command | Description |
-|---------|-------------|
+| ------- | ----------- |
 | `/help` | Show help and available commands |
 | `/clear` | Clear conversation history and free up context |
 | `/compact` | Clear history but keep summary. Optional: `/compact [focus instructions]` |
@@ -40,7 +41,7 @@
 ### Usage & Status
 
 | Command | Description |
-|---------|-------------|
+| ------- | ----------- |
 | `/usage` | Show plan usage limits |
 | `/stats` | Show usage statistics and activity |
 | `/status` | Show version, model, account, API connectivity |
@@ -48,7 +49,7 @@
 ### Model & Output
 
 | Command | Description |
-|---------|-------------|
+| ------- | ----------- |
 | `/model` | Set the AI model for Claude Code |
 | `/output-style` | Set output style directly or from menu |
 | `/plan` | Enable plan mode or view current session plan |
@@ -56,7 +57,7 @@
 ### File & Directory Management
 
 | Command | Description |
-|---------|-------------|
+| ------- | ----------- |
 | `/add-dir` | Add a new working directory |
 | `/memory` | Edit Claude memory files (CLAUDE.md) |
 | `/init` | Initialize CLAUDE.md with codebase documentation |
@@ -65,7 +66,7 @@
 ### Code Review & Security
 
 | Command | Description |
-|---------|-------------|
+| ------- | ----------- |
 | `/review` | Review a pull request |
 | `/pr-comments` | Get comments from a GitHub pull request |
 | `/security-review` | Security review of pending changes on current branch |
@@ -73,7 +74,7 @@
 ### Agents, Skills & Automation
 
 | Command | Description |
-|---------|-------------|
+| ------- | ----------- |
 | `/agents` | Manage agent configurations |
 | `/skills` | List available skills |
 | `/hooks` | Manage hook configurations for tool events |
@@ -83,7 +84,7 @@
 ### Configuration & Settings
 
 | Command | Description |
-|---------|-------------|
+| ------- | ----------- |
 | `/config` | Open config panel |
 | `/doctor` | Diagnose and verify installation and settings |
 | `/theme` | Change the color theme |
@@ -94,7 +95,7 @@
 ### Integrations
 
 | Command | Description |
-|---------|-------------|
+| ------- | ----------- |
 | `/mcp` | Manage MCP servers |
 | `/plugin` | Manage Claude Code plugins |
 | `/ide` | Manage IDE integrations and show status |
@@ -105,7 +106,7 @@
 ### Account & Support
 
 | Command | Description |
-|---------|-------------|
+| ------- | ----------- |
 | `/login` | Sign in with your Anthropic account |
 | `/logout` | Sign out from your Anthropic account |
 | `/feedback` | Submit feedback about Claude Code |
@@ -117,7 +118,7 @@
 ### Remote Sessions
 
 | Command | Description |
-|---------|-------------|
+| ------- | ----------- |
 | `/teleport` | Resume a remote session from claude.ai |
 | `/remote-env` | Configure default remote environment for teleport |
 
@@ -126,7 +127,7 @@
 ## Quick Input Modes
 
 | Prefix | Mode | Example |
-|--------|------|---------|
+| ------ | ---- | ------- |
 | `/` | Commands/Skills | `/help`, `/model sonnet` |
 | `!` | Bash mode | `!git status` (runs directly without Claude) |
 | `@` | File autocomplete | `@src/` triggers path completion |
@@ -137,7 +138,7 @@
 ## Keyboard Shortcuts
 
 | Shortcut | Action |
-|----------|--------|
+| -------- | ------ |
 | `Ctrl+C` | Exit Claude |
 | `Ctrl+D` | Exit Claude (alternative) |
 | `Ctrl+R` | Reverse history search |
@@ -153,7 +154,7 @@
 ### Session & Model
 
 | Flag | Short | Description |
-|------|-------|-------------|
+| ---- | ----- | ----------- |
 | `--model <model>` | | Set model (`sonnet`, `opus`, or full name) |
 | `--agent <name>` | | Use specific agent |
 | `--agents <json>` | | Define custom agents via JSON |
@@ -165,7 +166,7 @@
 ### Output Modes
 
 | Flag | Short | Description |
-|------|-------|-------------|
+| ---- | ----- | ----------- |
 | `--print` | `-p` | Print response and exit (for pipes/scripts) |
 | `--output-format <fmt>` | | `text`, `json`, or `stream-json` |
 | `--input-format <fmt>` | | `text` or `stream-json` |
@@ -176,7 +177,7 @@
 ### Permissions & Tools
 
 | Flag | Description |
-|------|-------------|
+| ---- | ----------- |
 | `--permission-mode <mode>` | `default`, `acceptEdits`, `dontAsk`, `plan`, `bypassPermissions` |
 | `--dangerously-skip-permissions` | Bypass all permission checks |
 | `--allowedTools <tools>` | Tools to allow (e.g., `"Bash(git:*) Edit"`) |
@@ -186,14 +187,14 @@
 ### Files & Directories
 
 | Flag | Description |
-|------|-------------|
+| ---- | ----------- |
 | `--add-dir <dirs>` | Additional directories to allow access |
 | `--file <specs>` | Files to download at startup (`file_id:path`) |
 
 ### Configuration
 
 | Flag | Description |
-|------|-------------|
+| ---- | ----------- |
 | `--settings <file\|json>` | Load settings from file or JSON string |
 | `--setting-sources <sources>` | Sources to load: `user`, `project`, `local` |
 | `--system-prompt <prompt>` | Custom system prompt |
@@ -203,7 +204,7 @@
 ### Integrations
 
 | Flag | Description |
-|------|-------------|
+| ---- | ----------- |
 | `--plugin-dir <paths>` | Load plugins from directories |
 | `--mcp-config <configs>` | Load MCP servers from JSON |
 | `--strict-mcp-config` | Only use MCP from --mcp-config |
@@ -213,14 +214,14 @@
 ### Budget & Limits
 
 | Flag | Description |
-|------|-------------|
+| ---- | ----------- |
 | `--max-budget-usd <amount>` | Max spend on API calls (with `--print`) |
 | `--fallback-model <model>` | Fallback when default overloaded |
 
 ### Info
 
 | Flag | Short | Description |
-|------|-------|-------------|
+| ---- | ----- | ----------- |
 | `--version` | `-v` | Show version |
 | `--help` | `-h` | Show help |
 
@@ -240,6 +241,7 @@ claude setup-token   # Set up auth token (requires subscription)
 ## Common Workflows
 
 ### Starting a New Project
+
 ```bash
 cd my-project
 claude
@@ -249,6 +251,7 @@ claude
 ```
 
 ### Long Coding Session
+
 ```bash
 claude
 # Work for a while...
@@ -257,6 +260,7 @@ claude
 ```
 
 ### Code Review Workflow
+
 ```bash
 claude
 /review               # Review current PR
@@ -265,6 +269,7 @@ claude
 ```
 
 ### Multi-Session Work
+
 ```bash
 claude
 /fork                 # Branch conversation
@@ -298,7 +303,7 @@ Session context        # Current conversation
 ## Troubleshooting
 
 | Issue | Command |
-|-------|---------|
+| ----- | ------- |
 | Slow responses | `/compact` or `/clear` |
 | Quality degrading | `/clear` and start fresh |
 | Installation issues | `/doctor` or `claude doctor` |

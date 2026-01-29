@@ -149,7 +149,7 @@ Examples:
 
 ### Issues Previously Raised
 | Issue | Previous Status | Current Status |
-|-------|-----------------|----------------|
+| ----- | --------------- | -------------- |
 | ... | ... | ... |
 
 ### Improvements Noticed

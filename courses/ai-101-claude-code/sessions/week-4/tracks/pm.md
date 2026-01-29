@@ -34,7 +34,7 @@ By the end of this session, you will be able to:
 ### Testable vs. Untestable Requirements
 
 | Untestable | Testable |
-|------------|----------|
+| ---------- | -------- |
 | "The system should be fast" | "Page loads in under 2 seconds" |
 | "Users can manage violations" | "Users can create, view, edit, and delete violations" |
 | "Late fees should be calculated correctly" | "Late fees are 10% of balance, compounded monthly after 30-day grace period" |
@@ -45,7 +45,7 @@ By the end of this session, you will be able to:
 Good requirements are:
 
 | Criteria | Meaning | Example |
-|----------|---------|---------|
+| -------- | ------- | ------- |
 | **I**ndependent | Can be developed alone | "Create violation" doesn't depend on "Send notification" |
 | **N**egotiable | Details can be discussed | Exact fee percentage can be adjusted |
 | **V**aluable | Delivers user/business value | "Calculate late fees" helps collect revenue |
@@ -231,7 +231,7 @@ What edge cases should I consider?
 **Claude might identify:**
 
 | Edge Case | Why It Matters | Expected Behavior |
-|-----------|----------------|-------------------|
+| --------- | -------------- | ----------------- |
 | Payment > Balance | Overpayment handling | Apply as credit or reject? |
 | Payment = $0 | Invalid input | Reject with error message |
 | Negative payment | Invalid input | Reject, don't create refund |
@@ -287,7 +287,7 @@ Pick 3 edge cases and write full acceptance criteria for each.
 Your acceptance criteria become:
 
 | Your AC | Developer Uses For | QA Uses For |
-|---------|-------------------|-------------|
+| ------- | ------------------ | ----------- |
 | Given/When/Then | Writing unit tests | Writing test cases |
 | Edge cases | Defensive coding | Exploratory testing |
 | Business rules | Implementation logic | Validation testing |
@@ -311,7 +311,7 @@ Your acceptance criteria become:
 Before development starts, PMs, Devs, and QA meet to review requirements:
 
 | Role | Brings | Asks |
-|------|--------|------|
+| ---- | ------ | ---- |
 | PM | Acceptance criteria, business context | "Does this make sense?" |
 | Dev | Technical constraints, estimates | "How should edge case X behave?" |
 | QA | Test scenarios, risk assessment | "What about scenario Y?" |

@@ -17,7 +17,7 @@ This optional "on-ramp" week provides foundational context before diving into Cl
 The journey to AI-assisted coding has been decades in the making:
 
 | Era | Development | Impact |
-|-----|-------------|--------|
+| --- | ----------- | ------ |
 | **1950s-1990s** | Expert systems, rule-based AI | Limited domain-specific applications |
 | **2000s-2015** | Machine learning, autocomplete | IDE suggestions, syntax highlighting |
 | **2015-2020** | Deep learning, neural networks | Code completion (IntelliSense, TabNine) |
@@ -31,6 +31,7 @@ The key evolution is from **reactive** (autocomplete what you're typing) to **ag
 **Large Language Models (LLMs)** like Claude are AI systems trained on massive text datasets to understand and generate human-like text. Think of them as extremely sophisticated pattern-matchers that have absorbed patterns from billions of lines of code and documentation.
 
 **Key characteristics:**
+
 - **Context-aware:** Can understand surrounding code and conversation history
 - **Generative:** Creates new content rather than just retrieving existing answers
 - **Probabilistic:** Outputs are predictions, not deterministic lookups
@@ -51,7 +52,7 @@ Traditional AI assistants respond to single prompts. **Agentic** AI can:
 **Example comparison:**
 
 | Traditional AI | Agentic AI (Claude Code) |
-|---------------|--------------------------|
+| -------------- | ------------------------ |
 | "Here's a function that might work" | "I'll read the related files, understand the patterns, write the code, generate tests, run them, and fix any failures" |
 | One response, then waits | Can execute 20+ steps autonomously |
 | Limited to current file | Understands full project architecture |
@@ -65,6 +66,7 @@ Traditional AI assistants respond to single prompts. **Agentic** AI can:
 Claude Code excels at tasks that benefit from pattern recognition, broad knowledge, and tireless consistency:
 
 **High-Value Use Cases:**
+
 - Explain unfamiliar codebases quickly
 - Generate boilerplate and CRUD operations
 - Write comprehensive test suites
@@ -81,18 +83,21 @@ Claude Code excels at tasks that benefit from pattern recognition, broad knowled
 Understanding limitations prevents frustration and dangerous over-reliance:
 
 **Hallucinations are real:**
+
 - May invent APIs that don't exist
 - Can suggest deprecated methods with confidence
 - Might reference library versions incorrectly
 - Could generate plausible but wrong business logic
 
 **Verification is always required:**
+
 - Claude doesn't actually run your code (unless explicitly told to)
 - It doesn't know your production data or edge cases
 - It can't access private systems without MCP configuration
 - Domain expertise (like HOA regulations) may be incomplete
 
 **Current limitations:**
+
 - Cannot see UI/visual output directly (but can read image files)
 - No access to real-time information without web search
 - Token limits for extremely large codebases
@@ -105,7 +110,7 @@ You may have heard AI makes developers "10x more productive." Here's a nuanced r
 **What 10x means in practice:**
 
 | Task Type | Realistic Speedup | Why |
-|-----------|-------------------|-----|
+| --------- | ----------------- | --- |
 | Boilerplate/CRUD | 5-10x | Highly repetitive, well-known patterns |
 | Documentation | 3-5x | Claude excels at explanation |
 | Test writing | 3-5x | Given good examples, very consistent |
@@ -114,6 +119,7 @@ You may have heard AI makes developers "10x more productive." Here's a nuanced r
 | Debugging production | Variable | Depends heavily on context available |
 
 **The honest truth:**
+
 - AI amplifies your existing skills - it doesn't replace expertise
 - Senior developers benefit MORE (know what to ask, can verify quality)
 - Juniors can move faster but need to develop judgment alongside
@@ -130,7 +136,7 @@ Before starting the course, familiarize yourself with these essential terms. Ful
 ### Top 10 Terms You MUST Know
 
 | Term | Quick Definition | Why It Matters |
-|------|------------------|----------------|
+| ---- | ---------------- | -------------- |
 | **LLM (Large Language Model)** | The AI technology powering Claude | Understanding what you're working with |
 | **Token** | Basic unit of text (~4 characters) | Affects context window limits |
 | **Context Window** | How much Claude can "see" at once (~200K tokens) | Determines project size limitations |
@@ -145,6 +151,7 @@ Before starting the course, familiarize yourself with these essential terms. Ful
 ### Quick Self-Test
 
 Can you explain these to a colleague?
+
 1. Why might an LLM "hallucinate" an API that doesn't exist?
 2. What's the difference between a traditional AI assistant and an agentic one?
 3. Why do we care about tokens?
@@ -156,7 +163,7 @@ Can you explain these to a colleague?
 ### The 9-Week Structure
 
 | Week | Topic | Focus |
-|------|-------|-------|
+| ---- | ----- | ----- |
 | **Week 0** | AI Foundations | *(You are here)* Optional primer |
 | **Week 1** | Setup & Orientation | Install, configure, first contact |
 | **Week 2** | Prompting Foundations | Clear communication with Claude |
@@ -173,24 +180,28 @@ Can you explain these to a colleague?
 While everyone follows the same core curriculum, each week includes role-specific exercises:
 
 **Developers:**
+
 - Generate production code with tests
 - Refactor legacy systems
 - Build microservices
 - [Quick Start Guide for Developers](../../resources/quick-start-developer.md)
 
 **Product Managers:**
+
 - Generate user stories from requirements
 - Create release notes from commits
 - Analyze technical documentation
 - [Quick Start Guide for PMs](../../resources/quick-start-pm.md)
 
 **QA Engineers:**
+
 - Generate test cases automatically
 - Create comprehensive test suites
 - Identify edge cases and coverage gaps
 - [Quick Start Guide for QA](../../resources/quick-start-qa.md)
 
 **Support Staff:**
+
 - Search codebases for relevant info
 - Draft customer responses
 - Generate knowledge base articles
@@ -199,6 +210,7 @@ While everyone follows the same core curriculum, each week includes role-specifi
 ### What You'll Need
 
 **Technical Requirements:**
+
 - Windows 10+, macOS 10.15+, or Ubuntu 20.04+
 - 4GB RAM minimum
 - Node.js 18+ (22 LTS recommended)
@@ -206,14 +218,14 @@ While everyone follows the same core curriculum, each week includes role-specifi
 - Internet connection
 
 **Time Commitment:**
+
 - 2 hours per week (session time)
 - 1-2 hours per week (homework/practice)
 - Optional: Office hours Thursdays 2-3 PM CT
 
 **Support Channels:**
-- Slack: `#dx-training`
-- Email: dx-team@realmanage.com
-- Office Hours: Thursdays 2-3 PM CT
+
+- Slack: `#ai-exchange`
 
 ---
 
@@ -230,7 +242,7 @@ These reflection exercises prepare your mindset for AI-assisted work.
 3. What concerns do you have about AI-assisted coding?
 4. What tasks in your current role would benefit most from AI assistance?
 
-**Share your thoughts:** Post one insight in `#dx-training` Slack channel.
+**Share your thoughts:** Post one insight in `#ai-exchange` Slack channel.
 
 ### Exercise 2: Hallucination Awareness (15 min)
 
@@ -241,6 +253,7 @@ These reflection exercises prepare your mindset for AI-assisted work.
 > Problem: `Math.CompoundInterest()` doesn't exist in C#. The code compiles (syntax is valid) but throws a runtime error.
 
 **Questions to consider:**
+
 1. How could this have been caught before production?
 2. What verification steps should become habit?
 3. How does this change your mental model of AI assistance?
@@ -252,7 +265,7 @@ These reflection exercises prepare your mindset for AI-assisted work.
 **Rate your current expectations (1-5):**
 
 | Statement | Rating |
-|-----------|--------|
+| --------- | ------ |
 | AI will write most of my code for me | |
 | AI-generated code needs careful review | |
 | AI understands my specific business domain | |
@@ -270,7 +283,7 @@ These reflection exercises prepare your mindset for AI-assisted work.
 3. "How do we maintain code quality when AI generates much of our code?"
 4. "What guardrails should we have for AI-generated code in production?"
 
-**Post your best insight** from the discussion to `#dx-training`.
+**Post your best insight** from the discussion to `#ai-exchange`.
 
 ---
 
@@ -291,19 +304,21 @@ You're ready for Week 1 when you can:
 ## Resources
 
 ### Course Materials
+
 - [Full Course Glossary](../../resources/glossary.md)
 - [Quick Start: Developers](../../resources/quick-start-developer.md)
 - [Quick Start: PMs](../../resources/quick-start-pm.md)
 - [Quick Start: QA](../../resources/quick-start-qa.md)
 
 ### External Reading (Optional)
+
 - [Anthropic's Claude Documentation](https://docs.anthropic.com/en/docs/claude-code)
 - [What are LLMs? (MIT Technology Review)](https://www.technologyreview.com/2023/04/10/1071177/what-are-large-language-models/)
 - [The Agentic Era (Anthropic Blog)](https://www.anthropic.com/news)
 
 ### Support
-- Slack: `#dx-training`
-- Email: dx-team@realmanage.com
+
+- Slack: `#ai-exchange`
 
 ---
 
@@ -312,6 +327,7 @@ You're ready for Week 1 when you can:
 When you're ready, proceed to [Week 1: Setup & Orientation](../week-1/README.md) where you'll install Claude Code and have your first AI-assisted coding experience.
 
 **Pre-work for Week 1:**
+
 - Ensure you have an Anthropic account (free tier works)
 - Have VS Code installed with recommended extensions
 - Clear 2 hours for the hands-on session

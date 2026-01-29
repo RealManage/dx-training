@@ -200,7 +200,7 @@ Claude Code can run without interactive prompts using the `-p` (or `--print`) fl
 **Key CLI Flags for Automation:**
 
 | Flag | Description | Example |
-|------|-------------|---------|
+| ---- | ----------- | ------- |
 | `-p, --print` | Non-interactive mode, prints result and exits | `claude -p "Review this code"` |
 | `--output-format` | Output format: `text`, `json`, `stream-json` | `--output-format json` |
 | `--model` | Select model: `sonnet`, `opus` | `--model opus` |
@@ -338,7 +338,7 @@ echo "All reviews complete"
 Choose the right model for the task:
 
 | Model | Capability | Speed | Best For |
-|-------|------------|-------|----------|
+| ----- | ---------- | ----- | -------- |
 | Sonnet | High | Fast | General development (default) |
 | Opus | Highest | Moderate | Complex analysis, architecture |
 
@@ -415,12 +415,12 @@ CalculateLateFee(decimal principal, int daysLate) -> decimal
 Common mistakes that reduce quality or waste your time:
 
 | Anti-Pattern | Problem | Solution |
-|--------------|---------|----------|
+| ------------ | ------- | -------- |
 | **No `/clear` Discipline** | Context grows stale between unrelated tasks | Clear when switching contexts |
 | **Verbose Prompts** | Repeating context Claude already has | Reference CLAUDE.md, be concise |
 | **Retry Hammering** | Same prompt 10x hoping for different result | After 3 tries, change approach |
 | **Never Using /compact** | Very long sessions can slow down | Compact periodically on big tasks |
-| **Ignoring the 3-Strike Rule** | Circular conversations waste time | See [Decision Trees](../../resources/decision-trees.md#5-when-to-bail-on-claude) |
+| **Ignoring the 3-Strike Rule** | Circular conversations waste time | See [Decision Trees](../../../resources/decision-trees.md#5-when-to-bail-on-claude) |
 
 > **Note:** Claude Code handles large repos well—don't overthink context management. It's smart enough to search and read what it needs. Focus on clear communication, not micromanaging files.
 
@@ -516,7 +516,7 @@ See Week 5 for building commands and skills.
 **Metrics to Track:**
 
 | Metric | How to Measure | Target |
-|--------|----------------|--------|
+| ------ | -------------- | ------ |
 | Time to PR | Commit to PR creation | -30% |
 | Test Coverage | Coverlet reports | 80-90% |
 | Bug Escape Rate | Production issues/sprint | -40% |
@@ -585,9 +585,9 @@ Analyze the example project for efficiency improvements:
 
 ## 📚 Quick Resources
 
-- [Troubleshooting](../../resources/troubleshooting.md) - Common issues and solutions
-- [CLI Commands](../../resources/cli-commands.md) - Full CLI reference
-- [Production Hardening Guide](../../resources/production-hardening.md) - Production-ready bash patterns for Claude automation
+- [Troubleshooting](../../../resources/troubleshooting.md) - Common issues and solutions
+- [CLI Commands](../../../resources/cli-commands.md) - Full CLI reference
+- [Production Hardening Guide](../../../resources/production-hardening.md) - Production-ready bash patterns for Claude automation
 
 ---
 
@@ -598,7 +598,7 @@ Analyze the example project for efficiency improvements:
 1. Create three cross-functional skills for your team
 2. Build a batch automation script using Claude Code CLI
 3. Update your project CLAUDE.md with lessons learned
-4. Share your best workflow in `#dx-training`
+4. Share your best workflow in `#ai-exchange`
 
 ### Stretch Goals
 

@@ -28,6 +28,7 @@ rm -rf TestApp
 ### Step 2: Verify nvm Installation
 
 **Windows (nvm-windows):**
+
 ```powershell
 nvm version
 # Should show: nvm version number (e.g., 1.2.2)
@@ -37,6 +38,7 @@ nvm list
 ```
 
 **Mac/Linux/WSL:**
+
 ```bash
 nvm --version
 # Should show: 0.40.x
@@ -46,6 +48,7 @@ nvm ls
 ```
 
 ### Step 3: Ensure Correct Node.js Version
+
 ```bash
 # Check current version
 node --version
@@ -57,6 +60,7 @@ node --version
 ```
 
 ### Step 4: Check npm Version
+
 ```bash
 npm --version
 # Should show: 10.0.0 or higher
@@ -70,28 +74,33 @@ npm config get prefix
 ### Step 5: Install Claude Code
 
 **For Windows (Git Bash):**
+
 ```bash
 # Make sure you're in Git Bash, not PowerShell
 npm install -g @anthropic-ai/claude-code
 ```
 
 **For Mac/Linux/WSL:**
+
 ```bash
 npm install -g @anthropic-ai/claude-code
 ```
 
 ### Step 6: Verify Claude Installation
+
 ```bash
 claude --version
 # Should show: Claude Code version number
 ```
 
 ### Step 7: Run Diagnostic
+
 ```bash
 claude doctor
 ```
 
 **Expected output:**
+
 ```
 ✓ Node.js version: 20.11.0
 ✓ npm version: 10.2.4
@@ -106,7 +115,9 @@ All checks passed! Claude Code is ready to use.
 ## Common Issues & Fixes
 
 ### nvm Not Found
+
 **Windows:**
+
 ```powershell
 # Close ALL terminals
 # Open NEW terminal as Administrator
@@ -114,6 +125,7 @@ All checks passed! Claude Code is ready to use.
 ```
 
 **Mac/Linux:**
+
 ```bash
 # Reload shell configuration
 source ~/.bashrc  # or ~/.zshrc for Zsh users
@@ -123,6 +135,7 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 ```
 
 ### Node Version Issues
+
 ```bash
 # List installed versions
 nvm list  # Windows
@@ -138,6 +151,7 @@ nvm use --lts     # Mac/Linux
 ```
 
 ### Claude: "command not found"
+
 ```bash
 # Check npm global bin path
 npm config get prefix
@@ -152,6 +166,7 @@ source ~/.bashrc
 ```
 
 ### Permission Denied on npm install
+
 ```bash
 # DO NOT use sudo!
 # Check npm prefix:
@@ -168,6 +183,7 @@ npm install -g @anthropic-ai/claude-code
 ```
 
 ### Git Bash Specific Issues
+
 ```bash
 # If claude hangs or doesn't respond:
 winpty claude
@@ -178,6 +194,7 @@ git --version
 ```
 
 ### Corporate Proxy
+
 ```bash
 # Set npm proxy
 npm config set proxy http://proxy.company.com:8080
@@ -191,16 +208,19 @@ export HTTPS_PROXY=http://proxy.company.com:8080
 ## Authentication Test
 
 ### Step 1: Start Claude
+
 ```bash
 claude
 ```
 
 ### Step 2: Complete OAuth
+
 - Browser should open automatically
 - Log in with Anthropic account
 - Authorize Claude Code
 
 ### Step 3: Test Basic Query
+
 ```
 > Hello Claude, what version are you?
 
@@ -249,8 +269,7 @@ claude
 ## Troubleshooting Resources
 
 - [Official Troubleshooting Guide](https://docs.anthropic.com/en/docs/claude-code/troubleshooting)
-- Slack: `#dx-training`
-- Email: dx-team@realmanage.com
+- Slack: `#ai-exchange`
 
 ---
 

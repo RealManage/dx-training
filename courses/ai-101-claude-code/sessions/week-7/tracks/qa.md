@@ -9,6 +9,7 @@ Plugins are developer-focused content covering packaging and distribution of Cla
 ## Why This Week is Optional for QA
 
 Week 7 focuses on:
+
 - Creating distributable plugin packages
 - Plugin manifest configuration
 - Marketplace publishing and installation
@@ -61,8 +62,8 @@ claude --plugin-dir ./some-plugin
 ## Questions?
 
 If you have questions about how plugins affect testing:
-- Slack: `#dx-training`
-- Email: dx-team@realmanage.com
+
+- Slack: `#ai-exchange`
 
 ---
 

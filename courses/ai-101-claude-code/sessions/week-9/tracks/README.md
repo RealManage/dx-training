@@ -5,7 +5,7 @@ Choose the track that matches your role for role-specific guidance on which caps
 ## Available Tracks
 
 | Track | File | Recommended Options |
-|-------|------|---------------------|
+| ----- | ---- | ------------------- |
 | **Developer** | [developer.md](./developer.md) | Options A, B, C |
 | **QA Engineer** | [qa.md](./qa.md) | Option D |
 | **Product Manager** | [pm.md](./pm.md) | Option E |
@@ -44,4 +44,4 @@ If you're working in a team with mixed roles:
 
 ---
 
-**Questions?** Ask in `#dx-training` or during office hours.
+**Questions?** Ask in `#ai-exchange` or during office hours.

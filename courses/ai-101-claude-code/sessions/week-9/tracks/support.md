@@ -18,24 +18,28 @@ This option lets you use Claude Code to build tools that make support work faste
 ## What You'll Build
 
 ### 1. FAQ Document
+
 - Generated from CCRs, policies, and procedures
 - Covers top 20+ resident questions
 - Clear, resident-friendly language
 - Links to relevant documentation
 
 ### 2. Response Template Library
+
 - 20+ templates for common issues
 - Professional, consistent tone
 - Personalization placeholders
 - Escalation guidance included
 
 ### 3. Customer Communication Tools
+
 - Email templates by scenario
 - Phone script outlines
 - Chat response suggestions
 - Difficult conversation guides
 
 ### 4. Escalation Decision Tree
+
 - Clear escalation criteria
 - Contact information for each path
 - Response time expectations
@@ -44,7 +48,7 @@ This option lets you use Claude Code to build tools that make support work faste
 ## Skills You'll Use
 
 | Week | Skill Applied |
-|------|---------------|
+| ---- | ------------- |
 | Week 2 | Prompt engineering for content generation |
 | Week 3 | Plan Mode for organizing templates |
 | Week 5 | Custom skill for `/draft-response` |
@@ -75,24 +79,28 @@ claude
 Your templates should address these categories:
 
 ### Account & Billing
+
 - Dues questions and payment options
 - Late fee explanations and waivers
 - Payment plan requests
 - Account balance disputes
 
 ### Violations
+
 - Violation notice explanations
 - Appeal process guidance
 - Fine questions
 - Cure period information
 
 ### Maintenance & Amenities
+
 - Work order status inquiries
 - Amenity reservation help
 - Common area complaints
 - Emergency maintenance
 
 ### General Inquiries
+
 - HOA document requests
 - Board meeting information
 - Community rules clarification
@@ -258,4 +266,4 @@ Use this for each template you create:
 
 ---
 
-**Questions?** Ask in `#dx-training` or during office hours.
+**Questions?** Ask in `#ai-exchange` or during office hours.

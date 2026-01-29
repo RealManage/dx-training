@@ -38,7 +38,7 @@ By the end of this session, you will understand:
 ### PM-Relevant Use Cases
 
 | Task | Manual Approach | With Automation |
-|------|-----------------|-----------------|
+| ---- | --------------- | --------------- |
 | Release notes | Engineer writes manually | Generated from commits |
 | Code review | Wait for reviewer | Pre-review catches issues |
 | Meeting notes | PM writes summary | Auto-extracted action items |
@@ -136,7 +136,7 @@ Blocked: [list]"
 ### PM-Relevant Skills
 
 | Skill | What It Does | Time Saved |
-|-------|--------------|------------|
+| ----- | ------------ | ---------- |
 | `/release-notes` | Generate changelog from commits | 30-60 min/release |
 | `/sprint-summary` | Summarize sprint for stakeholders | 20-30 min/sprint |
 | `/meeting-actions` | Extract action items from notes | 15-20 min/meeting |

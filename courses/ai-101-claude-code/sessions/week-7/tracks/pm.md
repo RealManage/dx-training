@@ -9,6 +9,7 @@ Plugins are developer-focused content covering the technical packaging and distr
 ## Why This Week is Optional for PMs
 
 Week 7 focuses on:
+
 - Creating plugin directory structures
 - Writing plugin manifests (JSON configuration)
 - Packaging skills, agents, and hooks
@@ -38,21 +39,26 @@ While you don't need to build plugins, understanding the concept helps when:
 ## Key Concepts for PMs
 
 ### What is a Plugin?
+
 A distributable package containing:
+
 - **Skills** - Enhanced commands with templates and automation
 - **Agents** - Specialized AI assistants for specific tasks
 - **Hooks** - Automated actions triggered by events
 
 ### Why Plugins Matter
+
 | Without Plugins | With Plugins |
-|-----------------|--------------|
+| --------------- | ------------ |
 | Each dev creates their own commands | Team shares standardized tools |
 | Inconsistent automation | Consistent, versioned automation |
 | Hard to maintain | Centralized updates |
 | Knowledge silos | Shared best practices |
 
 ### Example Use Case
+
 The "realmanage-hoa" plugin could include:
+
 - `/violation-workflow` skill for processing violations
 - `/board-report` skill for generating meeting documents
 - Security-auditor agent for compliance checks
@@ -79,8 +85,8 @@ When discussing plugins with your engineering team:
 ## Questions?
 
 If you have questions about how plugins affect product strategy:
-- Slack: `#dx-training`
-- Email: dx-team@realmanage.com
+
+- Slack: `#ai-exchange`
 
 ---
 

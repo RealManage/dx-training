@@ -1,5 +1,7 @@
 # AI 101 Training Schedule
 
+For program goals, rationale, and success metrics, see **[AI Skills Development Program](ai-acceleration-rollout.md)**.
+
 ## Overview
 
 Training is delivered through weekly group sessions on **Friday mornings** via Microsoft Teams. Each role has a tailored track, plus self-paced learning throughout the week.
@@ -13,7 +15,7 @@ Training is delivered through weekly group sessions on **Friday mornings** via M
 ### Course Structure
 
 | Weeks | Status | Content |
-|-------|--------|---------|
+| ----- | ------ | ------- |
 | **1-4** | Mandatory | Setup, Prompting, Planning, TDD |
 | **5-9** | Highly Encouraged (Optional) | Skills, Agents, Hooks, Plugins, Capstone |
 
@@ -38,7 +40,7 @@ Early adopters can help onboard later groups and become informal resources for t
 Split by role track:
 
 | Sub-Group | Audience | Track |
-|-----------|----------|-------|
+| --------- | -------- | ----- |
 | 2A | Tech Leads + Developers | Developer track |
 | 2B | QA Engineers | QA track |
 | 2C | Product Managers | PM track |
@@ -59,7 +61,7 @@ All sub-groups meet at the same time, different content.
 Each 2-hour Friday session:
 
 | Time | Activity |
-|------|----------|
+| ---- | -------- |
 | 0:00-0:10 | Recap & Q&A from previous session |
 | 0:10-0:40 | Concept presentation (trainer-led) |
 | 0:40-1:30 | Hands-on exercises (work in sandbox) |
@@ -120,7 +122,7 @@ If makeup sessions don't work:
 **Extended timelines are available.** Just let your trainer know.
 
 | Situation | What to Do |
-|-----------|------------|
+| --------- | ---------- |
 | Falling behind | DM trainer for 1:1 catch-up |
 | Heavy sprint | Coordinate with manager for protected time |
 | Not clicking yet | More exercises, different explanations available |
@@ -131,7 +133,7 @@ The goal is competence, not speed.
 ## Teams Meeting Details
 
 | Group | Day | Time | Meeting Link |
-|-------|-----|------|--------------|
+| ----- | --- | ---- | ------------ |
 | 1 (Early Adopters) | Friday | TBD | TBD |
 | 2A (Developers) | Friday | TBD | TBD |
 | 2B (QA) | Friday | TBD | TBD |
@@ -152,6 +154,4 @@ Once you complete your group:
 
 ## Support Resources
 
-- **Slack:** #ai-exchange
-- **Recordings:** Posted after each session
-- **1:1 Support:** DM any trainer
+See [Getting Help](../../resources/getting-help.md) for all support channels.

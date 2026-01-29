@@ -23,7 +23,7 @@ By the end of this session, you'll be able to:
 Skills aren't just for developers. PMs can create skills that:
 
 | Skill | What It Automates | Time Saved |
-|-------|-------------------|------------|
+| ----- | ----------------- | ---------- |
 | `/release-notes` | Git log → stakeholder summary | 30 min/release |
 | `/meeting-actions` | Meeting notes → Jira-ready tasks | 15 min/meeting |
 | `/sprint-summary` | Sprint data → exec report | 45 min/sprint |
@@ -153,7 +153,7 @@ Paste your meeting notes below (raw is fine - bullet points, sentences, whatever
 ### Action Items from $1
 
 | # | Action | Owner | Due Date | Priority |
-|---|--------|-------|----------|----------|
+| --- | ------ | ----- | -------- | -------- |
 | 1 | [Specific, actionable task] | [Name] | [Date] | [High/Medium/Low] |
 
 ### Jira-Ready Format
@@ -230,7 +230,7 @@ Provide the following (paste from Jira export or type manually):
 
 #### 📊 Health Indicators
 | Metric | This Sprint | Trend |
-|--------|-------------|-------|
+| ------ | ----------- | ----- |
 | Velocity | X points | ↑/↓/→ |
 | Carryover | X% | ↑/↓/→ |
 | Bug Ratio | X% | ↑/↓/→ |

@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "Project management toolkit for generating user stories, epics, BDD scenarios, and acceptance criteria in markdown format",
   "author": {
-    "name": "RealManage DX Team",
-    "email": "dx-team@realmanage.com"
+    "name": "RealManage DX Team"
   },
   "keywords": [
     "project-management",

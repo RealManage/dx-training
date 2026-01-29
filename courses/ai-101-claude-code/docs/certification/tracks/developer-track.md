@@ -9,7 +9,7 @@ The developer track is the standard AI 101 course curriculum. It covers code rev
 **9 weeks typical**
 
 | Phase | Weeks | Focus |
-|-------|-------|-------|
+| ----- | ----- | ----- |
 | Foundations | 0-4 | Setup, prompting, planning, TDD |
 | Advanced | 5-8 | Commands, skills, agents, hooks, CI/CD |
 | Capstone | 9 | Demonstrate AI-assisted development |
@@ -96,7 +96,7 @@ After completing this track:
 Submit a project demonstrating:
 
 | Requirement | Description |
-|-------------|-------------|
+| ----------- | ----------- |
 | Feature | Working code for a real feature or improvement |
 | Tests | Test coverage following TDD principles |
 | Review Artifact | AI-assisted code review documentation |
@@ -105,11 +105,21 @@ Submit a project demonstrating:
 ## Differences from Other Tracks
 
 | Topic | Developer Track | QA Track | PM Track |
-|-------|-----------------|----------|----------|
+| ----- | --------------- | -------- | -------- |
 | Week 4 | TDD | Test case generation | User stories |
 | Week 5 | Commands & Skills | Bug analysis | Specs & docs |
 | Week 6 | Agents & Hooks | Test automation | BDD scenarios |
 | Capstone | Code project | Test suite | Feature spec |
+
+## Beyond Certification: QA Track
+
+Since RealManage developers own testing, the **[QA track](qa-track.md)** is recommended after completing your developer certification:
+
+- Test case generation (builds on TDD)
+- Bug analysis & triage
+- Test automation assistance
+
+---
 
 ## FAQ
 
@@ -127,4 +137,4 @@ A: Reviewed, not graded. We're confirming you got value from training, not assig
 
 ## Getting Help
 
-**Slack:** #ai-exchange | **Office Hours:** Monday-Friday | **DM:** Any trainer
+See [Getting Help](../../../resources/getting-help.md) for all support channels.

@@ -5,7 +5,7 @@
 **Author:** cali.lafollett
 **Reviewer:** edgar.sanchez
 **Review Date:** 2026-01-23
-**MR URL:** https://gitlab.com/therealmanage/tools/dx/dx-training/-/merge_requests/4
+**MR URL:** <https://gitlab.com/therealmanage/tools/dx/dx-training/-/merge_requests/4>
 
 ---
 
@@ -42,7 +42,7 @@ _None identified._
 ### MEDIUM
 
 | # | Issue | Location | Description | Recommendation |
-|---|-------|----------|-------------|----------------|
+| --- | ----- | -------- | ----------- | -------------- |
 | M1 | Absolute file paths in student reviews | `docs/course-feedback/student-*-review-*.md` | Reviews reference paths like `/home/calilafollett/repos/dx-training-student-1/courses/...` which are machine-specific and will confuse readers. | Replace with relative paths: `courses/ai-101-claude-code/...` |
 | M2 | Persona consistency error | `student-1-alex-junior-dev-review-*.md` | Alex's experience level varies: "2 years" in Review 1, "1 year" in Review 2, back to "2 years" in Review 3. | Standardize to "2 years C#/.NET experience" across all documents. |
 | M3 | Coverage target verification needed | Course materials | Student reviews correctly identify 95% vs 80-90% inconsistency. MR claims this is fixed but verification needed. | Search all course files for "95%" coverage references and ensure consistency at 80-90%. |
@@ -53,7 +53,7 @@ _None identified._
 ### LOW
 
 | # | Issue | Location | Description | Recommendation |
-|---|-------|----------|-------------|----------------|
+| --- | ----- | -------- | ----------- | -------------- |
 | L1 | Future dates in student reviews | All `student-*-review-*.md` files | Reviews dated "January 22-23, 2026" - while clearly fictional, could cause minor confusion. | Consider using relative dates ("Week 1 of course") or obviously fictional past dates. |
 | L2 | PM Toolkit plugin visibility | Week 7 content | MR description mentions "PM Toolkit plugin" but implementation details not visible in reviewed diff portions. | Verify plugin is properly documented with usage examples. |
 | L3 | Fast Track documentation | Resources | "Experienced Developer Fast Track (4-hour path)" mentioned in MR description but implementation not verified. | Confirm fast track guide exists at expected location with clear instructions. |
@@ -82,7 +82,7 @@ _None identified._
 ## Test Plan Verification Status
 
 | Item | Status | Notes |
-|------|--------|-------|
+| ---- | ------ | ----- |
 | All example projects build without warnings | ⚠️ Unverified | Requires running builds |
 | Week READMEs render correctly | ⚠️ Unverified | Requires markdown preview |
 | Role-specific track links work | ⚠️ Unverified | Requires navigation testing |

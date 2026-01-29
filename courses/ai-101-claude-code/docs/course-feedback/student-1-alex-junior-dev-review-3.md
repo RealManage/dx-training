@@ -12,8 +12,9 @@
 This is my third time going through the AI 101 Claude Code course, and I have to say - the course has evolved significantly since my initial review. The team has addressed most of my major concerns, and the restructuring from 8 weeks to 9 weeks has made a real difference in pacing.
 
 **Rating Comparison:**
+
 | Review | Rating | Key Issue |
-|--------|--------|-----------|
+| ------ | ------ | --------- |
 | Review 1 | 7.5/10 | Terminology overload in Weeks 5-6, missing glossary |
 | Review 2 | 8.5/10 | Improvements noted, Weeks 5-6 not verified |
 | Review 3 | 8.8/10 | Weeks 5-6 properly split, decision trees added |
@@ -29,6 +30,7 @@ This is my third time going through the AI 101 Claude Code course, and I have to
 **Status:** NEW - Directly addresses my feedback
 
 This is exactly what I asked for in my first review! The "Week 0" concept provides:
+
 - Clear definition of "agentic engineering" (finally!)
 - Honest assessment of the "10x Developer" myth
 - Realistic speedup expectations by task type (5-10x for boilerplate, 1-1.5x for novel algorithms)
@@ -48,15 +50,19 @@ The Week 0 README is well-structured and doesn't assume AI knowledge. The "Expec
 The "WHERE to Work" section with clear folder structure diagrams solved my confusion about where to put exercise files. The sandbox approach is still brilliant.
 
 **What I tested:**
+
 ```bash
 claude --print "What does this example application do?"
 ```
+
 Got clear, concise output explaining the HOA Violation Tracker CLI.
 
 **Bug identification worked:**
+
 ```bash
 claude --print "Find and describe the bug in the CalculateFine method"
 ```
+
 Claude correctly identified the compound interest bug (multiplying by 1.1 once instead of compounding).
 
 **Score: 8.5/10**
@@ -104,6 +110,7 @@ The `sessions/week-4/resources/tdd-cheatsheet.md` and `coverage-guide.md` are he
 **Status:** SIGNIFICANTLY IMPROVED - Properly restructured
 
 This is where the biggest improvement happened. Week 5 now focuses ONLY on:
+
 - Slash Commands (`.claude/commands/`)
 - Basic Skills (`.claude/skills/`)
 
@@ -111,6 +118,7 @@ The split from the old "everything in one week" approach is much more digestible
 
 **What I tested:**
 The Week 5 example project at `sessions/week-5/examples/violation-audit-api/` has clear, working examples:
+
 - `/violation-report <property_id>` command
 - `/late-fee <principal> <months>` command
 - `/late-fee-report` skill with supporting files
@@ -134,6 +142,7 @@ Plugin: Packaging for distribution
 **Status:** SIGNIFICANTLY IMPROVED - Now its own week
 
 Week 6 now has dedicated focus on:
+
 - Custom Agents (`.claude/agents/`)
 - Hooks (PreToolUse, PostToolUse, etc.)
 - Security patterns (blocking dangerous operations)
@@ -142,6 +151,7 @@ Week 6 now has dedicated focus on:
 This used to be crammed into Week 5 with everything else. Having a full week for Agents and Hooks makes the complexity manageable.
 
 The Developer Track explains practical uses:
+
 - Code reviewer agent with `permissionMode: plan`
 - Security auditor agent with `model: opus`
 - Test writer agent with `permissionMode: acceptEdits`
@@ -159,6 +169,7 @@ Hook examples for auto-running tests after edits and blocking `rm -rf` are immed
 Plugins are now properly separated as "packaging what you built in Weeks 5-6". This makes much more sense logically.
 
 The week focuses on:
+
 - Plugin manifest structure
 - Packaging commands, skills, agents, hooks together
 - Distribution (local and marketplace)
@@ -174,14 +185,16 @@ I appreciate that Week 7 starts with "You don't NEED plugins unless you're shari
 **Status:** IMPROVED - Better GitLab coverage
 
 The GitLab CI/CD examples are more complete now with:
+
 - Required CI/CD Variables clearly documented
 - Pipeline structure explained step-by-step
 - Cost monitoring skills
 - Scheduled pipeline setup instructions
 
 The CI/CD variable table is helpful:
+
 | Variable | Description | Where to Set |
-|----------|-------------|--------------|
+| -------- | ----------- | ------------ |
 | `CI_MERGE_REQUEST_DIFF_BASE_SHA` | Base commit of MR | Auto-provided |
 | `ANTHROPIC_API_KEY` | Claude API key | Settings > CI/CD > Variables |
 
@@ -196,6 +209,7 @@ Still could use more screenshots, but the instructions are clearer.
 **Status:** IMPROVED - Role-specific options
 
 The capstone now has clear options by role:
+
 - **Options A, B, C:** Developer Track (backend, full-stack, data focus)
 - **Option D:** QA Track (Test Automation Suite)
 - **Option E:** PM Track (Product Design & Documentation)
@@ -211,7 +225,7 @@ This addresses my concern that the capstone assumed mastery of advanced features
 ### Issues Resolved
 
 | Original Issue | Status | Notes |
-|----------------|--------|-------|
+| -------------- | ------ | ----- |
 | Missing glossary | FIXED | Comprehensive glossary at `resources/glossary.md` |
 | Inconsistent coverage targets | FIXED | Now consistently 80-90% everywhere |
 | Unclear where to work | FIXED | Clear folder structure diagrams in Week 1 |
@@ -248,17 +262,17 @@ None identified. The course has only improved since my first review.
 
 ### Medium Priority
 
-3. **More before/after prompt examples**
+1. **More before/after prompt examples**
    - Show actual prompts that succeeded/failed
    - Include reasoning for why certain prompts worked better
 
-4. **Video walkthroughs (optional)**
+2. **Video walkthroughs (optional)**
    - Even short 5-minute demos would help visual learners
    - Especially for Plan Mode and Agent creation
 
 ### Low Priority (Nice to Have)
 
-5. **Alumni success stories**
+1. **Alumni success stories**
    - Real RealManage examples with metrics
    - "How I automated X and saved Y hours"
 
@@ -269,6 +283,7 @@ None identified. The course has only improved since my first review.
 ### Commands/Tests Executed
 
 1. **Week 1 Exercise:**
+
    ```bash
    cd sessions/week-1/example
    claude --print "What does this example application do?"
@@ -276,12 +291,14 @@ None identified. The course has only improved since my first review.
    ```
 
 2. **Week 1 Bug Finding:**
+
    ```bash
    claude --print "Find and describe the bug in the CalculateFine method"
    # Result: Correctly identified compound interest bug
    ```
 
 3. **Week 5 Commands/Skills Check:**
+
    ```bash
    cd sessions/week-5/examples/violation-audit-api
    claude --print "What custom commands and skills are available in this project?"
@@ -309,8 +326,9 @@ None identified. The course has only improved since my first review.
 ### Overall Course Rating: 8.8/10 (up from 8.5/10, originally 7.5/10)
 
 **Breakdown:**
+
 | Category | Review 1 | Review 2 | Review 3 |
-|----------|----------|----------|----------|
+| -------- | -------- | -------- | -------- |
 | Technical content | A | A | A |
 | Practical application | A | A | A |
 | Beginner accessibility | C+ | B+ | A- |
@@ -320,6 +338,7 @@ None identified. The course has only improved since my first review.
 ### What Changed My Mind
 
 The restructuring of Weeks 5-7 made the biggest difference:
+
 - **Old structure:** Commands + Skills + Agents + Hooks + Plugins all crammed into Weeks 5-6
 - **New structure:**
   - Week 5: Commands & Skills (manageable!)
@@ -343,6 +362,7 @@ The course is now genuinely beginner-accessible for someone with 1-2 years of de
 5. **Week 9** - Capstone with role-appropriate options
 
 **Prerequisites remain reasonable:**
+
 - 1+ years professional development experience
 - Comfortable with Git, command line, testing concepts
 - Basic YAML and Markdown knowledge

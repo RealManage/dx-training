@@ -10,6 +10,7 @@
 ## Summary
 
 The course has improved meaningfully since my last review. My original complaints were:
+
 1. Some content was too basic/hand-holding
 2. Wanted more advanced patterns
 3. Answer keys missing for self-validation
@@ -34,6 +35,7 @@ Finally. This is exactly what I asked for. The flowcharts are practical and acti
 - **Model Selection Guide:** Haiku/Sonnet/Opus decision tree with actual cost comparisons. This will save money.
 
 **What's Still Missing:**
+
 - Decision tree for when to bail out of an AI session entirely and just write the code yourself
 - Guidance on recognizing when Claude is going in circles
 
@@ -42,6 +44,7 @@ Finally. This is exactly what I asked for. The flowcharts are practical and acti
 **File:** `courses/ai-101-claude-code/sessions/week-3/solutions/codereviewpro-answers.md`
 
 This is a proper answer key. 34 issues documented with:
+
 - Exact file paths and line numbers
 - Clear explanations of why each issue matters
 - Recommended fix order by priority
@@ -113,6 +116,7 @@ The role-based tracks table (lines 7-12) helps, but it's buried and not prominen
 ### 3. Some Emoji/Motivation Overload Remains
 
 Multiple files still have sections like:
+
 - "Welcome to the comprehensive Claude Code training course designed specifically for RealManage teams. This self-paced course will transform how you write code..."
 
 For a senior developer, this reads like marketing copy. Just tell me what the tool does and how to use it effectively.
@@ -138,6 +142,7 @@ A "Cost Anti-Patterns" section would be valuable.
 **File:** `courses/ai-101-claude-code/sessions/week-8/README.md` (lines 427-432)
 
 The pricing tables show Sonnet at $0.003/1K input. This may already be stale. Consider:
+
 - Adding a "Last verified" date
 - Linking to official Anthropic pricing page
 - Using relative terms ("cheapest", "most expensive") instead of absolute prices
@@ -151,6 +156,7 @@ Main README (line 147) mentions ".NET 10 SDK" but some exercises reference .NET 
 **File:** `courses/ai-101-claude-code/sessions/week-8/README.md`
 
 The pipeline examples (lines 263-388) don't show what happens when Claude fails. Real CI/CD needs:
+
 - Timeout handling
 - Retry logic
 - Graceful degradation when API is unavailable
@@ -190,7 +196,7 @@ The examples use `claude --print` and `claude --model` but there's no comprehens
 ## Rating Breakdown
 
 | Category | Previous | Now | Notes |
-|----------|----------|-----|-------|
+| -------- | -------- | --- | ----- |
 | Content Depth | 2/5 | 4/5 | Answer keys and Week 8 are substantial |
 | Practical Value | 3/5 | 4/5 | Decision trees and CI/CD examples |
 | Experienced Dev Focus | 2/5 | 3/5 | Better but still some padding |
@@ -208,6 +214,7 @@ The examples use `claude --print` and `claude --model` but there's no comprehens
 **For mid-level developers (3-7 years):** Yes, but skip Weeks 0-2 and skim Week 1.
 
 **For senior developers (8+ years):** Conditionally. Read:
+
 - Decision Trees doc (30 min)
 - Week 3 README, skip exercises (30 min)
 - Week 4 README + TDD reference implementations (1 hour)

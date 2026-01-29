@@ -11,7 +11,7 @@ This document outlines plans for adding a dedicated track for the Customer Suppo
 The Customer Support team has unique needs:
 
 | Characteristic | Implication |
-|----------------|-------------|
+| -------------- | ----------- |
 | Non-technical background | No coding experience; focus on natural language AI interactions |
 | Deep domain knowledge | Experts in HOA policies, customer issues, escalation paths |
 | Already using AI | Have n8n automations and AI agents in production |
@@ -24,7 +24,7 @@ The Customer Support team has unique needs:
 Based on Support team workflows:
 
 | Use Case | Description |
-|----------|-------------|
+| -------- | ----------- |
 | **Ticket triage** | Categorize incoming tickets, identify priority, suggest routing |
 | **Response drafting** | Generate professional responses following tone/policy guidelines |
 | **KB article generation** | Convert resolved tickets into knowledge base articles |
@@ -38,7 +38,7 @@ Based on Support team workflows:
 **Duration:** 6 weeks (simplified from 9-week developer track)
 
 | Week | Topic | Support Focus |
-|------|-------|---------------|
+| ---- | ----- | ------------- |
 | 0 | AI Foundations | Same (optional) |
 | 1 | Setup & Orientation | Same |
 | 2 | Prompting Foundations | Ticket responses, KB articles, customer communication |
@@ -54,7 +54,7 @@ Based on Support team workflows:
 ### New Session Tracks
 
 | File | Content |
-|------|---------|
+| ---- | ------- |
 | `sessions/week-2/tracks/support.md` | Prompts for tickets, KB, responses |
 | `sessions/week-3/tracks/support.md` | Plan mode for templates and workflows |
 | `sessions/week-4/tracks/support.md` | Testing response quality |
@@ -63,13 +63,14 @@ Based on Support team workflows:
 ### New Resources
 
 | File | Content |
-|------|---------|
+| ---- | ------- |
 | `resources/n8n-integration.md` | How Claude helps with n8n workflows |
 | `resources/support-prompts.md` | Prompt templates for Support use cases |
 
 ### Expanded Capstone
 
 Expand `option-f-support-knowledge-base` to include:
+
 - Ticket triage automation
 - KB article generation workflow
 - n8n integration patterns
@@ -82,7 +83,7 @@ Expand `option-f-support-knowledge-base` to include:
 Support-appropriate metrics (not code coverage):
 
 | Metric | What We're Measuring |
-|--------|---------------------|
+| ------ | -------------------- |
 | Response time | Are tickets resolved faster? |
 | First-contact resolution | Fewer escalations needed? |
 | KB coverage | Common issues documented? |
@@ -98,6 +99,7 @@ Support-appropriate metrics (not code coverage):
 **Capstone:** Support-focused project (Option F or custom)
 
 Requirements:
+
 - [ ] Complete Weeks 0-5 (Support track content)
 - [ ] Submit capstone demonstrating AI-assisted support work
 - [ ] Examples: FAQ generation, response templates, workflow design
@@ -127,7 +129,7 @@ When implementing this track:
 ## Timeline
 
 | Phase | Status |
-|-------|--------|
+| ----- | ------ |
 | Planning | Complete (this document) |
 | Implementation | Pending (separate branch) |
 | Review | TBD |

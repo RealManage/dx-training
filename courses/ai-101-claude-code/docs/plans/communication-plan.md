@@ -7,7 +7,7 @@ Clear, supportive communication ensures everyone understands the program, feels 
 ## Channels
 
 | Channel | Purpose | Audience |
-|---------|---------|----------|
+| ------- | ------- | -------- |
 | #development | Major announcements | All engineering |
 | #ai-exchange | Daily tips, Q&A, huddles, support | AI learners |
 | Teams meetings | Group training sessions | Group members |
@@ -26,67 +26,6 @@ Clear, supportive communication ensures everyone understands the program, feels 
 ### For Skeptics
 
 > "We hear you. Not every tool works for every situation, and that's okay to say. We want honest feedback about what works and what doesn't. Skeptics who give AI a fair shot often become the best at knowing when to use it - and when not to."
-
-## Launch Announcement
-
-**#development:**
-
-```markdown
-🚀 AI Skills Development Program
-
-Team,
-
-We're investing in everyone's growth with structured AI skills training.
-
-What this means for you:
-• Dedicated training time - protected calendar blocks, not competing with sprint work
-• Role-specific content - Developers, QA/Support, and PMs each have tailored tracks
-• Peer support - Early Adopters and the DX Team to help when you're stuck
-• No rush - We care about competence, not speed. Extended timelines available.
-
-What this ISN'T:
-• A test of your worth
-• Competition with your teammates
-• Something that will replace you
-
-AI tools amplify what you already do. The teams getting the most value have strong humans guiding them. That's you.
-
-Getting started:
-1. Watch #ai-exchange for your group assignment
-2. Ensure Claude Code is installed (DX can help)
-3. Check out the course preview: [AI 101 - Claude Code](https://gitlab.com/therealmanage/tools/dx/dx-training/-/tree/main/courses/ai-101-claude-code)
-
-Questions? Concerns? Drop them in #ai-exchange or DM any trainer. There are no dumb questions.
-
-- DX Team
-```
-
-## CTO Message (Week 0)
-
-**Email from JZ:**
-
-```
-Subject: Why I'm Excited About Our AI Skills Program
-
-Team,
-
-I want to share why we're investing in AI skills training for everyone.
-
-Over the past year, I've watched some of our engineers dramatically increase their productivity with AI tools. Code reviews that used to take hours now take minutes. Test coverage is improving. People are spending more time on interesting problems.
-
-But I've also noticed not everyone has had time to explore these tools. That's not fair - everyone should have access to these productivity gains.
-
-This program ensures everyone gets:
-- Structured time to learn (protected from sprint work)
-- Support from trainers and Early Adopters who've been through training
-- Content tailored to your role (developers, QA, and PMs each have their own track)
-
-I'm not asking anyone to blindly trust that AI is magic. I'm asking you to give it a fair shot with proper training and support. If it doesn't work for certain use cases, tell us - that feedback makes the program better.
-
-Looking forward to seeing what you all build.
-
-JZ
-```
 
 ## Weekly Updates
 
@@ -255,7 +194,7 @@ DX team reviews with recent graduates:
 ## Escalation Path
 
 | Issue | First Contact | Escalation |
-|-------|---------------|------------|
+| ----- | ------------- | ---------- |
 | Technical problem | #ai-exchange | DX Team |
 | Scheduling conflict | Trainer | Manager (for support) |
 | Tool access | IT Help Desk | DX Team |

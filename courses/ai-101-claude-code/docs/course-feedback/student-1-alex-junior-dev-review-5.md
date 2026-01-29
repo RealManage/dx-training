@@ -14,7 +14,7 @@ This review focuses on verifying that the specific issues I raised in Review #4 
 **Rating Comparison:**
 
 | Review | Rating | Key Focus |
-|--------|--------|-----------|
+| ------ | ------ | --------- |
 | Review 1 | 7.5/10 | Initial course evaluation, terminology overload |
 | Review 2 | 8.5/10 | Improvements noted after glossary, Week 0 added |
 | Review 3 | 8.8/10 | Weeks 5-6 restructure verified, decision trees added |
@@ -248,7 +248,7 @@ ls -la sessions/week-8/examples/hoa-workflow-automation/
 **Breakdown:**
 
 | Category | Review 1 | Review 3 | Review 4 | Review 5 |
-|----------|----------|----------|----------|----------|
+| -------- | -------- | -------- | -------- | -------- |
 | Technical content | A | A | A | A |
 | Practical application | A | A | A+ | A+ |
 | Beginner accessibility | C+ | A- | A | A |
@@ -327,7 +327,7 @@ I would feel confident presenting my capstone project and earning the RealManage
 The AI 101 Claude Code course has reached maturity. Every major issue from my 5 reviews has been addressed:
 
 | Issue | Status |
-|-------|--------|
+| ----- | ------ |
 | Missing glossary | FIXED in Review 2 |
 | Inconsistent coverage targets | FIXED in Review 2 |
 | Weeks 5-6 terminology overload | FIXED in Review 3 |

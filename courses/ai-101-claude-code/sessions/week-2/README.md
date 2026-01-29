@@ -8,6 +8,7 @@
 ## 🎯 Learning Objectives
 
 By the end of this session, participants will be able to:
+
 - ✅ Communicate clearly with Claude using natural language
 - ✅ Know when structure helps (and when it doesn't)
 - ✅ Build a personal prompting style that works for them
@@ -18,24 +19,19 @@ By the end of this session, participants will be able to:
 ## 📋 Pre-Session Checklist
 
 ### For Participants
+
 - [ ] Claude Code installed and authenticated
 - [ ] Completed Week 1 homework
 - [ ] Can run `claude` command successfully
 - [ ] Have a project ready to practice with
 - [ ] Reviewed [Prompt Engineering Guide](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering)
 
-### For Instructors
-- [ ] Test Prompt Lab example app
-- [ ] Prepare before/after prompt examples
-- [ ] Have real RealManage code snippets ready
-- [ ] Test all interactive exercises
-- [ ] Monitor `#dx-training` Slack channel
-
 ## 📚 Session Plan
 
 ### Part 1: Prompt Engineering Primer (25 min)
 
 #### 1.1 Welcome & Reality Check (5 min)
+
 ```markdown
 "Let me share a secret: I've been using Claude successfully for months, and I rarely 
 use Markdown or XML tags. Most of my prompts are just clear, conversational 
@@ -47,6 +43,7 @@ get great results with 80-90% test coverage."
 #### 1.2 The Anatomy of an Effective Prompt (10 min)
 
 **What Actually Matters:**
+
 1. **Clear Intent** - Say what you want directly
 2. **Specific Context** - Include relevant details (file paths, tech stack)
 3. **Domain Knowledge** - Mention business rules when relevant  
@@ -54,6 +51,7 @@ get great results with 80-90% test coverage."
 5. **Natural Flow** - Write like you're explaining to a colleague
 
 **Real Examples - How Successful Users Actually Prompt:**
+
 ```
 # Vague (doesn't work):
 > Write a payment service
@@ -77,6 +75,7 @@ get great results with 80-90% test coverage."
 #### 1.3 Understanding Claude's Strengths (10 min)
 
 **What Claude Code Excels At:**
+
 - Reading entire codebases for context
 - Following specific patterns and conventions
 - Generating comprehensive tests
@@ -84,6 +83,7 @@ get great results with 80-90% test coverage."
 - Refactoring with specific goals
 
 **Current Limitations:**
+
 - Can't see UI/visual output directly (NOTE: can see image files)
 - Limited to text-based interactions
 - May need iteration for complex tasks
@@ -94,6 +94,7 @@ get great results with 80-90% test coverage."
 #### 2.1 The Structure Spectrum (10 min)
 
 **Most prompts work fine with natural language:**
+
 ```
 Natural conversation → Bullet points → Markdown → XML
         ↑
@@ -103,6 +104,7 @@ Natural conversation → Bullet points → Markdown → XML
 **When structure genuinely helps:**
 
 **Simple Lists (for multiple related items):**
+
 ```
 Can you help me with these HOA reports:
 - Monthly financial summary with income/expenses
@@ -112,6 +114,7 @@ All should export to PDF and include 80-90% test coverage.
 ```
 
 **Markdown Headers (for complex multi-part requests):**
+
 ```markdown
 ## Refactor our payment system
 
@@ -152,6 +155,7 @@ Need to deploy by Friday
 ```
 
 **The XML Myth (Rarely Needed):**
+
 ```
 I've been using Claude for months and have never used XML. 
 Markdown, YAML, JSON or tables work just as well for structured data.
@@ -165,6 +169,7 @@ You'll likely find natural language or simple bullets work best!
 ### Part 3: Hands-On Prompt Workshop (60 min)
 
 #### 3.1 Set Up Your Prompt Lab (5 min)
+
 ```bash
 # Copy example to sandbox
 cd courses/ai-101-claude-code/sessions/week-2
@@ -181,6 +186,7 @@ dotnet run
 #### 3.2 Individual Exercises (20 min)
 
 **Exercise 1: Analyze Your Prompts**
+
 ```
 # In Prompt Lab, select option 1
 # Try these prompts and compare scores:
@@ -196,6 +202,7 @@ ReportDto, include PDF export via QuestPDF, and write xUnit tests with 80-90% co
 ```
 
 **Exercise 2: Template Practice**
+
 ```
 # Select option 3: Use a template
 # Choose "HOA Violation Handler"
@@ -206,6 +213,7 @@ ReportDto, include PDF export via QuestPDF, and write xUnit tests with 80-90% co
 ```
 
 **Exercise 3: Learn from Examples**
+
 ```
 # Select option 4: View HOA prompt examples
 # Review each category
@@ -217,6 +225,7 @@ ReportDto, include PDF export via QuestPDF, and write xUnit tests with 80-90% co
 **Learn how Claude can help you write better prompts!**
 
 **Exercise 1: Prompt Improvement Workshop (10 min)**
+
 ```bash
 # Start Claude in your sandbox
 claude
@@ -237,6 +246,7 @@ claude
 ```
 
 **Exercise 2: Learning Prompt Patterns (10 min)**
+
 ```bash
 # Have Claude analyze prompt quality
 > Here's my prompt for a resident portal. Score it 1-10 and explain why:
@@ -253,12 +263,14 @@ claude
 ```
 
 **Key Discovery Questions to Ask Claude:**
+
 - "What context would help you generate better code?"
 - "What technical specifications am I missing?"
 - "How could I structure this prompt more clearly?"
 - "What test requirements should I include?"
 
 **Share Out (5 min):**
+
 - Share the most surprising thing Claude taught you about prompting
 - Post your before/after prompt improvement
 - Discuss which Claude suggestions were most helpful
@@ -266,6 +278,7 @@ claude
 #### 3.4 Real RealManage Task (10 min)
 
 **Live Coding with the Class:**
+
 ```
 # Start Claude in your sandbox
 claude
@@ -292,6 +305,7 @@ claude
 ```
 
 **Observe:**
+
 - How Claude follows the structure
 - The completeness of the generated code
 - Test coverage included
@@ -302,6 +316,7 @@ claude
 #### 4.1 Creating a Team Library (5 min)
 
 **In CLAUDE.md or separate prompt file:**
+
 ```markdown
 # RealManage Prompt Library
 
@@ -342,6 +357,7 @@ Create an Angular 17 standalone component named {NAME}Component that:
 Have each participant create prompts for their most common tasks:
 
 **Support Team Example:**
+
 ```
 Analyze these support tickets and:
 1. Identify common issues
@@ -353,6 +369,7 @@ Analyze these support tickets and:
 **Product Manager Examples:**
 
 *Requirement Refinement (CLEAR Framework):*
+
 ```
 Help me refine this rough feature idea into a clear spec:
 "We need a way for residents to pay their HOA dues online"
@@ -365,6 +382,7 @@ Identify:
 ```
 
 *User Story Generation:*
+
 ```
 Generate user stories from this feature request:
 <paste requirements>
@@ -378,6 +396,7 @@ Format as:
 ```
 
 *Implementation Plan Validation:*
+
 ```
 Review my PRD for this feature and identify:
 1. Missing requirements or ambiguities
@@ -389,6 +408,7 @@ Review my PRD for this feature and identify:
 > **PM Tip:** See [PM Quick-Start Guide](../../resources/quick-start-pm.md) for the full CLEAR framework and more PM-specific prompts.
 
 **QA Engineer Example:**
+
 ```
 Create comprehensive test cases for {FEATURE} including:
 - Happy path scenarios
@@ -404,6 +424,7 @@ Create comprehensive test cases for {FEATURE} including:
 #### 5.1 Key Takeaways (5 min)
 
 **The Prompt Quality Spectrum:**
+
 ```
 Vague ←───────────→ Specific
 "Fix bug"          "Fix the scoring bug in PromptAnalyzer.
@@ -414,11 +435,13 @@ Vague ←───────────→ Specific
 ```
 
 **The Real Rules of Effective Prompting:**
+
 1. **Be Clear** - Say what you want in plain language
 2. **Be Specific** - Include versions, patterns, coverage requirements
 3. **Be Conversational** - Claude responds well to natural dialogue
 
 **When to Add Structure:**
+
 ```
 Writing your first attempt?
 ├─ Yes → Just use natural language
@@ -441,6 +464,7 @@ Participants fix these in chat/verbally:
 4. "Make it faster" → ?
 
 **Improved versions:**
+
 1. "Implement JWT authentication for the resident portal API using Azure AD B2C with role-based authorization"
 2. "Add xUnit tests for PromptAnalyzer.Analyze achieving 80-90% coverage, testing all scoring scenarios and edge cases"
 3. "Fix the NullReferenceException in TemplateManager.FillTemplate when template name not found. Return empty template instead"
@@ -449,6 +473,7 @@ Participants fix these in chat/verbally:
 ## 🎯 Key Takeaways
 
 ### Prompt Engineering Reality Check
+
 1. **Clarity beats structure** - Natural language often works better than formatted prompts
 2. **Conversation beats specification** - Iterative dialogue > trying to specify everything upfront
 3. **Context is crucial** - Include domain knowledge and technical requirements
@@ -456,6 +481,7 @@ Participants fix these in chat/verbally:
 5. **Your style is valid** - Find what works for your thinking and typing speed
 
 ### Quick Reference Card
+
 ```
 NATURAL LANGUAGE APPROACH:
 "I need a [what] that [does what]. We're using [tech stack]. 
@@ -474,6 +500,7 @@ ONLY ADD STRUCTURE WHEN:
 ```
 
 ### Common Pitfalls to Avoid
+
 - ❌ Assuming Claude knows your context
 - ❌ Using pronouns without clear antecedents
 - ❌ Forgetting to specify test requirements
@@ -482,20 +509,24 @@ ONLY ADD STRUCTURE WHEN:
 
 ## 📝 Homework (Before Week 3)
 
-### Required Tasks:
+### Required Tasks
+
 1. ✅ Create a CLAUDE.md with 5+ prompt templates for your role
 2. ✅ Use the Prompt Lab to score and improve 3 of your common prompts
 3. ✅ Generate one complete feature with tests using a structured prompt
-4. ✅ Share your best prompt in `#dx-training` with before/after comparison
+4. ✅ Share your best prompt in `#ai-exchange` with before/after comparison
 5. ✅ Fix the scoring bug in PromptAnalyzer.cs
 
-### Stretch Goals:
+### Stretch Goals
+
 1. 🎯 Build a prompt for a complex multi-step task
 2. 🎯 Create a prompt that generates an entire microservice
 3. 🎯 Add a new category to HoaPromptExamples.cs
 
-### Skill Check:
+### Skill Check
+
 Without looking at examples, write a prompt that:
+
 ```
 Generates a complete audit logging system for HOA transactions including:
 - Service class with async methods
@@ -508,6 +539,7 @@ Generates a complete audit logging system for HOA transactions including:
 ## 🔗 Resources
 
 ### Official Documentation
+
 - [Prompt Engineering Overview](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview)
 - [Use XML Tags](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/use-xml-tags)
 - [Be Clear and Direct](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/be-clear-and-direct)
@@ -515,26 +547,30 @@ Generates a complete audit logging system for HOA transactions including:
 - [Let Claude Think](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/chain-of-thought)
 
 ### RealManage Resources
+
 - [Week 2 Prompt Lab](./example/) - Interactive prompt training tool
 - [Prompt Library](../../resources/prompt-library.md) - Curated RealManage prompts
 - [Getting Started Prompts](../../resources/prompts/getting-started.md) - Beginner-friendly examples
-- Slack: `#dx-training` for prompt help
+- Slack: `#ai-exchange` for prompt help
 
 ### Additional Reading
+
 - [Anthropic's Prompt Engineering Tutorial](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering)
 - [XML vs JSON for Structured Prompts](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/use-xml-tags)
 - [Few-shot Prompting Techniques](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/multishot-prompting)
 
 ## 📊 Success Metrics
 
-### You're ready for Week 3 when you can:
+### You're ready for Week 3 when you can
+
 - [ ] Write prompts that consistently generate working code
 - [ ] Use Markdown or bullet points to structure complex requests
 - [ ] Include all necessary context without Claude asking for clarification
 - [ ] Get 80-90% test coverage in generated code without reminding
 - [ ] Score 75+ on the Prompt Analyzer for your prompts
 
-### Red Flags (seek help if):
+### Red Flags (seek help if)
+
 - [ ] Claude frequently asks for clarification
 - [ ] Generated code has syntax errors
 - [ ] Tests are missing or have low coverage
@@ -543,6 +579,7 @@ Generates a complete audit logging system for HOA transactions including:
 ## 🚀 Next Week Preview
 
 **Week 3: Tactical Planning & Code Review**
+
 - Use plan mode as a tactical thinking partner
 - Iterate on plans in real-time before executing
 - Organize code review fixes systematically
@@ -552,45 +589,5 @@ Generates a complete audit logging system for HOA transactions including:
 
 ---
 
-## Instructor Notes
-
-### Common Issues & Solutions
-
-**"Should I use XML tags?"**
-- Probably not! Natural language works great
-- Show them your actual successful prompts (no XML)
-- Demonstrate conversation style gets same results
-
-**"My prompts feel too casual"**
-- That's perfect! Claude responds well to natural language
-- Formal structure often makes things harder
-- Show examples of chatty prompts that work great
-
-**"Generated tests are too simple"**
-- Explicitly request edge cases
-- Specify coverage percentage
-- Provide example test scenarios
-
-### Time Management Tips
-- Part 1: Critical foundation - don't rush
-- Part 3: Heart of the session - full 60 min
-- If running late: Skip Part 4.2 (personal customization)
-- Always leave 5 min for Q&A
-
-### Engagement Strategies
-- Use real code from RealManage projects
-- Have participants share prompts in chat
-- Celebrate "aha moments" when prompts improve
-- Do live demonstrations with participant suggestions
-
-### Assessment
-Quick check at end:
-1. Show a vague prompt - have them improve it naturally
-2. What makes a prompt clear and specific?
-3. When is structure actually helpful (vs just talking)?
-4. What's the minimum test coverage requirement?
-
----
-
-*End of Week 2 Session Plan*  
+*End of Week 2 Session Plan*
 *Next Session: Week 3 - Plan Mode & Exploration*

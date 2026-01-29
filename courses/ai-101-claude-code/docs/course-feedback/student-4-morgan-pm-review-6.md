@@ -17,7 +17,7 @@ This is my sixth review of the AI 101 Claude Code course. After five previous re
 ### Rating Progression
 
 | Review | Rating | Key Finding |
-|--------|--------|-------------|
+| ------ | ------ | ----------- |
 | Review #1 | 8/10 | Good content but too technical for PMs |
 | Review #2 | 4/5 stars | Dramatic improvement with PM track |
 | Review #3 | 4.5/5 stars | PM track excellent and practical |
@@ -32,7 +32,7 @@ This is my sixth review of the AI 101 Claude Code course. After five previous re
 ### Issue Resolution Status
 
 | Issue from Review #5 | Status | Evidence |
-|----------------------|--------|----------|
+| -------------------- | ------ | -------- |
 | Learning path diagram outdated | **FIXED** | Mermaid diagram now shows Weeks 5 and 8 as green "Must Do" with proper styling |
 | CLI output examples in Week 5 PM track | **FIXED** | Release notes example output included showing actual formatted result |
 | Skill troubleshooting section | **PARTIALLY ADDRESSED** | Testing guidance improved, explicit "Test Your Skill" sections added |
@@ -81,7 +81,7 @@ This sets clear expectations for what PMs will get. In Review #5, I noted the sk
 The course now offers a coherent, end-to-end PM journey:
 
 | Week | What PMs Do | Time | Value |
-|------|-------------|------|-------|
+| ---- | ----------- | ---- | ----- |
 | 0 | AI Foundations | 45 min | Vocabulary and realistic expectations |
 | 1 | Setup & Orientation | 45 min | Observe developer experience |
 | 2 | Prompting Foundations | 1.5 hrs | CLEAR framework for specs |
@@ -116,7 +116,7 @@ This progression transforms PMs from **observers** to **creators** of automation
 The "10x Developer" myth discussion remains the best expectation-setting I've seen in any AI course:
 
 | Task Type | Realistic Speedup | Why |
-|-----------|-------------------|-----|
+| --------- | ----------------- | --- |
 | Boilerplate/CRUD | 5-10x | Highly repetitive |
 | Documentation | 3-5x | Claude excels at explanation |
 | Test writing | 3-5x | Consistent patterns |
@@ -145,7 +145,7 @@ I use this framework daily. Every feature spec I write now follows this structur
 Four practical skills that automate my actual work:
 
 | Skill | Time Saved | Frequency |
-|-------|------------|-----------|
+| ----- | ---------- | --------- |
 | `/release-notes` | 30+ min | Every 2 weeks |
 | `/meeting-actions` | 15 min | 3-4x/week |
 | `/sprint-summary` | 45 min | Every 2 weeks |
@@ -200,7 +200,7 @@ This is a legitimate certification path that validates PM skills, not coding abi
 ### All Previous Issues Resolved
 
 | Review | Issues Raised | Status |
-|--------|---------------|--------|
+| ------ | ------------- | ------ |
 | #1 | Course too technical for PMs | RESOLVED - PM track exists |
 | #2 | No PM prerequisites section | RESOLVED |
 | #2 | No PM success metrics | RESOLVED |
@@ -245,7 +245,7 @@ These are enhancements, not requirements.
 ### I Actually Use These Skills
 
 | Skill | My Use This Month | Result |
-|-------|-------------------|--------|
+| ----- | ----------------- | ------ |
 | `/release-notes` | 2 releases | Stakeholder-ready notes in <10 min |
 | `/meeting-actions` | 8 meetings | Zero missed action items |
 | `/sprint-summary` | 2 sprints | Exec-ready summaries consistently |
@@ -342,7 +342,7 @@ The key achievements:
 **My journey with this course:**
 
 | Review | Sentiment |
-|--------|-----------|
+| ------ | --------- |
 | #1 | "This is good but needs PM track" |
 | #2 | "Dramatic improvement, almost there" |
 | #3 | "PM track is now excellent" |
@@ -366,7 +366,7 @@ Product Manager, RealManage
 ## Appendix: Rating Justification
 
 | Criteria | Score | Notes |
-|----------|-------|-------|
+| -------- | ----- | ----- |
 | Content quality | 10/10 | Week 5 workshop exceptional, all content PM-relevant |
 | Practical value | 10/10 | 4 skills I use weekly, validated time savings |
 | Accessibility | 10/10 | Diagram fixed, prerequisites clear, no coding required |

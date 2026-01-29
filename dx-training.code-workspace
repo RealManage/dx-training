@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../dx-claude-plugins"
+		}
+	],
+	"settings": {
+		"dotnet.defaultSolution": "disable"
+	}
+}

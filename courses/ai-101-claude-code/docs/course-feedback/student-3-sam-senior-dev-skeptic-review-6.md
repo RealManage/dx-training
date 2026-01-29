@@ -26,7 +26,7 @@ The course has stabilized at a high level of quality. The fixes from Review #5 r
 All three issues I confirmed fixed in Review #5 remain fixed:
 
 | Issue | Status |
-|-------|--------|
+| ----- | ------ |
 | Plan mode consistency (Shift+Tab vs /plan) | Still consistent |
 | Learning examples callout | Still present at Week 8 line 371 |
 | GitLab references cleanup | Still appropriate |
@@ -58,7 +58,7 @@ This addresses the setup/version verification concern. However, the model pricin
 Looking at this more carefully, I realize the course has **intentionally removed specific pricing from the decision trees**. The model comparison table now shows:
 
 | Factor | Sonnet | Opus |
-|--------|--------|------|
+| ------ | ------ | ---- |
 | Speed | Fast | Moderate |
 | Code quality | Great | Excellent |
 | Complex reasoning | Strong | Best |
@@ -184,7 +184,7 @@ Developer, QA, PM, and Support all have appropriate content. The "Experienced De
 ## Score Progression Summary
 
 | Review | Score | Key Finding |
-|--------|-------|-------------|
+| ------ | ----- | ----------- |
 | 1 | 8.5/10 | Good foundation, missing answer keys |
 | 2 | 7/10 | Raised standards, found gaps |
 | 3 | 8/10 | Improvements recognized |
@@ -293,7 +293,7 @@ The hard work is complete. Now it's about sustainability.
 ## Session Log
 
 | Activity | Result |
-|----------|--------|
+| -------- | ------ |
 | Review #5 fix verification | All fixes remain in place |
 | Pricing date issue review | Resolved through design choice (relative comparisons) |
 | Developer track review (Weeks 5-9) | Solid, no issues |

@@ -23,6 +23,7 @@ The course has matured. The decision trees are useful, answer keys are comprehen
 ## Week-by-Week Experience
 
 ### Week 0-2: Foundations
+
 **Skipped.** As a senior dev, I jumped to Week 3 per the "Experienced Developer Track" suggestion in Review 2. These weeks are fine for juniors but unnecessary for someone who's been prompting AI tools for years.
 
 **Note:** The main README now has role-based track tables (lines 7-12), which is helpful for navigation.
@@ -32,6 +33,7 @@ The course has matured. The decision trees are useful, answer keys are comprehen
 **What I tested:** The CodeReviewPro exercise in `/sessions/week-3/examples/codereview-pro/`
 
 **CLI Test Results:**
+
 ```bash
 claude --print "As a senior code reviewer, analyze LateFeeCalculator.cs for issues..."
 ```
@@ -39,11 +41,13 @@ claude --print "As a senior code reviewer, analyze LateFeeCalculator.cs for issu
 Claude found 4 CRITICAL issues, 7 WARNINGs, and 5 SUGGESTIONs. I cross-referenced against the answer key (`sessions/week-3/solutions/codereviewpro-answers.md`) - comprehensive coverage of 28+ issues across Security, Performance, Logic Bugs, and Code Quality.
 
 **The Good:**
+
 - Answer key is detailed with file paths, line numbers, and fixes
 - Success levels (Bronze/Silver/Gold/Diamond) give clear targets
 - The exercise is actually challenging - not just obvious bugs
 
 **Issues Found:**
+
 - Build warning in project when running `dotnet build`: `CS7022: The entry point of the program is global code` in Week 5 example
 - Class typo `LateFeecalculator` vs `LateFeeCalculator` is intentional but could confuse students not reading carefully
 
@@ -52,6 +56,7 @@ Claude found 4 CRITICAL issues, 7 WARNINGs, and 5 SUGGESTIONs. I cross-reference
 **What I tested:** The homeowner-setup example project
 
 **CLI Test Results:**
+
 ```bash
 dotnet build  # Succeeded, 0 warnings, 0 errors
 claude --print "Using TDD, write a failing test for a HomeownerService..."
@@ -60,12 +65,14 @@ claude --print "Using TDD, write a failing test for a HomeownerService..."
 Claude generated appropriate xUnit tests with FluentAssertions. The test naming convention (`MethodName_StateUnderTest_ExpectedBehavior`) was followed correctly.
 
 **The Good:**
+
 - Projects build cleanly (0 warnings)
 - TDD content is dogmatic about tests first - as it should be
 - "Advanced Techniques" section (lines 426-535) addresses my previous complaint about one-size-fits-all approach
 - Prime Directives concept is clever for experienced devs
 
 **Issues Found:**
+
 - Week 4 README references `[QA Track](./tracks/qa.md)` but the track system isn't obvious from main README navigation
 - The "Why 80-90% and not 100%?" link to troubleshooting guide is helpful
 
@@ -74,6 +81,7 @@ Claude generated appropriate xUnit tests with FluentAssertions. The test naming 
 **What I tested:** The violation-audit-api example project
 
 **Structure verified:**
+
 ```
 .claude/
   commands/violation-report.md
@@ -85,11 +93,13 @@ Claude generated appropriate xUnit tests with FluentAssertions. The test naming 
 ```
 
 **The Good:**
+
 - Clear distinction between commands (simple) and skills (with supporting files)
 - Decision Trees doc covers when to use what
 - Developer track at `tracks/developer.md` is concise
 
 **Issues Found:**
+
 - Build warning: `CS7022` in the project
 - Week 5 is titled "Commands & Skills" in main README but "Commands & Basic Skills" in session README - minor inconsistency
 
@@ -98,11 +108,13 @@ Claude generated appropriate xUnit tests with FluentAssertions. The test naming 
 **What I reviewed:** `sessions/week-6/tracks/developer.md`
 
 **The Good:**
+
 - Comprehensive hook examples (auto-run tests, block dangerous ops, SOC 2 audit)
 - Permission modes table is clear
 - Good balance of security-focused hooks
 
 **Issues Found:**
+
 - Week 6 renamed from "Plugins" (original) to "Agents & Hooks" (current) - good change
 - Hook variable reference (`$TOOL_NAME`, `$TOOL_INPUT`, etc.) is helpful
 
@@ -111,11 +123,13 @@ Claude generated appropriate xUnit tests with FluentAssertions. The test naming 
 **What I reviewed:** Main README and `tracks/developer.md`
 
 **The Good:**
+
 - Plugin architecture is well documented
 - Directory structure examples are clear
 - `--plugin-dir` local testing workflow is practical
 
 **Issues Found:**
+
 - Marketplace still feels conceptual - no concrete examples of published plugins
 - The progression Commands -> Skills -> Plugins is logical but could be emphasized more
 
@@ -124,12 +138,14 @@ Claude generated appropriate xUnit tests with FluentAssertions. The test naming 
 **What I reviewed:** `sessions/week-8/tracks/developer.md`
 
 **The Good:**
+
 - GitLab CI/CD examples are production-ready
 - Cost optimization section addresses the token cost elephant
 - Cross-functional skills (support, PM, engineering) show real-world applicability
 - Token estimation table is useful
 
 **Issues Found:**
+
 - Pricing tables may be outdated (I flagged this in Review 2 - still not addressed with "last verified" dates)
 - Missing error handling in CI/CD examples (timeouts, retries, cost caps)
 
@@ -138,12 +154,14 @@ Claude generated appropriate xUnit tests with FluentAssertions. The test naming 
 **What I reviewed:** Full capstone structure with 6 options (A-F)
 
 **The Good:**
+
 - Role-specific options (Developer A/B/C, QA D, PM E, Support F)
 - Success criteria are measurable and specific
 - 90-minute time constraint is realistic
 - Evaluation rubric is fair
 
 **Issues Found:**
+
 - Custom option (G) requires instructor approval - good guardrail
 - Developer track guidance at `tracks/developer.md` is helpful but brief
 
@@ -154,7 +172,7 @@ Claude generated appropriate xUnit tests with FluentAssertions. The test naming 
 ### Issues Previously Raised
 
 | Issue | Review 1 Status | Review 2 Status | Current Status |
-|-------|-----------------|-----------------|----------------|
+| ----- | --------------- | --------------- | -------------- |
 | Missing answer keys | Raised | Resolved | Still resolved |
 | Missing decision trees | Raised | Resolved | Still resolved |
 | Filler content for seniors | Raised | Partially addressed | Minor improvement |
@@ -223,12 +241,14 @@ Claude generated appropriate xUnit tests with FluentAssertions. The test naming 
 Three passes through this course. Here's where I land:
 
 **What convinced me:**
+
 - TDD integration is genuinely useful (tests as specs prevent hallucinations)
 - Plan mode for code reviews saves real time
 - Decision trees are the kind of quick reference I actually use
 - Answer keys allow self-validation without instructor dependency
 
 **What I'm still skeptical about:**
+
 - Plugin marketplace feels like vaporware
 - CI/CD examples lack production-grade error handling
 - Pricing tables will age quickly without maintenance
@@ -236,6 +256,7 @@ Three passes through this course. Here's where I land:
 **Would I use Claude Code after this?** Yes, I already do. TDD + Claude is my default workflow for new features.
 
 **Would I recommend this course to other senior devs?** Yes, with the "Experienced Developer Track" approach:
+
 1. Read Decision Trees (30 min)
 2. Week 3 - Code Review exercise (1 hour)
 3. Week 4 - TDD content + reference implementations (1 hour)
@@ -249,7 +270,7 @@ Total: ~4 hours instead of 18+. Worth it.
 ## Session Log
 
 | Week | Activity | Commands Run | Notes |
-|------|----------|--------------|-------|
+| ---- | -------- | ------------ | ----- |
 | 3 | CodeReviewPro test | `claude --print "review LateFeeCalculator..."` | Found 16/28+ issues |
 | 4 | TDD exercise | `dotnet build`, `claude --print "write test..."` | Clean build, good output |
 | 5 | Project structure | `dotnet build` | Warning CS7022 found |
@@ -260,11 +281,13 @@ Total: ~4 hours instead of 18+. Worth it.
 ## Final Score: 4/5 Stars (8/10)
 
 **Why not 5 stars:**
+
 - Some build warnings persist
 - Pricing/version freshness not addressed
 - CI/CD examples missing error handling
 
 **Why not 3 stars:**
+
 - Decision trees genuinely useful
 - Answer keys comprehensive
 - TDD content is solid

@@ -22,6 +22,7 @@ As a developer, you'll use commands and skills to:
 ### Command Design Patterns
 
 **1. TDD-First Commands**
+
 ```markdown
 ---
 description: Create new service with TDD
@@ -39,6 +40,7 @@ Use xUnit, FluentAssertions, Moq.
 ```
 
 **2. Code Review Commands**
+
 ```markdown
 ---
 description: Review code changes
@@ -55,6 +57,7 @@ Output: Critical/Warning/Suggestion format
 ```
 
 **3. Refactoring Commands**
+
 ```markdown
 ---
 description: Extract method refactoring
@@ -101,16 +104,18 @@ Beyond the standard homework:
 
 1. **Create a TDD command** that generates test-first scaffolding for your most common task
 2. **Build a code review skill** with a checklist template file
-3. **Share your best command** in `#dx-training` with the team
+3. **Share your best command** in `#ai-exchange` with the team
 
 ## Preparing for Week 6
 
 Week 6 builds on this foundation:
+
 - **Agents** - Specialized AI assistants with tool restrictions
 - **Hooks** - Automated actions (logging, validation, blocking)
 - **Audit trails** - SOC 2 compliance patterns
 
 Start thinking about:
+
 - What operations should be logged?
 - What dangerous commands should be blocked?
 - What tasks could a read-only agent handle?

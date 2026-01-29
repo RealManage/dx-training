@@ -150,7 +150,7 @@ Check the [DX Training Calendar](https://calendar.realmanage.com/dx-training) fo
 ## 🔄 Version History
 
 | Version | Date | Changes |
-|---------|------|---------|
+| ------- | ---- | ------- |
 | 1.0.0 | 2024-01-11 | Initial release with AI 101: Claude Code |
 | 1.1.0 | TBD | Added AI 102: Advanced Agent Development |
 | 1.2.0 | TBD | Added Platform Engineering 101 |

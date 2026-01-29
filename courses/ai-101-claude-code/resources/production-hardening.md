@@ -184,7 +184,7 @@ set -euo pipefail
 ```
 
 | Flag | Meaning | Why |
-|------|---------|-----|
+| ---- | ------- | --- |
 | `-e` | Exit on error | Don't continue after failures |
 | `-u` | Error on undefined vars | Catch typos early |
 | `-o pipefail` | Pipe failures propagate | `cmd1 | cmd2` fails if cmd1 fails |
@@ -307,7 +307,7 @@ log_json() {
 Track these metrics for your Claude automation:
 
 | Metric | Why |
-|--------|-----|
+| ------ | --- |
 | Success rate | Are prompts working? |
 | Latency (p50, p99) | Performance baseline |
 | Token usage | Cost tracking |
@@ -317,7 +317,7 @@ Track these metrics for your Claude automation:
 ### Alerting Thresholds
 
 | Condition | Action |
-|-----------|--------|
+| --------- | ------ |
 | Success rate < 90% | Warning |
 | Success rate < 70% | Page on-call |
 | p99 latency > 60s | Investigate |

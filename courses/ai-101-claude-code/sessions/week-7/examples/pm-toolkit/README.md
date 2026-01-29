@@ -5,7 +5,7 @@ A Claude Code plugin for generating project management artifacts in markdown for
 ## Skills
 
 | Skill | Description | Usage |
-|-------|-------------|-------|
+| ----- | ----------- | ----- |
 | `/write-story` | Generate user story from description | `/write-story <description>` |
 | `/write-epic` | Generate epic with child stories | `/write-epic <feature>` |
 | `/write-bdd` | Convert requirements to Gherkin | `/write-bdd <requirement>` |
@@ -44,6 +44,7 @@ claude plugin install ./pm-toolkit
 ## Output
 
 All skills generate markdown that can be pasted into any project management tool:
+
 - Jira
 - Azure DevOps
 - Linear

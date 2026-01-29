@@ -15,6 +15,7 @@ $ARGUMENTS
 #### Functional Criteria
 
 **FC-1: [Criterion Title]**
+
 - Given: [Precondition]
 - When: [Action]
 - Then: [Expected Result]
@@ -26,16 +27,19 @@ $ARGUMENTS
 #### Non-Functional Criteria
 
 **Performance**
+
 - [ ] Page load time < 2 seconds
 - [ ] API response time < 500ms
 - [ ] Supports 100 concurrent users
 
 **Security**
+
 - [ ] Input validation on all fields
 - [ ] No PII in logs
 - [ ] Authentication required
 
 **Accessibility**
+
 - [ ] WCAG 2.1 AA compliant
 - [ ] Screen reader compatible
 - [ ] Keyboard navigable
@@ -43,7 +47,7 @@ $ARGUMENTS
 #### Edge Cases
 
 | Scenario | Input | Expected Behavior |
-|----------|-------|-------------------|
+| -------- | ----- | ----------------- |
 | Empty input | "" | Show validation error |
 | Max length | 255+ chars | Truncate or reject |
 | Special chars | <script> | Sanitize input |
@@ -58,6 +62,7 @@ $ARGUMENTS
 - [ ] Product owner accepted
 
 ## Guidelines
+
 - Every criterion must be testable
 - Include happy path AND failure cases
 - Consider security implications

@@ -7,6 +7,7 @@
 ## Learning Objectives
 
 By the end of this session, participants will be able to:
+
 - Understand Plugins as the packaging system for all Claude Code components
 - Create plugins that contain skills, agents, and hooks
 - Build skills that leverage custom agents and embedded hooks
@@ -17,17 +18,12 @@ By the end of this session, participants will be able to:
 ## Pre-Session Checklist
 
 ### For Participants
+
 - [ ] Completed Week 6 (agents, hooks, lifecycle events)
 - [ ] Created at least one custom command in `.claude/commands/`
 - [ ] Created at least one custom subagent in `.claude/agents/`
 - [ ] Understanding of hook configuration
 - [ ] Ready for 2-hour session
-
-### For Instructors
-- [ ] Test all example projects build without warnings
-- [ ] Verify plugin examples work correctly
-- [ ] Prepare backup exercises for network issues
-- [ ] Monitor `#dx-training` Slack channel
 
 ---
 
@@ -38,6 +34,7 @@ By the end of this session, participants will be able to:
 #### 1.1 Plugins: The Complete Package (10 min)
 
 In Week 6, you learned about foundational components:
+
 - **Commands** (`.claude/commands/`) - Reusable prompts
 - **Custom Subagents** (`.claude/agents/`) - Specialized agents
 - **Hooks** (`settings.json`) - Lifecycle event handlers
@@ -49,6 +46,7 @@ Plugin = Commands + Agents + Hooks + Skills (packaged together)
 ```
 
 **Plugin Architecture:**
+
 ```
 my-plugin/
 ├── .claude-plugin/
@@ -68,6 +66,7 @@ my-plugin/
 ```
 
 **Why Plugins?**
+
 - **Distribution** - Share automation with your team
 - **Organization** - Group related functionality
 - **Versioning** - Track changes over time
@@ -76,19 +75,20 @@ my-plugin/
 #### 1.2 Plugin Manifest (10 min)
 
 **The plugin.json File (.claude-plugin/plugin.json):**
+
 ```json
 {
   "name": "realmanage-hoa",
   "version": "1.0.0",
   "description": "RealManage HOA automation - violations, fines, board reports",
   "author": {
-    "name": "DX Team",
-    "email": "dx-team@realmanage.com"
+    "name": "DX Team"
   }
 }
 ```
 
 **Creating a Plugin:**
+
 ```bash
 # Create plugin structure
 mkdir -p realmanage-hoa/.claude-plugin
@@ -119,7 +119,7 @@ Skills are **enhanced commands** that live inside plugins. They support features
 #### 2.1 Skills vs Commands (10 min)
 
 | Feature | Commands | Skills |
-|---------|----------|--------|
+| ------- | -------- | ------ |
 | Location | `.claude/commands/<name>.md` | `<plugin>/skills/<name>/SKILL.md` |
 | Supporting files | No | Yes (templates, scripts) |
 | Auto-invocation | No | Yes (`disable-model-invocation: false`) |
@@ -133,6 +133,7 @@ Skills are **enhanced commands** that live inside plugins. They support features
 #### 2.2 Skill Structure (10 min)
 
 **SKILL.md Anatomy:**
+
 ```markdown
 ---
 name: violation-workflow
@@ -158,7 +159,7 @@ Process the violation for property $ARGUMENTS following RealManage rules...
 **Frontmatter Fields:**
 
 | Field | Required | Description |
-|-------|----------|-------------|
+| ----- | -------- | ----------- |
 | `name` | No | Display name (uses directory name if omitted) |
 | `description` | Recommended | When to use; enables auto-invocation |
 | `argument-hint` | No | Autocomplete hint (e.g., `<property_id>`) |
@@ -186,6 +187,7 @@ realmanage-hoa/
 ```
 
 **SKILL.md:**
+
 ```markdown
 ---
 name: violation-notice
@@ -215,6 +217,7 @@ Generate a $2 violation notice for property $1.
 ```
 
 **templates/first-notice.md:**
+
 ```markdown
 # First Notice - HOA Violation
 
@@ -246,6 +249,7 @@ Custom agents from Week 6 can be packaged in plugins and referenced by skills.
 #### 3.1 Plugin Agents (10 min)
 
 **Agent Location in Plugins:**
+
 ```
 realmanage-hoa/
 └── agents/
@@ -255,6 +259,7 @@ realmanage-hoa/
 ```
 
 **Agent File (agents/security-auditor.md):**
+
 ```markdown
 ---
 name: security-auditor
@@ -307,6 +312,7 @@ Generate a security report with severity ratings.
 ```
 
 **What Happens:**
+
 1. User invokes `/realmanage-hoa:security-review`
 2. Claude loads the `security-auditor` agent from `agents/`
 3. Skill runs in isolated context with agent's tools/permissions
@@ -342,6 +348,7 @@ Summarize this PR with risks and recommendations.
 ```
 
 **How It Works:**
+
 1. `` !`command` `` executes before Claude processes the skill
 2. Output replaces the placeholder
 3. Claude sees actual data, not the command
@@ -353,6 +360,7 @@ Summarize this PR with risks and recommendations.
 #### 4.1 Plugin Hook Configuration (5 min)
 
 **Hook Location in Plugins:**
+
 ```
 realmanage-hoa/
 └── hooks/
@@ -360,6 +368,7 @@ realmanage-hoa/
 ```
 
 **hooks/hooks.json:**
+
 ```json
 {
   "hooks": {
@@ -418,6 +427,7 @@ IMPORTANT: All edits are logged for SOC 2 compliance.
 ```
 
 **When to Use Each:**
+
 - **Plugin hooks (hooks.json)** - Apply to all plugin operations
 - **Skill hooks (embedded)** - Apply only when that skill is invoked
 
@@ -428,6 +438,7 @@ IMPORTANT: All edits are logged for SOC 2 compliance.
 #### 5.1 Local Plugin Development (10 min)
 
 **Loading Local Plugins:**
+
 ```bash
 # Load plugin for testing
 claude --plugin-dir ./realmanage-hoa
@@ -437,6 +448,7 @@ claude --plugin-dir ./plugin-one --plugin-dir ./plugin-two
 ```
 
 **Invoking Plugin Skills:**
+
 ```bash
 # Plugin skills are namespaced
 /realmanage-hoa:violation-workflow PROP-001
@@ -445,6 +457,7 @@ claude --plugin-dir ./plugin-one --plugin-dir ./plugin-two
 ```
 
 **Validating Plugins:**
+
 ```bash
 # Check plugin structure
 /plugin validate ./realmanage-hoa
@@ -452,9 +465,10 @@ claude --plugin-dir ./plugin-one --plugin-dir ./plugin-two
 
 #### 5.2 Marketplace Distribution (10 min)
 
-> **Note:** The Claude Code plugin marketplace is still evolving. The commands below show the expected patterns, but public marketplaces may have limited content. For now, focus on local plugin development and team-internal distribution via Git repositories. Check [Anthropic's documentation](https://docs.anthropic.com/en/docs/claude-code) for the latest marketplace availability.
+> **Note:** Claude Code ships with a default marketplace containing 40+ plugins out of the box. Browse available plugins with `/plugin` to see what's ready to use. For team-specific automation, you can also create local plugins or add custom marketplaces from Git repositories.
 
 **Adding a Marketplace:**
+
 ```bash
 # Add marketplace from various sources
 /plugin marketplace add ./local-marketplace
@@ -466,6 +480,7 @@ claude --plugin-dir ./plugin-one --plugin-dir ./plugin-two
 ```
 
 **Installing from Marketplace:**
+
 ```bash
 # Install a plugin
 /plugin install realmanage-hoa@company-tools
@@ -475,6 +490,7 @@ claude --plugin-dir ./plugin-one --plugin-dir ./plugin-two
 ```
 
 **Plugin Commands Summary:**
+
 ```
 /plugin                              # Interactive manager
 /plugin marketplace add <source>     # Add marketplace
@@ -598,6 +614,7 @@ Create `realmanage-violations/hooks/hooks.json`:
 ```
 
 **Test your plugin:**
+
 ```bash
 # Load and test
 claude --plugin-dir ./realmanage-violations
@@ -611,6 +628,7 @@ claude --plugin-dir ./realmanage-violations
 ## Key Takeaways
 
 ### Plugin Structure
+
 ```
 my-plugin/
 ├── .claude-plugin/
@@ -627,6 +645,7 @@ my-plugin/
 ```
 
 ### Skills Quick Reference
+
 ```
 LOCATION: <plugin>/skills/<skill-name>/SKILL.md
 
@@ -651,6 +670,7 @@ DYNAMIC CONTEXT:
 ```
 
 ### Plugin Commands
+
 ```
 /plugin                              # Interactive manager
 /plugin marketplace add <source>     # Add marketplace
@@ -666,14 +686,16 @@ INVOKE:
 
 ## Homework (Before Week 8)
 
-### Required Tasks:
+### Required Tasks
+
 1. Create a complete plugin with at least 2 skills
 2. Add a custom agent to your plugin
 3. Add audit hooks to your plugin
 4. Test your plugin locally with `--plugin-dir`
-5. Share your plugin structure in `#dx-training` Slack
+5. Share your plugin structure in `#ai-exchange` Slack
 
-### Stretch Goals:
+### Stretch Goals
+
 1. Create a skill with supporting template files
 2. Use dynamic context injection (`` !`command` ``)
 3. Create a skill that spawns your custom agent
@@ -683,77 +705,29 @@ INVOKE:
 ## Resources
 
 ### Official Documentation
+
 - [Plugins](https://code.claude.com/docs/en/plugins)
 - [Skills](https://code.claude.com/docs/en/skills)
 - [Sub-agents](https://code.claude.com/docs/en/sub-agents)
 - [Hooks](https://code.claude.com/docs/en/hooks)
 
 ### RealManage Resources
+
 - [Week 7 Examples](./examples/) - PM Toolkit plugin
-- Slack: `#dx-training`
+- Slack: `#ai-exchange`
 
 ---
 
 ## Next Week Preview
 
 **Week 8: Real-World Automation**
+
 - Cross-functional use cases
 - Headless Claude automation (CLI scripting)
 - Cost optimization strategies
 - Batch processing patterns
 
 **The progression:** Week 6 (Agents & Hooks) -> Week 7 (Plugins) -> Week 8 (Production)
-
----
-
-## Instructor Notes
-
-### Session Timing (2 hours)
-- Part 1: Plugin Architecture - 20 min
-- Part 2: Skills in Plugins - 30 min
-- Part 3: Agents in Plugins - 25 min
-- Part 4: Hooks in Plugins - 15 min
-- Part 5: Distribution & Marketplace - 20 min
-- Part 6: Hands-On Workshop - 30 min
-- **Total: 2h 20min** (buffer for Q&A)
-
-### Key Points to Emphasize
-- **Plugins are the container** - Everything from Week 6 goes inside
-- **Skills = enhanced commands** - Same concept, more capabilities
-- **Agents + Hooks in plugins** - Complete packaging
-- **Distribution** - Share automation with your team
-
-### Common Questions
-
-**"Do I need a plugin for simple automation?"**
-- No, you can use commands/agents/hooks directly
-- Plugins are for packaging and distribution
-- Use plugins when sharing with team or across projects
-
-**"Can I use Week 6 components without plugins?"**
-- Yes! `.claude/commands/`, `.claude/agents/`, `.claude/settings.json` all work
-- Plugins just package them for distribution
-
-**"What's the difference between plugin hooks and skill hooks?"**
-- Plugin hooks (hooks.json): Apply to all plugin operations
-- Skill hooks (embedded): Apply only when that skill runs
-
-### Troubleshooting
-
-**Plugin not loading:**
-- Check `.claude-plugin/plugin.json` exists and is valid JSON
-- Verify directory structure is correct
-- Use `/plugin validate .` to check
-
-**Skill not recognized:**
-- Check path: `<plugin>/skills/<name>/SKILL.md`
-- Verify YAML frontmatter syntax
-- Restart Claude session
-
-**Agent not spawning:**
-- Verify agent file exists in `<plugin>/agents/`
-- Check `agent:` field matches agent name
-- Ensure `context: fork` is set in skill
 
 ---
 

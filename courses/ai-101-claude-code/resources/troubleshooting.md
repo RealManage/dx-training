@@ -465,7 +465,7 @@ python -m py_compile .claude/hooks/my-hook.py
 Different hooks fire at different times:
 
 | Hook | When It Fires |
-|------|---------------|
+| ---- | ------------- |
 | `pre-commit` | Before Claude commits code |
 | `post-response` | After every Claude response |
 | `pre-tool` | Before Claude runs a tool |
@@ -557,7 +557,7 @@ truth: "true"                  # Boolean-looking strings
 For SKILL.md files:
 
 | Field | Required | Notes |
-|-------|----------|-------|
+| ----- | -------- | ----- |
 | `name` | Yes | Must match invocation |
 | `description` | Yes | Shows in skill listing |
 | `version` | No | Semantic versioning |
@@ -757,7 +757,7 @@ timeout 120s claude -p "Complex analysis..." || {
 **Exit code reference:**
 
 | Exit Code | Meaning | Action |
-|-----------|---------|--------|
+| --------- | ------- | ------ |
 | 0 | Success | Output is valid |
 | 1 | General error | Check stderr, retry |
 | 124 | Timeout (from `timeout` cmd) | Increase timeout or simplify prompt |
@@ -770,7 +770,7 @@ timeout 120s claude -p "Complex analysis..." || {
 This course was tested with:
 
 | Component | Version | Notes |
-|-----------|---------|-------|
+| --------- | ------- | ----- |
 | Claude Code CLI | 1.x | `claude --version` to check |
 | Node.js | 22 LTS | Required for Claude Code |
 | npm | 10.x | Comes with Node.js |
@@ -788,7 +788,7 @@ This course was tested with:
 2. Check Node/npm versions
 3. Try in a new terminal
 4. Test with a simple project
-5. Check #dx-training for similar issues
+5. Check #ai-exchange for similar issues
 
 ### Information to Provide
 
@@ -804,11 +804,10 @@ When asking for help, include:
 
 ### Support Channels
 
-- **Slack:** `#dx-training` for course help
+- **Slack:** `#ai-exchange` for course help
 - **Slack:** `#claude-help` for general Claude issues
 - **Office Hours:** Thursdays 2-3 PM CT
 - **GitLab Issues:** For bug reports
-- **Email:** <dx-team@realmanage.com>
 
 ## 🔄 Common Workarounds
 
@@ -824,4 +823,4 @@ When asking for help, include:
 
 ---
 
-**Still stuck?** Don't hesitate to ask for help in `#dx-training`! Include your `claude doctor` output and describe what you've already tried.
+**Still stuck?** Don't hesitate to ask for help in `#ai-exchange`! Include your `claude doctor` output and describe what you've already tried.

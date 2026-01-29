@@ -7,6 +7,7 @@
 ## Learning Objectives
 
 By the end of this session, participants will be able to:
+
 - Understand what agents are and when to use them
 - Create custom agents in `.claude/agents/`
 - Configure hooks for pre/post operation automation
@@ -17,17 +18,12 @@ By the end of this session, participants will be able to:
 ## Pre-Session Checklist
 
 ### For Participants
+
 - [ ] Completed Weeks 1-5 (CLI, prompts, Plan Mode, TDD, Commands & Skills)
 - [ ] Claude Code working smoothly
 - [ ] Understanding of `.claude/` configuration structure from Week 5
 - [ ] Reviewed [Glossary](../../resources/glossary.md) for terms: Agent, Hook
 - [ ] Ready for 2-hour session
-
-### For Instructors
-- [ ] Test all example projects build without warnings
-- [ ] Verify hook and agent examples work correctly
-- [ ] Prepare backup exercises for permission issues
-- [ ] Monitor `#dx-training` Slack channel
 
 ---
 
@@ -40,6 +36,7 @@ By the end of this session, participants will be able to:
 **Agents** are specialized AI assistants with their own context, tools, and permissions. They handle isolated tasks without cluttering your main conversation.
 
 Think of agents as team members with specific roles:
+
 - A **security auditor** who only reads code and reports vulnerabilities
 - A **test writer** who creates unit tests following TDD principles
 - A **code reviewer** who checks changes against team standards
@@ -47,7 +44,7 @@ Think of agents as team members with specific roles:
 **Built-in vs Custom Agents:**
 
 | Type | Description | Use Case |
-|------|-------------|----------|
+| ---- | ----------- | -------- |
 | **Explore** | Fast, read-only codebase analysis | Finding files, searching code |
 | **Plan** | Architecture planning | Design decisions |
 | **Bash** | Terminal commands in separate context | System operations |
@@ -55,6 +52,7 @@ Think of agents as team members with specific roles:
 | **Custom** | Your own agents with specific prompts/tools | Domain-specific tasks |
 
 **Why Create Custom Agents?**
+
 - **Isolated context** - Keeps main conversation clean
 - **Tool restrictions** - Limit what the agent can do (read-only, no edits, etc.)
 - **Permission control** - Set specific permission modes
@@ -66,12 +64,14 @@ Think of agents as team members with specific roles:
 #### 1.2 Agent File Location and Structure (15 min)
 
 **Where Agents Live:**
+
 ```
 ~/.claude/agents/           # User-level (all projects)
 .claude/agents/             # Project-level (this project only)
 ```
 
 **Agent File Format (.claude/agents/code-reviewer.md):**
+
 ```markdown
 ---
 name: code-reviewer
@@ -99,27 +99,32 @@ Follow RealManage coding standards and SOC 2 compliance requirements.
 **Frontmatter Fields:**
 
 | Field | Required | Description |
-|-------|----------|-------------|
+| ----- | -------- | ----------- |
 | `name` | Yes | Unique identifier (lowercase, hyphens) |
 | `description` | Yes | When Claude should use this agent |
 | `tools` | No | Allowed tools (inherits all if omitted) |
 | `disallowedTools` | No | Tools to deny |
 | `model` | No | `sonnet`, `opus`, `default`, or `inherit` |
-| `permissionMode` | No | `default`, `acceptEdits`, `dontAsk`, `bypassPermissions`, `plan` |
+| `permissionMode` | No | `default`, `plan`, `acceptEdits`, `dontAsk`, `bypassPermissions` |
 | `skills` | No | Skills to preload |
 | `hooks` | No | Lifecycle hooks |
 
 **Permission Modes Explained:**
 
 | Mode | Description | Use Case |
-|------|-------------|----------|
-| `default` | Standard prompts for actions | Normal operations |
-| `acceptEdits` | Auto-accept file edits | Trusted refactoring |
-| `dontAsk` | Auto-deny all prompts | Read-only analysis |
-| `bypassPermissions` | Skip all checks | Sandboxed automation |
-| `plan` | Research only, no edits | Architecture planning |
+| ---- | ----------- | -------- |
+| `default` | Asks for approval before tool use | Normal operations - you approve each action |
+| `plan` | No tool execution allowed | Analysis, code review, architecture planning |
+| `acceptEdits` | Auto-approves file edits | Trusted refactoring in sandbox/isolated dirs |
+| `dontAsk` | Auto-denies permission prompts | Read-only agents that shouldn't modify anything |
+| `bypassPermissions` | Auto-approves all tools | Fully automated pipelines (use with caution) |
+
+> **Note:** Permission modes can **restrict** agent behavior but cannot **escalate** beyond your session's permission settings. An agent with `bypassPermissions` still requires your approval if your session is in `default` mode.
+
+> **Tip:** Use `plan` mode for analysis agents, `default` for normal work where you approve actions, and `acceptEdits` only in sandboxed/isolated environments.
 
 **Tool Restrictions:**
+
 ```yaml
 # Allow only these tools
 tools: Read, Grep, Glob, Bash
@@ -135,6 +140,7 @@ disallowedTools: Write, Edit, NotebookEdit
 #### 2.1 Using the /agents Command (10 min)
 
 **Interactive Agent Management:**
+
 ```bash
 # Open agent manager
 /agents
@@ -147,6 +153,7 @@ disallowedTools: Write, Edit, NotebookEdit
 ```
 
 **Creating via /agents:**
+
 1. Run `/agents`
 2. Select "Create new agent"
 3. Choose scope (user or project)
@@ -157,6 +164,7 @@ disallowedTools: Write, Edit, NotebookEdit
 #### 2.2 RealManage Agent Examples (20 min)
 
 **Example 1: Read-Only Database Analyst**
+
 ```markdown
 ---
 name: db-analyst
@@ -181,13 +189,14 @@ Restrictions:
 ```
 
 **Example 2: Security Auditor**
+
 ```markdown
 ---
 name: security-auditor
 description: Audit code for security vulnerabilities and compliance
 tools: Read, Grep, Glob
 model: opus
-permissionMode: dontAsk
+permissionMode: plan
 ---
 
 You are a security auditor checking for vulnerabilities.
@@ -207,7 +216,8 @@ Output a security report with:
 - Remediation: How to fix it
 ```
 
-**Example 3: Test Writer**
+**Example 3: Test Writer** *(Optional - review if time permits)*
+
 ```markdown
 ---
 name: test-writer
@@ -232,7 +242,8 @@ When writing tests:
 Test naming: MethodName_Scenario_ExpectedBehavior
 ```
 
-**Example 4: Violation Analyst (HOA Domain)**
+**Example 4: Violation Analyst (HOA Domain)** *(Optional - review if time permits)*
+
 ```markdown
 ---
 name: violation-analyst
@@ -266,19 +277,21 @@ Do not modify any data - analysis only.
 **Hook Types:**
 
 | Hook | Trigger | Use Case |
-|------|---------|----------|
+| ---- | ------- | -------- |
 | `PreToolUse` | Before any tool executes | Validation, logging, blocking |
 | `PostToolUse` | After tool completes | Audit logging, notifications |
 | `Notification` | When Claude sends notification | Alert forwarding |
 | `Stop` | When Claude stops/pauses | Cleanup, summaries |
 
 **Configuration Locations:**
+
 ```
 ~/.claude/settings.json          # User-level (all projects)
 .claude/settings.json            # Project-level (this project)
 ```
 
 **Basic Hook Structure:**
+
 ```json
 {
   "hooks": {
@@ -300,7 +313,7 @@ Do not modify any data - analysis only.
 **Environment Variables Available in Hooks:**
 
 | Variable | Description | Available In |
-|----------|-------------|--------------|
+| -------- | ----------- | ------------ |
 | `$TOOL_NAME` | Name of tool being used | All hooks |
 | `$TOOL_INPUT` | Input to the tool | All hooks |
 | `$TOOL_OUTPUT` | Output from tool | PostToolUse only |
@@ -339,7 +352,7 @@ Do not modify any data - analysis only.
 **Common Matchers:**
 
 | Matcher | Description |
-|---------|-------------|
+| ------- | ----------- |
 | `"*"` | Match all tools |
 | `"Bash"` | All Bash commands |
 | `"Edit"` | All file edits |
@@ -355,6 +368,7 @@ Do not modify any data - analysis only.
 #### 4.1 Security Use Cases (15 min)
 
 **Example 1: Block Dangerous Operations**
+
 ```json
 {
   "hooks": {
@@ -385,6 +399,7 @@ Do not modify any data - analysis only.
 **Key Concept:** Hooks that exit with a non-zero code (like `exit 1`) **block** the operation.
 
 **Example 2: Protect Sensitive Files**
+
 ```json
 {
   "hooks": {
@@ -406,6 +421,7 @@ Do not modify any data - analysis only.
 #### 4.2 Audit and Compliance Use Cases (15 min)
 
 **Example 3: SOC 2 Audit Trail**
+
 ```json
 {
   "hooks": {
@@ -436,6 +452,7 @@ Do not modify any data - analysis only.
 ```
 
 **Example 4: Auto-Run Tests After Edits**
+
 ```json
 {
   "hooks": {
@@ -455,6 +472,7 @@ Do not modify any data - analysis only.
 ```
 
 **Example 5: Financial Data Access Logging**
+
 ```json
 {
   "hooks": {
@@ -539,6 +557,7 @@ Include file path and line number for each finding.
 ```
 
 **Test it:**
+
 ```
 > Use the code-reviewer agent to review the Services folder
 ```
@@ -577,13 +596,16 @@ Create `.claude/settings.json`:
 ```
 
 **Test it:**
+
 ```
 > Edit Program.cs to add a comment at the top
 
 # Watch for automatic test execution after the edit completes
 ```
 
-#### 5.4 Exercise 3: Build an Audit System (10 min)
+#### 5.4 Exercise 3: Build an Audit System (10 min) - *Stretch Goal*
+
+> **Note:** Complete this exercise if time permits, or as homework. Exercises 1 and 2 are the priority.
 
 Expand `.claude/settings.json` with comprehensive auditing:
 
@@ -626,6 +648,7 @@ Expand `.claude/settings.json` with comprehensive auditing:
 ```
 
 **Test the complete system:**
+
 ```
 > Edit a file to add a TODO comment
 
@@ -639,6 +662,7 @@ Expand `.claude/settings.json` with comprehensive auditing:
 ## Key Takeaways
 
 ### Agents Quick Reference
+
 ```
 LOCATION: .claude/agents/<name>.md
 
@@ -648,7 +672,7 @@ name: agent-name
 description: When to use this agent
 tools: Read, Grep, Glob
 model: sonnet | opus | default | inherit
-permissionMode: default | acceptEdits | dontAsk | plan
+permissionMode: default | plan | acceptEdits | dontAsk | bypassPermissions
 ---
 System prompt for the agent
 
@@ -656,6 +680,7 @@ INVOKE: Claude auto-delegates or "use the <name> agent"
 ```
 
 ### Hooks Quick Reference
+
 ```
 LOCATION: .claude/settings.json
 
@@ -681,7 +706,7 @@ exit 1 in hook command blocks the operation
 ### When to Use What
 
 | Need | Solution |
-|------|----------|
+| ---- | -------- |
 | Specialized task with limited tools | Custom Agent |
 | Read-only analysis | Agent with `permissionMode: plan` |
 | Block dangerous commands | PreToolUse hook with `exit 1` |
@@ -693,14 +718,16 @@ exit 1 in hook command blocks the operation
 
 ## Homework (Before Week 7)
 
-### Required Tasks:
+### Required Tasks
+
 1. Create 2 custom agents for your daily workflow
 2. Configure audit hooks in a project
 3. Create a hook that blocks at least one dangerous operation
 4. Create a hook that auto-runs tests after edits
-5. Share your best agent or hook configuration in `#dx-training` Slack
+5. Share your best agent or hook configuration in `#ai-exchange` Slack
 
-### Stretch Goals:
+### Stretch Goals
+
 1. Create an agent that spawns from a skill (uses `agent:` field)
 2. Build a complete SOC 2 audit trail with multiple hooks
 3. Create an agent with embedded hooks
@@ -710,14 +737,16 @@ exit 1 in hook command blocks the operation
 ## Resources
 
 ### Official Documentation
+
 - [Sub-agents](https://code.claude.com/docs/en/sub-agents)
 - [Hooks](https://code.claude.com/docs/en/hooks)
 - [CLI Reference](https://code.claude.com/docs/en/cli-reference)
 
 ### RealManage Resources
+
 - [Week 6 Examples](./examples/) - HOA Automation project
-- [Glossary](/resources/glossary.md) - Term definitions
-- Slack: `#dx-training`
+- [Glossary](../../resources/glossary.md) - Term definitions
+- Slack: `#ai-exchange`
 
 ---
 
@@ -726,72 +755,13 @@ exit 1 in hook command blocks the operation
 **Week 7: Plugins - The Complete Package**
 
 Plugins package everything you've learned into distributable units:
+
 - Plugin architecture and manifest files
 - Packaging skills, agents, and hooks together
 - Installing plugins from registries and git repos
 - Building your own RealManage plugins
 
 **The progression:** Commands (Week 5) + Skills (Week 5) + Agents (Week 6) + Hooks (Week 6) -> **Plugins (Week 7)**
-
----
-
-## Instructor Notes
-
-### Session Timing (2 hours)
-- Part 1: Understanding Agents - 25 min
-- Part 2: Creating Custom Agents - 30 min
-- Part 3: Understanding Hooks - 25 min
-- Part 4: Implementing Hooks - 30 min
-- Part 5: Hands-On Exercises - 30 min
-- **Total: 2h 20min** (buffer for Q&A)
-
-### Key Points to Emphasize
-- **Agents isolate context** - Use them when you don't want to pollute main conversation
-- **Tool restrictions are powerful** - `permissionMode: plan` makes agents safe for analysis
-- **Hooks enable automation** - Pre/post operations without manual intervention
-- **SOC 2 compliance** - Hooks are essential for audit trails at RealManage
-- **exit 1 blocks operations** - This is how hooks prevent dangerous commands
-
-### Common Questions
-
-**"When should I use an agent vs just asking Claude?"**
-- Agent for: isolated tasks, restricted tools, specific model, parallel work
-- Main Claude for: iterative work, shared context, complex conversations
-
-**"Can hooks break my workflow?"**
-- Yes, if they `exit 1` on valid operations
-- Always test hooks in sandbox first
-- Keep hook commands fast (<1 second)
-
-**"What's the difference between user and project agents?"**
-- User agents (`~/.claude/agents/`) work everywhere
-- Project agents (`.claude/agents/`) are project-specific
-- Project settings override user settings
-
-**"How do I debug hooks?"**
-- Add `set -x` to hook commands for verbose output
-- Check `.claude/audit.log` for execution history
-- Run hook commands manually in terminal first
-
-### Troubleshooting
-
-**Agent not working:**
-- Verify frontmatter has required fields (`name`, `description`)
-- Check tools are spelled correctly
-- Ensure model name is valid
-
-**Hooks not triggering:**
-- Validate JSON syntax: `cat .claude/settings.json | jq .`
-- Check matcher patterns
-- Verify hook command is executable
-- Restart Claude session after changes
-
-**Hooks blocking unexpectedly:**
-- Check matcher is not too broad
-- Verify exit codes in hook commands
-- Add logging to see what's triggering
-
-> **Still having issues?** See the [Troubleshooting Guide](../../resources/troubleshooting.md#-hooks-arent-triggering) for detailed debugging steps.
 
 ---
 

@@ -49,7 +49,7 @@ graph LR
 ### What You'll Cover vs Skip
 
 | Week | Topic | PM Priority | Notes |
-|------|-------|-------------|-------|
+| ---- | ----- | ----------- | ----- |
 | 0 | AI Foundations | Recommended | Understand the technology |
 | 1 | Setup & Orientation | Must Do | Observe, don't need to master |
 | 2 | Prompting Foundations | Must Do | Learn to write good specs |
@@ -110,7 +110,7 @@ Key concepts you need:
 **The CLEAR Framework for PM Specs:**
 
 | Element | What It Means | Example |
-|---------|---------------|---------|
+| ------- | ------------- | ------- |
 | **C**ontext | Business background | "Our HOA clients need to track violations..." |
 | **L**ogic | Business rules | "Late fees compound monthly at 10%..." |
 | **E**dge cases | What happens when... | "If payment is partial, apply to oldest first..." |
@@ -368,7 +368,7 @@ Tone: [formal / casual / marketing]
 ### Setting Expectations
 
 | Topic | Reality |
-|-------|---------|
+| ----- | ------- |
 | Speed | AI speeds up coding 2-5x, NOT 10x |
 | Quality | Still requires human review |
 | Estimates | May be 20-30% faster, not revolutionary |
@@ -405,10 +405,13 @@ Make sure it works correctly.
 
 ## Resources
 
-- [Glossary](/resources/glossary.md) - Term definitions (start here!)
-- [Week 0 README](/sessions/week-0/README.md) - AI Foundations
-- [Week 2 README](/sessions/week-2/README.md) - Prompting (most relevant)
+- [Glossary](./glossary.md) - Term definitions (start here!)
+- [Week 0 README](../sessions/week-0/README.md) - AI Foundations
+- [Week 2 README](../sessions/week-2/README.md) - Prompting (most relevant)
+- [Getting Help](./getting-help.md) - Support channels and how to get assistance
 
 ---
 
-*Questions? Hit up `#dx-training` on Slack. Ask for PM-specific guidance!*
+**Need help?** See [Getting Help](getting-help.md) for support channels.
+
+*Questions? Hit up `#ai-exchange` on Slack. Ask for PM-specific guidance!*
