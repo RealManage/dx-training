@@ -1,9 +1,12 @@
 {
   "recommendations": [
-    "Anthropic.claude-code",
+    "anthropic.claude-code",
     "bierner.markdown-mermaid",
-    "GitLab.gitlab-workflow",
-    "ms-dotnettools.vscode-dotnet-runtime"
+    "gitlab.gitlab-workflow",
+    "ms-dotnettools.vscode-dotnet-runtime",
+    "ms-dotnettools.csdevkit",
+    "ms-dotnettools.csharp",
+    "ms-vsliveshare.vsliveshare"
   ],
   "unwantedRecommendations": []
 }
