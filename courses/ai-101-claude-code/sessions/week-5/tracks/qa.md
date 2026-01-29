@@ -9,6 +9,7 @@ As a QA engineer, you don't need to create commands and skills from scratch - de
 ## Learning Objectives (QA-Specific)
 
 By the end of this session, you will be able to:
+
 - Discover available commands and skills in a project
 - Invoke commands and skills correctly
 - Understand what commands/skills do before running them
@@ -21,18 +22,21 @@ By the end of this session, you will be able to:
 ### Finding What's Available
 
 **Method 1: Ask Claude**
+
 ```
 > What custom commands are available in this project?
 > What skills are defined in .claude/skills?
 ```
 
 **Method 2: Browse the File System**
+
 ```
 > List files in .claude/commands/
 > List directories in .claude/skills/
 ```
 
 **Method 3: Use the Slash Menu**
+
 - Type `/` in Claude Code
 - Scroll through available commands
 - Custom commands appear alongside built-ins
@@ -46,6 +50,7 @@ Before running a command, read its description:
 ```
 
 Look for:
+
 - **description** - What the command does
 - **argument-hint** - What arguments it expects
 - **The prompt body** - What Claude will actually do
@@ -61,6 +66,7 @@ Look for:
 ```
 
 **Examples:**
+
 ```bash
 # Generate a violation report for property 12345
 /violation-report 12345
@@ -77,7 +83,7 @@ Look for:
 As QA, evaluate commands on:
 
 | Criteria | Questions to Ask |
-|----------|------------------|
+| -------- | ---------------- |
 | **Accuracy** | Does it produce correct output? |
 | **Completeness** | Are all expected elements present? |
 | **Consistency** | Same input = same quality output? |
@@ -87,18 +93,21 @@ As QA, evaluate commands on:
 ### QA Test Scenarios for Commands
 
 **Test 1: Normal Case**
+
 ```
 /violation-report 12345
 Expected: Complete report with all 5 sections
 ```
 
 **Test 2: Edge Case - New Property**
+
 ```
 /violation-report 99999
 Expected: "No violations found" or appropriate message
 ```
 
 **Test 3: Invalid Input**
+
 ```
 /violation-report abc
 Expected: Clear error or reasonable handling
@@ -117,6 +126,7 @@ Skills work like commands but have more context (supporting files).
 ```
 
 **Example:**
+
 ```bash
 /late-fee-report 12345
 ```
@@ -126,7 +136,7 @@ The skill has access to supporting files like `fee-schedule.txt` that provide ad
 ### Skills vs Commands (QA Perspective)
 
 | Aspect | Commands | Skills |
-|--------|----------|--------|
+| ------ | -------- | ------ |
 | Output quality | Basic | Enhanced (has templates/data) |
 | Consistency | Varies | More consistent (uses templates) |
 | Testing focus | Input/output | Input/output + template accuracy |
@@ -158,7 +168,8 @@ When a command or skill doesn't work well, report:
 
 ### Sharing Feedback
 
-Post in `#dx-training` Slack:
+Post in `#ai-exchange` Slack:
+
 - Command/skill name
 - Your test case
 - What went wrong
@@ -180,7 +191,7 @@ Post in `#dx-training` Slack:
 Test `/violation-report` with these cases:
 
 | Test Case | Input | Check For |
-|-----------|-------|-----------|
+| --------- | ----- | --------- |
 | Normal | `12345` | All 5 sections present |
 | Edge | `00000` | Handles gracefully |
 | Invalid | `abc` | Clear error message |
@@ -212,7 +223,7 @@ Document any issues found.
 
 1. **Test 3 commands** from your current project
 2. **Document 1 edge case** that needs better handling
-3. **Suggest 1 improvement** in `#dx-training`
+3. **Suggest 1 improvement** in `#ai-exchange`
 
 ---
 

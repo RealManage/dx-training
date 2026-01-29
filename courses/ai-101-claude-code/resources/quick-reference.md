@@ -2,11 +2,36 @@
 
 Essential commands, shortcuts, and patterns for RealManage developers.
 
+---
+
+## Quick Navigation
+
+| Section | Description |
+| ------- | ----------- |
+| [Essential Commands](#-essential-commands) | Starting Claude, session management, shortcuts |
+| [Prompt Patterns](#-prompt-patterns) | TDD, code review, bug fix patterns |
+| [Project Structure](#️-project-structure) | CLAUDE.md template, folder layout |
+| [Testing Commands](#-testing-commands) | .NET and Angular test commands |
+| [Code Generation](#-code-generation) | Quick generators for services, components |
+| [Productivity Shortcuts](#-productivity-shortcuts) | Multi-file ops, refactoring |
+| [Advanced Features](#-advanced-features) | Custom commands, multi-Claude workflow |
+| [Performance Tips](#-performance-tips) | Reduce tokens, speed up responses |
+| [Debug Patterns](#-debug-patterns) | Troubleshooting errors and test failures |
+| [Security Reminders](#-security-reminders) | What to never include, what to check |
+| [Monitoring](#-monitoring) | Track progress with git and tests |
+| [Learning Resources](#-learning-resources) | Official docs, RealManage resources |
+| [Pro Tips](#-pro-tips) | Best practices |
+
+---
+
 ## 🎯 Essential Commands
 
 ### Starting Claude
+
 ```bash
-claude                    # Start in current directory
+claude                   # Start in current directory
+claude -c                # Start in current directory and resume last session
+claude -r                # Start in current directory and pick from a list of recent sessions
 claude ./src             # Start with specific directory
 claude --model sonnet-4  # Use specific model
 claude --verbose         # Debug mode
@@ -14,6 +39,7 @@ claude doctor            # Check installation
 ```
 
 ### Session Management
+
 ```
 /help         # Show all commands
 /clear        # Reset conversation context
@@ -28,7 +54,8 @@ claude doctor            # Check installation
 ```
 
 ### Quick Actions
-```
+
+```text
 #             # Quick edit CLAUDE.md
 Ctrl+C        # Exit Claude
 Ctrl+D        # Exit Claude (alternative)
@@ -37,7 +64,8 @@ Ctrl+D        # Exit Claude (alternative)
 ## 📝 Prompt Patterns
 
 ### TDD Pattern
-```
+
+```markdown
 1. Write xUnit tests for <feature> with 80-90% coverage
 2. [Run tests - confirm red]
 3. Implement <feature> to pass tests
@@ -46,7 +74,8 @@ Ctrl+D        # Exit Claude (alternative)
 ```
 
 ### Code Review Pattern
-```
+
+```markdown
 Review this code for:
 - SOLID principles
 - Performance issues
@@ -56,7 +85,8 @@ Review this code for:
 ```
 
 ### Bug Fix Pattern
-```
+
+```markdown
 1. Reproduce the bug: <steps>
 2. Write a failing test for the bug
 3. Fix the bug
@@ -67,6 +97,7 @@ Review this code for:
 ## 🏗️ Project Structure
 
 ### CLAUDE.md Template
+
 ```markdown
 # Project: <NAME>
 
@@ -88,7 +119,8 @@ Review this code for:
 ```
 
 ### Recommended Folders
-```
+
+```text
 project/
 ├── CLAUDE.md          # Project context
 ├── src/              # Source code
@@ -102,6 +134,7 @@ project/
 ## 🧪 Testing Commands
 
 ### C# / .NET
+
 ```bash
 dotnet test                              # Run all tests
 dotnet test --collect:"XPlat Code Coverage"  # With coverage
@@ -109,6 +142,7 @@ dotnet test --filter "FullyQualifiedName~Integration"  # Filter tests
 ```
 
 ### Angular
+
 ```bash
 ng test                   # Run Karma tests
 ng test --code-coverage  # With coverage
@@ -119,7 +153,8 @@ ng e2e                   # E2E tests
 ## 🎨 Code Generation
 
 ### Quick Generators
-```
+
+```markdown
 > Generate a C# service for <feature> with repository pattern and 80-90% test coverage
 
 > Create an Angular component for <feature> with OnPush and signals
@@ -132,7 +167,8 @@ ng e2e                   # E2E tests
 ## 🔧 Productivity Shortcuts
 
 ### Multi-File Operations
-```
+
+```markdown
 > Update all controllers to use async/await
 
 > Add null checks to all public methods
@@ -143,7 +179,8 @@ ng e2e                   # E2E tests
 ```
 
 ### Refactoring
-```
+
+```markdown
 > Extract interface from <class>
 
 > Apply repository pattern to <service>
@@ -156,7 +193,9 @@ ng e2e                   # E2E tests
 ## 🚀 Advanced Features
 
 ### Custom Commands
+
 Create `.claude/commands/violation-report.md`:
+
 ```markdown
 Generate a violation report for the last 30 days including:
 - Total violations by type
@@ -168,6 +207,7 @@ Generate a violation report for the last 30 days including:
 Use: `/violation-report`
 
 ### Multi-Claude Workflow
+
 ```bash
 # Terminal 1: API Development
 cd api
@@ -184,12 +224,14 @@ claude --agent reviewer
 ## 📊 Performance Tips
 
 ### Reduce Token Usage
+
 - Use `/clear` when switching contexts
 - Be specific with `/add-dir`
 - Use `/compact` periodically
 - Exclude large files from context
 
 ### Speed Up Responses
+
 - Provide clear, specific prompts
 - Include examples in CLAUDE.md
 - Use structured prompts (XML tags)
@@ -198,12 +240,14 @@ claude --agent reviewer
 ## 🐛 Debug Patterns
 
 ### When Claude Generates Errors
+
 1. Check CLAUDE.md for context
 2. Verify versions in prompt
 3. Provide error message
 4. Ask for specific fix
 
 ### When Tests Fail
+
 1. Never modify test to pass
 2. Understand failure reason
 3. Fix implementation
@@ -212,6 +256,7 @@ claude --agent reviewer
 ## 🔒 Security Reminders
 
 ### Never Include
+
 - Passwords or API keys
 - Connection strings
 - PII or PHI data
@@ -219,6 +264,7 @@ claude --agent reviewer
 - Internal URLs
 
 ### Always Check
+
 - Generated SQL for injection
 - API endpoints for auth
 - File operations for paths
@@ -227,7 +273,8 @@ claude --agent reviewer
 ## 📈 Monitoring
 
 ### Track Progress
-```
+
+```bash
 git diff --stat         # Changes made
 dotnet test --logger    # Test results
 ng test --code-coverage # Coverage report
@@ -237,6 +284,7 @@ ng test --code-coverage # Coverage report
 ## 🎓 Learning Resources
 
 ### Official Docs
+
 - [Claude Code Docs](https://docs.anthropic.com/en/docs/claude-code)
 - [CLI Reference](https://code.claude.com/docs/en/cli-reference) - All CLI flags
 - [Interactive Mode](https://code.claude.com/docs/en/interactive-mode) - Slash commands
@@ -244,9 +292,8 @@ ng test --code-coverage # Coverage report
 - [MCP Protocol](https://docs.anthropic.com/en/docs/mcp)
 
 ### RealManage Resources
-- Slack: `#dx-training`
-- Wiki: `wiki.realmanage.com`
-- Office Hours: Thu 2-3 PM CT
+
+- Slack: `#ai-exchange`
 
 ## 💡 Pro Tips
 

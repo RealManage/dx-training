@@ -15,7 +15,7 @@ This is my third review of the AI-101 Claude Code course. The course has made si
 ### Rating Comparison
 
 | Review | Rating | Key Issue |
-|--------|--------|-----------|
+| ------ | ------ | --------- |
 | Review 1 (Initial) | 7.5/10 | Course assumed I write production code |
 | Review 2 (After restructure) | 8/10 (4/5 stars) | Week 4 exercises still developer-focused |
 | **Review 3 (Current)** | **9/10** | Minor polish needed, but solid QA experience |
@@ -44,7 +44,7 @@ The new file `/courses/ai-101-claude-code/sessions/week-4/tracks/qa.md` is exact
 The key difference table in the QA track nails it:
 
 | Aspect | Developer Track | QA Track |
-|--------|----------------|----------|
+| ------ | --------------- | -------- |
 | **Goal** | Write code + tests together | Write tests for existing code |
 | **Starting point** | Empty project | Existing codebase with gaps |
 | **Focus** | TDD cycle | Coverage analysis + gap filling |
@@ -80,6 +80,7 @@ New QA-specific success metrics in the README:
 
 > **QA Track**
 > You've completed the QA track when you can:
+>
 > - Generate comprehensive test suites for existing code
 > - Identify coverage gaps and write tests to fill them
 > - Use Claude to create test data and edge case scenarios
@@ -155,6 +156,7 @@ The QA track properly positions me as a consumer, not a creator:
 > "As a QA engineer, you don't need to create commands and skills from scratch - developers will build those. Your focus is on **using** them effectively and **providing feedback** to improve them."
 
 I tested the `/violation-report` command and evaluated it for:
+
 - Accuracy
 - Completeness
 - Edge case handling
@@ -230,7 +232,7 @@ I can complete this capstone using my existing QA skills + what I learned about 
 ### Issues From Review 1
 
 | Issue | Review 1 Status | Review 2 Status | Review 3 Status |
-|-------|-----------------|-----------------|-----------------|
+| ----- | --------------- | --------------- | --------------- |
 | Course assumed I write production code | Complaint | Partially addressed | RESOLVED |
 | Needed QA-specific use cases | Complaint | Addressed | RESOLVED |
 | Needed clearer learning path | Complaint | Fully addressed | RESOLVED |
@@ -239,7 +241,7 @@ I can complete this capstone using my existing QA skills + what I learned about 
 ### Issues From Review 2
 
 | Issue | Review 2 Status | Review 3 Status |
-|-------|-----------------|-----------------|
+| ----- | --------------- | --------------- |
 | Week 4 exercises still developer-focused | Complaint | RESOLVED - QA track added |
 | Prerequisites and success metrics dev-focused | Complaint | RESOLVED - QA sections added |
 | Missing QA-specific terms in glossary | Minor | Still minor - not critical |
@@ -313,7 +315,7 @@ claude --print "As a QA engineer testing this project's commands, evaluate the /
 **My recommended path through the course:**
 
 | Week | Priority | Time | Notes |
-|------|----------|------|-------|
+| ---- | -------- | ---- | ----- |
 | 1 | Must Do | 1 hr | Setup |
 | 2 | Must Do | 1.5 hr | Prompting - applies to test cases |
 | 4 | **CRITICAL** | 2.5 hr | Use QA track, not main README |
@@ -344,6 +346,7 @@ With the QA tracks now in place, this course is genuinely useful for QA professi
 ### Rating: 9/10
 
 **Breakdown:**
+
 - Content relevance for QA: 9/10
 - Exercise quality: 9/10
 - Learning path clarity: 10/10

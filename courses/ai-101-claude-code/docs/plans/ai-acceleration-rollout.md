@@ -26,47 +26,19 @@ Our analytics showed some team members are already getting significant value fro
 
 ## Training Approach
 
-### Group-Based Learning
+See **[Training Schedule](training-schedule.md)** for session details, groups, and logistics.
 
-We've structured training as groups rather than self-paced for good reasons:
-
-| Benefit | Why It Matters |
-|---------|----------------|
-| Peer learning | Learn from teammates' questions and discoveries |
-| Protected time | Dedicated calendar blocks mean training doesn't compete with sprint work |
-| Real-time support | Instructors available to unblock you immediately |
-| Shared experience | Everyone progresses together, no one left behind |
-
-### Course Structure
-
-| Weeks | Status | Content |
-|-------|--------|---------|
-| **1-4** | Mandatory | Setup, Prompting, Planning, TDD |
-| **5-9** | Highly Encouraged (Optional) | Skills, Agents, Hooks, Plugins, Capstone |
-
-Everyone completes Weeks 1-4. Weeks 5-9 are trainer-led sessions for those who want advanced skills.
-
-### Group Schedule
-
-| Group | Audience | Mandatory | Optional |
-|-------|----------|-----------|----------|
-| 1 | Early Adopters | Weeks 1-4 | Weeks 5-9 |
-| 2A | Tech Leads + Developers | Weeks 1-4 | Weeks 5-9 |
-| 2B | QA Engineers | Weeks 1-4 | QA-specific advanced |
-| 2C | Product Managers | Weeks 1-4 | PM-specific advanced |
-| 3 | Remaining team members | Weeks 1-4 | Weeks 5-9 |
-
-**Time commitment:** 1 group session per week (Friday mornings, 2 hours) + self-paced learning
+**Why group-based?** Peer learning, protected time, real-time support, shared experience.
 
 ## Role-Specific Tracks
 
-Different roles use AI differently. We've created tracks for each:
-
 | Track | Focus Areas |
-|-------|-------------|
+| ----- | ----------- |
 | **Developer** | Code review, TDD, refactoring, debugging |
 | **QA** | Test case generation, bug analysis, test automation |
 | **PM** | User stories, acceptance criteria, spec writing |
+
+**Developers:** Since we don't have dedicated QA, the QA track is recommended after completing your developer certification.
 
 See [Certification Tracks](../certification/README.md) for details.
 
@@ -75,7 +47,7 @@ See [Certification Tracks](../certification/README.md) for details.
 **We know not everyone learns at the same speed, and that's okay.**
 
 | If you're... | Here's what we offer |
-|--------------|---------------------|
+| ------------ | -------------------- |
 | Struggling | 1:1 coaching sessions with trainers |
 | Behind schedule | Extended timeline (just let us know) |
 | Experienced already | Move faster, help teammates along the way |
@@ -94,8 +66,6 @@ See [Certification Tracks](../certification/README.md) for details.
 - **What they don't do:** Grade your work, report to management, judge your pace
 
 Some early adopters gravitate toward helping others more than others - and that's fine. The DX Team remains the primary support resource for everyone.
-
-**Note:** We previously used "Early Adopters" to describe this role. To keep things simple, we now just call them Early Adopters who help their teams.
 
 ## Code Review Artifacts
 
@@ -124,7 +94,7 @@ The teams getting the most value from AI are the ones with strong humans guiding
 ## Timeline
 
 | Phase | Milestone |
-|-------|-----------|
+| ----- | --------- |
 | Week 0 | Program announced, course materials available |
 | Weeks 1-9 | Group 1 (Early Adopters) training |
 | Week 9 | Early Adopters complete, begin supporting teammates |
@@ -142,7 +112,7 @@ We're measuring outcomes, not just activity:
 ### Outcome Metrics (What Actually Matters)
 
 | Metric | What We're Measuring |
-|--------|---------------------|
+| ------ | -------------------- |
 | Cycle time | Are MRs merging faster? |
 | Bug rate | Are we catching more issues before production? |
 | Satisfaction | Do team members feel more productive? |
@@ -151,42 +121,21 @@ We're measuring outcomes, not just activity:
 ### Activity Metrics (Progress Tracking)
 
 | Metric | Target |
-|--------|--------|
+| ------ | ------ |
 | Training completion | 100% |
 | Code review artifacts | 80%+ of eligible MRs |
 | Demo Day participation | 50%+ per session |
 
 ## Support Resources
 
-### DX Team (Your Trainers)
-
-DX Team members are available via Slack DM or in #ai-exchange.
-
-### Channels
-
-- **#ai-exchange** - Questions, tips, live huddles (fastest response)
-- **Office Hours** - Monday thru Friday, drop in anytime
-- **Course Materials** - [AI 101 Claude Code](../../README.md)
-
-### Escalation Path
-
-| Issue | Contact |
-|-------|---------|
-| Stuck on exercise | #ai-exchange or DM any trainer |
-| Tool not working | IT Help Desk, then DX Team |
-| Need more time | DM your trainer |
-| Concerns about program | DM any trainer or VP Engineering |
-
-### Feedback Welcome
-
-If something doesn't work, tell us. If AI is useless for certain tasks, share that. Honest feedback makes the program better.
+See [Getting Help](../../resources/getting-help.md) for all support channels.
 
 ---
 
 ## Related Documents
 
 | Document | Purpose |
-|----------|---------|
+| -------- | ------- |
 | [Training Schedule](training-schedule.md) | Session format, groups, expectations |
 | [Communication Plan](communication-plan.md) | Announcements, templates, messaging |
 | [Certification Overview](../certification/README.md) | Requirements, submission, FAQ |
@@ -198,7 +147,7 @@ If something doesn't work, tell us. If AI is useless for certain tasks, share th
 ## Approval
 
 | Role | Name | Status |
-|------|------|--------|
+| ---- | ---- | ------ |
 | CTO | | Pending |
 | VP Engineering | | Pending |
 | DX Lead | | Author |

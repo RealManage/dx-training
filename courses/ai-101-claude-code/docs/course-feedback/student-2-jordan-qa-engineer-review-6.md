@@ -15,7 +15,7 @@ This is my sixth and final review of the AI-101 Claude Code course. After five i
 ### Rating History Across All Reviews
 
 | Review | Rating | Key Focus |
-|--------|--------|-----------|
+| ------ | ------ | --------- |
 | Review 1 (Initial) | 7.5/10 | Course assumed I write production code |
 | Review 2 (After restructure) | 8.0/10 | Week 4 exercises still developer-focused |
 | Review 3 (QA tracks added) | 9.0/10 | Minor polish needed, solid QA experience |
@@ -102,7 +102,7 @@ This connects Claude Code workflows to real QA tools I use daily.
 The Week 9 QA Track now explicitly shows how each week connects to the capstone:
 
 | Week | Skill Applied |
-|------|---------------|
+| ---- | ------------- |
 | Week 2 | Prompting Claude to write test cases |
 | Week 3 | Plan Mode for test architecture |
 | Week 4 | TDD patterns and practices |
@@ -241,7 +241,7 @@ The course doesn't cover test environment management (Docker Compose for local i
 **Breakdown:**
 
 | Category | Score | Notes |
-|----------|-------|-------|
+| -------- | ----- | ----- |
 | Glossary completeness | 10/10 | All QA terms now included |
 | Week 4 QA Track | 10/10 | API testing, coverage quality discussion added |
 | Week 8 QA Track | 10/10 | Test management tool export added |
@@ -276,7 +276,7 @@ The trajectory shows consistent improvement responding to feedback. This is what
 ### My Recommended QA Path (Updated)
 
 | Week | Priority | Time | Notes |
-|------|----------|------|-------|
+| ---- | -------- | ---- | ----- |
 | 1 | Must Do | 50 min | Setup |
 | 2 | Must Do | 1 hr | Prompting for test generation |
 | 4 | **CRITICAL** | 2.5 hr | QA Track - Your power week |

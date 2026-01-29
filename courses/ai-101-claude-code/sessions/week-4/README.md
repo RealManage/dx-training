@@ -35,13 +35,6 @@ By the end of this session, you'll be able to:
 - [ ] Completed Weeks 1-3
 - [ ] Familiar with basic C# syntax
 
-### For Instructors
-
-- [ ] Test both example projects build without warnings
-- [ ] Verify coverage tools work
-- [ ] Have backup exercises ready
-- [ ] Monitor `#dx-training` Slack
-
 ## 📚 Session Plan
 
 ### Part 1: Why TDD Helps Prevent AI Hallucinations (10 min)
@@ -393,7 +386,7 @@ See [TDD Cheat Sheet](./resources/tdd-cheatsheet.md) and [Coverage Guide](./reso
 1. ✅ Complete both exercises if not finished
 2. ✅ Add one more feature using TDD to either project
 3. ✅ Achieve 80-90% coverage on your additions
-4. ✅ Share your test-first approach in `#dx-training`
+4. ✅ Share your test-first approach in `#ai-exchange`
 5. ✅ Try TDD on a real work task
 
 ### Stretch Goals
@@ -428,7 +421,7 @@ Write tests FIRST for:
 - [TDD Cheat Sheet](./resources/tdd-cheatsheet.md)
 - [Coverage Guide](./resources/coverage-guide.md)
 - [Week 4 Examples](./examples/) - Both exercise projects
-- Slack: `#dx-training` for TDD help
+- Slack: `#ai-exchange` for TDD help
 
 ### Additional Reading
 
@@ -525,7 +518,7 @@ This becomes your configuration-as-code for AI behavior!
 ### When to Use Each Approach
 
 | Situation | Approach | Why |
-|-----------|----------|-----|
+| --------- | -------- | --- |
 | Learning TDD | Granular | Builds discipline |
 | Teaching others | Granular | Shows process clearly |
 | New to domain | Granular | Explores carefully |
@@ -586,57 +579,6 @@ The granular approach teaches you to think in tests. The batched approach with P
 **Pre-work:** Think about repetitive tasks that could benefit from custom commands  
 
 ---
-
-## Instructor Notes
-
-### Common Issues & Solutions
-
-**"Build warnings about Test SDK"**
-
-- Both projects include `<IsTestProject>true</IsTestProject>`
-- This prevents CS7022 warnings with top-level statements
-- Normal for projects mixing app code and tests
-
-**"Should I test private methods?"**
-
-- No! Test public behavior only
-- Private methods are implementation details
-- If it's important, it should affect public behavior
-
-**"My tests are brittle"**
-
-- Test behavior, not implementation
-- Use interfaces and dependency injection
-- Don't over-specify in assertions
-
-**"Coverage is stuck at 90%"**
-
-- Check for error handling paths
-- Look for early returns
-- Consider edge cases
-
-### Time Management Tips
-
-- Part 1-2: Keep conceptual (25 min)
-- Part 3: Heart of session (75 min)
-- If running late: Skip mocking details
-- Always leave 5 min for wrap-up
-
-### Engagement Strategies
-
-- Live code the first test together
-- Celebrate first "Green" test
-- Share coverage reports on screen
-- Use real HOA scenarios
-
-### Assessment
-
-Quick check at end:
-
-1. What comes first: test or code?
-2. What are the three phases of TDD?
-3. Why do tests prevent AI hallucinations?
-4. How do you mock an external service?
 
 ---
 

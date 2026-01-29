@@ -35,18 +35,21 @@ The fixes are solid. The team continues to demonstrate they read and act on feed
 The Week 9 README now consistently uses `Shift+Tab` throughout:
 
 **Line 316-318:**
+
 ```markdown
 # In Claude Code, press Shift+Tab to toggle plan mode
 # Or start your prompt with "Use plan mode to..."
 ```
 
 **Line 360-362:**
+
 ```markdown
 # Press Shift+Tab again to exit plan mode
 # Or simply start implementing - Claude will transition naturally
 ```
 
 **Line 759 (Quick Reference Card):**
+
 ```markdown
 # Plan Mode
 Shift+Tab                # Toggle plan mode on/off
@@ -80,6 +83,7 @@ The Week 8 README now includes a clear callout at line 371:
 I was initially pushing for production-grade examples. But I have to be fair here: **this is a training course, not a production cookbook.**
 
 The callout makes the right trade-off:
+
 1. **Acknowledges the gap** - Explicitly states these are simplified
 2. **Lists what's missing** - Retry logic, error handling, cost controls, timeouts
 3. **Explains why** - "The goal here is to understand the patterns"
@@ -101,6 +105,7 @@ This is the right approach for a learning environment. The course teaches the PA
 I ran a comprehensive grep across the course materials. The remaining GitLab references fall into acceptable categories:
 
 **Acceptable references (contextual mentions, not CI/CD teaching):**
+
 - Main README prerequisites: "Git configured with GitLab access" (line 167)
 - Main README prerequisites: "GitLab account with RealManage access" (line 172)
 - Main README certification: "Badge for your GitLab profile" (line 547)
@@ -111,10 +116,12 @@ I ran a comprehensive grep across the course materials. The remaining GitLab ref
 - Troubleshooting: "GitLab Issues: For bug reports"
 
 **References in old feedback documents:**
+
 - The student feedback files (including mine) have historical GitLab references
 - These are REVIEWS, not course content - appropriate to preserve
 
 **Week 8 specific cleanup:**
+
 - The "GitLab MR data" reference in productivity metrics (line 702 in my Review #4) now says "Merge request data" - cleaned up
 - The PM track reference to "Jira/GitLab data" is now just "project management data"
 
@@ -150,7 +157,7 @@ I ran a comprehensive grep across the course materials. The remaining GitLab ref
 Looking back at my five reviews:
 
 | Review | Rating | Key Complaint | Status |
-|--------|--------|---------------|--------|
+| ------ | ------ | ------------- | ------ |
 | 1 | 8.5/10 | Missing answer keys, decision trees | Fixed in Review 2 |
 | 2 | 7/10 | Too basic, missing advanced patterns | Role tracks added |
 | 3 | 8/10 | Build warnings, version inconsistency | Fixed by Review 4 |
@@ -202,12 +209,14 @@ No blocking issues remain.
 ### Why 9/10?
 
 **What pushed it over 8.5:**
+
 - Plan mode fix removes documentation confusion
 - Learning examples callout is honest and appropriate
 - GitLab cleanup is thorough
 - Team demonstrates they listen to feedback
 
 **Why not 9.5 or 10:**
+
 - Pricing freshness still not addressed (minor)
 - No "Production Hardening" appendix yet (nice to have)
 - Plugin marketplace still conceptual
@@ -215,7 +224,7 @@ No blocking issues remain.
 ### Score Progression
 
 | Review | Score | Notes |
-|--------|-------|-------|
+| ------ | ----- | ----- |
 | 1 | 8.5/10 | Initial skeptic assessment |
 | 2 | 7/10 | Raised the bar, found gaps |
 | 3 | 8/10 | Improvements recognized |
@@ -230,6 +239,7 @@ Five reviews deep. Here's where I land:
 
 **For Senior Developers:**
 This course is now worth your time. The "Experienced Developer Track" works:
+
 - Week 3: Plan Mode + Code Review (1 hour)
 - Week 4: TDD with Claude (1 hour)
 - Week 8: Headless Automation (1 hour)
@@ -251,7 +261,7 @@ Already do. TDD + Claude is my default for new features. Plan mode for code revi
 ## Session Log
 
 | Activity | Result |
-|----------|--------|
+| -------- | ------ |
 | Plan mode documentation review | Verified Shift+Tab consistency |
 | Learning examples callout check | Found at Week 8 line 371 |
 | GitLab reference audit | Remaining refs are organizational, not instructional |

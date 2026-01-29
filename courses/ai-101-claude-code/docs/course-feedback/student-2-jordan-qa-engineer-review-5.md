@@ -15,7 +15,7 @@ This is my fifth and final review of the AI-101 Claude Code course. This review 
 ### Rating History Across All Reviews
 
 | Review | Rating | Key Focus |
-|--------|--------|-----------|
+| ------ | ------ | --------- |
 | Review 1 (Initial) | 7.5/10 | Course assumed I write production code |
 | Review 2 (After restructure) | 8.0/10 | Week 4 exercises still developer-focused |
 | Review 3 (QA tracks added) | 9.0/10 | Minor polish needed, solid QA experience |
@@ -38,11 +38,13 @@ All three issues I raised in Review #4 have been addressed. The course team cont
 **Status: ✅ FIXED**
 
 The Week 9 Option D CLAUDE.md now includes complete starter domain models:
+
 - `Violation` class with Id, PropertyId, Type, Status, CreatedDate, ResolvedDate, Description
 - `Resident` class with Id, FirstName, LastName, Email, PropertyAddress, AccountStatus
 - `DuesPayment` class with Id, ResidentId, Amount, LateFee, DueDate, PaidDate, Status
 
 All relevant enums are provided:
+
 - `ViolationType` (Landscaping, Parking, Noise, Architectural, Other)
 - `ViolationStatus` (Open, FirstNotice, SecondNotice, FinalNotice, BoardReview, Resolved)
 - `AccountStatus` (Active, Inactive, Suspended, PendingApproval)
@@ -80,7 +82,7 @@ The Week 8 QA track now includes a callout box in Exercise 1:
 The Week 9 QA track now includes a "Skills You'll Use" table:
 
 | Week | Skill Applied |
-|------|---------------|
+| ---- | ------------- |
 | Week 2 | Prompting Claude to write test cases |
 | Week 3 | Plan Mode for test architecture |
 | Week 4 | TDD patterns and practices |
@@ -95,15 +97,18 @@ The Week 9 QA track now includes a "Skills You'll Use" table:
 ## Additional Changes Reviewed
 
 ### Week 5 PM Track Rewrite
+
 - Now titled "PM Skill Creation Workshop"
 - Four practical PM skills provided: `/release-notes`, `/meeting-actions`, `/sprint-summary`, `/user-stories`
 - More hands-on, less theoretical
 
 ### Week 8 "Learning Examples" Callout
+
 - Added note clarifying examples are for learning, not production-ready
 - Sets appropriate expectations
 
 ### Week 9 Plan Mode Instructions Clarified
+
 - Clearer instructions on entering/exiting Plan Mode
 - Alternative prompt-based approach: "Use plan mode to..."
 
@@ -116,7 +121,7 @@ The Week 9 QA track now includes a "Skills You'll Use" table:
 **Breakdown:**
 
 | Category | Score | Notes |
-|----------|-------|-------|
+| -------- | ----- | ----- |
 | Review #4 Issue Resolution | 10/10 | All three issues fully addressed |
 | Week 8 QA Track Quality | 9/10 | Excellent headless automation content |
 | Week 9 Option D Clarity | 9/10 | Domain models and cross-references added |

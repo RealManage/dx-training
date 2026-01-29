@@ -10,6 +10,7 @@ This track focuses on test automation hooks and read-only analysis agents. Agent
 ## Track Overview
 
 As a QA engineer, the most valuable Week 6 content for you is:
+
 - **Hooks for test automation** - Auto-run tests after code changes
 - **Read-only agents** - Analyze code for testability without modifying it
 - **Audit hooks** - Track what Claude is doing during sessions
@@ -25,7 +26,7 @@ You can skip the complex agent creation sections and focus on using pre-built ag
 Agents are specialized AI assistants. For QA, the most useful agents are:
 
 | Agent | Purpose | Your Use Case |
-|-------|---------|---------------|
+| ----- | ------- | ------------- |
 | test-writer | Creates unit tests | Generate test cases |
 | code-reviewer | Reviews code quality | Check testability |
 | security-auditor | Finds vulnerabilities | Security testing |
@@ -45,12 +46,16 @@ You don't need to create agents from scratch. Use team-provided agents:
 **Permission Modes:**
 
 | Mode | What It Means |
-|------|---------------|
-| `plan` | Read-only, cannot make changes (safest) |
-| `dontAsk` | Auto-deny write operations |
-| `acceptEdits` | Auto-accept changes (use carefully) |
+| ---- | ------------- |
+| `default` | Standard - asks for approval before tool use |
+| `plan` | Analysis only - no tool execution, cannot make changes |
+| `acceptEdits` | Auto-approves file edits (use in sandbox/trusted contexts) |
+| `dontAsk` | Auto-denies permission prompts (read-only, won't modify anything) |
+| `bypassPermissions` | Auto-approves everything (dangerous - use with caution) |
 
-**Tip:** For QA analysis work, always prefer agents with `permissionMode: plan`.
+> **Note:** Permission modes **restrict** agent behavior but cannot **escalate** beyond your session's permission settings.
+
+> **Tip:** Use `plan` mode for code analysis and review agents. For test-writing agents, use `default` mode so you can approve each edit, or `acceptEdits` when working in a sandbox.
 
 ---
 
@@ -81,6 +86,7 @@ Create `.claude/settings.json`:
 ```
 
 **What this does:**
+
 - After ANY file edit, automatically runs `dotnet test`
 - Shows test results in the conversation
 - Catches regressions immediately
@@ -150,7 +156,7 @@ Complete hook configuration for QA workflows:
 ### Hook Variables for Test Hooks
 
 | Variable | Use in Test Hooks |
-|----------|-------------------|
+| -------- | ----------------- |
 | `$TOOL_INPUT` | File being edited - filter to run only relevant tests |
 | `$TOOL_NAME` | Operation type - distinguish Edit vs Write |
 | `$PROJECT_DIR` | Project root - construct test paths |
@@ -221,6 +227,7 @@ Report findings as:
 ```
 
 **Usage:**
+
 ```
 > Use the testability-checker agent to analyze the Services folder
 ```
@@ -252,6 +259,7 @@ Create `.claude/settings.json`:
 ```
 
 Test it:
+
 ```
 > Edit Program.cs to add a comment
 # Watch for automatic test execution
@@ -291,6 +299,7 @@ Add PreToolUse logging:
 ```
 
 Test it:
+
 ```
 > Read a file
 > Edit a file
@@ -300,6 +309,7 @@ Test it:
 ### Exercise 3: Use a Test Agent (5 min)
 
 If a test-writer agent is available:
+
 ```
 > Use the test-writer agent to create edge case tests for late fee calculations
 ```
@@ -309,11 +319,13 @@ If a test-writer agent is available:
 ## Key Takeaways for QA
 
 ### Hooks Are Your Best Friend
+
 - Auto-run tests after every edit
 - Catch regressions immediately
 - Log all operations for debugging
 
 ### Agents for Analysis
+
 - Use `permissionMode: plan` for safe read-only analysis
 - Pre-built agents are easier than creating your own
 - Focus on testability-checker and code-reviewer agents
@@ -321,7 +333,7 @@ If a test-writer agent is available:
 ### Essential Hook Patterns
 
 | Pattern | Hook Type | Use Case |
-|---------|-----------|----------|
+| ------- | --------- | -------- |
 | Auto-test | PostToolUse on Edit | Run tests after changes |
 | Audit log | PreToolUse on * | Track all operations |
 | Coverage | PostToolUse on Edit | Check coverage after changes |
@@ -330,12 +342,14 @@ If a test-writer agent is available:
 
 ## Homework
 
-### Required:
+### Required
+
 1. Configure a PostToolUse hook that runs tests after edits
 2. Configure a PreToolUse hook that logs all operations
 3. Use a test-writer or code-reviewer agent on a codebase
 
-### Optional:
+### Optional
+
 1. Create a testability-checker agent
 2. Configure conditional test execution (only for .cs files)
 3. Set up coverage reporting in hooks

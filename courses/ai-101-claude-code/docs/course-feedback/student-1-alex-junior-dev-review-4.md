@@ -14,7 +14,7 @@ This review focuses specifically on the Week 8 refactor from "CI/CD Integration"
 **Rating Comparison:**
 
 | Review | Rating | Key Focus |
-|--------|--------|-----------|
+| ------ | ------ | --------- |
 | Review 1 | 7.5/10 | Initial course evaluation, terminology overload |
 | Review 2 | 8.5/10 | Improvements noted after glossary, Week 0 added |
 | Review 3 | 8.8/10 | Weeks 5-6 restructure verified, decision trees added |
@@ -99,7 +99,7 @@ This is the refactored week, and it's MUCH better than the old CI/CD version.
 **Key Table That Helped:**
 
 | Flag | Description | Example |
-|------|-------------|---------|
+| ---- | ----------- | ------- |
 | `-p, --print` | Non-interactive mode | `claude -p "Review this code"` |
 | `--output-format` | Output format: text, json | `--output-format json` |
 | `--model` | Select model | `--model opus` |
@@ -117,7 +117,7 @@ This worked perfectly and identified several intentional bugs in the example cod
 **The "When to Use Headless Mode" Table is Excellent:**
 
 | Use Case | Interactive | Headless |
-|----------|------------|----------|
+| -------- | ----------- | -------- |
 | Exploratory coding | Yes | |
 | Batch file processing | | Yes |
 | Scripted workflows | | Yes |
@@ -169,7 +169,7 @@ As part of this review, I searched for any remaining CI/CD references that might
 ### Issues from Review 1 That Are Now Fully Resolved
 
 | Issue | Review 1 Status | Review 4 Status |
-|-------|-----------------|-----------------|
+| ----- | --------------- | --------------- |
 | Missing glossary | Complained | FIXED |
 | Inconsistent coverage targets | 95% vs 80-90% confusion | FIXED - consistently 80-90% |
 | Unclear where to work | Kept putting files wrong place | FIXED - clear folder structure |
@@ -270,7 +270,7 @@ claude --print "What is 2 + 2?" --no-session-persistence
 **Breakdown:**
 
 | Category | Review 1 | Review 3 | Review 4 |
-|----------|----------|----------|----------|
+| -------- | -------- | -------- | -------- |
 | Technical content | A | A | A |
 | Practical application | A | A | A+ |
 | Beginner accessibility | C+ | A- | A |

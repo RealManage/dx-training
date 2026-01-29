@@ -21,7 +21,7 @@ Week 0 ──► Week 1 ──► Week 2 ──────────► Week 
 ### What You'll Cover vs Skip
 
 | Week | Topic | QA Priority | Notes |
-|------|-------|-------------|-------|
+| ---- | ----- | ----------- | ----- |
 | 0 | AI Foundations | Optional | Good for vocabulary |
 | 1 | Setup & Orientation | Must Do | Get Claude working |
 | 2 | Prompting Foundations | Must Do | Focus on test prompts |
@@ -38,6 +38,7 @@ Week 0 ──► Week 1 ──► Week 2 ──────────► Week 
 ## Week-by-Week Focus
 
 ### Week 0: AI Foundations (Optional - 30 min)
+
 **Skip if:** You're comfortable with AI terminology.
 
 Key terms for QA: hallucinations (why you MUST verify AI output), context windows, tokens.
@@ -45,14 +46,17 @@ Key terms for QA: hallucinations (why you MUST verify AI output), context window
 ---
 
 ### Week 1: Setup & Orientation (1 hour)
+
 **Goal:** Claude Code installed and working.
 
 Focus on:
+
 - [ ] Installation (`claude doctor` to verify)
 - [ ] First conversation
 - [ ] Basic CLAUDE.md setup
 
 **QA Focus:** When setting up your CLAUDE.md, include your test preferences:
+
 ```markdown
 ## Testing Preferences
 - Prefer xUnit with FluentAssertions
@@ -64,11 +68,13 @@ Focus on:
 ---
 
 ### Week 2: Prompting Foundations (1.5 hours)
+
 **Goal:** Write prompts that generate comprehensive test suites.
 
 **QA-Specific Prompts to Learn:**
 
 **Test Case Generation:**
+
 ```
 Given this requirement: [PASTE REQUIREMENT]
 
@@ -83,6 +89,7 @@ Format as Gherkin (Given/When/Then).
 ```
 
 **Test Code Generation:**
+
 ```
 Write xUnit tests for [METHOD/CLASS] that verify:
 - [BEHAVIOR 1]
@@ -94,6 +101,7 @@ Target 80-90% coverage including branches.
 ```
 
 **Code Review for Testability:**
+
 ```
 Review @Services/PaymentService.cs for testability issues.
 
@@ -109,9 +117,11 @@ Identify:
 ---
 
 ### Week 3: Plan Mode (30 min - Skim Only)
+
 **Goal:** Understand the concept, don't deep dive.
 
 Just know:
+
 - Plan mode (`Shift+Tab`) makes Claude create a plan before acting
 - Useful when Claude needs to modify multiple files
 - You'll use it when generating test suites across a project
@@ -121,9 +131,11 @@ Just know:
 ---
 
 ### Week 4: Test-Driven Development (2.5 hours) ⭐⭐⭐
+
 **Goal:** This is YOUR week. Master AI-assisted test creation.
 
 **Everything Here is Relevant:**
+
 - [ ] Red-Green-Refactor cycle
 - [ ] Writing tests before implementation
 - [ ] Coverage analysis and improvement
@@ -132,6 +144,7 @@ Just know:
 **QA Power Moves:**
 
 **Generate Test Suite from Spec:**
+
 ```
 Here's a feature specification:
 [PASTE SPEC]
@@ -145,6 +158,7 @@ Include:
 ```
 
 **Coverage Gap Analysis:**
+
 ```
 Analyze coverage gaps between @Tests/PaymentServiceTests.cs
 and the implementation at @Services/PaymentService.cs
@@ -154,6 +168,7 @@ Focus on untested branches and edge cases.
 ```
 
 **Test Data Generation:**
+
 ```
 Generate test data for [ENTITY] that covers:
 - Valid examples (3 variations)
@@ -167,15 +182,18 @@ Format as C# test fixtures using AutoFixture patterns.
 ---
 
 ### Weeks 5-6: Commands, Skills, Agents, Hooks (1 hour - Light)
+
 **Goal:** Learn to USE these tools, not BUILD them.
 
 **What to Know:**
+
 - Commands exist at `.claude/commands/` - you can invoke them with `/command-name`
 - Skills exist at `.claude/skills/` - Claude may suggest them automatically
 - Agents exist at `.claude/agents/` - specialized personas for tasks
 - Hooks can run tests automatically after changes
 
 **QA-Useful Pattern:** Ask your dev team to create:
+
 - `/generate-tests` command for your project
 - `test-reviewer` agent that focuses on test quality
 - Post-change hook that runs tests automatically
@@ -183,19 +201,23 @@ Format as C# test fixtures using AutoFixture patterns.
 ---
 
 ### Week 7: Plugins (Skip)
+
 This is packaging for distribution. Developer-focused. Skip entirely.
 
 ---
 
 ### Week 8: Real-World Workflows (1.5 hours)
+
 **Goal:** Automate test generation and analysis with Claude CLI.
 
 Focus on:
+
 - [ ] Headless Claude automation with `-p` flag
 - [ ] Batch test generation scripts
 - [ ] Coverage analysis automation
 
 **QA-Relevant Pattern:**
+
 ```bash
 #!/bin/bash
 # batch-test-coverage.sh - Analyze and improve test coverage
@@ -216,17 +238,20 @@ done
 ---
 
 ### Week 9: Capstone (3-4 hours)
+
 **Goal:** Build something QA-focused.
 
 **QA Capstone Option: Test Automation Suite**
 
 Build a comprehensive test automation project:
+
 1. Test data generator using Claude
 2. API test suite for HOA endpoints
 3. Coverage report dashboard
 4. Automated test case generation from requirements
 
 **Deliverables:**
+
 - Working test suite with 80%+ coverage
 - Documentation of your Claude prompts
 - Batch automation script for test runs
@@ -237,6 +262,7 @@ Build a comprehensive test automation project:
 ## QA-Specific Prompt Library
 
 ### Test Case Generation
+
 ```
 Convert this user story to test cases:
 [STORY]
@@ -246,6 +272,7 @@ Format: Gherkin (Given/When/Then)
 ```
 
 ### Bug Reproduction Test
+
 ```
 Write a failing test that reproduces this bug:
 [BUG DESCRIPTION]
@@ -254,6 +281,7 @@ The test should fail now and pass when the bug is fixed.
 ```
 
 ### API Contract Testing
+
 ```
 Generate API contract tests for this endpoint:
 [ENDPOINT SPEC]
@@ -262,6 +290,7 @@ Test: request validation, response schema, error codes, edge cases.
 ```
 
 ### Test Refactoring
+
 ```
 Refactor @Tests/ViolationServiceTests.cs to reduce duplication.
 Extract common setup, use parameterized tests where appropriate.
@@ -272,7 +301,7 @@ Extract common setup, use parameterized tests where appropriate.
 ## Key Commands for QA
 
 | Command | What It Does |
-|---------|--------------|
+| ------- | ------------ |
 | `/model default` | Fast, capable test generation (default) |
 | `/model sonnet` | Standard test work |
 | `/model opus` | Advanced test work |
@@ -293,10 +322,13 @@ As a QA engineer, you can help developers write better code by:
 
 ## Resources
 
-- [Glossary](/resources/glossary.md) - Term definitions
-- [Decision Trees](/resources/decision-trees.md) - When to use what
-- [Week 4 README](/sessions/week-4/README.md) - Your main resource
+- [Glossary](./glossary.md) - Term definitions
+- [Decision Trees](./decision-trees.md) - When to use what
+- [Week 4 README](../sessions/week-4/README.md) - Your main resource
+- [Getting Help](./getting-help.md) - Support channels and how to get assistance
 
 ---
 
-*Questions? Hit up `#dx-training` on Slack. Ask for QA-specific examples!*
+**Need help?** See [Getting Help](getting-help.md) for support channels.
+
+*Questions? Hit up `#ai-exchange` on Slack. Ask for QA-specific examples!*

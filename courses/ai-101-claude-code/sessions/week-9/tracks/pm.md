@@ -51,7 +51,7 @@ This option lets you use Claude Code for what PMs do best--defining products and
 ## Skills You'll Use
 
 | Week | Skill Applied |
-|------|---------------|
+| ---- | ------------- |
 | Week 2 | Prompt engineering for requirements |
 | Week 3 | Plan Mode for structuring documents |
 | Week 5 | Custom PM skills (release-notes, user-stories, etc.) |
@@ -257,4 +257,4 @@ For each story, provide:
 
 ---
 
-**Questions?** Ask in `#dx-training` or during office hours.
+**Questions?** Ask in `#ai-exchange` or during office hours.

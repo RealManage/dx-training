@@ -25,7 +25,7 @@ By the end of this session, you will be able to:
 **Key CLI Flags for Test Automation:**
 
 | Flag | Description | QA Use Case |
-|------|-------------|-------------|
+| ---- | ----------- | ----------- |
 | `-p, --print` | Non-interactive mode | Batch test analysis |
 | `--output-format json` | Structured output | Parse results programmatically |
 | `--model sonnet` | Fast model | Quick test reviews |
@@ -217,7 +217,7 @@ Analyze the coverage report at $ARGUMENTS and identify:
 
 #### Critical Gaps (High Risk)
 | File | Coverage | Uncovered Methods |
-|------|----------|-------------------|
+| ---- | -------- | ----------------- |
 | [file] | [%] | [methods] |
 
 #### Suggested Tests

@@ -1,12 +1,13 @@
 # Week 5: Commands & Basic Skills
 
-**Duration:** 1.5 hours
+**Duration:** 2 hours
 **Format:** In-person or virtual
 **Audience:** RealManage cross-functional team (engineers, PMs, support staff)
 
 ## Learning Tracks
 
 This week has different tracks based on your role:
+
 - **[Developer Track](./tracks/developer.md)** - Full content (default)
 - **[QA Track](./tracks/qa.md)** - Consumer-focused: how to USE commands/skills
 - **[PM Track](./tracks/pm.md)** - Optional week for PMs
@@ -16,6 +17,7 @@ This week has different tracks based on your role:
 ## Learning Objectives
 
 By the end of this session, participants will be able to:
+
 - Create custom slash commands in `.claude/commands/`
 - Build basic skills in `.claude/skills/` with supporting files
 - Understand when to use commands vs skills
@@ -26,16 +28,11 @@ By the end of this session, participants will be able to:
 ## Pre-Session Checklist
 
 ### For Participants
+
 - [ ] Claude Code working smoothly from Weeks 1-4
 - [ ] Understanding of TDD from Week 4
 - [ ] Reviewed [Slash Commands Docs](https://code.claude.com/docs/en/slash-commands)
 - [ ] Ready for 1.5-hour session
-
-### For Instructors
-- [ ] Test all example projects build without warnings
-- [ ] Verify command and skill examples work correctly
-- [ ] Prepare backup exercises for permission issues
-- [ ] Monitor `#dx-training` Slack channel
 
 ---
 
@@ -46,6 +43,7 @@ Slash commands are reusable prompts you can invoke with `/command-name`. They're
 ### 1.1 What Are Slash Commands?
 
 **The Basics:**
+
 - Predefined prompts triggered by `/name`
 - Can accept arguments (e.g., `/violation-report 12345`)
 - Live in `.claude/commands/` directory
@@ -53,11 +51,12 @@ Slash commands are reusable prompts you can invoke with `/command-name`. They're
 **Built-in vs Custom Commands:**
 
 | Type | Examples | Source |
-|------|----------|--------|
+| ---- | -------- | ------ |
 | Built-in | `/help`, `/clear`, `/compact`, `/model` | Claude Code |
 | Custom | `/violation-report`, `/new-service` | Your `.claude/commands/` |
 
 **File Structure:**
+
 ```
 .claude/
   commands/
@@ -70,6 +69,9 @@ Slash commands are reusable prompts you can invoke with `/command-name`. They're
 ### 1.2 Creating Custom Commands
 
 **Command File Format (YAML Frontmatter):**
+
+> **Note:** YAML frontmatter is the metadata block between `---` delimiters at the top of a file. It uses simple `key: value` syntax. Don't worry about memorizing YAML - you can ask Claude to create these files for you! For details, see the [Claude Code Skill docs](https://code.claude.com/docs/en/skills).
+
 ```markdown
 ---
 description: Generate HOA violation report for a property
@@ -91,18 +93,19 @@ Format as markdown suitable for board review.
 **Frontmatter Fields:**
 
 | Field | Required | Description |
-|-------|----------|-------------|
+| ----- | -------- | ----------- |
 | `description` | Recommended | What the command does (shown in `/` menu) |
 | `argument-hint` | No | Hint for autocomplete (e.g., `<property_id>`) |
 
 **String Substitutions:**
 
 | Variable | Description | Example |
-|----------|-------------|---------|
+| -------- | ----------- | ------- |
 | `$ARGUMENTS` | All arguments as single string | `/cmd foo bar` -> `"foo bar"` |
 | `$1`, `$2`, `$3` | Individual arguments | `/cmd foo bar` -> `$1="foo"`, `$2="bar"` |
 
 **Using Commands:**
+
 ```bash
 # Single argument
 /violation-report 12345
@@ -117,6 +120,7 @@ Format as markdown suitable for board review.
 ### 1.3 RealManage Command Examples
 
 **Example 1: New Service with TDD**
+
 ```markdown
 ---
 description: Create new C# service with TDD approach
@@ -140,6 +144,7 @@ Steps:
 ```
 
 **Example 2: Late Fee Calculator**
+
 ```markdown
 ---
 description: Calculate late fees with compound interest
@@ -163,6 +168,7 @@ Output:
 ```
 
 **Example 3: Violation Escalation**
+
 ```markdown
 ---
 description: Process HOA violation with proper escalation
@@ -196,19 +202,21 @@ Skills are enhanced commands that can include supporting files. While commands a
 **What's the Difference?**
 
 | Feature | Commands | Skills |
-|---------|----------|--------|
+| ------- | -------- | ------ |
 | File location | `.claude/commands/<name>.md` | `.claude/skills/<name>/SKILL.md` |
 | Supporting files | No | Yes (templates, scripts, data) |
 | Complexity | Simple prompts | Workflows with resources |
 | Use case | Quick actions | Multi-step processes |
 
 **When to Use Which:**
+
 - **Commands** - Simple prompts, quick actions, no extra files needed
 - **Skills** - Need supporting files (templates, data, scripts)
 
 > **Need help deciding?** See the [Decision Trees](../../resources/decision-trees.md#2-command-vs-skill-vs-agent-vs-plugin) for a visual guide on when to use commands vs skills.
 
 **File Structure:**
+
 ```
 .claude/
   commands/
@@ -223,6 +231,7 @@ Skills are enhanced commands that can include supporting files. While commands a
 ### 2.2 Creating Skills
 
 **Skill File Format (YAML Frontmatter):**
+
 ```markdown
 ---
 name: violation-workflow
@@ -252,7 +261,7 @@ Process a $1 violation for property $2.
 **Key Frontmatter Fields:**
 
 | Field | Description |
-|-------|-------------|
+| ----- | ----------- |
 | `name` | Unique identifier for the skill |
 | `description` | What the skill does (shown in menu) |
 | `argument-hint` | Arguments hint for autocomplete |
@@ -262,6 +271,7 @@ Process a $1 violation for property $2.
 Skills can include supporting files alongside SKILL.md:
 
 **Example: Late Fee Report Skill**
+
 ```
 .claude/skills/late-fee-report/
   SKILL.md                    # Main skill definition
@@ -270,6 +280,7 @@ Skills can include supporting files alongside SKILL.md:
 ```
 
 **SKILL.md:**
+
 ```markdown
 ---
 name: late-fee-report
@@ -290,6 +301,7 @@ Include:
 ```
 
 **Supporting File: fee-schedule.txt**
+
 ```
 RealManage Late Fee Schedule
 ============================
@@ -307,6 +319,7 @@ Escalation:
 ### 2.4 RealManage Skill Examples
 
 **Example 1: Board Agenda Generator**
+
 ```markdown
 ---
 name: board-agenda
@@ -329,6 +342,7 @@ Include:
 ```
 
 **Example 2: Homeowner Communication Kit**
+
 ```markdown
 ---
 name: homeowner-comm
@@ -373,6 +387,7 @@ claude
 ### 3.2 Exercise 1: Create a Custom Command (10 min)
 
 Create `.claude/commands/board-summary.md`:
+
 ```markdown
 ---
 description: Generate board meeting summary for violations
@@ -393,6 +408,7 @@ Format as markdown table suitable for board packet.
 ```
 
 **Test it:**
+
 ```
 /board-summary 2026-01-15
 ```
@@ -400,11 +416,13 @@ Format as markdown table suitable for board packet.
 ### 3.3 Exercise 2: Create a Skill with Supporting Files (15 min)
 
 **Step 1:** Create the skill directory:
+
 ```bash
 mkdir -p .claude/skills/payment-reminder
 ```
 
 **Step 2:** Create `.claude/skills/payment-reminder/SKILL.md`:
+
 ```markdown
 ---
 name: payment-reminder
@@ -431,6 +449,7 @@ Include:
 ```
 
 **Step 3:** Create `.claude/skills/payment-reminder/reminder-templates.txt`:
+
 ```
 Payment Reminder Tone Guide
 ===========================
@@ -457,6 +476,7 @@ FINAL (90+ days):
 ```
 
 **Test it:**
+
 ```
 /payment-reminder 12345 45
 ```
@@ -481,6 +501,7 @@ Explore the example project's existing commands and skills:
 ## Key Takeaways
 
 ### Commands Quick Reference
+
 ```
 LOCATION: .claude/commands/<name>.md
 
@@ -495,6 +516,7 @@ INVOKE: /command-name args
 ```
 
 ### Skills Quick Reference
+
 ```
 LOCATION: .claude/skills/<name>/SKILL.md
 
@@ -516,7 +538,7 @@ INVOKE: /skill-name args
 ### Decision Guide: Command vs Skill?
 
 | Scenario | Use |
-|----------|-----|
+| -------- | --- |
 | Simple prompt with arguments | Command |
 | Need a template file | Skill |
 | Quick calculation or lookup | Command |
@@ -528,12 +550,14 @@ INVOKE: /skill-name args
 
 ## Homework (Before Week 6)
 
-### Required Tasks:
+### Required Tasks
+
 1. Create 2 custom commands for your daily workflow
 2. Build 1 skill with at least one supporting file
-3. Share your best command/skill in `#dx-training` Slack
+3. Share your best command/skill in `#ai-exchange` Slack
 
-### Stretch Goals:
+### Stretch Goals
+
 1. Create a skill with multiple supporting files
 2. Build a command that uses all three argument types ($ARGUMENTS, $1, $2)
 
@@ -542,12 +566,14 @@ INVOKE: /skill-name args
 ## Resources
 
 ### Official Documentation
+
 - [Slash Commands](https://code.claude.com/docs/en/slash-commands)
 - [Skills](https://code.claude.com/docs/en/skills)
 
 ### RealManage Resources
+
 - [Week 5 Examples](./examples/) - Violation Audit API project
-- Slack: `#dx-training`
+- Slack: `#ai-exchange`
 
 ---
 
@@ -556,56 +582,11 @@ INVOKE: /skill-name args
 **Week 6: Agents & Hooks**
 
 Building on commands and skills, Week 6 introduces:
+
 - Custom subagents (specialized AI assistants)
 - Lifecycle hooks (automated actions before/after tool use)
 - Audit logging patterns for SOC 2 compliance
 - Combining everything into complete workflows
-
----
-
-## Instructor Notes
-
-### Session Timing (1.5 hours)
-- Part 1: Slash Commands - 30 min
-- Part 2: Skills - 30 min
-- Part 3: Hands-On Exercises - 30 min
-- **Total: 1h 30min**
-
-### Key Points to Emphasize
-- **One concept at a time** - Commands are simple, skills add supporting files
-- **Start with commands** - Don't over-engineer; use skills only when needed
-- **Supporting files are key** - That's the main difference from commands
-- **Build progressively** - Master commands first, then skills, then Week 6's agents/hooks
-
-### Common Questions
-
-**"When should I use a skill instead of a command?"**
-- If you need a template file, data file, or script = Skill
-- If it's just a prompt with arguments = Command
-- When in doubt, start with a command and upgrade to a skill if needed
-
-**"Can I convert a command to a skill?"**
-- Yes! Move the .md file to `.claude/skills/<name>/SKILL.md`
-- Add a `name` field to frontmatter
-- Add any supporting files you need
-
-**"Where do skills go - user or project level?"**
-- Project level (`.claude/skills/`) for project-specific workflows
-- User level (`~/.claude/skills/`) for personal productivity skills
-
-### Troubleshooting
-
-**Commands not recognized:**
-- Check `.claude/commands/` directory exists
-- Verify `.md` extension
-- Restart Claude session
-- Check YAML frontmatter syntax
-
-**Skills not recognized:**
-- Check `.claude/skills/<name>/SKILL.md` path is correct
-- Verify SKILL.md filename (case sensitive)
-- Check YAML frontmatter has `name` and `description`
-- Supporting files must be in same directory as SKILL.md
 
 ---
 

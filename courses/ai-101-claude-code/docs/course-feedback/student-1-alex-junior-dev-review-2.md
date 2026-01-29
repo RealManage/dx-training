@@ -30,6 +30,7 @@ A comprehensive glossary has been added at `courses/ai-101-claude-code/resources
 **Assessment:** FIXED - Excellent!
 
 The new glossary is exactly what I needed. It covers:
+
 - AI & LLM Fundamentals (agentic engineering, context window, hallucination, tokens)
 - Claude Code Concepts (agents, commands, hooks, CLAUDE.md, memory files, plugins, skills)
 - Testing & TDD terminology (coverage, mocking, red-green-refactor)
@@ -40,6 +41,7 @@ The new glossary is exactly what I needed. It covers:
 This is **exactly** what I asked for. When I hit a new term, I can now look it up. The categorization is helpful, and the quick reference table at the bottom is great for rapid lookup.
 
 **Specific Praise:**
+
 - The "Agentic Engineering" definition finally explains what that term means
 - Coverage target is clearly stated as "80-90%" in the glossary (consistency!)
 - Code examples for records and top-level programs help visual learners
@@ -53,6 +55,7 @@ This is **exactly** what I asked for. When I hit a new term, I can now look it u
 
 **What Changed:**
 Looking at the updated files:
+
 - README.md now consistently says "80-90% coverage"
 - Glossary defines coverage target as "80-90%"
 - Week 0 mentions "80-90%" as the target
@@ -93,6 +96,7 @@ courses/ai-101-claude-code/
 **Assessment:** FIXED - Very helpful!
 
 The new section makes crystal clear:
+
 - `example/` folders are READ-ONLY references
 - All work goes in `exercises/` folder
 - Git ignores `exercises/` so work won't clutter repo history
@@ -113,6 +117,7 @@ A new minimal template has been added at `courses/ai-101-claude-code/exercises/c
 **Assessment:** FIXED - This is perfect for beginners!
 
 The minimal template is beautifully simple:
+
 - Project Overview (one sentence)
 - Tech Stack (just 4 bullet points)
 - Coding Standards (3 simple rules)
@@ -135,6 +140,7 @@ Week 0 has been added at `courses/ai-101-claude-code/sessions/week-0/README.md`
 **Assessment:** FIXED - Comprehensive!
 
 Week 0 covers everything I wished I had known:
+
 - Brief history of AI in software development
 - What LLMs are (high level explanation)
 - What "agentic" means in Claude Code
@@ -144,6 +150,7 @@ Week 0 covers everything I wished I had known:
 - Non-coding exercises for reflection
 
 I especially appreciate:
+
 - The table comparing traditional AI vs agentic AI
 - The realistic speedup expectations by task type (5-10x for boilerplate, 1-1.5x for novel algorithms)
 - The "Hallucination Awareness" exercise - this is critical safety education
@@ -160,7 +167,7 @@ The "10x Developer Myth vs Reality" section is refreshingly honest. Quote: "Expe
 The main README now has a "Choose Your Path" section with role-specific guides:
 
 | Your Role | Quick Start Guide | Focus Weeks | Skip |
-|-----------|-------------------|-------------|------|
+| --------- | ----------------- | ----------- | ---- |
 | Developer | Developer Track | All weeks | Week 0 (optional) |
 | QA Engineer | QA Track | 1, 2, 4, 8, 9 | 5, 6, 7 (skim) |
 | Product Manager | PM Track | 0, 1, 2, 3, 9 | 4-8 (concepts only) |
@@ -186,6 +193,7 @@ A new QUICKSTART.md was added at `courses/ai-101-claude-code/sessions/week-1/QUI
 **Assessment:** BONUS IMPROVEMENT
 
 For developers who just want to get started quickly:
+
 - 15-20 minute quick setup
 - Essential commands only
 - Clear troubleshooting table
@@ -204,6 +212,7 @@ This is great for people returning to the course who need a refresher, or experi
 
 **Current Status:**
 Based on the README and course structure, Weeks 5-6 are now 9 weeks total (previously 8), but the content density issue may still exist. I didn't review the Week 5-6 content in detail, but my original concerns about:
+
 - Commands vs Skills vs Agents confusion
 - Too much terminology too fast
 - Missing decision trees for "which component do I need?"
@@ -242,7 +251,7 @@ Verify the decision trees exist and cover the scenarios I mentioned.
 ## Summary of Improvements
 
 | Issue | Status | Impact |
-|-------|--------|--------|
+| ----- | ------ | ------ |
 | Missing glossary | FIXED | High - huge help for beginners |
 | Inconsistent coverage targets | MOSTLY FIXED | Medium - main docs consistent |
 | Unclear where to work | FIXED | High - no more confusion |
@@ -261,6 +270,7 @@ Verify the decision trees exist and cover the scenarios I mentioned.
 ### Overall Course Rating: 8.5/10 (up from 7.5/10)
 
 **Breakdown:**
+
 - Technical content: A (unchanged)
 - Practical application: A (unchanged)
 - Beginner accessibility: **B+ (up from C+)** - Glossary, Week 0, minimal template all help
@@ -272,6 +282,7 @@ Verify the decision trees exist and cover the scenarios I mentioned.
 **Yes, more confidently!**
 
 The course is now genuinely beginner-accessible. A developer with 2 years of experience (like me) can:
+
 1. Start with Week 0 for foundations
 2. Look up unfamiliar terms in the glossary
 3. Follow the Developer Track quick start guide

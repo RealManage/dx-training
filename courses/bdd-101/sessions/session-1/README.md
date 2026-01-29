@@ -47,7 +47,7 @@ By the end of this session, participants will be able to:
 #### 2.2 BDD vs. Other Approaches (10 minutes)
 
 | Approach | Focus | Language | Primary Benefit |
-|----------|-------|----------|-----------------|
+| -------- | ----- | -------- | --------------- |
 | **Unit Testing** | Code functions | Technical | Fast feedback on code correctness (Can be implemented with BDD) |
 | **TDD** | Test-first development | Technical | Better code design |
 | **BDD** | Business behavior | Natural language | Better communication & collaboration |

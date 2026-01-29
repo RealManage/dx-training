@@ -11,7 +11,7 @@ The PM track teaches you to use AI for product workflows: writing user stories, 
 **6-7 weeks typical**
 
 | Phase | Weeks | Focus |
-|-------|-------|-------|
+| ----- | ----- | ----- |
 | Foundations | 0-3 | Setup, prompting, AI basics |
 | PM-Specific | 4-6 | Stories, specs, requirements |
 | Capstone | 7 | Demonstrate AI-assisted product work |
@@ -108,7 +108,7 @@ After completing this track:
 Submit one of the following:
 
 | Option | Description |
-|--------|-------------|
+| ------ | ----------- |
 | Feature Spec | Complete specification for a real feature |
 | Story Set | 5+ user stories with acceptance criteria for an epic |
 | BDD Scenarios | Comprehensive scenarios for a user workflow |
@@ -129,7 +129,7 @@ Submit one of the following:
 ## Differences from Developer Track
 
 | Topic | Developer Track | PM Track |
-|-------|-----------------|----------|
+| ----- | --------------- | -------- |
 | Week 4 | TDD (writing code) | Writing testable requirements |
 | Week 5 | Commands & Skills (dev) | Commands & PM Skills |
 | Week 6-7 | Agents, Hooks, Plugins | Skip |
@@ -140,7 +140,7 @@ Submit one of the following:
 Week 7 course content includes the PM Toolkit with ready-to-use skills:
 
 | Skill | Purpose |
-|-------|---------|
+| ----- | ------- |
 | `/write-story` | Generate user stories from requirements |
 | `/write-epic` | Create epics with story breakdown |
 | `/write-bdd` | Generate BDD scenarios |
@@ -164,4 +164,4 @@ A: No. AI can draft stories and specs, but it can't talk to customers, understan
 
 ## Getting Help
 
-**Slack:** #ai-exchange | **Office Hours:** Monday-Friday | **DM:** Any trainer
+See [Getting Help](../../../resources/getting-help.md) for all support channels.

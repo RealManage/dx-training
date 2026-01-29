@@ -83,7 +83,7 @@ The goal is competence, not speed. Some people need more time than others, and t
 **It's not meant to.** Here's what we track and why:
 
 | What We Track | Why |
-|---------------|-----|
+| ------------- | --- |
 | Training completion | To know who might need extra support |
 | Artifacts created | To measure if AI reviews actually catch bugs |
 | Satisfaction surveys | To improve the program |

@@ -11,7 +11,7 @@ The QA track teaches you to use AI for testing workflows: generating test cases,
 **6-7 weeks typical**
 
 | Phase | Weeks | Focus |
-|-------|-------|-------|
+| ----- | ----- | ----- |
 | Foundations | 0-3 | Setup, prompting, AI basics |
 | QA-Specific | 4-6 | Test case generation, bug analysis, automation |
 | Capstone | 7 | Demonstrate AI-assisted testing |
@@ -112,7 +112,7 @@ After completing this track:
 Submit one of the following:
 
 | Option | Description |
-|--------|-------------|
+| ------ | ----------- |
 | Test Suite | Generate a comprehensive test suite for a feature |
 | Bug Analysis | Analyze 10+ bugs, identify patterns, suggest improvements |
 | Automation | Convert manual tests to automated scripts with AI assistance |
@@ -133,7 +133,7 @@ Submit one of the following:
 ## Differences from Developer Track
 
 | Topic | Developer Track | QA Track |
-|-------|-----------------|----------|
+| ----- | --------------- | -------- |
 | Week 4 | TDD (writing code) | Test case generation |
 | Week 5 | Commands & Skills | Bug analysis & triage |
 | Week 6 | Agents & Hooks | Test automation assistance |
@@ -155,4 +155,4 @@ A: No. AI can generate test cases, but it can't decide what's important to test.
 
 ## Getting Help
 
-**Slack:** #ai-exchange | **Office Hours:** Monday-Friday | **DM:** Any trainer
+See [Getting Help](../../../resources/getting-help.md) for all support channels.

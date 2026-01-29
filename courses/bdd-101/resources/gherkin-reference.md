@@ -394,7 +394,7 @@ public void i_should_be_redirected_to_the_dashboard() {
 ## Quick Reference
 
 | Keyword          | Purpose                     | Example |
-|---               |---                          |---|
+| ------- | ------- | ------- |
 | Feature          | High-level description      | Feature: User Login |
 | Scenario         | Specific test case          | Scenario: Successful login |
 | Given            | Initial context             | Given I am logged in |

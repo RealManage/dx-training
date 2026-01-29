@@ -58,6 +58,7 @@ option-f-support-knowledge-base/
 Cover these categories with 5+ questions each:
 
 **Account & Billing:**
+
 - How do I view my account balance?
 - When are dues payments due?
 - What happens if I pay late?
@@ -65,6 +66,7 @@ Cover these categories with 5+ questions each:
 - How do I request a payment plan?
 
 **Violations:**
+
 - What is a violation notice?
 - How do I respond to a violation?
 - What are the fine amounts?
@@ -72,6 +74,7 @@ Cover these categories with 5+ questions each:
 - What is the cure period?
 
 **Maintenance & Amenities:**
+
 - How do I submit a maintenance request?
 - What are the pool hours?
 - How do I reserve the clubhouse?
@@ -79,6 +82,7 @@ Cover these categories with 5+ questions each:
 - What maintenance is my responsibility?
 
 **General:**
+
 - When are board meetings?
 - How do I access HOA documents?
 - How do I update my contact information?
@@ -148,6 +152,7 @@ RealManage Support Team
 **Email Templates** - Written correspondence for various scenarios
 
 **Phone Scripts** - Structured guides for calls:
+
 ```markdown
 ## Phone Script: Violation Notice Call
 
@@ -205,11 +210,12 @@ graph TD
 ## Escalation Contacts
 
 | Issue Type | Escalation Contact | Response Time |
-|------------|-------------------|---------------|
-| Billing > $500 | billing-manager@realmanage.com | 4 hours |
-| Violation Appeal | compliance@realmanage.com | 24 hours |
+| ---------- | ------------------ | ------------- |
+| Billing > $500 | <billing-manager@realmanage.com> | 4 hours |
+| Violation Appeal | <compliance@realmanage.com> | 24 hours |
 | Emergency Maintenance | (555) 123-4567 | Immediate |
-| Legal Threat | legal@realmanage.com | 2 hours |
+| Legal Threat | <legal@realmanage.com> | 2 hours |
+
 ```
 
 ## Custom Skill: `/draft-response`

@@ -38,6 +38,7 @@ courses/ai-101-claude-code/sessions/week-1/
 ```
 
 **Create your workspace:**
+
 ```bash
 cd courses/ai-101-claude-code/sessions/week-1
 cp -r example sandbox
@@ -51,6 +52,7 @@ claude                    # Start a session
 ```
 
 **Try these commands:**
+
 ```
 /help       # See all commands
 /memory     # Edit CLAUDE.md
@@ -59,6 +61,7 @@ claude                    # Start a session
 ```
 
 **Ask Claude:**
+
 ```
 > What does this code do?
 > Find the bug in CalculateFine
@@ -80,7 +83,7 @@ echo "# My HOA Project" > CLAUDE.md
 ## Essential Commands Reference
 
 | Command | Purpose |
-|---------|---------|
+| ------- | ------- |
 | `claude` | Start session |
 | `claude -c` | Continue last session |
 | `claude -r` | Resume any past session |
@@ -94,7 +97,7 @@ echo "# My HOA Project" > CLAUDE.md
 ## Troubleshooting
 
 | Problem | Solution |
-|---------|----------|
+| ------- | -------- |
 | `command not found` | Restart terminal after install |
 | Permission denied | Don't use `sudo`; check `npm config get prefix` |
 | Auth fails | Disable VPN temporarily |
@@ -106,7 +109,7 @@ echo "# My HOA Project" > CLAUDE.md
 
 - Read full [README.md](./README.md) for detailed exercises
 - Create CLAUDE.md for your own projects
-- Join `#dx-training` on Slack
+- Join `#ai-exchange` on Slack
 
 ---
 

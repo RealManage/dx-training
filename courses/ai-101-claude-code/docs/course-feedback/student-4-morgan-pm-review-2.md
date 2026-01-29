@@ -30,7 +30,7 @@ The new role table at the top of the README is exactly what I needed:
 
 ```
 | Your Role | Quick Start Guide | Focus Weeks | Skip |
-|-----------|-------------------|-------------|------|
+| --------- | ----------------- | ----------- | ---- |
 | Product Manager | PM Track | 0, 1, 2, 3, 9 | 4-8 (concepts only) |
 ```
 
@@ -289,7 +289,7 @@ After this updated course, I can:
 ## Comparison: Before vs. After
 
 | Aspect | First Review | This Review |
-|--------|--------------|-------------|
+| ------ | ------------ | ----------- |
 | Role guidance | None | Clear table + dedicated guide |
 | PM track | Didn't exist | Complete path with skip guidance |
 | Capstone option | All coding | Option E is non-coding |

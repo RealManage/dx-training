@@ -37,6 +37,7 @@ Format as markdown with clear sections.
 ```
 
 ### How to Test
+
 ```bash
 cd sessions/week-5/examples/violation-audit-api
 claude
@@ -44,6 +45,7 @@ claude
 ```
 
 ### Success Criteria
+
 - [ ] Command invokes with `/violation-report`
 - [ ] Accepts property ID as argument
 - [ ] Produces structured markdown output
@@ -54,6 +56,7 @@ claude
 ## Exercise 2: Create a Late Fee Calculator Skill
 
 ### Expected Structure
+
 ```
 .claude/skills/late-fee-report/
 ├── SKILL.md
@@ -61,6 +64,7 @@ claude
 ```
 
 ### SKILL.md Content
+
 ```markdown
 ---
 name: late-fee-report
@@ -81,7 +85,7 @@ Calculate late fees for property $ARGUMENTS using the fee schedule below.
 
 ## Output Format
 | Field | Value |
-|-------|-------|
+| ----- | ----- |
 | Property ID | {id} |
 | Original Balance | ${amount} |
 | Days Overdue | {days} |
@@ -92,6 +96,7 @@ Calculate late fees for property $ARGUMENTS using the fee schedule below.
 ```
 
 ### fee-schedule.txt Content
+
 ```
 RealManage Late Fee Schedule
 Effective: January 2025
@@ -115,6 +120,7 @@ Fee = $500 × ((1.10)^2 - 1) = $500 × 0.21 = $105
 ```
 
 ### Success Criteria
+
 - [ ] Skill appears in Claude's auto-discovery
 - [ ] Supporting file loads correctly
 - [ ] Calculation matches HOA business rules
@@ -125,12 +131,14 @@ Fee = $500 × ((1.10)^2 - 1) = $500 × 0.21 = $105
 ## Exercise 3: Convert Command to Skill
 
 ### Before (Command)
+
 ```markdown
 # .claude/commands/code-review.md
 Review the code in $ARGUMENTS for issues.
 ```
 
 ### After (Skill with Supporting Files)
+
 ```
 .claude/skills/code-review/
 ├── SKILL.md
@@ -139,8 +147,9 @@ Review the code in $ARGUMENTS for issues.
 ```
 
 ### Key Differences Demonstrated
+
 | Aspect | Command | Skill |
-|--------|---------|-------|
+| ------ | ------- | ----- |
 | Auto-discovery | No | Yes |
 | Supporting files | No | Yes |
 | Reusable templates | No | Yes |
@@ -150,6 +159,7 @@ Review the code in $ARGUMENTS for issues.
 ## Common Mistakes to Avoid
 
 1. **Forgetting YAML frontmatter delimiters**
+
    ```markdown
    # Wrong - missing ---
    name: my-skill
@@ -161,6 +171,7 @@ Review the code in $ARGUMENTS for issues.
    ```
 
 2. **Wrong directory structure**
+
    ```
    # Wrong
    .claude/skills/my-skill.md
@@ -170,6 +181,7 @@ Review the code in $ARGUMENTS for issues.
    ```
 
 3. **Not using $ARGUMENTS for inputs**
+
    ```markdown
    # Wrong
    Generate report for {property}

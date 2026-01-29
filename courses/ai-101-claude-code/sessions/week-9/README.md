@@ -1,8 +1,10 @@
 # Week 9: Capstone Hackerspace & Future Roadmap
 
-**Duration:** 2 hours
+**Duration:** 2.5 hours
 **Format:** Team-based project with individual evaluation
 **Prerequisites:** Completed Weeks 1-8
+
+> **Pre-Session Requirement:** Project options should be assigned/selected BEFORE the session to maximize build time. Have students review options and submit their choice by the day before.
 
 ## Learning Objectives
 
@@ -441,7 +443,7 @@ Use the Task tool to explore the codebase for [pattern] while I work on [feature
 #### Time Checkpoints
 
 | Time | Milestone |
-|------|-----------|
+| ---- | --------- |
 | 0:00-0:10 | Setup and initial test structure |
 | 0:10-0:20 | Core domain models and first service |
 | 0:20-0:30 | Main business logic with TDD |
@@ -572,7 +574,7 @@ Each team presents for 3-4 minutes:
 Rate each presentation (1-5):
 
 | Criteria | Team A | Team B | Team C | Team D |
-|----------|--------|--------|--------|--------|
+| -------- | ------ | ------ | ------ | ------ |
 | Problem clarity |  |  |  |  |
 | Solution elegance |  |  |  |  |
 | Demo effectiveness |  |  |  |  |
@@ -595,7 +597,7 @@ Ask questions about:
 ### Grading Criteria (100 points total)
 
 | Category | Points | Criteria |
-|----------|--------|----------|
+| -------- | ------ | -------- |
 | **Functionality** | 25 | Core requirements working, edge cases handled |
 | **Code Quality** | 25 | Clean, idiomatic C#, SOLID principles |
 | **Test Coverage** | 20 | >= 80-90% for backend, >= 80% for full-stack |
@@ -607,7 +609,7 @@ Ask questions about:
 **For Non-Coding Tracks (E, F):**
 
 | Category | Points | Criteria |
-|----------|--------|----------|
+| -------- | ------ | -------- |
 | **Completeness** | 25 | All deliverables present and thorough |
 | **Quality** | 25 | Professional, clear, actionable content |
 | **Claude Usage** | 20 | Effective use of Claude Code features |
@@ -617,7 +619,7 @@ Ask questions about:
 ### Grade Scale
 
 | Score | Grade | Certification |
-|-------|-------|---------------|
+| ----- | ----- | ------------- |
 | 90-100 | A | Certified with Distinction |
 | 80-89 | B | Certified |
 | 70-79 | C | Certified (Conditional) |
@@ -711,7 +713,7 @@ For Non-Coding Tracks (E, F):
 Thursdays 2-3 PM CT
 
 # Share discoveries
-#dx-training channel
+#ai-exchange channel
 ```
 
 #### Contributing Back
@@ -735,9 +737,8 @@ Ways to contribute to the course:
 
 ### RealManage Resources
 
-- **Slack**: `#dx-training`, `#claude-hackerspace`
+- **Slack**: `#ai-exchange`, `#claude-hackerspace`
 - **Office Hours**: Thursdays 2-3 PM CT
-- **Email**: <dx-team@realmanage.com>
 - **Wiki**: Internal AI Guidelines (Confluence)
 
 ### Community Resources
@@ -791,33 +792,6 @@ CLAUDE.md                          # Project context
 
 ---
 
-## Instructor Notes
-
-### Facilitation Tips
-
-1. **Start on Time**: Capstone requires full 2 hours
-2. **Circulate**: Visit each team during implementation
-3. **Time Warnings**: 30 min, 15 min, 5 min before demos
-4. **Celebrate**: Every completion is an achievement
-
-### Common Issues
-
-| Issue | Resolution |
-|-------|------------|
-| Scope creep | Remind of MVP approach |
-| Test coverage low | Suggest testing utilities first |
-| Demo anxiety | Offer practice run |
-| Feature incomplete | Focus on working subset |
-
-### Assessment Notes
-
-- Be generous with partial credit
-- Value learning over perfection
-- Document feedback for improvement
-- Follow up with conditional passes
-
----
-
 ## Congratulations
 
 You've completed the **RealManage AI 101: Claude Code** course!
@@ -843,8 +817,7 @@ You're now equipped to:
 
 **Questions or Feedback?**
 
-- Slack: `#dx-training`
-- Email: <dx-team@realmanage.com>
+- Slack: `#ai-exchange`
 - GitLab: Submit issues to course repo
 
 *Thank you for being part of the RealManage AI journey!*

@@ -10,6 +10,7 @@
 **This week is optional for PMs.**
 
 Week 6 covers Agents and Hooks, which are technical implementation details primarily used by developers and QA engineers for:
+
 - Custom AI agents with specific tools and permissions
 - Automated hooks that run before/after Claude operations
 - Test automation and audit logging
@@ -21,7 +22,9 @@ Week 6 covers Agents and Hooks, which are technical implementation details prima
 Even though this content is optional, here's a quick summary of what your team will be learning:
 
 ### Agents
+
 Agents are specialized AI assistants that developers create for specific tasks:
+
 - **Code reviewer** - Automatically reviews code for quality issues
 - **Security auditor** - Scans code for vulnerabilities
 - **Test writer** - Generates unit tests
@@ -29,7 +32,9 @@ Agents are specialized AI assistants that developers create for specific tasks:
 **Why it matters:** Your dev team can create agents that enforce coding standards and catch issues earlier in the development process.
 
 ### Hooks
+
 Hooks are automated actions that run when Claude performs operations:
+
 - **Pre-operation hooks** - Run before Claude does something (can block dangerous actions)
 - **Post-operation hooks** - Run after Claude completes (can trigger tests, logging)
 
@@ -64,8 +69,8 @@ If you want to learn more despite the skip notice:
 
 - [Week 6 Full README](../README.md) - Complete technical content
 - [Developer Track](./developer.md) - Full developer content
-- [Glossary: Agent](/resources/glossary.md#agent-claude-code) - Term definition
-- [Glossary: Hook](/resources/glossary.md#hook) - Term definition
+- [Glossary: Agent](../../../resources/glossary.md#agent-claude-code) - Term definition
+- [Glossary: Hook](../../../resources/glossary.md#hook) - Term definition
 
 ---
 

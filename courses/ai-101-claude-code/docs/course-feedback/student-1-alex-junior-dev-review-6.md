@@ -14,7 +14,7 @@ This is my sixth and final review of the AI 101 Claude Code course. After five p
 **Rating Comparison:**
 
 | Review | Rating | Key Focus |
-|--------|--------|-----------|
+| ------ | ------ | --------- |
 | Review 1 | 7.5/10 | Initial evaluation, terminology overload in Weeks 5-6 |
 | Review 2 | 8.5/10 | Glossary and Week 0 added |
 | Review 3 | 8.8/10 | Weeks 5-6 restructure verified, decision trees added |
@@ -62,7 +62,7 @@ There are no gaps. Every skill builds on the previous week.
 The resources directory now contains everything I wished I had in Week 1:
 
 | Resource | Purpose | Quality |
-|----------|---------|---------|
+| -------- | ------- | ------- |
 | `glossary.md` | Term definitions | Comprehensive |
 | `decision-trees.md` | When to use what | Clear flowcharts |
 | `troubleshooting.md` | Common issues | Expanded with batch automation section |
@@ -103,7 +103,7 @@ This is exactly the kind of "hard-won wisdom" I wanted to see in the course.
 I systematically verified all issues from my previous reviews:
 
 | Issue | Status | Verified |
-|-------|--------|----------|
+| ----- | ------ | -------- |
 | Missing glossary | FIXED | `resources/glossary.md` comprehensive |
 | Inconsistent coverage targets | FIXED | Consistently 80-90% throughout |
 | Unclear where to work | FIXED | Clear sandbox workflow in Week 1 |
@@ -220,7 +220,7 @@ The course is ready for company-wide rollout. My only suggestions for future ite
 The AI 101 Claude Code course has achieved excellence. Every issue I raised across five previous reviews has been addressed:
 
 | Original Issue | Resolution |
-|----------------|------------|
+| -------------- | ---------- |
 | Missing glossary | Comprehensive glossary added |
 | Inconsistent coverage targets | Consistently 80-90% |
 | Week 0 foundations missing | Full Week 0 with AI basics |

@@ -19,7 +19,7 @@ Week 5 went from "Skip this week" to "This is your power week." PMs now have the
 ### Rating Progression
 
 | Review | Rating | Key Finding |
-|--------|--------|-------------|
+| ------ | ------ | ----------- |
 | Review #1 | 8/10 | Good content but too technical for PMs |
 | Review #2 | 4/5 stars | Dramatic improvement with PM track |
 | Review #3 | 4.5/5 stars | PM track excellent and practical |
@@ -35,12 +35,14 @@ Week 5 went from "Skip this week" to "This is your power week." PMs now have the
 ### What Changed
 
 **Before (Review #1-4):**
+
 - Week 5 PM track said: "This week is optional for PMs"
 - Provided a 5-minute conceptual summary
 - Suggested observing developers or skipping entirely
 - PMs were positioned as **consumers** of skills, not creators
 
 **After (Current):**
+
 - Week 5 PM track is now a **1.5-hour hands-on workshop**
 - PMs create four complete skills from scratch
 - No coding required - skills are just markdown files
@@ -50,7 +52,7 @@ Week 5 went from "Skip this week" to "This is your power week." PMs now have the
 ### The Four PM Skills
 
 | Skill | What It Does | Time to Create | Immediate Value |
-|-------|--------------|----------------|-----------------|
+| ----- | ------------ | -------------- | --------------- |
 | `/release-notes` | Git history to stakeholder summary | 15 min | High - I do this every release |
 | `/meeting-actions` | Meeting notes to Jira-ready tasks | 15 min | High - I do this after every meeting |
 | `/sprint-summary` | Sprint data to exec report | 10 min | High - I do this every two weeks |
@@ -61,6 +63,7 @@ Week 5 went from "Skip this week" to "This is your power week." PMs now have the
 #### `/release-notes` Skill
 
 **Structure:**
+
 ```markdown
 ---
 name: release-notes
@@ -70,6 +73,7 @@ argument-hint: [version] [start_date]
 ```
 
 **What I Like:**
+
 - Explicitly targets "stakeholder-friendly" output (not developer jargon)
 - Includes emoji categorization for visual scanning
 - Has a "What's Next" section for forward-looking context
@@ -77,6 +81,7 @@ argument-hint: [version] [start_date]
 
 **What I Tested:**
 I created this skill in my sandbox and ran it against our actual repo:
+
 ```bash
 /release-notes 2.5.0 2026-01-01
 ```
@@ -88,6 +93,7 @@ I created this skill in my sandbox and ran it against our actual repo:
 #### `/meeting-actions` Skill
 
 **What I Like:**
+
 - Jira-ready output format with assignee, due date, priority
 - Handles "TBD - needs assignment" for unassigned items
 - Suggests due dates when none mentioned (smart!)
@@ -95,6 +101,7 @@ I created this skill in my sandbox and ran it against our actual repo:
 
 **What I Tested:**
 Pasted actual meeting notes from a sprint planning session:
+
 ```bash
 /meeting-actions "Sprint Planning"
 ```
@@ -106,6 +113,7 @@ Pasted actual meeting notes from a sprint planning session:
 #### `/sprint-summary` Skill
 
 **What I Like:**
+
 - Executive-friendly output with health indicators
 - Trend arrows (up/down/sideways) for quick scanning
 - "Next Sprint Focus" recommendations based on learnings
@@ -116,12 +124,14 @@ Pasted actual meeting notes from a sprint planning session:
 #### `/user-stories` Skill
 
 **What I Like:**
+
 - Story map visualization in ASCII format
 - MVP vs Phase 2 recommendations with rationale
 - Dependency identification between stories
 - Flags stories over 8 points as too large
 
 **What I Tested:**
+
 ```bash
 /user-stories "Resident Self-Service Portal"
 ```
@@ -131,7 +141,7 @@ Pasted actual meeting notes from a sprint planning session:
 ### Workshop Structure Assessment
 
 | Aspect | Rating | Notes |
-|--------|--------|-------|
+| ------ | ------ | ----- |
 | Time estimate (1.5 hrs) | Accurate | I finished in about 1.5 hours including testing |
 | Difficulty level | Appropriate | No coding, just markdown files |
 | Practical value | Excellent | All four skills are things I actually do |
@@ -155,14 +165,16 @@ Pasted actual meeting notes from a sprint planning session:
 The `quick-start-pm.md` file has been significantly updated:
 
 **Before:**
+
 | Week | PM Priority |
-|------|-------------|
+| ---- | ----------- |
 | 5 | Skim |
 | 8 | Skim |
 
 **After:**
+
 | Week | PM Priority |
-|------|-------------|
+| ---- | ----------- |
 | 5 | Must Do |
 | 8 | Must Do |
 
@@ -173,6 +185,7 @@ This is a major shift! The PM track now includes two additional "Must Do" weeks,
 The mermaid diagram in quick-start-pm.md still shows Weeks 4-8 in a single "Skip (concepts only)" block. This is now **outdated** given that Weeks 5 and 8 are "Must Do."
 
 **Recommendation:** Update the diagram to show:
+
 - Weeks 4, 6, 7: Skip/Skim (gray)
 - Week 5: Must Do (green)
 - Week 8: Must Do (green)
@@ -219,7 +232,7 @@ claude -p "/sprint-summary 14" --no-session-persistence > sprint-14-summary.md
 The PM track now includes realistic time savings:
 
 | Task | Manual | Automated | Weekly Savings |
-|------|--------|-----------|----------------|
+| ---- | ------ | --------- | -------------- |
 | Status reports | 30 min | 5 min | 25 min |
 | Sprint summaries | 45 min | 10 min | 35 min |
 | Release notes | 60 min | 10 min | 50 min |
@@ -239,6 +252,7 @@ The PM capstone (Option E) now **requires** a custom PM skill:
 > **Required: Bring Your Week 5 Skills**
 >
 > Your capstone must include at least one custom PM skill from Week 5:
+>
 > - `/release-notes` - Generate stakeholder-friendly release notes
 > - `/meeting-actions` - Extract action items from meeting notes
 > - `/sprint-summary` - Create executive sprint summaries
@@ -272,7 +286,7 @@ The `/generate-user-stories` skill example in Week 9 even includes the full SKIL
 ## Issues from Review #4: Status Update
 
 | Issue from Review #4 | Status | Evidence |
-|----------------------|--------|----------|
+| -------------------- | ------ | -------- |
 | Week 9 skill creation needs more hand-holding | **FIXED** | Week 5 now teaches skill creation in detail |
 | "Quick Win" section in Week 8 PM track | **NOT ADDRESSED** | Still missing |
 | Include CLI output examples in PM track | **PARTIALLY FIXED** | Week 8 has output examples, Week 5 does not |
@@ -281,7 +295,7 @@ The `/generate-user-stories` skill example in Week 9 even includes the full SKIL
 ### New Issues Found
 
 | Issue | Severity | Description |
-|-------|----------|-------------|
+| ----- | -------- | ----------- |
 | Learning path diagram outdated | Medium | Shows Weeks 4-8 as skip, but 5 and 8 are now Must Do |
 | No skill troubleshooting guide | Low | What if a skill doesn't recognize? |
 | No skill sharing guidance | Low | How do PMs share skills with teammates? |
@@ -293,6 +307,7 @@ The `/generate-user-stories` skill example in Week 9 even includes the full SKIL
 ### Before Week 5 Rewrite (Reviews #1-4)
 
 PMs in this course:
+
 - Learned about AI capabilities
 - Understood prompting and planning
 - Observed developers using skills
@@ -304,6 +319,7 @@ PMs in this course:
 ### After Week 5 Rewrite (Review #5)
 
 PMs in this course:
+
 - Learn about AI capabilities
 - Master prompting and planning
 - **Create their own automation skills**
@@ -324,7 +340,7 @@ This is a fundamental shift from **understanding** to **doing**. PMs are no long
 ### Skills I Can Use Tomorrow
 
 | Skill | My Use Case | Frequency |
-|-------|-------------|-----------|
+| ----- | ----------- | --------- |
 | `/release-notes` | Board updates, customer comms | Every 2 weeks |
 | `/meeting-actions` | Sprint planning, stakeholder meetings | 3-4x/week |
 | `/sprint-summary` | Sprint reviews, exec updates | Every 2 weeks |
@@ -333,6 +349,7 @@ This is a fundamental shift from **understanding** to **doing**. PMs are no long
 ### Time Investment vs. Return
 
 **Investment:**
+
 - Week 5 PM Workshop: 1.5 hours
 - Week 8 PM Track: 45 minutes
 - Week 9 Capstone (additional for skills): 30 minutes
@@ -346,7 +363,7 @@ This is a fundamental shift from **understanding** to **doing**. PMs are no long
 ### Comparison to Previous Reviews
 
 | Review | PM Time Investment | PM Value Delivered |
-|--------|-------------------|-------------------|
+| ------ | ------------------ | ------------------ |
 | Review #1 | ~12 hours (full course) | Medium - understanding only |
 | Review #2 | ~8 hours (PM track) | Good - prompting skills |
 | Review #3 | ~8 hours | Good - clear path to capstone |
@@ -401,6 +418,7 @@ The additional 3 hours investment delivers significantly more value.
 ### Can a PM Complete the Updated Week 5?
 
 **Absolutely yes.** The workshop is:
+
 - Structured with clear time allocations (Part 1: 30 min, Part 2: 30 min, etc.)
 - Copy-paste ready with no coding required
 - Focused on PM tasks, not developer tasks
@@ -409,6 +427,7 @@ The additional 3 hours investment delivers significantly more value.
 ### Is the Week 5 Rewrite a Game-Changer?
 
 **Yes, significantly.** The shift from "observer" to "creator" fundamentally changes the PM value proposition. I went from:
+
 - "I understand skills exist" to "I can build skills"
 - "Automation is for developers" to "I automate my own work"
 - "The capstone is documentation" to "The capstone includes my skills"
@@ -416,6 +435,7 @@ The additional 3 hours investment delivers significantly more value.
 ### Does Week 8 Connect the Dots?
 
 **Yes.** The explicit connection between Week 5 skills and Week 8 headless automation creates a complete narrative:
+
 1. Create skills (Week 5)
 2. Use skills with CLI (Week 8)
 3. Demonstrate skills in capstone (Week 9)
@@ -429,11 +449,13 @@ The additional 3 hours investment delivers significantly more value.
 ## Overall Rating: 4.8/5 Stars (9.6/10)
 
 **What would make it 5 stars:**
+
 - Updated learning path diagram (currently misleading)
 - CLI output examples in Week 5 PM track
 - Skill troubleshooting guide
 
 **What's excellent:**
+
 - Week 5 PM Skill Workshop (transformative)
 - Four practical, immediately usable skills
 - Clear connection between Week 5, 8, and 9
@@ -444,7 +466,7 @@ The additional 3 hours investment delivers significantly more value.
 ### Rating Justification
 
 | Criteria | Score | Notes |
-|----------|-------|-------|
+| -------- | ----- | ----- |
 | Content quality | 10/10 | Week 5 workshop is exceptional |
 | Practical value | 10/10 | Four skills I'll use immediately |
 | Accessibility | 9/10 | Diagram needs update |

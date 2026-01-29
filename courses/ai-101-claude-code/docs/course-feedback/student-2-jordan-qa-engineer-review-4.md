@@ -15,7 +15,7 @@ This is my fourth review of the AI-101 Claude Code course. This review specifica
 ### Rating Comparison Across All Reviews
 
 | Review | Rating | Key Issue |
-|--------|--------|-----------|
+| ------ | ------ | --------- |
 | Review 1 (Initial) | 7.5/10 | Course assumed I write production code |
 | Review 2 (After restructure) | 8/10 (4/5 stars) | Week 4 exercises still developer-focused |
 | Review 3 (QA tracks added) | 9/10 | Minor polish needed, solid QA experience |
@@ -32,7 +32,7 @@ The Week 8 refactor from "CI/CD Integration" to "Headless Automation" is a signi
 ### What Changed
 
 | Old Week 8 (CI/CD Focus) | New Week 8 (Headless Automation) |
-|--------------------------|----------------------------------|
+| ------------------------ | -------------------------------- |
 | GitLab CI/CD pipeline configuration | Claude CLI flags for automation |
 | YAML pipeline syntax | Bash scripting with Claude |
 | CI/CD job definitions | Batch processing patterns |
@@ -117,7 +117,7 @@ The dedicated QA track at `sessions/week-8/tracks/qa.md` is well-structured:
 **Requirements Assessment:**
 
 | Requirement | Clarity | Achievable? |
-|-------------|---------|-------------|
+| ----------- | ------- | ----------- |
 | Comprehensive test suite for HOA workflows | Clear | Yes |
 | Test data generation with Bogus | Clear | Yes |
 | Coverage tracking with Coverlet | Clear | Yes |
@@ -160,7 +160,7 @@ The dedicated QA track at `sessions/week-8/tracks/qa.md` is well-structured:
 I searched for CI/CD and GitLab references across the course. Here's what I found:
 
 | File | Context | Issue? |
-|------|---------|--------|
+| ---- | ------- | ------ |
 | `week-5/tracks/developer.md` | Mentions CI/CD for hook examples | Appropriate - hooks can trigger CI |
 | `week-4/resources/coverage-guide.md` | CI/CD integration for coverage | Appropriate - coverage in CI is valid |
 | `week-1/README.md` | Brief mention of CI/CD benefits | Appropriate - context setting |
@@ -272,7 +272,7 @@ claude -p "Analyze the coverage report and identify gaps..." \
 ### Issues From Review 3
 
 | Issue | Review 3 Status | Review 4 Status |
-|-------|-----------------|-----------------|
+| ----- | --------------- | --------------- |
 | Week 7 QA track very brief | Minor | Still minor - Week 7 is Plugins, OK to skip |
 | Week 4 references wrong example folder | Minor | Not re-checked |
 | Glossary missing QA terms | Very Minor | Still missing - regression, smoke, test pyramid |

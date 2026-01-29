@@ -33,6 +33,7 @@ START: What are you asking Claude to do?
 ### Plan Mode Checklist
 
 Use plan mode if ANY of these are true:
+
 - [ ] Touching 3+ files
 - [ ] Adding a new feature (not just fixing)
 - [ ] You want to review the approach before Claude executes
@@ -42,7 +43,7 @@ Use plan mode if ANY of these are true:
 ### Plan Mode Commands
 
 | Command | What It Does |
-|---------|--------------|
+| ------- | ------------ |
 | `Shift+Tab` | Toggle plan mode on/off |
 | `/plan` | Enable plan mode or view current session plan |
 
@@ -78,7 +79,7 @@ START: What do you need?
 ### Feature Comparison
 
 | Feature | Command | Skill | Agent | Hook |
-|---------|---------|-------|-------|------|
+| ------- | ------- | ----- | ----- | ---- |
 | Manually invoked | Yes | Yes | Yes | No |
 | Auto-discovered by Claude | No | Yes | No | N/A |
 | Custom persona/instructions | No | No | Yes | No |
@@ -89,26 +90,31 @@ START: What do you need?
 ### When to Use What
 
 **COMMAND** - Best for:
+
 - Report generation (e.g., `/violation-report`)
 - Code scaffolding (e.g., `/new-service`)
 - Standardized prompts (e.g., `/code-review`)
 
 **SKILL** - Best for:
+
 - Tasks Claude should know about and suggest
 - Complex operations that need user confirmation
 - Anything you'd want Claude to offer proactively
 
 **AGENT** - Best for:
+
 - Specialized roles (code reviewer, security auditor)
 - Different thinking styles for different tasks
 - Personas with unique instructions/expertise
 
 **HOOK** - Best for:
+
 - Enforcement (run linter after every change)
 - Logging/auditing (track all AI interactions)
 - Validation (reject changes that break tests)
 
 **PLUGIN** - Best for:
+
 - Sharing your tools with teammates
 - Distributing to other projects
 - Publishing to the community
@@ -141,11 +147,13 @@ START: How complex is your request?
 ### Structure Levels
 
 **Level 0: No Structure**
+
 ```
 Add a CreatedDate property to the Violation entity
 ```
 
 **Level 1: Numbered List**
+
 ```
 Create a payment service that:
 1. Accepts credit card payments
@@ -155,6 +163,7 @@ Create a payment service that:
 ```
 
 **Level 2: XML Tags**
+
 ```xml
 <context>
 Working on the violation tracking module.
@@ -174,6 +183,7 @@ based on violation date.
 ```
 
 **Level 3: Full Structured Format**
+
 ```xml
 <system>
 You are implementing a late fee calculator for HOA payments.
@@ -205,7 +215,7 @@ Fee: $500 × (1.10)^2 - $500 = $105
 ### When to Use Structure
 
 | Situation | Recommended Structure |
-|-----------|----------------------|
+| --------- | --------------------- |
 | Quick question | None |
 | Simple code change | None or numbered list |
 | Feature with requirements | Numbered list or XML |
@@ -235,7 +245,7 @@ START: What's the task?
 ### Model Comparison
 
 | Factor | Sonnet | Opus |
-|--------|--------|------|
+| ------ | ------ | ---- |
 | Speed | Fast | Moderate |
 | Code quality | Great | Excellent |
 | Complex reasoning | Strong | Best |
@@ -245,6 +255,7 @@ START: What's the task?
 ### Model Selection Guide
 
 **Use SONNET (default) when:**
+
 - Writing features with tests
 - Bug investigation and fixing
 - Code review assistance
@@ -253,6 +264,7 @@ START: What's the task?
 - Most daily development tasks
 
 **Use OPUS when:**
+
 - Designing system architecture
 - Complex algorithmic problems
 - Novel or unusual requirements
@@ -305,6 +317,7 @@ START: Is the conversation going well?
 ### Signs of a Circular Conversation
 
 🚩 **Red Flags:**
+
 - "I apologize for the confusion" appears 3+ times
 - Same code pattern keeps appearing despite corrections
 - Claude agrees with your feedback but produces identical output
@@ -314,7 +327,7 @@ START: Is the conversation going well?
 ### Recovery Strategies
 
 | Situation | Strategy |
-|-----------|----------|
+| --------- | -------- |
 | Circular conversation | `/clear` and rephrase from scratch |
 | Wrong approach | Try a completely different angle |
 | Missing context | Add specific code/docs to prompt |
@@ -325,6 +338,7 @@ START: Is the conversation going well?
 ### The 3-Strike Rule
 
 After 3 failed attempts at the same task:
+
 1. **Stop** - Don't keep trying the same thing
 2. **Analyze** - What's Claude missing?
 3. **Reframe** - Try a fundamentally different approach
@@ -335,7 +349,7 @@ After 3 failed attempts at the same task:
 ## 6. Quick Decision Reference
 
 | I want to... | Use... |
-|--------------|--------|
+| ------------ | ------ |
 | Make Claude plan before acting | Plan Mode (`Shift+Tab`) |
 | Create a reusable prompt | Command |
 | Let Claude auto-suggest a task | Skill |
@@ -348,4 +362,4 @@ After 3 failed attempts at the same task:
 
 ---
 
-*Still unsure? Ask in `#dx-training` or start with the defaults and adjust based on results!*
+*Still unsure? Ask in `#ai-exchange` or start with the defaults and adjust based on results!*

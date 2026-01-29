@@ -7,6 +7,7 @@
 ## 🎯 Learning Objectives
 
 By the end of this session, participants will be able to:
+
 - ✅ Install and authenticate Claude Code CLI
 - ✅ Navigate the CLI with essential commands
 - ✅ Ask effective questions about HOA codebases
@@ -18,78 +19,89 @@ By the end of this session, participants will be able to:
 ## 📋 Pre-Session Checklist
 
 ### System Requirements
+
 - **OS:** Windows 10+, macOS 10.15+, or Ubuntu 20.04+
 - **RAM:** 4GB minimum
-- **.NET:** .NET 10 SDK required for C# development (supports top-level programs)
-- **Node.js:** Version 18+ required, 22 LTS recommended (via nvm)
-- **Shell:** Bash, Zsh, or Fish preferred
+- **.NET:** .NET 10 SDK required for C# exercises
+- **Shell:** Bash, Zsh, PowerShell, or Fish
 - **IDE:** VS Code with recommended extensions
 
-### Step 1: Choose Your Windows Environment
-Windows users must choose ONE option:
+### Step 1: Install Claude Code
 
-#### Option A: Git Bash (Recommended - Simplest)
-- Install [Git for Windows](https://git-scm.com/download/win)
-- Use Git Bash terminal for all commands
-- Works out of the box for most users
+Claude Code now uses native installers (npm method is deprecated).
 
-#### Option B: WSL (Most Linux-like)
-- Install WSL 1 or WSL 2 (both supported)
-- Full Linux environment
-- Best for Linux-familiar developers
+#### Windows (Native)
 
-#### Option C: PowerShell (Fallback only)
-- Native Windows terminal
-- May have compatibility issues
-- Use only if Git Bash and WSL unavailable
-
-### Step 2: Install Node Version Manager (nvm)
-
-#### Windows - nvm-windows
 ```powershell
-# Download nvm-windows from:
-# https://github.com/coreybutler/nvm-windows/releases
-# Run the installer (nvm-setup.exe)
+# In PowerShell (Run as Administrator recommended)
+winget install Anthropic.ClaudeCode
 
-# After installation, in NEW terminal:
-# NOTE: the `--` prefix is not needed on Windows
-nvm install lts
-nvm use lts
-node --version  # Should show v22.x.x
+# Or
+# irm https://claude.ai/install.ps1 | iex
+
+# Or From CMD terminal only
+curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd
+
+# Verify installation
+claude --version
 ```
 
-#### WSL/macOS/Linux - Official nvm
+#### Windows (WSL/Ubuntu)
+
 ```bash
-# Install nvm
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+# In WSL terminal
+curl -fsSL https://claude.ai/install.sh | bash -s latest
 
-# Reload shell configuration
-source ~/.bashrc  # or ~/.zshrc for Zsh
+# Add to PATH if needed
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
 
-# Install Node LTS (version 22)
-nvm install --lts
-nvm use --lts
-node --version  # Should show v22.x.x
+# Verify installation
+claude --version
 ```
 
-### Step 3: Install .NET 10 SDK (LTS)
+#### macOS
+
+```bash
+# Option A: Homebrew (recommended)
+brew install claude-code
+
+# Option B: Direct install
+curl -fsSL https://claude.ai/install.sh | bash -s latest
+
+# Verify installation
+claude --version
+```
+
+#### Linux
+
+```bash
+curl -fsSL https://claude.ai/install.sh | bash -s latest
+
+# Add to PATH if needed
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+
+# Verify installation
+claude --version
+```
+
+### Step 2: Install .NET 10 SDK (for C# exercises)
+
 ```bash
 # Verify .NET installation
 dotnet --version  # Should show 10.x.x
 
-# If not installed on Ubuntu/Debian:
-sudo apt-get update && sudo apt-get install -y dotnet-sdk-10.0
-
-# Or download from:
-# https://dotnet.microsoft.com/download/dotnet/10.0
-
-# For other Linux distros, see:
-# https://learn.microsoft.com/en-us/dotnet/core/install/linux
+# If not installed:
+# Windows: Download from https://dotnet.microsoft.com/download/dotnet/10.0
+# macOS: brew install dotnet-sdk
+# Ubuntu/Debian: sudo apt-get update && sudo apt-get install -y dotnet-sdk-10.0
 ```
 
-### Step 4: Install IDE Extensions
+### Step 3: Install IDE Extensions
 
 **For VS Code/Windsurf:**
+
 1. Open Command Palette (Ctrl+Shift+P / Cmd+Shift+P)
 2. Type "Extensions: Show Recommended Extensions"
 3. Install available extensions from `.vscode/extensions.json`
@@ -97,6 +109,7 @@ sudo apt-get update && sudo apt-get install -y dotnet-sdk-10.0
 
 **For Cursor/Other IDEs:**
 Install equivalent extensions:
+
 - Claude/AI integration extension
 - C# language support
 - GitLab integration
@@ -104,29 +117,20 @@ Install equivalent extensions:
 - .NET runtime support
 
 Key extensions needed:
+
 - **Claude Code/AI Assistant** - For AI integration
 - **C# Language Support** - For IntelliSense and debugging
 - **GitLab Workflow** - For merge requests and CI/CD
 - **Markdown Preview** - For viewing course materials
 - **.NET Runtime** - For running C# code
 
-### Step 5: Pre-Session Verification
+### Step 4: Pre-Session Verification
+
+- [ ] Claude Code installed (`claude --version`)
 - [ ] .NET 10 SDK installed (`dotnet --version`)
-- [ ] nvm installed and working (`nvm --version`)
-- [ ] Node.js 22 LTS installed via nvm (`node --version`)
-- [ ] npm 10+ available (`npm --version`)
 - [ ] VS Code with extensions installed
-- [ ] Terminal ready (Git Bash, WSL, or Terminal)
 - [ ] Anthropic account for authentication
 - [ ] Internet connection (no VPN initially)
-
-### For Instructors
-- [ ] Test installation on all platforms
-- [ ] Have nvm troubleshooting guide ready
-- [ ] Prepare sample HOA codebase repository
-- [ ] Test all demo commands
-- [ ] Have `claude doctor` output examples
-- [ ] Slack channel `#dx-training` monitored
 
 ## 📂 WHERE to Work
 
@@ -174,6 +178,7 @@ claude
 ### Part 1: Installation & Authentication (20 min)
 
 #### 1.1 Welcome & Context (5 min)
+
 ```markdown
 "Today we're learning Claude Code - An Agentic CLI tool that can act as an AI pair programmer,
 a tech writer, a QA analyst, code reviewer, and much more. Unlike Copilot, Claude Code can read
@@ -181,73 +186,80 @@ entire codebases, write tests, and even fix its own bugs. By the end of today, y
 Claude Code to navigate our C# APIs and Angular components."
 ```
 
+> **Key Mindset:** Don't know something? Ask Claude. Whether it's writing user stories, understanding code, drafting documentation, analyzing test scenarios, or learning a new tool - Claude is your knowledge partner. You don't need to be an expert in everything; you need to know how to ask good questions. This course teaches you how to work *with* an AI to amplify what you already do well.
+
 #### 1.2 Installation (10 min)
 
 **Prerequisites Check:**
+
 ```bash
-# Verify nvm is working
-nvm --version
-
-# Verify Node.js 22 is active
-node --version  # Should be 22.x.x
-
-# Verify npm 10+
-npm --version   # Should be 10.x.x or higher
+# Verify .NET is installed (for C# exercises)
+dotnet --version  # Should be 10.x.x
 ```
 
-**For Windows Users (Git Bash):**
-```bash
-# Open Git Bash (not PowerShell or CMD)
-npm install -g @anthropic-ai/claude-code
+**For Windows Users (Native):**
 
-# Verify installation
-claude --version
-```
-
-**⚠️ Note on Portable Git:** If using a portable Git installation (not the standard installer), you may need to set this in PowerShell BEFORE opening Git Bash:
 ```powershell
-# Only for PORTABLE Git - skip if you used the standard installer
-$env:CLAUDE_CODE_GIT_BASH_PATH="C:\PortableGit\bin\bash.exe"
-```
-
-**For Windows Users (WSL):**
-```bash
-# In WSL terminal (Ubuntu/Debian)
-npm install -g @anthropic-ai/claude-code
+# In PowerShell
+winget install Anthropic.ClaudeCode
 
 # Verify installation
 claude --version
 ```
 
-**For Mac/Linux Users:**
+**For Windows Users (WSL/Ubuntu):**
+
 ```bash
-# In terminal
-npm install -g @anthropic-ai/claude-code
+# In WSL terminal
+curl -fsSL https://claude.ai/install.sh | bash -s latest
 
 # Verify installation
 claude --version
 ```
 
-⚠️ **Important:** 
-- Do NOT use `sudo npm install -g` - causes permission issues
-- If permission denied, check npm prefix: `npm config get prefix`
-- Should be in your home directory, not system directories
+**For Mac Users:**
+
+```bash
+# Homebrew (recommended)
+brew install claude-code
+
+# Verify installation
+claude --version
+```
+
+**For Linux Users:**
+
+```bash
+curl -fsSL https://claude.ai/install.sh | bash -s latest
+
+# Verify installation
+claude --version
+```
+
+**If `claude` command not found after install:**
+
+```bash
+# Add to PATH
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+```
 
 #### 1.3 Verification & Authentication (5 min)
 
 **Verify Installation:**
+
 ```bash
 # Run the diagnostic tool
 claude doctor
 
 # Should show all green checks for:
-# - Node.js version
-# - npm installation
-# - Claude Code CLI
+# - Claude Code CLI version
+# - Authentication status
 # - Network connectivity
 ```
 
 **Authenticate:**
+
 ```bash
 # Start Claude - will open browser for OAuth
 claude
@@ -260,26 +272,27 @@ claude
 
 **Troubleshooting Common Issues:**
 
-**nvm Issues:**
-- `nvm: command not found` (Windows): Close and reopen terminal after nvm-windows install
-- `nvm: command not found` (Mac/Linux): Run `source ~/.bashrc` or restart terminal
-- `nvm use` fails: May need to run terminal as Administrator (Windows only)
+**Claude not found after install:**
 
-**npm/Claude Issues:**
-- `claude: command not found`: Check PATH includes npm global bin
-  - Windows Git Bash: `echo $PATH` should include `/c/Users/YOUR_NAME/AppData/Roaming/npm`
-  - Mac/Linux: Should include `~/.npm-global/bin` or similar
-- Permission denied: Never use sudo; check `npm config get prefix`
-- Auth fails: Temporarily disable VPN/firewall for initial setup
+- Windows: Restart your terminal/PowerShell
+- macOS/Linux: Run `source ~/.bashrc` or restart terminal
+- Check PATH includes `~/.local/bin` or Claude install location
 
-**Git Bash Specific:**
-- Use Git Bash, not git-bash.exe directly
-- If commands hang, try winpty: `winpty claude`
-- Portable Git users only: Set `$env:CLAUDE_CODE_GIT_BASH_PATH` in PowerShell first
+**Authentication Issues:**
+
+- Temporarily disable VPN/firewall for initial setup
+- Try `claude logout` then `claude` to re-authenticate
+- Check your Anthropic account is active
+
+**WSL Specific:**
+
+- Ensure you're running commands inside WSL, not Windows
+- If PATH issues persist, add to `~/.bashrc`: `export PATH="$HOME/.local/bin:$PATH"`
 
 ### Part 2: Tour of the CLI (20 min)
 
 #### 2.1 Starting a Session (5 min)
+
 ```bash
 # Navigate to week 1 directory
 cd courses/ai-101-claude-code/sessions/week-1
@@ -293,6 +306,7 @@ claude
 #### 2.2 Essential Slash Commands (10 min)
 
 **Live Demo - Type these with the class:**
+
 ```bash
 # In Claude session
 /help              # Show all available commands
@@ -307,6 +321,7 @@ claude
 ```
 
 **Additional Useful Commands:**
+
 ```bash
 /compact           # Compress conversation to save tokens
 /add-dir           # Add more directories to context
@@ -314,11 +329,26 @@ claude
 /status            # View account and system status
 ```
 
+**Customize Your Learning Experience:**
+
+```bash
+/output-style      # Change how Claude communicates with you
+```
+
+| Style | Use When |
+| ----- | -------- |
+| **Default** | You need to get work done efficiently |
+| **Explanatory** | You want to understand *why* Claude made certain choices |
+| **Learning** | You want hands-on practice - Claude will ask YOU to write code |
+
+> **Tip:** New to Claude or coding? Try **Learning** mode for the first few weeks to build muscle memory. You can switch styles anytime.
+
 **Reference:** [Complete Slash Commands](https://docs.anthropic.com/en/docs/claude-code/slash-commands)
 
 #### 2.3 Powerful CLI Arguments (5 min)
 
 **Essential Arguments for Daily Use:**
+
 ```bash
 # Full CLI arguments list
 claude --help
@@ -344,6 +374,7 @@ claude --debug
 ```
 
 **Permission Control:**
+
 ```bash
 # Bypass all permission checks (sandboxes only!)
 claude --dangerously-skip-permissions
@@ -359,6 +390,7 @@ claude --disallowedTools "Bash(git:*)"
 ```
 
 **MCP Server Management:**
+
 ```bash
 # Configure MCP servers
 claude mcp
@@ -371,6 +403,7 @@ claude update
 ```
 
 **Pro Tips:**
+
 - Use `-c` to quickly continue working
 - Use `-r` to find old conversations
 - Use `--add-dir` for multi-project work
@@ -379,6 +412,7 @@ claude update
 ### Part 3: First Contact (30 min)
 
 #### 3.1 Set Up Your Sandbox (5 min)
+
 ```bash
 # Copy example to create your personal sandbox
 cd courses/ai-101-claude-code/sessions/week-1
@@ -404,6 +438,7 @@ claude
 #### 3.2 Codebase Q&A Practice (15 min)
 
 **Exercise - Ask these questions in Claude:**
+
 ```
 > What does this example application do?
 
@@ -417,6 +452,7 @@ claude
 ```
 
 **What to Notice:**
+
 - Claude reads all files in your workspace automatically
 - Identifies bugs and TODOs
 - Explains modern C# features
@@ -426,6 +462,7 @@ claude
 #### 3.3 Code Generation Demo (10 min)
 
 **Live coding with the class - Fix and Extend the Example:**
+
 ```
 > Find and fix the bug in CalculateFine then write a xUnit unit test to cover all cases
 
@@ -439,6 +476,7 @@ claude
 ```
 
 **Watch Claude:**
+
 - Fix the compounding calculation
 - Implement missing features
 - Add modern async patterns
@@ -459,6 +497,7 @@ Session Context               # Current conversation
 ```
 
 **Key Points:**
+
 - More specific memory overrides general
 - Project memory persists across sessions
 - User memory applies to all projects
@@ -467,6 +506,7 @@ Session Context               # Current conversation
 #### 4.2 Creating Project Memory (15 min)
 
 **Method 1 - Quick Edit:**
+
 ```bash
 # In Claude session, type just a hashtag:
 #
@@ -475,6 +515,7 @@ Session Context               # Current conversation
 ```
 
 **Method 2 - Command:**
+
 ```bash
 /memory
 
@@ -482,6 +523,7 @@ Session Context               # Current conversation
 ```
 
 **Method 3 - Direct Creation:**
+
 ```bash
 # Outside Claude, create in project root:
 echo "# Project Context" > CLAUDE.md
@@ -490,6 +532,7 @@ echo "# Project Context" > CLAUDE.md
 #### 4.3 RealManage CLAUDE.md Template (15 min)
 
 **Create together as a class:**
+
 ```markdown
 # RealManage HOA Management System
 
@@ -556,6 +599,7 @@ echo "# Project Context" > CLAUDE.md
 ```
 
 **Test it works:**
+
 ```
 > What's our testing coverage requirement?
 # Should respond: 80-90% based on CLAUDE.md
@@ -569,6 +613,7 @@ echo "# Project Context" > CLAUDE.md
 #### 5.1 Group Discussion (5 min)
 
 **Questions for the group:**
+
 - What surprised you about Claude Code?
 - Which feature would help most with your current work?
 - Any concerns about using AI for production code?
@@ -577,24 +622,28 @@ echo "# Project Context" > CLAUDE.md
 #### 5.2 Quick Wins by Role (5 min)
 
 **Support Team:**
+
 ```
 > Summarize all error messages from the last 24 hours
 > Draft a response to this homeowner complaint
 ```
 
 **Product Managers:**
+
 ```
 > Generate release notes from the last 10 commits
 > Create user stories from this feature request
 ```
 
 **Engineers:**
+
 ```
 > Write unit tests for the PaymentService class
 > Find all TODO comments in the codebase
 ```
 
 **QA/Testing:**
+
 ```
 > Generate test cases for the violation workflow
 > Find all hardcoded values that should be configurable
@@ -603,16 +652,19 @@ echo "# Project Context" > CLAUDE.md
 ## 🎯 Key Takeaways
 
 ### The Three Rules of Claude Code
+
 1. **Context is King** - CLAUDE.md makes Claude smarter
 2. **Be Specific** - Vague prompts = vague code
 3. **Trust but Verify** - Always review generated code
 
 ### Context Management
+
 - Use `/compact` to compress long conversations; supply optional instructions if you want to keep something specific
 - Use `/clear` to start with a fresh conversation
 - Check `/usage` to see your plan limits
 
 ### Best Practices
+
 - Start sessions in project root
 - Create project-specific CLAUDE.md files
 - Use TDD approach (tests first!)
@@ -620,20 +672,24 @@ echo "# Project Context" > CLAUDE.md
 
 ## 📝 Homework (Before Week 2)
 
-### Required Tasks:
+### Required Tasks
+
 1. ✅ Install Claude Code on your primary development machine
 2. ✅ Run `claude doctor` and resolve any issues
 3. ✅ Create a CLAUDE.md for one of your projects
 4. ✅ Ask Claude 5 questions about your codebase
-5. ✅ Share one "aha moment" in `#dx-training` Slack channel
+5. ✅ Share one "aha moment" in `#ai-exchange` Slack channel
 
-### Stretch Goals:
+### Stretch Goals
+
 1. 🎯 Generate a complete CRUD service with tests
 2. 🎯 Use Claude to review one of your recent PRs
 3. 🎯 Create a custom slash command for your workflow
 
-### Skill Check:
+### Skill Check
+
 Try this in your sandbox without help:
+
 ```
 > Add a new ViolationAppeal class with these rules:
   - Appeals must be within 30 days of violation
@@ -646,6 +702,7 @@ Try this in your sandbox without help:
 ## 🔗 Resources
 
 ### Official Documentation
+
 - [Setup Guide](https://docs.anthropic.com/en/docs/claude-code/setup)
 - [System Requirements](https://docs.anthropic.com/en/docs/claude-code/setup#system-requirements)
 - [CLI Reference](https://docs.anthropic.com/en/docs/claude-code/cli-reference)
@@ -653,26 +710,30 @@ Try this in your sandbox without help:
 - [Troubleshooting](https://docs.anthropic.com/en/docs/claude-code/troubleshooting)
 
 ### RealManage Resources
+
 - [Week 1 Example CLI App](./example/) - Reference implementation
 - [C# Coding Standards](https://wiki.realmanage.com/coding-standards)
 - [Architecture Guidelines](https://wiki.realmanage.com/architecture)
-- Slack: `#dx-training` for help
+- Slack: `#ai-exchange` for help
 
 ### Quick References
+
 - [Slash Commands Cheatsheet](../../resources/cli-commands.md)
 - [CLAUDE.md Template](../../resources/claude-md-template.md)
 - [Common Prompts](../../resources/prompts/getting-started.md)
 
 ## 📊 Success Metrics
 
-### You're ready for Week 2 when you can:
+### You're ready for Week 2 when you can
+
 - [ ] Start Claude Code in any project directory
 - [ ] Use basic slash commands without looking them up
 - [ ] Write a CLAUDE.md that provides context
 - [ ] Generate working C# code with tests
 - [ ] Manage context efficiently with /clear and /compact
 
-### Red Flags (seek help if):
+### Red Flags (seek help if)
+
 - [ ] Claude Code won't start after installation
 - [ ] Authentication keeps failing
 - [ ] Generated code has obvious errors
@@ -681,49 +742,13 @@ Try this in your sandbox without help:
 ## 🚀 Next Week Preview
 
 **Week 2: Prompting Foundations**
+
 - Craft prompts that generate production-ready code
 - Use XML tags for structured inputs
 - Build a RealManage prompt library
 - Master few-shot prompting for consistency
 
 **Pre-work:** Think of 3 repetitive coding tasks you do weekly
-
----
-
-## Instructor Notes
-
-### Common Installation Issues & Solutions
-
-**Windows Git Bash:**
-- Issue: "command not found" → Solution: Restart Git Bash after npm install
-- Issue: Path errors → Solution: Set `CLAUDE_CODE_GIT_BASH_PATH` environment variable
-
-**macOS:**
-- Issue: Permission denied → Solution: Check npm prefix with `npm config get prefix`
-- Issue: Node too old → Solution: Use nvm to manage versions
-
-**All Platforms:**
-- Issue: Behind proxy → See [Corporate Proxy Guide](https://docs.anthropic.com/en/docs/claude-code/corporate-proxy)
-- Issue: VPN blocking → Whitelist *.anthropic.com
-
-### Time Management Tips
-- Installation: 20 min (have helpers for Windows users)
-- Memory section: Critical - full 40 min needed
-- If running late: Skip code generation demo
-- Always leave 10 min for Q&A
-
-### Engagement Strategies
-- Let participants drive queries
-- Share a "failed" prompt and fix it together
-- Celebrate first successful code generation
-- Use real RealManage code examples
-
-### Assessment
-Quick poll at end:
-1. Confidence level (1-5) with Claude Code
-2. Most useful feature learned
-3. Biggest concern/question
-4. Will you use it this week? Y/N
 
 ---
 

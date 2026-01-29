@@ -5,7 +5,7 @@
 ### Program Overview
 
 | Document | Purpose |
-|----------|---------|
+| -------- | ------- |
 | [AI Skills Rollout Plan](plans/ai-acceleration-rollout.md) | Main initiative overview, goals, timeline |
 | [Training Schedule](plans/training-schedule.md) | Session format, groups, expectations |
 | [Communication Plan](plans/communication-plan.md) | Announcements, templates, messaging |
@@ -14,7 +14,7 @@
 ### Certification
 
 | Document | Purpose |
-|----------|---------|
+| -------- | ------- |
 | [Certification Overview](certification/README.md) | Requirements, submission process, FAQ |
 | [Developer Track](certification/tracks/developer-track.md) | 9-week developer curriculum |
 | [QA Track](certification/tracks/qa-track.md) | QA-specific requirements |
@@ -23,14 +23,14 @@
 ### Standards & Resources
 
 | Document | Purpose |
-|----------|---------|
+| -------- | ------- |
 | [Code Review Standard](standards/ai-code-review-standard.md) | Artifact templates, when to use them |
 | [Skeptics FAQ](faq/skeptics-faq.md) | Honest answers to common concerns |
 
 ### Internal
 
 | Document | Purpose |
-|----------|---------|
+| -------- | ------- |
 | [Student Agent Testing](testing/student-agent-testing-plan.md) | Testing plan for student personas |
 | [Course Feedback](course-feedback/) | Student persona reviews |
 

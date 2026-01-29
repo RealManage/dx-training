@@ -26,7 +26,7 @@ The refactor was executed well. Headless automation via CLI is more practical fo
 The commit `9a86135` shows a clean transition:
 
 | Before (CI/CD Focus) | After (Headless Automation) |
-|----------------------|----------------------------|
+| -------------------- | --------------------------- |
 | GitLab CI/CD YAML pipelines | Bash scripts with `claude -p` |
 | MR review automation | Batch code review scripts |
 | Pipeline triggers | Local CLI invocation |
@@ -243,7 +243,7 @@ claude -p "Briefly describe this project based on the CLAUDE.md file" \
 ### Issues Previously Raised
 
 | Issue | Review 1 | Review 2 | Review 3 | Current Status |
-|-------|----------|----------|----------|----------------|
+| ----- | -------- | -------- | -------- | -------------- |
 | Missing answer keys | Raised | Resolved | Resolved | Resolved |
 | Missing decision trees | Raised | Resolved | Resolved | Resolved |
 | Filler content for seniors | Raised | Partial | Partial | Partial |
@@ -361,7 +361,7 @@ The content is now more accessible while still being useful for production scena
 ## Session Log
 
 | Week | Activity | Commands Run | Notes |
-|------|----------|--------------|-------|
+| ---- | -------- | ------------ | ----- |
 | 8 | Build test | `dotnet build` | Clean, 0 warnings |
 | 8 | CLI test | `claude -p "..." --model sonnet --no-session-persistence` | Works correctly |
 | 8 | Flag verification | `claude --help` | All documented flags accurate |

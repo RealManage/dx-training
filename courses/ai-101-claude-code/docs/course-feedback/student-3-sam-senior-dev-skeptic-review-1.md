@@ -1,4 +1,5 @@
 # Claude Code Course Evaluation - Sam's Honest Assessment
+
 **Student Profile:** Senior Developer (8 years experience), Skeptical of AI tools
 **Date:** January 2026
 
@@ -23,6 +24,7 @@ Would I use Claude Code in my daily work? Yes, with caveats. Here's why.
 **What I thought:** "Great, another tool to learn. How is this different from ChatGPT in a terminal?"
 
 **Reality check:**
+
 - Installation was smoother than expected (Git Bash on Windows, no issues)
 - The CLAUDE.md concept is actually smart - it reads your project context automatically
 - Asking questions about an unfamiliar codebase is legitimately useful
@@ -35,6 +37,7 @@ The CLAUDE.md memory system. You write down your tech stack, coding standards, a
 The example has top-level programs in C# which mix app code and tests in one file. While this shows modern C# features, it's not how real codebases work. Would've preferred a cleaner separation.
 
 **Technical accuracy: 8/10**
+
 - Good coverage of modern .NET 10
 - Accurate CLI commands
 - Real HOA domain examples (not todo apps)
@@ -54,6 +57,7 @@ Yes, especially for onboarding to unfamiliar codebases. I spent 2 hours asking C
 I was pleasantly surprised. The course explicitly says **"Most prompts work fine with natural language"** and pushes back on over-structuring. They showed real examples of conversational prompts that work better than formatted ones.
 
 **What impressed me:**
+
 - The honesty: "I've been using Claude for months and never used XML"
 - Focus on CLARITY over formatting
 - The Prompt Lab tool for scoring your prompts (actual feedback loop)
@@ -63,6 +67,7 @@ I was pleasantly surprised. The course explicitly says **"Most prompts work fine
 Being specific about tech stack, patterns, and test requirements gets you better results. Instead of "create a service," say "create a C# service using repository pattern with xUnit tests achieving 95% coverage."
 
 **Technical accuracy: 9/10**
+
 - Realistic RealManage scenarios
 - Good examples of vague vs. specific prompts
 - Emphasis on idiomatic C#
@@ -82,6 +87,7 @@ This week actually changed how I prompt. I went from treating AI like a search e
 Plan mode is NOT about creating giant upfront designs. It's about thinking through multi-step tasks BEFORE executing. For code reviews with 8+ comments, this is gold.
 
 **What impressed me:**
+
 - The `/model opus` pattern for deep code reviews, then switch back to Sonnet for implementation
 - Plan mode lets you ITERATE on the approach before changing code
 - The CodeReviewPro exercise had 28+ intentional bugs - realistic complexity
@@ -94,6 +100,7 @@ I used plan mode on a real code review with 12 comments. Instead of fixing them 
 The BugHunter exercise felt contrived. Real bugs aren't that obvious.
 
 **Technical accuracy: 8/10**
+
 - Good coverage of model selection
 - Realistic code review scenarios
 - The Esc and Shift+Tab controls are genuinely useful
@@ -113,6 +120,7 @@ Plan mode is the killer feature I didn't know I needed. It's not for planning ev
 This was the make-or-break week for me. If Claude can't do TDD properly, it's just a fancy autocomplete.
 
 **What impressed me:**
+
 - The course is dogmatic about tests FIRST (as it should be)
 - Clear explanation of why TDD prevents AI hallucinations
 - FluentAssertions and Moq patterns are correct
@@ -125,6 +133,7 @@ Writing tests first constrains the AI to produce verifiable code. I used this on
 The exercise setup mixes app code with tests in the same project (top-level statements). While technically valid for demos, it's not production-ready architecture. Would've preferred proper separation.
 
 **Technical accuracy: 9/10**
+
 - Correct TDD cycle
 - Good xUnit/FluentAssertions/Moq examples
 - Realistic coverage targets (80-90%, not 100%)
@@ -147,6 +156,7 @@ The "Prime Directives" approach (codifying TDD rules in CLAUDE.md) is brilliant 
 This week introduces the building blocks for automation. It's more complex than previous weeks but actually useful for production scenarios.
 
 **What impressed me:**
+
 - Slash commands for repeated prompts (**finally**, no more copy-paste)
 - Skills support supporting files (templates, scripts)
 - Custom agents with tool restrictions (read-only security auditor)
@@ -161,6 +171,7 @@ The hooks for audit logging are genuinely valuable for compliance. Every file ed
 The distinction between commands and skills isn't immediately clear. Commands are simpler (just markdown files), skills support directories with extra files and can spawn agents. Took me a while to internalize.
 
 **Technical accuracy: 8/10**
+
 - Good examples of RealManage-specific automation
 - Hooks configuration is correct
 - Agent permissions model is well explained
@@ -183,6 +194,7 @@ This week is where automation becomes real. The audit hooks alone justify the ef
 Plugins are just Week 5 components packaged for distribution. If you're not sharing automation with teammates, you can skip this.
 
 **What impressed me:**
+
 - Plugin manifest (plugin.json) is simple
 - Skills can spawn custom agents (powerful pattern)
 - Dynamic context injection (`` !`git diff` ``) is clever
@@ -195,6 +207,7 @@ Created a "realmanage-reviews" plugin with my code review checklist, security au
 The marketplace installation seems half-baked. Local `--plugin-dir` works fine, but the marketplace concept feels like vaporware.
 
 **Technical accuracy: 7/10**
+
 - Plugin structure is sound
 - Examples are relevant
 - Marketplace documentation is sparse
@@ -214,6 +227,7 @@ If you're a solo dev, Week 5 is enough. If you're on a team and want to share au
 This week is where everything comes together. Cross-functional use cases, pipeline integration, cost management.
 
 **What impressed me:**
+
 - Cross-functional skills (support, PM, engineering)
 - GitLab CI/CD integration is actually practical
 - Cost optimization strategies are concrete
@@ -228,6 +242,7 @@ Cost tracking with `/cost` command helped me identify expensive patterns (Opus f
 The GitLab CI/CD examples work but require API tokens and environment setup. Not plug-and-play.
 
 **Technical accuracy: 8/10**
+
 - GitLab CI/CD YAML is correct
 - Cost estimates are accurate
 - Workflow examples are realistic
@@ -248,17 +263,20 @@ This is production-ready material. The CI/CD integration alone is worth the 8-we
 
 **Reality check:**
 The capstone options are realistic RealManage problems:
+
 - Violation escalation system (backend)
 - Self-service knowledge base (full-stack)
 - Financial forecasting (data)
 
 **What impressed me:**
+
 - 95% test coverage requirement
 - Emphasis on security review
 - Realistic time constraints (90 minutes)
 - Evaluation rubric is fair
 
 **Technical accuracy: 9/10**
+
 - Options align with real RealManage needs
 - Success criteria are measurable
 - Quality checklist is comprehensive
@@ -313,6 +331,7 @@ This is where you prove you learned something. The time pressure is realistic - 
 ### Technical Accuracy: 8.5/10
 
 **Strengths:**
+
 - Modern .NET 10 patterns
 - Correct TDD cycle
 - Realistic C# idioms
@@ -320,6 +339,7 @@ This is where you prove you learned something. The time pressure is realistic - 
 - Honest cost estimates
 
 **Weaknesses:**
+
 - Example architecture (mixing tests with app code)
 - Sparse security guidance
 - Limited error handling patterns
@@ -368,7 +388,7 @@ I **won't** use Claude Code for:
 ## Comparison to Copilot
 
 | Feature | Copilot | Claude Code |
-|---------|---------|-------------|
+| ------- | ------- | ----------- |
 | Inline suggestions | ✅ Better | ❌ None |
 | Codebase understanding | ❌ Weak | ✅ Strong |
 | Test generation | ⚠️ Shallow | ✅ Comprehensive |
@@ -385,6 +405,7 @@ I **won't** use Claude Code for:
 **Time invested:** 16 hours (8 weeks × 2 hours)
 
 **Time saved so far (3 weeks of real use):**
+
 - Code reviews: ~4 hours (plan mode + Opus analysis)
 - Test writing: ~3 hours (TDD with Claude)
 - Documentation: ~2 hours (automated generation)
@@ -394,6 +415,7 @@ I **won't** use Claude Code for:
 **Break-even:** Already positive after 3 weeks.
 
 **Costs:**
+
 - Subscription: ~$100/month (if using Pro tier)
 - Token costs: ~$30/month (Sonnet primary, Opus for reviews)
 
@@ -436,18 +458,23 @@ I **won't** use Claude Code for:
 I started this course skeptical. Here's what convinced me:
 
 ### 1. CLAUDE.md Context System
+
 Copilot doesn't remember your tech stack, coding standards, or domain rules. Claude does. This is HUGE.
 
 ### 2. TDD + AI Works
+
 Tests as specs prevent hallucinations. I trusted Claude's code because it had to pass my tests.
 
 ### 3. Plan Mode for Code Reviews
+
 Organizing 10+ code review comments systematically saved me hours. This alone justified the course.
 
 ### 4. Audit Hooks for Compliance
+
 Automatic audit logging is critical for SOC 2. Hooks make this trivial.
 
 ### 5. Cost Transparency
+
 The course is honest about costs and teaches optimization. This builds trust.
 
 ---
@@ -455,18 +482,23 @@ The course is honest about costs and teaches optimization. This builds trust.
 ## What Still Seems Like Hype
 
 ### 1. Plugin Marketplace
+
 The marketplace concept feels half-baked. Local plugins work, but distribution is unclear.
 
 ### 2. "95% Coverage Naturally"
+
 You get high coverage IF you do TDD properly. But saying it happens "naturally" oversells it.
 
 ### 3. GitLab CI/CD Magic
+
 The CI/CD integration works but requires significant setup (API keys, permissions, testing). It's not plug-and-play.
 
 ### 4. Agent Spawning Complexity
+
 The examples make custom agents look easy, but production use requires careful permission management and monitoring.
 
 ### 5. "Amplifying Capabilities, Not Replacing"
+
 This is true, but junior devs might over-rely on AI without building fundamentals.
 
 ---
@@ -498,6 +530,7 @@ Yes, with caveats:
 **Should you take this course?**
 
 **Yes, if:**
+
 - You write tests regularly
 - You do code reviews
 - You work on complex codebases
@@ -505,6 +538,7 @@ Yes, with caveats:
 - You're willing to invest 16 hours
 
 **No, if:**
+
 - You don't write tests (fix this first)
 - You prefer pure autocomplete (stick with Copilot)
 - You're skeptical of AI (you'll fight the tool)
@@ -521,12 +555,14 @@ Yes, with caveats:
 **Grade: B+ (85/100)**
 
 **Why not A?**
+
 - Example architecture is too simplistic
 - Security guidance is shallow
 - Plugin marketplace is unfinished
 - Team workflow patterns are underexplored
 
 **Why not C?**
+
 - TDD integration is genuinely powerful
 - CLAUDE.md context system is killer feature
 - Plan mode saves real time
@@ -561,6 +597,7 @@ Claude Code won't make you a 10x developer overnight. It won't replace your expe
 ## One Year From Now
 
 I predict I'll be using Claude Code for:
+
 - 60% of code reviews (plan mode + Opus)
 - 40% of new features (TDD-driven)
 - 80% of documentation (automated)

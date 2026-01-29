@@ -11,7 +11,7 @@ Code review artifacts document AI-assisted reviews. They capture learnings, ensu
 Not every change needs a full review document. Use the appropriate level:
 
 | Change Type | Artifact Level | Example |
-|-------------|----------------|---------|
+| ----------- | -------------- | ------- |
 | Major feature | Full | New payment processing flow |
 | Bug fix | Standard | Fix null reference in validation |
 | Config/dependency update | Lightweight | Bump package version |

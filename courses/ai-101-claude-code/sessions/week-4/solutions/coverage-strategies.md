@@ -32,7 +32,7 @@ public async Task<List<Property>> SearchPropertiesAsync(string searchTerm)
 **Required Tests for Full Coverage:**
 
 | Test Case | Branch Covered | Why It's Needed |
-|-----------|----------------|-----------------|
+| --------- | -------------- | --------------- |
 | `SearchProperties_EmptyTerm_ReturnsEmpty` | Branch 1 (true) | Empty string handling |
 | `SearchProperties_NullTerm_ReturnsEmpty` | Branch 1 (true) | Null handling |
 | `SearchProperties_WhitespaceTerm_ReturnsEmpty` | Branch 1 (true) | Whitespace handling |
@@ -49,6 +49,7 @@ public async Task<List<Property>> SearchPropertiesAsync(string searchTerm)
 For each method, ask these questions:
 
 **Input Validation Gaps:**
+
 - [ ] What if the input is null?
 - [ ] What if the input is empty?
 - [ ] What if the input is whitespace?
@@ -56,12 +57,14 @@ For each method, ask these questions:
 - [ ] What if the input format is invalid?
 
 **State Gaps:**
+
 - [ ] What if the object doesn't exist?
 - [ ] What if the object is in an invalid state?
 - [ ] What if there's a duplicate?
 - [ ] What if there's a concurrent modification?
 
 **Integration Gaps:**
+
 - [ ] What if the database operation fails?
 - [ ] What if the external service is unavailable?
 - [ ] What if the network times out?
@@ -73,6 +76,7 @@ For each method, ask these questions:
 The example projects include deliberate TODO comments marking untested areas:
 
 **From `PropertyServiceTests.cs`:**
+
 ```csharp
 // TODO: Missing test coverage for:
 // - GetPropertyById with non-existent ID
@@ -84,6 +88,7 @@ The example projects include deliberate TODO comments marking untested areas:
 ```
 
 **From `PropertyService.cs`:**
+
 ```csharp
 // TODO: This needs better testing - edge cases not covered
 // TODO: Not tested at all!
@@ -99,6 +104,7 @@ These TODOs represent real coverage gaps students should address.
 ### Strategy 4: The Coverage Report Deep Dive
 
 **Running Coverage:**
+
 ```bash
 dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
 reportgenerator -reports:coverage.opencover.xml -targetdir:coveragereport
@@ -107,6 +113,7 @@ reportgenerator -reports:coverage.opencover.xml -targetdir:coveragereport
 **Reading the Report:**
 
 The HTML report shows:
+
 - Red lines = Never executed
 - Yellow lines = Partially executed (branches not fully covered)
 - Green lines = Fully executed
@@ -114,7 +121,7 @@ The HTML report shows:
 **Common Red Flags in Reports:**
 
 | Report Shows | What It Means | How to Fix |
-|--------------|---------------|------------|
+| ------------ | ------------- | ---------- |
 | Entire method red | No tests call this method | Write test that calls it |
 | `catch` block red | Exception path not tested | Mock to throw exception |
 | `else` branch red | Only happy path tested | Add test for negative case |
@@ -158,7 +165,7 @@ public void AddHomeowner_EmptyEmail_ThrowsArgumentException()
 **Complete Null/Empty Test Matrix:**
 
 | Property | Null Test | Empty Test | Whitespace Test |
-|----------|-----------|------------|-----------------|
+| -------- | --------- | ---------- | --------------- |
 | Email | AddHomeowner_NullEmail_Throws | AddHomeowner_EmptyEmail_Throws | AddHomeowner_WhitespaceEmail_Throws |
 | FirstName | AddHomeowner_NullFirstName_Throws | AddHomeowner_EmptyFirstName_Throws | AddHomeowner_WhitespaceFirstName_Throws |
 | LastName | AddHomeowner_NullLastName_Throws | AddHomeowner_EmptyLastName_Throws | AddHomeowner_WhitespaceLastName_Throws |
@@ -198,7 +205,7 @@ public void SetupPaymentPlan_ValidDayOfMonth_Succeeds(int validDay)
 **Boundary Testing Guide:**
 
 | Type | Test Cases Needed |
-|------|-------------------|
+| ---- | ----------------- |
 | Integer | 0, 1, -1, MAX, MIN, typical |
 | String | null, "", " ", very long, special chars |
 | Decimal | 0, negative, very small, very large |
@@ -371,6 +378,7 @@ public string GetStatus(int age, bool hasLicense)
 ```
 
 **With Only This Test:**
+
 ```csharp
 [Fact]
 public void GetStatus_AdultWithLicense_CanDrive()
@@ -381,20 +389,21 @@ public void GetStatus_AdultWithLicense_CanDrive()
 ```
 
 | Metric | Value | Why |
-|--------|-------|-----|
+| ------ | ----- | --- |
 | Line Coverage | 100% | Both return statements touched |
 | Branch Coverage | 25% | Only 1 of 4 branch combinations tested |
 
 **The Four Branches:**
 
 | age >= 18 | hasLicense | Result | Tested? |
-|-----------|------------|--------|---------|
+| --------- | ---------- | ------ | ------- |
 | true | true | "Can Drive" | Yes |
 | true | false | "Cannot Drive" | No |
 | false | true | "Cannot Drive" | No |
 | false | false | "Cannot Drive" | No |
 
 **Complete Branch Coverage:**
+
 ```csharp
 [Theory]
 [InlineData(25, true, "Can Drive")]
@@ -428,6 +437,7 @@ public decimal CalculateFee(Homeowner owner)
 ```
 
 **Test That Achieves High Line Coverage But Low Branch Coverage:**
+
 ```csharp
 [Fact]
 public void CalculateFee_VeteranSenior_AppliesBothDiscounts()
@@ -441,7 +451,7 @@ public void CalculateFee_VeteranSenior_AppliesBothDiscounts()
 **Coverage Analysis:**
 
 | Metric | With Above Test |
-|--------|-----------------|
+| ------ | --------------- |
 | Line Coverage | 100% (all 6 lines touched) |
 | Branch Coverage | 25% (1 of 4 paths) |
 
@@ -455,6 +465,7 @@ Path 4: IsVeteran=false, IsSenior=false  -> 250                     [NOT TESTED]
 ```
 
 **Complete Test Suite:**
+
 ```csharp
 [Theory]
 [InlineData(true, true, 191.25)]    // Path 1
@@ -475,7 +486,7 @@ public void CalculateFee_AllDiscountCombinations_ReturnsCorrectFee(
 ### When Branch Coverage Matters Most
 
 | Scenario | Why Branch Coverage is Critical |
-|----------|--------------------------------|
+| -------- | ------------------------------- |
 | Financial calculations | Wrong branch = wrong money |
 | Access control | Wrong branch = security hole |
 | Data validation | Wrong branch = corrupt data |
@@ -485,7 +496,7 @@ public void CalculateFee_AllDiscountCombinations_ReturnsCorrectFee(
 ### When Line Coverage is Sufficient
 
 | Scenario | Why Line Coverage May Be OK |
-|----------|----------------------------|
+| -------- | --------------------------- |
 | Simple getters/setters | No logic to branch |
 | Logging statements | Side effects only |
 | Configuration loading | Straightforward |
@@ -498,6 +509,7 @@ public void CalculateFee_AllDiscountCombinations_ReturnsCorrectFee(
 ### The 5-Minute Coverage Audit
 
 1. **Run coverage report:**
+
    ```bash
    dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
    reportgenerator -reports:coverage.opencover.xml -targetdir:report
@@ -520,10 +532,12 @@ public void CalculateFee_AllDiscountCombinations_ReturnsCorrectFee(
 ### The Branch Coverage Formula
 
 For `if (A && B && C)`:
+
 - Number of branches = 2^n where n = number of conditions
 - 3 conditions = 8 branches to test
 
 For `if (A || B || C)`:
+
 - Same formula applies
 - 3 conditions = 8 branches
 
@@ -534,7 +548,7 @@ For `if (A || B || C)`:
 ## Summary Table: What Students Miss and Why
 
 | Gap Category | Why Missed | Impact if Untested |
-|--------------|------------|-------------------|
+| ------------ | ---------- | ------------------ |
 | Null inputs | "Won't happen in practice" | NullReferenceException in prod |
 | Empty strings | "Same as null" | Subtly different behavior |
 | Boundary values | "Any number works" | Off-by-one errors |

@@ -8,6 +8,7 @@
 ## 🎯 Learning Objectives
 
 By the end of this session, participants will be able to:
+
 - ✅ Use plan mode as a tactical thinking partner for complex tasks
 - ✅ Iterate on plans in real-time before executing
 - ✅ Organize code review fixes systematically
@@ -18,16 +19,11 @@ By the end of this session, participants will be able to:
 ## 📋 Pre-Session Checklist
 
 ### For Participants
+
 - [ ] Claude Code working smoothly from Weeks 1-2
 - [ ] Comfortable with Shift+Tab for plan mode
 - [ ] Ready for 2 hour session
 - [ ] A real ticket/issue you're working on (optional)
-
-### For Instructors
-- [ ] Test all three example projects
-- [ ] Practice the code review workflow
-- [ ] Prepare real-world examples
-- [ ] Have backup exercises ready
 
 ## 🚀 The New Philosophy
 
@@ -42,26 +38,31 @@ By the end of this session, participants will be able to:
 **Understanding Claude's Modes:**
 
 **Step Mode (Default):**
+
 - Claude stops after each action for your approval
 - Perfect for learning what Claude does
 - Provides careful control over each operation
 
 **Auto Mode:**
+
 - Claude automatically decides when to plan vs execute
 - Great for straightforward tasks and exploration
 - Can sometimes overthink or go off-track
 
 **Plan Mode:**
+
 - Claude thinks through the approach first
 - Allows iteration on the plan before execution
 - Ideal for complex, multi-step tasks
 
 **Essential Controls:**
+
 - **Shift+Tab**: Toggle between auto/step/plan modes
 - **Esc**: STOP execution immediately (your emergency brake!)
 - **Ctrl+C**: Cancel current operation
 
 **The Old Way (Wrong):**
+
 ```
 Spend days creating elaborate planning documents →
 Try to implement exactly as planned →
@@ -70,6 +71,7 @@ Wasted time
 ```
 
 **The New Way (Right):**
+
 ```
 Get a complex task →
 Enter plan mode (Shift+Tab) →
@@ -83,6 +85,7 @@ Exit plan mode and execute with confidence
 #### 1.2 Plan Mode Demonstration (10 min)
 
 **Activating Plan Mode:**
+
 - **Shift+Tab**: Toggle through modes (auto → step → plan → auto...)
 - **`/plan`**: Jump directly to plan mode from any mode
 
@@ -91,6 +94,7 @@ Exit plan mode and execute with confidence
 Let's say you need to rename `CalculateFee` to `CalculateLateFee` across 5 files and update all tests.
 
 **❌ WITHOUT Plan Mode (Auto Mode):**
+
 ```
 You: "Rename CalculateFee to CalculateLateFee everywhere"
 
@@ -107,6 +111,7 @@ You: "Wait, that string literal was a log message, not code!"
 ```
 
 **✅ WITH Plan Mode:**
+
 ```
 You: [Shift+Tab to enter plan mode]
 You: "Rename CalculateFee to CalculateLateFee everywhere"
@@ -132,8 +137,9 @@ You: "Looks good, execute it"
 ```
 
 **The Difference:**
+
 | Without Plan Mode | With Plan Mode |
-|-------------------|----------------|
+| ----------------- | -------------- |
 | Immediate execution | Think first, act second |
 | May miss edge cases | Comprehensive review |
 | Hard to course-correct | Easy to refine approach |
@@ -157,6 +163,7 @@ Try this right now in your Claude session:
 ```
 
 **What to look for:**
+
 1. Does Claude's plan include all affected files?
 2. Does it mention constructor changes?
 3. Does it plan for test coverage?
@@ -167,6 +174,7 @@ Try this right now in your Claude session:
 #### 1.4 When to Use Plan Mode (10 min)
 
 **Perfect for:**
+
 - 📝 Code review responses (3+ items to fix)
 - 🔄 Multi-file refactoring
 - 📋 Phased ticket implementation
@@ -174,6 +182,7 @@ Try this right now in your Claude session:
 - 🏗️ Features touching multiple components
 
 **Skip plan mode for:**
+
 - Single-line fixes
 - Obvious bugs
 - Adding a simple field
@@ -183,6 +192,7 @@ Try this right now in your Claude session:
 #### 1.5 The Iteration Pattern (10 min)
 
 **In plan mode, you can refine your thinking:**
+
 ```
 You: "I need to fix these 8 code review comments"
 Claude: "Here's a plan..."
@@ -199,6 +209,7 @@ This iteration BEFORE execution saves hours of rework!
 #### 2.1 Using Opus for Deep Analysis (10 min)
 
 **The `/model` command example:**
+
 ```bash
 # Switch to Opus for thorough code review
 /model opus
@@ -236,6 +247,7 @@ This iteration BEFORE execution saves hours of rework!
 #### 2.3 Managing Claude When Things Go Wrong (10 min)
 
 **Recognizing When to Intervene:**
+
 - Claude doing unnecessary refactoring
 - Fixing things that aren't broken
 - Creating files you didn't ask for
@@ -245,6 +257,7 @@ This iteration BEFORE execution saves hours of rework!
 **How to Course-Correct:**
 
 **Scenario 1: Claude starts over-engineering**
+
 ```
 You: "Fix the interest calculation bug"
 Claude: [starts refactoring entire codebase]
@@ -255,6 +268,7 @@ Claude: [shows next action, waits for approval]
 ```
 
 **Scenario 2: Claude misses the point**
+
 ```
 You: "Review this payment code"
 Claude: [focuses only on formatting]
@@ -273,6 +287,7 @@ Claude: [creates focused plan]
 #### 3.1 Exercise A: BugHunter (15 min)
 
 **Setup:**
+
 ```bash
 cd courses/ai-101-claude-code/sessions/week-3
 cp -r examples sandbox
@@ -282,6 +297,7 @@ claude
 ```
 
 **Your Mission:**
+
 1. Users report: "Interest calculations are wrong after 90 days"
 2. Enter plan mode to plan investigation
 3. Execute investigation
@@ -290,6 +306,7 @@ claude
 6. Verify with tests
 
 **The Pattern:**
+
 ```
 Bug Report → Plan Investigation → Investigate → Plan Fix → Fix → Verify
 ```
@@ -299,6 +316,7 @@ Bug Report → Plan Investigation → Investigate → Plan Fix → Fix → Verif
 > **Important:** This exercise contains intentional bugs AND 6 build warnings. Fix the warnings plus find at least 8 additional code issues!
 
 **Setup:**
+
 ```bash
 # If you haven't already created the sandbox:
 cd courses/ai-101-claude-code/sessions/week-3
@@ -311,6 +329,7 @@ claude
 ```
 
 **Your Mission:**
+
 1. Review the payment processing code with Opus
 2. Find at least 8 issues PLUS fix the 6 build warnings
 3. Enter plan mode and organize all fixes
@@ -319,6 +338,7 @@ claude
 6. Verify all issues are resolved AND builds without warnings
 
 **Files to Review:**
+
 - `PaymentService.cs` - Performance and validation issues
 - `LateFeecalculator.cs` - Calculation bugs and typos
 - `PaymentController.cs` - Security vulnerabilities
@@ -329,6 +349,7 @@ claude
 Without giving away the answers, here's how to measure your success:
 
 **Issue Count by Category**  
+
 - **Build Warnings:** 6 to fix
 - **Security Issues:** 2+ to find
 - **Performance Issues:** 3+ to find  
@@ -339,6 +360,7 @@ Without giving away the answers, here's how to measure your success:
 **Total: 28+ issues available to find and fix!**  
 
 **Success Levels**  
+
 - 🥉 **Bronze:** Fixed all 6 warnings + found 8 other issues (14 total)
 - 🥈 **Silver:** Found and fixed 20+ issues
 - 🥇 **Gold:** Found and fixed 25+ issues
@@ -349,6 +371,7 @@ Don't worry if you don't find them all in the session - the important thing is p
 #### 3.3 Exercise C: PhasedBuilder (15 min)
 
 **Setup:**
+
 ```bash
 # If you haven't already created the sandbox:
 cd courses/ai-101-claude-code/sessions/week-3
@@ -364,16 +387,19 @@ claude
 Work through a 3-phase ticket:
 
 **Phase 1:** Add payment plan model
+
 - Enter plan mode for Phase 1 only
 - Plan the data model and basic CRUD
 - Execute
 
 **Phase 2:** Add business logic
+
 - Enter plan mode for Phase 2
 - Plan calculations and rules
 - Execute
 
 **Phase 3:** Add API endpoints
+
 - Enter plan mode for Phase 3
 - Plan controller and validation
 - Execute
@@ -390,12 +416,14 @@ Work through a 3-phase ticket:
 ### Common Pitfalls to Avoid
 
 **❌ Don't:**
+
 - Create 50-step plans
 - Plan more than 1-2 phases ahead
 - Spend more than 10 minutes planning
 - Try to anticipate every edge case
 
 **✅ Do:**
+
 - Keep plans focused and tactical
 - Iterate on plans before executing
 - Plan phases just-in-time
@@ -404,6 +432,7 @@ Work through a 3-phase ticket:
 ## 🎯 Key Takeaways
 
 ### The Tactical Planning Principles
+
 1. **Plan mode is for thinking, not documenting**
 2. **Iterate on plans before executing**
 3. **Plan phases as you reach them**
@@ -413,6 +442,7 @@ Work through a 3-phase ticket:
 7. **Execute systematically, verify completely**
 
 ### Quick Reference Card
+
 ```
 CODE REVIEW PATTERN:
 /model opus → Review → /model sonnet → Plan Mode → Execute → Verify
@@ -434,57 +464,66 @@ Enter Plan Mode → List all tasks → Group/order → Iterate → Execute
 
 ## 📝 Homework (Before Week 4)
 
-### Required Tasks:
+### Required Tasks
+
 1. ✅ Use plan mode for your next code review response
 2. ✅ Practice the investigation → fix pattern on a real bug
 3. ✅ Time yourself: planning vs execution
-4. ✅ Share your experience in `#dx-training`
+4. ✅ Share your experience in `#ai-exchange`
 5. ✅ Try Opus model for reviewing your own code
 
-### Stretch Goals:
+### Stretch Goals
+
 1. 🎯 Create a phased plan for a complex feature
 2. 🎯 Use plan mode to organize a refactoring
 3. 🎯 Teach someone else the tactical planning pattern
 
-### Reflection Questions:
+### Reflection Questions
+
 - When did iterating on a plan save you time?
 - What tasks actually benefited from plan mode?
 - How did Opus reviews compare to your usual process?
 
 ### Real-World Application
+
 1. **Choose a real ticket** from your current sprint
 2. **Use Opus** (`/model opus`) to review any existing code
 3. **Enter plan mode** to organize your approach
 4. **Iterate on the plan** - refine it through conversation
 5. **Execute systematically** - follow your plan
-6. **Share in Slack** - Post your experience in #dx-training
+6. **Share in Slack** - Post your experience in #ai-exchange
 
 ## 🔗 Resources
 
 ### Official Documentation
+
 - [Claude Code Plan Mode](https://docs.anthropic.com/en/docs/claude-code#plan-mode)
 - [Model Selection](https://docs.anthropic.com/en/docs/claude-code#model-selection)
 - [Opus 4.5 Features](https://www.anthropic.com/news/claude-opus-4-5)
 
 ### RealManage Resources
+
 - [Week 3 Examples](./examples/) - All three practice projects
-- Slack: `#dx-training` for planning help
+- Slack: `#ai-exchange` for planning help
 
 ### Additional Reading
+
 - [Tactical vs Strategic Planning](https://en.wikipedia.org/wiki/Tactical_planning)
 - [Just-In-Time Planning](https://www.agilealliance.org/glossary/just-in-time/)
 - [Code Review Best Practices](https://google.github.io/eng-practices/review/)
 
 ## 📊 Success Metrics
 
-### You're ready for Week 4 when you can:
+### You're ready for Week 4 when you can
+
 - [ ] Use plan mode to organize 3+ review comments
 - [ ] Iterate on a plan before executing
 - [ ] Plan phases separately, not all at once
 - [ ] Switch to Opus for code reviews
 - [ ] Execute multi-step tasks without forgetting items
 
-### Red Flags (seek help if):
+### Red Flags (seek help if)
+
 - [ ] Still creating long upfront plans
 - [ ] Not iterating on plans in plan mode
 - [ ] Forgetting code review items
@@ -493,6 +532,7 @@ Enter Plan Mode → List all tasks → Group/order → Iterate → Execute
 ## 🚀 Next Week Preview
 
 **Week 4: Test-Driven Development with Claude**
+
 - Write tests FIRST (Red phase)
 - Let Claude implement to pass tests (Green phase)
 - Refactor while keeping tests green
@@ -502,55 +542,5 @@ Enter Plan Mode → List all tasks → Group/order → Iterate → Execute
 
 ---
 
-## Instructor Notes
-
-### Session Timing (2 hours)
-- Part 1: 30 min - Mode controls and planning fundamentals
-- Part 2: 30 min - Code review mastery with Opus
-- Part 3: 45 min - Choose ONE exercise (others as homework)
-- Part 4: 15 min - Q&A and wrap-up
-- **Total: 2 hours**
-- Homework: Complete remaining exercises (self-paced)
-
-### Key Points to Emphasize
-- **Iteration in plan mode** - This is the magic
-- **Tactical not strategic** - Just-in-time planning
-- **Opus for reviews** - Worth the model switch
-- **Systematic execution** - The plan prevents forgotten items
-
-### Common Questions
-
-**"How long should I stay in plan mode?"**
-- 5-10 minutes max for most tasks
-- If you're iterating productively, continue
-- If you're going in circles, exit and start
-
-**"Should I plan everything in one session?"**
-- No! Plan the next phase only
-- Come back to plan mode between phases
-- Keep context focused
-
-**"When is Opus worth it?"**
-- Code reviews always
-- Security-sensitive code
-- Complex architectural decisions
-- When you need a second opinion
-- Remember: Switch back to Sonnet after!
-
-### Troubleshooting
-- If students struggle with plan mode, show the Shift+Tab toggle
-- If plans are too long, enforce 5-minute timer
-- If they forget `/model opus`, add reminders
-- If exercises run long, skip BugHunter
-
-### Assessment
-Quick check at end:
-1. When should you use plan mode?
-2. How do you switch to Opus model?
-3. What's the benefit of iterating on plans?
-4. Should you plan all phases upfront?
-
----
-
-*End of Week 3 Session Plan*  
+*End of Week 3 Session Plan*
 *Next Session: Week 4 - Test-Driven Development with Claude*

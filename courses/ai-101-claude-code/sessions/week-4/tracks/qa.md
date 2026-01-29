@@ -179,7 +179,7 @@ Show me how to use it in a test.
 ## Key Differences: QA Track vs Developer Track
 
 | Aspect | Developer Track | QA Track |
-|--------|----------------|----------|
+| ------ | --------------- | -------- |
 | **Goal** | Write code + tests together | Write tests for existing code |
 | **Starting point** | Empty project | Existing codebase with gaps |
 | **Focus** | TDD cycle (Red-Green-Refactor) | Coverage analysis + gap filling |
@@ -328,7 +328,7 @@ public class PaymentIntegrationTests : IClassFixture<TestDatabaseFixture>
 For full end-to-end tests, consider:
 
 | Tool | Use Case | Complexity |
-|------|----------|------------|
+| ---- | -------- | ---------- |
 | Playwright | Browser automation | Medium |
 | Selenium | Legacy browser tests | High |
 | HttpClient | API-only E2E | Low |
@@ -362,7 +362,7 @@ This follows the **Test Pyramid** - more unit tests at the base, fewer E2E tests
 
 ## 📚 Quick Resources
 
-- [Glossary](../../resources/glossary.md) - Testing terms explained
-- [Troubleshooting](../../resources/troubleshooting.md#-coverage-target-explanation) - Coverage target rationale
-- [QA Quick-Start](../../resources/quick-start-qa.md) - Your full learning path
-- [Production Hardening](../../resources/production-hardening.md) - Production-ready automation patterns
+- [Glossary](../../../resources/glossary.md) - Testing terms explained
+- [Troubleshooting](../../../resources/troubleshooting.md#-coverage-target-explanation) - Coverage target rationale
+- [QA Quick-Start](../../../resources/quick-start-qa.md) - Your full learning path
+- [Production Hardening](../../../resources/production-hardening.md) - Production-ready automation patterns

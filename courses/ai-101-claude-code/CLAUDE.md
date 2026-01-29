@@ -60,13 +60,11 @@ This is a 9-week training course teaching RealManage teams how to use Claude Cod
 - Complete all weekly exercises
 - Achieve 80-90% test coverage in all code
 - Build working HOA feature in capstone
-- Share learnings in #dx-training
+- Share learnings in #ai-exchange
 
 ## Support Resources
 
-- Slack: #dx-training
-- Office Hours: Thursdays 2-3 PM CT
-- Email: <dx-team@realmanage.com>
+See [Getting Help](resources/getting-help.md) for all support channels.
 
 ## Important Notes
 

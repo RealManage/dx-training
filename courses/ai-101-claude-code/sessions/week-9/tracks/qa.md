@@ -16,24 +16,28 @@ This option lets you leverage your testing expertise while learning how Claude C
 ## What You'll Build
 
 ### 1. Comprehensive Test Suite
+
 - Unit tests for HOA domain logic
 - Integration tests for workflows
 - End-to-end test scenarios
 - Edge case coverage
 
 ### 2. Test Data Generation Tools
+
 - Realistic resident data (names, addresses, accounts)
 - Violation scenarios with various states
 - Financial data (dues, payments, late fees)
 - Using Bogus or AutoFixture libraries
 
 ### 3. Coverage Dashboard
+
 - Real-time coverage metrics
 - Trend tracking over time
 - Coverage by module/feature
 - HTML report generation
 
 ### 4. Test Automation Scripts
+
 - Batch test runner scripts
 - Automated coverage analysis
 - Coverage threshold checks
@@ -42,7 +46,7 @@ This option lets you leverage your testing expertise while learning how Claude C
 ## Skills You'll Use
 
 | Week | Skill Applied |
-|------|---------------|
+| ---- | ------------- |
 | Week 2 | Prompting Claude to write test cases |
 | Week 3 | Plan Mode for test architecture |
 | Week 4 | TDD patterns and practices |
@@ -165,4 +169,4 @@ a coverage report, failing if coverage drops below 80%"
 
 ---
 
-**Questions?** Ask in `#dx-training` or during office hours.
+**Questions?** Ask in `#ai-exchange` or during office hours.
