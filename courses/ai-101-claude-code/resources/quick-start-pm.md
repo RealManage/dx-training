@@ -44,7 +44,7 @@ graph LR
     style W67 fill:#9E9E9E,color:#fff
 ```
 
-**Your Focus Weeks (green):** Weeks 2, 3, 5, 8, and 9 are your power weeks. Week 5 teaches PM skill creation, Week 8 shows how to use them with automation.
+**Your Focus Weeks (green):** Weeks 2, 3, 4, 5, 8, and 9 are your power weeks. Week 4 teaches testable requirements, Week 5 teaches PM skill creation, Week 8 shows how to use them with automation.
 
 ### What You'll Cover vs Skip
 

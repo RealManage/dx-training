@@ -11,6 +11,7 @@ This week has different tracks based on your role:
 - **[Developer Track](./tracks/developer.md)** - Full content (default)
 - **[QA Track](./tracks/qa.md)** - Consumer-focused: how to USE commands/skills
 - **[PM Track](./tracks/pm.md)** - Optional week for PMs
+- **[Support Track](./tracks/support.md)** - Create /draft-response and other support skills
 
 ---
 

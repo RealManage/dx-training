@@ -417,10 +417,13 @@ claude update
 #### 3.1 Set Up Your Sandbox (5 min)
 
 ```bash
-# Copy example to create your personal sandbox
+# Navigate to Week 1
 cd courses/ai-101-claude-code/sessions/week-1
-cp -r example sandbox
-cd sandbox
+
+# Copy the developer example (hoa-cli) to your sandbox
+mkdir -p sandbox
+cp -r examples/hoa-cli sandbox/
+cd sandbox/hoa-cli
 
 # See what's here - modern C# with no Main() method!
 ls -la
@@ -437,6 +440,8 @@ dotnet run
 # Now start Claude to help improve it
 claude
 ```
+
+> **Note:** Week 1 has two example projects: `hoa-cli` (for developers) and `support` (for support staff). Choose the one that matches your role, or see [Hands-On Exercises](#part-5-hands-on-exercises-30-45-min) for role-specific tracks.
 
 #### 3.2 Codebase Q&A Practice (15 min)
 
@@ -611,9 +616,30 @@ echo "# Project Context" > CLAUDE.md
 # Should reference the 30-day grace period
 ```
 
-### Part 5: Reflection & Practice (10 min)
+### Part 5: Hands-On Exercises (30-45 min)
 
-#### 5.1 Group Discussion (5 min)
+Now it's time to practice! Choose the exercise track that matches your role:
+
+| Track | Best For | Focus Area |
+| ----- | -------- | ---------- |
+| [Developer](tracks/developer.md) | Engineers writing C# code | CLI debugging, code generation, TDD |
+| [QA](tracks/qa.md) | QA engineers, testers | Test scenario design, coverage analysis |
+| [PM](tracks/pm.md) | Product managers, analysts | Requirements documentation, user stories |
+| [Support](tracks/support.md) | Support staff, customer success | Response drafting, template creation |
+
+**Instructions:**
+
+1. Click your track link above
+2. Complete the 30-45 minute exercise
+3. Return here for the wrap-up discussion
+
+> **Note:** All tracks work toward the same learning objectives. You'll learn Claude Code fundamentals through the lens of your daily work.
+
+---
+
+### Part 6: Reflection & Practice (15-20 min)
+
+#### 6.1 Group Discussion (5 min)
 
 **Questions for the group:**
 
@@ -622,7 +648,7 @@ echo "# Project Context" > CLAUDE.md
 - Any concerns about using AI for production code?
 - How does this compare to Copilot or ChatGPT?
 
-#### 5.2 Quick Wins by Role (5 min)
+#### 6.2 Quick Wins by Role (5 min)
 
 **Support Team:**
 

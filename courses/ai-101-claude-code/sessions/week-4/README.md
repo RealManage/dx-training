@@ -12,6 +12,7 @@ This week has role-specific tracks:
 - **Developer Track** - Full TDD content (this README)
 - **[QA Track](./tracks/qa.md)** - Writing tests for existing code, coverage gap analysis
 - **[PM Track](./tracks/pm.md)** - Writing testable requirements (Given/When/Then)
+- **[Support Track](./tracks/support.md)** - Test-first response writing, quality criteria
 
 ---
 
@@ -155,7 +156,7 @@ With proper TDD, you'll hit 80-90% coverage naturally because:
 - Critical business logic is tested first
 - Edge cases are handled through tests
 
-> **Why 80-90% and not 100%?** See the [Troubleshooting Guide](../../resources/troubleshooting.md#-coverage-target-explanation) for detailed rationale on coverage targets.
+> **Why 80-90% and not 100%?** See the [Troubleshooting Guide](../../resources/troubleshooting.md#-test-coverage-target-rationale) for detailed rationale on coverage targets.
 
 *For coverage commands, see [Coverage Guide](./resources/coverage-guide.md)*
 

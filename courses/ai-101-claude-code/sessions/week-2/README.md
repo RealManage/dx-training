@@ -173,8 +173,9 @@ You'll likely find natural language or simple bullets work best!
 ```bash
 # Copy example to sandbox
 cd courses/ai-101-claude-code/sessions/week-2
-cp -r example sandbox
-cd sandbox
+mkdir -p sandbox
+cp -r examples/prompt-lab sandbox/
+cd sandbox/prompt-lab
 
 # Build and run the Prompt Lab
 dotnet build
@@ -419,9 +420,30 @@ Create comprehensive test cases for {FEATURE} including:
 - Expected results for each case
 ```
 
-### Part 5: Reflection & Practice (10 min)
+### Part 5: Hands-On Exercises (30-45 min)
 
-#### 5.1 Key Takeaways (5 min)
+Now it's time to practice prompting in your domain! Choose the exercise track that matches your role:
+
+| Track | Best For | Focus Area |
+| ----- | -------- | ---------- |
+| [Developer](tracks/developer.md) | Engineers writing C# code | Code generation, refactoring prompts |
+| [QA](tracks/qa.md) | QA engineers, testers | Test case generation, coverage analysis |
+| [PM](tracks/pm.md) | Product managers, analysts | Requirements, user stories, documentation |
+| [Support](tracks/support.md) | Support staff, customer success | Response templates, KB articles |
+
+**Instructions:**
+
+1. Click your track link above
+2. Complete the 30-45 minute exercise
+3. Return here for the wrap-up discussion
+
+> **Note:** All tracks practice the same prompting foundations through the lens of your daily work.
+
+---
+
+### Part 6: Reflection & Practice (10 min)
+
+#### 6.1 Key Takeaways (5 min)
 
 **The Prompt Quality Spectrum:**
 
@@ -452,7 +474,7 @@ Writing your first attempt?
         └─ No → You're done! No structure needed.
 ```
 
-#### 5.2 Quick Practice (5 min)
+#### 6.2 Quick Practice (5 min)
 
 **Lightning Round - Fix These Prompts:**
 
@@ -548,7 +570,7 @@ Generates a complete audit logging system for HOA transactions including:
 
 ### RealManage Resources
 
-- [Week 2 Prompt Lab](./example/) - Interactive prompt training tool
+- [Week 2 Prompt Lab](./examples/prompt-lab/) - Interactive prompt training tool
 - [Prompt Library](../../resources/prompt-library.md) - Curated RealManage prompts
 - [Getting Started Prompts](../../resources/prompts/getting-started.md) - Beginner-friendly examples
 - Slack: `#ai-exchange` for prompt help

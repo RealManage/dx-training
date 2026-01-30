@@ -2,19 +2,21 @@
 
 ## Overview
 
-The QA track teaches you to use AI for testing workflows: generating test cases, analyzing bugs, creating test data, and improving test automation.
+The QA track teaches you to use AI for testing workflows: analyzing existing code for testability, writing comprehensive test suites, generating test data, and improving test automation.
 
 **You don't need to be a developer to succeed in this track.**
 
 ## Track Duration
 
-**6-7 weeks typical**
+**9 weeks (Week 0 optional)**
 
 | Phase | Weeks | Focus |
 | ----- | ----- | ----- |
-| Foundations | 0-3 | Setup, prompting, AI basics |
-| QA-Specific | 4-6 | Test case generation, bug analysis, automation |
-| Capstone | 7 | Demonstrate AI-assisted testing |
+| Foundations | 0-3 | Setup, prompting, plan mode for test planning |
+| QA Power Week | 4 | Writing tests for existing code, coverage analysis |
+| Skills & Automation | 5-6 | Commands, skills, hooks for test automation |
+| Advanced | 7-8 | Plugins (skim), headless test automation |
+| Capstone | 9 | Demonstrate AI-assisted testing |
 
 ## Week-by-Week Content
 
@@ -29,83 +31,93 @@ The QA track teaches you to use AI for testing workflows: generating test cases,
 - Install Claude Code
 - Create your CLAUDE.md
 - First conversations with Claude
+- **QA Track:** Testability analysis exercise
 
 ### Week 2: Prompting Foundations
 
 - Writing effective prompts
 - Context and specificity
 - Iterating on results
+- **QA Track:** Test case generation prompts
 
 ### Week 3: Planning & Analysis
 
 - Breaking down complex problems
-- Using AI for research
-- Analyzing code for testability
+- Using plan mode for structured analysis
+- **QA Track:** Test planning with plan mode, defect analysis
 
-### Week 4: Test Case Generation
+### Week 4: TDD - QA Power Week ⭐
 
-**QA-Specific Content:**
+**This is your power week!** While developers learn TDD, you'll learn to:
 
-- Generating test cases from requirements
-- Edge case identification
-- Test scenario expansion
-- Coverage matrix creation
-
-**Exercises:**
-
-- Generate test cases for a user story
-- Identify edge cases for a payment flow
-- Create a test matrix for a feature
-
-### Week 5: Bug Analysis & Triage
-
-**QA-Specific Content:**
-
-- Analyzing bug reports with AI
-- Pattern identification across bugs
-- Root cause hypothesis generation
-- Writing better bug reports
+- Analyze existing code to identify testable behaviors
+- Write comprehensive test suites for existing code
+- Identify coverage gaps and prioritize what to test
+- Generate meaningful test data for edge cases
+- Use Claude to suggest tests you might have missed
 
 **Exercises:**
 
-- Analyze a set of bug reports for patterns
-- Generate reproduction steps from vague reports
-- Suggest root causes for a failing test
+- Test an existing PropertyService (bring coverage from 60% to 80%+)
+- Coverage gap analysis and prioritization
+- Test data generation with Bogus
+- API and integration testing patterns
 
-### Week 6: Test Automation Assistance
+**QA Track File:** `sessions/week-4/tracks/qa.md`
 
-**QA-Specific Content:**
+### Week 5: Commands & Skills
 
-- Using AI to write test automation scripts
-- Converting manual test cases to automated
-- Improving existing test code
-- Test data generation
+- Creating reusable commands
+- Building QA-specific skills
+- **QA Track:** Consumer focus - using skills, not creating them
 
-**Exercises:**
+**QA Track File:** `sessions/week-5/tracks/qa.md`
 
-- Convert manual test to automated script
-- Generate test data for specific scenarios
-- Improve an existing test's assertions
+### Week 6: Agents & Hooks
 
-### Week 7: Capstone
+- Understanding agentic workflows
+- Using hooks for automation
+- **QA Track:** PostToolUse hooks to auto-run tests after code changes
 
-Demonstrate AI fluency with a real project:
+**QA Track File:** `sessions/week-6/tracks/qa.md`
 
-- Generate a test suite for a feature
-- Analyze a set of bugs
-- Create test automation for a workflow
+### Week 7: Plugins
+
+- Plugin concepts (skim only for QA)
+- **QA Note:** Skip or skim - developer-focused week
+
+### Week 8: Real-World Automation
+
+- Headless Claude CLI automation
+- Batch processing
+- **QA Track:** Headless test automation scripts, CI/CD integration
+
+**QA Track File:** `sessions/week-8/tracks/qa.md`
+
+### Week 9: Capstone
+
+Demonstrate AI fluency with a real project.
+
+**QA Capstone Options:**
+
+| Option | Description |
+| ------ | ----------- |
+| Option C | Create test automation skills suite |
+| Option D | Full domain models with comprehensive test coverage |
+
+**QA Track File:** `sessions/week-9/tracks/qa.md`
 
 ## What You'll Be Able to Do
 
 After completing this track:
 
-- [ ] Generate test cases from requirements quickly
-- [ ] Identify edge cases you might have missed
-- [ ] Analyze bug reports for patterns
-- [ ] Create test data for various scenarios
-- [ ] Write better, more detailed bug reports
-- [ ] Assist with test automation scripts
-- [ ] Know when AI helps and when it doesn't
+- [ ] Analyze code for testability without being a developer
+- [ ] Write comprehensive test suites for existing code
+- [ ] Identify coverage gaps and prioritize testing efforts
+- [ ] Generate edge case test data efficiently
+- [ ] Use hooks to automate test execution
+- [ ] Run headless test automation scripts
+- [ ] Know when AI helps QA and when human judgment is essential
 
 ## Capstone Requirements
 
@@ -113,16 +125,16 @@ Submit one of the following:
 
 | Option | Description |
 | ------ | ----------- |
-| Test Suite | Generate a comprehensive test suite for a feature |
-| Bug Analysis | Analyze 10+ bugs, identify patterns, suggest improvements |
-| Automation | Convert manual tests to automated scripts with AI assistance |
+| Test Suite | Comprehensive test suite for provided code (80%+ coverage) |
+| Automation | Test automation skills + headless batch scripts |
+| Domain Models | Complete HOA domain with full test coverage |
 
 ## This Track Is For You If
 
 - You do manual or automated testing
 - You write bug reports and test plans
-- You want to generate test cases faster
-- You're curious how AI can help QA work
+- You want to identify coverage gaps faster
+- You're curious how AI can augment (not replace) QA work
 
 ## This Track Isn't About
 
@@ -132,17 +144,22 @@ Submit one of the following:
 
 ## Differences from Developer Track
 
-| Topic | Developer Track | QA Track |
-| ----- | --------------- | -------- |
-| Week 4 | TDD (writing code) | Test case generation |
-| Week 5 | Commands & Skills | Bug analysis & triage |
-| Week 6 | Agents & Hooks | Test automation assistance |
-| Capstone | Code project | Test suite or bug analysis |
+| Week | Developer Track | QA Track |
+| ---- | --------------- | -------- |
+| Week 1 | Build CLI features | Analyze testability |
+| Week 2 | Code generation prompts | Test case generation prompts |
+| Week 3 | Implementation planning | Test planning, defect analysis |
+| Week 4 | TDD (write tests + code) | Write tests for existing code |
+| Week 5 | Create developer skills | Use skills (consumer focus) |
+| Week 6 | Advanced hooks | Test automation hooks |
+| Week 7 | Plugin development | Skip/skim |
+| Week 8 | Headless automation | Headless test automation |
+| Capstone | Code project | Test suite or automation |
 
 ## FAQ
 
 **Q: Do I need to know how to code?**
-A: Basic familiarity with code helps but isn't required. The track focuses on testing workflows, not production development.
+A: Basic familiarity with code helps but isn't required. The track focuses on testing workflows, not production development. You'll read code more than write it.
 
 **Q: Can I do the developer track instead?**
 A: If you write code regularly, yes. But the QA track is specifically designed for testing workflows.
@@ -152,6 +169,9 @@ A: Great! The track covers both. Focus on whichever is more relevant to your dai
 
 **Q: Will AI replace QA engineers?**
 A: No. AI can generate test cases, but it can't decide what's important to test. It can find patterns in bugs, but it can't understand user impact. QA judgment remains essential.
+
+**Q: What's the difference between Week 4 for QA vs Developers?**
+A: Developers write tests AND code using TDD. QA focuses on writing tests for code that already exists - which is exactly what QA does in real life.
 
 ## Getting Help
 

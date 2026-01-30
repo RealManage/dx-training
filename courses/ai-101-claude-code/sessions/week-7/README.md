@@ -4,6 +4,17 @@
 **Format:** In-person or virtual
 **Audience:** RealManage cross-functional team (engineers, PMs, support staff)
 
+## Learning Tracks
+
+This week has role-specific tracks:
+
+- **Developer Track** - Full plugin development content (this README)
+- **[QA Track](./tracks/qa.md)** - Using and testing plugins
+- **[PM Track](./tracks/pm.md)** - Plugin planning and design
+- **[Support Track](./tracks/support.md)** - Design a Support Plugin
+
+---
+
 ## Learning Objectives
 
 By the end of this session, participants will be able to:

@@ -33,7 +33,7 @@ claude                   # Start in current directory
 claude -c                # Start in current directory and resume last session
 claude -r                # Start in current directory and pick from a list of recent sessions
 claude ./src             # Start with specific directory
-claude --model sonnet-4  # Use specific model
+claude --model sonnet    # Use specific model (sonnet or opus)
 claude --verbose         # Debug mode
 claude doctor            # Check installation
 ```

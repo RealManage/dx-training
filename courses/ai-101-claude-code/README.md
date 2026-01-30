@@ -4,13 +4,15 @@ Welcome to the comprehensive Claude Code training course designed specifically f
 
 ## 🎯 Choose Your Path
 
-| Your Role | Quick Start Guide | Focus Weeks | Skip |
-| --------- | ----------------- | ----------- | ---- |
-| Developer | [Developer Track](resources/quick-start-developer.md) | All weeks | Week 0 (optional) |
-| QA Engineer | [QA Track](resources/quick-start-qa.md) | 1, 2, 4, 8, 9 | 5, 6, 7 (skim) |
-| Product Manager | [PM Track](resources/quick-start-pm.md) | 0, 1, 2, 3, 9 | 4-8 (concepts only) |
-| Support | See PM Track | 0, 1, 2, 9 | Technical weeks |
-| **Experienced Dev** | See below | 3, 4, 8 | 0-2, 5-7 |
+**All roles follow the same weekly curriculum** with role-specific exercises. Each week has a unified README everyone follows, plus `tracks/` folders with focused exercises for each persona.
+
+| Your Role | Quick Start | Weekly Structure |
+| --------- | ----------- | ---------------- |
+| Developer | [Developer Guide](resources/quick-start-developer.md) | Main README + `tracks/developer.md` exercises |
+| QA Engineer | [QA Guide](resources/quick-start-qa.md) | Main README + `tracks/qa.md` exercises |
+| Product Manager | [PM Guide](resources/quick-start-pm.md) | Main README + `tracks/pm.md` exercises |
+| Support | [Support Guide](resources/quick-start-support.md) | Main README + `tracks/support.md` exercises |
+| **Experienced Dev** | See below | Fast-track through key weeks |
 
 ### ⚡ Experienced Developer Fast Track (~4 hours)
 
@@ -30,7 +32,7 @@ Already comfortable with AI tools? Skip the basics:
 
 ## 📚 Course Overview
 
-- **Duration:** 9 weeks (self-paced, ~2 hours per week)
+- **Duration:** 9 weeks plus optional Week 0 primer (self-paced, ~2 hours per week)
 - **Level:** Beginner to Intermediate
 - **Format:** Self-study with optional group sessions
 - **Goal:** Progressively immerse RealManage's cross-functional team in Claude Code, building practical skills while leaving time for normal work
@@ -55,10 +57,10 @@ graph LR
     B --> C[Week 2: Prompting]
     C --> D[Week 3: Plan Mode]
     D --> E[Week 4: TDD]
-    E --> F[Week 5: Components]
-    F --> G[Week 6: Plugins]
-    G --> H[Week 7: Real-World]
-    H --> I[Week 8: Advanced]
+    E --> F[Week 5: Commands & Skills]
+    F --> G[Week 6: Agents & Hooks]
+    G --> H[Week 7: Plugins]
+    H --> I[Week 8: Automation]
     I --> J[Week 9: Capstone]
 ```
 
@@ -89,25 +91,21 @@ ai-101-claude-code/
 │   ├── week-0/                 # AI Foundations (optional)
 │   │   └── README.md
 │   ├── week-1/                 # Setup & Orientation
-│   │   ├── example/            # Reference CLI app (in git)
-│   │   ├── README.md           # Full lesson plan
+│   │   ├── README.md           # Unified lesson (everyone follows)
+│   │   ├── examples/           # Reference projects (hoa-cli, support)
+│   │   ├── tracks/             # Role-specific exercises
+│   │   │   ├── developer.md
+│   │   │   ├── qa.md
+│   │   │   ├── pm.md
+│   │   │   └── support.md
 │   │   └── setup-verification.md
 │   ├── week-2/                 # Prompting Foundations
-│   │   └── README.md
+│   │   ├── README.md
+│   │   └── tracks/             # Role-specific exercises
 │   ├── week-3/                 # Plan Mode
-│   │   └── README.md
-│   ├── week-4/                 # TDD
-│   │   └── README.md
-│   ├── week-5/                 # Commands & Basic Skills
-│   │   └── README.md
-│   ├── week-6/                 # Agents & Hooks
-│   │   └── README.md
-│   ├── week-7/                 # Plugins
-│   │   └── README.md
-│   ├── week-8/                 # Advanced Patterns
-│   │   └── README.md
-│   └── week-9/                 # Capstone
-│       └── README.md
+│   │   ├── README.md
+│   │   └── tracks/
+│   ├── week-4/ through week-9/ # Same pattern...
 ├── CLAUDE.md                    # AI context for this course
 └── README.md                    # You are here
 ```
@@ -165,7 +163,7 @@ Before starting, ensure you have:
 - [ ] **Development Environment**
   - [ ] Windows: Git Bash or WSL2 installed
   - [ ] Mac/Linux: Terminal ready
-  - [ ] .NET 10 SDK ([Download](https://dotnet.microsoft.com/download/dotnet/9.0))
+  - [ ] .NET 10 SDK ([Download](https://dotnet.microsoft.com/download/dotnet/10.0))
   - [ ] Node.js 22 LTS via nvm
   - [ ] npm 10+
   - [ ] Git configured with GitLab access
@@ -234,7 +232,7 @@ If following the PM or Support Track:
 
 #### 3. First Contact (30 min)
 
-- Copy the [Week 1 Example](./sessions/week-1/example/) to your sandbox
+- Copy the [Week 1 Example](./sessions/week-1/examples/hoa-cli/) to your sandbox
 - Explore a modern C# CLI app with intentional bugs
 - Ask questions about top-level programs, records, and patterns
 - Fix the compound interest bug in CalculateFine
@@ -700,7 +698,7 @@ Seek help if:
 - Claude Code won't start after installation
 - Authentication keeps failing
 - Generated code has obvious errors
-- Costs seem unusually high (>$5/hour)
+- Costs seem unusually high (>$5/hour individual usage - check with `/usage`)
 - Test coverage drops below 80% *(Developer/QA tracks)*
 
 ---
@@ -738,6 +736,6 @@ Seek help if:
 
 **Questions?** Reach out in `#ai-exchange`
 
-**Course Version:** 1.0.0 | **Last Updated:** January 2025
+**Course Version:** 1.0.0 | **Last Updated:** January 2026
 
 *"The future of coding isn't replacing developers—it's amplifying their capabilities with 80-90% test coverage."* - DX Team

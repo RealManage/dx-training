@@ -415,8 +415,18 @@ Hooks are configured in `.claude/settings.json`:
 ```json
 {
   "hooks": {
-    "pre-commit": ".claude/hooks/pre-commit.sh",
-    "post-response": ".claude/hooks/post-response.sh"
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [".claude/hooks/pre-edit.sh"]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [".claude/hooks/post-edit.sh"]
+      }
+    ]
   }
 }
 ```
@@ -425,7 +435,7 @@ Hooks are configured in `.claude/settings.json`:
 
 - JSON is valid (no trailing commas!)
 - Paths are relative to project root
-- Hook names match expected triggers
+- Hook types match: `PreToolUse`, `PostToolUse`, `Notification`, `Stop`
 
 ### Check Hook Script Permissions
 
@@ -464,12 +474,12 @@ python -m py_compile .claude/hooks/my-hook.py
 
 Different hooks fire at different times:
 
-| Hook | When It Fires |
-| ---- | ------------- |
-| `pre-commit` | Before Claude commits code |
-| `post-response` | After every Claude response |
-| `pre-tool` | Before Claude runs a tool |
-| `post-tool` | After Claude runs a tool |
+| Hook Type | When It Fires |
+| --------- | ------------- |
+| `PreToolUse` | Before Claude uses a tool (Write, Edit, Bash, etc.) |
+| `PostToolUse` | After Claude finishes using a tool |
+| `Notification` | For informational hooks that don't block execution |
+| `Stop` | To halt Claude's execution on certain conditions |
 
 **Make sure you're testing the right trigger!**
 

@@ -1,6 +1,6 @@
 # Week 0: AI Foundations (Optional Pre-Course Primer)
 
-**Duration:** 1 hour async (self-paced)
+**Duration:** 1-1.5 hours async (self-paced, includes reading time)
 **Format:** Reading, reflection, discussion
 **Audience:** All participants, especially non-developers (PMs, QA, Support Staff)
 
