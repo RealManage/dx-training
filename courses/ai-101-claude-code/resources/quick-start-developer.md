@@ -9,9 +9,9 @@ You write code. You want Claude Code to make you faster. Here's your optimized p
 ## Your Learning Path
 
 ```
-Week 0 ──► Week 1 ──► Week 2 ──► Week 3 ──► Week 4 ──► Week 5 ──► Week 6 ──► Week 7 ──► Week 8 ──► Week 9
-(opt)     Setup     Prompts    Planning   ★ TDD ★    Commands   Agents     Plugins   Workflows  Capstone
-                                                      & Skills   & Hooks
+Week 0 ──▶ Week 1 ──▶ Week 2 ──▶ Week 3 ──▶ Week 4 ──▶ Week 5 ──▶ Week 6 ──▶ Week 7 ──▶ Week 8 ──▶ Week 9
+(opt)      Setup       Prompts    Planning   ★ TDD ★    Commands    Agents      Plugins   Workflows   Capstone
+                                                         & Skills    & Hooks
 ```
 
 ### Week Breakdown

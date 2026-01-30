@@ -10,6 +10,7 @@ Essential commands, shortcuts, and patterns for RealManage developers.
 | ------- | ----------- |
 | [Essential Commands](#-essential-commands) | Starting Claude, session management, shortcuts |
 | [Prompt Patterns](#-prompt-patterns) | TDD, code review, bug fix patterns |
+| [Support Commands](#-support-commands--patterns) | Response drafting, fee explanation, escalation |
 | [Project Structure](#️-project-structure) | CLAUDE.md template, folder layout |
 | [Testing Commands](#-testing-commands) | .NET and Angular test commands |
 | [Code Generation](#-code-generation) | Quick generators for services, components |
@@ -93,6 +94,66 @@ Review this code for:
 4. Verify test passes
 5. Check for similar issues
 ```
+
+## 📞 Support Commands & Patterns
+
+### Support Skills
+
+| Skill | Purpose | Example |
+| ----- | ------- | ------- |
+| `/draft-response` | Generate customer response | `/draft-response late-fee "customer confused about $542 balance"` |
+| `/explain-fee` | Break down fee calculation | `/explain-fee late "$100 original, 3 months overdue"` |
+| `/tone-check` | Validate response quality | `/tone-check` (then paste your draft) |
+| `/escalation-note` | Create handoff documentation | `/escalation-note #12345 "repeated billing complaints"` |
+
+### Response Draft Pattern
+
+```markdown
+Draft a response for this support ticket:
+[PASTE TICKET]
+
+Context:
+- Customer type: [homeowner/board member]
+- Issue type: [billing/violation/maintenance]
+- Emotional state: [frustrated/confused/neutral]
+
+Requirements:
+- Acknowledge their specific concern
+- Explain clearly (no jargon)
+- Provide 2-3 next steps
+- Keep under 150 words
+```
+
+### Fee Explanation Pattern
+
+```markdown
+Explain this fee calculation:
+- Original balance: $[AMOUNT]
+- Current balance: $[AMOUNT]
+- Months overdue: [N]
+- Fee rate: 10% monthly compound
+
+Create a month-by-month breakdown the customer can understand.
+```
+
+### Escalation Documentation Pattern
+
+```markdown
+Create an escalation note for ticket #[NUMBER]:
+[PASTE TICKET AND CONTEXT]
+
+Include:
+- Issue summary (2-3 sentences)
+- Why this needs escalation
+- Recommended resolution
+- Urgency level
+```
+
+### Support Resources
+
+- [Support Prompts Library](./support-prompts.md) - Full prompt templates
+- [Quick Start: Support](./quick-start-support.md) - Track overview
+- [n8n Integration Guide](./n8n-integration.md) - Automation concepts
 
 ## 🏗️ Project Structure
 

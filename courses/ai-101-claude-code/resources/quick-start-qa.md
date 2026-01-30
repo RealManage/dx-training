@@ -9,13 +9,12 @@ You ensure quality. You want Claude Code to accelerate test creation and automat
 ## Your Learning Path
 
 ```
-Week 0 ──► Week 1 ──► Week 2 ──────────► Week 4 ──────────────────────► Week 8 ──► Week 9
-(opt)     Setup     Prompts             ★ TDD ★                        Workflows  Capstone
-                      │                    │                               │
-                      │                    │                               │
-                   FOCUS:               THIS IS                         Batch
-                   Test case            YOUR WEEK                       automation
-                   generation
+Week 0 ──▶ Week 1 ──▶ Week 2 ───────▶ Week 4 ──────▶ Week 8 ─────▶ Week 9
+(opt)       Setup      Prompts        ★ TDD ★        Workflows      Capstone
+                         │                │               │
+                         │                │               │
+                      Test case        THIS IS          Batch
+                      generation      YOUR WEEK       automation
 ```
 
 ### What You'll Cover vs Skip
