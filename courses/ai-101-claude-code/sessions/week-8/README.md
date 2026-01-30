@@ -4,6 +4,17 @@
 **Format:** In-person or virtual
 **Audience:** RealManage cross-functional team (engineers, PMs, support staff)
 
+## Learning Tracks
+
+This week has role-specific tracks:
+
+- **Developer Track** - Full automation content (this README)
+- **[QA Track](./tracks/qa.md)** - Test automation patterns
+- **[PM Track](./tracks/pm.md)** - Workflow automation design
+- **[Support Track](./tracks/support.md)** - Ticket triage and response automation
+
+---
+
 ## Learning Objectives
 
 By the end of this session, participants will be able to:
@@ -369,6 +380,99 @@ echo "   Files reviewed: $#"
 
 ```bash
 chmod +x scripts/batch-review.sh
+```
+
+**PowerShell Alternative (Windows):**
+
+For Windows users who prefer PowerShell, create `scripts/batch-review.ps1`:
+
+```powershell
+# batch-review.ps1 - Review multiple files and generate a report
+# Usage: .\batch-review.ps1 file1.cs file2.cs file3.cs
+#    or: .\batch-review.ps1 (Get-ChildItem src\Services\*.cs)
+
+param(
+    [Parameter(Mandatory=$true, ValueFromPipeline=$true)]
+    [string[]]$Files
+)
+
+# Configuration
+$OutputFile = "code-review-report.md"
+$Timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+
+# Start the report
+@"
+# Code Review Report
+
+**Generated:** $Timestamp
+**Reviewed by:** Claude Code
+**Files:** $($Files.Count)
+
+---
+
+"@ | Out-File -FilePath $OutputFile -Encoding utf8
+
+Write-Host "Starting batch review of $($Files.Count) files..."
+Write-Host ""
+
+# Review each file
+foreach ($file in $Files) {
+    if (-not (Test-Path $file)) {
+        Write-Host "⚠️  Skipping (not found): $file" -ForegroundColor Yellow
+        continue
+    }
+
+    Write-Host "📝 Reviewing: $file"
+
+    # Add file header to report
+    @"
+
+## $(Split-Path $file -Leaf)
+
+``$file``
+
+"@ | Add-Content -Path $OutputFile -Encoding utf8
+
+    # Run Claude review with automation flags
+    try {
+        $review = claude -p @"
+Review this file for:
+1. Bugs or logic errors
+2. Security issues
+3. Code style problems
+4. Missing error handling
+
+Be concise. Format findings as a bullet list.
+
+File: $file
+"@ --model sonnet --no-session-persistence 2>$null
+
+        $review | Add-Content -Path $OutputFile -Encoding utf8
+    }
+    catch {
+        "_Review failed_" | Add-Content -Path $OutputFile -Encoding utf8
+    }
+
+    @"
+
+---
+
+"@ | Add-Content -Path $OutputFile -Encoding utf8
+}
+
+Write-Host ""
+Write-Host "✅ Report saved to: $OutputFile" -ForegroundColor Green
+Write-Host "   Files reviewed: $($Files.Count)"
+```
+
+**Run in PowerShell:**
+
+```powershell
+# Single files
+.\scripts\batch-review.ps1 -Files "src\Services\BoardReportService.cs", "src\Services\CostTrackingService.cs"
+
+# Wildcard pattern
+.\scripts\batch-review.ps1 -Files (Get-ChildItem src\Services\*.cs | Select-Object -ExpandProperty FullName)
 ```
 
 #### 2.3 Run the Batch Reviewer (10 min)
@@ -938,7 +1042,7 @@ Design a complete automation workflow that:
 - Build production-ready automation
 - Present to team and get certified!
 
-**Pre-work:** Review all weeks and identify your capstone project preference
+**Pre-work (Required):** Select your capstone project option (A-G) BEFORE the Week 9 session. Review the options in the [Week 9 README](../week-9/README.md#-project-options) and notify your instructor of your choice.
 
 ---
 

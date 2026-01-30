@@ -1,6 +1,6 @@
 # Prime Directives
 
-- **YOU MUST** follow Red/Green/Refactor TDD Best Practics using xUnit
+- **YOU MUST** follow Red/Green/Refactor TDD Best Practices using xUnit
 - **YOU MUST** implement C# code in a Best Practices language idiomatic fashion
 - **YOU MUST** achieve 80-90% test coverage for all code
 - **YOU MUST** use async/await for all I/O operations

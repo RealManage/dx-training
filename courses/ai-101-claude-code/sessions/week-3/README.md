@@ -89,6 +89,8 @@ Exit plan mode and execute with confidence
 - **Shift+Tab**: Toggle through modes (auto → step → plan → auto...)
 - **`/plan`**: Jump directly to plan mode from any mode
 
+> **Note:** Both methods work identically. Use whichever feels more natural. Track exercises use `/plan` for clarity in prompts, but `Shift+Tab` is often faster in practice.
+
 **Before/After Example: Multi-File Refactoring**
 
 Let's say you need to rename `CalculateFee` to `CalculateLateFee` across 5 files and update all tests.
@@ -280,9 +282,30 @@ Claude: [creates focused plan]
 
 **Pro tip:** Don't wait for disaster - hit Esc the moment you see Claude going off-track. Switch modes to get back on rails. Think of it like grabbing the wheel when your GPS tries to take you through a lake!
 
-### Part 3: Hands-On Workshop (45 min)
+### Part 3: Hands-On Exercises (45 min)
 
-> **Note:** Choose ONE exercise based on your interests. Complete the others as homework.
+Choose the exercise track that matches your role. All tracks practice plan mode with different focus areas:
+
+| Track | Best For | Focus Area |
+| ----- | -------- | ---------- |
+| [Developer](tracks/developer.md) | Engineers | Bug investigation, code review, multi-phase builds |
+| [QA](tracks/qa.md) | QA engineers | Test planning, defect analysis, regression planning |
+| [PM](tracks/pm.md) | Product managers | Feature planning, phased delivery, trade-off analysis |
+| [Support](tracks/support.md) | Support staff | Issue triage, escalation planning, KB organization |
+
+**Instructions:**
+
+1. Click your track link above
+2. Complete the 30-45 minute exercise
+3. Return here for the wrap-up discussion
+
+> **Note:** All tracks practice plan mode and systematic execution through your daily work lens.
+
+---
+
+### Part 3.5: Additional Exercises (Optional)
+
+> Choose ONE additional exercise if time permits. Complete others as homework.
 
 #### 3.1 Exercise A: BugHunter (15 min)
 

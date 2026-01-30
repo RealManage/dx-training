@@ -4,6 +4,17 @@
 **Format:** In-person or virtual
 **Audience:** RealManage cross-functional team (engineers, PMs, support staff)
 
+## Learning Tracks
+
+This week has role-specific tracks:
+
+- **Developer Track** - Full agents & hooks content (this README)
+- **[QA Track](./tracks/qa.md)** - Using agents for test automation
+- **[PM Track](./tracks/pm.md)** - Workflow automation concepts
+- **[Support Track](./tracks/support.md)** - Quality hooks and automation workflows
+
+---
+
 ## Learning Objectives
 
 By the end of this session, participants will be able to:
