@@ -183,6 +183,42 @@ var builder = WebApplication.CreateBuilder(args);
 
 ---
 
+## Support & Customer Success
+
+### CSAT (Customer Satisfaction)
+
+A metric measuring customer satisfaction with support interactions, typically gathered via post-interaction surveys. Common scale: 1-5 or "satisfied/dissatisfied." Higher CSAT indicates better support quality.
+
+### Escalation
+
+The process of routing a support ticket to a higher authority (senior agent, manager, specialist, or legal) when it exceeds the current handler's scope. Common triggers: repeated contacts, legal threats, VIP accounts, or policy exceptions.
+
+### FCR (First Contact Resolution)
+
+Resolving a customer's issue completely on their first contact with support. FCR is a key support metric—higher FCR means better efficiency and customer satisfaction. Opposite: issues requiring multiple contacts.
+
+### Knowledge Base
+
+A centralized repository of self-service support content (FAQs, how-tos, policy explanations) that customers can access without contacting support. Good knowledge bases reduce ticket volume.
+
+### Response Template
+
+A pre-written response pattern for common support scenarios. Templates ensure consistency, accuracy, and appropriate tone. They include placeholders (e.g., `[CUSTOMER_NAME]`) for personalization.
+
+### SLA (Service Level Agreement)
+
+Commitments for response and resolution times. Example: "First response within 4 business hours, resolution within 48 hours." SLAs vary by ticket priority and customer tier.
+
+### Ticket Triage
+
+The process of categorizing, prioritizing, and routing incoming support tickets. Effective triage ensures urgent issues get fast attention and tickets reach the right specialists.
+
+### Tone Consistency
+
+Maintaining professional, empathetic communication standards across all customer interactions. Tone guidelines prevent overly casual, defensive, or robotic responses.
+
+---
+
 ## HOA Domain Terms
 
 ### Assessment
@@ -253,6 +289,14 @@ Restructuring code without changing external behavior. Improve readability, perf
 | Regression Testing | Re-running tests after changes to ensure existing functionality still works. Critical for refactoring. |
 | Smoke Testing | Quick, high-level tests to verify basic functionality works before deeper testing. "Does it turn on?" |
 | Test Pyramid | Testing strategy: many unit tests (base), fewer integration tests (middle), few E2E tests (top). Balances speed and coverage. |
+| CSAT | Customer satisfaction score from post-interaction surveys (1-5 scale) |
+| Escalation | Routing ticket to higher authority when issue exceeds current scope |
+| FCR | First Contact Resolution—resolving issue on first contact |
+| Knowledge Base | Self-service content repository (FAQs, how-tos) |
+| Response Template | Pre-written pattern for common support scenarios |
+| SLA | Service Level Agreement—response/resolution time commitments |
+| Ticket Triage | Categorizing, prioritizing, and routing incoming tickets |
+| Tone Consistency | Maintaining professional communication standards |
 
 ---
 
