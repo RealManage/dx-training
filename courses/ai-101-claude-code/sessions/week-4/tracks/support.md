@@ -23,7 +23,6 @@ In TDD, developers write tests before code. For support, you can define "success
 
    ```bash
    cd courses/ai-101-claude-code/sessions/week-4
-   mkdir -p sandbox
    cp -r examples/response-criteria sandbox/
    cd sandbox/response-criteria
    claude
@@ -198,7 +197,7 @@ The TDD mindset applies beyond code:
 - **Test against criteria** - Check your work systematically
 - **Iterate based on failures** - Improve when criteria aren't met
 
-Return to the [main README](../README.md#key-takeaways) for shared learning points.
+Return to the [main README](../README.md#-key-takeaways) for shared learning points.
 
 ---
 

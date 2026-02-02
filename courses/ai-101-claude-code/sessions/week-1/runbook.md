@@ -24,7 +24,7 @@
 
 **All Platforms:**
 
-- Issue: Behind proxy -> See [Corporate Proxy Guide](https://docs.anthropic.com/en/docs/claude-code/corporate-proxy)
+- Issue: Behind proxy -> See [Corporate Proxy Guide](https://code.claude.com/docs/en/corporate-proxy)
 - Issue: VPN blocking -> Whitelist *.anthropic.com
 
 ### Time Management Tips

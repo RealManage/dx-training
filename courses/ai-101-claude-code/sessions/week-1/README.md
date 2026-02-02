@@ -132,6 +132,8 @@ Key extensions needed:
 - [ ] Anthropic account for authentication
 - [ ] Internet connection (no VPN initially)
 
+**Need detailed verification?** See [Setup Verification Checklist](./setup-verification.md)
+
 ## 📂 WHERE to Work
 
 **Each week has its own `sandbox/` folder for your practice work.**
@@ -161,7 +163,6 @@ courses/ai-101-claude-code/
 cd courses/ai-101-claude-code/sessions/week-1
 
 # Copy the example to your sandbox folder
-mkdir -p sandbox
 cp -r examples/hoa-cli sandbox/
 cd sandbox/hoa-cli
 
@@ -346,7 +347,7 @@ claude
 
 > **Tip:** New to Claude or coding? Try **Learning** mode for the first few weeks to build muscle memory. You can switch styles anytime.
 
-**Reference:** [Complete Slash Commands](https://docs.anthropic.com/en/docs/claude-code/slash-commands)
+**Reference:** [Complete Slash Commands](https://code.claude.com/docs/en/slash-commands)
 
 #### 2.3 Powerful CLI Arguments (5 min)
 
@@ -421,7 +422,6 @@ claude update
 cd courses/ai-101-claude-code/sessions/week-1
 
 # Copy the developer example (hoa-cli) to your sandbox
-mkdir -p sandbox
 cp -r examples/hoa-cli sandbox/
 cd sandbox/hoa-cli
 
@@ -732,11 +732,11 @@ Try this in your sandbox without help:
 
 ### Official Documentation
 
-- [Setup Guide](https://docs.anthropic.com/en/docs/claude-code/setup)
-- [System Requirements](https://docs.anthropic.com/en/docs/claude-code/setup#system-requirements)
-- [CLI Reference](https://docs.anthropic.com/en/docs/claude-code/cli-reference)
-- [Memory Management](https://docs.anthropic.com/en/docs/claude-code/memory)
-- [Troubleshooting](https://docs.anthropic.com/en/docs/claude-code/troubleshooting)
+- [Setup Guide](https://code.claude.com/docs/en/setup)
+- [System Requirements](https://code.claude.com/docs/en/setup#system-requirements)
+- [CLI Reference](https://code.claude.com/docs/en/cli-reference)
+- [Memory Management](https://code.claude.com/docs/en/memory)
+- [Troubleshooting](https://code.claude.com/docs/en/troubleshooting)
 
 ### RealManage Resources
 
@@ -772,10 +772,10 @@ Try this in your sandbox without help:
 
 **Week 2: Prompting Foundations**
 
-- Craft prompts that generate production-ready code
-- Use XML tags for structured inputs
-- Build a RealManage prompt library
-- Master few-shot prompting for consistency
+- Master clear, conversational communication with Claude
+- Learn when structure helps (and when it doesn't)
+- Build a personal prompt style that works for you
+- Generate code with 80-90% test coverage consistently
 
 **Pre-work:** Think of 3 repetitive coding tasks you do weekly
 
@@ -783,3 +783,7 @@ Try this in your sandbox without help:
 
 *End of Week 1 Session Plan*
 *Next Session: Week 2 - Prompting Foundations*
+
+---
+
+**Next:** [Week 2: Prompting Foundations](../week-2/README.md)

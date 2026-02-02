@@ -499,7 +499,7 @@ Explore the example project's existing commands and skills:
 
 ---
 
-## Key Takeaways
+## 🎯 Key Takeaways
 
 ### Commands Quick Reference
 
@@ -602,3 +602,7 @@ Building on commands and skills, Week 6 introduces:
 
 *End of Week 5 Session Plan*
 *Next Session: Week 6 - Agents & Hooks*
+
+---
+
+**Next:** [Week 6: Agents & Hooks](../week-6/README.md)

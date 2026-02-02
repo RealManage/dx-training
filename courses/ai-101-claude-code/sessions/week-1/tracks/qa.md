@@ -29,7 +29,6 @@ Before writing tests, you need to understand what to test. You'll use Claude Cod
 
    ```bash
    cd courses/ai-101-claude-code/sessions/week-1
-   mkdir -p sandbox
    cp -r examples/hoa-cli sandbox/
    cd sandbox/hoa-cli
    claude

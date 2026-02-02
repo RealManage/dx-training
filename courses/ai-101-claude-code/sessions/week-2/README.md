@@ -24,7 +24,7 @@ By the end of this session, participants will be able to:
 - [ ] Completed Week 1 homework
 - [ ] Can run `claude` command successfully
 - [ ] Have a project ready to practice with
-- [ ] Reviewed [Prompt Engineering Guide](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering)
+- [ ] Reviewed [Prompt Engineering Guide](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview)
 
 ## 📚 Session Plan
 
@@ -173,7 +173,6 @@ You'll likely find natural language or simple bullets work best!
 ```bash
 # Copy example to sandbox
 cd courses/ai-101-claude-code/sessions/week-2
-mkdir -p sandbox
 cp -r examples/prompt-lab sandbox/
 cd sandbox/prompt-lab
 
@@ -577,7 +576,7 @@ Generates a complete audit logging system for HOA transactions including:
 
 ### Additional Reading
 
-- [Anthropic's Prompt Engineering Tutorial](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering)
+- [Anthropic's Prompt Engineering Tutorial](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview)
 - [XML vs JSON for Structured Prompts](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/use-xml-tags)
 - [Few-shot Prompting Techniques](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/multishot-prompting)
 
@@ -613,3 +612,7 @@ Generates a complete audit logging system for HOA transactions including:
 
 *End of Week 2 Session Plan*
 *Next Session: Week 3 - Plan Mode & Exploration*
+
+---
+
+**Next:** [Week 3: Tactical Planning & Code Review](../week-3/README.md)

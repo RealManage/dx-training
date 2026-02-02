@@ -29,7 +29,6 @@ Vague requirements lead to vague outputs. You'll practice turning rough ideas in
 
    ```bash
    cd courses/ai-101-claude-code/sessions/week-2
-   mkdir -p sandbox
    cp -r examples/prompt-lab sandbox/
    cd sandbox/prompt-lab
    claude

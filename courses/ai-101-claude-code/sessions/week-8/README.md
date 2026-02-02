@@ -921,7 +921,7 @@ Analyze the example project for efficiency improvements:
 2. Will you build batch automation scripts?
 3. What will you automate first?
 
-## Key Takeaways
+## 🎯 Key Takeaways
 
 ### Cross-Functional Skills Quick Reference
 
@@ -1000,9 +1000,9 @@ Design a complete automation workflow that:
 
 ### Official Documentation
 
-- [Claude Code CLI Reference](https://docs.anthropic.com/en/docs/claude-code/cli)
-- [Claude Code Best Practices](https://docs.anthropic.com/en/docs/claude-code/best-practices)
-- [Context Management](https://docs.anthropic.com/en/docs/claude-code/context)
+- [Claude Code CLI Reference](https://code.claude.com/docs/en/cli-reference)
+- [Claude Code Best Practices](https://code.claude.com/docs/en/best-practices)
+- [Context Management](https://code.claude.com/docs/en/context)
 
 ### RealManage Resources
 
@@ -1058,3 +1058,7 @@ Design a complete automation workflow that:
 
 *End of Week 8 Session Plan*
 *Next Session: Week 9 - Capstone Hackerspace*
+
+---
+
+**Next:** [Week 9: Capstone & Certification](../week-9/README.md)

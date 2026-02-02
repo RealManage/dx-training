@@ -321,7 +321,7 @@ Track these metrics for your Claude automation:
 | Success rate < 90% | Warning |
 | Success rate < 70% | Page on-call |
 | p99 latency > 60s | Investigate |
-| Daily cost > $50 | Review scripts |
+| Weekly usage > 80% | Review scripts |
 
 ---
 

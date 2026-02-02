@@ -14,7 +14,7 @@ graph LR
         W0[Week 0<br>AI Foundations<br>45 min] -.->|optional| W1[Week 1<br>Setup<br>45 min]
         W1 --> W2[Week 2<br>Prompting<br>1.5 hrs]
         W2 --> W3[Week 3<br>Plan Mode<br>1 hr]
-        W3 --> W4[Week 4<br>Quality<br>1 hr]
+        W3 --> W4[Week 4<br>TDD with Claude<br>1 hr]
     end
 
     subgraph "Support Automation"
@@ -56,7 +56,7 @@ graph LR
 | 1 | Setup & Orientation | Must Do | Get Claude working |
 | 2 | Prompting Foundations | Must Do | Draft better responses |
 | 3 | Plan Mode | Must Do | Handle complex tickets |
-| 4 | Quality Criteria | Must Do | Test-first response writing |
+| 4 | TDD with Claude | Must Do | Test-first response writing |
 | 5 | Commands & Skills | Must Do | Build `/draft-response` skill |
 | 6 | Agents & Hooks | Must Do | Quality checks on responses |
 | 7 | Plugins | Skip | Developer-focused |
@@ -190,7 +190,7 @@ Use plan mode to:
 
 ---
 
-### Week 4: Quality Criteria (1 hour)
+### Week 4: TDD with Claude (1 hour)
 
 **Goal:** Define what makes a "good" response before writing it.
 

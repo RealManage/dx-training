@@ -29,7 +29,6 @@ Most developers start with vague prompts and wonder why the output isn't great. 
 
    ```bash
    cd courses/ai-101-claude-code/sessions/week-2
-   mkdir -p sandbox
    cp -r examples/prompt-lab sandbox/
    cd sandbox/prompt-lab
    claude

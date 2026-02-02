@@ -23,7 +23,6 @@ Multiple tickets came in overnight about billing issues. Plan mode helps you org
 
    ```bash
    cd courses/ai-101-claude-code/sessions/week-3
-   mkdir -p sandbox
    cp -r examples/escalation-planner sandbox/
    cd sandbox/escalation-planner
    claude

@@ -29,7 +29,6 @@ True TDD means writing tests FIRST. You'll build a HomeownerService one test at 
 
    ```bash
    cd courses/ai-101-claude-code/sessions/week-4
-   mkdir -p sandbox
    cp -r examples/homeowner-setup sandbox/
    cd sandbox/homeowner-setup
    claude
@@ -165,7 +164,7 @@ Adding features to existing code still follows TDD. You'll add a property valuat
 
 ### Key Takeaways
 
-Return to the [main README](../README.md#-learning-objectives) for shared learning points.
+Return to the [main README](../README.md#-key-takeaways) for shared learning points.
 
 **The TDD Mindset:**
 

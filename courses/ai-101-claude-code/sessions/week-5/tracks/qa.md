@@ -227,4 +227,4 @@ Document any issues found.
 
 ---
 
-*Return to [main README](../README.md)*
+*Return to [main README](../README.md#-key-takeaways)*

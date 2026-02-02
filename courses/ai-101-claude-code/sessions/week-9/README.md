@@ -731,9 +731,9 @@ Ways to contribute to the course:
 
 ### Official Documentation
 
-- [Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code)
-- [Claude Code Tutorials](https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/tutorials)
-- [Best Practices Guide](https://docs.anthropic.com/en/docs/claude-code/best-practices)
+- [Claude Code Documentation](https://code.claude.com/docs/en/overview)
+- [Claude Code Tutorials](https://code.claude.com/docs/en/tutorials)
+- [Best Practices Guide](https://code.claude.com/docs/en/best-practices)
 
 ### RealManage Resources
 

@@ -312,7 +312,7 @@ You're ready for Week 1 when you can:
 
 ### External Reading (Optional)
 
-- [Anthropic's Claude Documentation](https://docs.anthropic.com/en/docs/claude-code)
+- [Claude Code Documentation](https://code.claude.com/docs/en/overview)
 - [What are LLMs? (MIT Technology Review)](https://www.technologyreview.com/2023/04/10/1071177/what-are-large-language-models/)
 - [The Agentic Era (Anthropic Blog)](https://www.anthropic.com/news)
 
@@ -336,3 +336,7 @@ When you're ready, proceed to [Week 1: Setup & Orientation](../week-1/README.md)
 
 *End of Week 0: AI Foundations*
 *Next Session: Week 1 - Setup & Orientation*
+
+---
+
+**Next:** [Week 1: Setup & Orientation](../week-1/README.md)
