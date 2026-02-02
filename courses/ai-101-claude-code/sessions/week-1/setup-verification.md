@@ -268,7 +268,7 @@ claude
 
 ## Troubleshooting Resources
 
-- [Official Troubleshooting Guide](https://docs.anthropic.com/en/docs/claude-code/troubleshooting)
+- [Official Troubleshooting Guide](https://code.claude.com/docs/en/troubleshooting)
 - Slack: `#ai-exchange`
 
 ---

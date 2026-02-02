@@ -476,7 +476,25 @@ claude --plugin-dir ./plugin-one --plugin-dir ./plugin-two
 
 #### 5.2 Marketplace Distribution (10 min)
 
-> **Note:** Claude Code ships with a default marketplace containing 40+ plugins out of the box. Browse available plugins with `/plugin` to see what's ready to use. For team-specific automation, you can also create local plugins or add custom marketplaces from Git repositories.
+> **Note:** Claude Code ships with a default marketplace containing 50+ plugins out of the box. For team-specific automation, you can also create local plugins or add custom marketplaces from Git repositories.
+
+**Exploring Available Plugins:**
+
+Run `/plugin` to open the interactive plugin manager:
+
+| Tab | Purpose |
+| --- | ------- |
+| **Discover** | Browse 50+ available plugins with install counts |
+| **Installed** | View and manage your installed plugins |
+| **Marketplaces** | See configured plugin sources |
+
+**Navigation:** Type to search · Space to toggle · Enter for details · Esc to go back
+
+**Popular plugins** from the [official repository](https://github.com/anthropics/claude-plugins-official):
+- `frontend-design` - Production-grade frontend interfaces
+- `code-review` - Automated code review for PRs
+- `feature-dev` - Comprehensive feature development workflow
+- `ralph-loop` - Ralph Wiggum technique for iterative, self-referential AI development loops
 
 **Adding a Marketplace:**
 
@@ -636,7 +654,7 @@ claude --plugin-dir ./realmanage-violations
 
 ---
 
-## Key Takeaways
+## 🎯 Key Takeaways
 
 ### Plugin Structure
 
@@ -753,3 +771,7 @@ INVOKE:
 
 *End of Week 7 Session Plan*
 *Next Session: Week 8 - Real-World Automation*
+
+---
+
+**Next:** [Week 8: Real-World Automation](../week-8/README.md)

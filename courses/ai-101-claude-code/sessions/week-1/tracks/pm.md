@@ -29,7 +29,6 @@ PMs often need to understand what's built before writing requirements. You'll us
 
    ```bash
    cd courses/ai-101-claude-code/sessions/week-1
-   mkdir -p sandbox
    cp -r examples/hoa-cli sandbox/
    cd sandbox/hoa-cli
    claude

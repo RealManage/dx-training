@@ -1,6 +1,11 @@
 # Week 7: Plugins - Developer Track
 
-**Full Content Track**
+**Duration:** 2 hours
+**Audience:** Software Developers, SDETs
+
+---
+
+## Overview
 
 This track covers the complete Week 7 material on Plugins - the packaging and distribution system for Claude Code automation.
 

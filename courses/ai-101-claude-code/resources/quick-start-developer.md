@@ -200,7 +200,7 @@ Create a [SERVICE/COMPONENT] that [DOES WHAT]
 
 ### What to Go Deep On
 
-- **Week 4 (TDD)** - This is the money. Spend extra time here.
+- **Week 4 (TDD with Claude)** - This is the money. Spend extra time here.
 - **Week 5-6 (Commands/Skills/Agents)** - Your productivity multipliers.
 
 ### After Certification

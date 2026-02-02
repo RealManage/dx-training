@@ -301,6 +301,8 @@ Do not modify any data - analysis only.
 .claude/settings.json            # Project-level (this project)
 ```
 
+> **Note:** Settings follow a precedence hierarchy (highest to lowest): managed settings → CLI args → local project (`.claude/settings.local.json`) → project (`.claude/settings.json`) → user (`~/.claude/settings.json`). Project settings override user settings, allowing teams to enforce project-specific hooks.
+
 **Basic Hook Structure:**
 
 ```json
@@ -670,7 +672,7 @@ Expand `.claude/settings.json` with comprehensive auditing:
 
 ---
 
-## Key Takeaways
+## 🎯 Key Takeaways
 
 ### Agents Quick Reference
 
@@ -787,3 +789,7 @@ Plugins package everything you've learned into distributable units:
 
 *End of Week 6 Session Plan*
 *Next Session: Week 7 - Plugins (The Complete Package)*
+
+---
+
+**Next:** [Week 7: Plugins](../week-7/README.md)

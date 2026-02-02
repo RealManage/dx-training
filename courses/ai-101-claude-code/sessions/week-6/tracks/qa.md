@@ -9,13 +9,12 @@ This track focuses on test automation hooks and read-only analysis agents. Agent
 
 ## Track Overview
 
-As a QA engineer, the most valuable Week 6 content for you is:
+As a QA engineer, you'll focus on:
 
 - **Hooks for test automation** - Auto-run tests after code changes
-- **Read-only agents** - Analyze code for testability without modifying it
+- **Analysis agents** - Analyze code for testability without modifying it
 - **Audit hooks** - Track what Claude is doing during sessions
-
-You can skip the complex agent creation sections and focus on using pre-built agents and configuring hooks.
+- **Custom QA agents** - Build specialized agents for test generation and coverage analysis
 
 ---
 
@@ -356,4 +355,4 @@ If a test-writer agent is available:
 
 ---
 
-*Next: Week 7 - Plugins (Package test automation for team use)*
+*Return to [Week 6 README](../README.md#-key-takeaways) | Next: [Week 7 - Plugins](../../week-7/tracks/qa.md)*

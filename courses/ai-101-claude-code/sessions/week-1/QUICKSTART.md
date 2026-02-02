@@ -43,7 +43,6 @@ courses/ai-101-claude-code/sessions/week-1/
 
 ```bash
 cd courses/ai-101-claude-code/sessions/week-1
-mkdir -p sandbox
 cp -r examples/hoa-cli sandbox/
 cd sandbox
 ```

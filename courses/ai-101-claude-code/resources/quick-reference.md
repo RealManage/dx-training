@@ -346,11 +346,11 @@ ng test --code-coverage # Coverage report
 
 ### Official Docs
 
-- [Claude Code Docs](https://docs.anthropic.com/en/docs/claude-code)
+- [Claude Code Docs](https://code.claude.com/docs/en/overview)
 - [CLI Reference](https://code.claude.com/docs/en/cli-reference) - All CLI flags
 - [Interactive Mode](https://code.claude.com/docs/en/interactive-mode) - Slash commands
-- [Prompt Engineering](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering)
-- [MCP Protocol](https://docs.anthropic.com/en/docs/mcp)
+- [Prompt Engineering](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview)
+- [MCP Protocol](https://modelcontextprotocol.io/)
 
 ### RealManage Resources
 

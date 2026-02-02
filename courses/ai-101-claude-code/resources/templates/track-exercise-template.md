@@ -64,7 +64,7 @@
 
 ### Key Takeaways
 
-Return to the [main README](../README.md#key-takeaways) for shared learning points.
+Return to the [main README](../README.md#-key-takeaways) for shared learning points.
 
 ### Next Week Preview
 

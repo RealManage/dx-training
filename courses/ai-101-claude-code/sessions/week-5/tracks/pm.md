@@ -343,4 +343,4 @@ Rationale: [why this split]
 
 ---
 
-*Return to [main README](../README.md)*
+*Return to [main README](../README.md#-key-takeaways)*

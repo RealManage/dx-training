@@ -29,7 +29,6 @@ The `hoa-cli` example has an intentional bug in the fine calculation. You'll use
 
    ```bash
    cd courses/ai-101-claude-code/sessions/week-1
-   mkdir -p sandbox
    cp -r examples/hoa-cli sandbox/
    cd sandbox/hoa-cli
    claude

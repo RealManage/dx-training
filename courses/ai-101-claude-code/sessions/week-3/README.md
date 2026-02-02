@@ -520,8 +520,8 @@ Enter Plan Mode → List all tasks → Group/order → Iterate → Execute
 
 ### Official Documentation
 
-- [Claude Code Plan Mode](https://docs.anthropic.com/en/docs/claude-code#plan-mode)
-- [Model Selection](https://docs.anthropic.com/en/docs/claude-code#model-selection)
+- [Claude Code Plan Mode](https://code.claude.com/docs/en/plan-mode)
+- [Model Selection](https://code.claude.com/docs/en/model-selection)
 - [Opus 4.5 Features](https://www.anthropic.com/news/claude-opus-4-5)
 
 ### RealManage Resources
@@ -567,3 +567,7 @@ Enter Plan Mode → List all tasks → Group/order → Iterate → Execute
 
 *End of Week 3 Session Plan*
 *Next Session: Week 4 - Test-Driven Development with Claude*
+
+---
+
+**Next:** [Week 4: Test-Driven Development](../week-4/README.md)

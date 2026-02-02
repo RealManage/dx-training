@@ -1,8 +1,13 @@
 # Week 5: Commands & Basic Skills - Developer Track
 
-**This is the full content track for developers.**
+**Duration:** 2 hours
+**Audience:** Software Developers, SDETs
 
-Developers should follow the [main README](../README.md) in its entirety. This track covers:
+---
+
+## Overview
+
+This is the full content track for developers. Follow the [main README](../README.md) in its entirety. This track covers:
 
 1. **Part 1: Slash Commands** - Creating custom commands in `.claude/commands/`
 2. **Part 2: Skills** - Building skills with supporting files in `.claude/skills/`
@@ -122,4 +127,4 @@ Start thinking about:
 
 ---
 
-*Return to [main README](../README.md)*
+*Return to [main README](../README.md#-key-takeaways)*

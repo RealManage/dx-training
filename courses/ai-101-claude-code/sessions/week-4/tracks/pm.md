@@ -376,4 +376,4 @@ But [should NOT happen]
 
 ---
 
-*Return to [Week 4 README](../README.md) | See also: [QA Track](qa.md)*
+*Return to [Week 4 README](../README.md#-key-takeaways) | See also: [QA Track](qa.md)*

@@ -313,4 +313,4 @@ Session context        # Current conversation
 
 ---
 
-*Complete command list from Claude Code v2.1.17 | January 2026*
+*Complete command list from Claude Code v2.1.17 | Last verified: January 2026*

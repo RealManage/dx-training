@@ -23,7 +23,6 @@ Skills are custom commands that save time on repetitive tasks. Support teams can
 
    ```bash
    cd courses/ai-101-claude-code/sessions/week-5
-   mkdir -p sandbox
    cp -r examples/support-skills sandbox/
    cd sandbox/support-skills
    claude

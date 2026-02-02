@@ -20,7 +20,7 @@ Already comfortable with AI tools? Skip the basics:
 
 1. **[Decision Trees](resources/decision-trees.md)** (30 min) - When to use what
 2. **[Week 3: Code Review](sessions/week-3/README.md)** (1 hr) - Plan Mode + CodeReviewPro exercise
-3. **[Week 4: TDD](sessions/week-4/README.md)** (1 hr) - Tests-first workflow with Claude
+3. **[Week 4: TDD with Claude](sessions/week-4/README.md)** (1 hr) - Tests-first workflow
 4. **[Week 8: Automation](sessions/week-8/README.md)** (1 hr) - Headless automation patterns
 5. **Capstone** (as needed) - Validate your skills
 
@@ -56,7 +56,7 @@ graph LR
     A[Week 0: AI Foundations] -.->|optional| B[Week 1: Setup]
     B --> C[Week 2: Prompting]
     C --> D[Week 3: Plan Mode]
-    D --> E[Week 4: TDD]
+    D --> E[Week 4: TDD with Claude]
     E --> F[Week 5: Commands & Skills]
     F --> G[Week 6: Agents & Hooks]
     G --> H[Week 7: Plugins]
@@ -628,8 +628,8 @@ Complete all 9 weeks and submit a capstone project to earn:
 
 ### Official Documentation
 
-- [Anthropic Claude Code Docs](https://docs.anthropic.com/en/docs/claude-code)
-- [Prompt Engineering Guide](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering)
+- [Claude Code Docs](https://code.claude.com/docs/en/overview)
+- [Prompt Engineering Guide](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview)
 - [Claude Code Best Practices](https://www.anthropic.com/engineering/claude-code-best-practices)
 
 ### Internal Support
@@ -698,7 +698,7 @@ Seek help if:
 - Claude Code won't start after installation
 - Authentication keeps failing
 - Generated code has obvious errors
-- Costs seem unusually high (>$5/hour individual usage - check with `/usage`)
+- Usage seems unusually high (check with `/usage` for session and weekly limits)
 - Test coverage drops below 80% *(Developer/QA tracks)*
 
 ---
@@ -707,9 +707,9 @@ Seek help if:
 
 ### Official Anthropic Documentation
 
-1. **Claude Code Documentation** - <https://docs.anthropic.com/en/docs/claude-code>
-2. **Prompt Engineering Guide** - <https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering>
-3. **Model Context Protocol** - <https://docs.anthropic.com/en/docs/mcp>
+1. **Claude Code Documentation** - <https://code.claude.com/docs/en/overview>
+2. **Prompt Engineering Guide** - <https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview>
+3. **Model Context Protocol** - <https://modelcontextprotocol.io/>
 4. **Claude Code Best Practices** - <https://www.anthropic.com/engineering/claude-code-best-practices>
 
 ### Test-Driven Development Resources

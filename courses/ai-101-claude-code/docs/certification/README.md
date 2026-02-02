@@ -15,26 +15,18 @@ You can:
 
 ## Requirements
 
-### For All Roles
-
-- [ ] **Complete Weeks 1-4 (Mandatory)** - Setup, Prompting, Planning, TDD fundamentals
+- [ ] **Complete Weeks 1-9** following your role's track
 - [ ] **Submit a capstone** showing AI-assisted work relevant to your role
 
-### Additional by Role
+> **Week 0 (AI Foundations)** is optional but recommended if you're new to AI concepts.
 
-| Role | Mandatory | Optional (Encouraged) |
-| ---- | --------- | --------------------- |
-| Developer | Weeks 1-4 | Weeks 5-9 (Skills, Agents, Hooks, Plugins) |
-| QA | Weeks 1-4 | QA-specific advanced content |
-| PM | Weeks 1-4 | PM-specific advanced content |
+## Delivery Options
 
-## Timeline
-
-| Track | Mandatory | Full Course |
-| ----- | --------- | ----------- |
-| Developer | 4 weeks | 9 weeks |
-| QA | 4 weeks | 6-7 weeks |
-| PM | 4 weeks | 6-7 weeks |
+| Format | Description |
+| ------ | ----------- |
+| Live Training | Scheduled sessions via Microsoft Teams |
+| Self-Paced | Work through materials independently |
+| Hybrid | Attend live sessions, review materials as needed |
 
 **Need more time?** That's fine. Let your trainer know. There's no penalty for going slower - the goal is competence, not speed.
 
@@ -145,3 +137,14 @@ Focus areas:
 - Acceptance criteria generation
 - Spec review and refinement
 - BDD scenario creation
+
+### Support Track
+
+See [Support Track Details](tracks/support-track.md)
+
+Focus areas:
+
+- Response templates and quality checklists
+- Customer communication with AI assistance
+- Escalation documentation
+- Knowledge base article creation

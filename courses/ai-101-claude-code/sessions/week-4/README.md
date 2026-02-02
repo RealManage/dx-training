@@ -585,3 +585,7 @@ The granular approach teaches you to think in tests. The batched approach with P
 
 *End of Week 4 Session Plan*
 *Next Session: Week 5 - Commands & Basic Skills*
+
+---
+
+**Next:** [Week 5: Commands & Basic Skills](../week-5/README.md)

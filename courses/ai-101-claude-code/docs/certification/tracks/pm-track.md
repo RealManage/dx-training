@@ -8,13 +8,14 @@ The PM track teaches you to use AI for product workflows: writing user stories, 
 
 ## Track Duration
 
-**6-7 weeks typical**
+**9 weeks (Week 0 optional)**
 
 | Phase | Weeks | Focus |
 | ----- | ----- | ----- |
 | Foundations | 0-3 | Setup, prompting, AI basics |
-| PM-Specific | 4-6 | Stories, specs, requirements |
-| Capstone | 7 | Demonstrate AI-assisted product work |
+| PM-Specific | 4-5 | Stories, specs, requirements |
+| Automation | 6-8 | Agents, plugins, workflows |
+| Capstone | 9 | Demonstrate AI-assisted product work |
 
 ## Week-by-Week Content
 
@@ -75,15 +76,55 @@ See [Week 4 PM Track](../../../sessions/week-4/tracks/pm.md) for full content.
 
 See [Week 5 PM Track](../../../sessions/week-5/tracks/pm.md) for full content.
 
-### Weeks 6-7: Skip (Developer-Focused)
+### Week 6: Agents & Hooks for PMs
 
-Weeks 6 (Agents & Hooks) and 7 (Plugins) are technical content for developers. PMs can:
+**PM-Specific Content:**
 
-- Review the summary to understand concepts
-- Skip hands-on exercises
-- Proceed to Week 8
+- Creating agents for requirements analysis and document review
+- Configuring hooks for quality checks on PM deliverables
+- Building automation that improves your workflow consistency
 
-### Week 7: Capstone
+**Exercises:**
+
+- Create a requirements-analyst agent
+- Configure quality check hooks for PM artifacts
+- Combine agents and hooks for automated review workflows
+
+See [Week 6 PM Track](../../../sessions/week-6/tracks/pm.md) for full content.
+
+### Week 7: Plugins & PM Toolkit
+
+**PM-Specific Content:**
+
+- Understanding plugin structure and benefits
+- Using the PM Toolkit plugin (write-story, write-epic, write-bdd)
+- Extending plugins with custom skills for your workflows
+
+**Exercises:**
+
+- Use the PM Toolkit to generate stories, epics, and BDD scenarios
+- Explore plugin structure and skill files
+- Add custom skills (release-notes, sprint-summary)
+
+See [Week 7 PM Track](../../../sessions/week-7/tracks/pm.md) for full content.
+
+### Week 8: Real-World Automation
+
+**PM-Specific Content:**
+
+- Headless automation for batch processing
+- Generating reports and documentation automatically
+- Integrating AI automation into PM workflows
+
+**Exercises:**
+
+- Automate release notes generation
+- Create batch processing scripts for PM tasks
+- Build stakeholder reporting automation
+
+See [Week 8 PM Track](../../../sessions/week-8/tracks/pm.md) for full content.
+
+### Week 9: Capstone
 
 Demonstrate AI fluency with a real project:
 
@@ -105,13 +146,13 @@ After completing this track:
 
 ## Capstone Requirements
 
-Submit one of the following:
+Submit one of the following (Option E):
 
-| Option | Description |
-| ------ | ----------- |
+| Option E | Description |
+| -------- | ----------- |
 | Feature Spec | Complete specification for a real feature |
 | Story Set | 5+ user stories with acceptance criteria for an epic |
-| BDD Scenarios | Comprehensive scenarios for a user workflow |
+| BDD Scenarios | Comprehensive Gherkin scenarios for a user workflow |
 
 ## This Track Is For You If
 
@@ -132,7 +173,9 @@ Submit one of the following:
 | ----- | --------------- | -------- |
 | Week 4 | TDD (writing code) | Writing testable requirements |
 | Week 5 | Commands & Skills (dev) | Commands & PM Skills |
-| Week 6-7 | Agents, Hooks, Plugins | Skip |
+| Week 6 | Code review agents, test hooks | Requirements analysis agents, quality hooks |
+| Week 7 | Developer plugins | PM Toolkit plugin |
+| Week 8 | CI/CD automation | Reporting automation |
 | Capstone | Code project | Spec or story set |
 
 ## The PM Toolkit

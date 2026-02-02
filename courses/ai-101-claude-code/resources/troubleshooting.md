@@ -6,15 +6,7 @@ Common issues and solutions for RealManage developers using Claude Code.
 
 - [CLI Reference](https://code.claude.com/docs/en/cli-reference)
 - [Interactive Mode](https://code.claude.com/docs/en/interactive-mode)
-- [Troubleshooting](https://docs.anthropic.com/en/docs/claude-code/troubleshooting)
-
-## 📊 Test Coverage Target Rationale
-
-**Why 80-90% coverage instead of 95-100%?**
-
-80-90% coverage is the recommended target because it provides strong confidence in code quality while remaining maintainable. Achieving 100% coverage often leads to brittle tests that test implementation rather than behavior. The final 10-20% of coverage typically requires testing edge cases that provide diminishing returns and can make refactoring harder without meaningful improvement in code quality.
-
----
+- [Troubleshooting](https://code.claude.com/docs/en/troubleshooting)
 
 ## 🚨 Installation Issues
 
@@ -62,43 +54,53 @@ nvm use --lts       # Mac/Linux
 
 ### Claude Command Not Found
 
-**Check npm global path:**
+**Check if Claude is installed:**
 
 ```bash
-npm config get prefix
-
-# Windows Git Bash - Add to PATH:
-echo 'export PATH=$PATH:/c/Users/'$USER'/AppData/Roaming/npm' >> ~/.bashrc
-source ~/.bashrc
-
-# Mac/Linux - Add to PATH:
-echo 'export PATH=$PATH:$(npm config get prefix)/bin' >> ~/.bashrc
-source ~/.bashrc
+# Verify installation
+which claude
+claude --version
 ```
 
-**Reinstall Claude Code:**
+**Reinstall Claude Code (native installer):**
 
 ```bash
-npm uninstall -g @anthropic-ai/claude-code
-npm install -g @anthropic-ai/claude-code
+# macOS, Linux, WSL
+curl -fsSL https://claude.ai/install.sh | bash
+
+# Windows PowerShell
+irm https://claude.ai/install.ps1 | iex
+
+# Windows CMD
+curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd
+
+# Alternative: Homebrew (macOS/Linux)
+brew install --cask claude-code
+
+# Alternative: WinGet (Windows)
+winget install Anthropic.ClaudeCode
 ```
 
 ### Permission Denied
 
-**DO NOT use sudo!** Instead:
+Native installers handle permissions automatically. If you see permission errors:
 
 ```bash
-# Check npm prefix
-npm config get prefix
+# macOS/Linux/WSL - Verify install location
+ls -la ~/.local/bin/claude
 
-# If it shows /usr/local, change it:
-npm config set prefix ~/.npm-global
-mkdir -p ~/.npm-global
-echo 'export PATH=$PATH:~/.npm-global/bin' >> ~/.bashrc
+# If needed, ensure ~/.local/bin is in PATH
+echo 'export PATH=$PATH:~/.local/bin' >> ~/.bashrc
 source ~/.bashrc
 
-# Reinstall Claude Code
-npm install -g @anthropic-ai/claude-code
+# Reinstall with native installer
+curl -fsSL https://claude.ai/install.sh | bash
+```
+
+**Windows:** Run PowerShell as Administrator if needed, then:
+
+```powershell
+irm https://claude.ai/install.ps1 | iex
 ```
 
 ## 🔐 Authentication Issues
@@ -182,9 +184,9 @@ npm config set cafile /path/to/corporate-cert.pem
 
 ## 🎯 Claude Code Runtime Issues
 
-### High Token Usage / Costs
+### High Usage
 
-**Symptoms:** Costs exceeding $5/hour
+**Symptoms:** `/usage` shows high session or weekly percentage
 
 **Solutions:**
 
@@ -192,6 +194,7 @@ npm config set cafile /path/to/corporate-cert.pem
 - Limit context with `/add-dir` specific directories
 - Use `/compact` to compress conversation
 - Check for large files accidentally included
+- Monitor with `/usage` to track session and weekly limits
 
 ### Claude Can't See Files
 
@@ -315,9 +318,17 @@ cp -r ~/.claude ~/.claude.backup
 # Clear all Claude data
 rm -rf ~/.claude
 
-# Reinstall
-npm uninstall -g @anthropic-ai/claude-code
-npm install -g @anthropic-ai/claude-code
+# Uninstall (macOS/Linux/WSL)
+rm -f ~/.local/bin/claude && rm -rf ~/.local/share/claude
+
+# Uninstall (Windows PowerShell)
+# Remove-Item -Path "$env:USERPROFILE\.local\bin\claude.exe" -Force
+
+# Reinstall with native installer (macOS/Linux/WSL)
+curl -fsSL https://claude.ai/install.sh | bash
+
+# Reinstall (Windows PowerShell)
+# irm https://claude.ai/install.ps1 | iex
 ```
 
 ## 🛠️ My Skill Doesn't Work
@@ -827,7 +838,7 @@ When asking for help, include:
 2. **Run `claude doctor`**
 3. **Clear and restart:** `/clear` then restart Claude
 4. **Check directory:** Ensure you're in project root
-5. **Update Claude:** `npm update -g @anthropic-ai/claude-code`
+5. **Update Claude:** Re-run the native installer to get the latest version
 6. **Check network:** Temporarily disable VPN/firewall
 7. **Use different shell:** Try PowerShell vs Git Bash
 

@@ -1,7 +1,19 @@
-# Week 8: Real-World Automation - Support Exercise
+# Week 8: Real-World Automation - Support Track
 
 **Duration:** 30-45 min
+**Audience:** Support Engineers, Customer Success
 **Prerequisites:** Complete main README through Part 2 (Automation Patterns)
+
+---
+
+## Learning Objectives
+
+By the end of this session, you will be able to:
+
+- Design ticket triage automation workflows
+- Create response generation automation for common issues
+- Handle edge cases and messy real-world inputs
+- Plan automation that improves support efficiency
 
 ---
 
@@ -23,7 +35,6 @@ Real-world automation handles messy inputs and edge cases. Ticket triage is a pe
 
    ```bash
    cd courses/ai-101-claude-code/sessions/week-8
-   mkdir -p sandbox
    cp -r examples/ticket-automation sandbox/
    cd sandbox/ticket-automation
    claude

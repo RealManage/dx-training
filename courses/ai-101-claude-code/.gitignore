@@ -1,0 +1,20 @@
+# Sandbox directories - ignore contents, keep .gitkeep
+**/sandbox/*
+!**/sandbox/.gitkeep
+
+# Build outputs
+**/bin/
+**/obj/
+
+# IDE
+.vs/
+.vscode/
+*.user
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test results
+**/TestResults/
+**/coverage/

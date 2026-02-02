@@ -23,7 +23,6 @@ Users report "Interest calculations are wrong after 90 days." You'll use plan mo
 
    ```bash
    cd courses/ai-101-claude-code/sessions/week-3
-   mkdir -p sandbox
    cp -r examples/bug-hunter sandbox/
    cd sandbox/bug-hunter
    claude
