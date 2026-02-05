@@ -3,16 +3,16 @@
 **Duration:** 2 hours
 **Format:** Self-paced or instructor-led
 **Prerequisites:** Completed Weeks 1-3
-**Audience:** RealManage development team
+**Audience:** RealManage cross-functional team (engineers, PMs, QA, support staff)
 
 ## Learning Tracks
 
 This week has role-specific tracks:
 
-- **Developer Track** - Full TDD content (this README)
-- **[QA Track](./tracks/qa.md)** - Writing tests for existing code, coverage gap analysis
-- **[PM Track](./tracks/pm.md)** - Writing testable requirements (Given/When/Then)
-- **[Support Track](./tracks/support.md)** - Test-first response writing, quality criteria
+- **[Developer Track](./tracks/developer.md)** - Debug, build features, and write tests with TDD
+- **[QA Track](./tracks/qa.md)** - Design test strategies, write test cases, and analyze coverage gaps
+- **[PM Track](./tracks/pm.md)** - Write testable requirements and acceptance criteria (Given/When/Then)
+- **[Support Track](./tracks/support.md)** - Build quality-first response workflows and validation criteria
 
 ---
 
@@ -99,7 +99,7 @@ graph LR
 
 **Step 1: Write the test first**
 
-```
+```text
 > Claude, I need a test for a HomeownerService that validates email format.
 > Use xUnit and FluentAssertions. The method should be called IsValidEmail
 > and return false for invalid emails.
@@ -114,14 +114,14 @@ dotnet test
 
 **Step 3: Implement minimal code (Green)**
 
-```
+```text
 > Now implement just enough code to make this test pass.
 > Don't add any extra functionality.
 ```
 
 **Step 4: Refactor if needed**
 
-```
+```text
 > The test still passes. Can you refactor this for better readability?
 ```
 
@@ -129,7 +129,7 @@ dotnet test
 
 **The Right Prompts:**
 
-```
+```text
 ✅ "Write a test for X functionality"
 ✅ "Make this failing test pass with minimal code"
 ✅ "Refactor while keeping tests green"
@@ -178,6 +178,8 @@ cd sandbox/homeowner-setup
 claude
 ```
 
+> **Not familiar with these commands?** No worries - Claude can walk you through them. Just ask!
+
 **Requirements to implement via TDD:**
 
 1. Add new homeowner with validation
@@ -188,7 +190,7 @@ claude
 
 **The TDD Dance:**
 
-```
+```text
 For each requirement:
 1. Write test that fails
 2. Implement minimal code
@@ -198,8 +200,8 @@ For each requirement:
 
 **Sample starting prompt:**
 
-```
-I need to build a HomeownerService using TDD. 
+```text
+I need to build a HomeownerService using TDD.
 First, write a test for adding a new homeowner. The test should:
 - Use xUnit and FluentAssertions
 - Test that AddHomeowner returns true for valid input
@@ -541,7 +543,7 @@ This becomes your configuration-as-code for AI behavior!
 
 **Week 1 (Granular):**
 
-```
+```text
 > Write test for X
 > Implement X
 > Write test for Y
@@ -550,14 +552,14 @@ This becomes your configuration-as-code for AI behavior!
 
 **Week 4 (Hybrid):**
 
-```
+```text
 > Write all validation tests
 > Implement validation module
 ```
 
 **Week 8 (Batched with Prime Directives):**
 
-```
+```text
 > Build complete payment processing with TDD
 [Claude follows CLAUDE.md rules automatically]
 ```

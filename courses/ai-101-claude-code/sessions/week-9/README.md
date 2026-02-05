@@ -34,6 +34,8 @@ cp -r examples sandbox
 cd sandbox/capstone-templates
 ```
 
+> **Not familiar with these commands?** No worries - Claude can walk you through them. Just ask!
+
 ### Prerequisites Review
 
 Before starting your capstone:
@@ -67,7 +69,7 @@ Choose ONE of the following capstone projects. Each includes starter templates i
 
 ### Developer Track Options (A, B, C)
 
-##### Option A: Violation Escalation System (Recommended for Backend Focus)
+#### Option A: Violation Escalation System (Recommended for Backend Focus)
 
 Build an automated violation escalation system that:
 
@@ -89,7 +91,7 @@ Build an automated violation escalation system that:
 
 **Success Criteria:**
 
-```
+```text
 [ ] Violation progresses correctly through stages
 [ ] Notices generated with correct fine calculations
 [ ] Compound interest applied after 30 days
@@ -98,7 +100,7 @@ Build an automated violation escalation system that:
 [ ] Test coverage >= 80%
 ```
 
-##### Option B: Self-Service Knowledge Base (Recommended for Full-Stack)
+#### Option B: Self-Service Knowledge Base (Recommended for Full-Stack)
 
 Build an AI-powered knowledge base for residents:
 
@@ -119,7 +121,7 @@ Build an AI-powered knowledge base for residents:
 
 **Success Criteria:**
 
-```
+```text
 [ ] Natural language search returns relevant CCR sections
 [ ] FAQ generation from ticket patterns
 [ ] Resident portal functional and responsive
@@ -128,7 +130,7 @@ Build an AI-powered knowledge base for residents:
 [ ] Test coverage >= 90%
 ```
 
-##### Option C: Financial Forecasting Tool (Recommended for Data Focus)
+#### Option C: Financial Forecasting Tool (Recommended for Data Focus)
 
 Build a dues collection and budget forecasting tool:
 
@@ -149,7 +151,7 @@ Build a dues collection and budget forecasting tool:
 
 **Success Criteria:**
 
-```
+```text
 [ ] Collection predictions within 10% accuracy
 [ ] At-risk accounts identified 30 days early
 [ ] Variance reports generated automatically
@@ -159,9 +161,9 @@ Build a dues collection and budget forecasting tool:
 
 ---
 
-### QA Track Option (D)
+### QA Track Option (D) - Design test strategies and build automation that catches bugs before they ship
 
-##### Option D: Test Automation Suite (Recommended for QA Engineers)
+#### Option D: Test Automation Suite (Recommended for QA Engineers)
 
 Build a comprehensive test automation framework for the HOA module:
 
@@ -182,7 +184,7 @@ Build a comprehensive test automation framework for the HOA module:
 
 **Success Criteria:**
 
-```
+```text
 [ ] Test suite covers all critical HOA workflows
 [ ] Test data generation creates realistic scenarios
 [ ] Coverage dashboard displays real-time metrics
@@ -201,16 +203,16 @@ Build a comprehensive test automation framework for the HOA module:
 
 ---
 
-### Product Management Track Option (E)
+### Product Management Track Option (E) - Turn ideas into specs, user stories, and stakeholder-ready docs
 
-##### Option E: Product Design & Documentation (Recommended for PMs)
+#### Option E: Product Design & Documentation (Recommended for PMs)
 
 Use Claude Code to create complete product specifications and documentation:
 
 - Feature specification for a new HOA capability
 - User story mapping with acceptance criteria
 - Stakeholder documentation and presentations
-- **NON-CODING deliverables focus**
+- **Documentation & Strategy Focus** - all deliverables are high-impact product artifacts
 
 **Starter Template:** `examples/capstone-templates/option-e-pm-product-design/`
 
@@ -224,13 +226,13 @@ Use Claude Code to create complete product specifications and documentation:
 
 **Success Criteria:**
 
-```
+```text
 [ ] PRD covers problem, solution, and success metrics
 [ ] User stories follow INVEST principles
 [ ] Acceptance criteria are testable and clear
 [ ] Documentation is stakeholder-ready
 [ ] All artifacts generated with Claude assistance
-[ ] No coding required for submission
+[ ] Deliverables demonstrate Claude-powered product thinking
 ```
 
 **Deliverables:**
@@ -243,9 +245,9 @@ Use Claude Code to create complete product specifications and documentation:
 
 ---
 
-### Support Track Option (F)
+### Support Track Option (F) - Build response templates, FAQs, and escalation tools that improve every interaction
 
-##### Option F: Knowledge Base & Response Templates (Recommended for Support)
+#### Option F: Knowledge Base & Response Templates (Recommended for Support)
 
 Build a support toolkit using Claude Code:
 
@@ -266,7 +268,7 @@ Build a support toolkit using Claude Code:
 
 **Success Criteria:**
 
-```
+```text
 [ ] FAQ covers top 20 resident questions
 [ ] Response templates are professional and accurate
 [ ] Templates include personalization placeholders
@@ -287,7 +289,7 @@ Build a support toolkit using Claude Code:
 
 ### Custom Project Option
 
-##### Option G: Custom Project (Requires Instructor Approval)
+#### Option G: Custom Project (Requires Instructor Approval)
 
 Propose your own project that:
 
@@ -436,7 +438,7 @@ Create an audit hook (`.claude/settings.json`):
 
 For complex features, use sub-agents:
 
-```
+```text
 Use the Task tool to explore the codebase for [pattern] while I work on [feature].
 ```
 
@@ -482,7 +484,7 @@ dotnet test --collect:"XPlat Code Coverage"
 
 #### Quality Checklist
 
-```markdown
+```text
 Code Quality:
 [ ] All tests pass
 [ ] Coverage >= 80% (or higher for critical paths)
@@ -506,7 +508,7 @@ Skills & Hooks:
 
 Before presenting, verify:
 
-```markdown
+```text
 [ ] No hardcoded secrets
 [ ] Input validation on all endpoints
 [ ] SQL injection prevention (parameterized queries)
@@ -573,13 +575,13 @@ Each team presents for 3-4 minutes:
 
 Rate each presentation (1-5):
 
-| Criteria | Team A | Team B | Team C | Team D |
-| -------- | ------ | ------ | ------ | ------ |
-| Problem clarity |  |  |  |  |
-| Solution elegance |  |  |  |  |
-| Demo effectiveness |  |  |  |  |
-| Code quality |  |  |  |  |
-| Innovation |  |  |  |  |
+| Criteria           | Team A | Team B | Team C | Team D |
+| ------------------ | ------ | ------ | ------ | ------ |
+| Problem clarity    |        |        |        |        |
+| Solution elegance  |        |        |        |        |
+| Demo effectiveness |        |        |        |        |
+| Code quality       |        |        |        |        |
+| Innovation         |        |        |        |        |
 
 #### Q&A Guidelines
 
@@ -606,7 +608,7 @@ Ask questions about:
 
 ### Role-Specific Adjustments
 
-**For Non-Coding Tracks (E, F):**
+**For Documentation & Strategy Tracks (E, F):**
 
 | Category | Points | Criteria |
 | -------- | ------ | -------- |
@@ -656,7 +658,7 @@ zip -r capstone-submission.zip . -x "bin/*" -x "obj/*"
 
 ### Submission Checklist
 
-```
+```text
 For Coding Tracks (A, B, C, D):
 [ ] All source code included
 [ ] Tests pass on clean build
@@ -665,7 +667,7 @@ For Coding Tracks (A, B, C, D):
 [ ] Demo script prepared
 [ ] No secrets in code
 
-For Non-Coding Tracks (E, F):
+For Documentation & Strategy Tracks (E, F):
 [ ] All deliverables included
 [ ] Documents are complete and polished
 [ ] Process documentation included
@@ -771,7 +773,7 @@ Shift+Tab                # Toggle plan mode on/off
 
 ### File Locations
 
-```
+```text
 .claude/settings.json              # Hooks and settings
 .claude/commands/<name>.md         # Legacy commands (still supported)
 .claude/skills/<name>/SKILL.md     # Modern skills (recommended)
@@ -783,7 +785,7 @@ CLAUDE.md                          # Project context
 
 ### TDD Cycle
 
-```
+```text
 1. Write failing test (Red)
 2. Minimal code to pass (Green)
 3. Refactor for quality (Refactor)
@@ -798,13 +800,13 @@ You've completed the **RealManage AI 101: Claude Code** course!
 
 You're now equipped to:
 
-- Use AI as a powerful development partner
-- Write better code with comprehensive test coverage
+- Use AI as a powerful partner for your role - whether engineering, PM, QA, or support
+- Deliver higher-quality work with Claude-assisted workflows
 - Automate repetitive tasks with skills and hooks
 - Build innovative solutions for HOA management
-- Collaborate more effectively with AI assistance
+- Collaborate more effectively across teams with AI assistance
 
-**Remember:** The future of coding isn't replacing developers--it's amplifying their capabilities!
+**Remember:** The future isn't replacing people--it's amplifying every team member's capabilities!
 
 ### Your Next Steps
 

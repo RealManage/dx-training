@@ -14,9 +14,20 @@ By the end of this session, participants will be able to:
 - ✅ Create and manage CLAUDE.md memory files
 - ✅ Identify 3+ use cases for their daily work
 
-> **PM/Support Track Note:** Focus on observing and understanding the developer experience. You don't need to complete the coding exercises—watch a developer work through them instead. See [PM Quick-Start Guide](../../resources/quick-start-pm.md) for your customized path.
+> **Every role belongs here.** Each track (Developer, PM, QA, Support) has exercises designed for your daily work. But don't stop there - if you're curious about the developer exercises, try them! Claude does the heavy lifting, and you might surprise yourself. See your track's quick-start guide for a customized path, or dive into any track that interests you:
+> [Developer](../../resources/quick-start-developer.md) | [PM](../../resources/quick-start-pm.md) | [QA](../../resources/quick-start-qa.md) | [Support](../../resources/quick-start-support.md)
 
 ## 📋 Pre-Session Checklist
+
+> **New to the terminal?** A terminal (also called command line or shell) is where you type commands instead of clicking buttons. VS Code has a built-in terminal - open it with `` Ctrl+` `` (Windows/Linux) or `` Cmd+` `` (Mac). It defaults to PowerShell on Windows and the default shell on Mac/Linux. Here are the commands you'll use today:
+>
+> | Command | What It Does |
+> | - | - |
+> | `cd folder-name` | Navigate into a folder |
+> | `cd ..` | Go back one folder |
+> | `ls` | List files in current folder (`dir` on Windows) |
+> | `cp -r source destination` | Copy a folder and its contents |
+> | `claude` | Start Claude Code |
 
 ### System Requirements
 
@@ -24,9 +35,20 @@ By the end of this session, participants will be able to:
 - **RAM:** 4GB minimum
 - **.NET:** .NET 10 SDK required for C# exercises
 - **Shell:** Bash, Zsh, PowerShell, or Fish
-- **IDE:** VS Code with recommended extensions
+- **IDE:** VS Code (see Step 1 below for installation)
 
-### Step 1: Install Claude Code
+### Step 1: Install VS Code
+
+If you don't already have VS Code installed, download and install it for your platform:
+
+- download from [code.visualstudio.com](https://code.visualstudio.com/) or
+- **Windows:** `winget install Microsoft.VisualStudioCode`
+- **macOS:** `brew install --cask visual-studio-code`
+- **Linux/WSL:** `sudo apt install code`
+
+> **Already have VS Code?** Make sure you're on version **1.98.0 or higher** (Help → About). The Claude Code extension requires it.
+
+### Step 2: Install Claude Code
 
 Claude Code now uses native installers (npm method is deprecated).
 
@@ -86,7 +108,9 @@ source ~/.bashrc
 claude --version
 ```
 
-### Step 2: Install .NET 10 SDK (for C# exercises)
+### Step 3: Install .NET 10 SDK (for C# exercises)
+
+> **Non-developers:** Your track exercises don't require .NET, but installing it lets you try the developer exercises too. It's a quick install and Claude handles the code - worth it if you're curious!
 
 ```bash
 # Verify .NET installation
@@ -98,7 +122,7 @@ dotnet --version  # Should show 10.x.x
 # Ubuntu/Debian: sudo apt-get update && sudo apt-get install -y dotnet-sdk-10.0
 ```
 
-### Step 3: Install IDE Extensions
+### Step 4: Install IDE Extensions
 
 **For VS Code/Windsurf:**
 
@@ -124,7 +148,38 @@ Key extensions needed:
 - **Markdown Preview** - For viewing course materials
 - **.NET Runtime** - For running C# code
 
-### Step 4: Pre-Session Verification
+### Using the VS Code Extension Panel (Alternative to CLI)
+
+Claude Code can be used two ways: the **CLI** (terminal) or the **VS Code Extension Panel** (graphical UI). Both have the same core capabilities. This course primarily teaches the CLI, but the extension panel is a great option if you prefer a visual interface.
+
+**Opening the Panel:**
+
+- **Spark Icon** - Click the ✱ icon in the top-right of the Editor Toolbar (requires a file to be open)
+- **Command Palette** - `Cmd+Shift+P` / `Ctrl+Shift+P` → type "Claude Code" → "Open in New Tab"
+
+**Key Features:**
+
+| Feature | Description |
+| - | - |
+| **@-mentions** | Type `@filename` to reference files directly in your prompt |
+| **Inline Diffs** | Side-by-side comparison when Claude proposes edits |
+| **Plan Review** | Review and approve Claude's plan before it makes changes |
+| **Multiple Tabs** | Open separate conversations in different tabs |
+| **Conversation History** | Resume past conversations from a dropdown |
+| **Permission Modes** | Switch between manual approval, plan mode, and auto-accept |
+
+**Useful Shortcuts:**
+
+| Shortcut | Action |
+| - | - |
+| `Cmd+Esc` / `Ctrl+Esc` | Toggle focus between editor and Claude |
+| `Option+K` / `Alt+K` | Insert @-mention for current file + selection |
+| `Cmd+Shift+Esc` / `Ctrl+Shift+Esc` | Open Claude in a new tab |
+| `Shift+Enter` | New line without sending |
+
+> **Which should I use?** The CLI is more powerful (all commands, MCP config, bash shortcuts). The extension panel is more visual and beginner-friendly. You can switch between them anytime - they share conversation history. See the [official VS Code docs](https://code.claude.com/docs/en/vs-code) for full details.
+
+### Step 5: Pre-Session Verification
 
 - [ ] Claude Code installed (`claude --version`)
 - [ ] .NET 10 SDK installed (`dotnet --version`)
@@ -140,7 +195,7 @@ Key extensions needed:
 
 Understanding the folder structure is essential before diving in:
 
-```
+```text
 courses/ai-101-claude-code/
 ├── sessions/
 │   ├── week-1/
@@ -421,33 +476,33 @@ claude update
 # Navigate to Week 1
 cd courses/ai-101-claude-code/sessions/week-1
 
-# Copy the developer example (hoa-cli) to your sandbox
-cp -r examples/hoa-cli sandbox/
-cd sandbox/hoa-cli
+# Copy an example to your sandbox (choose one):
+cp -r examples/hoa-cli sandbox/     # Developer, PM, or QA track
+# OR
+cp -r examples/support sandbox/     # Support track
 
-# See what's here - modern C# with no Main() method!
-ls -la
+# Navigate into your example
+cd sandbox/hoa-cli    # or sandbox/support
 
-# Build and run the CLI app
-dotnet build
-dotnet run
-
-# Try option 1: Calculate a fine
-# Try option 2: View violations
-# Notice option 3-5 aren't implemented yet!
-# Exit with option 6
-
-# Now start Claude to help improve it
+# Start Claude Code
 claude
 ```
 
-> **Note:** Week 1 has two example projects: `hoa-cli` (for developers) and `support` (for support staff). Choose the one that matches your role, or see [Hands-On Exercises](#part-5-hands-on-exercises-30-45-min) for role-specific tracks.
+> **Developer track bonus:** If you have .NET installed, you can build and run the hoa-cli app directly:
+>
+> ```bash
+> dotnet build
+> dotnet run
+> # Try the menu options - notice which features are TODO!
+> ```
+>
+> **Note:** Week 1 has two example projects: `hoa-cli` (Developer, PM, QA tracks) and `support` (Support track). Choose the one that matches your role, or try both! See [Hands-On Exercises](#part-5-hands-on-exercises-30-45-min) for role-specific tracks.
 
 #### 3.2 Codebase Q&A Practice (15 min)
 
 **Exercise - Ask these questions in Claude:**
 
-```
+```text
 > What does this example application do?
 
 > Explain how top-level programs work in modern C#
@@ -471,7 +526,7 @@ claude
 
 **Live coding with the class - Fix and Extend the Example:**
 
-```
+```text
 > Find and fix the bug in CalculateFine then write a xUnit unit test to cover all cases
 
 > Implement the GetOverdueViolations method that's marked TODO and add option "3" to the menu to show overdue violations
@@ -494,7 +549,7 @@ claude
 
 #### 4.1 Memory Hierarchy (10 min)
 
-```
+```text
 ~/.claude/CLAUDE.md           # User-level (all projects)
     ↓
 ./CLAUDE.md                   # Project-level (this project)
@@ -608,7 +663,7 @@ echo "# Project Context" > CLAUDE.md
 
 **Test it works:**
 
-```
+```text
 > What's our testing coverage requirement?
 # Should respond: 80-90% based on CLAUDE.md
 
@@ -652,28 +707,28 @@ Now it's time to practice! Choose the exercise track that matches your role:
 
 **Support Team:**
 
-```
+```text
 > Summarize all error messages from the last 24 hours
 > Draft a response to this homeowner complaint
 ```
 
 **Product Managers:**
 
-```
+```text
 > Generate release notes from the last 10 commits
 > Create user stories from this feature request
 ```
 
 **Engineers:**
 
-```
+```text
 > Write unit tests for the PaymentService class
 > Find all TODO comments in the codebase
 ```
 
 **QA/Testing:**
 
-```
+```text
 > Generate test cases for the violation workflow
 > Find all hardcoded values that should be configurable
 ```
@@ -719,7 +774,7 @@ Now it's time to practice! Choose the exercise track that matches your role:
 
 Try this in your sandbox without help:
 
-```
+```text
 > Add a new ViolationAppeal class with these rules:
   - Appeals must be within 30 days of violation
   - Must include justification text

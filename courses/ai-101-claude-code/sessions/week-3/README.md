@@ -2,7 +2,7 @@
 
 **Duration:** 2 hours
 **Format:** In-person or virtual
-**Audience:** RealManage cross-functional team
+**Audience:** RealManage cross-functional team (engineers, PMs, QA, support staff)
 **Prerequisites:** Completed Weeks 1-2
 
 ## 🎯 Learning Objectives
@@ -63,7 +63,7 @@ By the end of this session, participants will be able to:
 
 **The Old Way (Wrong):**
 
-```
+```text
 Spend days creating elaborate planning documents →
 Try to implement exactly as planned →
 Reality doesn't match the plan →
@@ -72,7 +72,7 @@ Wasted time
 
 **The New Way (Right):**
 
-```
+```text
 Get a complex task →
 Enter plan mode (Shift+Tab) →
 Iterate on your approach through conversation →
@@ -97,7 +97,7 @@ Let's say you need to rename `CalculateFee` to `CalculateLateFee` across 5 files
 
 **❌ WITHOUT Plan Mode (Auto Mode):**
 
-```
+```text
 You: "Rename CalculateFee to CalculateLateFee everywhere"
 
 Claude: [immediately starts editing]
@@ -114,7 +114,7 @@ You: "Wait, that string literal was a log message, not code!"
 
 **✅ WITH Plan Mode:**
 
-```
+```text
 You: [Shift+Tab to enter plan mode]
 You: "Rename CalculateFee to CalculateLateFee everywhere"
 
@@ -195,7 +195,7 @@ Try this right now in your Claude session:
 
 **In plan mode, you can refine your thinking:**
 
-```
+```text
 You: "I need to fix these 8 code review comments"
 Claude: "Here's a plan..."
 You: "Actually, let's group the security fixes together"
@@ -233,7 +233,7 @@ This iteration BEFORE execution saves hours of rework!
 
 #### 2.2 The Code Review Workflow (10 min)
 
-```
+```text
 1. Set model to Opus: /model opus
 2. Request comprehensive review
 3. Switch back to Sonnet: /model sonnet
@@ -260,7 +260,7 @@ This iteration BEFORE execution saves hours of rework!
 
 **Scenario 1: Claude starts over-engineering**
 
-```
+```text
 You: "Fix the interest calculation bug"
 Claude: [starts refactoring entire codebase]
 You: *Hit Esc*
@@ -271,7 +271,7 @@ Claude: [shows next action, waits for approval]
 
 **Scenario 2: Claude misses the point**
 
-```
+```text
 You: "Review this payment code"
 Claude: [focuses only on formatting]
 You: *Hit Esc*
@@ -288,10 +288,10 @@ Choose the exercise track that matches your role. All tracks practice plan mode 
 
 | Track | Best For | Focus Area |
 | ----- | -------- | ---------- |
-| [Developer](tracks/developer.md) | Engineers | Bug investigation, code review, multi-phase builds |
-| [QA](tracks/qa.md) | QA engineers | Test planning, defect analysis, regression planning |
-| [PM](tracks/pm.md) | Product managers | Feature planning, phased delivery, trade-off analysis |
-| [Support](tracks/support.md) | Support staff | Issue triage, escalation planning, KB organization |
+| [Developer](tracks/developer.md) | Engineers | Debug, investigate bugs, and plan multi-phase builds |
+| [QA](tracks/qa.md) | QA engineers | Plan test strategies, analyze defects, and design regression suites |
+| [PM](tracks/pm.md) | Product managers | Plan feature rollouts, phase delivery, and analyze trade-offs |
+| [Support](tracks/support.md) | Support staff | Triage issues, plan escalation workflows, and organize knowledge bases |
 
 **Instructions:**
 
@@ -319,6 +319,8 @@ cd sandbox/bug-hunter
 claude
 ```
 
+> **Not familiar with these commands?** No worries - Claude can walk you through them. Just ask!
+
 **Your Mission:**
 
 1. Users report: "Interest calculations are wrong after 90 days"
@@ -330,7 +332,7 @@ claude
 
 **The Pattern:**
 
-```
+```text
 Bug Report → Plan Investigation → Investigate → Plan Fix → Fix → Verify
 ```
 
@@ -466,7 +468,7 @@ Work through a 3-phase ticket:
 
 ### Quick Reference Card
 
-```
+```text
 CODE REVIEW PATTERN:
 /model opus → Review → /model sonnet → Plan Mode → Execute → Verify
 
