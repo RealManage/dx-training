@@ -2,7 +2,7 @@
 
 **Duration:** 2 hours  
 **Format:** In-person or virtual  
-**Audience:** RealManage cross-functional team  
+**Audience:** RealManage cross-functional team (engineers, PMs, QA, support staff)  
 **Prerequisites:** Completed Week 1 Setup & Orientation
 
 ## 🎯 Learning Objectives
@@ -52,15 +52,15 @@ get great results with 80-90% test coverage."
 
 **Real Examples - How Successful Users Actually Prompt:**
 
-```
+```text
 # Vague (doesn't work):
 > Write a payment service
 
 # Natural conversation (works great!):
-> I need a payment service for our HOA system. It should handle monthly, quarterly, 
+> I need a payment service for our HOA system. It should handle monthly, quarterly,
   and annual dues payments. We're using C# with .NET 10 and the repository pattern.
-  Important: after a 30-day grace period, we charge 10% monthly compound interest 
-  on late payments. Please include async methods and comprehensive xUnit tests 
+  Important: after a 30-day grace period, we charge 10% monthly compound interest
+  on late payments. Please include async methods and comprehensive xUnit tests
   with 80-90% coverage.
 
 # Notice: No Markdown headers, no XML tags, just clear communication!
@@ -68,7 +68,7 @@ get great results with 80-90% test coverage."
 # Claude might ask: "Should I include refund functionality?"
 # You respond: "Yes, good catch! Add a refund method with audit logging."
 
-# This iterative, conversational approach often yields better results than 
+# This iterative, conversational approach often yields better results than
 # trying to specify everything upfront in a complex structure.
 ```
 
@@ -95,7 +95,7 @@ get great results with 80-90% test coverage."
 
 **Most prompts work fine with natural language:**
 
-```
+```text
 Natural conversation → Bullet points → Markdown → XML
         ↑
    90% of your prompts should be here!
@@ -105,7 +105,7 @@ Natural conversation → Bullet points → Markdown → XML
 
 **Simple Lists (for multiple related items):**
 
-```
+```text
 Can you help me with these HOA reports:
 - Monthly financial summary with income/expenses
 - Delinquency report showing accounts 30+ days overdue  
@@ -136,28 +136,28 @@ Need to deploy by Friday
 
 **Most requests work great as natural conversation:**
 
-```
+```text
 # Bug fix:
-> The late fee calculation in ViolationService is wrong. It's only multiplying 
+> The late fee calculation in ViolationService is wrong. It's only multiplying
   by 1.1 once instead of compounding monthly. Can you fix it and add tests?
 
 # New feature:
-> Add a method to ResidentService that returns all residents with outstanding 
+> Add a method to ResidentService that returns all residents with outstanding
   balances over $500. Make it async and include unit tests with 80-90% coverage.
 
 # Code review:
-> Can you review the PaymentController class and suggest improvements? 
+> Can you review the PaymentController class and suggest improvements?
   I'm particularly concerned about error handling and logging.
 
 # Explanation:
-> How does the violation escalation workflow work in our system? I see it 
+> How does the violation escalation workflow work in our system? I see it
   mentioned 30/60/90 day intervals but I'm not clear on the implementation.
 ```
 
 **The XML Myth (Rarely Needed):**
 
-```
-I've been using Claude for months and have never used XML. 
+```text
+I've been using Claude for months and have never used XML.
 Markdown, YAML, JSON or tables work just as well for structured data.
 Even complex API specs can be described conversationally!
 ```
@@ -183,11 +183,13 @@ dotnet run
 # Explore the menu options
 ```
 
+> **Not familiar with these commands?** No worries - Claude can walk you through them. Just ask!
+
 #### 3.2 Individual Exercises (20 min)
 
 **Exercise 1: Analyze Your Prompts**
 
-```
+```text
 # In Prompt Lab, select option 1
 # Try these prompts and compare scores:
 
@@ -203,7 +205,7 @@ ReportDto, include PDF export via QuestPDF, and write xUnit tests with 80-90% co
 
 **Exercise 2: Template Practice**
 
-```
+```text
 # Select option 3: Use a template
 # Choose "HOA Violation Handler"
 # Fill in:
@@ -214,7 +216,7 @@ ReportDto, include PDF export via QuestPDF, and write xUnit tests with 80-90% co
 
 **Exercise 3: Learn from Examples**
 
-```
+```text
 # Select option 4: View HOA prompt examples
 # Review each category
 # Note the patterns in "good" examples
@@ -279,7 +281,7 @@ claude
 
 **Live Coding with the Class:**
 
-```
+```text
 # Start Claude in your sandbox
 claude
 
@@ -358,7 +360,7 @@ Have each participant create prompts for their most common tasks:
 
 **Support Team Example:**
 
-```
+```text
 Analyze these support tickets and:
 1. Identify common issues
 2. Suggest root causes
@@ -370,7 +372,7 @@ Analyze these support tickets and:
 
 *Requirement Refinement (CLEAR Framework):*
 
-```
+```text
 Help me refine this rough feature idea into a clear spec:
 "We need a way for residents to pay their HOA dues online"
 
@@ -383,7 +385,7 @@ Identify:
 
 *User Story Generation:*
 
-```
+```text
 Generate user stories from this feature request:
 <paste requirements>
 
@@ -397,7 +399,7 @@ Format as:
 
 *Implementation Plan Validation:*
 
-```
+```text
 Review my PRD for this feature and identify:
 1. Missing requirements or ambiguities
 2. Technical questions I should ask engineering
@@ -409,7 +411,7 @@ Review my PRD for this feature and identify:
 
 **QA Engineer Example:**
 
-```
+```text
 Create comprehensive test cases for {FEATURE} including:
 - Happy path scenarios
 - Edge cases and boundary conditions
@@ -425,10 +427,10 @@ Now it's time to practice prompting in your domain! Choose the exercise track th
 
 | Track | Best For | Focus Area |
 | ----- | -------- | ---------- |
-| [Developer](tracks/developer.md) | Engineers writing C# code | Code generation, refactoring prompts |
-| [QA](tracks/qa.md) | QA engineers, testers | Test case generation, coverage analysis |
-| [PM](tracks/pm.md) | Product managers, analysts | Requirements, user stories, documentation |
-| [Support](tracks/support.md) | Support staff, customer success | Response templates, KB articles |
+| [Developer](tracks/developer.md) | Engineers | Debug, build features, and write tests with TDD |
+| [QA](tracks/qa.md) | QA engineers, testers | Design test strategies and analyze code for quality |
+| [PM](tracks/pm.md) | Product managers, analysts | Turn code into requirements, user stories, and product docs |
+| [Support](tracks/support.md) | Support staff, customer success | Draft responses, build templates, and master policy knowledge |
 
 **Instructions:**
 
@@ -446,7 +448,7 @@ Now it's time to practice prompting in your domain! Choose the exercise track th
 
 **The Prompt Quality Spectrum:**
 
-```
+```text
 Vague ←───────────→ Specific
 "Fix bug"          "Fix the scoring bug in PromptAnalyzer.
                     Analyze method (line 25) where all 
@@ -463,7 +465,7 @@ Vague ←───────────→ Specific
 
 **When to Add Structure:**
 
-```
+```text
 Writing your first attempt?
 ├─ Yes → Just use natural language
 └─ No → Did Claude ask for clarification?
@@ -503,7 +505,7 @@ Participants fix these in chat/verbally:
 
 ### Quick Reference Card
 
-```
+```text
 NATURAL LANGUAGE APPROACH:
 "I need a [what] that [does what]. We're using [tech stack]. 
 Important: [domain rules]. Please include [test requirements]."
@@ -548,7 +550,7 @@ ONLY ADD STRUCTURE WHEN:
 
 Without looking at examples, write a prompt that:
 
-```
+```text
 Generates a complete audit logging system for HOA transactions including:
 - Service class with async methods
 - Database models with EF Core

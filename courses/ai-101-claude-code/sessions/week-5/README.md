@@ -2,16 +2,16 @@
 
 **Duration:** 2 hours
 **Format:** In-person or virtual
-**Audience:** RealManage cross-functional team (engineers, PMs, support staff)
+**Audience:** RealManage cross-functional team (engineers, PMs, QA, support staff)
 
 ## Learning Tracks
 
 This week has different tracks based on your role:
 
-- **[Developer Track](./tracks/developer.md)** - Full content (default)
-- **[QA Track](./tracks/qa.md)** - Consumer-focused: how to USE commands/skills
-- **[PM Track](./tracks/pm.md)** - Optional week for PMs
-- **[Support Track](./tracks/support.md)** - Create /draft-response and other support skills
+- **[Developer Track](./tracks/developer.md)** - Build custom commands and skills for code generation and TDD workflows
+- **[QA Track](./tracks/qa.md)** - Build custom commands and skills for test automation and quality workflows
+- **[PM Track](./tracks/pm.md)** - Build custom commands and skills for requirements, story generation, and specs
+- **[Support Track](./tracks/support.md)** - Build custom commands and skills like /draft-response for your daily workflows
 
 ---
 
@@ -58,7 +58,7 @@ Slash commands are reusable prompts you can invoke with `/command-name`. They're
 
 **File Structure:**
 
-```
+```text
 .claude/
   commands/
     violation-report.md    # /violation-report
@@ -218,7 +218,7 @@ Skills are enhanced commands that can include supporting files. While commands a
 
 **File Structure:**
 
-```
+```text
 .claude/
   commands/
     late-fee.md              # Simple command
@@ -273,7 +273,7 @@ Skills can include supporting files alongside SKILL.md:
 
 **Example: Late Fee Report Skill**
 
-```
+```text
 .claude/skills/late-fee-report/
   SKILL.md                    # Main skill definition
   fee-schedule.txt            # Fee structure reference
@@ -303,7 +303,7 @@ Include:
 
 **Supporting File: fee-schedule.txt**
 
-```
+```text
 RealManage Late Fee Schedule
 ============================
 Grace Period: 30 days
@@ -385,6 +385,8 @@ dotnet test
 claude
 ```
 
+> **Not familiar with these commands?** No worries - Claude can walk you through them. Just ask!
+
 ### 3.2 Exercise 1: Create a Custom Command (10 min)
 
 Create `.claude/commands/board-summary.md`:
@@ -410,7 +412,7 @@ Format as markdown table suitable for board packet.
 
 **Test it:**
 
-```
+```text
 /board-summary 2026-01-15
 ```
 
@@ -451,7 +453,7 @@ Include:
 
 **Step 3:** Create `.claude/skills/payment-reminder/reminder-templates.txt`:
 
-```
+```text
 Payment Reminder Tone Guide
 ===========================
 
@@ -478,7 +480,7 @@ FINAL (90+ days):
 
 **Test it:**
 
-```
+```text
 /payment-reminder 12345 45
 ```
 
@@ -486,7 +488,7 @@ FINAL (90+ days):
 
 Explore the example project's existing commands and skills:
 
-```
+```text
 # List available commands
 > What custom commands are available in this project?
 
@@ -503,7 +505,7 @@ Explore the example project's existing commands and skills:
 
 ### Commands Quick Reference
 
-```
+```text
 LOCATION: .claude/commands/<name>.md
 
 FORMAT:
@@ -518,7 +520,7 @@ INVOKE: /command-name args
 
 ### Skills Quick Reference
 
-```
+```text
 LOCATION: .claude/skills/<name>/SKILL.md
 
 FORMAT:

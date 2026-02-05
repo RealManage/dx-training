@@ -12,9 +12,11 @@ The recommended extensions provide:
 - **ms-dotnettools.vscode-dotnet-runtime** - .NET runtime for C# development
 
 **VS Code Only:**
+
 - **ms-dotnettools.csharp** - Full C# IntelliSense and debugging (add manually in VS Code)
 
 **Note:** Extension IDs vary between IDEs. If an extension isn't available in your IDE, look for equivalent functionality:
+
 - C# language support with IntelliSense
 - GitLab/Git integration
 - Markdown preview with diagram support
@@ -23,6 +25,7 @@ The recommended extensions provide:
 ## Settings (settings.json)
 
 Workspace settings include:
+
 - Auto-format on save
 - Exclude bin/obj folders from explorer
 - Markdown word wrap enabled

@@ -2,16 +2,16 @@
 
 **Duration:** 2 hours
 **Format:** In-person or virtual
-**Audience:** RealManage cross-functional team (engineers, PMs, support staff)
+**Audience:** RealManage cross-functional team (engineers, PMs, QA, support staff)
 
 ## Learning Tracks
 
 This week has role-specific tracks:
 
-- **Developer Track** - Full plugin development content (this README)
-- **[QA Track](./tracks/qa.md)** - Using and testing plugins
-- **[PM Track](./tracks/pm.md)** - Plugin planning and design
-- **[Support Track](./tracks/support.md)** - Design a Support Plugin
+- **Developer Track** - Build and distribute plugins with skills, agents, and hooks (this README)
+- **[QA Track](./tracks/qa.md)** - Test plugins and build quality automation packages
+- **[PM Track](./tracks/pm.md)** - Design plugin workflows and plan automation strategy
+- **[Support Track](./tracks/support.md)** - Design and build a support automation plugin
 
 ---
 
@@ -52,13 +52,13 @@ In Week 6, you learned about foundational components:
 
 **Plugins package ALL of these** into a distributable unit.
 
-```
+```text
 Plugin = Commands + Agents + Hooks + Skills (packaged together)
 ```
 
 **Plugin Architecture:**
 
-```
+```text
 my-plugin/
 ├── .claude-plugin/
 │   └── plugin.json          # Manifest (required)
@@ -120,6 +120,8 @@ EOF
 # Validate structure
 /plugin validate ./realmanage-hoa
 ```
+
+> **Not familiar with these commands?** No worries - Claude can walk you through them. Just ask!
 
 ---
 
@@ -186,7 +188,7 @@ Process the violation for property $ARGUMENTS following RealManage rules...
 
 **Real Power: Templates and Scripts**
 
-```
+```text
 realmanage-hoa/
 └── skills/
     └── violation-notice/
@@ -261,7 +263,7 @@ Custom agents from Week 6 can be packaged in plugins and referenced by skills.
 
 **Agent Location in Plugins:**
 
-```
+```text
 realmanage-hoa/
 └── agents/
     ├── security-auditor.md
@@ -372,7 +374,7 @@ Summarize this PR with risks and recommendations.
 
 **Hook Location in Plugins:**
 
-```
+```text
 realmanage-hoa/
 └── hooks/
     └── hooks.json
@@ -491,6 +493,7 @@ Run `/plugin` to open the interactive plugin manager:
 **Navigation:** Type to search · Space to toggle · Enter for details · Esc to go back
 
 **Popular plugins** from the [official repository](https://github.com/anthropics/claude-plugins-official):
+
 - `frontend-design` - Production-grade frontend interfaces
 - `code-review` - Automated code review for PRs
 - `feature-dev` - Comprehensive feature development workflow
@@ -520,7 +523,7 @@ Run `/plugin` to open the interactive plugin manager:
 
 **Plugin Commands Summary:**
 
-```
+```bash
 /plugin                              # Interactive manager
 /plugin marketplace add <source>     # Add marketplace
 /plugin marketplace update           # Update all marketplaces
@@ -658,7 +661,7 @@ claude --plugin-dir ./realmanage-violations
 
 ### Plugin Structure
 
-```
+```text
 my-plugin/
 ├── .claude-plugin/
 │   └── plugin.json      # Manifest (required)
@@ -675,7 +678,7 @@ my-plugin/
 
 ### Skills Quick Reference
 
-```
+```text
 LOCATION: <plugin>/skills/<skill-name>/SKILL.md
 
 FRONTMATTER:
@@ -700,7 +703,7 @@ DYNAMIC CONTEXT:
 
 ### Plugin Commands
 
-```
+```bash
 /plugin                              # Interactive manager
 /plugin marketplace add <source>     # Add marketplace
 /plugin install <name>@<marketplace> # Install plugin

@@ -2,16 +2,16 @@
 
 **Duration:** 2 hours
 **Format:** In-person or virtual
-**Audience:** RealManage cross-functional team (engineers, PMs, support staff)
+**Audience:** RealManage cross-functional team (engineers, PMs, QA, support staff)
 
 ## Learning Tracks
 
 This week has role-specific tracks:
 
-- **Developer Track** - Full agents & hooks content (this README)
-- **[QA Track](./tracks/qa.md)** - Using agents for test automation
-- **[PM Track](./tracks/pm.md)** - Workflow automation concepts
-- **[Support Track](./tracks/support.md)** - Quality hooks and automation workflows
+- **Developer Track** - Debug, build features, and create agents with full hooks integration (this README)
+- **[QA Track](./tracks/qa.md)** - Design test agents and automate quality workflows
+- **[PM Track](./tracks/pm.md)** - Automate workflows and build process-driven agents
+- **[Support Track](./tracks/support.md)** - Build quality hooks and automate support workflows
 
 ---
 
@@ -76,7 +76,7 @@ Think of agents as team members with specific roles:
 
 **Where Agents Live:**
 
-```
+```text
 ~/.claude/agents/           # User-level (all projects)
 .claude/agents/             # Project-level (this project only)
 ```
@@ -131,7 +131,7 @@ Follow RealManage coding standards and SOC 2 compliance requirements.
 | `bypassPermissions` | Auto-approves all tools | Fully automated pipelines (use with caution) |
 
 > **Note:** Permission modes can **restrict** agent behavior but cannot **escalate** beyond your session's permission settings. An agent with `bypassPermissions` still requires your approval if your session is in `default` mode.
-
+>
 > **Tip:** Use `plan` mode for analysis agents, `default` for normal work where you approve actions, and `acceptEdits` only in sandboxed/isolated environments.
 
 **Tool Restrictions:**
@@ -296,7 +296,7 @@ Do not modify any data - analysis only.
 
 **Configuration Locations:**
 
-```
+```text
 ~/.claude/settings.json          # User-level (all projects)
 .claude/settings.json            # Project-level (this project)
 ```
@@ -524,6 +524,8 @@ dotnet test
 claude
 ```
 
+> **Not familiar with these commands?** No worries - Claude can walk you through them. Just ask!
+
 #### 5.2 Exercise 1: Create a Code Reviewer Agent (10 min)
 
 Create `.claude/agents/code-reviewer.md`:
@@ -571,7 +573,7 @@ Include file path and line number for each finding.
 
 **Test it:**
 
-```
+```text
 > Use the code-reviewer agent to review the Services folder
 ```
 
@@ -610,7 +612,7 @@ Create `.claude/settings.json`:
 
 **Test it:**
 
-```
+```text
 > Edit Program.cs to add a comment at the top
 
 # Watch for automatic test execution after the edit completes
@@ -662,7 +664,7 @@ Expand `.claude/settings.json` with comprehensive auditing:
 
 **Test the complete system:**
 
-```
+```text
 > Edit a file to add a TODO comment
 
 > Try to run rm test.txt (should be blocked!)
@@ -676,7 +678,7 @@ Expand `.claude/settings.json` with comprehensive auditing:
 
 ### Agents Quick Reference
 
-```
+```text
 LOCATION: .claude/agents/<name>.md
 
 FORMAT:
@@ -694,7 +696,7 @@ INVOKE: Claude auto-delegates or "use the <name> agent"
 
 ### Hooks Quick Reference
 
-```
+```text
 LOCATION: .claude/settings.json
 
 HOOK TYPES:

@@ -2,16 +2,16 @@
 
 **Duration:** 2 hours
 **Format:** In-person or virtual
-**Audience:** RealManage cross-functional team (engineers, PMs, support staff)
+**Audience:** RealManage cross-functional team (engineers, PMs, QA, support staff)
 
 ## Learning Tracks
 
 This week has role-specific tracks:
 
-- **Developer Track** - Full automation content (this README)
-- **[QA Track](./tracks/qa.md)** - Test automation patterns
-- **[PM Track](./tracks/pm.md)** - Workflow automation design
-- **[Support Track](./tracks/support.md)** - Ticket triage and response automation
+- **Developer Track** - Build headless scripts, batch processing, and production automation (this README)
+- **[QA Track](./tracks/qa.md)** - Automate test runs, build coverage pipelines, and batch quality checks
+- **[PM Track](./tracks/pm.md)** - Design automation workflows and generate release documentation
+- **[Support Track](./tracks/support.md)** - Automate ticket triage, draft responses, and build escalation workflows
 
 ---
 
@@ -496,7 +496,7 @@ chmod +x scripts/batch-review.sh
 
 **Expected Output:**
 
-```
+```text
 Starting batch review of 3 files...
 
 📝 Reviewing: src/Services/BoardReportService.cs
@@ -871,11 +871,13 @@ dotnet test
 claude
 ```
 
+> **Not familiar with these commands?** No worries - Claude can walk you through them. Just ask!
+
 #### 5.2 Workshop Exercises
 
 **Exercise 1: Create Cross-Functional Skill (10 min)**
 
-```
+```text
 Create a skill that generates a weekly status report:
 1. Takes sprint_number as argument
 2. Summarizes completed work from git commits
@@ -888,7 +890,7 @@ Save to: .claude/skills/weekly-status/SKILL.md
 
 **Exercise 2: Build Batch Review Script (5 min)**
 
-```
+```text
 Create an automation script that:
 1. Takes a list of files as arguments
 2. Runs Claude review on each file
@@ -900,7 +902,7 @@ Add to: scripts/batch-review.sh
 
 **Exercise 3: Efficiency Audit (5 min)**
 
-```
+```text
 Analyze the example project for efficiency improvements:
 1. Identify repeated prompts that could be skills
 2. Find tasks that could use more focused context
@@ -925,7 +927,7 @@ Analyze the example project for efficiency improvements:
 
 ### Cross-Functional Skills Quick Reference
 
-```
+```text
 SUPPORT:
 /ticket-summary <id>           -> Summarize for escalation
 /draft-response <id> <type>    -> Write professional reply
@@ -941,7 +943,7 @@ ENGINEERING:
 
 ### Headless Automation Patterns
 
-```
+```text
 BATCH CODE REVIEW:
 - Input: List of files to review
 - Action: Run Claude review on each
@@ -960,7 +962,7 @@ PARALLEL PROCESSING:
 
 ### Efficiency Checklist
 
-```
+```text
 [ ] Use /compact for context management
 [ ] Create skills for repeated tasks
 [ ] Clear context between unrelated tasks
@@ -988,7 +990,7 @@ PARALLEL PROCESSING:
 
 Design a complete automation workflow that:
 
-```
+```text
 1. Triggers on new violation created
 2. Auto-generates first notice letter
 3. Schedules follow-up for 30 days
