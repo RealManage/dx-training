@@ -1,0 +1,78 @@
+{
+  "epicKey": "DX-458",
+  "epicFile": "00-Epic-AI-201-Advanced-Claude-Code.md",
+  "epicSummary": "AI 201 Advanced Claude Code",
+  "createdIssues": [
+    {
+      "fileName": "01-Story-Scaffold-Course-Directory-Structure.md",
+      "key": "DX-459",
+      "summary": "Scaffold Course Directory Structure",
+      "type": "Story",
+      "workingOrder": 1
+    },
+    {
+      "fileName": "02-Story-Course-README-And-Curriculum-Overview.md",
+      "key": "DX-460",
+      "summary": "Course README And Curriculum Overview",
+      "type": "Story",
+      "workingOrder": 2
+    },
+    {
+      "fileName": "03-Story-Course-Resources-And-Reference-Materials.md",
+      "key": "DX-461",
+      "summary": "Course Resources And Reference Materials",
+      "type": "Story",
+      "workingOrder": 3
+    },
+    {
+      "fileName": "04-Story-Week-1-Spec-Driven-Development.md",
+      "key": "DX-462",
+      "summary": "Week 1 Spec Driven Development",
+      "type": "Story",
+      "workingOrder": 4
+    },
+    {
+      "fileName": "05-Story-Week-2-Agent-Teams.md",
+      "key": "DX-463",
+      "summary": "Week 2 Agent Teams",
+      "type": "Story",
+      "workingOrder": 5
+    },
+    {
+      "fileName": "06-Story-Week-3-Multi-Agent-Orchestration.md",
+      "key": "DX-464",
+      "summary": "Week 3 Multi Agent Orchestration",
+      "type": "Story",
+      "workingOrder": 6
+    },
+    {
+      "fileName": "07-Story-Week-4-Trust-Autonomy-Enterprise.md",
+      "key": "DX-465",
+      "summary": "Week 4 Trust Autonomy Enterprise",
+      "type": "Story",
+      "workingOrder": 7
+    },
+    {
+      "fileName": "08-Story-Week-5-Capstone-Orchestration-Project.md",
+      "key": "DX-466",
+      "summary": "Week 5 Capstone Orchestration Project",
+      "type": "Story",
+      "workingOrder": 8
+    },
+    {
+      "fileName": "09-Story-Certification-And-Docs.md",
+      "key": "DX-467",
+      "summary": "Certification And Docs",
+      "type": "Story",
+      "workingOrder": 9
+    },
+    {
+      "fileName": "10-Story-Update-DX-Training-Repo-Integration.md",
+      "key": "DX-468",
+      "summary": "Update DX Training Repo Integration",
+      "type": "Story",
+      "workingOrder": 10
+    }
+  ],
+  "timestamp": "2026-02-06T14:32:11.613Z"
+}
