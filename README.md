@@ -41,21 +41,46 @@ RealManage is a leader in HOA and community association management. Our technolo
 
 ## Getting Started
 
-### For Learners
+### 1. Open a Terminal
 
-1. **Choose a course** from the available options above
-2. **Review prerequisites** in each course's README
-3. **Block time** in your calendar (we recommend 2-hour weekly sessions)
-4. **Track progress** using the course checkpoints and exercises
+**Windows:** Press `Win + R`, type `cmd`, press Enter (or search for "Terminal" or "PowerShell" in the Start menu)
+
+**Mac:** Press `Cmd + Space`, type "Terminal", press Enter
+
+**Linux:** Press `Ctrl + Alt + T` or open your terminal emulator
+
+### 2. Create a Workspace and Clone the Repository
+
+Navigate to (or create) a folder where you'd like to keep the training material, then clone:
+
+**Windows (Command Prompt or PowerShell):**
+
+```cmd
+mkdir %USERPROFILE%\repos
+cd %USERPROFILE%\repos
+git clone https://github.com/RealManage/dx-training.git
+cd dx-training
+```
+
+**Mac / Linux:**
+
+```bash
+mkdir -p ~/repos
+cd ~/repos
+git clone https://github.com/RealManage/dx-training.git
+cd dx-training
+```
+
+### 3. Choose a Course and Start Learning
+
+- [AI 101: Claude Code](./courses/ai-101-claude-code/README.md) — Start with Week 1 setup
+- [BDD 101: Behavior-Driven Development](./courses/bdd-101/README.md) — Start with Session 1
+
+Each course README has prerequisites, setup instructions, and a weekly curriculum to follow.
 
 ### For Contributors
 
-Want to create or improve a course? Here's how:
-
-1. **Fork this repository**
-2. **Follow the course template** in [`templates/course-template.md`](./templates/course-template.md)
-3. **Test all examples** before submitting
-4. **Submit a Pull Request** with your changes
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for details on how to contribute to this project.
 
 ## Course Structure
 
