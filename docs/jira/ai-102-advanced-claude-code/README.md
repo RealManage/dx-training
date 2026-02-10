@@ -1,4 +1,4 @@
-# DX-458: AI 201 Advanced Claude Code
+# DX-458: AI 102 - Advanced Claude Code
 
 > **Auto-generated** from `.jira-upload-state.json` - do not edit manually.
 

@@ -2,7 +2,7 @@
 
 ## Priority / Epic
 
-HIGH - AI 201 Advanced Claude Code
+HIGH - AI 102 - Advanced Claude Code
 
 ## Effort Estimate
 
@@ -47,7 +47,7 @@ Create the main course `README.md` with the complete 5-week curriculum overview,
 ### Key Sections
 
 ```markdown
-# RealManage AI 201: Advanced Claude Code
+# RealManage AI 102: Advanced Claude Code
 
 ## Choose Your Path (track table)
 ## Course Overview (duration, level, format)

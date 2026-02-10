@@ -1,4 +1,4 @@
-# Epic: AI 201 Advanced Claude Code
+# Epic: AI 102 - Advanced Claude Code
 
 ## Priority
 
@@ -15,7 +15,7 @@ Create an advanced Claude Code training course for RealManage teams that builds 
 ### Current State
 
 - AI 101 course exists covering fundamentals through automation (9 weeks)
-- "AI 102: Advanced Agent Development" listed as placeholder in dx-training README
+- "AI 102: Advanced Claude Code" listed as placeholder in dx-training README
 - Anthropic released Agent Teams in Opus 4.6 (Feb 2026) — experimental feature, disabled by default, enabled via environment variable
 - Industry shifting from prompt-driven iteration to spec-driven autonomous development
 - No training material exists for Agent Teams, spec-driven dev, or trust calibration
@@ -27,7 +27,7 @@ Create an advanced Claude Code training course for RealManage teams that builds 
 - Tracks: Developer, Architect, Product/Project Manager, QA
 - "Orchestrator Mindset" as the through-line narrative
 - Uses dx-claude-code epic-orchestrator skill as a production example
-- "AI Orchestrator" certification as the 201 credential
+- "AI Orchestrator" certification as the 102 credential
 
 ### Course Curriculum
 
@@ -55,14 +55,14 @@ Create an advanced Claude Code training course for RealManage teams that builds 
 - [ ] Weeks 1-4 each have README, runbook, and 4 track files
 - [ ] Week 5 capstone with 3 project options and evaluation rubric
 - [ ] Certification requirements defined for all 4 tracks
-- [ ] dx-training root README updated with AI 201 entry
+- [ ] dx-training root README updated with AI 102 entry
 
 ## Technical Details
 
 ### Course Structure
 
 ```text
-courses/ai-201-advanced-claude-code/
+courses/ai-102-advanced-claude-code/
 ├── CLAUDE.md                         # Course-level AI context
 ├── README.md                         # Curriculum overview
 ├── resources/                        # Reference materials
@@ -72,7 +72,7 @@ courses/ai-201-advanced-claude-code/
 │   ├── trust-decision-tree.md
 │   ├── orchestrator-glossary.md
 │   ├── cost-optimization-guide.md
-│   ├── troubleshooting-201.md
+│   ├── troubleshooting-102.md
 │   └── agent-teams-patterns.md
 ├── sessions/
 │   ├── week-1/                       # Spec-Driven Development

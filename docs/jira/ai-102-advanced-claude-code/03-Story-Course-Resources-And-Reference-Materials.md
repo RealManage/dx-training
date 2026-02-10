@@ -2,7 +2,7 @@
 
 ## Priority / Epic
 
-HIGH - AI 201 Advanced Claude Code
+HIGH - AI 102 - Advanced Claude Code
 
 ## Effort Estimate
 
@@ -26,7 +26,7 @@ Create reference materials in the `resources/` directory that students use throu
 | `trust-decision-tree.md` | Decision tree for trust level calibration | Week 4 |
 | `orchestrator-glossary.md` | Key terms and definitions for the course | All weeks |
 | `cost-optimization-guide.md` | Token usage, model selection, budget strategies | Week 4 |
-| `troubleshooting-201.md` | Common issues and solutions for Agent Teams, worktrees, and orchestration workflows | All weeks |
+| `troubleshooting-102.md` | Common issues and solutions for Agent Teams, worktrees, and orchestration workflows | All weeks |
 | `agent-teams-patterns.md` | When to use 2 vs 3+ teammates, scoping teammate work, common failure modes | Week 2, Week 3 |
 
 ### Tasks

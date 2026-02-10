@@ -2,7 +2,7 @@
 
 ## Priority / Epic
 
-HIGH - AI 201 Advanced Claude Code
+HIGH - AI 102 - Advanced Claude Code
 
 ## Effort Estimate
 

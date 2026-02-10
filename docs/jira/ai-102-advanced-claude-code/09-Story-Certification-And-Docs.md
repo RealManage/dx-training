@@ -2,7 +2,7 @@
 
 ## Priority / Epic
 
-MEDIUM - AI 201 Advanced Claude Code
+MEDIUM - AI 102 - Advanced Claude Code
 
 ## Effort Estimate
 
@@ -18,7 +18,7 @@ Define the "AI Orchestrator" certification requirements for all four tracks. Cre
 
 ### Tasks
 
-1. **Certification overview** — "AI Orchestrator" as the 201 credential (complements AI 101's "AI Practitioner")
+1. **Certification overview** — "AI Orchestrator" as the 102 credential (complements AI 101's "AI Practitioner")
 2. **Common requirements** — What all tracks must demonstrate
 3. **Track-specific requirements** — Developer, Architect, PM, QA specific criteria
 4. **Evaluation process** — How capstone is evaluated, who reviews, scoring
@@ -40,7 +40,7 @@ Define the "AI Orchestrator" certification requirements for all four tracks. Cre
 
 ```text
 AI 101 → "AI Practitioner"    (Foundation)
-AI 201 → "AI Orchestrator"    (Advanced)
+AI 102 → "AI Orchestrator"    (Advanced)
 ```
 
 ### Common Requirements (All Tracks)

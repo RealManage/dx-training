@@ -1,7 +1,7 @@
 {
   "epicKey": "DX-458",
-  "epicFile": "00-Epic-AI-201-Advanced-Claude-Code.md",
-  "epicSummary": "AI 201 Advanced Claude Code",
+  "epicFile": "00-Epic-AI-102-Advanced-Claude-Code.md",
+  "epicSummary": "AI 102 - Advanced Claude Code",
   "createdIssues": [
     {
       "fileName": "01-Story-Scaffold-Course-Directory-Structure.md",

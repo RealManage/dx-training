@@ -2,7 +2,7 @@
 
 ## Priority / Epic
 
-HIGH - AI 201 Advanced Claude Code
+HIGH - AI 102 - Advanced Claude Code
 
 ## Effort Estimate
 
@@ -14,11 +14,11 @@ None — this is the bootstrap story
 
 ## Description
 
-Create the `courses/ai-201-advanced-claude-code/` directory structure following AI 101 patterns. Includes session directories for weeks 1-5, resources directory, certification docs, and track files per week.
+Create the `courses/ai-102-advanced-claude-code/` directory structure following AI 101 patterns. Includes session directories for weeks 1-5, resources directory, certification docs, and track files per week.
 
 ### Tasks
 
-1. **Create course root** — `courses/ai-201-advanced-claude-code/`
+1. **Create course root** — `courses/ai-102-advanced-claude-code/`
 2. **Create session directories** — `sessions/week-1/` through `sessions/week-5/`
 3. **Create track directories** — `tracks/` in each week with `developer.md`, `architect.md`, `pm.md`, `qa.md`
 4. **Create resources directory** — `resources/` for reference materials
@@ -33,7 +33,7 @@ Create the `courses/ai-201-advanced-claude-code/` directory structure following 
 
 ## Acceptance Criteria
 
-- [ ] `courses/ai-201-advanced-claude-code/` directory exists
+- [ ] `courses/ai-102-advanced-claude-code/` directory exists
 - [ ] `sessions/week-1/` through `sessions/week-5/` created
 - [ ] Each week has `tracks/` with `developer.md`, `architect.md`, `pm.md`, `qa.md`
 - [ ] `resources/` directory created
@@ -46,7 +46,7 @@ Create the `courses/ai-201-advanced-claude-code/` directory structure following 
 ### Directory Tree
 
 ```text
-courses/ai-201-advanced-claude-code/
+courses/ai-102-advanced-claude-code/
 ├── CLAUDE.md
 ├── README.md                    # Story 02
 ├── resources/                   # Story 03
@@ -78,6 +78,7 @@ courses/ai-201-advanced-claude-code/
 ### CLAUDE.md Content
 
 Course-level context including:
+
 - Course name and purpose
 - Target audience and prerequisites
 - Week topics and key concepts
