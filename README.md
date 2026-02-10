@@ -41,7 +41,17 @@ RealManage is a leader in HOA and community association management. Our technolo
 
 ## Getting Started
 
-### 1. Open a Terminal
+### 1. Install Git
+
+If you don't already have Git installed, follow the instructions for your platform: [Installing Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+
+Verify the installation by opening a terminal and running:
+
+```bash
+git --version
+```
+
+### 2. Open a Terminal
 
 **Windows:** Press `Win + R`, type `cmd`, press Enter (or search for "Terminal" or "PowerShell" in the Start menu)
 
@@ -49,7 +59,7 @@ RealManage is a leader in HOA and community association management. Our technolo
 
 **Linux:** Press `Ctrl + Alt + T` or open your terminal emulator
 
-### 2. Create a Workspace and Clone the Repository
+### 3. Create a Workspace and Clone the Repository
 
 Navigate to (or create) a folder where you'd like to keep the training material, then clone:
 
@@ -71,7 +81,7 @@ git clone https://github.com/RealManage/dx-training.git
 cd dx-training
 ```
 
-### 3. Choose a Course and Start Learning
+### 4. Choose a Course and Start Learning
 
 - [AI 101: Claude Code](./courses/ai-101-claude-code/README.md) — Start with Week 1 setup
 - [BDD 101: Behavior-Driven Development](./courses/bdd-101/README.md) — Start with Session 1
