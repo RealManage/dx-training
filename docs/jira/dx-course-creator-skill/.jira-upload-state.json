@@ -1,0 +1,43 @@
+{
+  "epicKey": "DX-482",
+  "epicFile": "00-Epic-DX-Course-Creator-Skill.md",
+  "epicSummary": "DX Course Creator Skill",
+  "createdIssues": [
+    {
+      "fileName": "01-Story-Design-Skill-Interface.md",
+      "key": "DX-483",
+      "summary": "Design Skill Interface",
+      "type": "Story",
+      "workingOrder": 1
+    },
+    {
+      "fileName": "02-Story-Implement-Course-Scaffolding.md",
+      "key": "DX-484",
+      "summary": "Implement Course Scaffolding",
+      "type": "Story",
+      "workingOrder": 2
+    },
+    {
+      "fileName": "03-Story-Session-README-Generation.md",
+      "key": "DX-485",
+      "summary": "Session README Generation",
+      "type": "Story",
+      "workingOrder": 3
+    },
+    {
+      "fileName": "04-Story-Root-README-Integration.md",
+      "key": "DX-486",
+      "summary": "Root README Integration",
+      "type": "Story",
+      "workingOrder": 4
+    },
+    {
+      "fileName": "05-Story-Testing-And-Documentation.md",
+      "key": "DX-487",
+      "summary": "Testing and Documentation",
+      "type": "Story",
+      "workingOrder": 5
+    }
+  ],
+  "timestamp": "2026-02-11T19:27:01.729Z"
+}

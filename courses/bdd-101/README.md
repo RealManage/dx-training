@@ -275,5 +275,3 @@ Track your team's progress through the course:
 ---
 
 **Questions?** Review the [troubleshooting guide](./resources/troubleshooting.md) or reach out to your instructor.
-
-**Course Version:** 1.0.0 | **Created:** August 2025

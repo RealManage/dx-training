@@ -61,7 +61,11 @@ git --version
 
 ### 3. Create a Workspace and Clone the Repository
 
-Navigate to (or create) a folder where you'd like to keep the training material, then clone:
+Clone from **one** of the sources below.
+
+#### GitHub (External / Open Source)
+
+For external learners, investors, or open-source contributors.
 
 **Windows (Command Prompt or PowerShell):**
 
@@ -80,6 +84,30 @@ cd ~/repos
 git clone https://github.com/RealManage/dx-training.git
 cd dx-training
 ```
+
+#### GitLab (RealManage Internal)
+
+For RealManage team members.
+
+**HTTPS** (username + password or personal access token):
+
+```bash
+mkdir -p ~/repos
+cd ~/repos
+git clone https://gitlab.com/therealmanage/tools/dx/dx-training.git
+cd dx-training
+```
+
+**SSH** (requires [GitLab SSH key](https://docs.gitlab.com/ee/user/ssh.html)):
+
+```bash
+mkdir -p ~/repos
+cd ~/repos
+git clone git@gitlab.com:therealmanage/tools/dx/dx-training.git
+cd dx-training
+```
+
+> **Which should I use?** RealManage employees → GitLab. Everyone else → GitHub.
 
 ### 4. Choose a Course and Start Learning
 
@@ -127,14 +155,6 @@ Check each course's README for specific prerequisites and setup instructions.
 - **Slack:** `#ai-exchange` for questions and discussion
 - **Issues:** Open an issue in this repository
 - **Course feedback:** Submit via course feedback forms
-
-## Version History
-
-| Version | Date | Changes |
-| - | - | - |
-| 1.0.0 | 2025-01-11 | Initial release with AI 101: Claude Code |
-| 1.0.1 | 2025-10-03 | Added BDD 101: Behavior-Driven Development Foundations |
-| 2.0.0 | 2026-02-09 | Open source release, AI 102 course planned |
 
 ## License
 
