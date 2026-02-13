@@ -267,7 +267,42 @@ Process a $1 violation for property $2.
 | `description` | What the skill does (shown in menu) |
 | `argument-hint` | Arguments hint for autocomplete |
 
-### 2.3 Supporting Files
+### 2.3 How Skill Loading Works
+
+Understanding how Claude Code discovers and loads skills helps you write better descriptions and keep token usage efficient.
+
+**Two-Phase Loading:**
+
+| Phase | What Happens | What Claude Reads |
+| ----- | ------------ | ----------------- |
+| **Startup (Discovery)** | Claude scans all skill directories and reads YAML frontmatter only | `name`, `description`, `argument-hint`, flags |
+| **Invocation** | User triggers the skill; Claude reads the full SKILL.md body + supporting files | Everything — prompt body, templates, data files |
+
+**Invocation Triggers:**
+
+- **Manual** — User types `/skill-name` (always works)
+- **Semantic match** — Claude matches a user's request to a skill's `description` field (unless `disable-model-invocation: true`)
+
+**Token Implications:**
+
+| Factor | Impact | Guidance |
+| ------ | ------ | -------- |
+| Number of skills installed | More skills = more frontmatter read at startup | Keep unused skills uninstalled or in plugins you don't load |
+| Description quality | Vague descriptions cause false semantic matches (wasted invocations) | Write precise, specific descriptions |
+| Skill body size | Larger bodies consume more tokens on every invocation | Keep bodies focused; move reference data to supporting files |
+| Supporting files | Only read when the skill references them | Use `./filename` references — Claude loads them on demand |
+
+**Best Practices:**
+
+- Write precise `description` fields — they're the only thing Claude sees at startup
+- Keep skill bodies focused (~100 lines or fewer)
+- Split large workflows into pipeline steps (multiple skills chained together)
+- Move reference data (templates, lookup tables) into supporting files
+- Use `disable-model-invocation: true` for skills that should only run when explicitly called
+
+> **Rule of thumb:** If your SKILL.md body exceeds ~100 lines, consider splitting it into smaller skills or moving reference content into supporting files. This keeps each invocation token-efficient and easier to maintain.
+
+### 2.4 Supporting Files
 
 Skills can include supporting files alongside SKILL.md:
 
@@ -317,7 +352,7 @@ Escalation:
 - 91+ days: Continues compounding, legal review
 ```
 
-### 2.4 RealManage Skill Examples
+### 2.5 RealManage Skill Examples
 
 **Example 1: Board Agenda Generator**
 

@@ -5,6 +5,17 @@
 **Audience:** RealManage cross-functional team (engineers, PMs, QA, support staff)
 **Prerequisites:** Completed Weeks 1-2
 
+## Learning Tracks
+
+This week has role-specific tracks:
+
+- **[Developer Track](./tracks/developer.md)** - Debug, investigate bugs, and plan multi-phase builds
+- **[QA Track](./tracks/qa.md)** - Plan test strategies, analyze defects, and design regression suites
+- **[PM Track](./tracks/pm.md)** - Plan feature rollouts, phase delivery, and analyze trade-offs
+- **[Support Track](./tracks/support.md)** - Triage issues, plan escalation workflows, and organize knowledge bases
+
+---
+
 ## 🎯 Learning Objectives
 
 By the end of this session, participants will be able to:

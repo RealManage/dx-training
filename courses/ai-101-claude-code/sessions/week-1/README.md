@@ -4,6 +4,17 @@
 **Format:** In-person or virtual  
 **Audience:** RealManage cross-functional team (engineers, PMs, support staff)
 
+## Learning Tracks
+
+This week has role-specific tracks:
+
+- **[Developer Track](./tracks/developer.md)** - Install, explore, and generate your first C# code with Claude
+- **[QA Track](./tracks/qa.md)** - Set up Claude and explore test scenario generation
+- **[PM Track](./tracks/pm.md)** - Set up Claude and explore requirements documentation
+- **[Support Track](./tracks/support.md)** - Set up Claude and explore response drafting
+
+---
+
 ## 🎯 Learning Objectives
 
 By the end of this session, participants will be able to:

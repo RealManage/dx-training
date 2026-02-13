@@ -1,8 +1,19 @@
 # Week 9: Capstone Hackerspace & Future Roadmap
 
 **Duration:** 2.5 hours
-**Format:** Team-based project with individual evaluation
+**Format:** Team-based or individual project with evaluation
 **Prerequisites:** Completed Weeks 1-8
+
+## Learning Tracks
+
+Your capstone project aligns with your role-specific track:
+
+- **[Developer Track](./tracks/developer.md)** - Build a production-ready backend or full-stack feature (Options A, B, C)
+- **[QA Track](./tracks/qa.md)** - Build a comprehensive test automation suite (Option D)
+- **[PM Track](./tracks/pm.md)** - Create complete product specifications and documentation (Option E)
+- **[Support Track](./tracks/support.md)** - Build a support knowledge base and response toolkit (Option F)
+
+---
 
 > **Pre-Session Requirement:** Project options should be assigned/selected BEFORE the session to maximize build time. Have students review options and submit their choice by the day before.
 
@@ -50,7 +61,7 @@ Before starting your capstone:
 
 - [ ] Laptop with Claude Code and .NET 10 SDK
 - [ ] Access to RealManage sandbox environment
-- [ ] Team members identified (2-3 per team)
+- [ ] Team members identified (2-3 per team) OR individual project scope confirmed with instructor
 - [ ] Project option selected (see below)
 
 ---
@@ -62,6 +73,8 @@ Before starting your capstone:
 #### Project Options
 
 Choose ONE of the following capstone projects. Each includes starter templates in the `examples/capstone-templates/` folder.
+
+> **Working solo?** All project options work for individuals. Scope to one core feature and build it end-to-end with full TDD coverage rather than spreading thin across multiple features. Quality over breadth earns the best scores.
 
 **Role-Specific Recommendations:** See the `tracks/` directory for guidance on which option best fits your role.
 
@@ -297,6 +310,7 @@ Propose your own project that:
 - Uses skills from at least 4 different weeks
 - Includes measurable success criteria
 - Can be completed in 90 minutes
+- Scoped for your team size (or individual)
 
 **Approval Process:**
 
@@ -564,24 +578,24 @@ claude
 
 #### Presentation Order
 
-Each team presents for 3-4 minutes:
+Each team or individual presents for 3-4 minutes:
 
-1. Team A: [Project Option]
-2. Team B: [Project Option]
-3. Team C: [Project Option]
-4. Team D: [Project Option]
+1. Presenter/Team A: [Project Option]
+2. Presenter/Team B: [Project Option]
+3. Presenter/Team C: [Project Option]
+4. Presenter/Team D: [Project Option]
 
 #### Peer Evaluation
 
 Rate each presentation (1-5):
 
-| Criteria           | Team A | Team B | Team C | Team D |
-| ------------------ | ------ | ------ | ------ | ------ |
-| Problem clarity    |        |        |        |        |
-| Solution elegance  |        |        |        |        |
-| Demo effectiveness |        |        |        |        |
-| Code quality       |        |        |        |        |
-| Innovation         |        |        |        |        |
+| Criteria           | A | B | C | D |
+| ------------------ | - | - | - | - |
+| Problem clarity    |   |   |   |   |
+| Solution elegance  |   |   |   |   |
+| Demo effectiveness |   |   |   |   |
+| Code quality       |   |   |   |   |
+| Innovation         |   |   |   |   |
 
 #### Q&A Guidelines
 
@@ -810,8 +824,8 @@ You're now equipped to:
 
 ### Your Next Steps
 
-1. Apply these skills to your daily work
-2. Share knowledge with your team
+1. Apply these skills to your daily work — whether on a team or solo
+2. Share knowledge with your team or the broader community
 3. Continue exploring Claude Code's capabilities
 4. Consider advanced courses when available
 

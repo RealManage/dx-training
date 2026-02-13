@@ -4,6 +4,8 @@
 **Format:** In-person or virtual
 **Audience:** RealManage cross-functional team (engineers, PMs, QA, support staff)
 
+> **Working solo?** Everything in this week applies whether you're on a team of twenty or a team of one. A solo developer wears every hat — engineer, PM, QA, support — so these cross-functional patterns are your daily reality. Look for solo-specific tips throughout.
+
 ## Learning Tracks
 
 This week has role-specific tracks:
@@ -40,6 +42,8 @@ By the end of this session, participants will be able to:
 ## Session Plan
 
 ### Part 1: Cross-Functional Use Cases (25 min)
+
+These workflows are organized by role, but the patterns transfer across roles. Solo developers will find value in all sections — you're likely handling support, planning, engineering, and QA yourself.
 
 #### 1.1 Support Team Workflows (10 min)
 
@@ -719,7 +723,9 @@ Analyze development productivity for $ARGUMENTS.
 
 ### Part 4: Continuous Improvement Workflows (20 min)
 
-#### 4.1 Building a Team Knowledge Base (10 min)
+#### 4.1 Building a Knowledge Base (10 min)
+
+Whether you're building institutional knowledge for a team or a personal reference for your own projects, CLAUDE.md is where lessons accumulate.
 
 **Evolving Your CLAUDE.md:**
 
@@ -913,9 +919,9 @@ Analyze the example project for efficiency improvements:
 
 **Discussion Questions:**
 
-- Which workflow will have the biggest impact for your team?
+- Which workflow will have the biggest impact for your team (or your personal productivity)?
 - What metrics should we track for ROI?
-- How can we share learnings across teams?
+- How can we share learnings across teams (or capture them for your future self)?
 
 **Quick Poll:**
 
@@ -974,7 +980,7 @@ PARALLEL PROCESSING:
 
 ### Required Tasks
 
-1. Create three cross-functional skills for your team
+1. Create three cross-functional skills for your team or personal workflow
 2. Build a batch automation script (code review, test analysis, etc.)
 3. Implement auto-run-tests hook for your projects
 4. Update your project CLAUDE.md with lessons learned
@@ -1032,7 +1038,7 @@ Design a complete automation workflow that:
 - [ ] Automation scripts failing consistently
 - [ ] Claude responses degrading in quality
 - [ ] Skills not providing consistent results
-- [ ] Team not adopting new workflows
+- [ ] Workflows not sticking (team not adopting, or you keep reverting to old habits)
 - [ ] Metrics showing no improvement
 
 ## Next Week Preview

@@ -4,6 +4,10 @@
 **Format:** Reading, reflection, discussion
 **Audience:** All participants, especially non-developers (PMs, QA, Support Staff)
 
+> **Looking for your role-specific track?** Starting in Week 1, each session includes dedicated tracks for [Developers](../../resources/quick-start-developer.md), [PMs](../../resources/quick-start-pm.md), [QA](../../resources/quick-start-qa.md), and [Support](../../resources/quick-start-support.md). Use the quick-start guides linked here to preview what's ahead for your role.
+
+---
+
 ## Purpose
 
 This optional "on-ramp" week provides foundational context before diving into Claude Code. If you already understand AI basics and have realistic expectations about AI coding tools, feel free to skip ahead to [Week 1: Setup & Orientation](../week-1/README.md).

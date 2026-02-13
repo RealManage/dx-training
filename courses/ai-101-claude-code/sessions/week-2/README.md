@@ -5,6 +5,17 @@
 **Audience:** RealManage cross-functional team (engineers, PMs, QA, support staff)  
 **Prerequisites:** Completed Week 1 Setup & Orientation
 
+## Learning Tracks
+
+This week has role-specific tracks:
+
+- **[Developer Track](./tracks/developer.md)** - Debug, build features, and write tests with effective prompts
+- **[QA Track](./tracks/qa.md)** - Design test strategies and analyze code quality through prompting
+- **[PM Track](./tracks/pm.md)** - Turn code into requirements, user stories, and product docs
+- **[Support Track](./tracks/support.md)** - Draft responses, build templates, and master policy knowledge
+
+---
+
 ## 🎯 Learning Objectives
 
 By the end of this session, participants will be able to:

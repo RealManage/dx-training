@@ -78,7 +78,7 @@ my-plugin/
 
 **Why Plugins?**
 
-- **Distribution** - Share automation with your team
+- **Distribution** - Share automation with your team or across your own projects
 - **Organization** - Group related functionality
 - **Versioning** - Track changes over time
 - **Reusability** - Use across multiple projects
@@ -480,6 +480,8 @@ claude --plugin-dir ./plugin-one --plugin-dir ./plugin-two
 
 > **Note:** Claude Code ships with a default marketplace containing 50+ plugins out of the box. For team-specific automation, you can also create local plugins or add custom marketplaces from Git repositories.
 
+> **Solo developer?** Plugins are just as valuable for individual workflows. Package your personal skills, agents, and hooks into a plugin you can reuse across projects or share on the marketplace.
+
 **Exploring Available Plugins:**
 
 Run `/plugin` to open the interactive plugin manager:
@@ -724,7 +726,7 @@ INVOKE:
 2. Add a custom agent to your plugin
 3. Add audit hooks to your plugin
 4. Test your plugin locally with `--plugin-dir`
-5. Share your plugin structure in `#ai-exchange` Slack
+5. Share your plugin structure in `#ai-exchange` Slack (or document it in your project README for future reference)
 
 ### Stretch Goals
 
