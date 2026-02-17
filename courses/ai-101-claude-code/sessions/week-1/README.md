@@ -42,7 +42,7 @@ By the end of this session, participants will be able to:
 
 ### System Requirements
 
-- **OS:** Windows 10+, macOS 10.15+, or Ubuntu 20.04+
+- **OS:** Windows 10+, macOS 13.0+, or Ubuntu 20.04+
 - **RAM:** 4GB minimum
 - **.NET:** .NET 10 SDK required for C# exercises
 - **Shell:** Bash, Zsh, PowerShell, or Fish
@@ -65,25 +65,29 @@ Claude Code now uses native installers (npm method is deprecated).
 
 #### Windows (Native)
 
+> **Requires [Git for Windows](https://git-scm.com/downloads/win)** — Claude Code uses Git Bash under the hood on native Windows.
+
 ```powershell
-# In PowerShell (Run as Administrator recommended)
-winget install Anthropic.ClaudeCode
+# In PowerShell (recommended — auto-updates in the background)
+irm https://claude.ai/install.ps1 | iex
 
-# Or
-# irm https://claude.ai/install.ps1 | iex
-
-# Or From CMD terminal only
+# Or from CMD terminal
 curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd
+
+# Alternative: WinGet (does NOT auto-update — see note below)
+# winget install Anthropic.ClaudeCode
 
 # Verify installation
 claude --version
 ```
 
+> **WinGet users:** `claude update` does not work with WinGet installations. Use `winget upgrade Anthropic.ClaudeCode` instead. The native installer (PowerShell script above) auto-updates automatically and is recommended.
+
 #### Windows (WSL/Ubuntu)
 
 ```bash
-# In WSL terminal
-curl -fsSL https://claude.ai/install.sh | bash -s latest
+# In WSL terminal (auto-updates in the background)
+curl -fsSL https://claude.ai/install.sh | bash
 
 # Add to PATH if needed
 echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
@@ -96,20 +100,22 @@ claude --version
 #### macOS
 
 ```bash
-# Option A: Homebrew (recommended)
-brew install claude-code
+# Option A: Direct install (recommended — auto-updates in the background)
+curl -fsSL https://claude.ai/install.sh | bash
 
-# Option B: Direct install
-curl -fsSL https://claude.ai/install.sh | bash -s latest
+# Option B: Homebrew (does NOT auto-update)
+brew install --cask claude-code
 
 # Verify installation
 claude --version
 ```
 
+> **Homebrew users:** `claude update` does not work with Homebrew installations. Use `brew upgrade claude-code` instead.
+
 #### Linux
 
 ```bash
-curl -fsSL https://claude.ai/install.sh | bash -s latest
+curl -fsSL https://claude.ai/install.sh | bash
 
 # Add to PATH if needed
 echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
@@ -122,6 +128,8 @@ claude --version
 ### Step 3: Install .NET 10 SDK (for C# exercises)
 
 > **Non-developers:** Your track exercises don't require .NET, but installing it lets you try the developer exercises too. It's a quick install and Claude handles the code - worth it if you're curious!
+
+> **Local Admin required:** Installing the .NET SDK requires administrator permissions on your machine. If you don't have local admin access, contact Desktop Support to have it installed before the session.
 
 ```bash
 # Verify .NET installation
@@ -270,8 +278,8 @@ dotnet --version  # Should be 10.x.x
 **For Windows Users (Native):**
 
 ```powershell
-# In PowerShell
-winget install Anthropic.ClaudeCode
+# In PowerShell (auto-updates in the background)
+irm https://claude.ai/install.ps1 | iex
 
 # Verify installation
 claude --version
@@ -281,7 +289,7 @@ claude --version
 
 ```bash
 # In WSL terminal
-curl -fsSL https://claude.ai/install.sh | bash -s latest
+curl -fsSL https://claude.ai/install.sh | bash
 
 # Verify installation
 claude --version
@@ -290,8 +298,11 @@ claude --version
 **For Mac Users:**
 
 ```bash
-# Homebrew (recommended)
-brew install claude-code
+# Direct install (recommended)
+curl -fsSL https://claude.ai/install.sh | bash
+
+# Or Homebrew
+brew install --cask claude-code
 
 # Verify installation
 claude --version
@@ -300,7 +311,7 @@ claude --version
 **For Linux Users:**
 
 ```bash
-curl -fsSL https://claude.ai/install.sh | bash -s latest
+curl -fsSL https://claude.ai/install.sh | bash
 
 # Verify installation
 claude --version

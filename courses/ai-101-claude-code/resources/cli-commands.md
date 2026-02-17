@@ -229,12 +229,14 @@
 
 ```bash
 claude doctor        # Check installation health
-claude update        # Check for and install updates
+claude update        # Check for and install updates (native install only — see note below)
 claude mcp           # Configure MCP servers
 claude plugin        # Manage plugins
 claude install       # Install native build
 claude setup-token   # Set up auth token (requires subscription)
 ```
+
+> **Update caveat:** `claude update` only works with the native installer (curl/PowerShell script). If you installed via **WinGet**, use `winget upgrade Anthropic.ClaudeCode`. If you installed via **Homebrew**, use `brew upgrade claude-code`.
 
 ---
 
@@ -282,7 +284,7 @@ claude
 
 ## Memory Hierarchy
 
-```
+```text
 ~/.claude/CLAUDE.md    # User level (all projects)
 ./CLAUDE.md            # Project level (current project)
 Session context        # Current conversation

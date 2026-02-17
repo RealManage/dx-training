@@ -2,7 +2,7 @@
 
 ## For Instructors
 
-- [ ] Test installation on Windows (winget), macOS (brew), and Linux (curl)
+- [ ] Test installation on Windows (PowerShell native), macOS (curl), and Linux/WSL (curl)
 - [ ] Prepare sample HOA codebase repository
 - [ ] Test all demo commands
 - [ ] Have `claude doctor` output examples ready
@@ -14,13 +14,14 @@
 
 **Windows:**
 
-- Issue: "command not found" -> Restart PowerShell after `winget install`
-- Issue: WSL path issues -> Add `~/.local/bin` to PATH in `~/.bashrc`
+- Issue: "command not found" → Restart terminal; ensure [Git for Windows](https://git-scm.com/downloads/win) is installed
+- Issue: WSL path issues → Add `~/.local/bin` to PATH in `~/.bashrc`
+- Issue: `claude update` fails with WinGet → Use `winget upgrade Anthropic.ClaudeCode` instead
 
 **macOS:**
 
-- Issue: Homebrew not found -> Install from <https://brew.sh> first
-- Issue: PATH not updated -> Run `source ~/.zshrc` or restart terminal
+- Issue: "command not found" → Restart terminal; ensure `~/.local/bin` is in PATH
+- Issue: `claude update` fails with Homebrew → Use `brew upgrade claude-code` instead
 
 **All Platforms:**
 

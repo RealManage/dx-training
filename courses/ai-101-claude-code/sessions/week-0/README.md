@@ -215,9 +215,9 @@ While everyone follows the same core curriculum, each week includes role-specifi
 
 **Technical Requirements:**
 
-- Windows 10+, macOS 10.15+, or Ubuntu 20.04+
+- Windows 10+, macOS 13.0+, or Ubuntu 20.04+
 - 4GB RAM minimum
-- Node.js 18+ (22 LTS recommended)
+- Node.js 22 LTS (for Angular exercises only — not required for Claude Code)
 - VS Code or similar IDE
 - Internet connection
 

@@ -159,20 +159,22 @@ $env:CLAUDE_CODE_GIT_BASH_PATH="C:\PortableGit\bin\bash.exe"
 ### Behind Proxy
 
 ```bash
-# Set npm proxy
-npm config set proxy http://proxy.company.com:8080
-npm config set https-proxy http://proxy.company.com:8080
-
-# Set environment variables
+# Set environment variables for Claude Code and other tools
 export HTTP_PROXY=http://proxy.company.com:8080
 export HTTPS_PROXY=http://proxy.company.com:8080
 
-# For Windows, use set instead of export
-set HTTP_PROXY=http://proxy.company.com:8080
-set HTTPS_PROXY=http://proxy.company.com:8080
+# For Windows PowerShell, use $env: instead of export
+$env:HTTP_PROXY = "http://proxy.company.com:8080"
+$env:HTTPS_PROXY = "http://proxy.company.com:8080"
+
+# For Node.js projects (Angular exercises), also set npm proxy:
+npm config set proxy http://proxy.company.com:8080
+npm config set https-proxy http://proxy.company.com:8080
 ```
 
 ### SSL Certificate Issues
+
+For Node.js projects (Angular exercises):
 
 ```bash
 # Temporary workaround (NOT for production!)
@@ -214,7 +216,7 @@ claude
 
 **Add directories explicitly:**
 
-```
+```bash
 /add-dir ./src
 /add-dir ./tests
 ```
@@ -236,7 +238,7 @@ claude
 2. Run tests before accepting changes
 3. Use TDD approach:
 
-   ```
+   ```text
    > Write tests for <feature>
    > [Run tests - should fail]
    > Now implement the feature
@@ -277,7 +279,7 @@ ping api.anthropic.com
 
 ### Memory Hierarchy Confusion
 
-```
+```text
 Priority Order (highest to lowest):
 1. Session context (current conversation)
 2. ./CLAUDE.md (project-specific)
@@ -300,10 +302,8 @@ claude doctor
 
 Expected output:
 
-```
-✓ Node.js version: 22.x.x
-✓ npm version: 10.x.x
-✓ Claude Code installed: 1.x.x
+```text
+✓ Claude Code installed: 2.x.x
 ✓ Network connectivity: OK
 ✓ Git installed: 2.x.x
 ✓ Shell environment: bash
@@ -339,7 +339,7 @@ Skills are powerful, but they can be finicky. Here's your debugging checklist:
 
 Skills must live in `.claude/skills/` directory:
 
-```
+```text
 project-root/
 ├── .claude/
 │   └── skills/
@@ -640,7 +640,7 @@ For critical systems, you may want to aim higher:
 
 ### What Actually Matters
 
-```
+```text
 Good tests > High coverage
 
 A 75% coverage suite with meaningful tests
@@ -793,7 +793,7 @@ This course was tested with:
 | Component | Version | Notes |
 | --------- | ------- | ----- |
 | Claude Code CLI | 1.x | `claude --version` to check |
-| Node.js | 22 LTS | Required for Claude Code |
+| Node.js | 22 LTS | For Angular exercises (not required for Claude Code) |
 | npm | 10.x | Comes with Node.js |
 | .NET SDK | 10.0 | For C# exercises |
 
@@ -806,7 +806,7 @@ This course was tested with:
 ### Before Asking for Help
 
 1. Run `claude doctor` and save output
-2. Check Node/npm versions
+2. Check `claude --version`
 3. Try in a new terminal
 4. Test with a simple project
 5. Check #ai-exchange for similar issues
@@ -816,9 +816,8 @@ This course was tested with:
 When asking for help, include:
 
 - OS and version
-- Node.js version (`node --version`)
-- npm version (`npm --version`)
 - Claude Code version (`claude --version`)
+- How you installed Claude Code (native installer, WinGet, or Homebrew)
 - Error messages (full text)
 - What you were trying to do
 - What you expected to happen

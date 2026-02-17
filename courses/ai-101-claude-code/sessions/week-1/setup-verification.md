@@ -1,19 +1,21 @@
-# Week 1: Setup Verification Checklist ✅
+# Week 1: Setup Verification Checklist
 
 Use this checklist to verify your Claude Code installation is working correctly.
 
 ## Installation Verification
 
-### Step 1: Verify .NET SDK Installation
+### Step 1: Verify .NET 10 SDK Installation
+
+> **Local Admin required:** .NET SDK installation requires administrator permissions. Contact Desktop Support if you don't have local admin access.
 
 ```bash
 # Check .NET version
 dotnet --version
-# Should show: 9.0.x
+# Should show: 10.x.x
 
 # Check available SDKs
 dotnet --list-sdks
-# Should include 9.0.x
+# Should include 10.x.x
 
 # Verify you can build C# projects
 dotnet new console -n TestApp
@@ -25,7 +27,60 @@ cd ..
 rm -rf TestApp
 ```
 
-### Step 2: Verify nvm Installation
+### Step 2: Install Claude Code
+
+Claude Code uses a **native installer** that auto-updates in the background.
+
+**macOS / Linux / WSL:**
+
+```bash
+curl -fsSL https://claude.ai/install.sh | bash
+```
+
+**Windows (PowerShell — recommended):**
+
+```powershell
+irm https://claude.ai/install.ps1 | iex
+```
+
+> **Windows native** requires [Git for Windows](https://git-scm.com/downloads/win) (Git Bash). Install Git for Windows first if you don't have it.
+
+**Alternative install methods (not recommended):**
+
+| Method | Command | Auto-updates? |
+| - | - | - |
+| WinGet | `winget install Anthropic.ClaudeCode` | No — use `winget upgrade Anthropic.ClaudeCode` |
+| Homebrew | `brew install --cask claude-code` | No — use `brew upgrade claude-code` |
+
+> **Important:** `claude update` only works with the native installer. If you installed via WinGet or Homebrew, you must update using the package manager command shown above.
+
+### Step 3: Verify Claude Installation
+
+```bash
+claude --version
+# Should show: Claude Code version number
+```
+
+### Step 4: Run Diagnostic
+
+```bash
+claude doctor
+```
+
+**Expected output:**
+
+```text
+✓ Claude Code installed: 2.x.x
+✓ Network connectivity: OK
+✓ Git installed: 2.x.x
+✓ Shell environment: bash
+
+All checks passed! Claude Code is ready to use.
+```
+
+### Step 5: Verify Node.js (for Angular exercises only)
+
+> Node.js is **not required** for Claude Code itself, but is needed for Angular exercises in later weeks. You can skip this step for Week 1.
 
 **Windows (nvm-windows):**
 
@@ -47,8 +102,6 @@ nvm ls
 # Should show your installed Node versions with arrow pointing to current
 ```
 
-### Step 3: Ensure Correct Node.js Version
-
 ```bash
 # Check current version
 node --version
@@ -59,60 +112,78 @@ node --version
 # Mac/Linux: nvm use --lts
 ```
 
-### Step 4: Check npm Version
-
-```bash
-npm --version
-# Should show: 10.0.0 or higher
-
-# Check global package location
-npm config get prefix
-# Windows Git Bash: /c/Users/YOUR_NAME/AppData/Roaming/npm
-# Mac/Linux: Should be in home directory, NOT /usr/local
-```
-
-### Step 5: Install Claude Code
-
-**For Windows (Git Bash):**
-
-```bash
-# Make sure you're in Git Bash, not PowerShell
-npm install -g @anthropic-ai/claude-code
-```
-
-**For Mac/Linux/WSL:**
-
-```bash
-npm install -g @anthropic-ai/claude-code
-```
-
-### Step 6: Verify Claude Installation
-
-```bash
-claude --version
-# Should show: Claude Code version number
-```
-
-### Step 7: Run Diagnostic
-
-```bash
-claude doctor
-```
-
-**Expected output:**
-
-```
-✓ Node.js version: 20.11.0
-✓ npm version: 10.2.4
-✓ Claude Code installed: 1.x.x
-✓ Network connectivity: OK
-✓ Git installed: 2.x.x
-✓ Shell environment: bash
-
-All checks passed! Claude Code is ready to use.
-```
-
 ## Common Issues & Fixes
+
+### Claude: "command not found"
+
+**Native install (macOS/Linux/WSL):**
+
+```bash
+# Restart your terminal first — the installer adds claude to your PATH
+# If still not found, ensure ~/.local/bin is in your PATH:
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+**Windows native install:**
+
+```powershell
+# Close and reopen PowerShell/Git Bash
+# If still not found, verify Git for Windows is installed:
+git --version
+```
+
+### Authentication Issues
+
+```bash
+# If OAuth fails, try disabling VPN temporarily
+# Corporate VPN can block the OAuth callback
+```
+
+### WinGet: `claude update` Fails
+
+If you installed via WinGet, `claude update` is not supported. Use:
+
+```powershell
+winget upgrade Anthropic.ClaudeCode
+```
+
+Or switch to the native installer:
+
+```powershell
+# Uninstall WinGet version first
+winget uninstall Anthropic.ClaudeCode
+
+# Install native version (auto-updates)
+irm https://claude.ai/install.ps1 | iex
+```
+
+### Homebrew: `claude update` Fails
+
+If you installed via Homebrew, `claude update` is not supported. Use:
+
+```bash
+brew upgrade claude-code
+```
+
+### Git Bash Specific Issues
+
+```bash
+# If claude hangs or doesn't respond:
+winpty claude
+
+# If still issues, check Git Bash version:
+git --version
+# Should be 2.x or higher
+```
+
+### .NET SDK: Permission Denied
+
+```text
+# .NET SDK requires local admin to install
+# Contact Desktop Support for admin access
+# Or ask a team member with admin to assist
+```
 
 ### nvm Not Found
 
@@ -134,73 +205,10 @@ source ~/.bashrc  # or ~/.zshrc for Zsh users
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 ```
 
-### Node Version Issues
-
-```bash
-# List installed versions
-nvm list  # Windows
-nvm ls    # Mac/Linux
-
-# Install if missing
-nvm install 22    # Windows
-nvm install --lts # Mac/Linux
-
-# Switch to correct version
-nvm use 22        # Windows
-nvm use --lts     # Mac/Linux
-```
-
-### Claude: "command not found"
-
-```bash
-# Check npm global bin path
-npm config get prefix
-
-# Windows Git Bash - Add to PATH in ~/.bashrc:
-echo 'export PATH=$PATH:/c/Users/'$USER'/AppData/Roaming/npm' >> ~/.bashrc
-source ~/.bashrc
-
-# Mac/Linux - Add to PATH:
-echo 'export PATH=$PATH:$(npm config get prefix)/bin' >> ~/.bashrc
-source ~/.bashrc
-```
-
-### Permission Denied on npm install
-
-```bash
-# DO NOT use sudo!
-# Check npm prefix:
-npm config get prefix
-
-# If it shows /usr/local, change it:
-npm config set prefix ~/.npm-global
-mkdir -p ~/.npm-global
-echo 'export PATH=$PATH:~/.npm-global/bin' >> ~/.bashrc
-source ~/.bashrc
-
-# Reinstall Claude Code
-npm install -g @anthropic-ai/claude-code
-```
-
-### Git Bash Specific Issues
-
-```bash
-# If claude hangs or doesn't respond:
-winpty claude
-
-# If still issues, check Git Bash version:
-git --version
-# Should be 2.x or higher
-```
-
 ### Corporate Proxy
 
 ```bash
-# Set npm proxy
-npm config set proxy http://proxy.company.com:8080
-npm config set https-proxy http://proxy.company.com:8080
-
-# May also need:
+# Set proxy environment variables
 export HTTP_PROXY=http://proxy.company.com:8080
 export HTTPS_PROXY=http://proxy.company.com:8080
 ```
@@ -221,7 +229,7 @@ claude
 
 ### Step 3: Test Basic Query
 
-```
+```text
 > Hello Claude, what version are you?
 
 > Can you see any files in this directory?
@@ -268,6 +276,7 @@ claude
 
 ## Troubleshooting Resources
 
+- [Official Setup Guide](https://code.claude.com/docs/en/setup)
 - [Official Troubleshooting Guide](https://code.claude.com/docs/en/troubleshooting)
 - Slack: `#ai-exchange`
 

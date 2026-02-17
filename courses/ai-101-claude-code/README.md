@@ -66,7 +66,7 @@ graph LR
 
 ## 📁 Course Structure
 
-```
+```text
 ai-101-claude-code/
 ├── .vscode/                     # VS Code workspace settings
 │   ├── extensions.json         # Recommended extensions
@@ -161,11 +161,11 @@ Check `#ai-exchange` for upcoming cohorts.
 Before starting, ensure you have:
 
 - [ ] **Development Environment**
-  - [ ] Windows: Git Bash or WSL2 installed
-  - [ ] Mac/Linux: Terminal ready
-  - [ ] .NET 10 SDK ([Download](https://dotnet.microsoft.com/download/dotnet/10.0))
-  - [ ] Node.js 22 LTS via nvm
-  - [ ] npm 10+
+  - [ ] Windows: [Git for Windows](https://git-scm.com/downloads/win) installed (required for native Claude Code)
+  - [ ] Mac (13.0+) / Linux / WSL2: Terminal ready
+  - [ ] Claude Code installed via native installer (see [Week 1 QUICKSTART](./sessions/week-1/QUICKSTART.md))
+  - [ ] .NET 10 SDK ([Download](https://dotnet.microsoft.com/download/dotnet/10.0)) — requires local admin
+  - [ ] Node.js 22 LTS via nvm *(for Angular exercises only — not required for Claude Code)*
   - [ ] Git configured with GitLab access
   - [ ] IDE: VS Code, Windsurf, or Cursor with extensions (see `.vscode/extensions.json`)
 
