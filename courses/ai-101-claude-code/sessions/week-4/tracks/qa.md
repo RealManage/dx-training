@@ -1,6 +1,6 @@
 # Week 4: TDD - QA Track
 
-**Duration:** 2.5 hours
+**Duration:** 2 hours (API & Integration section is self-paced practice)
 **Focus:** Writing tests for existing code, not building production code
 
 ---
@@ -25,6 +25,10 @@ By the end of this session, you will be able to:
 - ✅ Identify coverage gaps and prioritize what to test
 - ✅ Generate meaningful test data for edge cases
 - ✅ Use Claude to suggest tests you might have missed
+
+---
+
+> **Learning Mode Recommended:** If you haven't already, run `/output-style` and select **Learning** or **Explanatory** mode for better understanding of test patterns.
 
 ---
 
@@ -55,7 +59,7 @@ Open `Services/PropertyService.cs`. You'll find methods like:
 
 **1. Analyze the code first:**
 
-```
+```markdown
 Read Services/PropertyService.cs and Tests/PropertyServiceTests.cs.
 Identify:
 1. All public methods that need tests
@@ -67,14 +71,14 @@ Don't write any tests yet - just analyze.
 
 **2. Check existing coverage:**
 
-```
+```markdown
 Run the existing tests and show me the coverage report.
 Which methods have less than 80% coverage?
 ```
 
 **3. Write tests for uncovered code:**
 
-```
+```markdown
 Write xUnit tests for UpdatePropertyAsync covering:
 - Successful update (happy path)
 - Property not found (returns false)
@@ -85,7 +89,7 @@ Use FluentAssertions for readable assertions.
 
 **4. Generate edge case test data:**
 
-```
+```markdown
 Generate test cases for SearchPropertiesAsync covering:
 - Null search term
 - Empty string search term
@@ -112,8 +116,10 @@ Generate test cases for SearchPropertiesAsync covering:
 ### Setup
 
 ```bash
+# If you haven't already created the sandbox from Exercise 1:
 cd courses/ai-101-claude-code/sessions/week-4
 cp -r examples/property-manager sandbox/property-manager
+
 cd sandbox/property-manager
 ```
 
@@ -121,7 +127,7 @@ cd sandbox/property-manager
 
 **1. Run coverage and analyze gaps:**
 
-```
+```markdown
 Run tests with coverage: dotnet test --collect:"XPlat Code Coverage"
 Show me which methods have less than 80% branch coverage.
 For each gap, explain what scenarios aren't tested.
@@ -129,7 +135,7 @@ For each gap, explain what scenarios aren't tested.
 
 **2. Prioritize what to test:**
 
-```
+```markdown
 Looking at the coverage gaps, prioritize them by:
 1. Business risk (what breaks if this fails?)
 2. Complexity (more branches = more risk)
@@ -139,7 +145,7 @@ Give me a prioritized list of tests to write.
 
 **3. Write the high-priority tests:**
 
-```
+```markdown
 Write tests for the top 3 priority gaps you identified.
 Focus on branch coverage, not just line coverage.
 ```
@@ -154,7 +160,7 @@ Focus on branch coverage, not just line coverage.
 
 **1. Generate boundary test data:**
 
-```
+```markdown
 Generate test data for ViolationEscalation scenarios:
 - Violation at exactly 30 days (warning threshold)
 - Violation at exactly 60 days (fine threshold)
@@ -165,7 +171,7 @@ Generate test data for ViolationEscalation scenarios:
 
 **2. Use Bogus for realistic data:**
 
-```
+```markdown
 Create a test data builder using Bogus that generates:
 - Realistic homeowner names and addresses
 - Valid HOA account numbers (format: HOA-XXXXX)
@@ -222,7 +228,9 @@ After this week, you can provide feedback like:
 
 ---
 
-## API & Integration Testing with Claude (30 min)
+## API & Integration Testing with Claude (Self-Paced Practice)
+
+> **Note:** This section extends beyond the 2-hour session. Work through it on your own time or as homework.
 
 Beyond unit tests, QA engineers often need to write API and integration tests. Claude can help with these too.
 
@@ -284,7 +292,7 @@ public class PaymentApiTests
 
 ### Asking Claude for API Tests
 
-```
+```markdown
 Generate API tests for @Controllers/PaymentController.cs
 Use RestSharp and FluentAssertions.
 Test happy paths, error cases (400, 404, 500), and edge cases.
@@ -339,7 +347,7 @@ For full end-to-end tests, consider:
 
 ### When to Use Each Test Type
 
-```
+```markdown
 Unit Tests (70%)
 ├── Fast, isolated, mock dependencies
 ├── Test business logic

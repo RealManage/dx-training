@@ -1,6 +1,7 @@
 # Homeowner Setup - TDD Exercise
 
 ## 🚨 CRITICAL TDD RULES
+
 1. **NEVER** write production code without a failing test
 2. **NEVER** modify a passing test  
 3. Write **MINIMAL** code to make tests pass
@@ -22,7 +23,7 @@ graph LR
 
 ## Project Structure
 
-```
+```text
 /homeowner-setup
 ├── Program.cs                   # Empty - Build via TDD
 ├── Models/                      # Empty - Create via TDD
@@ -35,6 +36,7 @@ graph LR
 ## C# Testing Best Practices
 
 ### Test Naming Convention
+
 ```csharp
 [Fact]
 public void MethodName_StateUnderTest_ExpectedBehavior()
@@ -46,6 +48,7 @@ public void MethodName_StateUnderTest_ExpectedBehavior()
 ```
 
 ### FluentAssertions Patterns
+
 ```csharp
 // Preferred style
 result.Should().NotBeNull();
@@ -59,6 +62,7 @@ list.Should().Contain(x => x.Name == "John");
 ```
 
 ### Moq Usage
+
 ```csharp
 // Setup mock
 var mock = new Mock<IEmailService>();
@@ -70,6 +74,7 @@ mock.Verify(x => x.SendEmail("test@example.com"), Times.Once);
 ```
 
 ### In-Memory Database Pattern
+
 ```csharp
 // For data access tests
 var options = new DbContextOptionsBuilder<AppContext>()

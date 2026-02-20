@@ -5,6 +5,10 @@
 
 ---
 
+> **Learning Mode Recommended:** If you haven't already, run `/output-style` and select **Learning** or **Explanatory** mode for better understanding of quality-first workflows.
+
+---
+
 ## Your Mission
 
 You'll learn how TDD principles apply to support work: defining clear acceptance criteria and testing your responses before sending them. By the end, you'll create a "test-first" approach to customer communication.
@@ -30,7 +34,7 @@ In TDD, developers write tests before code. For support, you can define "success
 
 2. Define acceptance criteria for a response before writing it:
 
-   ```
+   ```markdown
    A resident is disputing a $150 late fee. Before I draft a response,
    help me define what a successful response MUST include:
 
@@ -44,14 +48,14 @@ In TDD, developers write tests before code. For support, you can define "success
 
 3. Now draft the response:
 
-   ```
+   ```markdown
    Draft a response to the late fee dispute.
    Make sure it passes all the criteria we just defined.
    ```
 
 4. "Test" the response against your criteria:
 
-   ```
+   ```markdown
    Review the response against our acceptance criteria.
    Does it pass all requirements? What's missing?
    ```
@@ -77,14 +81,14 @@ Just like developers write test cases for code, you can create "test cases" for 
 
 1. Create a template with Claude:
 
-   ```
+   ```markdown
    Create a response template for explaining late fees.
    Include placeholders for [AMOUNT], [DUE_DATE], [CURRENT_BALANCE].
    ```
 
 2. Now create "test scenarios" for this template:
 
-   ```
+   ```markdown
    Create 5 test scenarios for this template:
    1. Normal case: $50 fee on $500 balance
    2. Edge case: Fee larger than original amount due
@@ -97,7 +101,7 @@ Just like developers write test cases for code, you can create "test cases" for 
 
 3. Identify gaps in the template:
 
-   ```
+   ```markdown
    Based on those test scenarios, does the template need adjustment?
    What edge cases don't work well with the current template?
    ```
@@ -123,7 +127,7 @@ QA engineers use test suites to verify code quality. You can create similar qual
 
 1. Build a universal quality checklist:
 
-   ```
+   ```markdown
    Create a quality checklist that every customer response should pass.
    Consider:
    - Tone and empathy requirements
@@ -138,7 +142,7 @@ QA engineers use test suites to verify code quality. You can create similar qual
 
 2. Test the checklist against real responses:
 
-   ```
+   ```markdown
    Here are 3 draft responses. Grade each against our quality checklist:
 
    Response 1: "Your late fee is $150 because you paid late. Pay by Friday."
@@ -158,7 +162,7 @@ QA engineers use test suites to verify code quality. You can create similar qual
 
 3. Identify patterns in failures:
 
-   ```
+   ```markdown
    Based on the responses that failed checklist items,
    what are the most common quality issues?
    How could I avoid these in future responses?
@@ -166,7 +170,7 @@ QA engineers use test suites to verify code quality. You can create similar qual
 
 4. Create a "pre-flight" checklist for your workflow:
 
-   ```
+   ```markdown
    Turn the quality checklist into a quick "pre-flight" format
    I can scan in under 30 seconds before sending any response.
    ```

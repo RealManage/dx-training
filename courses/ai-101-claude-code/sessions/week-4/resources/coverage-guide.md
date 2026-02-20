@@ -7,28 +7,36 @@ Code coverage measures how much of your code is executed during tests. It's a me
 ## Coverage Metrics
 
 ### Line Coverage
+
 Percentage of lines executed by tests
-```
+
+```text
 ✅ Tested:    if (value > 0)
 ✅ Tested:        return true;
 ❌ Untested:  else
 ❌ Untested:      return false;
 ```
+
 **Line Coverage: 50%**
 
 ### Branch Coverage
+
 Percentage of decision paths taken
-```
+
+```text
 if (age >= 18 && hasLicense)  // 4 possible branches
     // Branch 1: true && true   ✅
     // Branch 2: true && false  ❌
     // Branch 3: false && true  ❌
     // Branch 4: false && false ✅
 ```
+
 **Branch Coverage: 50%**
 
 ### Method Coverage
+
 Percentage of methods executed
+
 ```csharp
 public class Service
 {
@@ -37,11 +45,13 @@ public class Service
     public void Method3() { }  // ❌ Never called
 }
 ```
+
 **Method Coverage: 66%**
 
 ## Running Coverage in .NET
 
 ### Basic Coverage Collection
+
 ```bash
 # Simple coverage run
 dotnet test /p:CollectCoverage=true
@@ -54,6 +64,7 @@ dotnet test /p:CollectCoverage=true /p:Threshold=80
 ```
 
 ### Coverage Output Formats
+
 ```bash
 # JSON format (default)
 dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=json
@@ -71,6 +82,7 @@ dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=\"opencover,json\"
 ## Generating HTML Reports
 
 ### Install Report Generator
+
 ```bash
 # Install globally
 dotnet tool install -g dotnet-reportgenerator-globaltool
@@ -80,6 +92,7 @@ dotnet tool install dotnet-reportgenerator-globaltool
 ```
 
 ### Generate Report
+
 ```bash
 # Basic report
 reportgenerator -reports:coverage.opencover.xml -targetdir:coveragereport
@@ -97,6 +110,7 @@ start coveragereport/index.html # Windows
 ## Coverage in Practice
 
 ### Good Coverage (95%+)
+
 ```csharp
 public class Calculator
 {
@@ -117,6 +131,7 @@ public class Calculator
 ```
 
 ### Poor Coverage (60%)
+
 ```csharp
 public class UserService
 {
@@ -141,6 +156,7 @@ public class UserService
 ## Excluding Code from Coverage
 
 ### Class/Method Level
+
 ```csharp
 [ExcludeFromCodeCoverage]
 public class MigrationHelper
@@ -159,6 +175,7 @@ public class Service
 ```
 
 ### File Level
+
 ```xml
 <!-- In .csproj -->
 <ItemGroup>
@@ -168,6 +185,7 @@ public class Service
 ```
 
 ### Using Coverlet Settings
+
 ```json
 // coverlet.runsettings.json
 {
@@ -183,13 +201,14 @@ public class Service
 ## CI/CD Integration
 
 ### GitLab CI/CD
+
 ```yaml
 test-with-coverage:
   stage: test
   script:
     - dotnet test /p:CollectCoverage=true
                   /p:CoverletOutputFormat=cobertura
-                  /p:Threshold=95
+                  /p:Threshold=80
                   /p:ThresholdType=line
   artifacts:
     reports:
@@ -199,6 +218,7 @@ test-with-coverage:
 ```
 
 ### Azure DevOps
+
 ```yaml
 - task: DotNetCoreCLI@2
   displayName: 'Run tests with coverage'
@@ -215,13 +235,15 @@ test-with-coverage:
 ## Coverage Best Practices
 
 ### ✅ DO
-- Aim for 80-95% coverage
+
+- Aim for 80-90% coverage
 - Focus on critical business logic
 - Test edge cases and error paths
 - Use coverage to find untested code
 - Exclude generated code from metrics
 
 ### ❌ DON'T
+
 - Chase 100% coverage blindly
 - Write meaningless tests for coverage
 - Include UI code in coverage
@@ -252,6 +274,7 @@ dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=console
 ### Common Issues
 
 1. **Missing Error Path Tests**
+
 ```csharp
 // Code
 if (input == null)
@@ -266,7 +289,8 @@ public void Method_NullInput_ThrowsException()
 }
 ```
 
-2. **Untested Catch Blocks**
+1. **Untested Catch Blocks**
+
 ```csharp
 // Code
 try
@@ -284,7 +308,8 @@ mock.Setup(x => x.CallExternalService())
     .ThrowsAsync(new HttpException());
 ```
 
-3. **Complex Conditionals**
+1. **Complex Conditionals**
+
 ```csharp
 // Code with multiple conditions
 if (user.Age >= 18 && user.HasLicense && !user.IsSuspended)
@@ -300,7 +325,8 @@ if (user.Age >= 18 && user.HasLicense && !user.IsSuspended)
 ## Coverage Visualization
 
 ### Console Output
-```
+
+```text
 +--------+--------+--------+
 | Module | Line   | Branch |
 +--------+--------+--------+
@@ -313,8 +339,9 @@ if (user.Age >= 18 && user.HasLicense && !user.IsSuspended)
 ```
 
 ### HTML Report Features
+
 - **File Browser**: Navigate through your code
-- **Line Highlighting**: 
+- **Line Highlighting**:
   - 🟢 Green = Covered
   - 🔴 Red = Not Covered
   - 🟡 Yellow = Partially Covered
@@ -329,7 +356,7 @@ if (user.Age >= 18 && user.HasLicense && !user.IsSuspended)
 dotnet test /p:CollectCoverage=true
 
 # With threshold
-dotnet test /p:CollectCoverage=true /p:Threshold=95
+dotnet test /p:CollectCoverage=true /p:Threshold=80
 
 # Generate report
 dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover

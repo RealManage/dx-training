@@ -156,7 +156,7 @@ With proper TDD, you'll hit 80-90% coverage naturally because:
 - Critical business logic is tested first
 - Edge cases are handled through tests
 
-> **Why 80-90% and not 100%?** See the [Troubleshooting Guide](../../resources/troubleshooting.md#-test-coverage-target-rationale) for detailed rationale on coverage targets.
+> **Why 80-90% and not 100%?** See the [Troubleshooting Guide](../../resources/troubleshooting.md#-coverage-target-explanation) for detailed rationale on coverage targets.
 
 *For coverage commands, see [Coverage Guide](./resources/coverage-guide.md)*
 

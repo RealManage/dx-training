@@ -5,6 +5,10 @@
 
 ---
 
+> **Learning Mode Recommended:** If you haven't already, run `/output-style` and select **Learning** or **Explanatory** mode for better understanding of testable requirements.
+
+---
+
 ## Why This Week Matters for PMs
 
 Week 4 is where developers learn Test-Driven Development (TDD) - writing tests *before* code. For this to work, they need **clear, testable requirements**.
@@ -149,7 +153,7 @@ Use Claude to help write comprehensive acceptance criteria.
 
 ### Prompt to Use
 
-```
+```markdown
 I need to write testable acceptance criteria for a violation escalation feature.
 
 Business rules:
@@ -192,7 +196,7 @@ Developers test the happy path. QA finds some edge cases. But **PMs who think ab
 
 **Prompt Template:**
 
-```
+```markdown
 I'm writing requirements for [FEATURE].
 
 The basic flow is:
@@ -216,7 +220,7 @@ For each edge case, tell me:
 
 **Prompt:**
 
-```
+```markdown
 I'm writing requirements for payment processing.
 
 The basic flow is:
@@ -256,7 +260,7 @@ Use Claude to identify edge cases, then write acceptance criteria for 3 of them.
 
 ### Prompt to Use
 
-```
+```markdown
 I'm writing requirements for HOA assessment due date calculation.
 
 Business rules:

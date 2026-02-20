@@ -18,7 +18,8 @@ graph LR
 ## Working with Claude Code
 
 ### ✅ DO Say This
-```
+
+```text
 "Write a test for [specific functionality]"
 "Make this failing test pass with minimal code"
 "Refactor while keeping tests green"
@@ -26,7 +27,8 @@ graph LR
 ```
 
 ### ❌ DON'T Say This
-```
+
+```text
 "Create a service with tests"
 "Add tests to this code"
 "Improve test coverage"
@@ -157,7 +159,7 @@ dotnet test --collect:"XPlat Code Coverage"
 # With specific metrics
 dotnet test /p:CollectCoverage=true \
             /p:CoverletOutputFormat=opencover \
-            /p:Threshold=95 \
+            /p:Threshold=80 \
             /p:ThresholdType=line
 
 # Generate HTML report (requires reportgenerator)
@@ -167,7 +169,7 @@ reportgenerator -reports:coverage.opencover.xml -targetdir:coveragereport
 
 ## TDD Workflow
 
-```
+```text
 1. 🤔 Think about what you want to implement
 2. 📝 Write a test that describes the behavior
 3. 🔴 Run test - see it fail (compilation or assertion)
@@ -181,6 +183,7 @@ reportgenerator -reports:coverage.opencover.xml -targetdir:coveragereport
 ## Common Patterns
 
 ### Testing Async Methods
+
 ```csharp
 [Fact]
 public async Task MethodAsync_Condition_Result()
@@ -197,6 +200,7 @@ public async Task MethodAsync_Condition_Result()
 ```
 
 ### Testing Collections
+
 ```csharp
 [Theory]
 [InlineData("input1", "expected1")]
@@ -216,6 +220,7 @@ public void Method_MultipleInputs_CorrectResults(string input, string expected)
 ```
 
 ### Testing with Dependency Injection
+
 ```csharp
 public class ServiceTests
 {
