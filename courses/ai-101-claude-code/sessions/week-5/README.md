@@ -32,14 +32,16 @@ By the end of this session, participants will be able to:
 
 - [ ] Claude Code working smoothly from Weeks 1-4
 - [ ] Understanding of TDD from Week 4
-- [ ] Reviewed [Slash Commands Docs](https://code.claude.com/docs/en/slash-commands)
-- [ ] Ready for 1.5-hour session
+- [ ] Reviewed [Skills Docs](https://code.claude.com/docs/en/skills)
+- [ ] Ready for 2-hour session
 
 ---
 
 ## Part 1: Slash Commands (30 min)
 
 Slash commands are reusable prompts you can invoke with `/command-name`. They're the simplest way to create custom automation in Claude Code.
+
+> **Note:** Claude Code has unified commands and skills under the "skills" umbrella. Files in `.claude/commands/` still work and are fully supported, but the recommended path forward is to use `.claude/skills/`. This session teaches both formats so you understand the progression and can work with existing codebases that use either approach.
 
 ### 1.1 What Are Slash Commands?
 
@@ -103,7 +105,7 @@ Format as markdown suitable for board review.
 | Variable | Description | Example |
 | -------- | ----------- | ------- |
 | `$ARGUMENTS` | All arguments as single string | `/cmd foo bar` -> `"foo bar"` |
-| `$1`, `$2`, `$3` | Individual arguments | `/cmd foo bar` -> `$1="foo"`, `$2="bar"` |
+| `$0`, `$1`, `$2` | Individual positional arguments (0-based) | `/cmd foo bar` -> `$0="foo"`, `$1="bar"` |
 
 **Using Commands:**
 
@@ -128,19 +130,19 @@ description: Create new C# service with TDD approach
 argument-hint: <ServiceName> <EntityName>
 ---
 
-Create a new service called $1Service for managing $2 entities.
+Create a new service called $0Service for managing $1 entities.
 
 Requirements:
 - Follow repository pattern
-- Include interface I$1Service
+- Include interface I$0Service
 - Write xUnit tests FIRST (Red-Green-Refactor)
 - Target 80-90% code coverage
 - Use FluentAssertions and Moq
 
 Steps:
-1. Create failing tests in Tests/$1ServiceTests.cs
-2. Create interface in Services/I$1Service.cs
-3. Implement Services/$1Service.cs to pass tests
+1. Create failing tests in Tests/$0ServiceTests.cs
+2. Create interface in Services/I$0Service.cs
+3. Implement Services/$0Service.cs to pass tests
 4. Refactor while keeping tests green
 ```
 
@@ -152,7 +154,7 @@ description: Calculate late fees with compound interest
 argument-hint: <principal> <months_overdue>
 ---
 
-Calculate late fees for $1 principal over $2 months.
+Calculate late fees for $0 principal over $1 months.
 
 RealManage Rules:
 - 30-day grace period (first month free)
@@ -176,7 +178,7 @@ description: Process HOA violation with proper escalation
 argument-hint: <violation_type> <property_id> <days_since_report>
 ---
 
-Process a $1 violation for property $2, reported $3 days ago.
+Process a $0 violation for property $1, reported $2 days ago.
 
 Business Rules:
 - 0-30 days: First notice (warning only)
@@ -240,7 +242,7 @@ description: Process HOA violations with notice templates
 argument-hint: <property_id> <violation_type>
 ---
 
-Process a $1 violation for property $2.
+Process a $0 violation for property $1.
 
 ## Business Rules
 - 0-30 days: First notice (warning)
@@ -264,8 +266,11 @@ Process a $1 violation for property $2.
 | Field | Description |
 | ----- | ----------- |
 | `name` | Unique identifier for the skill |
-| `description` | What the skill does (shown in menu) |
+| `description` | What the skill does (shown in menu and used for semantic matching) |
 | `argument-hint` | Arguments hint for autocomplete |
+| `disable-model-invocation` | Set to `true` to prevent auto-invocation (manual `/` only) |
+| `allowed-tools` | Restrict which tools the skill can use (e.g., `Read, Grep`) |
+| `context` | Set to `fork` to run in a subagent with isolated context |
 
 ### 2.3 How Skill Loading Works
 
@@ -300,7 +305,7 @@ Understanding how Claude Code discovers and loads skills helps you write better 
 - Move reference data (templates, lookup tables) into supporting files
 - Use `disable-model-invocation: true` for skills that should only run when explicitly called
 
-> **Rule of thumb:** If your SKILL.md body exceeds ~100 lines, consider splitting it into smaller skills or moving reference content into supporting files. This keeps each invocation token-efficient and easier to maintain.
+> **Rule of thumb:** The official docs recommend keeping SKILL.md under 500 lines. For best results, aim for ~100-200 lines in the body and move reference content into supporting files. This keeps each invocation token-efficient and easier to maintain.
 
 ### 2.4 Supporting Files
 
@@ -386,7 +391,7 @@ description: Generate homeowner communications with appropriate tone
 argument-hint: <communication_type> <property_id>
 ---
 
-Generate a $1 communication for property $2.
+Generate a $0 communication for property $1.
 
 Use ./letter-templates/ for the appropriate template.
 Use ./tone-guide.txt for communication standards.
@@ -468,7 +473,7 @@ description: Generate payment reminder with customized tone
 argument-hint: <property_id> <days_overdue>
 ---
 
-Generate a payment reminder for property $1, $2 days overdue.
+Generate a payment reminder for property $0, $1 days overdue.
 
 Use ./reminder-templates.txt for tone guidance.
 
@@ -536,7 +541,27 @@ Explore the example project's existing commands and skills:
 
 ---
 
-## 🎯 Key Takeaways
+## Part 4: Wrap-Up and Review (30 min)
+
+### 4.1 Discussion (15 min)
+
+Discuss with your group or reflect individually:
+
+1. What daily task would benefit most from a command or skill?
+2. How would you structure a skill for your team's most common workflow?
+3. When would you choose a command over a skill (and vice versa)?
+
+### 4.2 Share Your Work (15 min)
+
+Post your best command or skill to `#ai-exchange` Slack:
+
+- What it does
+- How you invoke it
+- What made it useful
+
+---
+
+## Key Takeaways
 
 ### Commands Quick Reference
 
@@ -548,7 +573,7 @@ FORMAT:
 description: What it does
 argument-hint: <args>
 ---
-Prompt content with $ARGUMENTS or $1, $2, $3
+Prompt content with $ARGUMENTS or $0, $1, $2
 
 INVOKE: /command-name args
 ```
@@ -597,7 +622,7 @@ INVOKE: /skill-name args
 ### Stretch Goals
 
 1. Create a skill with multiple supporting files
-2. Build a command that uses all three argument types ($ARGUMENTS, $1, $2)
+2. Build a command that uses all three argument types ($ARGUMENTS, $0, $1)
 
 ---
 
@@ -605,12 +630,15 @@ INVOKE: /skill-name args
 
 ### Official Documentation
 
-- [Slash Commands](https://code.claude.com/docs/en/slash-commands)
-- [Skills](https://code.claude.com/docs/en/skills)
+- [Skills (Commands & Skills)](https://code.claude.com/docs/en/skills)
 
 ### RealManage Resources
 
 - [Week 5 Examples](./examples/) - Violation Audit API project
+- [Glossary](../../resources/glossary.md) - Key terms and definitions
+- [Decision Trees](../../resources/decision-trees.md) - When to use what
+- [Troubleshooting](../../resources/troubleshooting.md) - Common issues and fixes
+- [CLI Commands](../../resources/cli-commands.md) - Command cheatsheet
 - Slack: `#ai-exchange`
 
 ---
@@ -628,18 +656,6 @@ Building on commands and skills, Week 6 introduces:
 
 ---
 
-## 📚 Quick Resources
-
-- [Glossary](../../resources/glossary.md) - Key terms and definitions
-- [Decision Trees](../../resources/decision-trees.md) - When to use what
-- [Troubleshooting](../../resources/troubleshooting.md) - Common issues and fixes
-- [CLI Commands](../../resources/cli-commands.md) - Command cheatsheet
-
----
-
 *End of Week 5 Session Plan*
-*Next Session: Week 6 - Agents & Hooks*
-
----
 
 **Next:** [Week 6: Agents & Hooks](../week-6/README.md)

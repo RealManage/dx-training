@@ -1,52 +1,51 @@
-# Support Skills - Custom Commands for Support
+# Support Skills - Custom Commands & Skills for Support
 
 ## Context
 
-This environment is for building **custom slash commands** (skills) that automate common support tasks. Skills save time on repetitive work.
+This environment is for building **custom commands and skills** that automate common support tasks. Commands and skills save time on repetitive work.
 
-## What Are Skills?
+## Commands vs Skills
 
-Skills are reusable commands you create in `.claude/skills/`. When you type `/skill-name`, Claude executes the skill's instructions.
+- **Commands** live in `.claude/commands/` as single markdown files -- great for simple prompts
+- **Skills** live in `.claude/skills/<name>/SKILL.md` with supporting files -- great for workflows that need templates or data
 
 ## Support Skill Ideas
 
-| Skill Name | Purpose | Arguments |
-| ---------- | ------- | --------- |
-| `/draft-response` | Generate customer response | issue-type, description |
-| `/explain-fee` | Explain fee calculation | fee-type, amount |
-| `/escalation-note` | Create escalation document | ticket-id, summary |
-| `/kb-article` | Generate knowledge base article | topic |
-| `/tone-check` | Review response tone | (reads clipboard/input) |
+| Name | Type | Purpose | Arguments |
+| ---- | ---- | ------- | --------- |
+| `/faq` | Command | Quick FAQ answer | topic |
+| `/draft-response` | Skill | Generate customer response | issue-type, description |
+| `/explain-fee` | Skill | Explain fee calculation | fee-type, amount |
+| `/escalation-note` | Skill | Create escalation document | ticket-id, summary |
+| `/tone-check` | Command | Review response tone | (reads input) |
 
 ## Skill File Structure
 
-Skills live in `.claude/skills/` as markdown files:
+Commands use a single file; skills use a directory:
 
-```
+```text
 .claude/
+  commands/
+    faq.md                    # Simple command
   skills/
-    draft-response.md
-    explain-fee.md
-    escalation-note.md
+    draft-response/
+      SKILL.md                # Main skill definition
+      tone-guide.txt          # Supporting file
+    explain-fee/
+      SKILL.md
+      fee-schedule.txt
 ```
 
-Each file contains:
+## Starter Templates
 
-1. Skill description (what it does)
-2. Arguments it accepts
-3. Instructions for Claude
-4. Output format
+See starter skill templates in this folder:
 
-## Example Skill Files
+- `draft-response.md` - Response generation template (copy to `.claude/skills/draft-response/SKILL.md`)
+- `explain-fee.md` - Fee explanation template (copy to `.claude/skills/explain-fee/SKILL.md`)
 
-See starter skills in this folder:
+## Building Your Own
 
-- `draft-response.md` - Response generation skill
-- `explain-fee.md` - Fee explanation skill
-
-## Building Your Own Skills
-
-**Good candidates for skills:**
+**Good candidates for automation:**
 
 - Tasks you do 5+ times per day
 - Responses that follow a consistent format
@@ -56,14 +55,15 @@ See starter skills in this folder:
 **How to create:**
 
 1. Identify the repetitive task
-2. Define the inputs (arguments)
-3. Write clear instructions
-4. Specify the output format
-5. Test and refine
+2. Decide: command (simple) or skill (needs supporting files)?
+3. Define the inputs (arguments)
+4. Write clear instructions
+5. Specify the output format
+6. Test and refine
 
 ## Practice Tasks
 
-1. Review the starter skills in this folder
-2. Test `/draft-response` with different scenarios
-3. Create your own skill for a common task
-4. Document your skill library
+1. Review the starter templates in this folder
+2. Create a `/faq` command in `.claude/commands/`
+3. Create a `/draft-response` skill in `.claude/skills/draft-response/SKILL.md`
+4. Test both and compare the output quality

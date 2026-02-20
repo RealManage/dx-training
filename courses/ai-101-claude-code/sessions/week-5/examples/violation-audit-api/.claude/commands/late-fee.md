@@ -1,7 +1,7 @@
 # Description: Calculate late fees with compound interest
 # Arguments: principal_amount months_overdue
 
-Calculate late fees for $1 principal over $2 months overdue.
+Calculate late fees for $0 principal over $1 months overdue.
 
 RealManage Late Fee Policy:
 - 30-day grace period (first month has no interest)

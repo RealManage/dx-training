@@ -4,8 +4,8 @@ Generate a professional customer support response.
 
 ## Arguments
 
-- `$ISSUE_TYPE` - Type of issue (late-fee, violation, general, welcome)
-- `$DESCRIPTION` - Brief description of the situation
+- `$0` - Type of issue (late-fee, violation, general, welcome)
+- `$1` - Brief description of the situation
 
 ## Instructions
 
@@ -62,14 +62,14 @@ A complete customer response ready for review and sending.
 
 ## Example Usage
 
-```
+```text
 /draft-response late-fee "Resident confused about $542 balance when dues are $450"
 ```
 
-```
+```text
 /draft-response violation "First-time violation for trash cans, resident upset"
 ```
 
-```
+```text
 /draft-response welcome "New resident asking about dues, portal, and paint approval"
 ```

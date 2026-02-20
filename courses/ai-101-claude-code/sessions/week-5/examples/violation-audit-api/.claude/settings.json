@@ -8,10 +8,6 @@
       {
         "matcher": "Edit",
         "command": "echo \"$(date -Iseconds) | PRE | EDIT | $TOOL_INPUT\" >> .claude/audit.log"
-      },
-      {
-        "matcher": "Bash(rm:*)",
-        "command": "echo 'BLOCKED: rm commands require manual approval' && exit 1"
       }
     ],
     "PostToolUse": [
@@ -23,6 +19,6 @@
   },
   "permissions": {
     "allow": ["Read", "Edit", "Bash", "Glob", "Grep"],
-    "deny": ["Bash(rm:-rf:*)", "Bash(git:push:--force)"]
+    "deny": ["Bash(rm -rf *)", "Bash(git push --force*)"]
   }
 }

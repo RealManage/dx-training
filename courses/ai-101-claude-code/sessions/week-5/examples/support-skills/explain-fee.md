@@ -4,9 +4,9 @@ Generate a clear explanation of HOA fee calculations.
 
 ## Arguments
 
-- `$FEE_TYPE` - Type of fee (late, processing, legal, assessment)
-- `$AMOUNT` - Original amount or current balance (optional)
-- `$MONTHS` - Months overdue (optional, for late fees)
+- `$0` - Type of fee (late, processing, legal, assessment)
+- `$1` - Original amount or current balance (optional)
+- `$2` - Months overdue (optional, for late fees)
 
 ## Instructions
 
@@ -18,7 +18,7 @@ You are explaining HOA fees to a resident. Be clear, accurate, and non-defensive
 
 - 10% of outstanding balance, compounded monthly
 - Applied after 30-day grace period
-- Example: $100 dues → $110 after month 1 → $121 after month 2
+- Example: $100 dues -> $110 after month 1 -> $121 after month 2
 
 **Processing Fees:**
 
@@ -60,20 +60,20 @@ A clear, accurate fee explanation suitable for customer communication.
 
 ## Example Usage
 
-```
+```text
 /explain-fee late 450 2
 ```
 
-→ Explains how $450 became ~$544 over 2 months
+> Explains how $450 became ~$544 over 2 months
 
-```
+```text
 /explain-fee processing
 ```
 
-→ Lists all processing fees and when they apply
+> Lists all processing fees and when they apply
 
-```
+```text
 /explain-fee legal
 ```
 
-→ Explains legal fee policy and when it applies
+> Explains legal fee policy and when it applies

@@ -2,9 +2,11 @@
 
 ## PM Skill Creation Workshop
 
-**Time:** 1.5 hours
+**Time:** 2 hours
 
-This week, PMs learn to create their own skills to automate common PM workflows. No coding required - skills are just structured prompts in markdown files.
+This week, PMs learn to create their own commands and skills to automate common PM workflows. No coding required -- commands and skills are just structured prompts in markdown files.
+
+> **Commands vs Skills:** Commands (`.claude/commands/name.md`) are simple single-file prompts. Skills (`.claude/skills/name/SKILL.md`) add supporting files like templates and data. This session focuses on skills because PM workflows benefit from supporting files, but the same concepts apply to commands.
 
 ---
 
@@ -12,6 +14,7 @@ This week, PMs learn to create their own skills to automate common PM workflows.
 
 By the end of this session, you'll be able to:
 
+- [ ] Understand the difference between commands and skills
 - [ ] Create skills to automate PM workflows
 - [ ] Use skills with the Claude CLI
 - [ ] Build a personal PM automation toolkit
@@ -58,17 +61,17 @@ description: Generate stakeholder-friendly release notes from git history
 argument-hint: [version] [start_date]
 ---
 
-Generate release notes for version $1 starting from $2.
+Generate release notes for version $0 starting from $1.
 
 ## Input Required
 I'll need the git log output. Run this command and paste the results:
 \`\`\`bash
-git log --oneline --since="$2" --until="today"
+git log --oneline --since="$1" --until="today"
 \`\`\`
 
 ## Output Format
 
-### Release Notes: v$1
+### Release Notes: v$0
 
 **Release Date:** [Today's date]
 
@@ -143,14 +146,14 @@ argument-hint: [meeting_type]
 
 Extract action items from the meeting notes I'll provide.
 
-## Meeting Type: $1
+## Meeting Type: $0
 
 ## What I Need
 Paste your meeting notes below (raw is fine - bullet points, sentences, whatever format you have).
 
 ## Output Format
 
-### Action Items from $1
+### Action Items from $0
 
 | # | Action | Owner | Due Date | Priority |
 | --- | ------ | ----- | -------- | -------- |
@@ -202,7 +205,7 @@ description: Generate executive sprint summary from sprint data
 argument-hint: [sprint_number]
 ---
 
-Generate an executive summary for Sprint $1.
+Generate an executive summary for Sprint $0.
 
 ## Data I'll Need
 Provide the following (paste from Jira export or type manually):
@@ -214,7 +217,7 @@ Provide the following (paste from Jira export or type manually):
 
 ## Output Format
 
-### Sprint $1 Summary
+### Sprint $0 Summary
 
 **Sprint Goal:** [Inferred from completed work]
 **Delivery:** [X of Y points] ([percentage]%)
@@ -259,14 +262,14 @@ description: Break down an epic into well-formed user stories
 argument-hint: [epic_name]
 ---
 
-Break down the epic "$1" into user stories.
+Break down the epic "$0" into user stories.
 
 ## Epic Details
 Provide the epic description, and I'll generate stories.
 
 ## Output Format
 
-### Epic: $1
+### Epic: $0
 
 #### Story 1: [Short title]
 **As a** [user type]
@@ -287,7 +290,7 @@ Provide the epic description, and I'll generate stories.
 ### Story Map
 
 \`\`\`
-Epic: $1
+Epic: $0
 ├── Story 1 (X pts) - [status]
 ├── Story 2 (X pts) - [depends on Story 1]
 └── Story 3 (X pts) - [independent]
@@ -343,4 +346,4 @@ Rationale: [why this split]
 
 ---
 
-*Return to [main README](../README.md#-key-takeaways)*
+*Return to [main README](../README.md#key-takeaways)*

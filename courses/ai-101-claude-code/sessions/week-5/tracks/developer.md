@@ -34,10 +34,10 @@ description: Create new service with TDD
 argument-hint: <ServiceName>
 ---
 
-Create $1Service following TDD:
+Create $0Service following TDD:
 
-1. Write failing test first in Tests/$1ServiceTests.cs
-2. Create interface I$1Service
+1. Write failing test first in Tests/$0ServiceTests.cs
+2. Create interface I$0Service
 3. Implement minimal code to pass
 4. Refactor while green
 
@@ -96,12 +96,14 @@ For complex workflows, structure your skills like this:
 Commands and skills can be invoked in automation:
 
 ```bash
-# In CI pipeline - run code review command
-claude -p "Run /code-review on the changes in this PR"
+# In CI pipeline - run code review on current changes
+claude -p "Review the current git diff for SOLID violations, missing tests, and security issues"
 
 # Generate documentation
-claude -p "/generate-api-docs for Services/PaymentService.cs"
+claude -p "Generate API documentation for Services/PaymentService.cs"
 ```
+
+> **Note:** Slash commands are interactive features. In headless mode (`claude -p`), describe the task directly in the prompt rather than referencing a `/command-name`.
 
 ## Homework Extensions for Developers
 
@@ -127,4 +129,4 @@ Start thinking about:
 
 ---
 
-*Return to [main README](../README.md#-key-takeaways)*
+*Return to [main README](../README.md#key-takeaways)*
