@@ -19,10 +19,12 @@ Stakeholders want a new payment plan feature. Plan mode helps you think through 
 
 ### The Task
 
-1. Navigate to the example and start Claude:
+1. Copy the example to your sandbox and start Claude:
 
    ```bash
-   cd courses/ai-101-claude-code/sessions/week-3/examples/phased-builder
+   cd courses/ai-101-claude-code/sessions/week-3
+   cp -r examples/phased-builder sandbox/
+   cd sandbox/phased-builder
    claude
    ```
 

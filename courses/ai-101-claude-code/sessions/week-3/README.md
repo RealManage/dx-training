@@ -42,35 +42,41 @@ By the end of this session, participants will be able to:
 
 ## 📚 Session Plan
 
-### Part 1: Tactical Planning Fundamentals (30 min)
+### Part 1: Tactical Planning Fundamentals (40 min)
 
-#### 1.1 Claude's Three Modes: Step, Auto, and Plan (10 min)
+#### 1.1 Claude's Four Permission Modes (10 min)
 
 **Understanding Claude's Modes:**
 
-**Step Mode (Default):**
+**Ask Permissions (Default):**
 
-- Claude stops after each action for your approval
-- Perfect for learning what Claude does
-- Provides careful control over each operation
+- Claude asks before editing files or running commands
+- You see a diff and can accept or reject each change
+- Perfect for learning what Claude does and maintaining control
 
-**Auto Mode:**
+**Auto Accept Edits:**
 
-- Claude automatically decides when to plan vs execute
-- Great for straightforward tasks and exploration
-- Can sometimes overthink or go off-track
+- Claude auto-accepts file edits without prompting
+- Still asks before running terminal commands
+- Great for trusted changes when you want faster iteration
 
 **Plan Mode:**
 
-- Claude thinks through the approach first
+- Claude analyzes code and creates a plan without modifying anything
 - Allows iteration on the plan before execution
 - Ideal for complex, multi-step tasks
 
+**Bypass Permissions:**
+
+- Claude runs without any permission prompts
+- Only use this in sandboxed containers or VMs
+- Equivalent to `--dangerously-skip-permissions` CLI flag
+
 **Essential Controls:**
 
-- **Shift+Tab**: Toggle between auto/step/plan modes
-- **Esc**: STOP execution immediately (your emergency brake!)
-- **Ctrl+C**: Cancel current operation
+- **Shift+Tab**: Cycle through modes (ask permissions → auto accept edits → plan → bypass permissions → ...)
+- **Esc**: Interrupt Claude's current response (returns to input prompt)
+- **Ctrl+C**: Exit Claude Code
 
 **The Old Way (Wrong):**
 
@@ -97,7 +103,7 @@ Exit plan mode and execute with confidence
 
 **Activating Plan Mode:**
 
-- **Shift+Tab**: Toggle through modes (auto → step → plan → auto...)
+- **Shift+Tab**: Cycle through all four permission modes
 - **`/plan`**: Jump directly to plan mode from any mode
 
 > **Note:** Both methods work identically. Use whichever feels more natural. Track exercises use `/plan` for clarity in prompts, but `Shift+Tab` is often faster in practice.
@@ -106,7 +112,7 @@ Exit plan mode and execute with confidence
 
 Let's say you need to rename `CalculateFee` to `CalculateLateFee` across 5 files and update all tests.
 
-**❌ WITHOUT Plan Mode (Auto Mode):**
+**❌ WITHOUT Plan Mode:**
 
 ```text
 You: "Rename CalculateFee to CalculateLateFee everywhere"
@@ -184,7 +190,7 @@ Try this right now in your Claude session:
 
 **After reviewing the plan:** Say "looks good" or refine it, then exit plan mode to execute.
 
-#### 1.4 When to Use Plan Mode (10 min)
+#### 1.3 When to Use Plan Mode (10 min)
 
 **Perfect for:**
 
@@ -202,7 +208,7 @@ Try this right now in your Claude session:
 - Typo corrections
 - Straightforward test additions
 
-#### 1.5 The Iteration Pattern (10 min)
+#### 1.4 The Iteration Pattern (10 min)
 
 **In plan mode, you can refine your thinking:**
 
@@ -265,7 +271,7 @@ This iteration BEFORE execution saves hours of rework!
 - Fixing things that aren't broken
 - Creating files you didn't ask for
 - Missing the actual problem while fixing style issues
-- Analysis paralysis in auto mode
+- Going in circles without making progress
 
 **How to Course-Correct:**
 
@@ -275,7 +281,7 @@ This iteration BEFORE execution saves hours of rework!
 You: "Fix the interest calculation bug"
 Claude: [starts refactoring entire codebase]
 You: *Hit Esc*
-You: *Shift+Tab to switch to step mode*
+You: *Shift+Tab until you're in Ask Permissions mode*
 You: "Just fix the bug on line 29, nothing else"
 Claude: [shows next action, waits for approval]
 ```
@@ -286,12 +292,12 @@ Claude: [shows next action, waits for approval]
 You: "Review this payment code"
 Claude: [focuses only on formatting]
 You: *Hit Esc*
-You: *Shift+Tab to switch to plan mode*
+You: *Shift+Tab until you're in Plan mode*
 You: "Focus on security vulnerabilities and business logic bugs"
 Claude: [creates focused plan]
 ```
 
-**Pro tip:** Don't wait for disaster - hit Esc the moment you see Claude going off-track. Switch modes to get back on rails. Think of it like grabbing the wheel when your GPS tries to take you through a lake!
+**Pro tip:** Don't wait for disaster - hit Esc the moment you see Claude going off-track. It interrupts the current response and returns you to the input prompt. Switch modes to get back on rails. Think of it like grabbing the wheel when your GPS tries to take you through a lake!
 
 ### Part 3: Hands-On Exercises (45 min)
 
@@ -393,9 +399,9 @@ Without giving away the answers, here's how to measure your success:
 - **Code Smells:** 5+ to find
 - **Typos:** 2+ to find
 
-**Total: 28+ issues available to find and fix!**  
+**Total: 28+ issues available to find and fix!**
 
-**Success Levels**  
+**Success Levels**
 
 - 🥉 **Bronze:** Fixed all 6 warnings + found 8 other issues (14 total)
 - 🥈 **Silver:** Found and fixed 20+ issues
@@ -533,9 +539,9 @@ Enter Plan Mode → List all tasks → Group/order → Iterate → Execute
 
 ### Official Documentation
 
-- [Claude Code Plan Mode](https://code.claude.com/docs/en/plan-mode)
-- [Model Selection](https://code.claude.com/docs/en/model-selection)
-- [Opus 4.5 Features](https://www.anthropic.com/news/claude-opus-4-5)
+- [Claude Code Interactive Mode](https://code.claude.com/docs/en/interactive-mode)
+- [Model Configuration](https://code.claude.com/docs/en/model-config)
+- [Opus 4.6 Features](https://www.anthropic.com/news/claude-opus-4-6)
 
 ### RealManage Resources
 

@@ -19,10 +19,12 @@ A new payment feature needs comprehensive testing. Plan mode helps you organize 
 
 ### The Task
 
-1. Navigate to the example and start Claude:
+1. Copy the example to your sandbox and start Claude:
 
    ```bash
-   cd courses/ai-101-claude-code/sessions/week-3/examples/bug-hunter
+   cd courses/ai-101-claude-code/sessions/week-3
+   cp -r examples/bug-hunter sandbox/
+   cd sandbox/bug-hunter
    claude
    ```
 

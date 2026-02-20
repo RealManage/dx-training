@@ -2,7 +2,9 @@
 
 ## Overview
 
-This answer key provides the comprehensive list of issues students should discover when reviewing the CodeReviewPro exercise files. The exercise contains **28+ intentional issues** across four categories: Security, Performance, Code Quality/Logic Bugs, and Testing.
+This answer key provides the comprehensive list of issues students should discover when reviewing the CodeReviewPro exercise files. The exercise contains **28+ intentional issues** across six categories: Build Warnings, Security, Performance, Logic Bugs, Code Quality, and Testing.
+
+> **Note:** The detailed breakdown below lists items individually for teaching purposes, so some overlapping issues appear in multiple categories (e.g., the same code block may be both a performance issue and a code smell). The de-duplicated count students should target is **28+**.
 
 **Success Levels Reminder:**
 
@@ -15,7 +17,7 @@ This answer key provides the comprehensive list of issues students should discov
 
 ## Build Warnings (6 Issues)
 
-These are the compiler warnings that will appear when building the project with `Nullable>enable</Nullable>`.
+These are the compiler warnings that will appear when building the project with `<Nullable>enable</Nullable>`.
 
 ### Warning 1: Nullable Reference - PaymentRequest.ResidentId
 
@@ -346,7 +348,7 @@ private List<Payment> payments = new List<Payment>();
 payments.Add(payment);
 ```
 
-**Problem:** List<T> is not thread-safe. Concurrent requests can corrupt the list.
+**Problem:** `List<T>` is not thread-safe. Concurrent requests can corrupt the list.
 **Fix:**
 
 ```csharp
@@ -473,13 +475,13 @@ while (i < months)  // Also fix <= to <
 return (DateTime.Now - dueDate).Days > 30;
 ```
 
-**Problem:** Uses `> 30` but grace period is 30 days inclusive, so day 31 should be overdue.
+**Problem:** Uses `> 30` which technically works (for integer days, `> 30` and `>= 31` are identical), but the intent is clearer with an explicit grace period constant.
 **Fix:**
 
 ```csharp
-return (DateTime.Now - dueDate).Days >= 31;
-// Or more clearly:
 return (DateTime.Now - dueDate).Days > GracePeriodDays;
+// Note: > 30 and >= 31 are equivalent for integers, but using a named
+// constant makes the business rule (30-day grace period) self-documenting.
 ```
 
 ---
@@ -770,15 +772,15 @@ public void ProcessPayment_ShouldAddPayment()
 
 ## Summary Table
 
-| Category | Count | Key Files |
-| -------- | ----- | --------- |
+| Category | Items Listed | Key Files |
+| -------- | ------------ | --------- |
 | Build Warnings | 6 | PaymentController.cs, PaymentService.cs |
 | Security | 5 | PaymentController.cs, PaymentService.cs |
 | Performance | 5 | PaymentService.cs, PaymentController.cs |
 | Logic Bugs | 10 | LateFeeCalculator.cs, PaymentController.cs, PaymentService.cs |
 | Code Quality | 5 | LateFeeCalculator.cs, PaymentController.cs |
 | Testing | 3 | Tests/PaymentTests.cs |
-| **Total** | **34** | |
+| **Unique Issues** | **28+** | *Some items overlap across categories* |
 
 ---
 
@@ -816,7 +818,7 @@ When using plan mode to organize fixes, consider this priority:
 
 A good plan mode output for tackling these issues:
 
-```
+```text
 Me: I need to fix all the issues in the CodeReviewPro exercise
 
 Claude (in plan mode):
