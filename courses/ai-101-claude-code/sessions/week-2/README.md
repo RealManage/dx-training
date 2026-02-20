@@ -44,11 +44,11 @@ By the end of this session, participants will be able to:
 #### 1.1 Welcome & Reality Check (5 min)
 
 ```markdown
-"Let me share a secret: I've been using Claude successfully for months, and I rarely 
-use Markdown or XML tags. Most of my prompts are just clear, conversational 
-requests. Today, we're learning what ACTUALLY works - clear communication, not 
-complex formatting. By the end, you'll write prompts in YOUR style that consistently 
-get great results with 80-90% test coverage."
+Here's a reality check: most successful Claude users rarely use Markdown or XML tags
+in their prompts. Their prompts are just clear, conversational requests. This session
+is about what ACTUALLY works — clear communication, not complex formatting. By the
+end, you'll write prompts in YOUR style that consistently get great results with
+80-90% test coverage.
 ```
 
 #### 1.2 The Anatomy of an Effective Prompt (10 min)
