@@ -129,10 +129,10 @@ Each week with code examples follows this pattern:
 cd sessions/week-1
 
 # Copy the example to create your personal sandbox
-cp -r example sandbox
+cp -r examples sandbox
 
 # Enter your sandbox
-cd sandbox
+cd sandbox/<example-name>
 
 # Start Claude Code in your sandbox
 claude
