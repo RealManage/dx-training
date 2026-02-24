@@ -1,6 +1,6 @@
 # Week 6: Agents & Hooks
 
-**Duration:** 2 hours
+**Duration:** 2 hours (advanced exercises are self-paced)
 **Format:** In-person or virtual
 **Audience:** RealManage cross-functional team (engineers, PMs, QA, support staff)
 
@@ -34,6 +34,8 @@ By the end of this session, participants will be able to:
 - [ ] Claude Code working smoothly
 - [ ] Understanding of `.claude/` configuration structure from Week 5
 - [ ] Reviewed [Glossary](../../resources/glossary.md) for terms: Agent, Hook
+- [ ] **Mac/Linux/WSL:** Install `jq` for JSON parsing (`brew install jq` or `apt install jq`)
+- [ ] **Windows:** PowerShell 5.x+ is already installed (verify with `$PSVersionTable.PSVersion`)
 - [ ] Ready for 2-hour session
 
 ---
@@ -314,7 +316,7 @@ Do not modify any data - analysis only.
         "hooks": [
           {
             "type": "command",
-            "command": "echo 'Bash command: $TOOL_INPUT' >> .claude/audit.log"
+            "command": ".claude/hooks/log-bash.sh"
           }
         ]
       }
@@ -323,19 +325,65 @@ Do not modify any data - analysis only.
 }
 ```
 
-**Environment Variables Available in Hooks:**
+**How Hooks Receive Data:**
 
-| Variable | Description | Available In |
-| -------- | ----------- | ------------ |
-| `$TOOL_NAME` | Name of tool being used | All hooks |
-| `$TOOL_INPUT` | Input to the tool | All hooks |
-| `$TOOL_OUTPUT` | Output from tool | PostToolUse only |
-| `$SESSION_ID` | Current session identifier | All hooks |
-| `$PROJECT_DIR` | Working directory | All hooks |
+Hook commands receive a **JSON object via stdin** containing details about the event. For tool-related hooks, this includes the tool name, input, and session context:
+
+```json
+{
+  "session_id": "abc123",
+  "cwd": "/home/user/my-project",
+  "hook_event_name": "PreToolUse",
+  "tool_name": "Bash",
+  "tool_input": {
+    "command": "dotnet test"
+  }
+}
+```
+
+Your hook scripts parse this JSON from stdin. Use the examples below for your platform:
+
+**Bash (Mac/Linux/WSL):** `.claude/hooks/log-bash.sh`
+
+```bash
+#!/bin/bash
+TOOL=$(jq -r '.tool_name')
+CMD=$(jq -r '.tool_input.command // empty')
+echo "$(date -Iseconds) | $TOOL | $CMD" >> .claude/audit.log
+```
+
+**PowerShell (Windows):** `.claude/hooks/log-bash.ps1`
+
+```powershell
+$hookData = [Console]::In.ReadToEnd() | ConvertFrom-Json
+$tool = $hookData.tool_name
+$cmd = $hookData.tool_input.command
+Add-Content -Path ".claude/audit.log" -Value "$(Get-Date -Format 'o') | $tool | $cmd"
+```
+
+> **Note:** Hook data comes via stdin JSON, **not** environment variables. The one environment variable available is `$CLAUDE_PROJECT_DIR` (project root path, useful for referencing script files).
+
+**Platform Setup:**
+
+- **Mac/Linux/WSL:** Install `jq` for JSON parsing (`brew install jq`, `apt install jq`, or `sudo dnf install jq`)
+- **Windows:** PowerShell 5.x+ is built in — use `ConvertFrom-Json` (no extra install needed)
+- **Windows (settings.json):** Reference PowerShell scripts as: `"command": "powershell -NoProfile -File .claude/hooks/script-name.ps1"`
+
+**Common Stdin Fields:**
+
+| Field | Description | Available In |
+| ----- | ----------- | ------------ |
+| `tool_name` | Name of tool being used | PreToolUse, PostToolUse |
+| `tool_input` | Input to the tool (JSON object) | PreToolUse, PostToolUse |
+| `tool_response` | Output from tool | PostToolUse only |
+| `session_id` | Current session identifier | All hooks |
+| `cwd` | Working directory | All hooks |
 
 #### 3.2 Matcher Patterns (15 min)
 
 **Matcher Syntax:**
+
+The `matcher` field is a **regex that matches tool names only** (e.g., `"Bash"`, `"Edit"`, `"Write"`). To filter by command content, read the stdin JSON in your hook script.
 
 ```json
 {
@@ -350,8 +398,8 @@ Do not modify any data - analysis only.
         "hooks": [{ "type": "command", "command": "echo 'Edit detected'" }]
       },
       {
-        "matcher": "Bash(git:*)",
-        "hooks": [{ "type": "command", "command": "echo 'Git operation'" }]
+        "matcher": "Edit|Write",
+        "hooks": [{ "type": "command", "command": "echo 'File modification detected'" }]
       },
       {
         "matcher": "*",
@@ -369,10 +417,11 @@ Do not modify any data - analysis only.
 | `"*"` | Match all tools |
 | `"Bash"` | All Bash commands |
 | `"Edit"` | All file edits |
+| `"Write"` | All file writes |
 | `"Read"` | All file reads |
-| `"Bash(git:*)"` | All git commands |
-| `"Bash(rm:*)"` | All rm commands |
-| `"Bash(git:push:--force)"` | Specific git force push |
+| `"Edit\|Write"` | Multiple tools (regex OR) |
+
+> **Important:** To filter *within* a tool (e.g., only git commands or only rm commands), match on `"Bash"` and then read the stdin JSON in your hook script. See Part 4 for examples.
 
 ---
 
@@ -382,26 +431,19 @@ Do not modify any data - analysis only.
 
 **Example 1: Block Dangerous Operations**
 
+Since `matcher` only filters by tool name, we match on `"Bash"` and inspect the command in a hook script:
+
 ```json
 {
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "Bash(rm:-rf:*)",
+        "matcher": "Bash",
         "hooks": [
-          { "type": "command", "command": "echo 'BLOCKED: rm -rf not allowed' && exit 1" }
-        ]
-      },
-      {
-        "matcher": "Bash(git:push:--force)",
-        "hooks": [
-          { "type": "command", "command": "echo 'BLOCKED: force push not allowed' && exit 1" }
-        ]
-      },
-      {
-        "matcher": "Bash(drop:*)",
-        "hooks": [
-          { "type": "command", "command": "echo 'BLOCKED: DROP statements not allowed' && exit 1" }
+          {
+            "type": "command",
+            "command": ".claude/hooks/block-dangerous.sh"
+          }
         ]
       }
     ]
@@ -409,7 +451,37 @@ Do not modify any data - analysis only.
 }
 ```
 
-**Key Concept:** Hooks that exit with a non-zero code (like `exit 1`) **block** the operation.
+**Bash (Mac/Linux/WSL):** `.claude/hooks/block-dangerous.sh`
+
+```bash
+#!/bin/bash
+COMMAND=$(jq -r '.tool_input.command // empty')
+
+if echo "$COMMAND" | grep -qEi 'rm -rf|rm -r /|git push.*--force|DROP TABLE|TRUNCATE'; then
+  echo "BLOCKED: Dangerous operation detected: $COMMAND" >&2
+  exit 2  # Exit 2 = blocking error, prevents tool execution
+fi
+
+exit 0  # Allow the command
+```
+
+**PowerShell (Windows):** `.claude/hooks/block-dangerous.ps1`
+
+```powershell
+$hookData = [Console]::In.ReadToEnd() | ConvertFrom-Json
+$command = $hookData.tool_input.command
+
+if ($command -match 'rm -rf|rm -r /|git push.*--force|DROP TABLE|TRUNCATE') {
+    [Console]::Error.WriteLine("BLOCKED: Dangerous operation detected: $command")
+    exit 2
+}
+
+exit 0
+```
+
+**Key Concept:** `exit 2` **blocks** the operation (stderr is shown to Claude). `exit 0` allows it. `exit 1` is a non-blocking error that is only shown in verbose mode.
+
+> **Windows settings.json:** Use `"command": "powershell -NoProfile -File .claude/hooks/block-dangerous.ps1"` instead of the `.sh` path.
 
 **Example 2: Protect Sensitive Files**
 
@@ -418,17 +490,45 @@ Do not modify any data - analysis only.
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "Edit",
+        "matcher": "Edit|Write",
         "hooks": [
           {
             "type": "command",
-            "command": "echo \"$TOOL_INPUT\" | grep -q '\\.env\\|credentials\\|secrets' && echo 'BLOCKED: Cannot edit sensitive files' && exit 1 || true"
+            "command": ".claude/hooks/block-sensitive-files.sh"
           }
         ]
       }
     ]
   }
 }
+```
+
+**Bash (Mac/Linux/WSL):** `.claude/hooks/block-sensitive-files.sh`
+
+```bash
+#!/bin/bash
+FILE_PATH=$(jq -r '.tool_input.file_path // empty')
+
+if echo "$FILE_PATH" | grep -qEi '\.env|\.pem|credentials|secrets|password'; then
+  echo "BLOCKED: Cannot edit sensitive file: $FILE_PATH" >&2
+  exit 2
+fi
+
+exit 0
+```
+
+**PowerShell (Windows):** `.claude/hooks/block-sensitive-files.ps1`
+
+```powershell
+$hookData = [Console]::In.ReadToEnd() | ConvertFrom-Json
+$filePath = $hookData.tool_input.file_path
+
+if ($filePath -match '\.(env|pem)|credentials|secrets|password') {
+    [Console]::Error.WriteLine("BLOCKED: Cannot edit sensitive file: $filePath")
+    exit 2
+}
+
+exit 0
 ```
 
 #### 4.2 Audit and Compliance Use Cases (15 min)
@@ -444,7 +544,7 @@ Do not modify any data - analysis only.
         "hooks": [
           {
             "type": "command",
-            "command": "echo \"$(date -Iseconds) | PRE | $TOOL_NAME | $TOOL_INPUT\" >> .claude/audit.log"
+            "command": ".claude/hooks/audit-log.sh"
           }
         ]
       }
@@ -455,7 +555,7 @@ Do not modify any data - analysis only.
         "hooks": [
           {
             "type": "command",
-            "command": "echo \"$(date -Iseconds) | POST | $TOOL_NAME | SUCCESS\" >> .claude/audit.log"
+            "command": ".claude/hooks/audit-log-post.sh"
           }
         ]
       }
@@ -464,7 +564,45 @@ Do not modify any data - analysis only.
 }
 ```
 
+**Bash (Mac/Linux/WSL):**
+
+```bash
+#!/bin/bash
+# .claude/hooks/audit-log.sh (PreToolUse)
+mkdir -p .claude
+TOOL=$(jq -r '.tool_name')
+INPUT=$(jq -r '.tool_input | tostring')
+echo "$(date -Iseconds) | PRE | $TOOL | $INPUT" >> .claude/audit.log
+```
+
+```bash
+#!/bin/bash
+# .claude/hooks/audit-log-post.sh (PostToolUse)
+TOOL=$(jq -r '.tool_name')
+echo "$(date -Iseconds) | POST | $TOOL | SUCCESS" >> .claude/audit.log
+```
+
+**PowerShell (Windows):**
+
+```powershell
+# .claude/hooks/audit-log.ps1 (PreToolUse)
+if (-not (Test-Path ".claude")) { New-Item -ItemType Directory -Path ".claude" | Out-Null }
+$hookData = [Console]::In.ReadToEnd() | ConvertFrom-Json
+$tool = $hookData.tool_name
+$input = $hookData.tool_input | ConvertTo-Json -Compress
+Add-Content -Path ".claude/audit.log" -Value "$(Get-Date -Format 'o') | PRE | $tool | $input"
+```
+
+```powershell
+# .claude/hooks/audit-log-post.ps1 (PostToolUse)
+$hookData = [Console]::In.ReadToEnd() | ConvertFrom-Json
+$tool = $hookData.tool_name
+Add-Content -Path ".claude/audit.log" -Value "$(Get-Date -Format 'o') | POST | $tool | SUCCESS"
+```
+
 **Example 4: Auto-Run Tests After Edits**
+
+This hook doesn't need to read stdin — it just runs tests unconditionally after any Edit:
 
 ```json
 {
@@ -484,6 +622,8 @@ Do not modify any data - analysis only.
 }
 ```
 
+> **Tip:** Hooks that don't need the event data can use simple inline commands. Use scripts when you need to read stdin JSON.
+
 **Example 5: Financial Data Access Logging**
 
 ```json
@@ -495,12 +635,34 @@ Do not modify any data - analysis only.
         "hooks": [
           {
             "type": "command",
-            "command": "echo \"$TOOL_INPUT\" | grep -qi 'financial\\|payment\\|invoice' && echo \"$(date -Iseconds) | FINANCIAL_ACCESS | $TOOL_INPUT\" >> .claude/finance-audit.log || true"
+            "command": ".claude/hooks/log-financial-access.sh"
           }
         ]
       }
     ]
   }
+}
+```
+
+**Bash (Mac/Linux/WSL):** `.claude/hooks/log-financial-access.sh`
+
+```bash
+#!/bin/bash
+FILE_PATH=$(jq -r '.tool_input.file_path // empty')
+
+if echo "$FILE_PATH" | grep -qi 'financial\|payment\|invoice'; then
+  echo "$(date -Iseconds) | FINANCIAL_ACCESS | $FILE_PATH" >> .claude/finance-audit.log
+fi
+```
+
+**PowerShell (Windows):** `.claude/hooks/log-financial-access.ps1`
+
+```powershell
+$hookData = [Console]::In.ReadToEnd() | ConvertFrom-Json
+$filePath = $hookData.tool_input.file_path
+
+if ($filePath -match 'financial|payment|invoice') {
+    Add-Content -Path ".claude/finance-audit.log" -Value "$(Get-Date -Format 'o') | FINANCIAL_ACCESS | $filePath"
 }
 ```
 
@@ -579,7 +741,7 @@ Include file path and line number for each finding.
 
 #### 5.3 Exercise 2: Create a Post-Change Test Hook (10 min)
 
-Create `.claude/settings.json`:
+Create `.claude/settings.json` and `.claude/hooks/log-operation.sh`:
 
 ```json
 {
@@ -590,7 +752,7 @@ Create `.claude/settings.json`:
         "hooks": [
           {
             "type": "command",
-            "command": "echo '\\n=== Running Tests After Edit ===' && dotnet test --no-build --verbosity minimal 2>&1 | tail -5"
+            "command": "echo '=== Running Tests After Edit ===' && dotnet test --no-build --verbosity minimal 2>&1 | tail -5"
           }
         ]
       }
@@ -601,13 +763,30 @@ Create `.claude/settings.json`:
         "hooks": [
           {
             "type": "command",
-            "command": "echo \"$(date -Iseconds) | $TOOL_NAME\" >> .claude/operations.log"
+            "command": ".claude/hooks/log-operation.sh"
           }
         ]
       }
     ]
   }
 }
+```
+
+**Bash (Mac/Linux/WSL):** `.claude/hooks/log-operation.sh`
+
+```bash
+#!/bin/bash
+mkdir -p .claude
+TOOL=$(jq -r '.tool_name')
+echo "$(date -Iseconds) | $TOOL" >> .claude/operations.log
+```
+
+**PowerShell (Windows):** `.claude/hooks/log-operation.ps1`
+
+```powershell
+if (-not (Test-Path ".claude")) { New-Item -ItemType Directory -Path ".claude" | Out-Null }
+$hookData = [Console]::In.ReadToEnd() | ConvertFrom-Json
+Add-Content -Path ".claude/operations.log" -Value "$(Get-Date -Format 'o') | $($hookData.tool_name)"
 ```
 
 **Test it:**
@@ -618,11 +797,11 @@ Create `.claude/settings.json`:
 # Watch for automatic test execution after the edit completes
 ```
 
-#### 5.4 Exercise 3: Build an Audit System (10 min) - *Stretch Goal*
+#### 5.4 Exercise 3: Build an Audit System (10 min) - *Self-Paced Practice*
 
-> **Note:** Complete this exercise if time permits, or as homework. Exercises 1 and 2 are the priority.
+> **Note:** This exercise is self-paced. Complete it after the session or as homework. Exercises 1 and 2 are the in-session priority.
 
-Expand `.claude/settings.json` with comprehensive auditing:
+Expand `.claude/settings.json` with comprehensive auditing, plus create the hook scripts:
 
 ```json
 {
@@ -633,16 +812,16 @@ Expand `.claude/settings.json` with comprehensive auditing:
         "hooks": [
           {
             "type": "command",
-            "command": "mkdir -p .claude && echo \"$(date -Iseconds) | PRE | $TOOL_NAME | $TOOL_INPUT\" >> .claude/audit.log"
+            "command": ".claude/hooks/audit-log.sh"
           }
         ]
       },
       {
-        "matcher": "Bash(rm:*)",
+        "matcher": "Bash",
         "hooks": [
           {
             "type": "command",
-            "command": "echo 'BLOCKED: rm commands require manual approval' && exit 1"
+            "command": ".claude/hooks/block-dangerous.sh"
           }
         ]
       }
@@ -653,7 +832,7 @@ Expand `.claude/settings.json` with comprehensive auditing:
         "hooks": [
           {
             "type": "command",
-            "command": "echo \"$(date -Iseconds) | EDIT_COMPLETE | $TOOL_INPUT\" >> .claude/audit.log && dotnet test --no-build --verbosity quiet 2>/dev/null || echo 'Tests need attention'"
+            "command": "dotnet test --no-build --verbosity quiet 2>/dev/null || echo 'Tests need attention'"
           }
         ]
       }
@@ -661,6 +840,60 @@ Expand `.claude/settings.json` with comprehensive auditing:
   }
 }
 ```
+
+Create the hook scripts for your platform:
+
+**Bash (Mac/Linux/WSL):**
+
+```bash
+#!/bin/bash
+# .claude/hooks/audit-log.sh
+mkdir -p .claude
+TOOL=$(jq -r '.tool_name')
+INPUT=$(jq -r '.tool_input | tostring')
+echo "$(date -Iseconds) | PRE | $TOOL | $INPUT" >> .claude/audit.log
+```
+
+```bash
+#!/bin/bash
+# .claude/hooks/block-dangerous.sh
+COMMAND=$(jq -r '.tool_input.command // empty')
+
+if echo "$COMMAND" | grep -qEi '^rm '; then
+  echo "BLOCKED: rm commands require manual approval" >&2
+  exit 2
+fi
+
+exit 0
+```
+
+> **Remember:** Make scripts executable with `chmod +x .claude/hooks/*.sh`
+
+**PowerShell (Windows):**
+
+```powershell
+# .claude/hooks/audit-log.ps1
+if (-not (Test-Path ".claude")) { New-Item -ItemType Directory -Path ".claude" | Out-Null }
+$hookData = [Console]::In.ReadToEnd() | ConvertFrom-Json
+$tool = $hookData.tool_name
+$input = $hookData.tool_input | ConvertTo-Json -Compress
+Add-Content -Path ".claude/audit.log" -Value "$(Get-Date -Format 'o') | PRE | $tool | $input"
+```
+
+```powershell
+# .claude/hooks/block-dangerous.ps1
+$hookData = [Console]::In.ReadToEnd() | ConvertFrom-Json
+$command = $hookData.tool_input.command
+
+if ($command -match '^rm ') {
+    [Console]::Error.WriteLine("BLOCKED: rm commands require manual approval")
+    exit 2
+}
+
+exit 0
+```
+
+> **Windows:** Reference as `"command": "powershell -NoProfile -File .claude/hooks/block-dangerous.ps1"`
 
 **Test the complete system:**
 
@@ -705,17 +938,19 @@ PostToolUse  -> After completion (log/notify)
 Notification -> When Claude notifies
 Stop         -> When session ends
 
-MATCHERS:
+MATCHERS (regex on tool name):
 "*"              -> All tools
 "Bash"           -> All bash commands
-"Bash(git:*)"    -> All git commands
 "Edit"           -> All file edits
+"Edit|Write"     -> Multiple tools (regex OR)
+Filter by content -> read stdin JSON in hook script
 
-VARIABLES:
-$TOOL_NAME, $TOOL_INPUT, $TOOL_OUTPUT, $SESSION_ID
+INPUT: JSON via stdin (use jq to parse)
+  tool_name, tool_input, session_id, cwd
 
 BLOCKING:
-exit 1 in hook command blocks the operation
+exit 2 + stderr message blocks the operation
+exit 0 allows it
 ```
 
 ### When to Use What
@@ -724,7 +959,7 @@ exit 1 in hook command blocks the operation
 | ---- | -------- |
 | Specialized task with limited tools | Custom Agent |
 | Read-only analysis | Agent with `permissionMode: plan` |
-| Block dangerous commands | PreToolUse hook with `exit 1` |
+| Block dangerous commands | PreToolUse hook with `exit 2` |
 | Audit trail for compliance | Pre/Post hooks logging to file |
 | Auto-run tests | PostToolUse hook on Edit |
 | Notify on completion | PostToolUse or Notification hook |

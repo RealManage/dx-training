@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo \"$(date -Iseconds) | ARTIFACT_CREATED | $TOOL_INPUT\" >> .pm-toolkit/generation.log"
+            "command": "echo \"$(date -Iseconds) | ARTIFACT_CREATED\" >> .pm-toolkit/generation.log"
           }
         ]
       }

@@ -1,6 +1,6 @@
 # Week 6: Agents & Hooks - Developer Track
 
-**Duration:** 2 hours
+**Duration:** 2 hours (Part 3 exercises are self-paced)
 **Audience:** Software Engineers, Full-Stack Developers, Backend Developers
 
 This is the full content track for developers. All sections are relevant to your daily work.
@@ -160,6 +160,8 @@ Hooks are automated actions that run before or after Claude Code operations. The
 
 **Location:** `.claude/settings.json`
 
+Hooks receive a **JSON object via stdin** with event details. Use `jq` to extract fields in your hook scripts. For hooks that don't need to read input (like running tests), simple inline commands work fine.
+
 ```json
 {
   "hooks": {
@@ -169,7 +171,7 @@ Hooks are automated actions that run before or after Claude Code operations. The
         "hooks": [
           {
             "type": "command",
-            "command": "echo 'File edit starting: $TOOL_INPUT'"
+            "command": "echo 'File edit starting...'"
           }
         ]
       }
@@ -202,7 +204,7 @@ Hooks are automated actions that run before or after Claude Code operations. The
         "hooks": [
           {
             "type": "command",
-            "command": "echo '\\n=== Running Tests ===' && dotnet test --no-build --verbosity minimal 2>&1 | tail -10"
+            "command": "echo '=== Running Tests ===' && dotnet test --no-build --verbosity minimal 2>&1 | tail -10"
           }
         ]
       }
@@ -213,26 +215,55 @@ Hooks are automated actions that run before or after Claude Code operations. The
 
 **2. Block Dangerous Operations:**
 
+Since `matcher` only filters by tool name, match on `"Bash"` and read stdin JSON in a hook script:
+
 ```json
 {
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "Bash(rm:-rf:*)",
+        "matcher": "Bash",
         "hooks": [
-          { "type": "command", "command": "echo 'BLOCKED: rm -rf not allowed' && exit 1" }
-        ]
-      },
-      {
-        "matcher": "Bash(git:push:--force)",
-        "hooks": [
-          { "type": "command", "command": "echo 'BLOCKED: force push not allowed' && exit 1" }
+          {
+            "type": "command",
+            "command": ".claude/hooks/block-dangerous.sh"
+          }
         ]
       }
     ]
   }
 }
 ```
+
+**Bash (Mac/Linux/WSL):** `.claude/hooks/block-dangerous.sh`
+
+```bash
+#!/bin/bash
+COMMAND=$(jq -r '.tool_input.command // empty')
+
+if echo "$COMMAND" | grep -qEi 'rm -rf|git push.*--force'; then
+  echo "BLOCKED: Dangerous operation detected" >&2
+  exit 2  # Exit 2 blocks the tool call
+fi
+
+exit 0
+```
+
+**PowerShell (Windows):** `.claude/hooks/block-dangerous.ps1`
+
+```powershell
+$hookData = [Console]::In.ReadToEnd() | ConvertFrom-Json
+$command = $hookData.tool_input.command
+
+if ($command -match 'rm -rf|git push.*--force') {
+    [Console]::Error.WriteLine("BLOCKED: Dangerous operation detected")
+    exit 2
+}
+
+exit 0
+```
+
+> **Windows settings.json:** Use `"command": "powershell -NoProfile -File .claude/hooks/block-dangerous.ps1"`
 
 **3. SOC 2 Audit Trail:**
 
@@ -245,7 +276,7 @@ Hooks are automated actions that run before or after Claude Code operations. The
         "hooks": [
           {
             "type": "command",
-            "command": "mkdir -p .claude && echo \"$(date -Iseconds) | PRE | $TOOL_NAME | $TOOL_INPUT\" >> .claude/audit.log"
+            "command": ".claude/hooks/audit-log.sh"
           }
         ]
       }
@@ -256,7 +287,7 @@ Hooks are automated actions that run before or after Claude Code operations. The
         "hooks": [
           {
             "type": "command",
-            "command": "echo \"$(date -Iseconds) | POST | $TOOL_NAME | SUCCESS\" >> .claude/audit.log"
+            "command": ".claude/hooks/audit-log-post.sh"
           }
         ]
       }
@@ -264,6 +295,46 @@ Hooks are automated actions that run before or after Claude Code operations. The
   }
 }
 ```
+
+**Bash (Mac/Linux/WSL):** `.claude/hooks/audit-log.sh`
+
+```bash
+#!/bin/bash
+mkdir -p .claude
+TOOL=$(jq -r '.tool_name')
+INPUT=$(jq -r '.tool_input | tostring')
+echo "$(date -Iseconds) | PRE | $TOOL | $INPUT" >> .claude/audit.log
+```
+
+**Bash (Mac/Linux/WSL):** `.claude/hooks/audit-log-post.sh`
+
+```bash
+#!/bin/bash
+TOOL=$(jq -r '.tool_name')
+echo "$(date -Iseconds) | POST | $TOOL | SUCCESS" >> .claude/audit.log
+```
+
+**PowerShell (Windows):** `.claude/hooks/audit-log.ps1`
+
+```powershell
+$hookData = [Console]::In.ReadToEnd() | ConvertFrom-Json
+$tool = $hookData.tool_name
+$input = $hookData.tool_input | ConvertTo-Json -Compress
+$timestamp = Get-Date -Format "o"
+if (-not (Test-Path ".claude")) { New-Item -ItemType Directory -Path ".claude" | Out-Null }
+Add-Content -Path ".claude/audit.log" -Value "$timestamp | PRE | $tool | $input"
+```
+
+**PowerShell (Windows):** `.claude/hooks/audit-log-post.ps1`
+
+```powershell
+$hookData = [Console]::In.ReadToEnd() | ConvertFrom-Json
+$tool = $hookData.tool_name
+$timestamp = Get-Date -Format "o"
+Add-Content -Path ".claude/audit.log" -Value "$timestamp | POST | $tool | SUCCESS"
+```
+
+> **Windows settings.json:** Use `"command": "powershell -NoProfile -File .claude/hooks/audit-log.ps1"` (and similarly for the post hook).
 
 **4. Protect Sensitive Files:**
 
@@ -272,11 +343,11 @@ Hooks are automated actions that run before or after Claude Code operations. The
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "Edit",
+        "matcher": "Edit|Write",
         "hooks": [
           {
             "type": "command",
-            "command": "echo \"$TOOL_INPUT\" | grep -q '\\.env\\|credentials\\|secrets' && echo 'BLOCKED: Cannot edit sensitive files' && exit 1 || true"
+            "command": ".claude/hooks/block-sensitive-files.sh"
           }
         ]
       }
@@ -285,19 +356,71 @@ Hooks are automated actions that run before or after Claude Code operations. The
 }
 ```
 
-### Hook Variables
+**Bash (Mac/Linux/WSL):** `.claude/hooks/block-sensitive-files.sh`
 
-| Variable | Description | Available In |
-| -------- | ----------- | ------------ |
-| `$TOOL_NAME` | Name of tool being used | All hooks |
-| `$TOOL_INPUT` | Input to the tool | All hooks |
-| `$TOOL_OUTPUT` | Output from tool | PostToolUse only |
-| `$SESSION_ID` | Current session identifier | All hooks |
-| `$PROJECT_DIR` | Working directory | All hooks |
+```bash
+#!/bin/bash
+FILE_PATH=$(jq -r '.tool_input.file_path // empty')
+
+if echo "$FILE_PATH" | grep -qEi '\.env|\.pem|credentials|secrets'; then
+  echo "BLOCKED: Cannot edit sensitive file: $FILE_PATH" >&2
+  exit 2
+fi
+
+exit 0
+```
+
+**PowerShell (Windows):** `.claude/hooks/block-sensitive-files.ps1`
+
+```powershell
+$hookData = [Console]::In.ReadToEnd() | ConvertFrom-Json
+$filePath = $hookData.tool_input.file_path
+
+if ($filePath -match '\.(env|pem)|credentials|secrets') {
+    [Console]::Error.WriteLine("BLOCKED: Cannot edit sensitive file: $filePath")
+    exit 2
+}
+
+exit 0
+```
+
+> **Windows settings.json:** Use `"command": "powershell -NoProfile -File .claude/hooks/block-sensitive-files.ps1"`
+
+### Hook Input (stdin JSON)
+
+Hooks receive JSON via stdin, **not** environment variables. Use `jq` (Mac/Linux/WSL) or `ConvertFrom-Json` (Windows PowerShell) to parse:
+
+| Stdin Field | Description | Available In |
+| ----------- | ----------- | ------------ |
+| `tool_name` | Name of tool being used | PreToolUse, PostToolUse |
+| `tool_input` | Input to the tool (JSON object) | PreToolUse, PostToolUse |
+| `tool_response` | Output from tool | PostToolUse only |
+| `session_id` | Current session identifier | All hooks |
+| `cwd` | Working directory | All hooks |
+
+> **Blocking:** `exit 2` blocks the operation (stderr message is shown to Claude). `exit 0` allows it. `exit 1` is a non-blocking error.
 
 ---
 
-## Part 3: Hands-On Exercises (30 min)
+## Part 3: Hands-On Exercises (30 min) - *Self-Paced*
+
+> **Note:** Part 3 is self-paced practice. Complete during the session if time permits, otherwise finish as homework.
+
+### Setup Your Sandbox
+
+```bash
+# Copy example project to sandbox
+cd courses/ai-101-claude-code/sessions/week-6
+cp -r examples sandbox
+cd sandbox/hoa-automation
+
+# Build and verify
+dotnet build
+dotnet test
+
+# Start Claude
+claude
+```
 
 ### Exercise 1: Create a Code Reviewer Agent
 
@@ -309,7 +432,7 @@ Create `.claude/agents/code-reviewer.md` with:
 
 Test it:
 
-```
+```text
 > Use the code-reviewer agent to review the Services folder
 ```
 
@@ -323,7 +446,7 @@ Create `.claude/settings.json` with a PostToolUse hook that:
 
 Test it:
 
-```
+```text
 > Edit Program.cs to add a comment
 # Watch for automatic test execution
 ```
@@ -339,7 +462,7 @@ Expand your hooks to include:
 
 Test:
 
-```
+```text
 > Edit a file
 > Try rm test.txt (should be blocked)
 > cat .claude/audit.log
@@ -360,7 +483,8 @@ Test:
 
 - PreToolUse for validation and blocking
 - PostToolUse for logging and automation
-- `exit 1` blocks the operation
+- Hooks receive JSON via stdin (use `jq` to parse)
+- `exit 2` blocks the operation; `exit 0` allows
 - Keep hooks fast (<1 second)
 
 ### When to Use What
@@ -370,9 +494,9 @@ Test:
 | Code review before merge | code-reviewer agent |
 | Security vulnerability scan | security-auditor agent |
 | Write tests automatically | test-writer agent |
-| Block dangerous commands | PreToolUse hook with exit 1 |
+| Block dangerous commands | PreToolUse hook with `exit 2` |
 | Auto-run tests | PostToolUse hook on Edit |
-| Audit trail | Pre/Post hooks logging |
+| Audit trail | Pre/Post hooks with scripts |
 
 ---
 

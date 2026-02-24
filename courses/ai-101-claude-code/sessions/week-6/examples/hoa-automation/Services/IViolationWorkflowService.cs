@@ -12,7 +12,7 @@ public record ViolationRecord
     public required string Type { get; init; }
     public required string Description { get; init; }
     public required int DaysSinceReported { get; init; }
-    public required string EscalationLevel { get; init; }
+    public required string EscalationLevel { get; set; }
     public decimal FineAmount { get; set; }
 }
 

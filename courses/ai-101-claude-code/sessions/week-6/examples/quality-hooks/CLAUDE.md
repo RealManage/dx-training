@@ -16,8 +16,10 @@ Hooks are automated checks that can:
 
 ## Hook Trigger Points
 
-| Trigger | When It Runs | Use Case |
-| ------- | ------------ | -------- |
+> **Note:** The trigger names below are conceptual workflow designs for discussion purposes. They are **not** literal Claude Code hook events. Claude Code's actual hook events are `PreToolUse`, `PostToolUse`, `Notification`, and `Stop`. See the [main README](../../README.md) for real hook syntax.
+
+| Conceptual Trigger | When It Would Run | Use Case |
+| ------------------ | ----------------- | -------- |
 | Pre-send | Before response goes out | Quality check |
 | Post-draft | After generating response | Improvement suggestions |
 | On-escalation | When ticket is escalated | Documentation check |

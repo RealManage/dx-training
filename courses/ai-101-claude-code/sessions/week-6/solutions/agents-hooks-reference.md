@@ -14,10 +14,7 @@ name: code-reviewer
 description: Security-focused code review specialist
 model: sonnet
 permissionMode: plan
-tools:
-  - Read
-  - Glob
-  - Grep
+tools: Read, Glob, Grep
 ---
 
 You are a senior code reviewer specializing in security and code quality for C# .NET applications.
@@ -53,8 +50,7 @@ For each issue found, report:
 
 ```bash
 claude
-> /agent code-reviewer
-> Review the ViolationService for security issues
+> Use the code-reviewer agent to review the ViolationService for security issues
 ```
 
 ### Success Criteria
@@ -75,20 +71,11 @@ claude
   "hooks": {
     "PostToolUse": [
       {
-        "matcher": "Edit",
+        "matcher": "Edit|Write",
         "hooks": [
           {
             "type": "command",
-            "command": "echo \"$(date -Iseconds) | EDIT | $TOOL_INPUT\" >> .claude/audit.log"
-          }
-        ]
-      },
-      {
-        "matcher": "Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "echo \"$(date -Iseconds) | WRITE | $TOOL_INPUT\" >> .claude/audit.log"
+            "command": ".claude/hooks/audit-log-post.sh"
           }
         ]
       }
@@ -97,11 +84,32 @@ claude
 }
 ```
 
+**Bash (Mac/Linux/WSL):** `.claude/hooks/audit-log-post.sh`
+
+```bash
+#!/bin/bash
+TOOL=$(jq -r '.tool_name')
+INPUT=$(jq -r '.tool_input | tostring')
+echo "$(date -Iseconds) | $TOOL | $INPUT" >> .claude/audit.log
+```
+
+**PowerShell (Windows):** `.claude/hooks/audit-log-post.ps1`
+
+```powershell
+$hookData = [Console]::In.ReadToEnd() | ConvertFrom-Json
+$tool = $hookData.tool_name
+$input = $hookData.tool_input | ConvertTo-Json -Compress
+$timestamp = Get-Date -Format "o"
+Add-Content -Path ".claude/audit.log" -Value "$timestamp | $tool | $input"
+```
+
+> **Windows settings.json:** Use `"command": "powershell -NoProfile -File .claude/hooks/audit-log-post.ps1"`
+
 ### Expected Audit Log Output
 
 ```text
-2026-01-23T10:15:30-06:00 | EDIT | {"file_path": "/src/Services/ViolationService.cs", "old_string": "...", "new_string": "..."}
-2026-01-23T10:15:45-06:00 | WRITE | {"file_path": "/src/Models/Violation.cs", "content": "..."}
+2026-01-23T10:15:30-06:00 | Edit | {"file_path":"/src/Services/ViolationService.cs","old_string":"...","new_string":"..."}
+2026-01-23T10:15:45-06:00 | Write | {"file_path":"/src/Models/Violation.cs","content":"..."}
 ```
 
 ### Success Criteria
@@ -144,33 +152,67 @@ claude
 }
 ```
 
-**Hook script:** `.claude/hooks/block-dangerous-commands.sh`
+**Bash (Mac/Linux/WSL):** `.claude/hooks/block-dangerous-commands.sh`
 
 ```bash
 #!/bin/bash
-# Reads $TOOL_INPUT from stdin (JSON), checks for dangerous patterns
-INPUT=$(cat)
-COMMAND=$(echo "$INPUT" | jq -r '.command // empty')
+# Reads JSON from stdin, checks for dangerous command patterns
+COMMAND=$(jq -r '.tool_input.command // empty')
 
 if echo "$COMMAND" | grep -qEi 'rm -rf|rm -r /|DROP TABLE|TRUNCATE|format c:|del /f /s'; then
-  echo '{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"deny","permissionDecisionReason":"BLOCKED: Dangerous operation detected. This action requires manual approval."}}'
+  echo "BLOCKED: Dangerous operation detected: $COMMAND" >&2
+  exit 2  # Exit 2 = blocking error
 fi
+
+exit 0
 ```
 
-**Hook script:** `.claude/hooks/block-sensitive-files.sh`
+**PowerShell (Windows):** `.claude/hooks/block-dangerous-commands.ps1`
+
+```powershell
+$hookData = [Console]::In.ReadToEnd() | ConvertFrom-Json
+$command = $hookData.tool_input.command
+
+if ($command -match 'rm -rf|rm -r /|DROP TABLE|TRUNCATE|format c:|del /f /s') {
+    [Console]::Error.WriteLine("BLOCKED: Dangerous operation detected: $command")
+    exit 2
+}
+
+exit 0
+```
+
+**Bash (Mac/Linux/WSL):** `.claude/hooks/block-sensitive-files.sh`
 
 ```bash
 #!/bin/bash
-# Reads $TOOL_INPUT from stdin (JSON), checks for sensitive file paths
-INPUT=$(cat)
-FILE_PATH=$(echo "$INPUT" | jq -r '.file_path // empty')
+# Reads JSON from stdin, checks for sensitive file paths
+FILE_PATH=$(jq -r '.tool_input.file_path // empty')
 
 if echo "$FILE_PATH" | grep -qEi '\.env|\.pem|credentials|secrets|password'; then
-  echo '{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"deny","permissionDecisionReason":"BLOCKED: Attempted edit of sensitive file. Security review required."}}'
+  echo "BLOCKED: Attempted edit of sensitive file: $FILE_PATH" >&2
+  exit 2
 fi
+
+exit 0
 ```
 
-> **Note:** The `matcher` field is a regex that matches tool names only. To filter based on tool *input* (e.g., specific commands or file paths), use a hook script that inspects `$TOOL_INPUT` and returns a `permissionDecision`.
+**PowerShell (Windows):** `.claude/hooks/block-sensitive-files.ps1`
+
+```powershell
+$hookData = [Console]::In.ReadToEnd() | ConvertFrom-Json
+$filePath = $hookData.tool_input.file_path
+
+if ($filePath -match '\.(env|pem)|credentials|secrets|password') {
+    [Console]::Error.WriteLine("BLOCKED: Attempted edit of sensitive file: $filePath")
+    exit 2
+}
+
+exit 0
+```
+
+> **Windows settings.json:** Use `"command": "powershell -NoProfile -File .claude/hooks/<script>.ps1"` for each hook.
+>
+> **Note:** The `matcher` field is a regex that matches tool names only. To filter based on tool *input* (e.g., specific commands or file paths), use a hook script that reads stdin JSON and uses `exit 2` to block or `exit 0` to allow.
 
 ### Test Commands (Should Be Blocked)
 
@@ -214,19 +256,31 @@ fi
 }
 ```
 
-**Hook script:** `.claude/hooks/test-on-cs-edit.sh`
+**Bash (Mac/Linux/WSL):** `.claude/hooks/test-on-cs-edit.sh`
 
 ```bash
 #!/bin/bash
 # Only run tests when a .cs file was edited
-INPUT=$(cat)
-FILE_PATH=$(echo "$INPUT" | jq -r '.file_path // empty')
+FILE_PATH=$(jq -r '.tool_input.file_path // empty')
 
 if [[ "$FILE_PATH" == *.cs ]]; then
   dotnet test --no-build --verbosity minimal 2>&1 | tail -20
 fi
 ```
 
+**PowerShell (Windows):** `.claude/hooks/test-on-cs-edit.ps1`
+
+```powershell
+$hookData = [Console]::In.ReadToEnd() | ConvertFrom-Json
+$filePath = $hookData.tool_input.file_path
+
+if ($filePath -match '\.cs$') {
+    dotnet test --no-build --verbosity minimal 2>&1 | Select-Object -Last 20
+}
+```
+
+> **Windows settings.json:** Use `"command": "powershell -NoProfile -File .claude/hooks/test-on-cs-edit.ps1"`
+>
 > **Note:** Since `matcher` only filters by tool name, file-type filtering happens inside the hook script.
 
 ### Expected Behavior
@@ -284,7 +338,7 @@ After any `.cs` file is edited:
         "hooks": [
           {
             "type": "command",
-            "command": "echo \"$(date -Iseconds) | EDIT | $TOOL_INPUT\" >> .claude/audit.log"
+            "command": ".claude/hooks/audit-log-post.sh"
           }
         ]
       }
@@ -317,7 +371,7 @@ After any `.cs` file is edited:
    "matcher": { "tool": "Bash", "input": "rm -rf" }
 
    // Correct - matcher filters by tool name only
-   // Use a hook script to inspect $TOOL_INPUT for input filtering
+   // Use a hook script to read stdin JSON for input filtering
    "matcher": "Bash",
    "hooks": [{ "type": "command", "command": ".claude/hooks/my-filter.sh" }]
    ```
@@ -355,7 +409,7 @@ Before moving to Week 7, verify:
 
 1. Can you create an agent with specific tools and permissions?
 2. Can you configure hooks for PreToolUse and PostToolUse?
-3. Do you understand the difference between `block` and `command` hook types?
+3. Do you understand how hooks block operations using exit codes?
 4. Can you explain when to use an agent vs a hook?
 
 ---

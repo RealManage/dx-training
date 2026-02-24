@@ -163,7 +163,7 @@ hooks:
     - matcher: "Edit"
       hooks:
         - type: command
-          command: "echo 'Edited: $TOOL_INPUT' >> .claude/audit.log"
+          command: "echo \"$(date -Iseconds) | POST-EDIT\" >> .claude/audit.log"
 ---
 
 Process the violation for property $ARGUMENTS following RealManage rules...
@@ -391,7 +391,7 @@ realmanage-hoa/
         "hooks": [
           {
             "type": "command",
-            "command": "echo \"$(date -Iseconds) | $TOOL_NAME\" >> .claude/plugin-audit.log"
+            "command": ".claude/hooks/plugin-audit.sh"
           }
         ]
       }
@@ -411,6 +411,8 @@ realmanage-hoa/
 }
 ```
 
+> **Note:** The wildcard matcher (`*`) requires a script to read the tool name from stdin JSON. See Week 6 for Bash (`jq`) and PowerShell (`ConvertFrom-Json`) examples. For matchers targeting a specific tool (like `"Edit"` above), simple inline commands work fine.
+
 #### 4.2 Embedded Hooks in Skills (10 min)
 
 **Hooks can also be embedded directly in skills:**
@@ -426,7 +428,7 @@ hooks:
     - matcher: "Edit"
       hooks:
         - type: command
-          command: "echo \"$(date -Iseconds) | PRE-EDIT | $TOOL_INPUT\" >> .claude/violation-audit.log"
+          command: "echo \"$(date -Iseconds) | PRE-EDIT\" >> .claude/violation-audit.log"
   PostToolUse:
     - matcher: "Edit"
       hooks:
@@ -638,7 +640,7 @@ Create `realmanage-violations/hooks/hooks.json`:
         "hooks": [
           {
             "type": "command",
-            "command": "echo \"$(date -Iseconds) | $TOOL_NAME | $TOOL_INPUT\" >> .claude/plugin-audit.log"
+            "command": ".claude/hooks/plugin-audit.sh"
           }
         ]
       }
@@ -646,6 +648,29 @@ Create `realmanage-violations/hooks/hooks.json`:
   }
 }
 ```
+
+**Bash (Mac/Linux/WSL):** `.claude/hooks/plugin-audit.sh`
+
+```bash
+#!/bin/bash
+mkdir -p .claude
+TOOL=$(jq -r '.tool_name')
+INPUT=$(jq -r '.tool_input | tostring')
+echo "$(date -Iseconds) | $TOOL | $INPUT" >> .claude/plugin-audit.log
+```
+
+**PowerShell (Windows):** `.claude/hooks/plugin-audit.ps1`
+
+```powershell
+$hookData = [Console]::In.ReadToEnd() | ConvertFrom-Json
+$tool = $hookData.tool_name
+$input = $hookData.tool_input | ConvertTo-Json -Compress
+$timestamp = Get-Date -Format "o"
+if (-not (Test-Path ".claude")) { New-Item -ItemType Directory -Path ".claude" | Out-Null }
+Add-Content -Path ".claude/plugin-audit.log" -Value "$timestamp | $tool | $input"
+```
+
+> **Windows:** Use `"command": "powershell -NoProfile -File .claude/hooks/plugin-audit.ps1"` in hooks.json.
 
 **Test your plugin:**
 

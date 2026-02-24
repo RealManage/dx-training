@@ -1,6 +1,6 @@
 # Week 6: Agents & Hooks - QA Track
 
-**Duration:** 1.5 hours
+**Duration:** 2 hours (Part 4 exercises are self-paced)
 **Audience:** QA Engineers, Test Engineers, SDET
 
 This track focuses on test automation hooks and read-only analysis agents. Agent creation complexity is simplified.
@@ -34,7 +34,7 @@ Agents are specialized AI assistants. For QA, the most useful agents are:
 
 You don't need to create agents from scratch. Use team-provided agents:
 
-```
+```text
 > Use the test-writer agent to create tests for ViolationService
 
 > Use the code-reviewer agent to check this file for testability issues
@@ -112,7 +112,7 @@ Create `.claude/settings.json`:
 
 ### Test-Focused Hook Set
 
-Complete hook configuration for QA workflows:
+Complete hook configuration for QA workflows. Hooks that need to read event data use script files; simple hooks use inline commands:
 
 ```json
 {
@@ -123,7 +123,7 @@ Complete hook configuration for QA workflows:
         "hooks": [
           {
             "type": "command",
-            "command": "mkdir -p .claude && echo \"$(date -Iseconds) | $TOOL_NAME | $TOOL_INPUT\" >> .claude/qa-audit.log"
+            "command": ".claude/hooks/qa-audit-log.sh"
           }
         ]
       }
@@ -134,7 +134,7 @@ Complete hook configuration for QA workflows:
         "hooks": [
           {
             "type": "command",
-            "command": "echo '\\n=== RUNNING TESTS ===' && dotnet test --no-build --verbosity minimal 2>&1 | grep -E '(Passed|Failed|Total|Error)' || echo 'Test run complete'"
+            "command": "echo '=== RUNNING TESTS ===' && dotnet test --no-build --verbosity minimal 2>&1 | grep -E '(Passed|Failed|Total|Error)' || echo 'Test run complete'"
           }
         ]
       },
@@ -143,7 +143,7 @@ Complete hook configuration for QA workflows:
         "hooks": [
           {
             "type": "command",
-            "command": "echo \"$TOOL_INPUT\" | grep -q 'Tests\\|Test' && echo '\\n=== NEW TEST FILE - Running Tests ===' && dotnet test --no-build --verbosity minimal || true"
+            "command": ".claude/hooks/test-new-files.sh"
           }
         ]
       }
@@ -152,17 +152,68 @@ Complete hook configuration for QA workflows:
 }
 ```
 
-### Hook Variables for Test Hooks
+**Hook scripts:**
 
-| Variable | Use in Test Hooks |
-| -------- | ----------------- |
-| `$TOOL_INPUT` | File being edited - filter to run only relevant tests |
-| `$TOOL_NAME` | Operation type - distinguish Edit vs Write |
-| `$PROJECT_DIR` | Project root - construct test paths |
+**Bash (Mac/Linux/WSL):**
+
+```bash
+#!/bin/bash
+# .claude/hooks/qa-audit-log.sh
+mkdir -p .claude
+TOOL=$(jq -r '.tool_name')
+INPUT=$(jq -r '.tool_input | tostring')
+echo "$(date -Iseconds) | $TOOL | $INPUT" >> .claude/qa-audit.log
+```
+
+```bash
+#!/bin/bash
+# .claude/hooks/test-new-files.sh - Run tests when a new test file is written
+FILE_PATH=$(jq -r '.tool_input.file_path // empty')
+
+if echo "$FILE_PATH" | grep -qi 'test'; then
+  echo '=== NEW TEST FILE - Running Tests ==='
+  dotnet test --no-build --verbosity minimal
+fi
+```
+
+**PowerShell (Windows):**
+
+```powershell
+# .claude/hooks/qa-audit-log.ps1
+$hookData = [Console]::In.ReadToEnd() | ConvertFrom-Json
+$tool = $hookData.tool_name
+$input = $hookData.tool_input | ConvertTo-Json -Compress
+$timestamp = Get-Date -Format "o"
+if (-not (Test-Path ".claude")) { New-Item -ItemType Directory -Path ".claude" | Out-Null }
+Add-Content -Path ".claude/qa-audit.log" -Value "$timestamp | $tool | $input"
+```
+
+```powershell
+# .claude/hooks/test-new-files.ps1 - Run tests when a new test file is written
+$hookData = [Console]::In.ReadToEnd() | ConvertFrom-Json
+$filePath = $hookData.tool_input.file_path
+
+if ($filePath -match 'test') {
+    Write-Output '=== NEW TEST FILE - Running Tests ==='
+    dotnet test --no-build --verbosity minimal
+}
+```
+
+> **Windows settings.json:** Use `"command": "powershell -NoProfile -File .claude/hooks/qa-audit-log.ps1"` (and similarly for test-new-files).
+
+### Hook Input for Test Hooks
+
+Hooks receive JSON via stdin. Use `jq` to extract fields:
+
+| Stdin Field | Use in Test Hooks |
+| ----------- | ----------------- |
+| `tool_input.file_path` | File being edited — filter to run only relevant tests |
+| `tool_name` | Operation type — distinguish Edit vs Write |
+| `cwd` | Project root — construct test paths |
 
 ### Conditional Test Execution
 
-Only run tests when C# files change:
+Only run tests when C# files change (uses a script to read stdin):
 
 ```json
 {
@@ -173,7 +224,7 @@ Only run tests when C# files change:
         "hooks": [
           {
             "type": "command",
-            "command": "echo \"$TOOL_INPUT\" | grep -q '\\.cs$' && echo '=== C# FILE CHANGED - Running Tests ===' && dotnet test --no-build --verbosity minimal || echo 'Non-C# file edited, skipping tests'"
+            "command": ".claude/hooks/test-cs-edits.sh"
           }
         ]
       }
@@ -181,6 +232,36 @@ Only run tests when C# files change:
   }
 }
 ```
+
+**Bash (Mac/Linux/WSL):** `.claude/hooks/test-cs-edits.sh`
+
+```bash
+#!/bin/bash
+FILE_PATH=$(jq -r '.tool_input.file_path // empty')
+
+if [[ "$FILE_PATH" == *.cs ]]; then
+  echo '=== C# FILE CHANGED - Running Tests ==='
+  dotnet test --no-build --verbosity minimal
+else
+  echo 'Non-C# file edited, skipping tests'
+fi
+```
+
+**PowerShell (Windows):** `.claude/hooks/test-cs-edits.ps1`
+
+```powershell
+$hookData = [Console]::In.ReadToEnd() | ConvertFrom-Json
+$filePath = $hookData.tool_input.file_path
+
+if ($filePath -match '\.cs$') {
+    Write-Output '=== C# FILE CHANGED - Running Tests ==='
+    dotnet test --no-build --verbosity minimal
+} else {
+    Write-Output 'Non-C# file edited, skipping tests'
+}
+```
+
+> **Windows settings.json:** Use `"command": "powershell -NoProfile -File .claude/hooks/test-cs-edits.ps1"`
 
 ---
 
@@ -190,7 +271,7 @@ Only run tests when C# files change:
 
 If your team has a test-writer agent, use it like this:
 
-```
+```text
 > Use the test-writer agent to create tests for the CalculateLateFee method
 
 > Use the test-writer agent to add edge case tests for ViolationService
@@ -227,13 +308,15 @@ Report findings as:
 
 **Usage:**
 
-```
+```text
 > Use the testability-checker agent to analyze the Services folder
 ```
 
 ---
 
-## Part 4: Hands-On Exercises (25 min)
+## Part 4: Hands-On Exercises (25 min) - *Self-Paced*
+
+> **Note:** Part 4 is self-paced practice. Complete during the session if time permits, otherwise finish as homework.
 
 ### Exercise 1: Basic Test Hook (10 min)
 
@@ -259,14 +342,14 @@ Create `.claude/settings.json`:
 
 Test it:
 
-```
+```text
 > Edit Program.cs to add a comment
 # Watch for automatic test execution
 ```
 
 ### Exercise 2: Audit Logging (10 min)
 
-Add PreToolUse logging:
+Add PreToolUse logging with a hook script:
 
 ```json
 {
@@ -277,7 +360,7 @@ Add PreToolUse logging:
         "hooks": [
           {
             "type": "command",
-            "command": "mkdir -p .claude && echo \"$(date -Iseconds) | $TOOL_NAME\" >> .claude/qa-operations.log"
+            "command": ".claude/hooks/qa-operations-log.sh"
           }
         ]
       }
@@ -297,9 +380,30 @@ Add PreToolUse logging:
 }
 ```
 
+**Bash (Mac/Linux/WSL):** `.claude/hooks/qa-operations-log.sh`
+
+```bash
+#!/bin/bash
+mkdir -p .claude
+TOOL=$(jq -r '.tool_name')
+echo "$(date -Iseconds) | $TOOL" >> .claude/qa-operations.log
+```
+
+**PowerShell (Windows):** `.claude/hooks/qa-operations-log.ps1`
+
+```powershell
+$hookData = [Console]::In.ReadToEnd() | ConvertFrom-Json
+$tool = $hookData.tool_name
+$timestamp = Get-Date -Format "o"
+if (-not (Test-Path ".claude")) { New-Item -ItemType Directory -Path ".claude" | Out-Null }
+Add-Content -Path ".claude/qa-operations.log" -Value "$timestamp | $tool"
+```
+
+> **Windows settings.json:** Use `"command": "powershell -NoProfile -File .claude/hooks/qa-operations-log.ps1"`
+
 Test it:
 
-```
+```text
 > Read a file
 > Edit a file
 > cat .claude/qa-operations.log
@@ -309,7 +413,7 @@ Test it:
 
 If a test-writer agent is available:
 
-```
+```text
 > Use the test-writer agent to create edge case tests for late fee calculations
 ```
 

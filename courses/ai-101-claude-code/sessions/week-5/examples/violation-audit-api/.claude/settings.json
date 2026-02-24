@@ -3,17 +3,32 @@
     "PreToolUse": [
       {
         "matcher": "Bash",
-        "command": "echo \"$(date -Iseconds) | PRE | BASH | $TOOL_INPUT\" >> .claude/audit.log"
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"$(date -Iseconds) | PRE | BASH\" >> .claude/audit.log"
+          }
+        ]
       },
       {
         "matcher": "Edit",
-        "command": "echo \"$(date -Iseconds) | PRE | EDIT | $TOOL_INPUT\" >> .claude/audit.log"
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"$(date -Iseconds) | PRE | EDIT\" >> .claude/audit.log"
+          }
+        ]
       }
     ],
     "PostToolUse": [
       {
         "matcher": "Edit",
-        "command": "dotnet build --verbosity quiet 2>/dev/null || echo 'Build may need attention'"
+        "hooks": [
+          {
+            "type": "command",
+            "command": "dotnet build --verbosity quiet 2>/dev/null || echo 'Build may need attention'"
+          }
+        ]
       }
     ]
   },

@@ -30,19 +30,19 @@ Hooks run automatically when certain events happen. For support work, hooks coul
 
 2. Explore what hooks could do for support:
 
-   ```
+   ```text
    What types of hooks would be useful for support work?
    Consider:
-   - Pre-commit hooks (before something is finalized)
-   - Post-commit hooks (after something is done)
-   - Validation hooks (checking quality)
+   - PreToolUse hooks (before Claude executes an action)
+   - PostToolUse hooks (after Claude completes an action)
+   - Validation hooks (checking quality before proceeding)
 
    Give me 5 specific examples for customer support.
    ```
 
 3. Design a response quality hook:
 
-   ```
+   ```text
    Help me design a hook that would review customer responses
    before they're sent. It should check:
    - Professional tone
@@ -55,7 +55,7 @@ Hooks run automatically when certain events happen. For support work, hooks coul
 
 4. Understand the workflow:
 
-   ```
+   ```text
    Walk me through how this hook would work:
    1. I draft a response
    2. What triggers the hook?
@@ -82,7 +82,7 @@ Agents can handle multi-step tasks autonomously. For support, this could mean ga
 
 1. Explore agent possibilities:
 
-   ```
+   ```text
    If I could have an AI agent help with support tasks,
    what multi-step workflows would be most valuable?
 
@@ -95,7 +95,7 @@ Agents can handle multi-step tasks autonomously. For support, this could mean ga
 
 2. Design an escalation agent workflow:
 
-   ```
+   ```text
    Design an agent workflow for preparing escalations:
 
    Input: Ticket number and issue summary
@@ -111,7 +111,7 @@ Agents can handle multi-step tasks autonomously. For support, this could mean ga
 
 3. Consider the human-in-the-loop:
 
-   ```
+   ```text
    Where should this agent pause for human review?
    What decisions should NOT be automated?
    What guardrails would you want?
@@ -135,7 +135,7 @@ Now let's make it hands-on. You'll create a validation document that could be us
 
 1. Create a validation rules document:
 
-   ```
+   ```text
    Help me create a "Response Validation Rules" document.
    For each rule, include:
    - Rule ID (RV-001, RV-002, etc.)
@@ -158,7 +158,7 @@ Now let's make it hands-on. You'll create a validation document that could be us
 
 2. Test the validator against real responses:
 
-   ```
+   ```text
    Use the validation rules to review this response:
 
    "Hi,
@@ -179,7 +179,7 @@ Now let's make it hands-on. You'll create a validation document that could be us
 
 3. Improve a failing response:
 
-   ```
+   ```text
    Here's a response that likely fails several validation rules:
 
    "Fee is $75. Pay it."
@@ -190,7 +190,7 @@ Now let's make it hands-on. You'll create a validation document that could be us
 
 4. Create a validation summary template:
 
-   ```
+   ```text
    Create a template I can use to document validation results:
 
    RESPONSE VALIDATION REPORT

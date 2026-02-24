@@ -1,6 +1,6 @@
 # Week 6: Agents & Hooks - PM Track
 
-**Duration:** 45-60 min
+**Duration:** 60-75 min
 **Audience:** Product Managers, Project Managers, Business Analysts
 
 ---
@@ -64,7 +64,7 @@ claude
 
 Ask Claude to help you create an agent:
 
-```
+```text
 Create a requirements analyst agent that:
 1. Analyzes requirements documents for completeness
 2. Identifies ambiguous language
@@ -80,7 +80,7 @@ Use read-only tools (Read, Grep, Glob) and plan permission mode.
 
 Create a sample requirements file and test:
 
-```
+```text
 Create a sample requirements.md file with a feature request
 that has some intentional gaps (missing edge cases, vague language).
 Then use the requirements-analyst agent to analyze it.
@@ -119,7 +119,7 @@ A hook that checks if acceptance criteria follow Given/When/Then format before s
         "hooks": [
           {
             "type": "command",
-            "command": "echo \"$TOOL_INPUT\" | grep -qi 'acceptance' && echo 'Checking AC format...' || true"
+            "command": ".claude/hooks/check-ac-format.sh"
           }
         ]
       }
@@ -127,6 +127,32 @@ A hook that checks if acceptance criteria follow Given/When/Then format before s
   }
 }
 ```
+
+**Bash (Mac/Linux/WSL):** `.claude/hooks/check-ac-format.sh`
+
+```bash
+#!/bin/bash
+# Check if the edit involves acceptance criteria
+INPUT=$(jq -r '.tool_input | tostring')
+
+if echo "$INPUT" | grep -qi 'acceptance'; then
+  echo 'Checking AC format...'
+fi
+```
+
+**PowerShell (Windows):** `.claude/hooks/check-ac-format.ps1`
+
+```powershell
+# Check if the edit involves acceptance criteria
+$hookData = [Console]::In.ReadToEnd() | ConvertFrom-Json
+$input = $hookData.tool_input | ConvertTo-Json -Compress
+
+if ($input -match 'acceptance') {
+    Write-Output 'Checking AC format...'
+}
+```
+
+> **Windows settings.json:** Use `"command": "powershell -NoProfile -File .claude/hooks/check-ac-format.ps1"`
 
 ---
 
@@ -138,7 +164,7 @@ Create a hook that logs whenever you generate PM artifacts (user stories, requir
 
 ### Create the Hook
 
-```
+```text
 Create a .claude/settings.json file with a PostToolUse hook that:
 1. Triggers after any Edit operation
 2. Logs the timestamp and file edited to .claude/pm-activity.log
@@ -147,7 +173,7 @@ Create a .claude/settings.json file with a PostToolUse hook that:
 
 ### Test the Hook
 
-```
+```text
 Create a user story in stories/login-feature.md.
 Check that .claude/pm-activity.log was updated.
 ```
@@ -165,13 +191,14 @@ Check that .claude/pm-activity.log was updated.
 ### The Task
 
 Create a workflow where:
+
 1. You create/edit a requirements document
 2. A hook automatically triggers review
 3. The requirements-analyst agent checks quality
 
 ### Implementation
 
-```
+```text
 Update the PostToolUse hook to:
 1. Detect when a requirements file is edited (*.md in requirements/ folder)
 2. Log that a requirements review is recommended
