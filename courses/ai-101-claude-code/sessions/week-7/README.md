@@ -31,7 +31,7 @@ By the end of this session, participants will be able to:
 ### For Participants
 
 - [ ] Completed Week 6 (agents, hooks, lifecycle events)
-- [ ] Created at least one custom command in `.claude/commands/`
+- [ ] Created at least one custom skill or command (`.claude/skills/` or `.claude/commands/`)
 - [ ] Created at least one custom subagent in `.claude/agents/`
 - [ ] Understanding of hook configuration
 - [ ] Ready for 2-hour session
@@ -44,16 +44,18 @@ By the end of this session, participants will be able to:
 
 #### 1.1 Plugins: The Complete Package (10 min)
 
-In Week 6, you learned about foundational components:
+In previous weeks, you learned about standalone components:
 
-- **Commands** (`.claude/commands/`) - Reusable prompts
+- **Skills** (`.claude/skills/<name>/SKILL.md`) - Reusable prompt templates with frontmatter
 - **Custom Subagents** (`.claude/agents/`) - Specialized agents
 - **Hooks** (`settings.json`) - Lifecycle event handlers
+
+> **Note:** Custom slash commands (`.claude/commands/<name>.md`) have been **merged into skills**. Both create `/name` and work the same way. Skills are the recommended approach because they support a directory structure with templates, scripts, and other supporting files.
 
 **Plugins package ALL of these** into a distributable unit.
 
 ```text
-Plugin = Commands + Agents + Hooks + Skills (packaged together)
+Plugin = Skills + Agents + Hooks (packaged together)
 ```
 
 **Plugin Architecture:**
@@ -61,8 +63,8 @@ Plugin = Commands + Agents + Hooks + Skills (packaged together)
 ```text
 my-plugin/
 ├── .claude-plugin/
-│   └── plugin.json          # Manifest (required)
-├── skills/                   # Skills (enhanced commands)
+│   └── plugin.json          # Manifest (optional — auto-discovers without it)
+├── skills/                   # Skills (slash commands with supporting files)
 │   ├── violation-workflow/
 │   │   ├── SKILL.md
 │   │   └── templates/
@@ -73,8 +75,12 @@ my-plugin/
 │   └── code-reviewer.md
 ├── hooks/                    # Hook configurations
 │   └── hooks.json
+├── scripts/                  # Hook and utility scripts
+│   └── plugin-audit.sh
 └── README.md                 # Documentation
 ```
+
+> **Manifest is optional.** Claude Code auto-discovers `skills/`, `agents/`, and `hooks/` in default locations. Include `plugin.json` to set name, version, description, and customize paths.
 
 **Why Plugins?**
 
@@ -118,7 +124,7 @@ cat > realmanage-hoa/.claude-plugin/plugin.json << 'EOF'
 EOF
 
 # Validate structure
-/plugin validate ./realmanage-hoa
+/plugin validate
 ```
 
 > **Not familiar with these commands?** No worries - Claude can walk you through them. Just ask!
@@ -127,21 +133,22 @@ EOF
 
 ### Part 2: Skills in Plugins (30 min)
 
-Skills are **enhanced commands** that live inside plugins. They support features that simple commands don't.
+Skills are the standard way to create slash commands in Claude Code. They live in a directory structure that supports templates, scripts, and other supporting files alongside the main SKILL.md.
 
-#### 2.1 Skills vs Commands (10 min)
+#### 2.1 Skills and Commands (10 min)
 
-| Feature | Commands | Skills |
+Commands (`.claude/commands/<name>.md`) and skills (`.claude/skills/<name>/SKILL.md`) have been **merged** — both create the same `/name` slash command and support the same YAML frontmatter fields. Skills are the recommended approach:
+
+| Feature | Commands (legacy) | Skills (recommended) |
 | ------- | -------- | ------ |
-| Location | `.claude/commands/<name>.md` | `<plugin>/skills/<name>/SKILL.md` |
-| Supporting files | No | Yes (templates, scripts) |
-| Auto-invocation | No | Yes (`disable-model-invocation: false`) |
-| Spawn agents | No | Yes (`context: fork`, `agent:`) |
-| Embedded hooks | No | Yes (`hooks:` field) |
-| Tool restrictions | No | Yes (`allowed-tools:`) |
-| Model override | No | Yes (`model:`) |
+| Location | `.claude/commands/<name>.md` | `.claude/skills/<name>/SKILL.md` |
+| YAML frontmatter | Same fields | Same fields |
+| Supporting files | No (single .md file) | Yes (templates, scripts in skill directory) |
+| In plugins | `.claude/commands/` or `commands/` | `skills/<name>/SKILL.md` |
 
-**Key insight:** Skills are commands with superpowers.
+Both support: `allowed-tools`, `model`, `context: fork`, `agent`, `hooks`, `disable-model-invocation`, `user-invocable`, and all other frontmatter fields.
+
+**Key insight:** Skills and commands are functionally identical. Skills add directory structure for supporting files.
 
 #### 2.2 Skill Structure (10 min)
 
@@ -179,7 +186,7 @@ Process the violation for property $ARGUMENTS following RealManage rules...
 | `disable-model-invocation` | No | `true` = manual only |
 | `user-invocable` | No | `false` = hide from `/` menu |
 | `allowed-tools` | No | Restrict available tools |
-| `model` | No | `sonnet`, `opus`, `default`, `inherit` |
+| `model` | No | `sonnet`, `opus`, `haiku`, `default`, `inherit` |
 | `context` | No | `fork` = run in isolated subagent |
 | `agent` | No | Custom agent name (from `agents/`) |
 | `hooks` | No | Embedded lifecycle hooks |
@@ -391,7 +398,7 @@ realmanage-hoa/
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/plugin-audit.sh"
+            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/plugin-audit.sh"
           }
         ]
       }
@@ -411,7 +418,21 @@ realmanage-hoa/
 }
 ```
 
+> **`${CLAUDE_PLUGIN_ROOT}`** is an environment variable that resolves to the plugin's root directory. Always use it in plugin hooks and scripts so paths work regardless of where the plugin is installed.
+>
 > **Note:** The wildcard matcher (`*`) requires a script to read the tool name from stdin JSON. See Week 6 for Bash (`jq`) and PowerShell (`ConvertFrom-Json`) examples. For matchers targeting a specific tool (like `"Edit"` above), simple inline commands work fine.
+
+**Hook Handler Types:**
+
+Hooks support three handler types:
+
+| Type | Description | Use Case |
+| ---- | ----------- | -------- |
+| `command` | Runs a shell command; receives JSON on stdin | Script execution, logging, blocking |
+| `prompt` | Single-turn LLM evaluation | Quick validation, format checking |
+| `agent` | Subagent with tools for verification | Complex multi-step validation |
+
+All examples in this course use `command` hooks. See the [official hooks docs](https://code.claude.com/docs/en/hooks) for `prompt` and `agent` handler examples.
 
 #### 4.2 Embedded Hooks in Skills (10 min)
 
@@ -475,13 +496,13 @@ claude --plugin-dir ./plugin-one --plugin-dir ./plugin-two
 
 ```bash
 # Check plugin structure
-/plugin validate ./realmanage-hoa
+/plugin validate
 ```
 
 #### 5.2 Marketplace Distribution (10 min)
 
 > **Note:** Claude Code ships with a default marketplace containing 50+ plugins out of the box. For team-specific automation, you can also create local plugins or add custom marketplaces from Git repositories.
-
+>
 > **Solo developer?** Plugins are just as valuable for individual workflows. Package your personal skills, agents, and hooks into a plugin you can reuse across projects or share on the marketplace.
 
 **Exploring Available Plugins:**
@@ -532,7 +553,7 @@ Run `/plugin` to open the interactive plugin manager:
 /plugin marketplace add <source>     # Add marketplace
 /plugin marketplace update           # Update all marketplaces
 /plugin install <name>@<marketplace> # Install plugin
-/plugin validate .                   # Validate current directory
+/plugin validate                     # Validate plugin structure
 claude --plugin-dir ./path           # Load local plugin
 ```
 
@@ -566,6 +587,7 @@ mkdir -p realmanage-violations/.claude-plugin
 mkdir -p realmanage-violations/skills/violation-report
 mkdir -p realmanage-violations/agents
 mkdir -p realmanage-violations/hooks
+mkdir -p realmanage-violations/scripts
 
 # Create manifest
 cat > realmanage-violations/.claude-plugin/plugin.json << 'EOF'
@@ -640,7 +662,7 @@ Create `realmanage-violations/hooks/hooks.json`:
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/plugin-audit.sh"
+            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/plugin-audit.sh"
           }
         ]
       }
@@ -649,7 +671,9 @@ Create `realmanage-violations/hooks/hooks.json`:
 }
 ```
 
-**Bash (Mac/Linux/WSL):** `.claude/hooks/plugin-audit.sh`
+Create `realmanage-violations/scripts/plugin-audit.sh`:
+
+**Bash (Mac/Linux/WSL):**
 
 ```bash
 #!/bin/bash
@@ -659,7 +683,7 @@ INPUT=$(jq -r '.tool_input | tostring')
 echo "$(date -Iseconds) | $TOOL | $INPUT" >> .claude/plugin-audit.log
 ```
 
-**PowerShell (Windows):** `.claude/hooks/plugin-audit.ps1`
+**PowerShell (Windows):** `realmanage-violations/scripts/plugin-audit.ps1`
 
 ```powershell
 $hookData = [Console]::In.ReadToEnd() | ConvertFrom-Json
@@ -670,7 +694,7 @@ if (-not (Test-Path ".claude")) { New-Item -ItemType Directory -Path ".claude" |
 Add-Content -Path ".claude/plugin-audit.log" -Value "$timestamp | $tool | $input"
 ```
 
-> **Windows:** Use `"command": "powershell -NoProfile -File .claude/hooks/plugin-audit.ps1"` in hooks.json.
+> **Windows:** Use `"command": "powershell -NoProfile -File ${CLAUDE_PLUGIN_ROOT}/scripts/plugin-audit.ps1"` in hooks.json.
 
 **Test your plugin:**
 
@@ -691,8 +715,8 @@ claude --plugin-dir ./realmanage-violations
 ```text
 my-plugin/
 ├── .claude-plugin/
-│   └── plugin.json      # Manifest (required)
-├── skills/              # Enhanced commands
+│   └── plugin.json      # Manifest (optional — auto-discovers without it)
+├── skills/              # Slash commands with supporting files
 │   └── <name>/
 │       ├── SKILL.md
 │       └── templates/
@@ -700,21 +724,29 @@ my-plugin/
 │   └── <name>.md
 ├── hooks/               # Hook configurations
 │   └── hooks.json
+├── scripts/             # Hook and utility scripts
+│   └── audit.sh
 └── README.md
 ```
+
+**Key Variable:** `${CLAUDE_PLUGIN_ROOT}` — resolves to plugin root. Use in hooks/scripts for portable paths.
 
 ### Skills Quick Reference
 
 ```text
 LOCATION: <plugin>/skills/<skill-name>/SKILL.md
+   (or)   .claude/skills/<skill-name>/SKILL.md
+   (or)   .claude/commands/<skill-name>.md  (legacy, same functionality)
 
-FRONTMATTER:
+FRONTMATTER (all optional):
 ---
 name: skill-name
 description: When to use this skill
 argument-hint: <args>
 disable-model-invocation: true|false
+user-invocable: true|false
 allowed-tools: Read, Grep, Edit
+model: sonnet|opus|haiku|default|inherit
 context: fork
 agent: custom-agent-name
 hooks:
@@ -722,20 +754,66 @@ hooks:
 ---
 
 VARIABLES:
-$ARGUMENTS, $1, $2, $3
+$ARGUMENTS        — All arguments as string
+$ARGUMENTS[0]     — First argument (0-indexed)
+$1, $2, $3        — Shorthand for $ARGUMENTS[N]
+${CLAUDE_SESSION_ID} — Current session ID
 
 DYNAMIC CONTEXT:
-!`shell command`  -> Executes and injects output
+!`shell command`  — Executes before skill loads, injects output
 ```
+
+### Agent Frontmatter Quick Reference
+
+```text
+LOCATION: <plugin>/agents/<name>.md
+   (or)   .claude/agents/<name>.md
+
+FRONTMATTER:
+---
+name: agent-name                       # Required
+description: When to delegate here     # Required
+tools: Read, Glob, Grep, Bash          # Optional (inherits all if omitted)
+disallowedTools: Write, Edit           # Optional (denylist)
+model: sonnet|opus|haiku|inherit       # Optional (default: inherit)
+permissionMode: default|plan|acceptEdits|dontAsk|bypassPermissions
+maxTurns: 10                           # Optional
+skills:                                # Optional — preload skills
+  - api-conventions
+mcpServers:                            # Optional — MCP servers
+  - slack
+memory: user|project|local             # Optional — persistent memory
+background: true                       # Optional — always run in background
+isolation: worktree                    # Optional — git worktree isolation
+---
+```
+
+### Hook Events Reference
+
+| Event | When It Fires | Matcher Input |
+| ----- | ------------- | ------------- |
+| `PreToolUse` | Before tool executes | Tool name |
+| `PostToolUse` | After tool succeeds | Tool name |
+| `PostToolUseFailure` | After tool fails | Tool name |
+| `SessionStart` | Session begins/resumes | `startup`, `resume`, `clear`, `compact` |
+| `Stop` | Claude finishes responding | No matcher |
+| `Notification` | Notification sent | Notification type |
+| `SubagentStart` | Subagent spawned | Agent type |
+| `SubagentStop` | Subagent finishes | Agent type |
+| `UserPromptSubmit` | User submits prompt | No matcher |
+
+> See [official hooks docs](https://code.claude.com/docs/en/hooks) for the complete list including `PermissionRequest`, `ConfigChange`, `PreCompact`, `SessionEnd`, and others.
 
 ### Plugin Commands
 
 ```bash
 /plugin                              # Interactive manager
 /plugin marketplace add <source>     # Add marketplace
+/plugin marketplace update           # Update all marketplaces
 /plugin install <name>@<marketplace> # Install plugin
-/plugin validate .                   # Validate plugin
-claude --plugin-dir ./path           # Load local plugin
+/plugin validate                     # Validate plugin
+claude --plugin-dir ./path           # Load local plugin (session only)
+claude plugin install <name> -s project  # Install to project scope
 
 INVOKE:
 /plugin-name:skill-name <args>

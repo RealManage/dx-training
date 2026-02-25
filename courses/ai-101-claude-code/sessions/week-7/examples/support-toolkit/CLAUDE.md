@@ -31,23 +31,34 @@ With a plugin:
 
 ## Plugin Structure
 
-```
+```text
 support-toolkit/
-├── CLAUDE.md           # Team context and policies
+├── .claude-plugin/
+│   └── plugin.json              # Plugin manifest (optional)
+├── CLAUDE.md                    # Team context and policies
 ├── skills/
-│   ├── draft-response.md
-│   ├── explain-fee.md
-│   ├── escalation-note.md
-│   └── tone-check.md
+│   ├── draft-response/
+│   │   └── SKILL.md
+│   ├── explain-fee/
+│   │   └── SKILL.md
+│   ├── escalation-note/
+│   │   └── SKILL.md
+│   └── tone-check/
+│       └── SKILL.md
+├── agents/
+│   └── escalation-detector.md   # Agent for detecting escalation triggers
 ├── hooks/
-│   ├── pre-send-quality.md
-│   └── escalation-detector.md
+│   └── hooks.json               # Hook configs (quality gate, logging)
+├── scripts/
+│   └── quality-check.sh         # Hook scripts
 ├── templates/
 │   ├── late-fee-response.md
 │   ├── violation-response.md
 │   └── welcome-message.md
-└── README.md           # How to use the plugin
+└── README.md                    # How to use the plugin
 ```
+
+> **Note:** Skills use the `skills/<name>/SKILL.md` directory convention (not flat `.md` files). Hooks are configured in `hooks/hooks.json` (not individual `.md` files).
 
 ## Plugin Components
 

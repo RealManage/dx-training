@@ -225,7 +225,6 @@ While everyone follows the same core curriculum, each week includes role-specifi
 
 - 2 hours per week (session time)
 - 1-2 hours per week (homework/practice)
-- Optional: Office hours Thursdays 2-3 PM CT
 
 **Support Channels:**
 
@@ -332,7 +331,7 @@ When you're ready, proceed to [Week 1: Setup & Orientation](../week-1/README.md)
 
 **Pre-work for Week 1:**
 
-- Ensure you have an Anthropic account (free tier works)
+- Ensure you have an Anthropic account
 - Have VS Code installed with recommended extensions
 - Clear 2 hours for the hands-on session
 

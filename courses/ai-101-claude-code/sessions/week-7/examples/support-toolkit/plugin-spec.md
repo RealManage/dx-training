@@ -24,7 +24,7 @@ Design document for a team-wide support plugin.
 # Then go to Discover tab → Install the plugin
 
 # Or CLI: Install from marketplace
-claude plugin install support-toolkit@realmanage-plugins --scope project
+claude plugin install support-toolkit@realmanage-plugins -s project
 ```
 
 ### Installation Scopes
@@ -42,7 +42,7 @@ claude plugin install support-toolkit@realmanage-plugins --scope project
 claude --plugin-dir ./support-toolkit
 
 # Validate plugin structure
-/plugin validate ./support-toolkit
+/plugin validate
 ```
 
 ### What Gets Installed

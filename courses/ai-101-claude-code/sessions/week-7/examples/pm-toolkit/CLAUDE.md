@@ -19,7 +19,7 @@ Generates project management artifacts in markdown format:
 ```
 pm-toolkit/
 ├── .claude-plugin/
-│   └── plugin.json          # Plugin manifest (required)
+│   └── plugin.json          # Plugin manifest (optional)
 ├── skills/
 │   ├── write-story/SKILL.md
 │   ├── write-epic/SKILL.md
@@ -53,7 +53,7 @@ cd courses/ai-101-claude-code/sessions/week-7/examples
 claude --plugin-dir ./pm-toolkit
 
 # Validate plugin structure
-/plugin validate ./pm-toolkit
+/plugin validate
 ```
 
 ## Installing the Plugin
@@ -64,7 +64,7 @@ claude --plugin-dir ./pm-toolkit
 # Navigate to Discover tab → Install pm-toolkit
 
 # Or CLI: Install to project scope (shared with team)
-claude plugin install pm-toolkit@realmanage-plugins --scope project
+claude plugin install pm-toolkit@realmanage-plugins -s project
 ```
 
 ## Trying the Skills

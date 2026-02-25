@@ -27,7 +27,7 @@ Skills are namespaced when installed as a plugin:
 # Navigate to Discover tab → Search for pm-toolkit → Install
 
 # Or CLI: Install from marketplace
-claude plugin install pm-toolkit@realmanage-plugins --scope project
+claude plugin install pm-toolkit@realmanage-plugins -s project
 ```
 
 ### For Local Development
@@ -37,7 +37,7 @@ claude plugin install pm-toolkit@realmanage-plugins --scope project
 claude --plugin-dir ./pm-toolkit
 
 # Validate plugin structure
-/plugin validate ./pm-toolkit
+/plugin validate
 ```
 
 > **Note:** Skills are available immediately after installation - no restart required.
