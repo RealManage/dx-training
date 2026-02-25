@@ -205,34 +205,24 @@ This is packaging for distribution. Developer-focused. Skip entirely.
 
 ---
 
-### Week 8: Real-World Workflows (1.5 hours)
+### Week 8: Real-World Workflows (2 hours)
 
-**Goal:** Automate test generation and analysis with Claude CLI.
+**Goal:** Apply automation patterns to test generation and quality analysis.
 
-Focus on:
+Shared session (70 min — all roles attend):
 
-- [ ] Headless Claude automation with `-p` flag
-- [ ] Batch test generation scripts
-- [ ] Coverage analysis automation
+- [ ] What automation means for each role
+- [ ] Headless mode concepts and key CLI flags
+- [ ] Context management (`/compact` vs `/clear`)
+- [ ] Anti-patterns to avoid
 
-**QA-Relevant Pattern:**
+QA track exercises (45 min):
 
-```bash
-#!/bin/bash
-# batch-test-coverage.sh - Analyze and improve test coverage
+- [ ] Test automation and coverage analysis
+- [ ] Batch quality checks
+- [ ] CI/CD integration patterns
 
-# Find files with low coverage and generate tests
-for file in $(find src -name "*.cs" -type f); do
-  coverage=$(get-coverage "$file")  # Your coverage tool
-  if [ "$coverage" -lt 80 ]; then
-    echo "Generating tests for $file (coverage: $coverage%)"
-    claude -p "Analyze $file and generate xUnit tests to improve coverage. \
-      Use FluentAssertions. Target 80-90% coverage." \
-      --output-format json \
-      --add-dir "$(dirname "$file")"
-  fi
-done
-```
+**Checkpoint:** Can you explain when to use `/compact` vs `/clear` and design a test automation workflow?
 
 ---
 

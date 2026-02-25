@@ -42,7 +42,7 @@ Skills aren't just for developers. PMs can create skills that:
 
 Skills live in `.claude/skills/` and are just markdown files with YAML frontmatter:
 
-```
+```text
 your-project/
 ├── .claude/
 │   └── skills/
@@ -338,11 +338,12 @@ Rationale: [why this split]
 - Hooks for automated workflows
 - Compliance and audit logging patterns
 
-**Week 8: Real-World Automation** - Use your skills with:
+**Week 8: Real-World Automation** - Apply your skills in real workflows:
 
-- Headless CLI automation (`claude -p`)
-- Batch processing scripts
-- Scheduled automation
+- Interactive skill mastery for PM scenarios
+- Workflow design patterns and automation specs
+- The handoff pattern: PM designs, engineer implements headless
+- Measuring automation ROI
 
 ---
 

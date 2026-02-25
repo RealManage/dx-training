@@ -46,7 +46,7 @@ graph LR
     style W7 fill:#9E9E9E,color:#fff
 ```
 
-**Your Focus Weeks (green):** Weeks 2, 3, 5, 6, 8, and 9 are your power weeks. Week 5 teaches you to create response drafting skills, Week 8 shows how to automate ticket processing.
+**Your Focus Weeks (green):** Weeks 2, 3, 5, 6, 8, and 9 are your power weeks. Week 5 teaches you to create response drafting skills, Week 8 covers context management and workflow design for ticket automation.
 
 ### What You'll Cover vs Skip
 
@@ -124,7 +124,7 @@ I work in Customer Support at RealManage, helping homeowners with:
 
 **The Support Response Formula:**
 
-```
+```text
 Draft a response to this customer issue:
 [PASTE TICKET/EMAIL]
 
@@ -142,7 +142,7 @@ Requirements:
 
 **Example:**
 
-```
+```text
 Draft a response to this customer issue:
 "My balance shows $542 but I paid $400 last month. Why is it so high?"
 
@@ -175,7 +175,7 @@ Requirements:
 
 **Example: Multi-Issue Ticket**
 
-```
+```text
 I have a ticket with multiple issues that need addressing:
 [PASTE TICKET]
 
@@ -198,7 +198,7 @@ Use plan mode to:
 
 Just like developers write tests before code, define success criteria before drafting:
 
-```
+```text
 Before drafting, define success criteria:
 
 Ticket: [PASTE]
@@ -235,7 +235,7 @@ Now draft the response meeting all criteria.
 
 Create `.claude/skills/draft-response/SKILL.md`:
 
-```yaml
+```markdown
 ---
 name: draft-response
 description: Draft customer responses based on issue type
@@ -294,38 +294,21 @@ Week 7 covers Plugins, which is developer-focused. You can skip this week or ski
 
 ---
 
-### Week 8: Real-World Automation (1.5 hours)
+### Week 8: Real-World Automation (2 hours)
 
 **Goal:** Design workflows for ticket triage and response automation.
 
-**Key Concepts:**
+Shared session (70 min — all roles attend):
 
-- **Ticket Triage Automation:** Categorize and prioritize incoming tickets
-- **Response Generation Workflow:** Draft → Quality Check → Human Review → Send
-- **Escalation Detection:** Automatically flag tickets needing manager attention
+- What automation means for each role
+- Context management (`/compact` vs `/clear`)
+- Anti-patterns to avoid (retry hammering, verbose prompts, context-nuking)
 
-**Triage Workflow Design:**
+Support track exercises (45 min):
 
-```
-Input: Raw ticket text
-
-Steps:
-1. Extract: account number, issue type, urgency
-2. Categorize: billing, violation, maintenance, general
-3. Prioritize: urgent, normal, low
-4. Identify: missing information needed
-5. Route: to appropriate queue
-
-Output: Structured ticket ready for response
-```
-
-**Human-in-the-Loop:**
-
-Always design with human checkpoints:
-
-- AI drafts → Human reviews → Human sends
-- AI categorizes → Human validates → System routes
-- AI flags escalation → Human decides → Human escalates
+- Ticket triage automation design
+- Response generation workflows with human checkpoints
+- Escalation detection patterns
 
 **Checkpoint:** Can you design a triage workflow that handles "WHY IS MY BILL SO HIGH???" appropriately?
 
@@ -367,7 +350,7 @@ Build:
 
 ### Response Drafting
 
-```
+```text
 Draft a response for this support ticket:
 [PASTE TICKET]
 
@@ -382,7 +365,7 @@ Requirements:
 
 ### Fee Explanation
 
-```
+```text
 Explain this fee situation:
 - Original balance: $[X]
 - Current balance: $[Y]
@@ -395,7 +378,7 @@ with dates and amounts for each fee applied.
 
 ### Tone Check
 
-```
+```text
 Review this draft response for tone:
 [PASTE DRAFT]
 
@@ -411,7 +394,7 @@ Suggest improvements if needed.
 
 ### Escalation Documentation
 
-```
+```text
 Create an escalation note for ticket #[NUMBER]:
 [PASTE TICKET AND CONTEXT]
 
@@ -425,7 +408,7 @@ Include:
 
 ### Knowledge Base Entry
 
-```
+```text
 Create a FAQ entry for:
 [PASTE COMMON QUESTION]
 

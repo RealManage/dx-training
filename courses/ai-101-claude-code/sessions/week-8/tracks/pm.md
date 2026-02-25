@@ -1,277 +1,285 @@
 # Week 8: Real-World Automation - PM Track
 
-**Track:** Product Manager (Concepts Overview)
-**Duration:** 45 minutes
-**Prerequisites:** Weeks 1-7 completed (skim is fine)
+**Track:** Product Manager
+**Duration:** 45 minutes (exercises portion of shared session)
+**Prerequisites:** Weeks 1-7 completed (especially Week 5 skills)
 
 ---
 
-This track provides a conceptual overview of Claude Code automation for product managers. Focus is on understanding how automation can accelerate delivery and improve quality.
+This track focuses on what automation actually looks like for PMs — interactive skill workflows, designing automation specifications, collaborating with engineers on headless implementations, and measuring ROI.
+
+> **Key insight from the shared session:** Automation for PMs is about **interactive skills** and **workflow design**, not bash scripting. Engineers write the headless scripts; PMs define *what* gets automated and *how the output should look*.
 
 ## Learning Objectives
 
-By the end of this session, you will understand:
+By the end of this track, you will be able to:
 
-- How Claude Code automation helps teams deliver faster
-- What headless automation enables for batch processing
-- Key metrics to track for quality and productivity
-- How to communicate AI-assisted development to stakeholders
-- Planning considerations for automation initiatives
+- Use interactive skills for real PM scenarios (release notes, sprint summaries, meeting actions)
+- Design automation workflow specifications that engineers can implement
+- Apply the handoff pattern: PM designs the skill, engineer wraps it in a script
+- Measure and communicate automation ROI to stakeholders
 
-## What is Headless Automation? (10 min)
+## Exercise 1: Interactive Skill Mastery (15 min)
 
-### The Basics
-
-**Headless Mode:**
-
-- Claude Code runs without interactive prompts
-- Can process multiple files or tasks in batch
-- Outputs can be saved to files for reports
-
-**Why This Matters:**
-
-- Engineers can automate repetitive analysis
-- Batch code reviews before MRs
-- Generate reports and documentation automatically
-- Process meeting notes into action items
-
-### PM-Relevant Use Cases
-
-| Task | Manual Approach | With Automation |
-| ---- | --------------- | --------------- |
-| Release notes | Engineer writes manually | Generated from commits |
-| Code review | Wait for reviewer | Pre-review catches issues |
-| Meeting notes | PM writes summary | Auto-extracted action items |
-| Sprint planning | Manual estimation | AI-assisted complexity analysis |
-
-## How Engineers Use Claude Automation (10 min)
-
-### Batch Code Review
-
-Engineers can review multiple files before creating an MR:
-
-- **What it does:** Analyzes code for bugs, security, style
-- **PM benefit:** Fewer issues found during formal review
-- **Metric impact:** Faster MR turnaround
-
-### Release Notes Generation
-
-Claude can generate release notes from git history:
-
-- **Input:** Commits between version tags
-- **Output:** Organized changelog by category
-- **PM benefit:** Accurate release communication
-
-### Meeting Notes Processing
-
-- Extract action items from transcripts
-- Generate structured summaries
-- Create follow-up task lists
-
-## PM Automation Examples (10 min)
+These skills are the PM's automation toolkit. You built skills in Week 5 — now apply them to real scenarios.
 
 ### Release Notes from Git History
 
-```bash
-# Ask Claude to generate release notes
-claude -p "Generate release notes from these commits.
-Group by: Features, Bug Fixes, Improvements.
-Format for stakeholder communication.
-
-Commits:
-$(git log v1.0.0..v1.1.0 --oneline)"
-```
-
-**Output:**
-
-```markdown
-## Release Notes: v1.1.0
-
-### New Features
-- Violation auto-escalation after 30 days (DX-1234)
-- Late fee compound interest calculator (DX-1235)
-
-### Bug Fixes
-- Fixed payment date calculation (DX-1240)
-
-### Improvements
-- Dashboard loading optimized
-```
-
-### Meeting Notes → Action Items
-
-```bash
-# Process meeting transcript
-claude -p "Extract action items from this meeting.
-Format: - [ ] [OWNER] - [TASK] - [DUE DATE]
-
-Transcript:
-$(cat meeting-notes.txt)"
-```
-
-**Output:**
-
-```markdown
-## Action Items - Sprint Planning 1/22
-
-- [ ] Sarah - Complete violation workflow design - 1/25
-- [ ] Mike - Review payment service architecture - 1/24
-- [ ] PM - Update stakeholders on timeline change - 1/23
-```
-
-### Sprint Summary Generation
-
-```bash
-# Generate sprint summary from project tracker data
-claude -p "Summarize this sprint for stakeholder update.
-Include: completed work, blockers, next sprint focus.
-
-Completed issues: [list]
-In progress: [list]
-Blocked: [list]"
-```
-
-## Planning for Automation (10 min)
-
-### PM-Relevant Skills
-
-| Skill | What It Does | Time Saved |
-| ----- | ------------ | ---------- |
-| `/release-notes` | Generate changelog from commits | 30-60 min/release |
-| `/sprint-summary` | Summarize sprint for stakeholders | 20-30 min/sprint |
-| `/meeting-actions` | Extract action items from notes | 15-20 min/meeting |
-| `/status-update` | Draft status report | 15-20 min/report |
-
-### Using Your Week 5 Skills with Headless CLI
-
-Remember the skills you created in Week 5? Now you can use them in automation:
-
-```bash
-# Use your release-notes skill from Week 5
-cd your-project
-claude -p "/release-notes 2.1.0 2024-01-01" --no-session-persistence > release-notes.md
-
-# Use your meeting-actions skill
-claude -p "/meeting-actions 'Sprint Retro'" --no-session-persistence
-# Then provide the meeting notes
-
-# Use your sprint-summary skill
-claude -p "/sprint-summary 14" --no-session-persistence > sprint-14-summary.md
-```
-
-**The power of skills + headless CLI:**
-
-- Skills capture your business knowledge and output format
-- Headless CLI runs them without interactive prompts
-- Output can be saved directly to files
-- Can be scheduled or triggered by other tools
-
-### Value Proposition
-
-**Time Savings Example:**
+Use the `/release-notes` skill interactively:
 
 ```text
-Weekly status reports: 30 min → 5 min
-Sprint summaries: 45 min → 10 min
-Release notes: 60 min → 10 min
-Meeting action items: 20 min → 5 min
-
-Weekly savings: ~2 hours
-Monthly savings: ~8 hours
-
+/release-notes v2.3.0 v2.4.0
 ```
 
-### Success Metrics to Track
+**If you haven't created this skill yet**, ask Claude to build it:
 
-**Documentation Metrics:**
-
-- Time to produce release notes
-- Stakeholder satisfaction with updates
-- Accuracy of generated summaries
-
-**Productivity Metrics:**
-
-- Meeting follow-up turnaround
-- Status report consistency
-- Documentation coverage
-
-## Communicating AI-Assisted Work (5 min)
-
-### Release Communication Template
-
-```markdown
-## Release Notes: v2.4.0
-**Date:** January 22, 2025
-
-### New Features
-- Violation auto-escalation after 30 days (DX-1234)
-- Late fee compound interest calculator (DX-1235)
-
-### Improvements
-- Dashboard loading 40% faster
-- Mobile responsive improvements
-
-### Quality
-- Test Coverage: 87%
-- Pre-merge AI review: All issues addressed
-- Zero critical findings
+```text
+Create a skill at .claude/skills/release-notes/SKILL.md that:
+1. Takes two git tags as arguments
+2. Runs git log between the tags
+3. Groups commits by type (Features, Bug Fixes, Improvements)
+4. Extracts DX-### ticket references
+5. Formats for stakeholder communication — concise, no jargon
 ```
 
-### Status Update Template
+**Practice scenario:** Your team just shipped v2.4.0. Generate release notes and edit the output for a stakeholder email.
+
+- Is the language appropriate for non-technical readers?
+- Are the ticket references correct?
+- Would you add or remove anything?
+
+### Sprint Summary for Standup
+
+```text
+Create a skill at .claude/skills/sprint-summary/SKILL.md that:
+1. Takes sprint_number as argument
+2. Summarizes completed work from recent git history
+3. Lists in-progress items
+4. Identifies blockers and risks
+5. Formats as a 2-minute standup update
+```
+
+**Practice scenario:** Run the skill for your current sprint. Does the output capture what you'd actually say in standup?
+
+### Meeting Action Item Extraction
+
+```text
+Create a skill at .claude/skills/meeting-actions/SKILL.md that:
+1. Takes meeting topic as argument
+2. Reads meeting notes you provide in the conversation
+3. Extracts action items with owners and due dates
+4. Formats as: - [ ] [OWNER] - [TASK] - [DUE DATE]
+5. Groups by assignee
+```
+
+**Practice scenario:** Paste in notes from a recent meeting (or use sample notes below):
+
+```text
+Sample meeting notes:
+Sprint planning for Sprint 15. Sarah will finish the violation
+workflow by Thursday. Mike needs to review the payment service
+architecture before we can start the billing feature — target
+Monday. PM should update stakeholders on the timeline change
+by end of week. QA team will start regression testing on the
+new letter generation once Sarah's PR is merged.
+```
+
+Run your skill and verify the action items are correctly extracted.
+
+## Exercise 2: Workflow Design Patterns (15 min)
+
+PMs don't need to write scripts — but they need to know how to **design automation workflows** that engineers can implement.
+
+### Map a Manual Process
+
+Pick a recurring task from your actual work (or use the example below) and map it:
+
+**Example: Monthly Board Report Generation**
+
+```text
+CURRENT MANUAL PROCESS:
+1. PM collects data from Jira (30 min)
+2. PM writes summary in Google Docs (45 min)
+3. PM formats violations table manually (20 min)
+4. PM sends to property managers for review (5 min)
+5. Property managers send corrections (1-2 days wait)
+6. PM incorporates feedback and finalizes (30 min)
+
+Total: ~2.5 hours + wait time
+```
+
+**Now identify automation opportunities:**
+
+```text
+AUTOMATION OPPORTUNITIES:
+Step 1: Skill can pull from git/Jira → "Collect sprint data"
+Step 2: Skill can draft summary from data → "Generate board summary"
+Step 3: Skill can format violations from database → "Format violations table"
+Step 4: Manual (human judgment needed)
+Step 5: Manual (external dependency)
+Step 6: Skill can apply feedback to draft → "Incorporate review feedback"
+
+Automatable: Steps 1, 2, 3, 6
+Manual: Steps 4, 5
+Estimated savings: ~1.5 hours per report
+```
+
+### Write the Automation Spec
+
+Now write a spec that an engineer could implement. Use this template:
 
 ```markdown
-## Sprint 14 Status
+## Automation Spec: [Workflow Name]
 
-**Completed:** 8 stories (34 points)
-**Coverage:** 84% -> 87% (+3%)
+### Goal
+[What this automation achieves in one sentence]
 
-**AI-Assisted Quality:**
-- 12 MRs pre-reviewed with Claude
-- 18 issues caught before formal review
-- 4 test files auto-generated
+### Trigger
+[When does this run? Manual, scheduled, or event-driven?]
 
-**Highlights:**
-- Payment service refactored with full coverage
-- New violation workflow fully tested
+### Input
+[What data does it need? Where does it come from?]
+
+### Processing Steps
+1. [Step with expected behavior]
+2. [Step with expected behavior]
+3. ...
+
+### Output Format
+[Exactly what the output should look like — be specific]
+
+### Success Criteria
+- [How do you know it worked?]
+- [Quality bar for the output]
+
+### Notes for Engineer
+- [Constraints, edge cases, preferences]
+- [Which parts need --max-turns or --max-budget-usd limits?]
+```
+
+**Your exercise:** Fill out this template for the board report workflow (or your own recurring task).
+
+## Exercise 3: The Handoff Pattern (10 min)
+
+This is the collaboration model between PMs and engineers for automation:
+
+```text
+PM DESIGNS                          ENGINEER IMPLEMENTS
+-----------                         -------------------
+1. Define the skill logic      -->  4. Wrap skill logic in -p script
+2. Specify output format       -->  5. Add error handling, retries
+3. Test interactively          -->  6. Add scheduling/triggers
+   (iterate until good)             7. Add --max-turns, --max-budget-usd
+```
+
+### Practice the Handoff
+
+**Step 1:** Design an interactive skill for generating a stakeholder update:
+
+```text
+Create a skill at .claude/skills/stakeholder-update/SKILL.md that:
+1. Takes sprint_number and audience (board/exec/team) as arguments
+2. Adjusts tone and detail level based on audience
+3. Includes: progress summary, risks, upcoming milestones
+4. Board: formal, metric-heavy
+5. Exec: concise, decision-focused
+6. Team: casual, action-oriented
+```
+
+**Step 2:** Test it interactively — run it a few times with different audiences.
+
+**Step 3:** Write the handoff note for an engineer:
+
+```markdown
+## Handoff: Stakeholder Update Automation
+
+### Skill Location
+.claude/skills/stakeholder-update/SKILL.md
+
+### What I've Tested
+- Works well for board and exec audiences
+- Team output sometimes too formal — may need prompt tuning
+
+### Headless Requirements
+- Run weekly on Mondays at 8am
+- Output to ./reports/stakeholder-update-{date}.md
+- Use Sonnet model (Opus not needed for this)
+- Max budget: $0.50 per run
+- Max turns: 5
+
+### Output Destination
+- Board reports: email to property-managers@realmanage.com
+- Exec updates: post to #leadership Slack channel
+- Team updates: post to #dev-team Slack channel
+```
+
+This is the PM's deliverable — the engineer handles the bash script, scheduling, and error handling.
+
+## Exercise 4: Measuring Automation ROI (5 min)
+
+### Time Savings Tracker
+
+Start tracking time savings with this template:
+
+| Task | Before (min) | After (min) | Savings | Frequency | Monthly Savings |
+| ---- | ------------ | ----------- | ------- | --------- | --------------- |
+| Release notes | 60 | 10 | 50 min | 2x/month | 1.7 hrs |
+| Sprint summary | 45 | 10 | 35 min | 2x/month | 1.2 hrs |
+| Meeting actions | 20 | 5 | 15 min | 4x/month | 1.0 hrs |
+| Status reports | 30 | 5 | 25 min | 4x/month | 1.7 hrs |
+| **Total** | | | | | **5.6 hrs** |
+
+### Stakeholder Communication Template
+
+Use this when reporting automation ROI:
+
+```markdown
+## Automation Impact Report — [Month]
+
+### Time Savings
+- Total hours saved this month: X
+- Tasks automated: X
+- Team members using automation: X
+
+### Quality Improvements
+- Consistency of outputs: [improved/same/declined]
+- Stakeholder feedback: [positive/neutral/negative]
+- Error rate in automated outputs: X%
+
+### Cost
+- Claude Code usage: $X
+- ROI: X hours saved per $1 spent
+
+### Recommendations
+- [Tasks to automate next]
+- [Skills to improve]
+- [Workflows to redesign]
 ```
 
 ## Key Takeaways for PMs
 
-### What You Need to Know
-
-1. **Automation accelerates delivery** - Batch processing saves time
-2. **Pre-review catches issues early** - Before formal code review
-3. **AI generates documentation** - Release notes, reports, summaries
-4. **Skills standardize workflows** - Repeatable, consistent output
-
-### Questions to Ask in Planning
-
-- "Can we automate the release notes for this?"
-- "Should we add a pre-review step before MRs?"
-- "What recurring tasks could become skills?"
-- "How are we measuring automation ROI?"
-
-### Red Flags to Watch For
-
-- Engineers not using available automation
-- Same issues found repeatedly in reviews
-- Manual processes that could be automated
-- No measurement of automation impact
+1. **You don't need bash** — Interactive skills ARE your automation
+2. **Design the workflow, not the script** — Engineers implement headless versions
+3. **The handoff pattern works** — PM designs + tests interactively, engineer wraps in `-p` script
+4. **Measure everything** — Time savings, quality improvements, stakeholder satisfaction
+5. **Iterate on skills** — Run them, edit the output, improve the skill definition
 
 ## Homework (Before Week 9)
 
 ### Required Tasks
 
-1. Try generating release notes using the git log command example
-2. Identify one PM task that could be automated (sprint summaries, status reports)
-3. Draft a release communication using the template above
+1. Create or refine three PM-focused skills (release notes, sprint summary, stakeholder update)
+2. Map one manual workflow and write an automation spec
+3. Start tracking time savings with the ROI template
+4. Share your best workflow design in `#ai-exchange`
 
 ### Optional
 
-1. Create a meeting notes template for action item extraction
-2. Discuss automation opportunities with your team
+1. Practice the handoff pattern with an engineer on your team
+2. Build a monthly automation impact report
+3. Identify three more workflows that could benefit from skill automation
 
 ---
 
 *PM Track - Week 8*
-*Conceptual overview for understanding AI-assisted automation*
+*Interactive skill workflows and automation design for product managers*

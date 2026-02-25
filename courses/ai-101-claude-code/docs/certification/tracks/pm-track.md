@@ -112,15 +112,17 @@ See [Week 7 PM Track](../../../sessions/week-7/tracks/pm.md) for full content.
 
 **PM-Specific Content:**
 
-- Headless automation for batch processing
-- Generating reports and documentation automatically
-- Integrating AI automation into PM workflows
+- Interactive skill mastery for real PM scenarios
+- Workflow design patterns and automation specifications
+- The handoff pattern: PM designs, engineer wraps in headless script
+- Measuring and communicating automation ROI
 
 **Exercises:**
 
-- Automate release notes generation
-- Create batch processing scripts for PM tasks
-- Build stakeholder reporting automation
+- Use interactive skills for release notes, sprint summaries, meeting actions
+- Map a manual process and write an automation spec
+- Practice the PM-to-engineer handoff pattern
+- Build an ROI tracking template
 
 See [Week 8 PM Track](../../../sessions/week-8/tracks/pm.md) for full content.
 
@@ -175,7 +177,7 @@ Submit one of the following (Option E):
 | Week 5 | Commands & Skills (dev) | Commands & PM Skills |
 | Week 6 | Code review agents, test hooks | Requirements analysis agents, quality hooks |
 | Week 7 | Developer plugins | PM Toolkit plugin |
-| Week 8 | CI/CD automation | Reporting automation |
+| Week 8 | Headless automation | Workflow design & ROI |
 | Capstone | Code project | Spec or story set |
 
 ## The PM Toolkit

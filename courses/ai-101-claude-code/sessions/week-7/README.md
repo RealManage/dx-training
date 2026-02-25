@@ -859,12 +859,13 @@ INVOKE:
 
 **Week 8: Real-World Automation**
 
-- Cross-functional use cases
-- Headless Claude automation (CLI scripting)
-- Cost optimization strategies
-- Batch processing patterns
+- What automation means for each role (shared session)
+- Headless mode for developers, interactive skills for everyone else
+- Context management: `/compact` vs `/clear` vs plan mode
+- Anti-patterns: retry hammering, verbose prompts, context-nuking
+- Role-specific track exercises (45 min hands-on)
 
-**The progression:** Week 6 (Agents & Hooks) -> Week 7 (Plugins) -> Week 8 (Production)
+**The progression:** Week 6 (Agents & Hooks) -> Week 7 (Plugins) -> Week 8 (Putting it all together)
 
 ---
 

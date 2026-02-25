@@ -21,7 +21,7 @@ Already comfortable with AI tools? Skip the basics:
 1. **[Decision Trees](resources/decision-trees.md)** (30 min) - When to use what
 2. **[Week 3: Code Review](sessions/week-3/README.md)** (1 hr) - Plan Mode + CodeReviewPro exercise
 3. **[Week 4: TDD with Claude](sessions/week-4/README.md)** (1 hr) - Tests-first workflow
-4. **[Week 8: Automation](sessions/week-8/README.md)** (1 hr) - Headless automation patterns
+4. **[Week 8: Automation](sessions/week-8/README.md)** (1 hr) - Context management, anti-patterns, role-specific automation
 5. **Capstone** (as needed) - Validate your skills
 
 *Sam-approved for senior devs who've used Copilot and want to see what's different.*
@@ -213,7 +213,7 @@ If following the PM or Support Track:
 | 5 | Commands & Skills | Custom slash commands, skills, YAML frontmatter | 2 hrs | [Start →](./sessions/week-5/README.md) |
 | 6 | Agents & Hooks | Custom subagents, lifecycle hooks, SOC 2 audit | 2 hrs | [Start →](./sessions/week-6/README.md) |
 | 7 | Plugins | Package skills + agents + hooks, marketplace | 2 hrs | [Start →](./sessions/week-7/README.md) |
-| 8 | Real-World Automation | Headless CLI, batch processing, cross-functional | 2 hrs | [Start →](./sessions/week-8/README.md) |
+| 8 | Real-World Automation | Context management, anti-patterns, role-specific tracks | 2 hrs | [Start →](./sessions/week-8/README.md) |
 | 9 | Capstone Hackerspace | Consolidate all skills, team project, certification | 2 hrs | [Start →](./sessions/week-9/README.md) |
 
 > Each session README is self-contained with objectives, exercises, and role-specific tracks. Click "Start" to dive in.

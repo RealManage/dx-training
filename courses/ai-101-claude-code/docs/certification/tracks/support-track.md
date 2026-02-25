@@ -106,18 +106,18 @@ Week 7 covers Plugins, which is developer-focused. Support professionals can:
 
 ### Week 8: Real-World Automation
 
-**Support-Specific Content:**
+**Shared Session (all roles):**
+
+- What automation means for each role
+- Context management (`/compact` vs `/clear`)
+- Anti-patterns to avoid
+
+**Support-Specific Exercises:**
 
 - Ticket triage automation design
 - Response generation workflows
 - Human-in-the-loop patterns
 - Quality gates and thresholds
-
-**Exercises:**
-
-- Design a ticket triage workflow
-- Create a response generation pipeline with quality checks
-- Define human checkpoint criteria
 
 See [Week 8 Support Track](../../../sessions/week-8/tracks/support.md) for full content.
 
@@ -179,7 +179,7 @@ See [Capstone Option F](../../../sessions/week-9/examples/capstone-templates/opt
 | Week 5 | Commands & Skills (dev) | Commands & Support Skills |
 | Week 6 | Agents & Hooks (dev) | Quality hooks for responses |
 | Week 7 | Plugins | Skip |
-| Week 8 | CI/CD integration | Ticket automation design |
+| Week 8 | Headless automation | Ticket automation design |
 | Capstone | Code project | Knowledge Base & Templates |
 
 ## The Support Toolkit

@@ -8,7 +8,7 @@ You write code. You want Claude Code to make you faster. Here's your optimized p
 
 ## Your Learning Path
 
-```
+```text
 Week 0 ──▶ Week 1 ──▶ Week 2 ──▶ Week 3 ──▶ Week 4 ──▶ Week 5 ──▶ Week 6 ──▶ Week 7 ──▶ Week 8 ──▶ Week 9
 (opt)      Setup       Prompts    Planning   ★ TDD ★    Commands    Agents      Plugins   Workflows   Capstone
                                                          & Skills    & Hooks
@@ -143,17 +143,24 @@ Focus on:
 
 ---
 
-### Week 8: Real-World Workflows (1.5 hours)
+### Week 8: Real-World Workflows (2 hours)
 
-**Goal:** Production-ready Claude Code usage.
+**Goal:** Automation patterns and production-ready Claude Code usage.
 
-Focus on:
+Shared session (70 min):
 
-- [ ] Headless automation scripts
-- [ ] Cost optimization strategies
-- [ ] Multi-session workflows
+- [ ] What automation means per role
+- [ ] Headless mode concepts and essential CLI flags
+- [ ] Context management (`/compact` vs `/clear` vs plan mode)
+- [ ] Anti-patterns: retry hammering, verbose prompts, context-nuking
 
-**Checkpoint:** Can you build batch automation scripts with Claude CLI?
+Developer track exercises (45 min):
+
+- [ ] Build and run batch code reviewer
+- [ ] JSON output and schema validation
+- [ ] Multi-stage pipelines and parallel processing
+
+**Checkpoint:** Can you build batch automation scripts and explain when to use `/compact` vs `/clear`?
 
 ---
 
@@ -175,7 +182,7 @@ Options for developers:
 
 ### Prompt Pattern That Works
 
-```
+```text
 Create a [SERVICE/COMPONENT] that [DOES WHAT]
 - Using [TECH STACK]
 - Following [PATTERN]

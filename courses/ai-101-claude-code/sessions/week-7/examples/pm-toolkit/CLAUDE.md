@@ -16,7 +16,7 @@ Generates project management artifacts in markdown format:
 
 ## Plugin Structure
 
-```
+```text
 pm-toolkit/
 ├── .claude-plugin/
 │   └── plugin.json          # Plugin manifest (optional)

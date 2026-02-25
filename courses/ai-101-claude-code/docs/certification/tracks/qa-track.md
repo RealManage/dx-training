@@ -88,9 +88,8 @@ The QA track teaches you to use AI for testing workflows: analyzing existing cod
 
 ### Week 8: Real-World Automation
 
-- Headless Claude CLI automation
-- Batch processing
-- **QA Track:** Headless test automation scripts, CI/CD integration
+- Context management, anti-patterns, model selection (shared session)
+- **QA Track:** Test automation, coverage analysis, batch quality checks
 
 **QA Track File:** `sessions/week-8/tracks/qa.md`
 
@@ -153,7 +152,7 @@ Submit one of the following:
 | Week 5 | Create developer skills | Use skills (consumer focus) |
 | Week 6 | Advanced hooks | Test automation hooks |
 | Week 7 | Plugin development | Skip/skim |
-| Week 8 | Headless automation | Headless test automation |
+| Week 8 | Headless automation | Test automation & coverage |
 | Capstone | Code project | Test suite or automation |
 
 ## FAQ

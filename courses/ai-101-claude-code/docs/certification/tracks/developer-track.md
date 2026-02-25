@@ -11,7 +11,7 @@ The developer track is the standard AI 101 course curriculum. It covers code rev
 | Phase | Weeks | Focus |
 | ----- | ----- | ----- |
 | Foundations | 0-4 | Setup, prompting, planning, TDD |
-| Advanced | 5-8 | Commands, skills, agents, hooks, CI/CD |
+| Advanced | 5-8 | Commands, skills, agents, hooks, automation |
 | Capstone | 9 | Demonstrate AI-assisted development |
 
 ## Week-by-Week Content
@@ -66,9 +66,10 @@ The developer track is the standard AI 101 course curriculum. It covers code rev
 
 ### Week 8: Real-World Automation
 
-- CI/CD integration
-- Production hardening
-- Complex workflow automation
+- Headless CLI scripts, batch processing, JSON pipelines
+- Parallel processing and multi-turn scripts
+- Context management and anti-patterns (shared session)
+- Full CLI flags reference
 
 ### Week 9: Capstone
 

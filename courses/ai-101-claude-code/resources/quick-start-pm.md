@@ -44,7 +44,7 @@ graph LR
     style W67 fill:#9E9E9E,color:#fff
 ```
 
-**Your Focus Weeks (green):** Weeks 2, 3, 4, 5, 8, and 9 are your power weeks. Week 4 teaches testable requirements, Week 5 teaches PM skill creation, Week 8 shows how to use them with automation.
+**Your Focus Weeks (green):** Weeks 2, 3, 4, 5, 8, and 9 are your power weeks. Week 4 teaches testable requirements, Week 5 teaches PM skill creation, Week 8 shows how to apply them in real workflows and design automation specs.
 
 ### What You'll Cover vs Skip
 
@@ -235,21 +235,24 @@ This is a power week for PMs! You'll create skills that automate your actual wor
 
 ---
 
-### Week 8: Real-World Workflows (1 hour)
+### Week 8: Real-World Workflows (2 hours)
 
-**Goal:** Use your Week 5 skills with headless automation.
+**Goal:** Apply your Week 5 skills in real PM workflows and design automation specs.
 
-**Key Concepts:**
+**Shared Session (70 min — all roles attend):**
 
-- **Headless Automation:** Running Claude CLI non-interactively with `-p` flag
-- **Skills + CLI:** Use your PM skills in batch automation
-- **PM-Relevant Automation:** Release notes, meeting summaries, sprint reports
+- What automation means for each role (PMs use interactive skills, not bash scripts)
+- Context management: `/compact` with instructions, `/clear` as last resort
+- Anti-patterns everyone should avoid
 
-**Checkpoint:** Can you run your `/release-notes` skill from the command line and save output to a file?
+**PM Track Exercises (45 min):**
 
-```bash
-claude -p "/release-notes 2.1.0 2024-01-01" --no-session-persistence > release-notes.md
-```
+- Interactive skill mastery: release notes, sprint summaries, meeting actions
+- Workflow design: map a manual process, write an automation spec
+- The handoff pattern: PM designs the skill, engineer wraps it in a script
+- ROI measurement templates
+
+**Checkpoint:** Can you design a workflow spec that an engineer could implement as a headless script?
 
 ---
 
