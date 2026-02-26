@@ -52,7 +52,7 @@ This option lets you leverage your testing expertise while learning how Claude C
 | Week 4 | TDD patterns and practices |
 | Week 5 | Custom skill for `/generate-test-data` |
 | Week 6 | Hook for test coverage tracking |
-| Week 8 | Headless automation scripts |
+| Week 8 | Test automation and coverage pipelines |
 
 ## Getting Started
 
@@ -76,7 +76,7 @@ claude
 
 ## Example Prompts
 
-```
+```text
 # Test case generation
 "Write xUnit tests for the ViolationEscalationService covering
 30-day, 60-day, and 90-day escalation paths"
@@ -96,7 +96,7 @@ a coverage report, failing if coverage drops below 80%"
 
 ## Success Criteria Checklist
 
-```
+```text
 [ ] Test suite covers all critical HOA workflows
     - Violation lifecycle (create, escalate, resolve)
     - Dues calculation and payment processing
@@ -169,4 +169,4 @@ a coverage report, failing if coverage drops below 80%"
 
 ---
 
-**Questions?** Ask in `#ai-exchange` or during office hours.
+**Questions?** Ask in `#ai-exchange` on Slack.

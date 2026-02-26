@@ -30,13 +30,13 @@ Multiple tickets came in overnight about billing issues. Plan mode helps you org
 
 2. Enter plan mode:
 
-   ```
+   ```text
    /plan
    ```
 
 3. Present the triage scenario:
 
-   ```
+   ```text
    I have 5 tickets to triage this morning:
 
    1. Resident says late fee is wrong - owes $133, expected $110
@@ -51,14 +51,14 @@ Multiple tickets came in overnight about billing issues. Plan mode helps you org
 
 4. Iterate on the prioritization:
 
-   ```
+   ```text
    Good analysis. But the board member request - is that really lower
    priority than the late fee question? What factors should we consider?
    ```
 
 5. Exit plan mode and work through the highest priority:
 
-   ```
+   ```text
    For ticket #[highest priority], draft a response that:
    - Acknowledges their concern
    - Explains what you'll do
@@ -84,7 +84,7 @@ A complex issue requires escalation. Plan mode helps you organize what informati
 
 1. Enter plan mode with an escalation scenario:
 
-   ```
+   ```text
    /plan
 
    A resident's account shows:
@@ -102,14 +102,14 @@ A complex issue requires escalation. Plan mode helps you organize what informati
 
 2. Iterate on the plan:
 
-   ```
+   ```text
    Add to the plan: What documentation should I prepare
    in case this does go to legal? What audit trail do we need?
    ```
 
 3. Exit plan mode and create the escalation:
 
-   ```
+   ```text
    Generate an internal escalation email that includes:
    - Summary of the issue
    - Timeline of events
@@ -121,7 +121,7 @@ A complex issue requires escalation. Plan mode helps you organize what informati
 
 4. Draft the customer communication:
 
-   ```
+   ```text
    Draft a response to the resident that:
    - Acknowledges the seriousness
    - Explains we're investigating urgently
@@ -156,4 +156,4 @@ Use plan mode when handling your next complex escalation. Note how organizing be
 
 ---
 
-*Questions? Ask in `#ai-exchange` or during office hours.*
+*Questions? Ask in `#ai-exchange` on Slack.*

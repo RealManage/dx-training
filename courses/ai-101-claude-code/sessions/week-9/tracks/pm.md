@@ -55,7 +55,7 @@ This option lets you use Claude Code for what PMs do best--defining products and
 | Week 2 | Prompt engineering for requirements |
 | Week 3 | Plan Mode for structuring documents |
 | Week 5 | Custom PM skills (release-notes, user-stories, etc.) |
-| Week 8 | Headless automation with your skills |
+| Week 8 | Interactive skill workflows and automation design |
 
 ### Required: Bring Your Week 5 Skills
 
@@ -118,7 +118,7 @@ Choose ONE of these (or propose your own):
 
 ## Example Prompts
 
-```
+```text
 # PRD generation
 "Create a comprehensive PRD for a Resident Self-Service Portal
 for HOA management. Include problem statement, user personas,
@@ -168,7 +168,7 @@ For each story, provide:
 
 ## Success Criteria Checklist
 
-```
+```text
 [ ] PRD covers problem, solution, and success metrics
     - Clear problem statement with evidence
     - User personas defined
@@ -257,4 +257,4 @@ For each story, provide:
 
 ---
 
-**Questions?** Ask in `#ai-exchange` or during office hours.
+**Questions?** Ask in `#ai-exchange` on Slack.

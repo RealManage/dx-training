@@ -26,8 +26,8 @@ You'll build:
 - Week 4: TDD with complex state transitions
 - Week 5: Custom skills for automation
 - Week 6: Hooks and agents for workflow
-- Week 7: Plugin patterns for reusable components
-- Week 8: Headless automation
+- Week 7: Plugin patterns for packaging and distribution
+- Week 8: Real-World Automation (headless scripts, context management)
 
 ### Option B: Self-Service Knowledge Base
 
@@ -91,4 +91,4 @@ You'll build:
 
 ---
 
-**Questions?** Ask in `#ai-exchange` or during office hours.
+**Questions?** Ask in `#ai-exchange` on Slack.

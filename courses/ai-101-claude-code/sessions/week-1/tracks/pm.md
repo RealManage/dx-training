@@ -38,7 +38,7 @@ PMs often need to understand what's built before writing requirements. You'll us
 
 2. Ask Claude to explain the application:
 
-   ```
+   ```text
    I'm a PM trying to understand this application.
    Explain what it does in non-technical terms.
    What problem does it solve for users?
@@ -46,14 +46,14 @@ PMs often need to understand what's built before writing requirements. You'll us
 
 3. Identify features:
 
-   ```
+   ```text
    List all the features this application has.
    Which ones are implemented vs marked TODO?
    ```
 
 4. Understand the business rules:
 
-   ```
+   ```text
    What are the business rules for HOA violations?
    Explain the late fee calculation and escalation timeline
    in terms a product person would understand.
@@ -61,8 +61,8 @@ PMs often need to understand what's built before writing requirements. You'll us
 
 5. Ask about gaps:
 
-   ```
-   If I were writing a PRD for this product,
+   ```text
+   If I were writing a PRD (Product Requirements Document) for this product,
    what questions would I need answered?
    What's unclear or missing from the requirements?
    ```
@@ -86,7 +86,7 @@ You'll use Claude Code to generate user stories from code. This shows how Claude
 
 1. Ask Claude to generate user stories:
 
-   ```
+   ```text
    Generate user stories for the TODO features in this application.
 
    Use this format:
@@ -99,7 +99,7 @@ You'll use Claude Code to generate user stories from code. This shows how Claude
 
 2. Refine a specific story:
 
-   ```
+   ```text
    The "Check overdue violations" feature (option 3) needs more detail.
    Write acceptance criteria that a developer could implement from.
    Include edge cases like "what if there are no overdue violations?"
@@ -107,7 +107,7 @@ You'll use Claude Code to generate user stories from code. This shows how Claude
 
 3. Ask for a feature prioritization:
 
-   ```
+   ```text
    If we could only implement 2 of the 3 TODO features,
    which would you prioritize and why?
    Consider user value and implementation complexity.
@@ -115,7 +115,7 @@ You'll use Claude Code to generate user stories from code. This shows how Claude
 
 4. Generate release notes:
 
-   ```
+   ```text
    Write release notes for the current implemented features
    as if this version just shipped. Keep it user-friendly,
    not technical.
@@ -123,7 +123,7 @@ You'll use Claude Code to generate user stories from code. This shows how Claude
 
 5. Ask Claude about context:
 
-   ```
+   ```text
    How did you know the business rules like "30-day grace period"?
    Look at the CLAUDE.md file and explain how it helps.
    ```
@@ -160,4 +160,4 @@ Practice using Claude Code for product work:
 
 ---
 
-*Questions? Ask in `#ai-exchange` or during office hours.*
+*Questions? Ask in `#ai-exchange` on Slack.*

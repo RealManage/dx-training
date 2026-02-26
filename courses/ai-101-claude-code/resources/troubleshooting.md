@@ -825,8 +825,6 @@ When asking for help, include:
 ### Support Channels
 
 - **Slack:** `#ai-exchange` for course help
-- **Slack:** `#claude-help` for general Claude issues
-- **Office Hours:** Thursdays 2-3 PM CT
 - **GitLab Issues:** For bug reports
 
 ## 🔄 Common Workarounds

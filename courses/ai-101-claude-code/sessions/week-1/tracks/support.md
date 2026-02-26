@@ -38,7 +38,7 @@ You've installed Claude Code and authenticated. Now let's put it to work on a re
 
 2. Ask Claude to draft a response for this ticket:
 
-   ```
+   ```text
    A resident received their first violation notice for leaving trash cans out.
    They're upset and claim they didn't know about the rule.
    Draft a professional, empathetic response.
@@ -48,21 +48,21 @@ You've installed Claude Code and authenticated. Now let's put it to work on a re
 
 4. Iterate with follow-up prompts:
 
-   ```
+   ```text
    Make it more empathetic - acknowledge their frustration first.
    ```
 
-   ```
+   ```text
    Add the specific cure deadline (14 days from notice date).
    ```
 
-   ```
+   ```text
    Include the contact number for questions: (555) 123-4567
    ```
 
 5. Ask Claude to explain a policy detail:
 
-   ```
+   ```text
    How do late fees work in our system? A resident owes $100 and now shows $133.
    ```
 
@@ -86,7 +86,7 @@ Creating reusable templates saves time and ensures consistency. You'll build a r
 
 1. Ask Claude to create a template:
 
-   ```
+   ```text
    Create a response template for first-time violation notices.
 
    Include these placeholders:
@@ -108,7 +108,7 @@ Creating reusable templates saves time and ensures consistency. You'll build a r
 
 3. Refine the template:
 
-   ```
+   ```text
    Make the opening more human - less corporate-sounding.
    ```
 
@@ -116,7 +116,7 @@ Creating reusable templates saves time and ensures consistency. You'll build a r
 
 5. Test your understanding by asking Claude to explain something:
 
-   ```
+   ```text
    What makes a CLAUDE.md file useful? I noticed there's one in this folder.
    ```
 
@@ -151,4 +151,4 @@ Practice using Claude Code with real tickets this week. Note:
 
 ---
 
-*Questions? Ask in `#ai-exchange` or during office hours.*
+*Questions? Ask in `#ai-exchange` on Slack.*

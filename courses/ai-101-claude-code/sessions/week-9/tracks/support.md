@@ -108,7 +108,7 @@ Your templates should address these categories:
 
 ## Example Prompts
 
-```
+```text
 # FAQ generation
 "Generate a FAQ document for HOA residents based on these CCR
 sections: [paste relevant sections]. Write in friendly,
@@ -163,7 +163,7 @@ Draft a professional response for: $1 - $2
 
 ## Success Criteria Checklist
 
-```
+```text
 [ ] FAQ covers top 20 resident questions
     - Account and billing questions
     - Violation and fine questions
@@ -251,7 +251,7 @@ Draft a professional response for: $1 - $2
 
 Use this for each template you create:
 
-```
+```text
 [ ] Opens with acknowledgment/empathy
 [ ] Provides accurate information
 [ ] References policy (if applicable)
@@ -266,4 +266,4 @@ Use this for each template you create:
 
 ---
 
-**Questions?** Ask in `#ai-exchange` or during office hours.
+**Questions?** Ask in `#ai-exchange` on Slack.

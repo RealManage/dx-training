@@ -44,4 +44,4 @@ If you're working in a team with mixed roles:
 
 ---
 
-**Questions?** Ask in `#ai-exchange` or during office hours.
+**Questions?** Ask in `#ai-exchange` on Slack.

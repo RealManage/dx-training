@@ -143,6 +143,11 @@ Build an AI-powered knowledge base for residents:
 [ ] Test coverage >= 90%
 ```
 
+> **Capstone scope:** For the 50-minute implementation sprint, focus on the
+> C# Web API backend and search logic. The full Angular 17 frontend is a
+> stretch goal — a minimal search UI or API-only demo is sufficient for
+> full marks.
+
 #### Option C: Financial Forecasting Tool (Recommended for Data Focus)
 
 Build a dues collection and budget forecasting tool:
@@ -309,7 +314,7 @@ Propose your own project that:
 - Solves a real RealManage business problem
 - Uses skills from at least 4 different weeks
 - Includes measurable success criteria
-- Can be completed in 90 minutes
+- Can be completed in 50 minutes of implementation time
 - Scoped for your team size (or individual)
 
 **Approval Process:**
@@ -468,18 +473,20 @@ Use the Task tool to explore the codebase for [pattern] while I work on [feature
 
 #### Progress Tracking
 
-Update your TODO list as you work:
+Track your progress as you work:
 
-```bash
-# Check current status
-claude "/todo"
+```text
+# Inside Claude Code, check your current task list
+/todos
 
-# Add items
-claude "/todo add Implement fine calculation service"
+# Add items naturally by telling Claude what to track
+"Add 'Implement fine calculation service' to my task list"
 
-# Complete items
-claude "/todo done 1"
+# Mark items complete by telling Claude
+"Mark the fine calculation task as done"
 ```
+
+> **Note:** `/todos` shows your current task list. To add or complete items, just describe what you need in natural language — Claude handles the tracking for you.
 
 ---
 
@@ -702,7 +709,7 @@ For Documentation & Strategy Tracks (E, F):
 
 ### Continuing Your Journey
 
-#### Advanced Courses (Coming Q3 2025)
+#### Advanced Courses (Coming Soon)
 
 - **AI 102: Advanced Agent Development**
   - Building custom MCP servers
@@ -718,19 +725,6 @@ For Documentation & Strategy Tracks (E, F):
   - ETL pipeline development
   - Data quality automation
   - Analytics dashboard creation
-
-#### Self-Directed Learning
-
-```bash
-# Join the community
-#claude-hackerspace on Slack
-
-# Weekly office hours
-Thursdays 2-3 PM CT
-
-# Share discoveries
-#ai-exchange channel
-```
 
 #### Contributing Back
 
@@ -754,7 +748,6 @@ Ways to contribute to the course:
 ### RealManage Resources
 
 - **Slack**: `#ai-exchange`, `#claude-hackerspace`
-- **Office Hours**: Thursdays 2-3 PM CT
 - **Wiki**: Internal AI Guidelines (Confluence)
 
 ### Community Resources

@@ -30,7 +30,7 @@ Plugins bundle related capabilities together. A "Support Plugin" could package r
 
 2. Explore what a Support Plugin would contain:
 
-   ```
+   ```text
    If we were building a "RealManage Support Plugin", what should it include?
 
    Consider these categories:
@@ -44,7 +44,7 @@ Plugins bundle related capabilities together. A "Support Plugin" could package r
 
 3. Design the plugin structure:
 
-   ```
+   ```text
    Show me what the folder structure for a Support Plugin would look like.
    What files would it contain?
    How would someone install and use it?
@@ -52,7 +52,7 @@ Plugins bundle related capabilities together. A "Support Plugin" could package r
 
 4. Prioritize the components:
 
-   ```
+   ```text
    If we could only build 5 components for this plugin MVP,
    which would provide the most value to support teams?
    Rank them and explain why.
@@ -76,7 +76,7 @@ Plugins can encode team conventions so everyone follows the same standards. This
 
 1. Define your team's response conventions:
 
-   ```
+   ```text
    Help me document our support team's response conventions:
 
    - Greeting style (formal vs friendly)
@@ -91,7 +91,7 @@ Plugins can encode team conventions so everyone follows the same standards. This
 
 2. Turn conventions into CLAUDE.md context:
 
-   ```
+   ```text
    Convert these conventions into CLAUDE.md format that Claude
    would use when helping with support tasks.
 
@@ -104,7 +104,7 @@ Plugins can encode team conventions so everyone follows the same standards. This
 
 3. Create a template library outline:
 
-   ```
+   ```text
    Design a template library for the plugin with:
    - Template categories (billing, violations, general)
    - 3 templates per category
@@ -137,4 +137,4 @@ Share your plugin ideas with the team! Discuss which conventions should be stand
 
 ---
 
-*Questions? Ask in `#ai-exchange` or during office hours.*
+*Questions? Ask in `#ai-exchange` on Slack.*

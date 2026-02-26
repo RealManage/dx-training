@@ -205,4 +205,4 @@ Return to the [main README](../README.md#-key-takeaways) for shared learning poi
 
 ---
 
-*Questions? Ask in `#ai-exchange` or during office hours.*
+*Questions? Ask in `#ai-exchange` on Slack.*

@@ -36,7 +36,7 @@ True TDD means writing tests FIRST. You'll build a HomeownerService one test at 
 
 2. Start with a failing test (RED):
 
-   ```
+   ```text
    I need to build a HomeownerService using TDD.
    First, write a test for adding a new homeowner.
    The test should:
@@ -57,21 +57,21 @@ True TDD means writing tests FIRST. You'll build a HomeownerService one test at 
 
 4. Implement minimal code (GREEN):
 
-   ```
+   ```text
    Now implement just enough code to make the test pass.
    Don't add any extra functionality.
    ```
 
 5. Refactor if needed:
 
-   ```
+   ```text
    The test passes. Can you refactor for better readability
    without breaking the test?
    ```
 
 6. Repeat for the next requirement:
 
-   ```
+   ```text
    Now write a test for preventing duplicate homeowner registrations
    (same email). Start with the failing test.
    ```
@@ -105,14 +105,14 @@ Adding features to existing code still follows TDD. You'll add a property valuat
 
 2. Understand the current state:
 
-   ```
+   ```text
    Show me the current PropertyService and its existing tests.
    What's the current test coverage?
    ```
 
 3. Plan your feature with tests first:
 
-   ```
+   ```text
    I need to add property valuation tracking to PropertyService.
    Requirements:
    - Record a valuation (propertyId, amount, date)
@@ -124,21 +124,21 @@ Adding features to existing code still follows TDD. You'll add a property valuat
 
 4. Implement one test at a time:
 
-   ```
+   ```text
    Run the tests. They should fail.
    Now implement just enough code to make the first test pass.
    ```
 
 5. Continue the cycle:
 
-   ```
+   ```text
    First test passes. Move to the next failing test
    and implement minimal code for it.
    ```
 
 6. Verify coverage:
 
-   ```
+   ```text
    Run coverage report. Did the new valuation feature
    achieve 80%+ coverage naturally?
    ```
@@ -179,4 +179,4 @@ Try TDD on a real task at work. Notice how it changes your approach - you'll thi
 
 ---
 
-*Questions? Ask in `#ai-exchange` or during office hours.*
+*Questions? Ask in `#ai-exchange` on Slack.*

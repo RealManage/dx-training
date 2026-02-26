@@ -36,13 +36,13 @@ Vague requirements lead to vague outputs. You'll practice turning rough ideas in
 
 2. Start with a vague prompt:
 
-   ```
+   ```text
    Write user stories for a payment feature
    ```
 
 3. Notice what's missing. Now try a specific prompt:
 
-   ```
+   ```text
    Generate user stories for an HOA online payment feature:
 
    Context:
@@ -68,7 +68,7 @@ Vague requirements lead to vague outputs. You'll practice turning rough ideas in
 
 5. Ask Claude to identify gaps:
 
-   ```
+   ```text
    Review these user stories and identify:
    - Missing scenarios I should consider
    - Questions I should ask engineering
@@ -94,14 +94,14 @@ You'll create reusable prompt templates for your most common PM tasks.
 
 1. Ask Claude about common PM documentation needs:
 
-   ```
+   ```text
    What are the most common types of documentation product managers create?
    Give me 5 categories with examples relevant to B2B SaaS.
    ```
 
 2. Create a "User Story Generator" template:
 
-   ```
+   ```text
    Help me create a reusable prompt template for generating user stories.
    Include placeholders for:
    - [FEATURE_NAME]
@@ -119,7 +119,7 @@ You'll create reusable prompt templates for your most common PM tasks.
 
 3. Test your template:
 
-   ```
+   ```text
    [Use the template to generate user stories for a violation
    appeal feature where residents can appeal fines online,
    upload supporting documents, and track appeal status]
@@ -127,7 +127,7 @@ You'll create reusable prompt templates for your most common PM tasks.
 
 4. Create a "PRD Review" template:
 
-   ```
+   ```text
    Create a prompt template for reviewing a PRD.
    Include placeholders for:
    - [PRD_CONTENT] (paste the PRD)
@@ -170,4 +170,4 @@ Use your templates on a real PRD or user story this week. Share your best prompt
 
 ---
 
-*Questions? Ask in `#ai-exchange` or during office hours.*
+*Questions? Ask in `#ai-exchange` on Slack.*

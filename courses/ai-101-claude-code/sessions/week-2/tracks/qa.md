@@ -36,13 +36,13 @@ Effective prompts help Claude generate thorough test cases. You'll practice impr
 
 2. Start with a vague prompt:
 
-   ```
+   ```text
    Generate test cases for a payment system
    ```
 
 3. Notice what's missing. Now try a specific prompt:
 
-   ```
+   ```text
    Generate test cases for an HOA payment processing feature:
 
    Feature: Monthly dues payment
@@ -63,7 +63,7 @@ Effective prompts help Claude generate thorough test cases. You'll practice impr
 
 5. Ask Claude to identify gaps:
 
-   ```
+   ```text
    Review these test cases and identify any scenarios I might have missed.
    Consider security, performance, and integration edge cases.
    ```
@@ -87,14 +87,14 @@ You'll create reusable prompt templates for your most common QA tasks.
 
 1. Ask Claude to help identify common QA patterns:
 
-   ```
+   ```text
    What are the most common types of test documentation QA engineers need to create?
    Give me 5 categories with examples.
    ```
 
 2. Create a "Test Case Generation" template:
 
-   ```
+   ```text
    Help me create a reusable prompt template for generating test cases.
    Include placeholders for:
    - [FEATURE_NAME]
@@ -113,7 +113,7 @@ You'll create reusable prompt templates for your most common QA tasks.
 
 3. Test your template on a real feature:
 
-   ```
+   ```text
    [Use the template to generate test cases for the violation
    escalation feature: violations escalate at 30/60/90 day intervals,
    with increasing fines and notification to board at 90 days]
@@ -121,7 +121,7 @@ You'll create reusable prompt templates for your most common QA tasks.
 
 4. Create a "Bug Analysis" template:
 
-   ```
+   ```text
    Create a prompt template for analyzing a bug report.
    Include placeholders for:
    - [BUG_DESCRIPTION]
@@ -164,4 +164,4 @@ Use your templates on a real testing task this week. Note which prompts worked w
 
 ---
 
-*Questions? Ask in `#ai-exchange` or during office hours.*
+*Questions? Ask in `#ai-exchange` on Slack.*

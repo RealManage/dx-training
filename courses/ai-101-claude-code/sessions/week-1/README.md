@@ -127,9 +127,9 @@ claude --version
 
 ### Step 3: Install .NET 10 SDK (for C# exercises)
 
-> **Non-developers:** Your track exercises don't require .NET, but installing it lets you try the developer exercises too. It's a quick install and Claude handles the code - worth it if you're curious!
+**Non-developers:** Your track exercises don't require .NET, but installing it lets you try the developer exercises too. It's a quick install and Claude handles the code - worth it if you're curious!
 
-> **Local Admin required:** Installing the .NET SDK requires administrator permissions on your machine. If you don't have local admin access, contact Desktop Support to have it installed before the session.
+**Local Admin required:** Installing the .NET SDK requires administrator permissions on your machine. If you don't have local admin access, contact Desktop Support to have it installed before the session.
 
 ```bash
 # Verify .NET installation
@@ -445,6 +445,7 @@ claude --resume    # Same as -r
 # Switch models for different tasks
 claude --model sonnet    # Default - excellent for daily development
 claude --model opus      # Most capable - use for complex analysis & architecture
+claude --model haiku     # Fastest and cheapest - great for quick tasks & high-volume work
 
 # Add directories Claude can access
 claude --add-dir ../shared-lib ../api

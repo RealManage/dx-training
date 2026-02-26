@@ -238,4 +238,4 @@ Think about which manual support tasks would benefit most from automation. Note 
 
 ---
 
-*Questions? Ask in `#ai-exchange` or during office hours.*
+*Questions? Ask in `#ai-exchange` on Slack.*

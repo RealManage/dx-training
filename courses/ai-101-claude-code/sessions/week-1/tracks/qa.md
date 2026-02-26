@@ -38,7 +38,7 @@ Before writing tests, you need to understand what to test. You'll use Claude Cod
 
 2. Ask Claude to analyze the codebase:
 
-   ```
+   ```text
    Analyze this codebase from a QA perspective.
    What are the key functions that need testing?
    What are the business rules I should verify?
@@ -46,21 +46,21 @@ Before writing tests, you need to understand what to test. You'll use Claude Cod
 
 3. Deep dive on the fine calculation:
 
-   ```
+   ```text
    What test cases would you write for CalculateFine?
    Consider edge cases, boundary conditions, and error scenarios.
    ```
 
 4. Ask about the business rules:
 
-   ```
+   ```text
    According to CLAUDE.md, what are the HOA business rules?
    How would you verify each rule is implemented correctly?
    ```
 
 5. Identify gaps:
 
-   ```
+   ```text
    What's NOT tested in this codebase? What could go wrong that
    wouldn't be caught by current tests?
    ```
@@ -84,7 +84,7 @@ You'll create a test plan document using Claude Code. This demonstrates how Clau
 
 1. Ask Claude to generate a test plan:
 
-   ```
+   ```text
    Create a test plan document for the HOA Violation Tracker.
 
    Include:
@@ -100,14 +100,14 @@ You'll create a test plan document using Claude Code. This demonstrates how Clau
 
 2. Review the test plan. Ask for refinements:
 
-   ```
+   ```text
    Add test scenarios for the 30/60/90 day escalation timeline.
    What should happen at each interval?
    ```
 
 3. Ask Claude to prioritize:
 
-   ```
+   ```text
    If we only had time to run 5 tests, which would you prioritize
    and why? Consider risk and business impact.
    ```
@@ -116,7 +116,7 @@ You'll create a test plan document using Claude Code. This demonstrates how Clau
 
 5. Ask Claude about testing tools:
 
-   ```
+   ```text
    What testing tools does this project use according to CLAUDE.md?
    What's xUnit and FluentAssertions?
    ```
@@ -153,4 +153,4 @@ Practice using Claude Code for test planning on a real project:
 
 ---
 
-*Questions? Ask in `#ai-exchange` or during office hours.*
+*Questions? Ask in `#ai-exchange` on Slack.*

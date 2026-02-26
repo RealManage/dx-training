@@ -235,7 +235,6 @@ Complete all 9 weeks and submit a capstone project to earn:
 
 - **Quick Questions**: `#ai-exchange` on Slack
 - **Bugs/Issues**: [GitLab Issues](https://gitlab.com/therealmanage/tools/dx/dx-training/-/issues)
-- **Office Hours**: Thursdays 2-3 PM CT
 
 ### Self-Help Resources
 
@@ -259,7 +258,6 @@ Complete all 9 weeks and submit a capstone project to earn:
 ### Internal Support
 
 - Create `#claude-hackerspace` Slack channel
-- Schedule weekly office hours
 - Share prompt libraries and CLAUDE.md templates
 
 ### Continued Learning
@@ -274,14 +272,6 @@ Complete all 9 weeks and submit a capstone project to earn:
 - Validate AI outputs before production use
 - Protect sensitive HOA and resident data
 - Follow SOC 2 Type II requirements
-
-## 🌟 Success Stories
-
-> "Claude Code reduced our code review time by 40% and caught edge cases we typically miss." - *Engineering Team Lead*
-
-> "I automated our monthly HOA violation reports in Week 6. What used to take 4 hours now takes 15 minutes." - *Product Manager*
-
-> "The TDD module changed how I approach all development, not just with AI." - *Senior Developer*
 
 ## 📊 Success Metrics
 

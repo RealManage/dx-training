@@ -251,6 +251,14 @@ An infraction of HOA rules requiring tracking, notices, and potential fines. Exa
 
 ---
 
+## Product & Process
+
+### PRD (Product Requirements Document)
+
+A document that defines what a product or feature should do and why. A PRD typically includes the problem statement, target users, functional requirements, success metrics, and constraints. PMs use PRDs to align engineering, design, and stakeholders before development begins. Claude Code can help draft, review, and refine PRDs.
+
+---
+
 ## Development Workflow
 
 ### CI/CD (Continuous Integration/Continuous Deployment)
@@ -289,6 +297,7 @@ Restructuring code without changing external behavior. Improve readability, perf
 | Regression Testing | Re-running tests after changes to ensure existing functionality still works. Critical for refactoring. |
 | Smoke Testing | Quick, high-level tests to verify basic functionality works before deeper testing. "Does it turn on?" |
 | Test Pyramid | Testing strategy: many unit tests (base), fewer integration tests (middle), few E2E tests (top). Balances speed and coverage. |
+| PRD | Product Requirements Document—defines what to build and why |
 | CSAT | Customer satisfaction score from post-interaction surveys (1-5 scale) |
 | Escalation | Routing ticket to higher authority when issue exceeds current scope |
 | FCR | First Contact Resolution—resolving issue on first contact |

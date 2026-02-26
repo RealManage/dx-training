@@ -30,20 +30,20 @@ Users report "Interest calculations are wrong after 90 days." You'll use plan mo
 
 2. Enter plan mode (Shift+Tab until you see "plan" indicator):
 
-   ```
+   ```text
    /plan
    ```
 
 3. Ask Claude to help plan the investigation:
 
-   ```
+   ```text
    Users report: "Interest calculations are wrong after 90 days"
    Help me plan how to investigate this bug systematically.
    ```
 
 4. Review Claude's investigation plan. Iterate on it:
 
-   ```
+   ```text
    Good start. Also include checking the test coverage for
    the interest calculation method.
    ```
@@ -52,7 +52,7 @@ Users report "Interest calculations are wrong after 90 days." You'll use plan mo
 
 6. Once you find the bug, enter plan mode again:
 
-   ```
+   ```text
    /plan
    I found the bug in [describe location]. Plan how to fix it
    with proper tests.
@@ -93,13 +93,13 @@ You received 8+ code review comments. Plan mode helps you organize and execute t
 
 2. Switch to Opus for deep analysis:
 
-   ```
+   ```text
    /model opus
    ```
 
 3. Request a thorough code review:
 
-   ```
+   ```text
    Review PaymentService.cs, LateFeecalculator.cs, and PaymentController.cs.
    Find all issues: bugs, security vulnerabilities, performance problems,
    code smells, and missing test coverage.
@@ -107,13 +107,13 @@ You received 8+ code review comments. Plan mode helps you organize and execute t
 
 4. Switch back to Sonnet for implementation:
 
-   ```
+   ```text
    /model sonnet
    ```
 
 5. Enter plan mode and organize the fixes:
 
-   ```
+   ```text
    /plan
    Organize these [N] issues into a systematic fix plan.
    Group related fixes together (e.g., all security issues, all perf issues).
@@ -121,7 +121,7 @@ You received 8+ code review comments. Plan mode helps you organize and execute t
 
 6. Iterate on the plan:
 
-   ```
+   ```text
    Let's do the security fixes first, then logic bugs, then performance.
    ```
 
@@ -164,4 +164,4 @@ Practice using plan mode for your next real code review. Note how it helps you a
 
 ---
 
-*Questions? Ask in `#ai-exchange` or during office hours.*
+*Questions? Ask in `#ai-exchange` on Slack.*

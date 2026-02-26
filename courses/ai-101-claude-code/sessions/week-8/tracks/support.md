@@ -42,7 +42,7 @@ Real-world automation handles messy inputs and edge cases. Ticket triage is a pe
 
 2. Design an automated triage workflow:
 
-   ```
+   ```text
    Design an automation workflow for ticket triage that:
 
    Input: Raw ticket text from email/form
@@ -61,7 +61,7 @@ Real-world automation handles messy inputs and edge cases. Ticket triage is a pe
 
 3. Handle the messy real world:
 
-   ```
+   ```text
    Here are 3 real ticket examples. Show how your triage
    workflow would handle each:
 
@@ -75,7 +75,7 @@ Real-world automation handles messy inputs and edge cases. Ticket triage is a pe
 
 4. Define the human checkpoint:
 
-   ```
+   ```text
    When should this automation pause for human review?
    What confidence thresholds make sense?
    What errors should trigger escalation?
@@ -100,7 +100,7 @@ Automated responses must be accurate, empathetic, and know when NOT to respond a
 
 1. Design response automation criteria:
 
-   ```
+   ```text
    When should we auto-generate a response vs. require human review?
 
    Consider:
@@ -115,7 +115,7 @@ Automated responses must be accurate, empathetic, and know when NOT to respond a
 
 2. Build a response generation workflow:
 
-   ```
+   ```text
    Design an automation for generating first responses that:
 
    Input: Categorized ticket with extracted information
@@ -134,7 +134,7 @@ Automated responses must be accurate, empathetic, and know when NOT to respond a
 
 3. Create a quality gate:
 
-   ```
+   ```text
    Design a quality check that validates automated responses:
 
    - Tone appropriate for sentiment?
@@ -173,4 +173,4 @@ Think about which parts of your daily workflow could benefit from automation. Wh
 
 ---
 
-*Questions? Ask in `#ai-exchange` or during office hours.*
+*Questions? Ask in `#ai-exchange` on Slack.*

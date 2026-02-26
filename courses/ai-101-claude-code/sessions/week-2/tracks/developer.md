@@ -36,13 +36,13 @@ Most developers start with vague prompts and wonder why the output isn't great. 
 
 2. Start with a vague prompt and observe the result:
 
-   ```
+   ```text
    Create a payment service
    ```
 
 3. Notice what's missing. Now try a specific prompt:
 
-   ```
+   ```text
    Create a PaymentService class for our HOA system that:
    - Processes dues payments (monthly, quarterly, annual options)
    - Calculates late fees (10% monthly compound after 30-day grace)
@@ -56,7 +56,7 @@ Most developers start with vague prompts and wonder why the output isn't great. 
 
 5. Ask Claude to improve your prompt:
 
-   ```
+   ```text
    Review this prompt and suggest what's missing or unclear:
    "Create a violation tracking service for HOA management"
    ```
@@ -82,14 +82,14 @@ You'll create reusable prompt templates for your most common tasks. These go in 
 
 1. Ask Claude to help you identify common patterns:
 
-   ```
+   ```text
    What are the most common types of C# code developers ask you to write?
    Give me 5 categories with examples.
    ```
 
 2. Create a prompt template for "New Service Class":
 
-   ```
+   ```text
    Help me create a reusable prompt template for generating C# service classes.
    It should include placeholders for:
    - [SERVICE_NAME]
@@ -102,14 +102,14 @@ You'll create reusable prompt templates for your most common tasks. These go in 
 
 3. Test your template by filling it in:
 
-   ```
+   ```text
    [Use the template to generate a ResidentNotificationService
    that sends violation notices via email and SMS]
    ```
 
 4. Create a "Fix Bug with TDD" template:
 
-   ```
+   ```text
    Create a prompt template for fixing bugs using TDD.
    Include placeholders for:
    - [CLASS_NAME]
@@ -149,4 +149,4 @@ Add your best prompts to your project's CLAUDE.md file. Practice using them on r
 
 ---
 
-*Questions? Ask in `#ai-exchange` or during office hours.*
+*Questions? Ask in `#ai-exchange` on Slack.*

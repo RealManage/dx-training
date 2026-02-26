@@ -30,13 +30,13 @@ Stakeholders want a new payment plan feature. Plan mode helps you think through 
 
 2. Enter plan mode:
 
-   ```
+   ```text
    /plan
    ```
 
 3. Ask Claude to help plan the feature:
 
-   ```
+   ```text
    We need to add payment plans to our HOA system.
 
    High-level requirements:
@@ -50,21 +50,21 @@ Stakeholders want a new payment plan feature. Plan mode helps you think through 
 
 4. Iterate on the phasing:
 
-   ```
+   ```text
    Good, but Phase 1 seems too big for a 2-week sprint.
    Can we break it down further? What's the absolute MVP?
    ```
 
 5. Ask about trade-offs:
 
-   ```
+   ```text
    What are the trade-offs between these phasing options?
    What risks should we consider for each phase?
    ```
 
 6. Exit plan mode and generate documentation:
 
-   ```
+   ```text
    Generate a phased delivery document with:
    - Phase name and goal
    - User stories (high-level)
@@ -92,7 +92,7 @@ You need to review a rough feature request and identify gaps. Plan mode helps yo
 
 1. Enter plan mode with a requirements document:
 
-   ```
+   ```text
    /plan
 
    Feature request: "Online payment portal for residents"
@@ -107,7 +107,7 @@ You need to review a rough feature request and identify gaps. Plan mode helps yo
 
 2. Review Claude's analysis plan. Add PM concerns:
 
-   ```
+   ```text
    Also include:
    - What edge cases should we consider?
    - What error scenarios need handling?
@@ -117,14 +117,14 @@ You need to review a rough feature request and identify gaps. Plan mode helps yo
 
 3. Exit plan mode and do the analysis:
 
-   ```
+   ```text
    Based on our plan, analyze this feature request.
    Generate a list of clarifying questions for stakeholders.
    ```
 
 4. Create a mini-PRD:
 
-   ```
+   ```text
    Generate a PRD outline for this feature with:
    - Problem statement
    - User personas
@@ -161,4 +161,4 @@ Use plan mode when breaking down your next feature. Note how iterating on the pl
 
 ---
 
-*Questions? Ask in `#ai-exchange` or during office hours.*
+*Questions? Ask in `#ai-exchange` on Slack.*

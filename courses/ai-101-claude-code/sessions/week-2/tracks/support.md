@@ -36,13 +36,13 @@ The difference between a vague and specific prompt is the difference between a g
 
 2. Start with a vague prompt:
 
-   ```
+   ```text
    Write a response to an upset customer
    ```
 
 3. Notice how generic it is. Now try a specific prompt:
 
-   ```
+   ```text
    Write a response to a resident who is upset about a $200 late fee.
 
    Context:
@@ -64,7 +64,7 @@ The difference between a vague and specific prompt is the difference between a g
 
 5. Ask Claude to improve it further:
 
-   ```
+   ```text
    Review this response. Is the tone right? Is anything missing
    that would help resolve the resident's concern?
    ```
@@ -88,14 +88,14 @@ You'll create reusable prompt templates for common support scenarios.
 
 1. Ask Claude about common support needs:
 
-   ```
+   ```text
    What are the most common types of responses support teams need?
    Give me 5 categories with examples for HOA management.
    ```
 
 2. Create a "Customer Response" template:
 
-   ```
+   ```text
    Help me create a reusable prompt template for drafting customer responses.
    Include placeholders for:
    - [ISSUE_TYPE] (billing, violation, maintenance, etc.)
@@ -113,7 +113,7 @@ You'll create reusable prompt templates for common support scenarios.
 
 3. Test your template:
 
-   ```
+   ```text
    [Use the template to draft a response for a resident who is
    confused about why their violation notice says "second offense"
    when they thought they fixed the first one - issue is their
@@ -122,7 +122,7 @@ You'll create reusable prompt templates for common support scenarios.
 
 4. Create a "KB Article" template:
 
-   ```
+   ```text
    Create a prompt template for generating knowledge base articles.
    Include placeholders for:
    - [TOPIC]
@@ -166,4 +166,4 @@ Use your templates on real tickets this week. Track which prompts work best for 
 
 ---
 
-*Questions? Ask in `#ai-exchange` or during office hours.*
+*Questions? Ask in `#ai-exchange` on Slack.*

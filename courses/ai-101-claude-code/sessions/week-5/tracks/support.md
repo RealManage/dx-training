@@ -192,4 +192,4 @@ Share your skills with the team! Post your best skill in `#ai-exchange` so other
 
 ---
 
-*Questions? Ask in `#ai-exchange` or during office hours.*
+*Questions? Ask in `#ai-exchange` on Slack.*

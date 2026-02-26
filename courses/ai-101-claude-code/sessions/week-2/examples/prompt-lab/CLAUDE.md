@@ -7,7 +7,7 @@
 - **YOU MUST** help students understand effective prompting techniques
 - **YOU MUST** demonstrate the difference between vague and specific prompts
 - **YOU MUST** emphasize the importance of including test requirements (80-90% coverage)
-- **YOU MUST** show how structure (XML tags, markdown) improves prompt clarity
+- **YOU MUST** show how clear communication beats complex structure (XML tags are rarely needed — natural language works)
 
 ## About This Example
 

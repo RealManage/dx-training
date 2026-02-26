@@ -30,13 +30,13 @@ A new payment feature needs comprehensive testing. Plan mode helps you organize 
 
 2. Enter plan mode:
 
-   ```
+   ```text
    /plan
    ```
 
 3. Ask Claude to help plan test coverage:
 
-   ```
+   ```text
    I need to create a test plan for the interest calculation feature.
 
    Business rules:
@@ -53,21 +53,21 @@ A new payment feature needs comprehensive testing. Plan mode helps you organize 
 
 4. Iterate on the test plan:
 
-   ```
+   ```text
    Good start. Add regression test scenarios - what should we test
    to ensure bug fixes don't break existing behavior?
    ```
 
 5. Ask for prioritization:
 
-   ```
+   ```text
    If we only had time for 10 tests, which would you prioritize
    based on risk and business impact?
    ```
 
 6. Exit plan mode and ask Claude to generate the test documentation:
 
-   ```
+   ```text
    Generate a test case document based on our plan.
    Format as a table with: ID, Description, Steps, Expected Result, Priority
    ```
@@ -91,7 +91,7 @@ A bug was reported. Plan mode helps you systematically investigate and document 
 
 1. Enter plan mode with a defect to analyze:
 
-   ```
+   ```text
    /plan
 
    Bug report: "Interest calculations wrong after 90 days"
@@ -104,7 +104,7 @@ A bug was reported. Plan mode helps you systematically investigate and document 
 
 2. Review Claude's investigation plan. Add QA perspective:
 
-   ```
+   ```text
    Add to the plan:
    - What test data do we need to reproduce this?
    - What related areas should we regression test?
@@ -113,14 +113,14 @@ A bug was reported. Plan mode helps you systematically investigate and document 
 
 3. Exit plan mode and investigate:
 
-   ```
+   ```text
    Look at the interest calculation code in this project.
    What's the bug and how would you verify it?
    ```
 
 4. Document findings with a defect report:
 
-   ```
+   ```text
    Generate a defect report with:
    - Summary
    - Root cause
@@ -157,4 +157,4 @@ Use plan mode when planning test coverage for your next feature. Note how it hel
 
 ---
 
-*Questions? Ask in `#ai-exchange` or during office hours.*
+*Questions? Ask in `#ai-exchange` on Slack.*
