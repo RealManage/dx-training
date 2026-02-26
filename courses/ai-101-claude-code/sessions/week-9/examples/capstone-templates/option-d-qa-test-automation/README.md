@@ -169,7 +169,7 @@ description: Generate test data for HOA test scenarios
 argument-hint: [data_type] [count]
 ---
 
-Generate $2 instances of $1 test data.
+Generate $1 instances of $0 test data.
 
 ## Available Data Types
 - resident: Resident accounts with realistic data

@@ -229,7 +229,7 @@ description: Draft a response for a resident inquiry
 argument-hint: [issue_type] [brief_description]
 ---
 
-Draft a professional response for: $1 - $2
+Draft a professional response for: $0 - $1
 
 ## Response Guidelines
 1. Start with empathy/acknowledgment

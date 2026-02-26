@@ -188,7 +188,7 @@ description: Generate user stories from a feature description
 argument-hint: [feature_name]
 ---
 
-Generate user stories for the $1 feature.
+Generate user stories for the $0 feature.
 
 ## Output Format
 For each story, provide:

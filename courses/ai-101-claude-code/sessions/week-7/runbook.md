@@ -89,7 +89,7 @@ cat pm-toolkit/skills/write-story/SKILL.md
 - "Skills and commands are merged -- same functionality, same frontmatter"
 - "Skills use a directory structure so you can include templates, scripts alongside SKILL.md"
 - "`$ARGUMENTS` is replaced with whatever the user types after the skill name"
-- "`$1`, `$2`, `$3` give you indexed arguments"
+- "`$0`, `$1`, `$2` give you indexed arguments (0-based)"
 
 ```bash
 # 3. Load and test the plugin

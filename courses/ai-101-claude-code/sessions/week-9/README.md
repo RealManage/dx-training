@@ -421,7 +421,7 @@ argument-hint: [property_id] [action_type]
 disable-model-invocation: true
 ---
 
-Process $1 with action $2.
+Process $0 with action $1.
 
 ## Workflow Steps
 1. Validate input parameters

@@ -216,12 +216,12 @@ argument-hint: <property_id> <notice_level>
 disable-model-invocation: true
 ---
 
-Generate a $2 violation notice for property $1.
+Generate a $1 violation notice for property $0.
 
 ## Instructions:
 1. Look up property owner information
 2. Calculate any applicable fines
-3. Use the template from `templates/$2-notice.md`
+3. Use the template from `templates/$1-notice.md`
 4. Fill in all placeholders:
    - {{OWNER_NAME}}
    - {{PROPERTY_ADDRESS}}
@@ -756,7 +756,7 @@ hooks:
 VARIABLES:
 $ARGUMENTS        — All arguments as string
 $ARGUMENTS[0]     — First argument (0-indexed)
-$1, $2, $3        — Shorthand for $ARGUMENTS[N]
+$0, $1, $2        — Shorthand for $ARGUMENTS[N] (0-based)
 ${CLAUDE_SESSION_ID} — Current session ID
 
 DYNAMIC CONTEXT:
