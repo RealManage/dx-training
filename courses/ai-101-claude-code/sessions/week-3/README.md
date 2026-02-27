@@ -169,23 +169,33 @@ See the [Decision Trees](../../resources/decision-trees.md) for a visual flowcha
 
 **🎯 Mini-Exercise: Try Plan Mode (5 min)**
 
-Try this right now in your Claude session:
+Make sure you're in the bug-hunter project first:
+
+```bash
+# Set up the sandbox if you haven't already
+cd courses/ai-101-claude-code/sessions/week-3
+cp -r examples sandbox
+cd sandbox/bug-hunter
+claude
+```
+
+Then try plan mode:
 
 ```bash
 # Enter plan mode
 # Press Shift+Tab until you see "plan" indicator
 # Or type: /plan
 
-> I need to add a new property 'GracePeriodDays' (int, default 30)
-> to the LateFeecalculator class, update its constructor,
-> and add unit tests for it.
+> I need to add a configurable 'GracePeriodDays' property (int, default 30)
+> to the InterestCalculator class so the grace period isn't hardcoded.
+> Update the constructor, replace the magic number, and add unit tests.
 ```
 
 **What to look for:**
 
-1. Does Claude's plan include all affected files?
-2. Does it mention constructor changes?
-3. Does it plan for test coverage?
+1. Does Claude's plan include both `InterestCalculator.cs` and `InterestCalculatorTests.cs`?
+2. Does it catch that the hardcoded `30` appears in multiple methods?
+3. Does it plan for test coverage of the new property?
 4. Can you suggest improvements to the plan?
 
 **After reviewing the plan:** Say "looks good" or refine it, then exit plan mode to execute.
