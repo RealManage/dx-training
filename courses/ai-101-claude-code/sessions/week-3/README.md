@@ -181,14 +181,14 @@ claude
 
 Then try plan mode:
 
-```bash
+```text
 # Enter plan mode
 # Press Shift+Tab until you see "plan" indicator
 # Or type: /plan
 
-> I need to add a configurable 'GracePeriodDays' property (int, default 30)
-> to the InterestCalculator class so the grace period isn't hardcoded.
-> Update the constructor, replace the magic number, and add unit tests.
+I need to add a configurable 'GracePeriodDays' property (int, default 30)
+to the InterestCalculator class so the grace period isn't hardcoded.
+Update the constructor, replace the magic number, and add unit tests.
 ```
 
 **What to look for:**
