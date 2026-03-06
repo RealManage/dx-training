@@ -23,7 +23,7 @@ Start with something simple -- a command that doesn't need supporting files.
 
    ```bash
    cd courses/ai-101-claude-code/sessions/week-5
-   cp -r examples/support-skills sandbox/
+   cp -r examples/* sandbox/
    cd sandbox/support-skills
    mkdir -p .claude/commands
    claude

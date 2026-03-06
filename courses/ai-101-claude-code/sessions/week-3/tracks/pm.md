@@ -23,7 +23,7 @@ Stakeholders want a new payment plan feature. Plan mode helps you think through 
 
    ```bash
    cd courses/ai-101-claude-code/sessions/week-3
-   cp -r examples/phased-builder sandbox/
+   cp -r examples/* sandbox/
    cd sandbox/phased-builder
    claude
    ```

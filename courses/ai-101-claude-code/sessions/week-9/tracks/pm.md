@@ -73,8 +73,8 @@ Your capstone must include at least one custom PM skill from Week 5:
 ```bash
 # Set up your workspace
 cd courses/ai-101-claude-code/sessions/week-9
-cp -r examples/capstone-templates/option-e-pm-product-design sandbox/
-cd sandbox/option-e-pm-product-design
+cp -r examples/* sandbox/
+cd sandbox/capstone-templates/option-e-pm-product-design
 
 # Start Claude Code
 claude

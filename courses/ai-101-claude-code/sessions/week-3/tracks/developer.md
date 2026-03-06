@@ -23,7 +23,7 @@ Users report "Interest calculations are wrong after 90 days." You'll use plan mo
 
    ```bash
    cd courses/ai-101-claude-code/sessions/week-3
-   cp -r examples/bug-hunter sandbox/
+   cp -r examples/* sandbox/
    cd sandbox/bug-hunter
    claude
    ```
@@ -85,9 +85,10 @@ You received 8+ code review comments. Plan mode helps you organize and execute t
 1. Navigate to codereview-pro:
 
    ```bash
-   cd courses/ai-101-claude-code/sessions/week-3/sandbox
-   cp -r ../examples/codereview-pro .
-   cd codereview-pro
+   # If you haven't already copied examples to sandbox:
+   cd courses/ai-101-claude-code/sessions/week-3
+   cp -r examples/* sandbox/
+   cd sandbox/codereview-pro
    claude
    ```
 

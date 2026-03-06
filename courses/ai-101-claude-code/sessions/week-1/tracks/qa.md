@@ -29,7 +29,7 @@ Before writing tests, you need to understand what to test. You'll use Claude Cod
 
    ```bash
    cd courses/ai-101-claude-code/sessions/week-1
-   cp -r examples/hoa-cli sandbox/
+   cp -r examples/* sandbox/
    cd sandbox/hoa-cli
    claude
    ```

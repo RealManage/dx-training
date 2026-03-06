@@ -59,8 +59,8 @@ This option lets you leverage your testing expertise while learning how Claude C
 ```bash
 # Set up your workspace
 cd courses/ai-101-claude-code/sessions/week-9
-cp -r examples/capstone-templates/option-d-qa-test-automation sandbox/
-cd sandbox/option-d-qa-test-automation
+cp -r examples/* sandbox/
+cd sandbox/capstone-templates/option-d-qa-test-automation
 
 # Start Claude Code
 claude

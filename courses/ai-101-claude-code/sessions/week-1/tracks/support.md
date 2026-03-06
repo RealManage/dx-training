@@ -29,7 +29,7 @@ You've installed Claude Code and authenticated. Now let's put it to work on a re
 
    ```bash
    cd courses/ai-101-claude-code/sessions/week-1
-   cp -r examples/support sandbox/
+   cp -r examples/* sandbox/
    cd sandbox/support
    claude
    ```

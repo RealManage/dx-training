@@ -23,7 +23,7 @@ Plugins bundle related capabilities together. A "Support Plugin" could package r
 
    ```bash
    cd courses/ai-101-claude-code/sessions/week-7
-   cp -r examples/support-toolkit sandbox/
+   cp -r examples/* sandbox/
    cd sandbox/support-toolkit
    claude
    ```

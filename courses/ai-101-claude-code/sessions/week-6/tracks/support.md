@@ -23,7 +23,7 @@ Hooks run automatically when certain events happen. For support work, hooks coul
 
    ```bash
    cd courses/ai-101-claude-code/sessions/week-6
-   cp -r examples/quality-hooks sandbox/
+   cp -r examples/* sandbox/
    cd sandbox/quality-hooks
    claude
    ```

@@ -23,7 +23,7 @@ A new payment feature needs comprehensive testing. Plan mode helps you organize 
 
    ```bash
    cd courses/ai-101-claude-code/sessions/week-3
-   cp -r examples/bug-hunter sandbox/
+   cp -r examples/* sandbox/
    cd sandbox/bug-hunter
    claude
    ```

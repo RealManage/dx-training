@@ -29,7 +29,7 @@ PMs often need to understand what's built before writing requirements. You'll us
 
    ```bash
    cd courses/ai-101-claude-code/sessions/week-1
-   cp -r examples/hoa-cli sandbox/
+   cp -r examples/* sandbox/
    cd sandbox/hoa-cli
    claude
    ```

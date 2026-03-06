@@ -29,7 +29,7 @@ Effective prompts help Claude generate thorough test cases. You'll practice impr
 
    ```bash
    cd courses/ai-101-claude-code/sessions/week-2
-   cp -r examples/prompt-lab sandbox/
+   cp -r examples/* sandbox/
    cd sandbox/prompt-lab
    claude
    ```

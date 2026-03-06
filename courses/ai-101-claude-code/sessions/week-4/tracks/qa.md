@@ -40,7 +40,7 @@ By the end of this session, you will be able to:
 
 ```bash
 cd courses/ai-101-claude-code/sessions/week-4
-cp -r examples/property-manager sandbox/property-manager
+cp -r examples/* sandbox/
 cd sandbox/property-manager
 ```
 
@@ -116,9 +116,9 @@ Generate test cases for SearchPropertiesAsync covering:
 ### Setup
 
 ```bash
-# If you haven't already created the sandbox from Exercise 1:
+# If you haven't already copied examples to sandbox:
 cd courses/ai-101-claude-code/sessions/week-4
-cp -r examples/property-manager sandbox/property-manager
+cp -r examples/* sandbox/
 
 cd sandbox/property-manager
 ```

@@ -59,8 +59,8 @@ This option lets you use Claude Code to build tools that make support work faste
 ```bash
 # Set up your workspace
 cd courses/ai-101-claude-code/sessions/week-9
-cp -r examples/capstone-templates/option-f-support-knowledge-base sandbox/
-cd sandbox/option-f-support-knowledge-base
+cp -r examples/* sandbox/
+cd sandbox/capstone-templates/option-f-support-knowledge-base
 
 # Start Claude Code
 claude

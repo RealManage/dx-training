@@ -29,7 +29,7 @@ True TDD means writing tests FIRST. You'll build a HomeownerService one test at 
 
    ```bash
    cd courses/ai-101-claude-code/sessions/week-4
-   cp -r examples/homeowner-setup sandbox/
+   cp -r examples/* sandbox/
    cd sandbox/homeowner-setup
    claude
    ```
@@ -97,9 +97,10 @@ Adding features to existing code still follows TDD. You'll add a property valuat
 1. Navigate to the property-manager example:
 
    ```bash
-   cd courses/ai-101-claude-code/sessions/week-4/sandbox
-   cp -r ../examples/property-manager ./  # Skip if already exists
-   cd property-manager
+   # If you haven't already copied examples to sandbox:
+   cd courses/ai-101-claude-code/sessions/week-4
+   cp -r examples/* sandbox/
+   cd sandbox/property-manager
    claude
    ```
 

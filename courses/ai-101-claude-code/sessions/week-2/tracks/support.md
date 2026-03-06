@@ -29,7 +29,7 @@ The difference between a vague and specific prompt is the difference between a g
 
    ```bash
    cd courses/ai-101-claude-code/sessions/week-2
-   cp -r examples/response-lab sandbox/
+   cp -r examples/* sandbox/
    cd sandbox/response-lab
    claude
    ```

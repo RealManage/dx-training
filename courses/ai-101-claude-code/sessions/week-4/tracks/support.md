@@ -27,7 +27,7 @@ In TDD, developers write tests before code. For support, you can define "success
 
    ```bash
    cd courses/ai-101-claude-code/sessions/week-4
-   cp -r examples/response-criteria sandbox/
+   cp -r examples/* sandbox/
    cd sandbox/response-criteria
    claude
    ```

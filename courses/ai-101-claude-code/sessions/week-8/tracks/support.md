@@ -35,7 +35,7 @@ Real-world automation handles messy inputs and edge cases. Ticket triage is a pe
 
    ```bash
    cd courses/ai-101-claude-code/sessions/week-8
-   cp -r examples/ticket-automation sandbox/
+   cp -r examples/* sandbox/
    cd sandbox/ticket-automation
    claude
    ```

@@ -29,7 +29,7 @@ Vague requirements lead to vague outputs. You'll practice turning rough ideas in
 
    ```bash
    cd courses/ai-101-claude-code/sessions/week-2
-   cp -r examples/prompt-lab sandbox/
+   cp -r examples/* sandbox/
    cd sandbox/prompt-lab
    claude
    ```
