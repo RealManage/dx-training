@@ -226,7 +226,7 @@ These paths MUST pass before any release:
 
 ```bash
 cd courses/ai-101-claude-code/sessions/week-5
-cp -r examples sandbox
+cp -r examples/* sandbox/
 cd sandbox/violation-audit-api
 
 # Build and verify

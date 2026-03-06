@@ -174,7 +174,7 @@ Make sure you're in the bug-hunter project first:
 ```bash
 # Set up the sandbox if you haven't already
 cd courses/ai-101-claude-code/sessions/week-3
-cp -r examples sandbox
+cp -r examples/* sandbox/
 cd sandbox/bug-hunter
 claude
 ```
@@ -340,7 +340,7 @@ Choose the exercise track that matches your role. All tracks practice plan mode 
 
 ```bash
 cd courses/ai-101-claude-code/sessions/week-3
-cp -r examples sandbox
+cp -r examples/* sandbox/
 cd sandbox/bug-hunter
 
 claude
@@ -372,7 +372,7 @@ Bug Report → Plan Investigation → Investigate → Plan Fix → Fix → Verif
 ```bash
 # If you haven't already created the sandbox:
 cd courses/ai-101-claude-code/sessions/week-3
-cp -r examples sandbox
+cp -r examples/* sandbox/
 
 # Navigate to this exercise
 cd sandbox/codereview-pro
@@ -427,7 +427,7 @@ Don't worry if you don't find them all in the session - the important thing is p
 ```bash
 # If you haven't already created the sandbox:
 cd courses/ai-101-claude-code/sessions/week-3
-cp -r examples sandbox
+cp -r examples/* sandbox/
 
 # Navigate to this exercise
 cd sandbox/phased-builder

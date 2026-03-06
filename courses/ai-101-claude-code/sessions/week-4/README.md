@@ -171,7 +171,7 @@ With proper TDD, you'll hit 80-90% coverage naturally because:
 ```bash
 # Set up your workspace
 cd courses/ai-101-claude-code/sessions/week-4
-cp -r examples sandbox
+cp -r examples/* sandbox/
 cd sandbox/homeowner-setup
 
 # Start Claude
@@ -217,7 +217,7 @@ Don't implement the service yet, just the test.
 ```bash
 # If you haven't already created the sandbox:
 cd courses/ai-101-claude-code/sessions/week-4
-cp -r examples sandbox
+cp -r examples/* sandbox/
 
 # Navigate to this exercise
 cd sandbox/property-manager

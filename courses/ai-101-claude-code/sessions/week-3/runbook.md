@@ -15,7 +15,7 @@
 - [ ] Test all three example projects build (`dotnet build` in bug-hunter, codereview-pro, phased-builder)
 - [ ] Practice the plan mode toggle (Shift+Tab) and `/plan` command
 - [ ] Practice the `/model opus` → review → `/model sonnet` workflow
-- [ ] Verify `sandbox/` directory pattern works (`cp -r examples sandbox`)
+- [ ] Verify `sandbox/` directory pattern works (`cp -r examples/* sandbox/`)
 - [ ] Confirm you can demonstrate Esc to interrupt a response
 - [ ] Prepare real-world examples of plan mode saving time
 - [ ] Monitor `#ai-exchange` Slack channel
@@ -214,7 +214,7 @@ Organize these findings into a prioritized fix plan. Security first, then logic 
 
 - **`dotnet build` fails in codereview-pro:** Expected! The project has intentional warnings. Students should find and fix them as part of the exercise
 - **`dotnet build` fails in phased-builder:** This should build cleanly. Check .NET 10 SDK is installed: `dotnet --list-sdks`
-- **Can't find sandbox directory:** Students need to run `cp -r examples sandbox` first. The sandbox is not checked into git
+- **Can't find sandbox directory:** Students need to run `cp -r examples/* sandbox/` first. The sandbox is not checked into git
 - **Exercises run long:** Skip the optional Part 3.5 exercises. The track-specific exercises in Part 3 are the priority
 
 ### Student Struggling with Plan Mode

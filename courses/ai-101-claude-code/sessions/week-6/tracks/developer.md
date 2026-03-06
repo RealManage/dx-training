@@ -411,7 +411,7 @@ Hooks receive JSON via stdin, **not** environment variables. Use `jq` (Mac/Linux
 ```bash
 # Copy example project to sandbox
 cd courses/ai-101-claude-code/sessions/week-6
-cp -r examples sandbox
+cp -r examples/* sandbox/
 cd sandbox/hoa-automation
 
 # Build and verify

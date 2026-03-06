@@ -414,7 +414,7 @@ Match tone to communication type per RealManage standards.
 ```bash
 # Copy example project to sandbox
 cd courses/ai-101-claude-code/sessions/week-5
-cp -r examples sandbox
+cp -r examples/* sandbox/
 cd sandbox/violation-audit-api
 
 # Build and verify

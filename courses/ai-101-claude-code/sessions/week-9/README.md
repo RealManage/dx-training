@@ -41,7 +41,7 @@ claude --version        # Latest Claude Code
 
 # Set up Week 9 sandbox
 cd courses/ai-101-claude-code/sessions/week-9
-cp -r examples sandbox
+cp -r examples/* sandbox/
 cd sandbox/capstone-templates
 ```
 

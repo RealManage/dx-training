@@ -129,7 +129,7 @@ Each week with code examples follows this pattern:
 cd sessions/week-1
 
 # Copy the example to create your personal sandbox
-cp -r examples sandbox
+cp -r examples/* sandbox/
 
 # Enter your sandbox
 cd sandbox/<example-name>

@@ -566,7 +566,7 @@ claude --plugin-dir ./path           # Load local plugin
 ```bash
 # Copy example to sandbox
 cd courses/ai-101-claude-code/sessions/week-7
-cp -r examples sandbox
+cp -r examples/* sandbox/
 cd sandbox/pm-toolkit
 
 # Start Claude

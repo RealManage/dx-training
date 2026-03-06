@@ -67,7 +67,7 @@ You saw the batch reviewer in the shared session. Now build and run it yourself.
 ```bash
 # Copy example to sandbox
 cd courses/ai-101-claude-code/sessions/week-8
-cp -r examples sandbox
+cp -r examples/* sandbox/
 cd sandbox/hoa-workflow-automation
 
 # Build and verify
