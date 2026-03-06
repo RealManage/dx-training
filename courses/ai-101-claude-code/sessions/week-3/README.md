@@ -1,9 +1,9 @@
 # Week 3: Tactical Planning & Code Review Excellence 🎯
 
-**Duration:** 2 hours
-**Format:** In-person or virtual
-**Audience:** RealManage cross-functional team (engineers, PMs, QA, support staff)
-**Prerequisites:** Completed Weeks 1-2
+- **Duration:** 2 hours
+- **Format:** In-person or virtual
+- **Prerequisites:** Completed Weeks 1-2
+- **Audience:** RealManage cross-functional team (engineers, PMs, QA, support staff)
 
 ## Learning Tracks
 

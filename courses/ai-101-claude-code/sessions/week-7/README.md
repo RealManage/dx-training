@@ -1,8 +1,9 @@
 # Week 7: Plugins - The Complete Package
 
-**Duration:** 2 hours
-**Format:** In-person or virtual
-**Audience:** RealManage cross-functional team (engineers, PMs, QA, support staff)
+- **Duration:** 2 hours
+- **Format:** In-person or virtual
+- **Prerequisites:** Completed Weeks 1-6
+- **Audience:** RealManage cross-functional team (engineers, PMs, QA, support staff)
 
 ## Learning Tracks
 

@@ -1,8 +1,9 @@
 # Week 9: Capstone Hackerspace & Future Roadmap
 
-**Duration:** 2.5 hours
-**Format:** Team-based or individual project with evaluation
-**Prerequisites:** Completed Weeks 1-8
+- **Duration:** 2.5 hours
+- **Format:** Team-based or individual project with evaluation
+- **Prerequisites:** Completed Weeks 1-8
+- **Audience:** RealManage cross-functional team (engineers, PMs, QA, support staff)
 
 ## Learning Tracks
 

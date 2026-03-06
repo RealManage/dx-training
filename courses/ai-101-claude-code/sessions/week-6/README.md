@@ -1,8 +1,9 @@
 # Week 6: Agents & Hooks
 
-**Duration:** 2 hours (advanced exercises are self-paced)
-**Format:** In-person or virtual
-**Audience:** RealManage cross-functional team (engineers, PMs, QA, support staff)
+- **Duration:** 2 hours (advanced exercises are self-paced)
+- **Format:** In-person or virtual
+- **Prerequisites:** Completed Weeks 1-5
+- **Audience:** RealManage cross-functional team (engineers, PMs, QA, support staff)
 
 ## Learning Tracks
 

@@ -1,8 +1,8 @@
 # Week 1: Setup & Orientation 🚀
 
-**Duration:** 2 hours  
-**Format:** In-person or virtual  
-**Audience:** RealManage cross-functional team (engineers, PMs, support staff)
+- **Duration:** 2 hours
+- **Format:** In-person or virtual
+- **Audience:** RealManage cross-functional team (engineers, PMs, QA, support staff)
 
 ## Learning Tracks
 

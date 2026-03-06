@@ -1,8 +1,9 @@
 # Week 8: Real-World Automation
 
-**Duration:** 2 hours (60 min taught + 45 min exercises + 10 min transitions/buffer + 5 min Q&A)
-**Format:** In-person or virtual
-**Audience:** RealManage cross-functional team (engineers, PMs, QA, support staff)
+- **Duration:** 2 hours (60 min taught + 45 min exercises + 10 min transitions/buffer + 5 min Q&A)
+- **Format:** In-person or virtual
+- **Prerequisites:** Completed Weeks 1-7
+- **Audience:** RealManage cross-functional team (engineers, PMs, QA, support staff)
 
 > **Working solo?** Everything in this week applies whether you're on a team of twenty or a team of one. A solo developer wears every hat — engineer, PM, QA, support — so these cross-functional patterns are your daily reality. Look for solo-specific tips throughout.
 

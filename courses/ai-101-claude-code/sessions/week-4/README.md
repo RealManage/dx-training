@@ -1,9 +1,9 @@
 # Week 4: Test-Driven Development with Claude 🧪
 
-**Duration:** 2 hours
-**Format:** Self-paced or instructor-led
-**Prerequisites:** Completed Weeks 1-3
-**Audience:** RealManage cross-functional team (engineers, PMs, QA, support staff)
+- **Duration:** 2 hours
+- **Format:** Self-paced or instructor-led
+- **Prerequisites:** Completed Weeks 1-3
+- **Audience:** RealManage cross-functional team (engineers, PMs, QA, support staff)
 
 ## Learning Tracks
 

@@ -1,9 +1,9 @@
 # Week 2: Prompting Foundations 🎯
 
-**Duration:** 2 hours  
-**Format:** In-person or virtual  
-**Audience:** RealManage cross-functional team (engineers, PMs, QA, support staff)  
-**Prerequisites:** Completed Week 1 Setup & Orientation
+- **Duration:** 2 hours
+- **Format:** In-person or virtual
+- **Prerequisites:** Completed Week 1
+- **Audience:** RealManage cross-functional team (engineers, PMs, QA, support staff)
 
 ## Learning Tracks
 
