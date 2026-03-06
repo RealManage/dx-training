@@ -250,6 +250,56 @@ test-with-coverage:
 - Test framework code
 - Sacrifice test quality for numbers
 
+### Why 80-90% and Not 100%?
+
+80-90% coverage is the recommended target because it provides strong confidence in code quality while remaining maintainable. Achieving 100% coverage often leads to brittle tests that test implementation rather than behavior. The final 10-20% of coverage typically requires testing edge cases that provide diminishing returns and can make refactoring harder without meaningful improvement in code quality.
+
+For most projects, 80-90% coverage is the sweet spot:
+
+- **Diminishing returns:** Going from 80% to 100% often costs 3x the effort
+- **Covers critical paths:** Main business logic gets tested
+- **Allows pragmatism:** Some code (logging, error handling) is genuinely hard to test
+- **Faster development:** Tests should enable, not slow you down
+
+#### When Higher Coverage (90%+) Makes Sense
+
+- Financial calculations and billing
+- Security-critical authentication/authorization
+- Data integrity and migration code
+- Legal compliance features
+- Code that rarely changes but must always work
+
+#### When Lower Coverage (70-80%) is Acceptable
+
+- Prototypes and proof-of-concepts
+- Internal tools with low risk
+- UI presentation logic (test behavior, not pixels)
+- Third-party integration wrappers
+- Code scheduled for deprecation
+
+#### Coverage Anti-Patterns to Avoid
+
+- **Testing implementation details** - Tests break on refactor
+- **100% coverage obsession** - Leads to useless tests
+- **Testing getters/setters** - No business logic to verify
+- **Ignoring mutation testing** - Coverage != quality
+
+#### What Actually Matters
+
+```text
+Good tests > High coverage
+
+A 75% coverage suite with meaningful tests
+beats 100% coverage with shallow assertions.
+```
+
+**Focus on:**
+
+- Testing behavior, not implementation
+- Edge cases and error conditions
+- Integration points between components
+- The tests that would catch real bugs
+
 ## TDD and Coverage
 
 With proper TDD, coverage emerges naturally:

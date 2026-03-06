@@ -371,7 +371,7 @@ This follows the **Test Pyramid** - more unit tests at the base, fewer E2E tests
 ## 📚 Quick Resources
 
 - [Glossary](../../../resources/glossary.md) - Testing terms explained
-- [Troubleshooting](../../../resources/troubleshooting.md#-coverage-target-explanation) - Coverage target rationale
+- [Coverage Guide](../resources/coverage-guide.md#why-80-90-and-not-100) - Coverage target rationale
 - [QA Quick-Start](../../../resources/quick-start-qa.md) - Your full learning path
 - [Production Hardening](../../../resources/production-hardening.md) - Production-ready automation patterns
 
