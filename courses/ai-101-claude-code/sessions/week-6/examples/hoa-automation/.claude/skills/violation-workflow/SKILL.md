@@ -1,6 +1,8 @@
-# Description: Process violation through escalation workflow
-
-## Arguments: property_id violation_type days_since_report
+---
+name: violation-workflow
+description: Process violation through escalation workflow
+argument-hint: <property_id> <violation_type> <days_since_report>
+---
 
 Process violation for property $0, type $1, reported $2 days ago.
 
