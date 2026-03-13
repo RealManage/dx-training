@@ -97,7 +97,8 @@ git log --oneline --since="$1" --until="today"
 ### 1.3 Test Your Skill
 
 ```bash
-cd your-project
+# From your sandbox or any project with git history
+cd courses/ai-101-claude-code/sessions/week-5/sandbox/violation-audit-api
 claude
 
 # In Claude Code
