@@ -123,6 +123,8 @@ Format as markdown suitable for board review.
 
 ### 1.3 RealManage Command Examples
 
+> **Note:** When `$0` appears next to other text like `$0Service`, Claude Code replaces `$0` with your argument and leaves the rest as-is. So `/new-service Payment Order` turns `$0Service` into `PaymentService`. The substitution is positional — no delimiter needed.
+
 **Example 1: New Service with TDD**
 
 ```markdown
@@ -288,6 +290,8 @@ Understanding how Claude Code discovers and loads skills helps you write better 
 
 - **Manual** — User types `/skill-name` (always works)
 - **Semantic match** — Claude matches a user's request to a skill's `description` field (unless `disable-model-invocation: true`)
+
+> **Important:** Claude discovers commands and skills at session startup. If you create a new command or skill mid-session, restart Claude (`/quit` then `claude -r`) for it to appear in the `/` menu. Edits to existing skills are picked up on the next invocation without restarting.
 
 **Token Implications:**
 
