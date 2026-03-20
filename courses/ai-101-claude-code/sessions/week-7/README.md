@@ -635,7 +635,7 @@ Create `realmanage-violations/agents/violation-auditor.md`:
 name: violation-auditor
 description: Audit violation records for compliance issues
 tools: Read, Grep, Glob
-model: default
+model: inherit
 permissionMode: plan
 ---
 

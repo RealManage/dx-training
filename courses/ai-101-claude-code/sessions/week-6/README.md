@@ -118,19 +118,24 @@ Follow RealManage coding standards and SOC 2 compliance requirements.
 | `description` | Yes | When Claude should use this agent |
 | `tools` | No | Allowed tools (inherits all if omitted) |
 | `disallowedTools` | No | Tools to deny |
-| `model` | No | `sonnet`, `opus`, `default`, or `inherit` |
+| `model` | No | `sonnet`, `opus`, `haiku`, full model ID, or `inherit` (default: `inherit`) |
 | `permissionMode` | No | `default`, `plan`, `acceptEdits`, `dontAsk`, `bypassPermissions` |
-| `skills` | No | Skills to preload |
-| `hooks` | No | Lifecycle hooks |
+| `maxTurns` | No | Maximum agentic turns before the subagent stops |
+| `skills` | No | Skills to preload into the subagent's context |
+| `hooks` | No | Lifecycle hooks scoped to this subagent |
+| `memory` | No | Persistent memory scope: `user`, `project`, or `local` |
+| `mcpServers` | No | MCP servers available to this subagent |
+| `background` | No | Set to `true` to run as a background task |
+| `isolation` | No | Set to `worktree` for an isolated git worktree copy |
 
 **Permission Modes Explained:**
 
 | Mode | Description | Use Case |
 | ---- | ----------- | -------- |
 | `default` | Asks for approval before tool use | Normal operations - you approve each action |
-| `plan` | No tool execution allowed | Analysis, code review, architecture planning |
+| `plan` | Read-only exploration (no write tools) | Analysis, code review, architecture planning |
 | `acceptEdits` | Auto-approves file edits | Trusted refactoring in sandbox/isolated dirs |
-| `dontAsk` | Auto-denies permission prompts | Read-only agents that shouldn't modify anything |
+| `dontAsk` | Auto-denies permission prompts (explicitly allowed tools still work) | Read-only agents that shouldn't modify anything |
 | `bypassPermissions` | Auto-approves all tools | Fully automated pipelines (use with caution) |
 
 > **Note:** Permission modes can **restrict** agent behavior but cannot **escalate** beyond your session's permission settings. An agent with `bypassPermissions` still requires your approval if your session is in `default` mode.
@@ -184,7 +189,7 @@ disallowedTools: Write, Edit, NotebookEdit
 name: db-analyst
 description: Analyze database queries and schema without making changes
 tools: Read, Grep, Glob
-model: default
+model: inherit
 permissionMode: plan
 ---
 
@@ -263,7 +268,7 @@ Test naming: MethodName_Scenario_ExpectedBehavior
 name: violation-analyst
 description: Analyze violation patterns and recommend process improvements
 tools: Read, Grep, Glob
-model: default
+model: inherit
 permissionMode: plan
 ---
 
