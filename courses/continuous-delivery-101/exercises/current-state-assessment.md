@@ -29,6 +29,8 @@ In the **Deliberate?** column, mark ◆ when a Partial/No is a *conscious, defen
 | 5 | A red build stops feature work until it's fixed | | | |
 | 6 | New work does not break delivered work | | | |
 
+> **Same author for code and tests?** Increasingly that author is an AI agent. "Tests run" (minimums 3–4) can be *true* while "tests verify intent" is *false* — AI-written tests can mirror AI-written code and pass without checking anything. When you score 3 and 4, note whether something *independent* confirms your tests pin intent (a human, or a separate agent, reviewing tests against the agreed behaviour), not merely that they're green. See [CD when AI writes the code](../resources/ai-assisted-delivery.md).
+
 ### Continuous Delivery
 
 | # | Practice | Yes / Partial / No | Deliberate? | Evidence |
@@ -75,6 +77,8 @@ Pull the numbers; don't guess. (GitLab MR history, deployment logs, incident rec
 | Time to restore (how fast you recover) | | Minutes |
 | **Median branch lifetime** (look at last month's merged MRs) | | < 1 day |
 | **Median MR size** (lines / files changed) | | Small |
+
+> **Read median MR size as *review burden*, not author effort.** When an agent writes the code, a 600-line MR is cheap to produce and expensive to review — the old "big MR = lots of work" intuition breaks. Track it as a reviewability ceiling, and keep it small so review stays substantive.
 
 ---
 

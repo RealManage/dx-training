@@ -6,6 +6,8 @@
 
 This is the single most important skill for CD. Trunk-based development isn't about banning branches — it's about making each change *small enough that it doesn't need a long branch*. The work is in the decomposition.
 
+> **This is the durable human skill.** As AI writes more of the code, deciding *what* the slices are — the seam, the order, the flags, the expand/contract steps — is the part that stays yours. An agent can write any one slice; designing the decomposition is the "design the factory" work. See [CD when AI writes the code](../resources/ai-assisted-delivery.md).
+
 ---
 
 ## The scenario

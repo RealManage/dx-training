@@ -57,6 +57,7 @@ continuous-delivery-101/
 │   ├── communicating-releases.md      # Release notes & client comms once deploy ≠ release
 │   ├── governance-and-compliance.md   # Control, audit, segregation of duties, break-glass
 │   ├── what-cd-costs.md               # The honest costs of CD + a flag-debt mechanism
+│   ├── ai-assisted-delivery.md        # CD when AI writes the code — the three seams
 │   └── troubleshooting.md             # Common objections and adoption blockers
 ├── exercises/                          # Practice materials
 │   ├── current-state-assessment.md    # Score your team against the minimums

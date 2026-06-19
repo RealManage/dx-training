@@ -93,6 +93,10 @@ Honest accounting cuts both ways — some feared costs aren't real:
 - **You don't lose your release gate or your control** — see
   [governance-and-compliance](./governance-and-compliance.md). For most teams CD is
   the first time controls are actually enforced rather than assumed.
+- **Some costs even fall as AI writes more of the code.** The daily-integration
+  interruption tax and the slow-review burden are *human* costs an agent doesn't
+  feel — but that saving moves the stakes onto gate quality, it doesn't remove them.
+  See [CD when AI writes the code](./ai-assisted-delivery.md).
 
 ## Bottom line
 
@@ -107,4 +111,5 @@ so the one cost that compounds, flag debt, doesn't.
 - [Decompose a Branch](../exercises/decompose-a-branch.md) — where "delete the flag" becomes a slice
 - [Communicating Releases](./communicating-releases.md) — the flag inventory's other job
 - [Governance & Compliance](./governance-and-compliance.md) — governing flag flips
+- [CD When AI Writes the Code](./ai-assisted-delivery.md) — the seams AI authorship stresses
 - [Troubleshooting](./troubleshooting.md) — the objections, answered

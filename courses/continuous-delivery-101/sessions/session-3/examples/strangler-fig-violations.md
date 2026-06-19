@@ -64,6 +64,14 @@ Notice slices 5 and 6 are the only ones that move user-visible behavior, and bot
 are governed by a flag you can turn down in seconds. That is the whole safety
 argument of CD, applied to a migration.
 
+> **Human/agent division of labour.** This migration is the clearest case of
+> "design the line; let the machine turn the bolts." The judgement is human:
+> *where the seam goes*, *what the slices are*, *which store is authoritative at
+> each step*, *when to ramp*. The rote build is what an agent is good at — the
+> dual-write shim, the idempotent backfill job, the reconciliation check, each
+> slice's tests. Naming the slices above is the work; writing any one of them is
+> not. See [CD when AI writes the code](../../../resources/ai-assisted-delivery.md).
+
 ## The hard parts (no hand-waving)
 
 The greenfield decompose exercise slices cleanly because it has no money, no

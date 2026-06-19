@@ -85,6 +85,8 @@ Almost every CD benefit traces back to shrinking the batch:
 | Rollback reverts everything | Rollback reverts one thing |
 | Release is a risky event | Release is a non-event |
 
+> **When an agent writes the code, this is the practice that matters most.** A human author self-limits by friction — 1,200 lines is a day's grind. An agent emits them before lunch, so the friction that used to cap batch size is gone. Small batches stop being a habit you adopt to go faster and become a *throttle you impose* to keep machine output from drowning the trunk and your reviewers. See [CD when AI writes the code](../../resources/ai-assisted-delivery.md).
+
 #### 2.3 The evidence (5 minutes)
 
 The [DORA research](https://dora.dev/) (*Accelerate*) found that teams who deploy frequently in small batches have **both** higher throughput **and** higher stability — they are not a trade-off. The four key metrics:

@@ -18,8 +18,17 @@ serve all four personas who hit it — a new Part 2 controls/governance scorecar
 (audit trail, SoD, least privilege, mandated approvals, break-glass, release
 communication, release authorization), a **Deliberate?** column so a defensible
 control isn't scored as a gap, a reframed constraint section that no longer
-pre-answers itself, and a solo/junior callout. Remaining: R2-H4 (the AI-authorship
-decision) and the MEDIUM/NICE tail. Awaiting go-ahead per item.
+pre-answers itself, and a solo/junior callout. And **R2-H4** (the new dimension
+Tex opened): added `resources/ai-assisted-delivery.md` — the three seams
+(test-gaming, review substance, flag explosion) plus an honest "what doesn't
+change" — with durable framing (no "nearly all the code" claim that would date),
+two surgical inline sentences (Session 1 batch-size-as-containment, Session 2
+gate-honesty), and exercise/example patches (test-independence + review-burden in
+the assessment, the durable-human-skill note in decompose-a-branch, a human/agent
+division-of-labour sidebar in strangler-fig, an accounting line in what-cd-costs).
+Per the decision, all references stay **inside CD 101** — AI 101 untouched, no new
+cross-course links. Remaining: the MEDIUM/NICE tail (R2-M1…M4, R2-N1…N4). Awaiting
+go-ahead per item.
 
 ---
 

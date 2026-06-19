@@ -126,6 +126,8 @@ The trunk is only "always releasable" if merging proves it. Minimum gates for an
 
 These are the *front half* of the pipeline you'll build in Session 3. Preview them in [`examples/ci-pipeline.gitlab-ci.yml`](./examples/ci-pipeline.gitlab-ci.yml).
 
+> **A gate is only as honest as the tests behind it.** When the same author writes the code *and* its tests — increasingly an AI agent — the tests can assert whatever the code already does, clear the coverage floor, and verify nothing. The coverage threshold then becomes a target the author optimizes directly, not a guarantee. Tests must specify *intent* (behaviour contracts), and something independent must confirm they do. See [CD when AI writes the code](../../resources/ai-assisted-delivery.md).
+
 #### 4.3 Keep feedback fast (5 minutes)
 
 CI is worthless if it's slow — people route around slow gates. Keep the pre-merge suite in *seconds*: unit tests pre-merge, slower integration tests in a later stage, parallelize jobs, cache `node_modules` and the SAM build.
