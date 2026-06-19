@@ -51,6 +51,8 @@ main  ──●──●──●──●──●──●──●──●�
 
 **The fix:** keep the trunk releasable *continuously* via tests and flags. If `main` is always green and deployable, there's nothing to freeze.
 
+> **Not every freeze is this anti-pattern.** A *mandated business* change window — a client-contractual moratorium, a fiscal close, a peak-season lockdown — is a legitimate external control, not an admission the trunk is untrustworthy. CD handles it *better*: because deploy ≠ release, engineering keeps merging to trunk the whole time and simply doesn't *flip the flag* during the window. You freeze the **release**, not the **integration**. The anti-pattern is freezing *merges* to stabilize; pausing *releases* for a business reason is just a release decision — see [governance-and-compliance](../../../resources/governance-and-compliance.md).
+
 ## Anti-pattern 6: Long-open MR waiting for review
 
 **The habit:** the branch is small, but the MR sits for two days waiting for a reviewer.

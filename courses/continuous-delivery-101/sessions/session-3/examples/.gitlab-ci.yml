@@ -123,6 +123,9 @@ build:artifact:
       --output-template-file "${PACKAGED_TEMPLATE}"
   artifacts:
     paths: ["${PACKAGED_TEMPLATE}"] # promoted as-is to every stage below
+    # 30 days is a PROMOTION window, not an audit-retention policy. If you rely on the
+    # stored artifact as compliance evidence, set this to your framework's retention
+    # (often years). See resources/governance-and-compliance.md.
     expire_in: 30 days
 
 # -----------------------------------------------------------------------------

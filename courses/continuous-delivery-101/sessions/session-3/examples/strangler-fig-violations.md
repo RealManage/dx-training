@@ -146,57 +146,63 @@ apps share — a proc, a view, a table other modules `SELECT` from — the safet
 mechanism is *a versioned copy plus caller coordination*, not a flag. That
 coordination, not the SQL, is the slow part.
 
-## The monolith's pipeline, sketched
+## The monolith's pipeline (the real one)
 
 The claim that the monolith ships through the *same* GitLab CI deserves more than an
-assertion. It builds an MSBuild **web-deploy package** instead of a SAM artifact and
-targets IIS instead of Lambda, but the shape is identical: build once, promote the
-same package, vary only config.
+assertion — so here is the actual shape, not an analogy. The Management API builds an
+MSBuild artifact instead of a SAM bundle and targets IIS instead of Lambda, but the
+shape is identical: **build once, promote the same bytes, vary only config**.
 
 ```yaml
-stages: [build, dev, qa, prod]
+# Real shape (CiraNet Management API). The repo's .gitlab-ci.yml is thin — it
+# `include:`s a shared template, ci-templates/dotnet/ciranet-api.yml, where this lives.
+stages: [build, deploy_dev, deploy_qa, deploy_prod]
 
-build:package:
+build_api: # runs ONCE, on a Windows runner
   stage: build
   script:
-    # Build ONCE -> a web-deploy package (.zip): the immutable artifact, tagged by
-    # commit, exactly like the Lambda bundle.
-    - >
-      msbuild CommunityMgmt.sln /p:Configuration=Release
-      /p:DeployOnBuild=true /p:WebPublishMethod=Package
-      /p:PackageLocation=community-mgmt-$CI_COMMIT_SHA.zip
+    # MSBuild publishes (WebPublishMethod=FileSystem) and robocopy collects
+    # _PublishedWebsites into the artifact dir `a/`: the immutable artifact =
+    # base web.config + EVERY web.{env}.config transform (unapplied) + bin.
+    # The xUnit suite runs in THIS job, so a red test gates the merge and every deploy.
+    - pwsh build-ciranet-api.ps1
   artifacts:
-    paths: [community-mgmt-$CI_COMMIT_SHA.zip] # promoted as-is to every stage below
+    paths: ["a/"] # promoted as-is to every deploy below — never rebuilt
 
-.deploy:
+.deploy: # the SAME `a/`; the runner lives on the target box
   script:
-    # Promote the SAME package; only the per-env parameters differ (config with the
-    # artifact). setParameters.${ENV}.xml carries connection strings, flag values,
-    # and app settings — the package itself never changes between environments.
-    - >
-      msdeploy -verb:sync
-      -source:package=community-mgmt-$CI_COMMIT_SHA.zip
-      -dest:auto,computerName=$IIS_DEPLOY_ENDPOINT
-      -setParamFile:setParameters.$CI_ENVIRONMENT_NAME.xml
+    # Apply the web.{env}.config XDT transform AT DEPLOY to the promoted artifact,
+    # then install to IIS. Same bytes in every environment; only the transform differs.
+    - pwsh deploy-ciranet-api.ps1 -ArtifactPath a -Environment $ENVIRONMENT
 
-deploy:qa:   { extends: .deploy, stage: qa,   environment: { name: qa } }
-deploy:prod: { extends: .deploy, stage: prod, environment: { name: prod }, when: manual }
+deploy_to_dev:  { extends: .deploy, stage: deploy_dev,  variables: { ENVIRONMENT: dev  } } # auto on main
+deploy_to_qa:   { extends: .deploy, stage: deploy_qa,   variables: { ENVIRONMENT: qa   } } # auto on release/*
+deploy_to_prod: { extends: .deploy, stage: deploy_prod, variables: { ENVIRONMENT: prod } } # manual gate, 6-VM waves
 ```
 
-Two honest gaps the sketch hides. **Auth:** the runner needs scoped access to the IIS
-Web Management Service endpoint (`$IIS_DEPLOY_ENDPOINT`) — the .NET analogue of the
-new service's OIDC role; let the pipeline hold that credential (a managed identity if
-the runner can use one), never a person and never a static secret in the repo.
-**Multi-VM rollout:** on a farm the deploy step loops the *same* package over each
-node — drain it from the load balancer, sync, re-add — so a release is still one
-immutable package applied node by node, never a per-box rebuild.
+What the monolith **already nails** — verified, not aspirational. It builds the
+artifact once and promotes the same bytes (every `deploy_*` consumes the build's `a/`,
+none rebuilds); config is applied at *deploy*, not baked per build (CD min #5, #9).
+Production rolls out **zero-downtime across a six-VM farm in two waves** — drain three
+nodes from the Azure Application Gateway, deploy, restore, repeat (CD min #8's safe
+rollout). And no credential is long-lived: the deploy runners are scoped to their own
+box, and the App Gateway orchestration authenticates to Azure by **OIDC federated
+token, no static secret** — the same no-static-creds rule the Lambda service follows
+to AWS.
+
+The real gap is **batch size, not tooling**. `main` flows continuously only as far as
+**dev**; `qa` and `prod` are fed by a **`release/YY.M.W` branch cut on a weekly
+schedule** — a weekly release train, the exact cadence this course exists to shrink.
+The monolith's path to CD is not new infrastructure; it already has the immutable
+artifact, the OIDC, the rehearsed rollout. It is making that release branch *smaller
+and more frequent* until "release" stops being a weekly event.
 
 ## Recovery on each side
 
 | | New service (Lambda) | Monolith (IIS on VMs) |
 | - | -------------------- | --------------------- |
 | **Default** | Fail forward — ship a small fix through the pipeline | Fail forward — same |
-| **Immutable artifact** | versioned bundle in S3, promoted by SHA | published build packaged and tagged by `CI_COMMIT_SHA`, promoted to each environment |
+| **Immutable artifact** | versioned bundle in S3, promoted by SHA | the published `a/` artifact, built once and promoted to each environment (config applied at deploy) |
 | **Fast lever** | shift the `live` alias / canary auto-rollback (see [rollback-on-aws.md](./rollback-on-aws.md)) | **flip the routing flag** — reads/writes return to the monolith instantly |
 | **Hard rollback** | redeploy the prior bundle | redeploy the prior published artifact to IIS |
 | **Data** | expand/contract keeps both directions safe | same — the dual-write window is itself the rollback path |

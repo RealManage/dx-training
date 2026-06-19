@@ -44,7 +44,7 @@ The shift: green should *mean* deployable, automatically. A human may still choo
 
 > **Engineering Lead note:** a manual prod gate is a legitimate control — for compliance, or for early confidence in a new service. Keep it *honest*: it approves timing, the pipeline already proved readiness. The goal is to let green flow automatically at least through qa, and to make prod *one* deliberate decision, not three manual clicks per release. Revisit each gate as trust grows. (When a gate is a legitimate permanent control rather than debt — and for segregation of duties and audit evidence under CD — see [Governance & Compliance](../../resources/governance-and-compliance.md).)
 
-Decoupling deploy from release also moves *communication*: under CD you announce the **release** — the flag flip users actually feel — not the deploy. The weekly client email doesn't die; it gets rebuilt from user-facing releases instead of the deploy log. See [Communicating Releases](../../resources/communicating-releases.md).
+Decoupling deploy from release also splits the *timing* decision in two. The prod **deploy** gate above (if you keep one) is an engineering authorization — owned by the Engineering Lead. The **release** — the flag flip users actually feel — is a separate decision about *which* feature goes live *when* and *to whom*, owned by whoever runs release communication and flag governance (our evolved release-manager role), in coordination with the business. And it moves *communication* too: you announce the release, not the deploy — the weekly client email doesn't die, it gets rebuilt from user-facing releases instead of the deploy log. See [Communicating Releases](../../resources/communicating-releases.md).
 
 ---
 

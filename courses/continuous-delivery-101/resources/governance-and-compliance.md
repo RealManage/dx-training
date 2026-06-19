@@ -38,8 +38,11 @@ The classic requirement — the person who writes a change can't be the one who 
 it unchecked — is satisfied **more strongly** by mandatory review plus an automated
 pipeline than by a manual deploy gate:
 
-- The author **cannot merge unreviewed**; a second person approves the MR.
-  (Configure the project so an author cannot approve their own MR.)
+- The author **cannot merge unreviewed**; a second person approves the MR. Enforce
+  it in the GitLab project settings, don't leave it to habit: require ≥1 approval,
+  enable **Prevent approval by the author** and **Prevent approval by users who add
+  commits**, and require **Pipelines must succeed** before merge. SoD is then a
+  setting the tool applies to every MR, not a convention reviewers must remember.
 - The **pipeline**, not the author, performs the deploy — via OIDC, so the author
   holds **no standing production credentials**. Nobody hand-deploys.
 - This is enforced by the tool, on **every** change, and recorded. A manual "ops
@@ -67,6 +70,14 @@ practical work for a leader is to **map your control framework's evidence
 requirements onto these artifacts** once — then every release produces the evidence
 as a by-product, instead of someone assembling it by hand.
 
+> **Retention is yours to set.** These artifacts are only evidence if they still
+> exist when an auditor asks. The pipeline's *build* artifact in the examples expires
+> in 30 days (`.gitlab-ci.yml`, `expire_in`) — a sensible promotion window, **not** an
+> evidence-retention policy. Set retention from your control framework (often years):
+> keep commit/MR history and pipeline metadata that long, and if you rely on the
+> *stored artifact* as evidence, retain it to match. Don't let a CI housekeeping
+> default silently decide your audit window.
+
 ## Break-glass: controlled exceptions, not chaos
 
 CD does not mean "no exceptions, ever." You need a documented emergency path for
@@ -81,6 +92,14 @@ needs an out-of-band action. A sound **break-glass** procedure is:
 - **Rare by design.** If you break glass weekly, the normal path is too slow — fix
   the path, don't widen the exception.
 
+> **Concretely**, for our AWS estate: a pre-created `break-glass-deploy` IAM role,
+> assumable only by named on-call engineers, granting the scoped access an incident
+> needs and **nothing more**; its assumption requires a second person's recorded
+> acknowledgement (in the incident channel), auto-expires within a few hours, and
+> alerts the security channel on every use. The *who*, the *scope*, and the *expiry*
+> are decided in advance — under pressure you follow the procedure, you don't invent
+> one.
+
 ## Decoupling deploy from release moves authorization to the flag
 
 This is the subtle shift leaders must not miss. When you stop authorizing at the
@@ -92,6 +111,13 @@ move with the decision. So govern the flip:
   *release* audit trail, distinct from the deploy log.
 - **Does a customer-facing or regulated change need named sign-off** before the
   flip?
+- **Mind where the flip is recorded.** Env-var / config flags inherit the pipeline's
+  audit trail for free — flipping one is a config change through an MR, a review, and
+  a pipeline run, all logged in one place. A managed flag service (AWS AppConfig /
+  LaunchDarkly) buys runtime targeting and keeps its *own* flip log — but that log
+  lives **outside** the pipeline trail. That's a control *trade*: wire the service's
+  flip log into your release audit record deliberately, or your "who released what,
+  when" evidence is now split across two systems.
 
 The flag system becomes a control surface; treat it like one. This is where release
 management and governance meet — see [Communicating Releases](./communicating-releases.md).

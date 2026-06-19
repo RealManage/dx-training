@@ -87,6 +87,8 @@ Benefits:
 - Turn a feature *off* instantly if it misbehaves — no deploy required
 - Test in production safely (dark launch) before exposing anyone
 
+> Because the **release** is now the flag flip (not the deploy), the flip is also the moment you *communicate* — it's what a client-facing note should announce, and the flip date is the release date. See [Communicating Releases](../../resources/communicating-releases.md).
+
 #### 3.3 A flag in TypeScript (15 minutes)
 
 Walk through [`examples/feature-flag.ts`](./examples/feature-flag.ts): a minimal, dependency-free feature-flag pattern for our HOA Violations Lambda, plus notes on graduating to a managed service (AWS AppConfig / LaunchDarkly) when you need per-user targeting or runtime changes.

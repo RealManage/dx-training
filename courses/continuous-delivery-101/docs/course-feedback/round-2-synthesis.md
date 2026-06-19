@@ -39,12 +39,30 @@ pipeline; the build diagram now distinguishes `CI_COMMIT_SHA` from SAM's content
 hash), and **R2-N4** (trunk glossed inline at first use in Session 1). And
 **R2-M2** (Dana's monolith gaps): a stored-procedure expand/contract section in the
 strangler-fig example (version `usp_X_v2`, never `ALTER` in place; a flag can't hide
-a shared proc — coordination is the safety mechanism), an annotated
-MSBuild→MSDeploy→IIS pipeline sketch proving "same GitLab CI," an expanded IIS
+a shared proc — coordination is the safety mechanism), a monolith pipeline sketch
+proving "same GitLab CI" — later **verified against the real `ciranet-management-api`
+pipeline** and corrected to the actual mechanism (MSBuild FileSystem publish → `a/`
+artifact → deploy-time `web.{env}.config` XDT transform → IIS via per-server runners;
+the earlier MSDeploy/`setParameters.xml` draft was fabricated), an expanded IIS
 feature-flag bullet (app-pool recycle + multi-VM farm drift), a third **.NET / IIS**
 column on the minimums-reference mapping table, a fix to the walkthrough's AWS-default
 fallback, and a "changes bundled per prod deploy" metric in the assessment.
-Remaining: **R2-M3** (governance precision), **R2-M4** (release-comms reconciliation).
+And the closing sweep — **R2-M3** (governance precision): self-approval prevention
+promoted from a parenthetical to enforced GitLab settings (Prevent approval by author
+/ by committers, ≥1 approval, pipelines-must-succeed); an artifact-retention caveat
+(the 30-day `expire_in` is a promotion window, not an audit-evidence policy — set it
+from your control framework) in both the governance doc and `.gitlab-ci.yml`; a
+concrete break-glass mechanism (a scoped, second-approver, auto-expiring
+`break-glass-deploy` IAM role); a managed-flag-service control-trade note (graduating
+to AppConfig/LaunchDarkly moves the flip out of the pipeline audit trail into the
+service's own log — wire it back deliberately); and a business-vs-engineering freeze
+carve-out in `branching-antipatterns.md` (a mandated business change window freezes
+the *release*, not the *integration*). And **R2-M4** (release-comms reconciliation):
+Session 3 §2.2 now splits the timing decision in two (Engineering Lead owns the deploy
+gate; the evolved release-manager role owns flag-flip/release timing); Session 2's
+"release = flip the flag" gains a forward-link to the communication consequence; and
+the `customer-facing` label is shown as a check (MR must carry `customer-facing` or
+`no-user-impact`), not a hope. **Round 2 is now fully applied.**
 
 ---
 

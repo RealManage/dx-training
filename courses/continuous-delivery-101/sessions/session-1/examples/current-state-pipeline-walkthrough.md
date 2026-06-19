@@ -53,7 +53,7 @@ Key facts about how it really works:
 
 ## How to use this in the workshop
 
-1. Pull up *your* service's pipeline — a `.gitlab-ci.yml`, or your MSDeploy-to-IIS / Azure DevOps pipeline if that's your stack. Score *your* shape against the minimums, not the AWS one; use this baseline only if you have no pipeline at all yet.
+1. Pull up *your* service's pipeline — for a new AWS service its `.gitlab-ci.yml`, for the .NET/IIS monolith the GitLab pipeline that `include:`s the shared `ci-templates` (MSBuild publish → IIS). Score *your* shape against the minimums, not the AWS one; use this baseline only if you have no pipeline at all yet.
 2. Fill the same table for your pipeline in the [Current-State Assessment](../../../exercises/current-state-assessment.md).
 3. For every ⚠️ or ❌, write one sentence: *what would it take to make this ✅?* That list is the start of your migration plan.
 

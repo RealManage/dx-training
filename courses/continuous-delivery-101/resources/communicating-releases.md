@@ -65,6 +65,13 @@ Capture the release when it becomes *real* — when the user-facing change goes 
   user-facing change plus its flip date. You're numbering *releases* (what clients
   got), not *deploys* (what servers got).
 
+> **Make the convention a check, not a hope.** A label only works if it's reliably
+> applied. Back it with a light MR gate: an MR that adds or flips a flag must carry
+> *either* a `customer-facing` label (with its one-line note) *or* an explicit
+> `no-user-impact` label — fail the check if it has neither. That turns "remember to
+> label it" into a gate, so the release-notes data source doesn't silently rot the
+> first time someone forgets.
+
 ## Cadence is a separate decision
 
 Deploying continuously does **not** force you to communicate continuously. Comms
