@@ -53,12 +53,14 @@ default:
   id_tokens:
     GITLAB_OIDC_TOKEN: { aud: "https://gitlab.com" }
   before_script:
-    - >
-      aws sts assume-role-with-web-identity
-      --role-arn "arn:aws:iam::${AWS_ACCOUNT}:role/gitlab-runner-role-${CI_ENVIRONMENT_NAME}"
-      --role-session-name "ci-${CI_PIPELINE_ID}"
-      --web-identity-token "$GITLAB_OIDC_TOKEN" > /tmp/creds.json
-    # (export the returned credentials into the environment — elided for brevity)
+    # OIDC, no static keys: hand GitLab's short-lived identity token to the AWS
+    # SDK/CLI as a web-identity file. Every subsequent aws/sam call then assumes
+    # the per-environment role automatically (and refreshes it). Nothing is stored.
+    - echo "$GITLAB_OIDC_TOKEN" > /tmp/gitlab-oidc-token
+    - export AWS_WEB_IDENTITY_TOKEN_FILE=/tmp/gitlab-oidc-token
+    - export AWS_ROLE_ARN="arn:aws:iam::${AWS_ACCOUNT}:role/gitlab-runner-role-${CI_ENVIRONMENT_NAME}"
+    - export AWS_ROLE_SESSION_NAME="ci-${CI_PIPELINE_ID}"
+    - aws sts get-caller-identity # fail fast if the role or its trust policy is wrong
 
 # -----------------------------------------------------------------------------
 # validate / test / security — the DEFINITION OF DEPLOYABLE. Runs on every branch

@@ -112,16 +112,45 @@ Resources:
   ViolationsErrorAlarm:
     Type: AWS::CloudWatch::Alarm
     Properties:
-      AlarmDescription: !Sub "${EnvironmentName} ${ServiceName} canary error guard"
-      Namespace: AWS/Lambda
-      MetricName: Errors
-      Dimensions:
-        - { Name: FunctionName, Value: !Ref ViolationsFunction }
-      Statistic: Sum
-      Period: 60
-      EvaluationPeriods: 1
-      Threshold: 1
-      ComparisonOperator: GreaterThanOrEqualToThreshold
+      AlarmDescription: !Sub "${EnvironmentName} ${ServiceName} canary error-rate guard"
+      # Watch the ERROR RATE of the `live` alias, not a raw error count on the bare
+      # function. Two fixes over the naive version:
+      #   1. Scope: the bare FunctionName mixes the stable and canary versions (and
+      #      any $LATEST test calls). The `Resource` dimension `<function>:live`
+      #      scopes to the alias CodeDeploy is actually shifting traffic through.
+      #   2. Sensitivity: Threshold:1 over one 60s period rolls back an otherwise
+      #      healthy deploy on a single stray error. A rate that scales with traffic
+      #      is the right signal.
+      # (For strict per-version isolation you'd add the ExecutedVersion dimension;
+      #  the alias error rate is the pragmatic, widely-used canary guard.)
+      Metrics:
+        - Id: errors
+          ReturnData: false
+          MetricStat:
+            Metric:
+              Namespace: AWS/Lambda
+              MetricName: Errors
+              Dimensions:
+                - { Name: Resource, Value: !Sub "${EnvironmentName}-${ServiceName}:live" }
+            Period: 60
+            Stat: Sum
+        - Id: invocations
+          ReturnData: false
+          MetricStat:
+            Metric:
+              Namespace: AWS/Lambda
+              MetricName: Invocations
+              Dimensions:
+                - { Name: Resource, Value: !Sub "${EnvironmentName}-${ServiceName}:live" }
+            Period: 60
+            Stat: Sum
+        - Id: errorRate
+          Expression: "100 * errors / invocations"
+          Label: ErrorRatePercent
+          ReturnData: true
+      EvaluationPeriods: 2
+      Threshold: 5 # roll back if >5% of alias traffic errors for two straight minutes
+      ComparisonOperator: GreaterThanThreshold
       TreatMissingData: notBreaching
 
   # Publish discovery values to SSM at the iac-baseline path convention so other

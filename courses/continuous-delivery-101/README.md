@@ -24,6 +24,8 @@ By completing this course, you'll be able to:
 - ✅ Recover from a bad deploy — fail forward by default, roll back when it's costly and time-sensitive
 - ✅ Assess your team's current state and write a concrete CD migration plan
 
+> **New to any of these terms?** Each is defined in plain language in the [Glossary](./resources/glossary.md) and introduced in the session that uses it — you don't need to know them going in.
+
 ## 🎭 Target Audience
 
 This course is designed for:

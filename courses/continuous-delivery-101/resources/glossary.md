@@ -27,6 +27,9 @@ How much change ships in one release. CD's central lever: smaller batches are fa
 **Big-batch / large batch**
 A release accumulating many changes (e.g., a week of work on a long-lived branch). High risk: many things change at once, so a failure is hard to isolate and roll back.
 
+**DORA metrics**
+The four delivery-performance measures from the **D**evOps **R**esearch and **A**ssessment program (the *Accelerate* research) that this course uses to gauge progress: lead time for changes, deployment frequency, change failure rate, and mean time to restore. CD's practices improve all four.
+
 **Lead time for changes**
 A DORA metric: time from code committed to code running in production. CD shrinks it from weeks to hours.
 
@@ -71,6 +74,9 @@ Moving the *same* artifact from one environment to the next (dev → qa → prod
 **Manual gate / approval gate**
 A pipeline step that waits for a human to click "deploy." A transitional compromise on the road to CD — useful for compliance or early confidence, but not the goal.
 
+**Smoke test**
+A fast, shallow check run immediately *after* a deploy to confirm the service is actually up and serving — a health endpoint or one real request — before promotion continues. It proves the deploy worked; it is not full testing.
+
 ## Decoupling deploy from release
 
 **Deploy**
@@ -84,6 +90,9 @@ A runtime switch that turns a code path on or off without a deploy. Lets you mer
 
 **Dark launch**
 Deploying a feature to production turned off (or to a subset of users) to validate it before a full release.
+
+**Expand/contract (parallel change)**
+A technique for changing a shared resource (e.g., a database schema) without breaking running code: first *expand* — add the new shape and write to both old and new; then migrate readers; then *contract* — remove the old shape. Each step is a small, backward-compatible deploy, so code and data can move forward or back independently. This is the answer to the rollback "data trap."
 
 ## AWS and RealManage specifics
 
