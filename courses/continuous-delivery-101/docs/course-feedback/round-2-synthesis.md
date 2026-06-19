@@ -13,8 +13,13 @@ the **instant wins**: **R2-H1** (real `violations-api/scripts/smoke-test.sh` —
 side-effect-free probe, now documented in the service README) and **R2-H2** (the
 `deploy:dev` `needs:` list now names the full definition of deployable — `lint`,
 `validate:sam`, `unit-tests`, `build:artifact` — and drops the advisory
-`dependency-audit`). Remaining: R2-H3, R2-H4, and the MEDIUM/NICE tail. Awaiting
-go-ahead per item.
+`dependency-audit`). And **R2-H3**: `current-state-assessment.md` reworked to
+serve all four personas who hit it — a new Part 2 controls/governance scorecard
+(audit trail, SoD, least privilege, mandated approvals, break-glass, release
+communication, release authorization), a **Deliberate?** column so a defensible
+control isn't scored as a gap, a reframed constraint section that no longer
+pre-answers itself, and a solo/junior callout. Remaining: R2-H4 (the AI-authorship
+decision) and the MEDIUM/NICE tail. Awaiting go-ahead per item.
 
 ---
 
