@@ -17,6 +17,8 @@ Understand your current state and name the constraints holding you back. **Do th
 - [ ] Record how long branches actually live (look at merged MRs over the last month)
 - [ ] Identify the single biggest constraint (branch lifetime? manual deploys? slow tests? no rollback?)
 - [ ] Pick one service and one team to pilot
+- [ ] Inventory in-flight long-lived branches; for each, decide *merge now* (decompose first if it's too big) or *abandon* — you can't adopt trunk-based development on top of a pile of week-old branches
+- [ ] If your estate is mixed (monolith + new services), sequence it deliberately: prove CD where it's easiest to see, but commit to carrying it to the monolith
 - [ ] Agree on what "done with Phase 1" looks like and who decides
 
 **Exit question:** *Do we honestly know where we are and what's holding us back?*
@@ -86,6 +88,18 @@ Deploy any change to production at any time, based on business need.
 - [ ] Roll the pattern out from the pilot team to the next team
 
 **Exit question:** *Can we deploy any change to production whenever the business wants?*
+
+---
+
+## The journey, not just the destination
+
+The phases above are the destination map. Getting there is a journey, and a few realities are worth naming up front:
+
+- **It's a quarter, not a sprint.** A team coming from weekly releases typically spends weeks in Phase 1 alone, and the phases overlap — you don't finish one to begin the next. Size the effort accordingly and protect the time.
+- **Expect a velocity dip in Phase 1 — and say so out loud.** Learning to decompose work, integrate daily, and keep `main` green feels slower before it feels faster. Tell leadership to expect the dip and to watch *stability* (the DORA metrics) alongside speed, so a temporary slowdown isn't mistaken for failure. The payoff shows up in Phases 3–4.
+- **Deal with your existing long-lived branches on day one.** You can't adopt trunk-based development on top of a pile of week-old branches. For each open branch, decide: merge it now (decompose first if it's too big — see [decompose-a-branch](../exercises/decompose-a-branch.md)) or abandon it. Draw the line and start clean.
+- **Sequence a mixed estate deliberately.** Prove CD on a low-blast-radius service first — a new cloud-native one is easiest — but commit to carrying it back to the monolith, where most of the pain and most of the payoff live. The [strangler-fig migration](../sessions/session-3/examples/strangler-fig-violations.md) is how the two estates converge. "We'll get to the monolith later" is how later becomes never.
+- **Buy-in is earned, not announced.** CD spreads by proof. Let the pilot team's numbers make the case to the next team rather than mandating the practice estate-wide on day one — and let the engineers who'll live with trunk-based development help shape how it works on their service.
 
 ---
 

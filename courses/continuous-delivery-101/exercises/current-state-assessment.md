@@ -12,6 +12,8 @@ This is Phase 0 of the [migration checklist](../resources/migration-checklist.md
 
 For each practice, mark one: **Yes** (consistently true), **Partial** (sometimes / for some services), or **No** (not yet). Be honest — a generous score helps no one.
 
+> **Mixed estate?** If you run a long-lived monolith *and* newer services, they're usually at very different CD maturity. Either score your **weakest** system — that's where the binding constraint lives — or fill the scorecard once per system; don't average them into a misleading middle. Note which system each answer refers to.
+
 ### Continuous Integration
 
 | # | Practice | Yes / Partial / No | Evidence |
@@ -71,7 +73,7 @@ You will not fix everything at once. Find the *one* thing most responsible for s
 
 CD spreads by proof, not mandate.
 
-- **Pilot service:** ____________ (pick a small, active, low-blast-radius service — ideally a new AWS one)
+- **Pilot service:** ____________ (a small, active, low-blast-radius service — a new AWS one is easiest, or a single capability you're carving out of the monolith via strangler-fig)
 - **Pilot team:** ____________
 - **First milestone:** ____________ (e.g., "branches under a day for two weeks straight")
 - **How we'll know it worked:** ____________ (which metric moves)

@@ -71,7 +71,7 @@ By completion, participants should be able to:
 
 - **Established systems — here to stay:** monolithic ASP.NET (.NET Framework) Web APIs on Azure VMs. These remain a large part of the estate and won't disappear soon.
 - **New work — cloud-native where possible:** small services on **AWS** — **Lambda** (TypeScript), **ECS**, **DynamoDB**, **SNS**, **SQS**, **API Gateway**, **S3**.
-- **Direction of travel:** the **strangler fig pattern** gradually carves functionality out of the monoliths into new cloud-native services. It is incremental, not a big-bang rewrite — both worlds coexist for the foreseeable future.
+- **Direction of travel:** the **strangler fig pattern** gradually carves functionality out of the monoliths into new cloud-native services. It is incremental, not a big-bang rewrite — both worlds coexist for the foreseeable future. A full worked migration (carving violations out of the monolith into the Lambda service) is in `sessions/session-3/examples/strangler-fig-violations.md`.
 - **Tooling for new services:** IaC via **AWS SAM** (primary for app services) and **AWS CDK** (some deviations); the platform IaC baseline uses CloudFormation. CI/CD via **GitLab CI/CD** with **OIDC** auth (no static AWS credentials).
 
 ### The delivery-practice shift (what this course is actually about)

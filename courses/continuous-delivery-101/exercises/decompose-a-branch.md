@@ -38,6 +38,8 @@ Write your slices in order. Aim for 6–10. Example starting points:
 
 Continue: escalation-level logic, the SNS publish, the history endpoint, turning the flag on.
 
+> **Changing an existing service instead of building a new one?** The method is identical, but your first slices find the *seam* and add the new path **dark**, rather than scaffolding from a `501`. See the brownfield decomposition below, and the worked [strangler-fig migration](../sessions/session-3/examples/strangler-fig-violations.md).
+
 ---
 
 ## Part 2 — Pressure-test your slices (small group, 15 min)
@@ -82,10 +84,27 @@ Nine slices, each merging to trunk the day it's written, each independently depl
 
 ---
 
+## What "good" looks like — a brownfield change
+
+The list above *adds* a new capability. The harder, more common case is changing something already in production, with live data and live readers. Say an existing Violations service stores each violation's escalation as a single `level` string, and product now wants a full `escalationHistory` (each step, with a timestamp). A strong decomposition uses expand/contract so the old path keeps working the whole time:
+
+1. Add the `escalationHistory` store alongside `level`, written by nothing yet. *(Expand — schema only, backward-compatible.)*
+2. On each escalation, write **both** `level` (as today) and an `escalationHistory` entry; reads still use `level`. *(Dual-write, dark for readers.)*
+3. Backfill `escalationHistory` for existing violations, idempotently. *(A job, not a release.)*
+4. Add the history-aware read path behind a flag, off. *(Dark.)*
+5. Shadow: compute the response both ways and log mismatches. *(Measure parity.)*
+6. Flip the flag to serve from `escalationHistory`, ramping by percentage. *(Release decision.)*
+7. Contract: stop writing `level`, remove the old read path, and drop the column once nothing reads it. *(Cleanup — last, and only when no reader remains.)*
+
+Seven slices, each a day's branch, each reversible — on existing code with live data. Where the greenfield slices *add* behavior, the brownfield slices *replace* it safely while the old path keeps running. That difference is the whole skill.
+
+---
+
 ## Output
 
 - A revised, ordered list of 6–10 small slices for your own real feature (use a current backlog item if you have one)
 - Each slice labeled: visible-now vs behind-a-flag
 - Any database change expressed as expand/contract steps
+- If your change is to an existing service: the **seam** you introduce and the **dual-write window** named explicitly
 
 Bring your decomposition to Session 3 — you'll see how each slice flows through the pipeline.

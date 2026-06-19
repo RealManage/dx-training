@@ -24,7 +24,7 @@ RealManage runs a mix, and will for a long time:
 
 - **Established .NET Framework Web APIs on Azure VMs** — large, long-lived, and not going anywhere soon
 - **New, small, cloud-native services on AWS** — Lambda (TypeScript), ECS, DynamoDB, SNS, SQS — built cloud-native where possible
-- We use the **strangler fig pattern** to gradually carve functionality out of the monoliths into these new services — incrementally, not a big-bang rewrite
+- We use the **strangler fig pattern** to gradually carve functionality out of the monoliths into these new services — incrementally, not a big-bang rewrite (worked end to end in [Strangler Fig in Practice](../session-3/examples/strangler-fig-violations.md) — the Violations API you'll meet in Session 3 is the *result* of this migration)
 
 #### What this course changes
 
@@ -36,7 +36,7 @@ This course is about *how we deliver*, not which platform we're on. Across the e
 
 Continuous Delivery moves that to small batches integrated daily, an always-deployable trunk, and the ability to release *any* change *any* day, safely, with low drama.
 
-> The new cloud-native services are the *opportunity* — they carry no legacy deploy process to fight, so they're the natural place to establish CD first. But cloud-native tooling does **not** give you CD for free: CD is a set of working agreements and engineering practices. This course is about those practices; the new services (built with SAM/CDK and shipped through GitLab CI/CD) are just where we'll practice them.
+> The new cloud-native services are an easy *place to start* — they carry no legacy deploy process to fight. But CD is not something you do only on the new services: it is a set of working agreements that apply to the monolith too. Trunk-based development, feature flags (via config, not just Lambda env vars), expand/contract on SQL Server, and build-once-promote all work on an IIS-on-VMs .NET app shipped through the same GitLab CI. We start where the practices are easiest to *see*, then carry them straight back to the estate that needs them most — including the strangler-fig migrations that carve new services out of the monolith ([worked end to end in Session 3](../session-3/examples/strangler-fig-violations.md)).
 
 ---
 
