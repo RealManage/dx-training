@@ -146,4 +146,16 @@ what's still open — the same improvement-tracking loop the AI 101 course used.
 
 ---
 
+## Round 2 — added persona
+
+| # | Student | Role | The lens only they bring |
+| - | ------- | ---- | ------------------------ |
+| 8 | Tex | AI Champion | "AI now writes nearly all our code — does that change CD, and does the course even see it?" The factory view: humans stop turning bolts and move to designing a better factory. Tests whether the course addresses AI-authored development at all, and whether CD's practices matter *more*, *less*, or *differently* when machines write the code. |
+
+Returning personas (1–7) write `review-2`, reporting improved / regressed /
+still-open against their round-1 review. Tex is new this round, so he writes
+`review-1`.
+
+---
+
 *Round 1 personas chosen for resistance coverage. Adjust the roster per round.*
