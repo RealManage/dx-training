@@ -82,6 +82,8 @@ Why it matters: if you rebuild for prod, you've deployed *something you never te
 
 For SAM specifically: `sam build` then `sam package` uploads the code to an artifact bucket and emits a packaged template referencing it by a content hash. Each environment's `sam deploy` consumes that **same** packaged template. Walk it in [`examples/violations-api/README.md`](./examples/violations-api/README.md).
 
+> **Multi-account note:** if dev/qa/prod live in *separate AWS accounts* (common at RealManage), "promote the same bytes" requires the artifact bucket to be reachable across accounts — a shared artifacts account whose bucket policy grants each environment's deploy role read access, or one bucket the build writes to and every account can read. Rebuilding per account would silently break the immutability guarantee. Make the bucket cross-account-readable; don't rebuild.
+
 #### 4.2 Config travels with the artifact (10 minutes)
 
 CD minimum #9: **application configuration deploys with the artifact.** Environment differences live in `configuration/{dev,qa,prod}.config` (the `iac-baseline` convention) and in SAM parameters — *not* hand-patched into a running Lambda.

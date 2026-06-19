@@ -13,9 +13,11 @@ migration + monolith reframe, **H4** migration as a journey, **M3** mixed-estate
 `resources/communicating-releases.md`), and **H5** (governance —
 `resources/governance-and-compliance.md` plus the manual-gate reframe across the
 glossary, troubleshooting, Session 3, and the checklist), and **M1** (the honest costs of CD + a flag-debt mechanism —
-`resources/what-cd-costs.md`, with a weekly-ritual steelman in Session 1). **M4**
-reframed for the no-QA-team reality. Still open: the one-line **M4** course edit,
-**N1** (npm-audit gate), **N2** (cross-account artifact).
+`resources/what-cd-costs.md`, with a weekly-ritual steelman in Session 1). **Round
+1 complete:** the **M4** team-owned-quality statement landed in Session 1 +
+CLAUDE.md, and **N1**/**N2** are done (advisory, prod-scoped `npm audit` gate;
+cross-account artifact-bucket note in Session 3 + the pipeline). Next: a round-2
+persona re-run to validate the fixes against the original reviewers.
 
 ---
 

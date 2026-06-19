@@ -102,6 +102,7 @@ Examples align with the RealManage `iac-baseline` repo conventions:
 - **Smaller batches first.** Most of CD's value comes from shrinking the batch size.
 - **Decouple deploy from release.** Merge daily; reveal features on your schedule.
 - **Automate the verdict.** The pipeline, not a meeting, decides releasability.
+- **The team owns its quality.** There is no separate QA team or QA gate at RealManage; the delivering team owns quality, encoded as the pipeline's automated definition of deployable.
 - **Fail forward by default.** Ship a small fix through the pipeline; keep rollback rehearsed for costly, time-sensitive emergencies.
 - **Honest about where we are.** Use our real pipeline as the starting point, not a strawman.
 

@@ -37,6 +37,9 @@ workflow:
 variables:
   SERVICE_NAME: aws-violations-api
   # Immutable artifact coordinates — keyed by commit SHA. Built once, reused.
+  # Multi-account estates: this bucket must be readable by EVERY environment's
+  #   deploy role (shared artifacts account or a cross-account bucket policy) so
+  #   each stage promotes the SAME bytes instead of rebuilding per account.
   ARTIFACT_BUCKET: realmanage-${SERVICE_NAME}-artifacts
   PACKAGED_TEMPLATE: packaged-${CI_COMMIT_SHA}.yaml
 
@@ -89,7 +92,12 @@ unit-tests:
 
 dependency-audit:
   stage: security
-  script: [npm audit --audit-level=high]
+  # Advisory, not a hard gate: blocking on a noisy signal (unfixable transitive or
+  #   dev-only advisories, no patch available) just trains teams to route around it.
+  #   Surface it every pipeline; escalate specific CVEs deliberately. Scoped to
+  #   production dependencies — dev-only advisories don't ship.
+  script: [npm audit --omit=dev --audit-level=high]
+  allow_failure: true
 
 # -----------------------------------------------------------------------------
 # build — assemble the artifact ONCE on main, package it to S3, and persist the
