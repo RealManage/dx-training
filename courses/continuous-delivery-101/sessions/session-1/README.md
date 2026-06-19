@@ -69,6 +69,8 @@ A weekly release isn't one change — it's *a week of changes* released together
 
 The only escape is counterintuitive: **deploy *more* often, in *smaller* pieces.** Ten one-change deploys a week are each trivially diagnosable and reversible.
 
+> **In fairness to the weekly release:** the cadence wasn't irrational — it gave you a predictable window, a natural batching point for client communication, and a forcing function for "is it ready?" CD has to *replace* each of those (continuous small releases, comms anchored to the flag flip, an automated definition of deployable), not just delete them. You're trading a familiar ritual for better mechanisms — and that trade has a real, front-loaded cost. See [what CD costs you](../../resources/what-cd-costs.md).
+
 #### 2.2 Batch size is the master variable (10 minutes)
 
 Almost every CD benefit traces back to shrinking the batch:

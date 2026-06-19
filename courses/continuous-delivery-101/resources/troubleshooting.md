@@ -36,6 +36,10 @@ Continuous Delivery adoption rarely fails on technology. It stalls on habits, fe
 
 **The reality:** it doesn't go away — it changes what it's built from. Today that email is assembled from stories tagged with a weekly *deploy*'s release number. Under CD there's no weekly bundle, and deploy ≠ release, so you build the notes from **user-facing releases** — the feature-flag flips users actually feel — instead of the deploy log. Cadence stays your choice: keep the weekly digest if clients like it. The full playbook, including the release manager's evolved role, is in [communicating-releases](./communicating-releases.md).
 
+### "Isn't CD a lot of ongoing overhead — daily reviews, flag upkeep, stop-the-line?"
+
+**The reality:** yes, and we don't pretend otherwise. Daily integration is an interruption tax, the review-turnaround target is a real commitment, and feature flags are inventory you must actively retire. But you're already paying *more* — later and unpredictably — in merge hell, release-day firefighting, and rollback panic. CD moves the cost up front where it's smaller and predictable, and the one cost that compounds (flag debt) gets a mechanism, not a plea for discipline. The honest accounting is in [what CD costs you](./what-cd-costs.md).
+
 ---
 
 ## Technical blockers and fixes

@@ -95,7 +95,7 @@ Key discipline points covered there:
 
 - Default **off**; the flag's *absence* must be safe
 - Flag config is environment config — it travels with the deploy (or lives in a config store), it is not hard-coded per branch
-- Flags are **temporary** — once a feature is fully released, remove the flag and the dead path (flag debt is real debt)
+- Flags are **temporary**, and "be disciplined" isn't a plan — give each flag an owner, a creation date, and a removal condition in a flag inventory, let a CI **stale-flag check** fail the build when one outlives its expiry, and make "delete the flag" the last slice of the feature. The mechanism (and CD's other recurring costs) is in [what CD costs you](../../resources/what-cd-costs.md)
 
 ---
 

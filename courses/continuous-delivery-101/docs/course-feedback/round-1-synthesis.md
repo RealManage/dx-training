@@ -12,9 +12,10 @@ migration + monolith reframe, **H4** migration as a journey, **M3** mixed-estate
 + brownfield exercises), **H1** (release communication —
 `resources/communicating-releases.md`), and **H5** (governance —
 `resources/governance-and-compliance.md` plus the manual-gate reframe across the
-glossary, troubleshooting, Session 3, and the checklist). **M4** reframed for the
-no-QA-team reality. Still open: **M1** (CD's costs), the one-line **M4** course
-edit, **N1**/**N2**.
+glossary, troubleshooting, Session 3, and the checklist), and **M1** (the honest costs of CD + a flag-debt mechanism —
+`resources/what-cd-costs.md`, with a weekly-ritual steelman in Session 1). **M4**
+reframed for the no-QA-team reality. Still open: the one-line **M4** course edit,
+**N1** (npm-audit gate), **N2** (cross-account artifact).
 
 ---
 

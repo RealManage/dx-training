@@ -99,7 +99,10 @@ export async function recordViolation(
  * A flag is scaffolding, not architecture. Once a feature is fully released in
  * all environments, delete the flag AND the dead `if (!enabled)` path in the
  * same small MR. Stale flags are technical debt: they multiply code paths,
- * confuse readers, and rot into bugs. Track flag removal like any other work.
+ * confuse readers, and rot into bugs. Don't rely on discipline: give each flag an
+ * owner, a creation date, and a removal condition in a flag inventory, and add a CI
+ * stale-flag check that fails when a flag outlives its expiry. Best of all, make
+ * "delete the flag" the last planned slice of the feature, not a someday-ticket.
  *
  * ---------------------------------------------------------------------------
  * GRADUATING TO A MANAGED SERVICE
