@@ -1,0 +1,178 @@
+# =============================================================================
+# HOA Violations API — full commit -> production pipeline (CD 101 target)
+# =============================================================================
+# This is the pipeline we BUILD TOWARD. It extends Session 2's CI front-half
+# (validate/test/security) with:
+#   - build: assemble the IMMUTABLE artifact ONCE (CD minimum #5)
+#   - dev/qa/prod: promote the SAME artifact, config-only differences (#9)
+#   - smoke tests after each deploy so promotion is VERIFIED, not just attempted
+#
+# How it differs from today's iac-baseline (see Session 1 walkthrough):
+#   - dev and qa AUTO-PROMOTE on green — the PIPELINE decides releasability (#3),
+#     not a human clicking every stage.
+#   - Only PROD keeps a deliberate manual gate. That gate approves *timing*, not
+#     *readiness* (readiness was already proven). This is Continuous DELIVERY:
+#     a human still chooses when prod happens. Drop this gate later, per service,
+#     to reach Continuous Deployment once trust + observability justify it.
+#
+# Auth: GitLab OIDC, no static AWS credentials (iac-baseline convention).
+#   Role ARN: arn:aws:iam::${AWS_ACCOUNT}:role/gitlab-runner-role-${CI_ENVIRONMENT_NAME}
+# =============================================================================
+
+stages:
+  - validate
+  - test
+  - security
+  - build
+  - dev
+  - qa
+  - prod
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+    - if: $CI_COMMIT_BRANCH
+
+variables:
+  SERVICE_NAME: aws-violations-api
+  # Immutable artifact coordinates — keyed by commit SHA. Built once, reused.
+  ARTIFACT_BUCKET: realmanage-${SERVICE_NAME}-artifacts
+  PACKAGED_TEMPLATE: packaged-${CI_COMMIT_SHA}.yaml
+
+default:
+  image: node:22-alpine # ← pin by digest before merging (iac-baseline convention)
+  cache:
+    key: { files: [package-lock.json] }
+    paths: [.npm/]
+  before_script:
+    - npm ci --cache .npm --prefer-offline
+
+# OIDC: assume the per-environment role. No static keys anywhere.
+.aws_oidc:
+  id_tokens:
+    GITLAB_OIDC_TOKEN: { aud: "https://gitlab.com" }
+  before_script:
+    - >
+      aws sts assume-role-with-web-identity
+      --role-arn "arn:aws:iam::${AWS_ACCOUNT}:role/gitlab-runner-role-${CI_ENVIRONMENT_NAME}"
+      --role-session-name "ci-${CI_PIPELINE_ID}"
+      --web-identity-token "$GITLAB_OIDC_TOKEN" > /tmp/creds.json
+    # (export the returned credentials into the environment — elided for brevity)
+
+# -----------------------------------------------------------------------------
+# validate / test / security — the DEFINITION OF DEPLOYABLE. Runs on every branch
+# and MR; a red result blocks the merge. (Same as Session 2's ci-pipeline.)
+# -----------------------------------------------------------------------------
+
+lint:
+  stage: validate
+  script: [npm run lint]
+
+validate:sam:
+  stage: validate
+  image: public.ecr.aws/sam/build-nodejs22.x:latest
+  before_script: []
+  script: [sam validate --lint]
+
+unit-tests:
+  stage: test
+  script: [npm test -- --coverage]
+  coverage: '/Statements\s*:\s*(\d+\.?\d*)%/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/cobertura-coverage.xml
+
+dependency-audit:
+  stage: security
+  script: [npm audit --audit-level=high]
+
+# -----------------------------------------------------------------------------
+# build — assemble the artifact ONCE on main, package it to S3, and persist the
+# packaged template so EVERY environment deploys the identical bytes. (#5, #9)
+# -----------------------------------------------------------------------------
+
+build:artifact:
+  stage: build
+  extends: .aws_oidc
+  image: public.ecr.aws/sam/build-nodejs22.x:latest
+  environment: { name: dev } # needs an account to reach the artifact bucket
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  script:
+    - npm run build # esbuild bundle
+    - sam build
+    - >
+      sam package
+      --s3-bucket "${ARTIFACT_BUCKET}"
+      --s3-prefix "${CI_COMMIT_SHA}"
+      --output-template-file "${PACKAGED_TEMPLATE}"
+  artifacts:
+    paths: ["${PACKAGED_TEMPLATE}"] # promoted as-is to every stage below
+    expire_in: 30 days
+
+# -----------------------------------------------------------------------------
+# Reusable deploy + smoke template. Each environment deploys the SAME packaged
+# template; only --parameter-overrides (from configuration/${ENV}.config) differ.
+# -----------------------------------------------------------------------------
+
+.deploy:
+  extends: .aws_oidc
+  image: public.ecr.aws/sam/build-nodejs22.x:latest
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  script:
+    - source ./configuration/${CI_ENVIRONMENT_NAME}.config
+    - >
+      sam deploy
+      --template-file "${PACKAGED_TEMPLATE}"
+      --stack-name "${CI_ENVIRONMENT_NAME}-${SERVICE_NAME}"
+      --capabilities CAPABILITY_IAM
+      --no-confirm-changeset --no-fail-on-empty-changeset
+      --parameter-overrides
+      EnvironmentName=${CI_ENVIRONMENT_NAME}
+      FlagViolationsRecord=${FLAG_VIOLATIONS_RECORD}
+      FlagViolationsNotify=${FLAG_VIOLATIONS_NOTIFY}
+    # Smoke test: prove the deploy actually works before promoting onward.
+    - ./scripts/smoke-test.sh "${CI_ENVIRONMENT_NAME}"
+
+deploy:dev:
+  extends: .deploy
+  stage: dev
+  environment: { name: dev }
+  needs: [build:artifact, unit-tests, dependency-audit]
+  # AUTO on green — no manual click. The pipeline decides releasability.
+
+deploy:qa:
+  extends: .deploy
+  stage: qa
+  environment: { name: qa }
+  needs: [deploy:dev]
+  # AUTO after dev's smoke test passes. Promotes the SAME artifact.
+
+deploy:prod:
+  extends: .deploy
+  stage: prod
+  environment: { name: prod }
+  needs: [deploy:qa]
+  when: manual # ONLY remaining gate: a human approves TIMING (Continuous Delivery)
+  allow_failure: false
+
+# =============================================================================
+# READING GUIDE (use in the Session 3 workshop)
+# =============================================================================
+# - Definition of deployable .... validate + test + security stages
+# - Immutable artifact .......... build:artifact (built ONCE, kept 30 days)
+# - Promotion (not rebuild) ..... deploy:* all consume ${PACKAGED_TEMPLATE}
+# - Releasability decided by ..... the pipeline (dev/qa auto on green)
+# - Human decision .............. ONLY prod timing (when: manual)
+# - Verified, not hoped .......... smoke-test.sh after every deploy
+# - No static creds ............. .aws_oidc assumes a per-env role
+# - Config with the artifact .... configuration/${ENV}.config -> parameter-overrides
+# - Recovery .................... fail forward by default (ship a fix through THIS
+#                                 pipeline); roll back only when costly + time-
+#                                 sensitive — canary auto-rollback / alias shift
+#                                 (rollback-on-aws.md)
+# =============================================================================

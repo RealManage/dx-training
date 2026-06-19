@@ -1,0 +1,142 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  HOA Violations API — a small cloud-native service used to teach Continuous
+  Delivery. A TypeScript Lambda behind API Gateway records a violation to
+  DynamoDB and publishes a ViolationRecorded event to SNS.
+
+  Teaching notes are inline. Naming, tagging, environments, and SSM publishing
+  follow the RealManage iac-baseline conventions so this maps to real projects.
+
+# ---------------------------------------------------------------------------
+# Parameters — environment differences arrive here, from configuration/{env}.config
+# via the deploy stage. The ARTIFACT IS IDENTICAL across environments; only these
+# parameters change. That is "config travels with the artifact", and "build once,
+# promote the same bytes" (CD minimums #9 and #5).
+# ---------------------------------------------------------------------------
+Parameters:
+  EnvironmentName:
+    Type: String
+    AllowedValues: [dev, qa, prod]
+    Description: Target environment. Drives stack name, tags, and config.
+
+  ServiceName:
+    Type: String
+    Default: aws-violations-api # iac-baseline: aws- prefix, lowercase-kebab-case
+
+  # Feature flags arrive as parameters and become Lambda env vars. Default OFF so
+  # the artifact ships dark and a flag flip (config) — not a deploy — releases it.
+  FlagViolationsRecord:
+    Type: String
+    AllowedValues: ["true", "false"]
+    Default: "false"
+  FlagViolationsNotify:
+    Type: String
+    AllowedValues: ["true", "false"]
+    Default: "false"
+
+  LogLevel:
+    Type: String
+    Default: info
+
+Mappings:
+  # Production-like, scaled differences. qa mirrors prod's SHAPE (CD minimum #7).
+  EnvConfig:
+    dev: { LogRetentionDays: 7 }
+    qa: { LogRetentionDays: 30 }
+    prod: { LogRetentionDays: 365 }
+
+Globals:
+  Function:
+    Runtime: nodejs22.x
+    Timeout: 10
+    MemorySize: 256
+    Tracing: Active # X-Ray: observability is part of "deliver small changes safely"
+
+Resources:
+  ViolationsTable:
+    Type: AWS::DynamoDB::Table
+    # Retain shared-env data; the iac-baseline pattern gates this on stack type.
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      TableName: !Sub "${EnvironmentName}-${ServiceName}-violations"
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - { AttributeName: propertyId, AttributeType: S }
+        - { AttributeName: violationId, AttributeType: S }
+      KeySchema:
+        - { AttributeName: propertyId, KeyType: HASH }
+        - { AttributeName: violationId, KeyType: RANGE }
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+
+  ViolationEventsTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: !Sub "${EnvironmentName}-${ServiceName}-violation-events"
+
+  ViolationsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub "${EnvironmentName}-${ServiceName}"
+      Handler: dist/handler.handler
+      # ---- Rollback machinery (CD minimum #8) -----------------------------
+      # AutoPublishAlias creates an immutable version per deploy and a `live`
+      # alias pointing at it. Rollback = repoint the alias to the prior version.
+      AutoPublishAlias: live
+      # Canary: shift 10% of traffic for 5 min; auto-roll-back on the alarm below.
+      DeploymentPreference:
+        Type: Canary10Percent5Minutes
+        Alarms:
+          - !Ref ViolationsErrorAlarm
+      # ---------------------------------------------------------------------
+      Environment:
+        Variables:
+          VIOLATIONS_TABLE: !Ref ViolationsTable
+          VIOLATION_EVENTS_TOPIC: !Ref ViolationEventsTopic
+          FLAG_VIOLATIONS_RECORD: !Ref FlagViolationsRecord
+          FLAG_VIOLATIONS_NOTIFY: !Ref FlagViolationsNotify
+          LOG_LEVEL: !Ref LogLevel
+      Policies:
+        - DynamoDBCrudPolicy: { TableName: !Ref ViolationsTable }
+        - SNSPublishMessagePolicy: { TopicName: !GetAtt ViolationEventsTopic.TopicName }
+      Events:
+        RecordViolation:
+          Type: Api
+          Properties: { Path: /violations, Method: post }
+        GetHistory:
+          Type: Api
+          Properties: { Path: /violations, Method: get }
+
+  ViolationsErrorAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmDescription: !Sub "${EnvironmentName} ${ServiceName} canary error guard"
+      Namespace: AWS/Lambda
+      MetricName: Errors
+      Dimensions:
+        - { Name: FunctionName, Value: !Ref ViolationsFunction }
+      Statistic: Sum
+      Period: 60
+      EvaluationPeriods: 1
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      TreatMissingData: notBreaching
+
+  # Publish discovery values to SSM at the iac-baseline path convention so other
+  # services find this one without hard-coded ARNs.
+  TopicArnParam:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: !Sub "/${EnvironmentName}/stacks/${EnvironmentName}-${ServiceName}/violation-events-topic-arn"
+      Type: String
+      Value: !Ref ViolationEventsTopic
+
+Outputs:
+  ApiUrl:
+    Description: Invoke URL for the Violations API
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/violations"
+  FunctionAlias:
+    Description: The live alias (rollback target)
+    Value: !Ref ViolationsFunction.Alias

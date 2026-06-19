@@ -1,0 +1,111 @@
+# =============================================================================
+# CI front-half for the HOA Violations API (TypeScript Lambda + SAM)
+# =============================================================================
+# This file shows ONLY the Continuous Integration portion — the gates that keep
+# the trunk releasable. These run on EVERY branch and merge request, fast, so a
+# change proves itself BEFORE it merges to `main`.
+#
+# Session 3 extends this same file with build (immutable artifact) and the
+# dev -> qa -> prod deploy stages. Keep this open next to that one.
+#
+# Conventions follow the RealManage iac-baseline:
+#   - digest-pinned images (mutable tags get re-pushed; pinning = reproducible)
+#   - no static AWS credentials (deploy stages use OIDC; CI gates need no AWS)
+# =============================================================================
+
+stages:
+  - validate # lint + IaC validation, fastest feedback
+  - test # unit tests + coverage threshold
+  - security # dependency + IaC scanning
+
+# Run the branch pipeline, not a duplicate MR pipeline.
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+    - if: $CI_COMMIT_BRANCH
+
+# Pin CI images by digest before merging — mutable tags get re-pushed upstream,
+# so a digest pin keeps the pipeline reproducible. Form: node:22-alpine@sha256:<64-hex>
+default:
+  image: node:22-alpine # ← replace with the digest-pinned reference
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - .npm/
+  before_script:
+    - npm ci --cache .npm --prefer-offline
+
+# -----------------------------------------------------------------------------
+# validate — runs on every push. Style + IaC template sanity. Seconds, not
+# minutes: slow gates get routed around.
+# -----------------------------------------------------------------------------
+
+lint:
+  stage: validate
+  script:
+    - npm run lint
+
+validate:sam:
+  stage: validate
+  image: public.ecr.aws/sam/build-nodejs22.x:latest
+  before_script: [] # SAM image already has the toolchain
+  script:
+    - sam validate --lint
+
+# -----------------------------------------------------------------------------
+# test — unit tests must pass AND coverage must clear the floor before merge.
+# This is the core of the "definition of deployable" for app code: green here
+# is what lets the trunk stay releasable.
+# -----------------------------------------------------------------------------
+
+unit-tests:
+  stage: test
+  script:
+    - npm test -- --coverage
+  coverage: '/Statements\s*:\s*(\d+\.?\d*)%/'
+  artifacts:
+    when: always
+    reports:
+      junit: junit.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/cobertura-coverage.xml
+    expire_in: 1 week
+
+# A coverage THRESHOLD turns "we have some tests" into a real gate. Configure the
+# floor in the test runner (e.g. vitest coverage.thresholds in vitest.config.ts)
+# so the job fails below it. Start where you are; ratchet the floor up over time.
+
+# -----------------------------------------------------------------------------
+# security — dependency audit + IaC scan. A vulnerable dependency or an insecure
+# resource is not "deployable", so it belongs in the definition of deployable.
+# -----------------------------------------------------------------------------
+
+dependency-audit:
+  stage: security
+  script:
+    - npm audit --audit-level=high
+
+iac-scan:
+  stage: security
+  image: python:3.12-alpine # ← pin by digest before merging
+  before_script:
+    - pip install --no-cache-dir cfn-lint==1.26.1
+  script:
+    # SAM transforms to CloudFormation; cfn-lint catches template issues early.
+    - cfn-lint template.yaml
+  # Add checkov / cfn-nag here as the team matures its IaC security gate.
+
+# =============================================================================
+# WHAT MAKES THIS REAL CI (not just "a pipeline")
+# =============================================================================
+# 1. It runs on EVERY branch — feedback before merge, not after release.
+# 2. It is FAST — unit tests in seconds, so nobody is tempted to skip it.
+# 3. A red result BLOCKS the merge — the trunk stays releasable by construction.
+# 4. Branches that feed it are SHORT-LIVED — the pipeline is only as "continuous"
+#    as the integration behind it. A perfect pipeline on week-old branches
+#    is still not CI. That part is a team agreement, not YAML.
+# =============================================================================

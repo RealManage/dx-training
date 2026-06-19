@@ -24,6 +24,16 @@ Learn to bridge the gap between business requirements and technical implementati
 
 [**Start Course →**](./courses/bdd-101/README.md)
 
+### [Continuous Delivery 101: Ship Small, Safe, and Often](./courses/continuous-delivery-101/)
+
+**Duration:** 3 sessions (2 hours each)
+**Level:** Intermediate
+**Status:** Active
+
+Move your team from weekly deployments with long-lived branches to true Continuous Delivery on AWS. Built on [minimumcd.org](https://minimumcd.org) and grounded in RealManage's shift from .NET Framework monoliths on Azure VMs to cloud-native services (Lambda, ECS, DynamoDB, SNS, SQS). Covers trunk-based development, feature flags, the single-path-to-production pipeline (GitLab CI + SAM), immutable artifacts, and rollback.
+
+[**Start Course →**](./courses/continuous-delivery-101/README.md)
+
 ### Coming Soon
 
 - **AI 102: Advanced Claude Code** — Agent Teams, spec-driven development, multi-agent orchestration, and enterprise trust patterns
@@ -113,6 +123,7 @@ cd dx-training
 
 - [AI 101: Claude Code](./courses/ai-101-claude-code/README.md) — Start with Week 1 setup
 - [BDD 101: Behavior-Driven Development](./courses/bdd-101/README.md) — Start with Session 1
+- [Continuous Delivery 101](./courses/continuous-delivery-101/README.md) — Start with Session 1
 
 Each course README has prerequisites, setup instructions, and a weekly curriculum to follow.
 
@@ -171,6 +182,6 @@ You are free to share and adapt this material with appropriate credit to RealMan
 
 ---
 
-**Ready to start?** [AI 101: Claude Code →](./courses/ai-101-claude-code/README.md) | [BDD 101 →](./courses/bdd-101/README.md)
+**Ready to start?** [AI 101: Claude Code →](./courses/ai-101-claude-code/README.md) | [BDD 101 →](./courses/bdd-101/README.md) | [Continuous Delivery 101 →](./courses/continuous-delivery-101/README.md)
 
 *"Investing in our team's growth is investing in RealManage's future."* — DX Team
