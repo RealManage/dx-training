@@ -54,6 +54,7 @@ continuous-delivery-101/
 │   ├── minimums-reference.md          # The MinimumCD CI + CD practices, cited
 │   ├── glossary.md                    # CD vocabulary
 │   ├── migration-checklist.md         # The 5-phase migration path as a checklist
+│   ├── communicating-releases.md      # Release notes & client comms once deploy ≠ release
 │   └── troubleshooting.md             # Common objections and adoption blockers
 ├── exercises/                          # Practice materials
 │   ├── current-state-assessment.md    # Score your team against the minimums

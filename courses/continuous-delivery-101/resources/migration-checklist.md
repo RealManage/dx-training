@@ -83,6 +83,7 @@ Deploy any change to production at any time, based on business need.
 - [ ] Any green commit on `main` can reach production the same day with no re-typed commands
 - [ ] Releases are routine and low-drama, not events
 - [ ] Deploy and release are decoupled — flags control feature exposure
+- [ ] Release communication is re-established on the new footing: notes built from user-facing releases (flag flips), not the deploy log — see [communicating-releases](communicating-releases.md)
 - [ ] (Optional) Continuous Deployment: green commits auto-release with no human gate
 - [ ] Metrics show the trend: frequency up, lead time down, failure rate steady or down, restore time down
 - [ ] Roll the pattern out from the pilot team to the next team

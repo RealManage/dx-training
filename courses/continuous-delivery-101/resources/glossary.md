@@ -94,6 +94,9 @@ Deploying a feature to production turned off (or to a subset of users) to valida
 **Expand/contract (parallel change)**
 A technique for changing a shared resource (e.g., a database schema) without breaking running code: first *expand* — add the new shape and write to both old and new; then migrate readers; then *contract* — remove the old shape. Each step is a small, backward-compatible deploy, so code and data can move forward or back independently. This is the answer to the rollback "data trap."
 
+**Release notes (changelog)**
+The human-facing record of what changed *for users*. Under CD it is anchored to releases — feature-flag flips / user-facing changes — not to deploys. See [communicating-releases](communicating-releases.md).
+
 ## AWS and RealManage specifics
 
 **SAM (Serverless Application Model)**

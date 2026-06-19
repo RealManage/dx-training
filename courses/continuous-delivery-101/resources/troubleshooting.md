@@ -32,6 +32,10 @@ Continuous Delivery adoption rarely fails on technology. It stalls on habits, fe
 
 **The reality:** that's Continuous *Deployment*, and it's optional. Continuous *Delivery* keeps every change deployable and lets a human decide *when* to release. You gain control: you can release any time you choose, instead of only on the weekly window.
 
+### "If we ship continuously, what happens to our weekly release email?"
+
+**The reality:** it doesn't go away — it changes what it's built from. Today that email is assembled from stories tagged with a weekly *deploy*'s release number. Under CD there's no weekly bundle, and deploy ≠ release, so you build the notes from **user-facing releases** — the feature-flag flips users actually feel — instead of the deploy log. Cadence stays your choice: keep the weekly digest if clients like it. The full playbook, including the release manager's evolved role, is in [communicating-releases](./communicating-releases.md).
+
 ---
 
 ## Technical blockers and fixes

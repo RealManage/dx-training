@@ -40,7 +40,7 @@ Take the **HOA Violations API** (TypeScript Lambda). A board-facing change — s
 
 1. Pipeline runs: lint, unit tests, coverage, `sam validate`, security scan — all green.
 2. The artifact is now *deployable* and sitting ready.
-3. The team deploys to prod **when it makes sense** — maybe immediately, maybe after the board's Tuesday meeting, maybe alongside a comms email. A human decides the *timing*; the pipeline already decided the *readiness*.
+3. The team deploys to prod **when it makes sense** — maybe immediately, maybe after the board's Tuesday meeting, maybe alongside a client communication. A human decides the *timing*; the pipeline already decided the *readiness*. And what you announce is the **release**, not the deploy — see [Communicating Releases](../../../resources/communicating-releases.md).
 
 **Under Continuous Deployment:**
 
@@ -67,3 +67,4 @@ That objection is about Continuous **Deployment**. Continuous **Delivery** keeps
 - [Minimums Reference](../../../resources/minimums-reference.md)
 - [Glossary](../../../resources/glossary.md) — see *deploy* vs *release*, *feature flag*
 - Feature flags in practice: [Session 2](../../session-2/README.md)
+- [Communicating Releases](../../../resources/communicating-releases.md) — what replaces the weekly release email under CD

@@ -7,12 +7,14 @@ exercises, and wrote a structured review. This doc consolidates them into a
 prioritized triage.
 
 **Status (2026-06-19):** Applied so far — **M2** (glossary + clarity), **H2**
-(OIDC auth + canary alarm), and the **big lift**: **H3** (worked strangler-fig
+(OIDC auth + canary alarm), the **big lift** (**H3** worked strangler-fig
 migration `sessions/session-3/examples/strangler-fig-violations.md` + monolith
-reframe in Session 1), **H4** (migration as a journey — day-1 branches,
-sequencing, velocity dip, buy-in), **M3** (mixed-estate assessment + brownfield
-decompose example). **M4** reframed for the no-QA-team reality. Still open:
-**H1** (release comms), **H5** (governance), **M1** (CD's costs), **N1**/**N2**.
+reframe in Session 1, **H4** migration as a journey, **M3** mixed-estate +
+brownfield exercises), and **H1** (release communication — new
+`resources/communicating-releases.md` plus integrations across Session 3, the
+migration checklist, troubleshooting, glossary, and the once-orphaned CD-vs
+example). **M4** reframed for the no-QA-team reality. Still open: **H5**
+(governance), **M1** (CD's costs), the one-line **M4** course edit, **N1**/**N2**.
 
 ---
 

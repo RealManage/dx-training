@@ -44,6 +44,8 @@ The shift: green should *mean* deployable, automatically. A human may still choo
 
 > **Engineering Lead note:** a manual prod gate is a legitimate control — for compliance, or for early confidence in a new service. Keep it *honest*: it approves timing, the pipeline already proved readiness. The goal is to let green flow automatically at least through qa, and to make prod *one* deliberate decision, not three manual clicks per release. Revisit each gate as trust grows.
 
+Decoupling deploy from release also moves *communication*: under CD you announce the **release** — the flag flip users actually feel — not the deploy. The weekly client email doesn't die; it gets rebuilt from user-facing releases instead of the deploy log. See [Communicating Releases](../../resources/communicating-releases.md).
+
 ---
 
 ### 3. Definition of Deployable (15 minutes)
@@ -146,6 +148,7 @@ Using the [Migration Checklist](../../resources/migration-checklist.md) and your
 
 - One pipeline, one path — shared environments deploy only through it, via OIDC
 - "Deployable" is automated criteria; releasability belongs to the pipeline, timing to a human
+- Communicate the *release* (the flag flip users feel), not the deploy — rebuild release notes from user-facing releases
 - Build the artifact once; promote the same bytes; vary only config
 - Fail forward by default; keep rollback fast and rehearsed, and reserve it for costly, time-sensitive problems
 - The migration is phased: shrink batches, build the path, optimize, deliver on demand
@@ -168,6 +171,7 @@ Re-run the [Current-State Assessment](../../exercises/current-state-assessment.m
 - [Target pipeline: .gitlab-ci.yml](./examples/.gitlab-ci.yml)
 - [Rollback on AWS](./examples/rollback-on-aws.md)
 - [Migration Checklist](../../resources/migration-checklist.md)
+- [Communicating Releases](../../resources/communicating-releases.md)
 - [Minimums Reference](../../resources/minimums-reference.md)
 - [`iac-baseline`](https://gitlab.com/therealmanage/infrastructure/aws/iac-baseline) — our IaC conventions
 
