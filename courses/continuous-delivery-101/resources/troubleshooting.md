@@ -26,7 +26,7 @@ Continuous Delivery adoption rarely fails on technology. It stalls on habits, fe
 
 ### "Compliance / change management requires a manual approval."
 
-**The reality:** that's legitimate, and a manual gate is a fine *transitional* state. But keep it honest: the human is approving *timing*, not re-deciding *releasability* — the pipeline already proved the change is deployable. Over time, replace the gate with automated verification (smoke tests, canary metrics) where the control allows. A manual gate everywhere, forever, means you've stopped at Phase 2.
+**The reality:** legitimate — and CD accommodates it. Keep the distinction sharp: a human *authorizing* a release (accepting risk, honoring a change window, a regulated sign-off) is a fine **permanent** control; a human re-deciding *readiness* the pipeline already proved is **debt**. Remove the second, keep the first — deliberately. And notice CD often gives you *stronger* controls than the manual gate did: mandatory MR review is segregation of duties, and the pipeline is a complete, tamper-resistant audit trail. See [governance-and-compliance](./governance-and-compliance.md).
 
 ### "Continuous Delivery means losing control — code just ships."
 

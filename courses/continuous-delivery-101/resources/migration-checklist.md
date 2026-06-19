@@ -4,7 +4,7 @@ A team's working template for adopting Continuous Delivery, organized as the fiv
 
 > **The trap to break:** infrequent deployment is self-reinforcing. Deploy rarely → each deploy is large → large deploys are risky → fear of risk makes you deploy even less. The only way out is *smaller, more frequent* releases. Every phase below pushes batch size down.
 >
-> **Engineering Lead note:** Foundations (Phase 1) look like "slowing down to invest." They are not delay — they are the prerequisite for speed. Budget for them explicitly, give one pilot team a change window and the authority to deploy, and measure *stability alongside speed* (DORA's four metrics) from day one.
+> **Engineering Lead note:** Foundations (Phase 1) look like "slowing down to invest." They are not delay — they are the prerequisite for speed. Budget for them explicitly, give one pilot team a change window and the authority to deploy, and measure *stability alongside speed* (DORA's four metrics) from day one. On control and compliance: CD doesn't weaken governance, it makes it automated and auditable — see [governance-and-compliance](governance-and-compliance.md).
 
 ---
 
@@ -53,6 +53,8 @@ Build one automated path from commit to production, with security scanning.
 - [ ] A production-like environment (`qa`) exists and mirrors `prod`
 - [ ] Quality gates encode the definition of deployable: lint, unit tests, coverage threshold, security scan (`cfn-lint` / `sam validate` / dependency + IaC scanning)
 - [ ] The pipeline's green/red verdict is authoritative — nothing ships around it
+- [ ] Map change-control evidence to pipeline artifacts (MR review = segregation of duties; pipeline run + SHA-tagged immutable artifact = audit trail) — see [governance-and-compliance](governance-and-compliance.md)
+- [ ] Document a break-glass procedure for emergencies: scoped, logged, with post-incident review
 - [ ] **Failing forward is the default recovery move** — a small fix flows through the pipeline in minutes
 - [ ] Rollback is implemented and **rehearsed** as the emergency lever for costly, time-sensitive problems (redeploy previous artifact / shift Lambda alias)
 - [ ] Stop-the-line extends to the deployment pipeline, not just the build

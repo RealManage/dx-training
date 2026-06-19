@@ -8,13 +8,13 @@ prioritized triage.
 
 **Status (2026-06-19):** Applied so far — **M2** (glossary + clarity), **H2**
 (OIDC auth + canary alarm), the **big lift** (**H3** worked strangler-fig
-migration `sessions/session-3/examples/strangler-fig-violations.md` + monolith
-reframe in Session 1, **H4** migration as a journey, **M3** mixed-estate +
-brownfield exercises), and **H1** (release communication — new
-`resources/communicating-releases.md` plus integrations across Session 3, the
-migration checklist, troubleshooting, glossary, and the once-orphaned CD-vs
-example). **M4** reframed for the no-QA-team reality. Still open: **H5**
-(governance), **M1** (CD's costs), the one-line **M4** course edit, **N1**/**N2**.
+migration + monolith reframe, **H4** migration as a journey, **M3** mixed-estate
++ brownfield exercises), **H1** (release communication —
+`resources/communicating-releases.md`), and **H5** (governance —
+`resources/governance-and-compliance.md` plus the manual-gate reframe across the
+glossary, troubleshooting, Session 3, and the checklist). **M4** reframed for the
+no-QA-team reality. Still open: **M1** (CD's costs), the one-line **M4** course
+edit, **N1**/**N2**.
 
 ---
 

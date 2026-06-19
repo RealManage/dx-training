@@ -42,7 +42,7 @@ CD minimum #3: **the pipeline decides releasability and its verdict is definitiv
 
 The shift: green should *mean* deployable, automatically. A human may still choose *when* to release to prod (that's Continuous Delivery, not Continuous Deployment), but they are approving **timing**, not re-litigating **readiness**. If a meeting decides whether the build is "ready," the pipeline doesn't own releasability yet.
 
-> **Engineering Lead note:** a manual prod gate is a legitimate control — for compliance, or for early confidence in a new service. Keep it *honest*: it approves timing, the pipeline already proved readiness. The goal is to let green flow automatically at least through qa, and to make prod *one* deliberate decision, not three manual clicks per release. Revisit each gate as trust grows.
+> **Engineering Lead note:** a manual prod gate is a legitimate control — for compliance, or for early confidence in a new service. Keep it *honest*: it approves timing, the pipeline already proved readiness. The goal is to let green flow automatically at least through qa, and to make prod *one* deliberate decision, not three manual clicks per release. Revisit each gate as trust grows. (When a gate is a legitimate permanent control rather than debt — and for segregation of duties and audit evidence under CD — see [Governance & Compliance](../../resources/governance-and-compliance.md).)
 
 Decoupling deploy from release also moves *communication*: under CD you announce the **release** — the flag flip users actually feel — not the deploy. The weekly client email doesn't die; it gets rebuilt from user-facing releases instead of the deploy log. See [Communicating Releases](../../resources/communicating-releases.md).
 

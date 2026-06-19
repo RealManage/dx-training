@@ -72,7 +72,7 @@ An artifact built exactly once from a commit and never modified afterward. The s
 Moving the *same* artifact from one environment to the next (dev → qa → prod), rather than rebuilding per environment.
 
 **Manual gate / approval gate**
-A pipeline step that waits for a human to click "deploy." A transitional compromise on the road to CD — useful for compliance or early confidence, but not the goal.
+A pipeline step that waits for a human before proceeding. It is *debt* when it re-litigates readiness the pipeline already proved; it is a *legitimate, permanent control* when it is a deliberate authorization of timing or risk (compliance, a contractual change window). Remove the former; keep the latter honestly. See [governance-and-compliance](governance-and-compliance.md).
 
 **Smoke test**
 A fast, shallow check run immediately *after* a deploy to confirm the service is actually up and serving — a health endpoint or one real request — before promotion continues. It proves the deploy worked; it is not full testing.
