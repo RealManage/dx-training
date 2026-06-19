@@ -27,8 +27,18 @@ gate-honesty), and exercise/example patches (test-independence + review-burden i
 the assessment, the durable-human-skill note in decompose-a-branch, a human/agent
 division-of-labour sidebar in strangler-fig, an accounting line in what-cd-costs).
 Per the decision, all references stay **inside CD 101** — AI 101 untouched, no new
-cross-course links. Remaining: the MEDIUM/NICE tail (R2-M1…M4, R2-N1…N4). Awaiting
-go-ahead per item.
+cross-course links. Plus the **cheap sweep**: **R2-M1** (glossary gained two
+sections — Migration & data: strangler fig, seam, system of record, idempotent,
+watermark, reconciliation; and Governance & control: SoD, audit trail,
+break-glass, emergency change), **R2-N1** (README goal rescoped to the whole
+estate; James Clear quote re-attributed), **R2-N2** (DORA survey-data caveat in
+Session 1; the stale-flag check shown as a runnable CI job in what-cd-costs),
+**R2-N3** (Riley's tail: alias-shift drift now leads its section; divide-by-zero
+teaching comment on the canary alarm; OIDC `aud` and `CAPABILITY_IAM` notes in the
+pipeline; the build diagram now distinguishes `CI_COMMIT_SHA` from SAM's content
+hash), and **R2-N4** (trunk glossed inline at first use in Session 1). Remaining:
+**R2-M2** (Dana's .NET/IIS pipeline artifact + shared-stored-proc expand/contract),
+**R2-M3** (governance precision), **R2-M4** (release-comms reconciliation).
 
 ---
 

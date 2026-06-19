@@ -54,6 +54,8 @@ default:
 # OIDC: assume the per-environment role. No static keys anywhere.
 .aws_oidc:
   id_tokens:
+    # This `aud` must match the `gitlab.com:aud` condition in the IAM role's trust
+    # policy, or AssumeRoleWithWebIdentity fails with InvalidIdentityToken.
     GITLAB_OIDC_TOKEN: { aud: "https://gitlab.com" }
   before_script:
     # OIDC, no static keys: hand GitLab's short-lived identity token to the AWS
@@ -135,6 +137,9 @@ build:artifact:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   script:
     - source ./configuration/${CI_ENVIRONMENT_NAME}.config
+    # CAPABILITY_IAM suffices here because SAM auto-names the execution role. Add a
+    # named role (RoleName) or an expanding macro and you must widen this to
+    # CAPABILITY_NAMED_IAM / CAPABILITY_AUTO_EXPAND, or the deploy fails.
     - >
       sam deploy
       --template-file "${PACKAGED_TEMPLATE}"

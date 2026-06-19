@@ -80,6 +80,21 @@ failure — it's usually a *decomposition* failure. Make flag hygiene mechanical
   trail of who flipped what, that's the cue to graduate to AWS AppConfig /
   LaunchDarkly — see [feature-flag.ts](../sessions/session-2/examples/feature-flag.ts).)
 
+The stale-flag check is just another pipeline job — a few lines, not a product:
+
+```yaml
+flag-debt:
+  stage: validate
+  script:
+    # flags.yaml is the flag inventory: each flag lists an owner and a remove_by date.
+    # Fail the pipeline for any flag past its removal date — debt can't accumulate silently.
+    - |
+      today=$(date +%F)
+      awk -v t="$today" '/remove_by:/ && $2 < t { print "stale flag, due " $2; n++ }
+                          END { if (n) exit 1 }' flags.yaml
+  allow_failure: true   # advisory at first; promote to a hard gate once the inventory is clean
+```
+
 Governing *who* may flip a production flag, and logging it, is the
 [governance](./governance-and-compliance.md) side of the same inventory.
 

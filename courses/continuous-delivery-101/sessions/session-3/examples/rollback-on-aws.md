@@ -44,6 +44,8 @@ When you do roll back, these are the AWS mechanisms, fastest first.
 
 ## Strategy 1 — Lambda alias shift (fastest; seconds)
 
+> **Drift warning — do this, then immediately redeploy the known-good artifact.** An out-of-band `update-alias` points the alias somewhere CloudFormation doesn't know about. Your *very next* `sam deploy` — even an unrelated one — resets the alias to the version the stack still thinks is current, silently reintroducing the bug. So an alias shift is a *stop-the-bleeding* move, not a fix: redeploy the good artifact through the pipeline before anything else touches the stack.
+
 Our `template.yaml` sets `AutoPublishAlias: live`. Every deploy publishes an immutable Lambda **version** (1, 2, 3, …) and points the `live` alias at the newest. API Gateway invokes the alias, not a raw version.
 
 Rollback = repoint the alias to the previous version:
@@ -60,7 +62,7 @@ aws lambda update-alias \
 
 - **Speed:** near-instant. No build, no CloudFormation.
 - **Use when:** a freshly deployed version is misbehaving and the prior version was healthy.
-- **Note:** this is an emergency action; reconcile the stack afterward (redeploy the good artifact through the pipeline) so IaC and reality agree.
+- **Note:** this is an emergency action (see the drift warning above) — reconcile by redeploying the good artifact through the pipeline so IaC and reality agree.
 
 ## Strategy 2 — Canary with automatic rollback (no human needed)
 

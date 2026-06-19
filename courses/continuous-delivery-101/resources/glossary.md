@@ -97,6 +97,26 @@ A technique for changing a shared resource (e.g., a database schema) without bre
 **Release notes (changelog)**
 The human-facing record of what changed *for users*. Under CD it is anchored to releases — feature-flag flips / user-facing changes — not to deploys. See [communicating-releases](communicating-releases.md).
 
+## Migration and data
+
+**Strangler fig pattern**
+Replacing a system incrementally by carving one capability at a time out of it into a new service, running both in parallel and moving callers and data across in small, reversible steps, until the old path can be deleted. Named for the vine that grows around a tree and gradually replaces it. The opposite of a big-bang rewrite. Worked end to end in [strangler-fig in practice](../sessions/session-3/examples/strangler-fig-violations.md).
+
+**Seam**
+A controlled insertion point where you can intercept calls to existing behaviour and redirect them — the place a strangler-fig migration adds a routing flag so an old code path and its replacement can run side by side.
+
+**System of record**
+The store that is *authoritative* for a piece of data — the one you trust when copies disagree. During a migration with dual writes, you name which store is the system of record at each step (e.g., SQL Server until cutover, the new service after).
+
+**Idempotent**
+An operation that has the same effect whether it runs once or many times. Keying writes on a stable identifier (e.g., `violationId`) makes retries and backfills safe — they cannot double-count.
+
+**Watermark**
+A marker of how far a resumable job has progressed (e.g., a timestamp or id), so it can stop and restart without redoing or skipping work. What makes a backfill both idempotent and resumable.
+
+**Reconciliation**
+A check that compares two stores (or two computations) and flags where they disagree — plus a defined response for when they do. Essential during a dual-write window, especially when the data carries money.
+
 ## AWS and RealManage specifics
 
 **SAM (Serverless Application Model)**
@@ -125,3 +145,17 @@ A developer's own copy of a stack (`${env}-${service}-${username}`) for local ex
 
 **Stop-the-line**
 The rule that a red build or red pipeline becomes the team's top priority — no new feature work until the trunk is green again.
+
+## Governance and control
+
+**Segregation of duties (SoD)**
+A control requiring that the person who makes a change is not the only one who approves it. Under CD the merge-request review *is* the SoD control: the author cannot merge their own unreviewed work, a second person approves, and the pipeline — not the author — deploys. See [governance-and-compliance](governance-and-compliance.md).
+
+**Audit trail**
+The durable record of who changed what, when, and what verified it. Under CD the pipeline *is* the audit trail: commit → MR approval → pipeline run → SHA-tagged artifact → deploy job, each attributable. See [governance-and-compliance](governance-and-compliance.md).
+
+**Break-glass**
+A pre-authorized, narrowly-scoped, time-boxed emergency procedure for bypassing a normal control when something is on fire — logged and alerted on use, with mandatory post-incident reconciliation (re-apply through the pipeline). Rare by design. See [governance-and-compliance](governance-and-compliance.md).
+
+**Emergency change**
+A change made under incident pressure outside the normal flow. CD's answer is to keep the normal flow fast enough that emergencies rarely need to bypass it — and, when one must, to use break-glass (above) so the audit trail survives.

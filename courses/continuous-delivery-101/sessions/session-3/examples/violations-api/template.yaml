@@ -151,6 +151,10 @@ Resources:
       EvaluationPeriods: 2
       Threshold: 5 # roll back if >5% of alias traffic errors for two straight minutes
       ComparisonOperator: GreaterThanThreshold
+      # On an idle alias, invocations=0 makes the rate a divide-by-zero; CloudWatch
+      # treats that as MISSING data, and notBreaching then keeps the alarm OK. Safe —
+      # but it means a canary over a quiet window can pass having verified nothing.
+      # The canary is only as strong as the traffic flowing during its window.
       TreatMissingData: notBreaching
 
   # Publish discovery values to SSM at the iac-baseline path convention so other

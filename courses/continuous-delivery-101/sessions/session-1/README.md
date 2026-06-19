@@ -34,7 +34,7 @@ This course is about *how we deliver*, not which platform we're on. Across the e
 - **Long-lived feature branches** kept alive until "the feature is done"
 - Release day treated as an event to brace for
 
-Continuous Delivery moves that to small batches integrated daily, an always-deployable trunk, and the ability to release *any* change *any* day, safely, with low drama.
+Continuous Delivery moves that to small batches integrated daily, an always-deployable **trunk** (the shared `main` line everyone integrates into), and the ability to release *any* change *any* day, safely, with low drama.
 
 Note who owns quality in this picture: at RealManage there is no separate QA team or QA gate — the team that builds a change owns its quality, and the pipeline is where that ownership becomes automated, enforceable checks rather than a handoff to someone else.
 
@@ -89,7 +89,7 @@ Almost every CD benefit traces back to shrinking the batch:
 
 #### 2.3 The evidence (5 minutes)
 
-The [DORA research](https://dora.dev/) (*Accelerate*) found that teams who deploy frequently in small batches have **both** higher throughput **and** higher stability — they are not a trade-off. The four key metrics:
+The [DORA research](https://dora.dev/) (*Accelerate*) found that teams who deploy frequently in small batches have **both** higher throughput **and** higher stability — they are not a trade-off. (The finding comes from years of large-scale industry *survey* data — correlational and self-reported, not a controlled experiment — but the signal is strong, consistent year over year, and now widely replicated.) The four key metrics:
 
 - **Deployment frequency** — how often you ship to prod
 - **Lead time for changes** — commit → prod

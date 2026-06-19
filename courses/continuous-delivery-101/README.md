@@ -3,7 +3,7 @@
 **Duration:** 3 sessions (2 hours each)
 **Level:** Intermediate
 **Format:** Interactive workshops with hands-on exercises
-**Goal:** Move a development team from weekly deployments with long-lived branches to true Continuous Delivery on AWS cloud-native services
+**Goal:** Move a development team from weekly deployments with long-lived branches to true Continuous Delivery across the estate — new cloud-native AWS services and the established systems alike
 
 ## 📚 Course Overview
 
@@ -254,4 +254,6 @@ Seek help or revisit the material if:
 
 **Questions?** Review the [troubleshooting guide](./resources/troubleshooting.md) or reach out in `#dx-training`.
 
-*"You don't rise to the level of your goals; you fall to the level of your systems. Continuous Delivery is the system."* — DX Team
+*"You don't rise to the level of your goals; you fall to the level of your systems."* — James Clear
+
+Continuous Delivery is that system.
