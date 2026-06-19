@@ -118,6 +118,79 @@ where "schema" is per-item and the same discipline applies: add the new attribut
 write both, migrate, stop writing the old. The platform differs; the practice does
 not.
 
+## The stored-procedure case (where a flag can't save you)
+
+Adding a column is the *easy* shared-database change. The harder — and more common —
+one is a **shared stored procedure**: `usp_GetHomeownerLedger`, called by your code
+*and* by three apps you do not own. Here the schema dance has a sharp edge: **a
+feature flag in your code cannot hide an `ALTER PROC` from their code.** The instant
+you change the proc in place, every caller gets the new behaviour at once — no dark
+launch, no per-caller ramp, no flag to turn off.
+
+So treat the proc exactly like the column: expand/contract by **versioning**, never
+`ALTER` in place.
+
+1. **Expand** — create `usp_GetHomeownerLedger_v2` beside the original. The old proc
+   is untouched, so every existing caller keeps working, unchanged.
+2. **Migrate readers, one at a time** — point *your* code at `_v2` behind your normal
+   flag; then move each external caller onto `_v2` on *their* schedule. Finding those
+   callers is the real work: in-database references show up in
+   `sys.sql_expression_dependencies`, but apps that `EXEC` the proc over the wire do
+   not — those you find by code search, a DBA audit, or Extended Events on the proc.
+3. **Contract** — drop the original proc only after that caller list is empty. Until
+   then, both versions live.
+
+The general rule the column case only hinted at: **a flag controls code you own; it
+cannot control a shared database object other code calls.** For anything multiple
+apps share — a proc, a view, a table other modules `SELECT` from — the safety
+mechanism is *a versioned copy plus caller coordination*, not a flag. That
+coordination, not the SQL, is the slow part.
+
+## The monolith's pipeline, sketched
+
+The claim that the monolith ships through the *same* GitLab CI deserves more than an
+assertion. It builds an MSBuild **web-deploy package** instead of a SAM artifact and
+targets IIS instead of Lambda, but the shape is identical: build once, promote the
+same package, vary only config.
+
+```yaml
+stages: [build, dev, qa, prod]
+
+build:package:
+  stage: build
+  script:
+    # Build ONCE -> a web-deploy package (.zip): the immutable artifact, tagged by
+    # commit, exactly like the Lambda bundle.
+    - >
+      msbuild CommunityMgmt.sln /p:Configuration=Release
+      /p:DeployOnBuild=true /p:WebPublishMethod=Package
+      /p:PackageLocation=community-mgmt-$CI_COMMIT_SHA.zip
+  artifacts:
+    paths: [community-mgmt-$CI_COMMIT_SHA.zip] # promoted as-is to every stage below
+
+.deploy:
+  script:
+    # Promote the SAME package; only the per-env parameters differ (config with the
+    # artifact). setParameters.${ENV}.xml carries connection strings, flag values,
+    # and app settings — the package itself never changes between environments.
+    - >
+      msdeploy -verb:sync
+      -source:package=community-mgmt-$CI_COMMIT_SHA.zip
+      -dest:auto,computerName=$IIS_DEPLOY_ENDPOINT
+      -setParamFile:setParameters.$CI_ENVIRONMENT_NAME.xml
+
+deploy:qa:   { extends: .deploy, stage: qa,   environment: { name: qa } }
+deploy:prod: { extends: .deploy, stage: prod, environment: { name: prod }, when: manual }
+```
+
+Two honest gaps the sketch hides. **Auth:** the runner needs scoped access to the IIS
+Web Management Service endpoint (`$IIS_DEPLOY_ENDPOINT`) — the .NET analogue of the
+new service's OIDC role; let the pipeline hold that credential (a managed identity if
+the runner can use one), never a person and never a static secret in the repo.
+**Multi-VM rollout:** on a farm the deploy step loops the *same* package over each
+node — drain it from the load balancer, sync, re-add — so a release is still one
+immutable package applied node by node, never a per-box rebuild.
+
 ## Recovery on each side
 
 | | New service (Lambda) | Monolith (IIS on VMs) |
@@ -153,10 +226,14 @@ Most of the monolith is staying put for a long time. It gets CD too — without 
 re-platforming:
 
 - **Trunk-based development** and short-lived branches: a habit, not a platform.
-- **Feature flags via configuration** — for a long-lived IIS process this is
-  `web.config`/`appSettings` or a config store (e.g., Azure App Configuration),
-  read at startup or on refresh, rather than Lambda environment variables. Same
-  idea, different switch.
+- **Feature flags via configuration** — for a long-lived IIS process the switch is
+  `web.config`/`appSettings` or a config store, not a Lambda env var. Two
+  operational traps the Lambda case doesn't have: editing `web.config` **recycles
+  the app pool** (a brief drop), so to flip a flag *without* a recycle you read from
+  a config store on a refresh interval (e.g. `Microsoft.FeatureManagement` over Azure
+  App Configuration); and a `web.config` flag must be set **identically on every VM**
+  in the farm or you get drift — a central config store is what makes one flip apply
+  everywhere at once.
 - **Expand/contract on SQL Server** for every schema change, carved-out or not.
 - **Build-once-promote and redeploy-previous recovery** on the existing pipeline.
 

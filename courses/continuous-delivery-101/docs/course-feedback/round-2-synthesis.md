@@ -36,9 +36,15 @@ Session 1; the stale-flag check shown as a runnable CI job in what-cd-costs),
 **R2-N3** (Riley's tail: alias-shift drift now leads its section; divide-by-zero
 teaching comment on the canary alarm; OIDC `aud` and `CAPABILITY_IAM` notes in the
 pipeline; the build diagram now distinguishes `CI_COMMIT_SHA` from SAM's content
-hash), and **R2-N4** (trunk glossed inline at first use in Session 1). Remaining:
-**R2-M2** (Dana's .NET/IIS pipeline artifact + shared-stored-proc expand/contract),
-**R2-M3** (governance precision), **R2-M4** (release-comms reconciliation).
+hash), and **R2-N4** (trunk glossed inline at first use in Session 1). And
+**R2-M2** (Dana's monolith gaps): a stored-procedure expand/contract section in the
+strangler-fig example (version `usp_X_v2`, never `ALTER` in place; a flag can't hide
+a shared proc — coordination is the safety mechanism), an annotated
+MSBuild→MSDeploy→IIS pipeline sketch proving "same GitLab CI," an expanded IIS
+feature-flag bullet (app-pool recycle + multi-VM farm drift), a third **.NET / IIS**
+column on the minimums-reference mapping table, a fix to the walkthrough's AWS-default
+fallback, and a "changes bundled per prod deploy" metric in the assessment.
+Remaining: **R2-M3** (governance precision), **R2-M4** (release-comms reconciliation).
 
 ---
 

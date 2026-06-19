@@ -71,18 +71,20 @@ Long-lived branches are replaced by *engineering* techniques — chiefly **featu
 
 ## How this maps to RealManage
 
-| Practice | What it looks like for our AWS services |
-| -------- | --------------------------------------- |
-| Trunk-based development | Short-lived branches off `main`, merged via small MRs within a day |
-| Daily integration | Each engineer merges to `main` at least once a day |
-| Tests before merge | `npm test` (Vitest/Jest) + `cfn-lint`/`sam validate` run on the MR branch |
-| Single path to prod | All shared-env deploys go through `.gitlab-ci.yml`; OIDC, no laptop creds |
-| Pipeline decides releasability | A green pipeline on `main` *is* the release decision |
-| Definition of deployable | Lint + unit tests + coverage threshold + security scan all green |
-| Immutable artifacts | Lambda bundle / container tagged by `CI_COMMIT_SHA`, built once, promoted |
-| Production-like environment | `qa` mirrors `prod` config via `configuration/qa.config` |
-| Rollback on demand | Fail forward by default; roll back when costly + time-sensitive — shift the Lambda alias / redeploy the previous artifact / CloudFormation rollback |
-| Config with the artifact | `configuration/{env}.config` deployed alongside the SAM/CloudFormation stack |
+The practices are identical across the estate; only the concrete tools differ.
+
+| Practice | For our AWS services | For our .NET / IIS monolith |
+| -------- | -------------------- | --------------------------- |
+| Trunk-based development | Short-lived branches off `main`, merged via small MRs within a day | Same — trunk-based is a habit, not a platform |
+| Daily integration | Each engineer merges to `main` at least once a day | Same |
+| Tests before merge | `npm test` (Vitest/Jest) + `cfn-lint`/`sam validate` on the MR branch | MSBuild + MSTest/xUnit + coverage on the MR branch |
+| Single path to prod | All shared-env deploys go through `.gitlab-ci.yml`; OIDC, no laptop creds | Same `.gitlab-ci.yml`; MSDeploy to IIS via a runner with scoped VM access, no laptop deploys |
+| Pipeline decides releasability | A green pipeline on `main` *is* the release decision | Same |
+| Definition of deployable | Lint + unit tests + coverage threshold + security scan all green | MSBuild (warnings as errors) + tests + coverage + dependency scan all green |
+| Immutable artifacts | Lambda bundle / container tagged by `CI_COMMIT_SHA`, built once, promoted | One MSBuild **web-deploy package** built once, tagged by `CI_COMMIT_SHA`, promoted |
+| Production-like environment | `qa` mirrors `prod` config via `configuration/qa.config` | `qa` mirrors the IIS/SQL topology — the shared SQL Server is the hard part to make prod-like |
+| Rollback on demand | Fail forward; shift the Lambda alias / redeploy prior artifact / CloudFormation rollback | Fail forward; flip the routing/feature flag, or redeploy the prior package to IIS |
+| Config with the artifact | `configuration/{env}.config` deployed with the SAM/CloudFormation stack | `Web.config` transforms / `setParameters.xml` applied at deploy — same package, per-env values |
 
 ---
 
