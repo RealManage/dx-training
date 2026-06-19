@@ -152,7 +152,12 @@ deploy:dev:
   extends: .deploy
   stage: dev
   environment: { name: dev }
-  needs: [build:artifact, unit-tests, dependency-audit]
+  # Depend on the FULL definition of deployable — every gating job, not the
+  # artifact alone. dependency-audit is advisory (allow_failure) so it is
+  # deliberately NOT listed: an advisory signal must not look like a gate.
+  # Listing the real gates explicitly keeps "green means deployable" true even
+  # if build:artifact later gets its own needs: and stops transitively waiting.
+  needs: [lint, validate:sam, unit-tests, build:artifact]
   # AUTO on green — no manual click. The pipeline decides releasability.
 
 deploy:qa:
