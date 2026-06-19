@@ -1,0 +1,31 @@
+{
+  "title": "AI 101: Claude Code",
+  "short": "AI 101",
+  "mark": "AI",
+  "theme": "violet",
+  "tagline": "Transform how you build with Anthropic's Claude Code — a 9-week, hands-on course.",
+  "level": "Beginner → Intermediate",
+  "duration": "9 weeks (+ Week 0)",
+  "extLink": { "href": "https://docs.claude.com/en/docs/claude-code", "label": "Claude Code docs" },
+  "nav": [
+    { "path": "README.md", "label": "Course Overview" },
+    { "path": "SETUP-GUIDE.md", "label": "Setup Guide" },
+    { "section": "Weekly Sessions", "dir": "sessions" },
+    { "section": "Resources", "dir": "resources" },
+    { "section": "Certification", "dir": "docs/certification" },
+    {
+      "section": "Reference",
+      "paths": [
+        "docs/standards/ai-code-review-standard.md",
+        "docs/faq/skeptics-faq.md"
+      ]
+    }
+  ],
+  "exclude": [
+    "**/sandbox",
+    "**/solutions",
+    "**/.claude",
+    "**/.claude-plugin",
+    "**/node_modules"
+  ]
+}

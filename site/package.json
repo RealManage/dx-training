@@ -1,0 +1,13 @@
+{
+  "name": "dx-training-site",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Shared static-site generator for the RealManage DX Training courses. Renders course markdown into designed, self-contained HTML under public/ for GitLab Pages.",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "devDependencies": {
+    "markdown-it": "^14.1.0"
+  }
+}

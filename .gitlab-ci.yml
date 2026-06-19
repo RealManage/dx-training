@@ -1,0 +1,31 @@
+# =============================================================================
+# RealManage DX Training — GitLab CI/CD
+#
+# Builds the static training site (site/build.mjs) and publishes it via
+# GitLab Pages. The site renders every course that has a site.config.json into
+# public/, with a catalog landing page at the root.
+#
+# NOTE: This is the repository's real pipeline. Do not confuse it with the
+# *teaching example* pipeline at
+#   courses/continuous-delivery-101/sessions/session-3/examples/.gitlab-ci.yml
+# which is course content, not CI configuration.
+# =============================================================================
+
+stages:
+  - build
+
+# GitLab Pages auto-deploys the artifact of a job named `pages`.
+pages:
+  stage: build
+  image: node:22-alpine
+  script:
+    - cd site
+    - npm install --no-audit --no-fund
+    - npm run build
+  artifacts:
+    paths:
+      - public        # build output lives at the repo root (site/build.mjs writes ../public)
+  rules:
+    # Publish only from the default branch; build (without deploy) on MRs.
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"

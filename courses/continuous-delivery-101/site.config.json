@@ -1,0 +1,36 @@
+{
+  "title": "Continuous Delivery 101",
+  "short": "CD 101",
+  "mark": "CD",
+  "theme": "indigo",
+  "tagline": "Ship small, safe, and often — CD for RealManage cloud-native teams.",
+  "level": "Intermediate",
+  "duration": "3 sessions (2h each)",
+  "extLink": { "href": "https://minimumcd.org", "label": "Built on MinimumCD" },
+  "nav": [
+    { "path": "README.md", "label": "Course Overview" },
+    {
+      "section": "Sessions",
+      "dir": "sessions"
+    },
+    {
+      "section": "Resources",
+      "dir": "resources"
+    },
+    {
+      "section": "Exercises",
+      "dir": "exercises"
+    }
+  ],
+  "labels": {
+    "sessions/session-1/README.md": "1 · Why CD & the Minimums",
+    "sessions/session-2/README.md": "2 · Trunk-Based Dev & CI",
+    "sessions/session-3/README.md": "3 · The Pipeline",
+    "resources/minimums-reference.md": "The Minimums",
+    "resources/glossary.md": "Glossary",
+    "resources/migration-checklist.md": "Migration Checklist",
+    "resources/troubleshooting.md": "Troubleshooting",
+    "exercises/current-state-assessment.md": "Current-State Assessment",
+    "exercises/decompose-a-branch.md": "Decompose a Branch"
+  }
+}

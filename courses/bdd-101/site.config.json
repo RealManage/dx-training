@@ -1,0 +1,25 @@
+{
+  "title": "BDD 101: Behavior-Driven Development",
+  "short": "BDD 101",
+  "mark": "BDD",
+  "theme": "teal",
+  "tagline": "Bridge business requirements and code with Behavior-Driven Development.",
+  "level": "Beginner",
+  "duration": "3 sessions (2h each)",
+  "extLink": { "href": "https://cucumber.io/docs/gherkin/", "label": "Gherkin reference" },
+  "nav": [
+    { "path": "README.md", "label": "Course Overview" },
+    { "section": "Sessions", "dir": "sessions" },
+    { "section": "Resources", "dir": "resources" },
+    { "section": "Exercises", "dir": "exercises" }
+  ],
+  "labels": {
+    "sessions/session-1/README.md": "1 · Gherkin & Scenarios",
+    "sessions/session-2/README.md": "2 · Refactoring Scenarios",
+    "sessions/session-3/README.md": "3 · Test Automation",
+    "resources/gherkin-reference.md": "Gherkin Reference",
+    "resources/bdd-patterns.md": "BDD Patterns",
+    "resources/troubleshooting.md": "Troubleshooting",
+    "exercises/user-story-templates.md": "User-Story Templates"
+  }
+}
