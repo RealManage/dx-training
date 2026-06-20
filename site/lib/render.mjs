@@ -6,8 +6,15 @@
 // =============================================================================
 
 import MarkdownIt from "markdown-it";
+import hljs from "highlight.js";
 
-const md = new MarkdownIt({ html: false, linkify: false, typographer: true });
+// `highlight` is defined below; this closure resolves it lazily at render time.
+const md = new MarkdownIt({
+  html: false,
+  linkify: false,
+  typographer: true,
+  highlight: (str, lang) => highlight(str, lang),
+});
 
 // ---- text helpers -----------------------------------------------------------
 export const esc = (s) =>
@@ -16,6 +23,20 @@ export const esc = (s) =>
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
+
+// Build-time syntax highlighting -> token spans. No client JS is shipped; the
+// colors come from the `.code .hljs-*` rules in the stylesheet. Falls back to
+// plain escaped text for unknown languages or unparseable snippets.
+export const highlight = (code, lang) => {
+  if (lang && lang !== "text" && hljs.getLanguage(lang)) {
+    try {
+      return hljs.highlight(code, { language: lang, ignoreIllegals: true }).value;
+    } catch {
+      /* fall through */
+    }
+  }
+  return esc(code);
+};
 
 export const slug = (s) =>
   String(s)
@@ -86,7 +107,7 @@ function transform(html, rewrite, stepper) {
       const label = lang || "text";
       return `<figure class="code"><figcaption class="code-bar"><span class="dots"><i></i><i></i><i></i></span><span class="code-lang">${esc(
         label,
-      )}</span></figcaption><div class="code-scroll"><pre><code>${code}</code></pre></div></figure>`;
+      )}</span></figcaption><div class="code-scroll"><pre><code class="hljs">${code}</code></pre></div></figure>`;
     },
   );
 
@@ -177,8 +198,9 @@ export function renderCodeBody(raw, lang, fname) {
   return `<p class="codenote">Source example from the course — rendered read-only. The canonical file lives in the repository.</p>
 <figure class="code code-full"><figcaption class="code-bar"><span class="dots"><i></i><i></i><i></i></span><span class="code-lang">${esc(
     lang,
-  )}</span><span class="code-file">${esc(fname)}</span></figcaption><div class="code-scroll"><pre><code>${esc(
+  )}</span><span class="code-file">${esc(fname)}</span></figcaption><div class="code-scroll"><pre><code class="hljs">${highlight(
     raw,
+    lang,
   )}</code></pre></div></figure>`;
 }
 
@@ -510,6 +532,19 @@ h2:hover .anchor,h3:hover .anchor,h4:hover .anchor{opacity:1}
 .code code{background:none;border:0;padding:0;color:var(--code-ink);font-size:13.5px;line-height:1.65;
   font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;white-space:pre}
 .code-full pre{font-size:13px}
+.code .hljs-comment,.code .hljs-quote{color:#5c6e91;font-style:italic}
+.code .hljs-keyword,.code .hljs-selector-tag,.code .hljs-section,.code .hljs-doctag{color:#c099ff}
+.code .hljs-literal,.code .hljs-number{color:#ff966c}
+.code .hljs-string,.code .hljs-regexp,.code .hljs-addition,.code .hljs-meta .hljs-string{color:#c3e88d}
+.code .hljs-title,.code .hljs-title.function_{color:#82aaff}
+.code .hljs-attr,.code .hljs-attribute,.code .hljs-property{color:#ffc777}
+.code .hljs-built_in,.code .hljs-type,.code .hljs-title.class_,.code .hljs-class .hljs-title{color:#4fd6be}
+.code .hljs-meta,.code .hljs-meta .hljs-keyword{color:#86e1fc}
+.code .hljs-name,.code .hljs-tag{color:#ff757f}
+.code .hljs-symbol,.code .hljs-bullet,.code .hljs-link{color:#86e1fc}
+.code .hljs-variable,.code .hljs-template-variable,.code .hljs-params{color:#c8d3f5}
+.code .hljs-deletion{color:#ff757f}
+.code .hljs-emphasis{font-style:italic}.code .hljs-strong{font-weight:700}
 .codenote{color:var(--muted);font-size:14px;font-style:italic}
 
 .folder{list-style:none;margin:1.2em 0;padding:0;display:grid;gap:8px}
