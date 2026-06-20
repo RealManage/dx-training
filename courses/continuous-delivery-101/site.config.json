@@ -11,7 +11,8 @@
     { "path": "README.md", "label": "Course Overview" },
     {
       "section": "Sessions",
-      "dir": "sessions"
+      "dir": "sessions",
+      "depth": 2
     },
     {
       "section": "Resources",

@@ -453,6 +453,9 @@ img{max-width:100%}
 .nav a{display:block;padding:7px 12px;margin:2px 0;border-radius:9px;color:var(--ink);font-size:14.5px;line-height:1.35}
 .nav a:hover{background:var(--soft);text-decoration:none}
 .nav a.on{background:var(--key-bg);color:var(--brand-d);font-weight:700;box-shadow:inset 3px 0 0 var(--brand)}
+.nav-sub{margin:1px 0 4px 14px;border-left:1px solid var(--line)}
+.nav-sub a{font-size:13px;color:var(--muted);padding:5px 10px}
+.nav-sub a.on{color:var(--brand-d)}
 
 .hero{color:#fff;background:${t.heroes[0]};padding:40px 0 34px}
 ${heroCss}

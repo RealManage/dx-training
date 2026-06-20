@@ -157,6 +157,33 @@ function buildCourseModel(slug) {
     return true;
   };
 
+  // Nested sidebar items for the children of `dirRel`, recursing `depth` more
+  // levels. A child folder links to its README landing, or — when it has none —
+  // to its auto-generated listing page (index.html). Direct .md files link too.
+  const childItems = (dirRel, depth) => {
+    const out = [];
+    for (const e of entries(path.join(courseDir, dirRel))
+      .filter((x) => !HARD_IGNORE_DIRS.has(x.name) && !excluded(`${dirRel}/${x.name}`))
+      .sort((a, b) => naturalCmp(a.name, b.name))) {
+      const rel = `${dirRel}/${e.name}`;
+      if (e.isDir) {
+        const readme = `${rel}/README.md`;
+        const hasReadme = published.has(readme);
+        const hasFiles = hasReadme || [...published.keys()].some((k) => k.startsWith(rel + "/"));
+        if (!hasFiles) continue;
+        const item = { src: hasReadme ? readme : `${rel}/index.html`, label: labelText(hasReadme ? readme : rel) };
+        if (depth > 1) {
+          const kids = childItems(rel, depth - 1);
+          if (kids.length) item.children = kids;
+        }
+        out.push(item);
+      } else if (kindOf(rel) === "md" && e.name !== "README.md") {
+        out.push({ src: rel, label: labelText(rel) });
+      }
+    }
+    return out;
+  };
+
   config.nav.forEach((entry, ni) => {
     const heroIndex = ni % heroLen;
     const section = entry.section || entry.label || "Overview";
@@ -180,10 +207,11 @@ function buildCourseModel(slug) {
       for (const rel of walkPublishable(courseDir, entry.dir, excluded, []))
         add(rel, section, heroIndex);
 
-      // sidebar items = immediate children with a landing page + direct .md
+      // sidebar items = immediate children with a landing page + direct .md.
+      // `depth` (default 1) opts a section into showing deeper levels, nested.
+      const depth = entry.depth || 1;
       const items = [];
-      const dirAbs = path.join(courseDir, entry.dir);
-      const dirEntries = entries(dirAbs)
+      const dirEntries = entries(path.join(courseDir, entry.dir))
         .filter((e) => !HARD_IGNORE_DIRS.has(e.name) && !excluded(`${entry.dir}/${e.name}`))
         .sort((a, b) => naturalCmp(a.name, b.name));
       // a README directly in the section dir is the section landing, listed first
@@ -193,7 +221,13 @@ function buildCourseModel(slug) {
         const rel = `${entry.dir}/${e.name}`;
         if (e.isDir) {
           const idx = `${rel}/README.md`;
-          if (published.has(idx)) items.push({ src: idx, label: labelText(idx) });
+          if (!published.has(idx)) continue; // first level still requires a landing page
+          const item = { src: idx, label: labelText(idx) };
+          if (depth > 1) {
+            const kids = childItems(rel, depth - 1);
+            if (kids.length) item.children = kids;
+          }
+          items.push(item);
         } else if (kindOf(rel) === "md" && e.name !== "README.md") {
           items.push({ src: rel, label: labelText(rel) });
         }
@@ -223,7 +257,8 @@ function buildCourseModel(slug) {
       synth.set(d, { section: m.section, heroIndex: m.heroIndex });
     }
 
-  const linear = sidebar.flatMap((g) => g.items.map((it) => it.src));
+  const flattenItems = (its) => its.flatMap((it) => [it, ...flattenItems(it.children || [])]);
+  const linear = sidebar.flatMap((g) => flattenItems(g.items).map((it) => it.src));
   const linearSet = new Set(linear);
 
   // nearest sidebar-item ancestor (for back-link on deep, non-sidebar pages)
@@ -300,16 +335,23 @@ function renderCourse(model, coursesBySlug) {
     return rawPath + frag;
   };
 
+  const renderNavItems = (its, activeSrc, outRel) =>
+    its
+      .map((it) => {
+        const href = relHref(outRel, srcToOut(it.src, published.get(it.src)?.kind || "md"));
+        const on = it.src === activeSrc ? " on" : "";
+        const sub =
+          it.children && it.children.length
+            ? `<ul class="nav-sub">${renderNavItems(it.children, activeSrc, outRel)}</ul>`
+            : "";
+        return `<li><a class="${on.trim()}" href="${href}">${esc(it.label)}</a>${sub}</li>`;
+      })
+      .join("");
+
   const navHtml = (activeSrc, outRel) => {
     let out = "";
     for (const g of sidebar) {
-      const items = g.items
-        .map((it) => {
-          const href = relHref(outRel, srcToOut(it.src, published.get(it.src)?.kind || "md"));
-          const on = it.src === activeSrc ? " on" : "";
-          return `<li><a class="${on.trim()}" href="${href}">${esc(it.label)}</a></li>`;
-        })
-        .join("");
+      const items = renderNavItems(g.items, activeSrc, outRel);
       if (g.label === null) out += `<ul class="nav-top">${items}</ul>`;
       else out += `<div class="nav-group"><div class="nav-h">${esc(g.label)}</div><ul>${items}</ul></div>`;
     }
