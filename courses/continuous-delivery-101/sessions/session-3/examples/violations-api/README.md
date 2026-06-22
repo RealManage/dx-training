@@ -21,11 +21,11 @@ client ──POST /violations──▶ API Gateway ──▶ Lambda ──▶ Dy
 
 | File | What it teaches |
 | ---- | --------------- |
-| `template.yaml` | SAM/IaC. Per-env **parameters** (config with the artifact), feature-flag env vars, `AutoPublishAlias` + canary `DeploymentPreference` (rollback), SSM publishing — all on `iac-baseline` conventions. |
-| `src/handler.ts` | Pure domain logic + injected I/O + flag gating, so the CI gate is fast and the code ships dark. |
-| `src/handler.test.ts` | The "definition of deployable" in practice: fast unit tests, no AWS. |
-| `package.json` | `lint` / `test` / `build` (esbuild) / `validate` (sam) — the verbs the pipeline runs. |
-| `scripts/smoke-test.sh` | "Verified, not hoped": one side-effect-free probe the deploy stage runs after every `sam deploy`, so promotion is proven, not assumed. |
+| [`template.yaml`](./template.yaml) | SAM/IaC. Per-env **parameters** (config with the artifact), feature-flag env vars, `AutoPublishAlias` + canary `DeploymentPreference` (rollback), SSM publishing — all on `iac-baseline` conventions. |
+| [`src/handler.ts`](./src/handler.ts) | Pure domain logic + injected I/O + flag gating, so the CI gate is fast and the code ships dark. |
+| [`src/handler.test.ts`](./src/handler.test.ts) | The "definition of deployable" in practice: fast unit tests, no AWS. |
+| [`package.json`](./package.json) | `lint` / `test` / `build` (esbuild) / `validate` (sam) — the verbs the pipeline runs. |
+| [`scripts/smoke-test.sh`](./scripts/smoke-test.sh) | "Verified, not hoped": one side-effect-free probe the deploy stage runs after every `sam deploy`, so promotion is proven, not assumed. |
 
 ## The immutable-artifact / promotion flow (CD minimums #5 and #9)
 
