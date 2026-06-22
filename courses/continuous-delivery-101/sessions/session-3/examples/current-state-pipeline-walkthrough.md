@@ -59,5 +59,5 @@ Key facts about how it really works:
 
 ## Related
 
-- The target pipeline we build toward: [Session 3](../../session-3/README.md) and its [`.gitlab-ci.yml`](../../session-3/examples/.gitlab-ci.yml)
+- The target pipeline we build toward: [Session 3](../README.md) and its [`.gitlab-ci.yml`](.gitlab-ci.yml)
 - [Migration Checklist](../../../resources/migration-checklist.md)

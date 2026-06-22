@@ -54,6 +54,7 @@ Rules of thumb while you fill it in:
 - **When in doubt, it's wait.** People over-count process time because waiting is invisible. If the change was *sitting*, it's wait.
 - **A queue is a step.** "Waiting for a reviewer" and "waiting for the Thursday release window" are real steps with real wait time — give them their own rows.
 - **Rework shows up twice.** A low %C/A at a step means work loops back — count the *extra* trip's time too.
+- **Note the batch size at the deploy step.** How many changes ride one deploy? Write that number next to the deploy / release-window step. A big number there is itself a constraint — it's usually *why* the deploy's %C/A is low: many changes at once, so a break is hard to isolate.
 
 ---
 
@@ -78,6 +79,8 @@ Mark two kinds of step on your map (a star ⭐ or a "kaizen burst" scribble work
 2. The step with the **lowest %C/A** — where the most rework is created.
 
 Often they point at the same thing. That thing is your **binding constraint** — the one place where fixing it would move lead time most. Fixing anything else first just moves the queue.
+
+> **When an agent writes the code, watch this map move.** *Develop* is the step AI collapses first — an agent drafts in minutes what took a day, so its process time falls toward zero. But that doesn't shorten lead time if the change still waits two days for review and four for the release window. It just shifts the constraint *downstream*, onto the review queue and the deploy window. Re-map once AI is in your loop: the biggest wait will have moved, and your fix should move with it. See [CD when AI writes the code](../resources/ai-assisted-delivery.md).
 
 Then answer, as a team:
 
@@ -112,6 +115,8 @@ The math:
 - **Flow efficiency** = 19.5 ÷ 127.5 = **~15%**
 - **Rolled %C/A** = 0.90 × 0.85 × 0.90 × 0.75 × 0.70 × 0.95 ≈ **34%** — only a third of changes flow through with no rework.
 
+> **This trace is one clean pass — read 127.5 h as a floor, not an average.** It follows a change that bounced back *zero* times. But a 34% rolled %C/A means only about a third of changes are that lucky; the *typical* change loops back at least once (rework shows up twice — Part 2), adding another trip through develop and review. The real average runs higher. The map's job isn't a precise mean — it's to expose the waiting, and even the optimistic floor is ~85% wait.
+
 What the map reveals:
 
 - **Biggest wait: the weekly release window (32 h)** ⭐ — pure batching delay. A change that's *done* on Monday waits for Thursday. This is the constraint, and it's not a tooling problem — it's a batch-size decision.
@@ -119,6 +124,8 @@ What the map reveals:
 - The fix for *both* stars is the same: **ship smaller batches, more often.** Shrinking the batch removes the window wait *and* raises deploy accuracy because each deploy carries one diagnosable change. That is the whole thesis of this course, now sitting in your own numbers.
 
 Notice what 15% flow efficiency means: the change took three weeks, but only ~2.5 days of that was anyone working on it. You don't fix a number like that by working faster — you fix it by removing the waiting.
+
+> **This example is a team already close to trunk-based** — its branches live two days. A long-lived-branch monolith would show *weeks* in step 3 (develop, plus its wait), pushing flow efficiency into the low single digits. If that's you, the map will look worse before the course makes it better — which is exactly why you measure first.
 
 ---
 

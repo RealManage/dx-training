@@ -72,9 +72,11 @@ Capture the release when it becomes *real* — when the user-facing change goes 
 > label it" into a gate, so the release-notes data source doesn't silently rot the
 > first time someone forgets.
 
-Six lines of CI make it real. It runs in the *merge-request* pipeline — the one place
-GitLab populates `$CI_MERGE_REQUEST_LABELS` — so it's the rare gate that wants an MR
-pipeline, unlike the branch-pipeline CI front-half in Sessions 2–3:
+Six lines of CI enforce it — a real job in the Session 3 pipeline (`release-impact-label`
+in [`session-3/examples/.gitlab-ci.yml`](../sessions/session-3/examples/.gitlab-ci.yml)).
+It runs in the *merge-request* pipeline — the one place GitLab populates
+`$CI_MERGE_REQUEST_LABELS` — which is why that pipeline enables MR pipelines alongside the
+branch pipeline that builds and promotes the artifact:
 
 ```yaml
 release-impact-label:

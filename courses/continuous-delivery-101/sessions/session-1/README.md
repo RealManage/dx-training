@@ -176,6 +176,8 @@ Map *your team's* real flow from last week — not the process you wish you had.
 
 The point isn't a pretty diagram; it's the constraint. For most teams coming off weekly releases it's the batching wait — but let your own numbers say so.
 
+> **For the AI-assisted team:** when an agent writes the code, *develop* shrinks but the waits don't — the constraint moves to the review queue and the deploy window. The map is how you catch that shift. (See [CD when AI writes the code](../../resources/ai-assisted-delivery.md).)
+
 ---
 
 ### 6. Wrap-up & Homework (10 minutes)

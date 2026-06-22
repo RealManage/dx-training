@@ -29,8 +29,14 @@ stages:
   - prod
 
 workflow:
+  # Run BOTH the merge-request pipeline (so the MR-time release-impact-label gate can
+  # read $CI_MERGE_REQUEST_LABELS) AND the branch pipeline on main — without the classic
+  # duplicate. The middle rule drops the redundant branch pipeline while an MR is open.
+  # (Session 2's CI excerpt uses the simpler branch-only form; the full pipeline opens MR
+  # pipelines because it hosts the one MR-time gate below.)
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
       when: never
     - if: $CI_COMMIT_BRANCH
 
@@ -81,6 +87,26 @@ validate:sam:
   image: public.ecr.aws/sam/build-nodejs22.x:latest
   before_script: []
   script: [sam validate --lint]
+
+# Runs ONLY in the MR pipeline (it reads $CI_MERGE_REQUEST_LABELS, which GitLab populates
+# only there). Forces every MR to declare release impact — 'customer-facing' (with a
+# one-line note) or 'no-user-impact' — so the release notes have a reliable source. This
+# is a PROCESS gate on the MR, not part of the definition of deployable.
+# See resources/communicating-releases.md.
+release-impact-label:
+  stage: validate
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  before_script: []
+  script:
+    - |
+      case ",$CI_MERGE_REQUEST_LABELS," in
+        *,customer-facing,*|*,no-user-impact,*)
+          echo "Release impact declared." ;;
+        *)
+          echo "Label this MR 'customer-facing' (with a one-line note) or 'no-user-impact'."
+          exit 1 ;;
+      esac
 
 unit-tests:
   stage: test
@@ -191,6 +217,7 @@ deploy:prod:
 # - Promotion (not rebuild) ..... deploy:* all consume ${PACKAGED_TEMPLATE}
 # - Releasability decided by ..... the pipeline (dev/qa auto on green)
 # - Human decision .............. ONLY prod timing (when: manual)
+# - Release-impact gate ......... release-impact-label (MR pipeline; feeds release notes)
 # - Verified, not hoped .......... smoke-test.sh after every deploy
 # - No static creds ............. .aws_oidc assumes a per-env role
 # - Config with the artifact .... configuration/${ENV}.config -> parameter-overrides

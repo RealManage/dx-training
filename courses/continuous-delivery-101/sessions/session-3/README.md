@@ -127,7 +127,7 @@ Read [`examples/rollback-on-aws.md`](./examples/rollback-on-aws.md) for the deci
 
 We don't learn the pipeline against a strawman — we read our *own* real one first, then the target it's migrating toward.
 
-Start with the [current-state walkthrough](../session-1/examples/current-state-pipeline-walkthrough.md): an annotated tour of the **real** `iac-baseline` GitLab pipeline (`validate → build → dev → qa → prod`, OIDC auth, immutable SHA-tagged images). The headline finding is honest both ways — the baseline already does a *lot* right (single pipeline path, OIDC, immutable artifacts, config-with-artifact), but it gates **every** stage with `when: manual`, so a human, not the pipeline, owns releasability.
+Start with the [current-state walkthrough](examples/current-state-pipeline-walkthrough.md): an annotated tour of the **real** `iac-baseline` GitLab pipeline (`validate → build → dev → qa → prod`, OIDC auth, immutable SHA-tagged images). The headline finding is honest both ways — the baseline already does a *lot* right (single pipeline path, OIDC, immutable artifacts, config-with-artifact), but it gates **every** stage with `when: manual`, so a human, not the pipeline, owns releasability.
 
 Now open the target — [`examples/.gitlab-ci.yml`](./examples/.gitlab-ci.yml), the full commit→prod pipeline for the Violations API. As a group, locate:
 
@@ -176,7 +176,7 @@ Re-run the [Current-State Assessment](../../exercises/current-state-assessment.m
 ## 📚 Resources for This Session
 
 - [Worked service: violations-api/](./examples/violations-api/)
-- [Current-state pipeline walkthrough](../session-1/examples/current-state-pipeline-walkthrough.md) — the `iac-baseline` baseline we score
+- [Current-state pipeline walkthrough](examples/current-state-pipeline-walkthrough.md) — the `iac-baseline` baseline we score
 - [Target pipeline: .gitlab-ci.yml](./examples/.gitlab-ci.yml)
 - [Rollback on AWS](./examples/rollback-on-aws.md)
 - [Migration Checklist](../../resources/migration-checklist.md)
