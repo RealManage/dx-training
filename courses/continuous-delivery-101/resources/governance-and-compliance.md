@@ -87,8 +87,9 @@ needs an out-of-band action. A sound **break-glass** procedure is:
 - **Pre-authorized, narrowly scoped, time-boxed** elevated access — granted in
   advance to named roles, not improvised under pressure.
 - **Logged and alerted** on every use — the exception is itself an audited event.
-- **Reconciled afterward** by a mandatory post-incident review: re-apply the change
-  through the pipeline, add the test or gate that was bypassed, close the loop.
+- **Reconciled afterward** by a mandatory post-incident review — owned by the on-call
+  lead / service owner and recorded in the incident record: re-apply the change through
+  the pipeline, add the test or gate that was bypassed, close the loop.
 - **Rare by design.** If you break glass weekly, the normal path is too slow — fix
   the path, don't widen the exception.
 
@@ -134,8 +135,9 @@ Tailor to your framework, but this is the shape:
 > gates it passed, and the time and identity of its deployment are recorded
 > immutably and tied to the deployed artifact by content hash. Production releases
 > are deliberate, authorized decisions, separate from deployment, and logged.
-> Emergency changes follow a documented, logged break-glass procedure with
-> mandatory post-incident review.
+> Emergency changes follow a documented, logged break-glass procedure with a
+> mandatory post-incident review — owned by the on-call lead / service owner and
+> recorded in the incident record.
 
 ## The Engineering Leader's takeaway
 

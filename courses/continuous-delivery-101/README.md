@@ -192,6 +192,7 @@ Seek help or revisit the material if:
 ### After the Course
 
 - **Reference:** Keep the [Minimums Reference](./resources/minimums-reference.md) handy in MRs
+- **AI-written code?** If agents write most of your code, read [CD when AI writes the code](./resources/ai-assisted-delivery.md) — the three CD seams it changes, and the one new check it adds
 - **Community:** The [MinimumCD](https://minimumcd.org) and [Dojo Consortium](https://dojoconsortium.org) communities
 - **Practice:** Pilot with one team, measure, and expand
 

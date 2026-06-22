@@ -72,6 +72,28 @@ Capture the release when it becomes *real* — when the user-facing change goes 
 > label it" into a gate, so the release-notes data source doesn't silently rot the
 > first time someone forgets.
 
+Six lines of CI make it real. It runs in the *merge-request* pipeline — the one place
+GitLab populates `$CI_MERGE_REQUEST_LABELS` — so it's the rare gate that wants an MR
+pipeline, unlike the branch-pipeline CI front-half in Sessions 2–3:
+
+```yaml
+release-impact-label:
+  stage: validate
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  script:
+    - |
+      case ",$CI_MERGE_REQUEST_LABELS," in
+        *,customer-facing,*|*,no-user-impact,*)
+          echo "Release impact declared." ;;
+        *)
+          echo "Label this MR 'customer-facing' (with a one-line note) or 'no-user-impact'."
+          exit 1 ;;
+      esac
+```
+
+Now forgetting to label fails the MR — not the client email three weeks later.
+
 ## Cadence is a separate decision
 
 Deploying continuously does **not** force you to communicate continuously. Comms

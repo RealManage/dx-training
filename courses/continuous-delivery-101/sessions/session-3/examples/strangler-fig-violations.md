@@ -239,7 +239,10 @@ re-platforming:
   a config store on a refresh interval (e.g. `Microsoft.FeatureManagement` over Azure
   App Configuration); and a `web.config` flag must be set **identically on every VM**
   in the farm or you get drift — a central config store is what makes one flip apply
-  everywhere at once.
+  everywhere at once. Don't conflate this with the deploy-time `web.{env}.config`
+  transform from the pipeline section: that sets *per-environment config* and a recycle
+  is fine (it's a deploy); a *runtime feature flag* you flip without redeploying must
+  live in the refresh-interval store, not the transform. Same file, two different levers.
 - **Expand/contract on SQL Server** for every schema change, carved-out or not.
 - **Build-once-promote and redeploy-previous recovery** on the existing pipeline.
 

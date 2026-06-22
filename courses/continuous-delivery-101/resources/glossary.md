@@ -155,7 +155,7 @@ A control requiring that the person who makes a change is not the only one who a
 The durable record of who changed what, when, and what verified it. Under CD the pipeline *is* the audit trail: commit → MR approval → pipeline run → SHA-tagged artifact → deploy job, each attributable. See [governance-and-compliance](governance-and-compliance.md).
 
 **Break-glass**
-A pre-authorized, narrowly-scoped, time-boxed emergency procedure for bypassing a normal control when something is on fire — logged and alerted on use, with mandatory post-incident reconciliation (re-apply through the pipeline). Rare by design. See [governance-and-compliance](governance-and-compliance.md).
+A pre-authorized, narrowly-scoped, time-boxed emergency procedure for bypassing a normal control when something is on fire — logged and alerted on use, with mandatory post-incident reconciliation (re-apply through the pipeline) owned by the on-call lead / service owner and recorded in the incident record. Rare by design. See [governance-and-compliance](governance-and-compliance.md).
 
 **Emergency change**
 A change made under incident pressure outside the normal flow. CD's answer is to keep the normal flow fast enough that emergencies rarely need to bypass it — and, when one must, to use break-glass (above) so the audit trail survives.
