@@ -18,7 +18,7 @@ By the end of this session, participants will be able to:
 
 ### 1. Review & Connect (10 minutes)
 
-Sessions 1–2 gave us an always-releasable trunk: small batches, daily integration, feature flags, CI gates. Today we build the machine that turns "the trunk is releasable" into "any change reaches production on demand" — the **pipeline**.
+Sessions 1–2 gave us an always-deployable trunk: small batches, daily integration, feature flags, CI gates. Today we build the machine that turns "the trunk is deployable" into "any change reaches production on demand" — the **pipeline**.
 
 The running example is the **HOA Violations API**: a TypeScript Lambda behind API Gateway that records a violation to DynamoDB and publishes a `ViolationRecorded` event to SNS. The full worked service lives in [`examples/violations-api/`](./examples/violations-api/) and the target pipeline in [`examples/.gitlab-ci.yml`](./examples/.gitlab-ci.yml).
 
@@ -40,7 +40,7 @@ CD minimum #2: **the pipeline is the only way to deploy to any shared environmen
 
 CD minimum #3: **the pipeline decides releasability and its verdict is definitive.** This is the one most teams (and our current `iac-baseline`) haven't fully reached, because every deploy is `when: manual`.
 
-The shift: green should *mean* deployable, automatically. A human may still choose *when* to release to prod (that's Continuous Delivery, not Continuous Deployment), but they are approving **timing**, not re-litigating **readiness**. If a meeting decides whether the build is "ready," the pipeline doesn't own releasability yet.
+The shift: green should *mean* deployable, automatically. A human may still choose *when* to deploy to prod (that's Continuous Delivery, not Continuous Deployment), but they are approving **timing**, not re-litigating **readiness**. If a meeting decides whether the build is "ready," the pipeline doesn't own releasability yet.
 
 > **Engineering Lead note:** a manual prod gate is a legitimate control — for compliance, or for early confidence in a new service. Keep it *honest*: it approves timing, the pipeline already proved readiness. The goal is to let green flow automatically at least through qa, and to make prod *one* deliberate decision, not three manual clicks per release. Revisit each gate as trust grows. (When a gate is a legitimate permanent control rather than debt — and for segregation of duties and audit evidence under CD — see [Governance & Compliance](../../resources/governance-and-compliance.md).)
 

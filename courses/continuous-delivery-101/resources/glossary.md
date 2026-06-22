@@ -5,13 +5,13 @@ Plain-language definitions for the terms used throughout this course.
 ## Core concepts
 
 **Continuous Delivery (CD)**
-The engineering discipline of keeping software in an always-deployable state so any change can be released to production safely, on demand. Releasing is a business decision; *being able to release* is an engineering guarantee.
+The engineering discipline of keeping software in an always-deployable state so any change can be deployed to production safely, on demand. Releasing is a business decision; *being able to release* is an engineering guarantee.
 
 **Continuous Deployment**
-A step beyond CD: every change that passes the pipeline is released to production automatically, with no human gate. CD makes this *possible*; it is optional.
+A step beyond CD: every change that passes the pipeline is deployed to production automatically, with no human gate. CD makes this *possible*; it is optional.
 
 **Continuous Integration (CI)**
-Every developer integrating their work to the trunk at least daily, with automated tests verifying the result is releasable. A team discipline, not a server.
+Every developer integrating their work to the trunk at least daily, with automated tests verifying the result is deployable. A team discipline, not a server.
 
 **Trunk-based development (TBD)**
 A branching model where all work integrates into one shared trunk (`main`), either directly or via branches that live less than a day.
@@ -22,10 +22,10 @@ The single shared mainline of the repository (`main`). The source of truth that 
 ## Batches and flow
 
 **Batch size**
-How much change ships in one release. CD's central lever: smaller batches are faster to review, safer to deploy, and easier to debug when they fail.
+How much change ships in one deploy. CD's central lever: smaller batches are faster to review, safer to deploy, and easier to debug when they fail.
 
 **Big-batch / large batch**
-A release accumulating many changes (e.g., a week of work on a long-lived branch). High risk: many things change at once, so a failure is hard to isolate and roll back.
+A deploy accumulating many changes (e.g., a week of work on a long-lived branch). High risk: many things change at once, so a failure is hard to isolate and roll back.
 
 **DORA metrics**
 The four delivery-performance measures from the **D**evOps **R**esearch and **A**ssessment program (the *Accelerate* research) that this course uses to gauge progress: lead time for changes, deployment frequency, change failure rate, and mean time to restore. CD's practices improve all four.
@@ -78,7 +78,7 @@ A pipeline is organized into *stages* (e.g., `build`, `test`, `dev`, `qa`, `prod
 An automated check that must pass for a change to proceed — lint, unit tests, coverage threshold, security scan. Collectively, they form the *definition of deployable*.
 
 **Definition of deployable**
-The automated criteria that determine whether an artifact may be released. Criteria, not a meeting.
+The automated criteria that determine whether an artifact may be deployed. Criteria, not a meeting.
 
 **Artifact**
 The built, deployable thing produced from a commit — a Lambda bundle (`.zip`), a container image, a packaged SAM template.

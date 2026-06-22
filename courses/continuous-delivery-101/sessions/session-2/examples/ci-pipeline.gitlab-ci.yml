@@ -2,7 +2,7 @@
 # CI front-half for the HOA Violations API (TypeScript Lambda + SAM)
 # =============================================================================
 # This file shows ONLY the Continuous Integration portion — the gates that keep
-# the trunk releasable. These run on EVERY branch and merge request, fast, so a
+# the trunk deployable. These run on EVERY branch and merge request, fast, so a
 # change proves itself BEFORE it merges to `main`.
 #
 # Session 3 extends this same file with build (immutable artifact) and the
@@ -58,7 +58,7 @@ validate:sam:
 # -----------------------------------------------------------------------------
 # test — unit tests must pass AND coverage must clear the floor before merge.
 # This is the core of the "definition of deployable" for app code: green here
-# is what lets the trunk stay releasable.
+# is what lets the trunk stay deployable.
 # -----------------------------------------------------------------------------
 
 unit-tests:
@@ -104,7 +104,7 @@ iac-scan:
 # =============================================================================
 # 1. It runs on EVERY branch — feedback before merge, not after release.
 # 2. It is FAST — unit tests in seconds, so nobody is tempted to skip it.
-# 3. A red result BLOCKS the merge — the trunk stays releasable by construction.
+# 3. A red result BLOCKS the merge — the trunk stays deployable by construction.
 # 4. Branches that feed it are SHORT-LIVED — the pipeline is only as "continuous"
 #    as the integration behind it. A perfect pipeline on week-old branches
 #    is still not CI. That part is a team agreement, not YAML.

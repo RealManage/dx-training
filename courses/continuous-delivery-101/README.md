@@ -178,7 +178,7 @@ Seek help or revisit the material if:
 
 - "CD" is being treated as a product to buy rather than a practice to adopt
 - Branches still live for days, "until the feature is done"
-- A human meeting — not the pipeline — decides whether a build is releasable
+- A human meeting — not the pipeline — decides whether a build is deployable
 - Different artifacts are built for dev, qa, and prod
 - There is no tested way to get back to the last good version quickly
 

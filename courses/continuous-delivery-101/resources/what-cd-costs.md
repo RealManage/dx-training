@@ -17,7 +17,7 @@ problems:
 - A **rhythm** the team, support, and clients all settled into.
 
 CD has to **replace** each of those, not merely delete them — and it does:
-continuous small releases instead of a window, communication anchored to the flag
+continuous small deploys instead of a window, communication anchored to the flag
 flip instead of the weekly bundle (see [communicating-releases](./communicating-releases.md)),
 an automated definition of deployable instead of the last-look meeting. But be
 honest that you are *trading* a familiar ritual for better mechanisms, not shedding

@@ -2,7 +2,7 @@
 
 A team's working template for adopting Continuous Delivery, organized as the five-phase migration path from the [MinimumCD migration guide](https://beyond.minimumcd.org/docs/migrate-to-cd/). Copy this into your team's repo or wiki and check items off as you go.
 
-> **The trap to break:** infrequent deployment is self-reinforcing. Deploy rarely → each deploy is large → large deploys are risky → fear of risk makes you deploy even less. The only way out is *smaller, more frequent* releases. Every phase below pushes batch size down.
+> **The trap to break:** infrequent deployment is self-reinforcing. Deploy rarely → each deploy is large → large deploys are risky → fear of risk makes you deploy even less. The only way out is *smaller, more frequent* deploys. Every phase below pushes batch size down.
 >
 > **Engineering Lead note:** Foundations (Phase 1) look like "slowing down to invest." They are not delay — they are the prerequisite for speed. Budget for them explicitly, give one pilot team a change window and the authority to deploy, and measure *stability alongside speed* (DORA's four metrics) from day one. On control and compliance: CD doesn't weaken governance, it makes it automated and auditable — see [governance-and-compliance](governance-and-compliance.md).
 
@@ -84,10 +84,10 @@ Shrink deployment size and work-in-progress; improve observability.
 Deploy any change to production at any time, based on business need.
 
 - [ ] Any green commit on `main` can reach production the same day with no re-typed commands
-- [ ] Releases are routine and low-drama, not events
+- [ ] Deploys are routine and low-drama, not events
 - [ ] Deploy and release are decoupled — flags control feature exposure
 - [ ] Release communication is re-established on the new footing: notes built from user-facing releases (flag flips), not the deploy log — see [communicating-releases](communicating-releases.md)
-- [ ] (Optional) Continuous Deployment: green commits auto-release with no human gate
+- [ ] (Optional) Continuous Deployment: green commits auto-deploy with no human gate
 - [ ] Metrics show the trend: frequency up, lead time down, failure rate steady or down, restore time down
 - [ ] Roll the pattern out from the pilot team to the next team
 

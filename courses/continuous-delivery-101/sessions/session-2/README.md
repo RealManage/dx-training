@@ -12,7 +12,7 @@ By the end of this session, participants will be able to:
 - ✅ Apply trunk-based development with short-lived branches (< 1 day)
 - ✅ Decompose a large feature into small, independently shippable changes
 - ✅ Use a feature flag to merge incomplete work to trunk safely
-- ✅ Identify the minimum CI quality gates that keep the trunk releasable
+- ✅ Identify the minimum CI quality gates that keep the trunk deployable
 
 ## 📚 Session Agenda
 
@@ -118,7 +118,7 @@ CI is *daily integration to trunk with automated verification*. The minimums and
 
 #### 4.2 The quality gates that protect trunk (10 minutes)
 
-The trunk is only "always releasable" if merging proves it. Minimum gates for an app service:
+The trunk is only "always deployable" if merging proves it. Minimum gates for an app service:
 
 - **Lint** — style and obvious errors (`eslint`)
 - **Unit tests** — fast, run on every MR (`vitest` / `jest`)
@@ -163,7 +163,7 @@ Use the [Decompose a Long-Lived Branch](../../exercises/decompose-a-branch.md) e
 
 #### Preview of Session 3
 
-The pipeline that turns "trunk is always releasable" into "any change reaches prod on demand": single path to production, immutable artifacts promoted across environments, recovery on AWS (fail forward, with rollback for emergencies), and your team's migration plan.
+The pipeline that turns "trunk is always deployable" into "any change reaches prod on demand": single path to production, immutable artifacts promoted across environments, recovery on AWS (fail forward, with rollback for emergencies), and your team's migration plan.
 
 ## 📚 Resources for This Session
 

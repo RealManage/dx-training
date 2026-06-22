@@ -24,7 +24,7 @@ Continuous Deployment is Continuous Delivery **plus** removing the final human g
 
 ```text
 Continuous Delivery
-  commit → CI → build → test → scan → [ DEPLOYABLE ] → 🧑 "release now" → prod
+  commit → CI → build → test → scan → [ DEPLOYABLE ] → 🧑 "deploy now" → prod
 
 Continuous Deployment
   commit → CI → build → test → scan → [ DEPLOYABLE ] ───── auto ─────────→ prod

@@ -77,7 +77,7 @@ Pull the numbers; don't guess. (GitLab MR history, deployment logs, incident rec
 | Time to restore (how fast you recover) | | Minutes |
 | **Median branch lifetime** (look at last month's merged MRs) | | < 1 day |
 | **Median MR size** (lines / files changed) | | Small |
-| **Changes bundled per prod deploy** (MRs / features in one release) | | Trending toward one |
+| **Changes bundled per prod deploy** (MRs / features in one deploy) | | Trending toward one |
 
 > **Read median MR size as *review burden*, not author effort.** When an agent writes the code, a 600-line MR is cheap to produce and expensive to review — the old "big MR = lots of work" intuition breaks. Track it as a reviewability ceiling, and keep it small so review stays substantive.
 

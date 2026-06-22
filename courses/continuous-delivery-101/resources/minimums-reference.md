@@ -4,11 +4,20 @@
 
 Continuous Delivery is **the engineering discipline of delivering all changes in a standard way, safely**. "Minimum" means these are not aspirational stretch goals — they are the floor. A team either meets a practice or it does not yet do CD.
 
+> **A note on wording — this course says "deployable" where MinimumCD says "releasable."**
+> [minimumcd.org](https://minimumcd.org) defines CI as keeping the trunk *releasable*. We say the
+> trunk is always **deployable**, and reserve **release** for the user-facing moment a feature is
+> turned on for people (the flag flip). The reason is the distinction at the heart of CD: you
+> *deploy* code to an environment — a technical act — but *release* a feature to users — a business
+> decision — and the two are deliberately decoupled. The bar is identical to MinimumCD's; only the
+> word is sharper. The one place we keep the noun **releasability** is MinimumCD's own name for the
+> pipeline's verdict (CD minimum #3, below).
+
 ---
 
 ## Continuous Integration — the minimums
 
-CI is **each developer integrating their work to the trunk at least daily, and verifying that the work is, to the best of our knowledge, releasable.** It is a team working agreement, not a server.
+CI is **each developer integrating their work to the trunk at least daily, and verifying that the work is, to the best of our knowledge, deployable.** It is a team working agreement, not a server.
 
 1. **Use trunk-based development.** All work integrates into one shared trunk.
 2. **Integrate to trunk at least daily.** Every developer, every day.
@@ -33,14 +42,14 @@ Owning GitLab CI, Jenkins, or GitHub Actions is **not** CI. Those are pipeline t
 6. **When the deployment pipeline goes red, fixing it is the team's top priority.** Same stop-the-line rule as CI, extended to delivery.
 7. **A production-like test environment exists.** You validate in something that resembles prod before prod.
 8. **Rollback is available on demand.** You can return to the last good version quickly and predictably.
-9. **Application configuration deploys with the artifact.** Config travels with the release, versioned alongside it — not patched into a running environment by hand.
+9. **Application configuration deploys with the artifact.** Config travels with the artifact, versioned alongside it — not patched into a running environment by hand.
 
 > **Operational note on #8:** the minimum requires the rollback *capability*. In practice the *default* response to a problem is to **fail forward** — ship a small fix through the pipeline — because CD makes that fast and safe. Reach for rollback when a problem is costly *and* time-sensitive. See [Session 3](../sessions/session-3/examples/rollback-on-aws.md).
 
 ### CD is not Continuous Deployment
 
-- **Continuous Delivery:** every change is *kept deployable* and *can* be released at any time on a human's decision.
-- **Continuous Deployment:** every change that passes the pipeline *is automatically* released to production, with no human gate.
+- **Continuous Delivery:** every change is *kept deployable* and *can* be deployed at any time on a human's decision.
+- **Continuous Deployment:** every change that passes the pipeline *is automatically* deployed to production, with no human gate.
 
 CD is the prerequisite. Continuous Deployment is an optional step beyond it. This course targets **Continuous Delivery**. See [`cd-vs-continuous-deployment.md`](../sessions/session-1/examples/cd-vs-continuous-deployment.md).
 
@@ -79,7 +88,7 @@ The practices are identical across the estate; only the concrete tools differ.
 | Daily integration | Each engineer merges to `main` at least once a day | Same |
 | Tests before merge | `npm test` (Vitest/Jest) + `cfn-lint`/`sam validate` on the MR branch | MSBuild + MSTest/xUnit + coverage on the MR branch |
 | Single path to prod | All shared-env deploys go through `.gitlab-ci.yml`; OIDC, no laptop creds | Same `.gitlab-ci.yml` (via the shared `ci-templates` include); a PowerShell deploy to IIS from a per-server runner, no laptop deploys |
-| Pipeline decides releasability | A green pipeline on `main` *is* the release decision | Same |
+| Pipeline decides releasability | A green pipeline on `main` *is* the releasability verdict | Same |
 | Definition of deployable | Lint + unit tests + coverage threshold + security scan all green | MSBuild (warnings as errors) + tests + coverage + dependency scan all green |
 | Immutable artifacts | Lambda bundle / container tagged by `CI_COMMIT_SHA`, built once, promoted | One MSBuild publish output (the `a/` dir) built once, versioned by GitVersion, promoted to every environment |
 | Production-like environment | `qa` mirrors `prod` config via `configuration/qa.config` | `qa` mirrors the IIS/SQL topology — the shared SQL Server is the hard part to make prod-like |

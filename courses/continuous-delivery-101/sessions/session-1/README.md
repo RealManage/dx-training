@@ -71,7 +71,7 @@ A weekly release isn't one change — it's *a week of changes* released together
 
 The only escape is counterintuitive: **deploy *more* often, in *smaller* pieces.** Ten one-change deploys a week are each trivially diagnosable and reversible.
 
-> **In fairness to the weekly release:** the cadence wasn't irrational — it gave you a predictable window, a natural batching point for client communication, and a forcing function for "is it ready?" CD has to *replace* each of those (continuous small releases, comms anchored to the flag flip, an automated definition of deployable), not just delete them. You're trading a familiar ritual for better mechanisms — and that trade has a real, front-loaded cost. See [what CD costs you](../../resources/what-cd-costs.md).
+> **In fairness to the weekly release:** the cadence wasn't irrational — it gave you a predictable window, a natural batching point for client communication, and a forcing function for "is it ready?" CD has to *replace* each of those (continuous small deploys, comms anchored to the flag flip, an automated definition of deployable), not just delete them. You're trading a familiar ritual for better mechanisms — and that trade has a real, front-loaded cost. See [what CD costs you](../../resources/what-cd-costs.md).
 
 #### 2.2 Batch size is the master variable (10 minutes)
 
@@ -104,8 +104,8 @@ CD moves all four in the right direction at once.
 
 These get confused constantly. The distinction matters.
 
-- **Continuous Delivery** — every change is *kept deployable* and *can* be released at any time. A human decides *when* to release. **This is our target.**
-- **Continuous Deployment** — every change that passes the pipeline is released to production *automatically*, no human gate. An optional step *beyond* CD.
+- **Continuous Delivery** — every change is *kept deployable* and *can* be deployed at any time. A human decides *when*. **This is our target.**
+- **Continuous Deployment** — every change that passes the pipeline is deployed to production *automatically*, no human gate. An optional step *beyond* CD.
 
 ```text
 commit → CI → build → test → [DEPLOYABLE] → (human says "go") → prod   ← Continuous Delivery
@@ -114,7 +114,7 @@ commit → CI → build → test → [DEPLOYABLE] ───────automatic
 
 You must achieve Continuous *Delivery* first. Continuous *Deployment* is a choice you can make later, per service, once you trust the pipeline. Worked comparison: [`examples/cd-vs-continuous-deployment.md`](./examples/cd-vs-continuous-deployment.md).
 
-> **Engineering Lead note:** "Continuous Delivery" does not mean losing control. It means you *gain* the ability to release on your schedule instead of being trapped in a weekly window. Releasing stays a deliberate decision.
+> **Engineering Lead note:** "Continuous Delivery" does not mean losing control. It means you *gain* the ability to deploy on your schedule instead of being trapped in a weekly window. Releasing stays a deliberate decision.
 
 ---
 
@@ -124,7 +124,7 @@ This course is built on [minimumcd.org](https://minimumcd.org): the industry's *
 
 #### 4.1 Continuous Integration minimums (15 minutes)
 
-CI is **each developer integrating to the trunk at least daily, verifying the work is releasable.** A team discipline — *not* a server.
+CI is **each developer integrating to the trunk at least daily, verifying the work is deployable.** A team discipline — *not* a server.
 
 1. **Trunk-based development** — all work integrates to one shared trunk
 2. **Integrate to trunk at least daily** — every developer, every day

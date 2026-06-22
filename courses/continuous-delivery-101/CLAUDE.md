@@ -111,6 +111,6 @@ Examples align with the RealManage `iac-baseline` repo conventions:
 - The new services are **TypeScript on AWS**, not C#/.NET — examples use TypeScript + SAM.
 - GitLab CI/CD is the CI/CD platform; do not introduce other CI tools in examples.
 - Never recommend static AWS credentials in CI — always OIDC.
-- "Continuous Delivery" (deployable on demand) ≠ "Continuous Deployment" (every commit auto-released). Keep them distinct.
+- "Continuous Delivery" (deployable on demand) ≠ "Continuous Deployment" (every commit auto-deployed to prod). Keep them distinct.
 - Manual approval gates: distinguish *debt* gates (re-litigating readiness the pipeline already proved — remove) from *legitimate, permanent controls* (deliberate authorization of timing/risk — keep). CD relocates and *strengthens* governance: MR review is segregation of duties, the pipeline is the audit trail. See `resources/governance-and-compliance.md`. Frame gates honestly, not as uniformly bad.
 - Recovery: teach **fail forward** (ship a small fix through the pipeline) as the default response to problems; rollback is the emergency lever for costly, time-sensitive issues. Minimum #8 still requires the rollback *capability* — keep it rehearsed.

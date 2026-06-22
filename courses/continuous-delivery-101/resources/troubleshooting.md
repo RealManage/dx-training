@@ -87,7 +87,7 @@ Continuous Delivery adoption rarely fails on technology. It stalls on habits, fe
 - **Mind the data trap:** rolling code back doesn't roll data back — keep changes backward-compatible (expand/contract) so both directions stay safe
 - Rehearse both loops in qa before you need them in prod (see [recovery on AWS](../sessions/session-3/examples/rollback-on-aws.md))
 
-### Problem: a stateful change (e.g., a DynamoDB schema shift) blocks small releases
+### Problem: a stateful change (e.g., a DynamoDB schema shift) blocks small deploys
 
 **Symptoms:** "we can't deploy incrementally because of the database change."
 

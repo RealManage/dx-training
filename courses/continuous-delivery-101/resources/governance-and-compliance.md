@@ -67,7 +67,7 @@ verification ran.* CD produces all four automatically and immutably:
 
 No manual change ticket matches this for completeness or tamper-resistance. The
 practical work for a leader is to **map your control framework's evidence
-requirements onto these artifacts** once — then every release produces the evidence
+requirements onto these artifacts** once — then every change produces the evidence
 as a by-product, instead of someone assembling it by hand.
 
 > **Retention is yours to set.** These artifacts are only evidence if they still
