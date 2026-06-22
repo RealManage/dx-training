@@ -153,6 +153,12 @@ assertion — so here is the actual shape, not an analogy. The Management API bu
 MSBuild artifact instead of a SAM bundle and targets IIS instead of Lambda, but the
 shape is identical: **build once, promote the same bytes, vary only config**.
 
+> Throughout this section, **`a/`** is just the directory the build publishes into —
+> the name the real pipeline happens to use (think "artifact"). GitLab uploads that one
+> folder as the build's job artifact, and every deploy stage downloads the *same* `a/`.
+> It's the monolith's equivalent of the Lambda's S3 bundle: the immutable thing you
+> build once and promote unchanged.
+
 ```yaml
 # Real shape (CiraNet Management API). The repo's .gitlab-ci.yml is thin — it
 # `include:`s a shared template, ci-templates/dotnet/ciranet-api.yml, where this lives.
