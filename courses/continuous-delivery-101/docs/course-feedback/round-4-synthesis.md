@@ -83,9 +83,11 @@ remains **adoption-ready as it stands** — the above is refinement, not remedia
 
 - A site build **does** exist (`site/`, `npm run build`); Dana ran it from the course root and saw
   none. Build is green (CD: 21 pages, 0 errors).
-- The walkthrough file did **not** physically move (Dana's and the brief's wording) — only the
-  *activity* moved to Session 3; the file stays at `session-1/examples/` so historical-feedback
-  path references keep resolving. This is the basis for R4-6.
+- At round-4 *review* time the walkthrough had not yet moved — only the *activity* had shifted to
+  Session 3 (the "moved" wording in Dana's notes and the brief was premature). R4-6's resolution then
+  physically `git mv`'d the file to `session-3/examples/` and repointed all links (see the Resolution
+  table). The `session-1/examples/...` mentions that survive in older feedback files are backtick
+  prose, not navigational links.
 
 ## Resolution (applied 2026-06-22)
 

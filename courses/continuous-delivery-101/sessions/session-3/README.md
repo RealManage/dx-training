@@ -137,6 +137,8 @@ Now open the target — [`examples/.gitlab-ci.yml`](./examples/.gitlab-ci.yml), 
 4. How **OIDC** gives each environment its own role with no static creds
 5. Where you'd add a **smoke test** so promotion is verified, not just attempted
 
+The full pipeline also runs one **merge-request-time** job — `release-impact-label` — which is why its `workflow:` enables MR pipelines alongside the branch pipeline (a deliberate step up from Session 2's branch-only form): it forces each change to declare its release impact before merge. Details in [Communicating Releases](../../resources/communicating-releases.md).
+
 The gap between the two — all-manual gates versus green-flows-automatically — is the gap your migration plan closes.
 
 #### 6.2 Write your migration plan (15 minutes)

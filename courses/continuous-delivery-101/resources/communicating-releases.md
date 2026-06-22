@@ -83,6 +83,7 @@ release-impact-label:
   stage: validate
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  before_script: [] # no npm install needed — this gate only reads the MR's labels
   script:
     - |
       case ",$CI_MERGE_REQUEST_LABELS," in

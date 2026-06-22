@@ -24,6 +24,7 @@ What holds the line:
 
 - **Tests must specify intent, not mirror implementation.** The course's own `sessions/session-3/examples/violations-api/src/handler.test.ts` is the model: it tests behaviour contracts and the flag-off/flag-on boundary, not the internals. A test you could keep through a full rewrite of the implementation is a real test; a test that breaks on any refactor is just mirroring the code.
 - **Specify the behaviour before the code.** Write the acceptance criteria the change must satisfy *first*, then have a human — or a *separate* agent that did not write the code — check the tests against those criteria. The reviewer's question is: "do these tests encode what we agreed, or what the code happens to do?"
+- **Make that test review independent in practice, not just in name.** Give the reviewer the acceptance criteria and the tests — but *not* the implementation diff. Judging the tests blind to the code forces the criteria question and removes the pull to bless tests merely because they match what the code already does. Reviewing the implementation is a separate pass. (This is a working pattern, not a tool — any reviewer, human or agent, can run it.)
 - **Never read "coverage met" as "behaviour verified."** Keep the coverage floor as a smoke alarm for wholly untested paths; do not let it stand in for the judgement that the tests pin real intent.
 
 ### 2. Review when you can't read every line

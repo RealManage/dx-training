@@ -104,7 +104,7 @@ A team ships a small change through this stream. Times are in working hours (1 d
 | 3 | Develop on a feature branch | 12 h (1.5 d) | 16 h (2 d) | 90% |
 | 4 | Code review | 1 h | 16 h (2 d) | 75% |
 | 5 | Wait for the weekly release window | — | 32 h (4 d) | — |
-| 6 | Release-day batch deploy | 3 h | — | 70% |
+| 6 | Release-day batch deploy (~20 changes) | 3 h | — | 70% |
 | 7 | Verify in production | 1 h | 4 h | 95% |
 
 The math:
@@ -120,7 +120,7 @@ The math:
 What the map reveals:
 
 - **Biggest wait: the weekly release window (32 h)** ⭐ — pure batching delay. A change that's *done* on Monday waits for Thursday. This is the constraint, and it's not a tooling problem — it's a batch-size decision.
-- **Lowest %C/A: the release-day deploy (70%)** ⭐ — nearly one deploy in three needs a hotfix. That's the big-batch failure rate made visible: many changes ship at once, so something breaks and is hard to isolate.
+- **Lowest %C/A: the release-day deploy (70%)** ⭐ — nearly one deploy in three needs a hotfix. That's the big-batch failure rate made visible: all ~20 changes ship at once, so something breaks and is hard to isolate.
 - The fix for *both* stars is the same: **ship smaller batches, more often.** Shrinking the batch removes the window wait *and* raises deploy accuracy because each deploy carries one diagnosable change. That is the whole thesis of this course, now sitting in your own numbers.
 
 Notice what 15% flow efficiency means: the change took three weeks, but only ~2.5 days of that was anyone working on it. You don't fix a number like that by working faster — you fix it by removing the waiting.
