@@ -123,23 +123,27 @@ Read [`examples/rollback-on-aws.md`](./examples/rollback-on-aws.md) for the deci
 
 ### 6. Workshop: Read the Target Pipeline & Plan the Migration (30 minutes)
 
-#### 6.1 Read the full pipeline (15 minutes)
+#### 6.1 Score the baseline, then read the target (15 minutes)
 
-Open [`examples/.gitlab-ci.yml`](./examples/.gitlab-ci.yml) — the full commit→prod pipeline for the Violations API. As a group, locate:
+We don't learn the pipeline against a strawman — we read our *own* real one first, then the target it's migrating toward.
+
+Start with the [current-state walkthrough](../session-1/examples/current-state-pipeline-walkthrough.md): an annotated tour of the **real** `iac-baseline` GitLab pipeline (`validate → build → dev → qa → prod`, OIDC auth, immutable SHA-tagged images). The headline finding is honest both ways — the baseline already does a *lot* right (single pipeline path, OIDC, immutable artifacts, config-with-artifact), but it gates **every** stage with `when: manual`, so a human, not the pipeline, owns releasability.
+
+Now open the target — [`examples/.gitlab-ci.yml`](./examples/.gitlab-ci.yml), the full commit→prod pipeline for the Violations API. As a group, locate:
 
 1. Where the **definition of deployable** is enforced (which jobs gate the merge)
 2. Where the **immutable artifact** is built and how it's promoted (not rebuilt)
-3. Where **releasability is decided** — and how this version differs from the current `iac-baseline` (dev/qa auto-promote on green; only prod keeps a deliberate gate)
+3. Where **releasability is decided** — and how this differs from the baseline you just read (dev/qa auto-promote on green; only prod keeps a deliberate gate)
 4. How **OIDC** gives each environment its own role with no static creds
 5. Where you'd add a **smoke test** so promotion is verified, not just attempted
 
-Compare it to the [current-state walkthrough](../session-1/examples/current-state-pipeline-walkthrough.md) from Session 1. What changed to close the gaps?
+The gap between the two — all-manual gates versus green-flows-automatically — is the gap your migration plan closes.
 
 #### 6.2 Write your migration plan (15 minutes)
 
 Using the [Migration Checklist](../../resources/migration-checklist.md) and your Session 1 assessment, draft your team's plan:
 
-- **Phase 0 (Assess):** your scorecard + the one binding constraint you named
+- **Phase 0 (Assess):** your value stream map and scorecard + the one binding constraint they named
 - **Phase 1 (Foundations):** the CI/TBD behaviors to adopt next (branch lifetime target, daily integration, flags, stop-the-line)
 - **Phase 2 (Pipeline):** the gaps to close — automated definition of deployable, promote-don't-rebuild, rehearsed rollback, removing unnecessary manual gates
 - **Phase 3–4 (Optimize / Deliver on demand):** what "done" looks like for your pilot service, and which DORA metric proves it
@@ -172,6 +176,7 @@ Re-run the [Current-State Assessment](../../exercises/current-state-assessment.m
 ## 📚 Resources for This Session
 
 - [Worked service: violations-api/](./examples/violations-api/)
+- [Current-state pipeline walkthrough](../session-1/examples/current-state-pipeline-walkthrough.md) — the `iac-baseline` baseline we score
 - [Target pipeline: .gitlab-ci.yml](./examples/.gitlab-ci.yml)
 - [Rollback on AWS](./examples/rollback-on-aws.md)
 - [Migration Checklist](../../resources/migration-checklist.md)

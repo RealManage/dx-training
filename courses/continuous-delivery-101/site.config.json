@@ -31,6 +31,7 @@
     "resources/glossary.md": "Glossary",
     "resources/migration-checklist.md": "Migration Checklist",
     "resources/troubleshooting.md": "Troubleshooting",
+    "exercises/value-stream-map.md": "Value Stream Map",
     "exercises/current-state-assessment.md": "Current-State Assessment",
     "exercises/decompose-a-branch.md": "Decompose a Branch"
   }

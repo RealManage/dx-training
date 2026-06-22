@@ -60,6 +60,7 @@ continuous-delivery-101/
 │   ├── ai-assisted-delivery.md        # CD when AI writes the code — the three seams
 │   └── troubleshooting.md             # Common objections and adoption blockers
 ├── exercises/                          # Practice materials
+│   ├── value-stream-map.md            # Map idea→prod flow; find the constraint by flow efficiency
 │   ├── current-state-assessment.md    # Score your team against the minimums
 │   └── decompose-a-branch.md          # Turn one long-lived branch into small, safe changes
 ├── sessions/                           # Session-by-session content
@@ -93,7 +94,7 @@ Before starting, ensure you have:
 ### Getting Started
 
 1. **Read [Session 1](./sessions/session-1/README.md)** → understand *why* CD matters before *how*
-2. **Score your team** → complete the [Current-State Assessment](./exercises/current-state-assessment.md)
+2. **Map your flow, then score your team** → the [Value Stream Map](./exercises/value-stream-map.md) (Session 1 workshop) finds your constraint; the [Current-State Assessment](./exercises/current-state-assessment.md) (homework) backs it with numbers
 3. **Work through Sessions 2 and 3** → practices, then the pipeline
 4. **Write your migration plan** → the [Migration Checklist](./resources/migration-checklist.md) is your template
 
@@ -105,7 +106,7 @@ Before starting, ensure you have:
 
 | Session | Topic | What You'll Learn | Time | Link |
 | ------- | ----- | ----------------- | ---- | ---- |
-| 1 | Why Continuous Delivery & the Minimums | The business case for small batches, CD vs Continuous Deployment, the MinimumCD practices, a gap analysis of our current pipeline | 2 hrs | [Start →](./sessions/session-1/README.md) |
+| 1 | Why Continuous Delivery & the Minimums | The business case for small batches, CD vs Continuous Deployment, the MinimumCD practices, and a value stream map of our own delivery flow to find the constraint | 2 hrs | [Start →](./sessions/session-1/README.md) |
 | 2 | Trunk-Based Development & Continuous Integration | Killing long-lived branches, daily integration, small batches, feature flags to decouple deploy from release, CI quality gates | 2 hrs | [Start →](./sessions/session-2/README.md) |
 | 3 | The Pipeline: Single Path to Production | Pipeline as sole path to prod, definition of deployable, immutable artifacts, production-like environments, rollback on AWS, deploy on demand, the migration plan | 2 hrs | [Start →](./sessions/session-3/README.md) |
 
@@ -123,7 +124,7 @@ Before starting, ensure you have:
 - Distinguish Continuous Delivery from Continuous Deployment
 - List the MinimumCD practices for CI and CD and explain why each exists
 - Map CD practices onto how we build today — established .NET APIs alongside new cloud-native services
-- Score the current `iac-baseline` pipeline against the minimums
+- Map our delivery value stream, compute its flow efficiency, and name the binding constraint
 
 ### [→ Full Session 1 Content](./sessions/session-1/README.md)
 

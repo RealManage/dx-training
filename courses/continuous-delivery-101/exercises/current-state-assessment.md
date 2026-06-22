@@ -1,13 +1,13 @@
 # Exercise: Current-State Assessment
 
-**When:** Session 1 (and again after Session 3 to measure progress)
+**When:** Homework after Session 1; brought to Session 3 for the migration plan, and re-run after the course to measure progress
 **Format:** Team exercise, ~40 minutes
-**Goal:** Score your team honestly against the MinimumCD practices and the controls CD relocates, then name your biggest constraint.
+**Goal:** Score your team honestly against the MinimumCD practices and the controls CD relocates, and back the constraint your value stream map surfaced with measured numbers.
 
-This is Phase 0 of the [migration checklist](../resources/migration-checklist.md): you cannot plan a journey without knowing where you start. Do this as a team, out loud. The value is in the disagreement — when one person says "we integrate daily" and another laughs, you've found something worth discussing.
+This is Phase 0 of the [migration checklist](../resources/migration-checklist.md): you cannot plan a journey without knowing where you start. It pairs with the Session 1 [value stream map](value-stream-map.md) — the map shows *where the time goes and which step is the constraint*; this scorecard shows *how you measure against the minimums and controls* and replaces the map's estimates with real figures. Do it as a team, out loud. The value is in the disagreement — when one person says "we integrate daily" and another laughs, you've found something worth discussing.
 
 > **Doing this solo, or new to the team?** You can still fill in most of it. The CI practices (Part 1) and your own branch/MR habits (Part 3's branch lifetime and MR size) you can answer from what you do day to day and from GitLab. The parts that need access or authority you may not have yet — deploy frequency and incident history (Part 3), the controls in Part 2, who authorizes a release — leave blank and bring to the team. A half-filled honest scorecard beats a fully-guessed one.
-
+>
 > **Mixed estate?** If you run a long-lived monolith *and* newer services, they're usually at very different CD maturity. Either score your **weakest** system — that's where the binding constraint lives — or fill the scorecard once per system; don't average them into a misleading middle. Note which system each answer refers to.
 
 ---
@@ -67,7 +67,7 @@ CD doesn't remove governance — it *relocates* it into the pipeline and the fla
 
 ## Part 3 — Measure today's baseline
 
-Pull the numbers; don't guess. (GitLab MR history, deployment logs, incident records.)
+Pull the numbers; don't guess. (GitLab MR history, deployment logs, incident records.) Your [value stream map](value-stream-map.md) already *estimated* lead time as the sum of process + wait time — this is where you replace that estimate with the measured figure and add the other three DORA metrics.
 
 | Metric | Today | Where you want to be |
 | ------ | ----- | -------------------- |
@@ -83,16 +83,17 @@ Pull the numbers; don't guess. (GitLab MR history, deployment logs, incident rec
 
 ---
 
-## Part 4 — Name the constraint
+## Part 4 — Confirm the constraint
 
-You will not fix everything at once. Find the *one* thing most responsible for slow, risky delivery.
+You will not fix everything at once. Your [value stream map](value-stream-map.md) already named a candidate constraint — the step with the biggest wait or the lowest %C/A. Use the scorecard above to confirm it, or to revise it if the scoring points somewhere else.
 
-1. Which single unmarked "No" or "Partial" above hurts the most? (Skip the ◆ deliberate controls — those aren't gaps to close.) **____________**
-2. What's the root cause? (Long branches? Manual deploys? Slow/missing tests? No rollback? No prod-like env? An ungoverned release?)
-3. If you fixed only that one thing in the next month, what would improve?
-4. Who owns the fix, and what does "fixed" look like?
+1. Which step did the value stream map flag as the constraint (biggest wait / lowest %C/A)? **____________**
+2. Does the scorecard agree? Which single unmarked "No" or "Partial" above corresponds to it — or hurts more? (Skip the ◆ deliberate controls — those aren't gaps to close.) **____________**
+3. What's the root cause? (Long branches? Manual deploys? Slow/missing tests? No rollback? No prod-like env? An ungoverned release?)
+4. If you fixed only that one thing in the next month, what would improve?
+5. Who owns the fix, and what does "fixed" look like?
 
-> **Resist naming the constraint before you've scored** — surfacing it *is* the exercise, and pre-deciding the answer defeats the point. If the filled scorecard genuinely doesn't point anywhere, batch size / branch lifetime is the usual first domino for teams coming off weekly releases — but confirm that against your own evidence rather than defaulting to it.
+> **Let the map and the scorecard agree before you commit.** The value stream map surfaces the constraint from where time is lost; the scorecard tells you which minimum or control it maps to. When they point at the same step, you've found it. For teams coming off weekly releases that's almost always batch size / branch lifetime — but confirm it against your own evidence rather than defaulting to it.
 
 ---
 

@@ -42,6 +42,24 @@ A DORA metric: the percentage of deployments that cause a failure requiring reme
 **Mean time to restore (MTTR)**
 A DORA metric: how quickly you recover from a failed deployment or incident. Fast fail-forward and rehearsed rollback both drive this down.
 
+**Value stream**
+Every step a change passes through from *idea* to *running in production* — intake, refinement, development, review, deploy, and the waits between them.
+
+**Value stream map (VSM)**
+A diagram of the value stream annotated with process time, wait time, and %C/A at each step. The Phase-0 tool for seeing *where lead time is actually lost* and naming the binding constraint. Worked in the [value stream map exercise](../exercises/value-stream-map.md).
+
+**Process time**
+The time someone is *actively working* a change at a step (writing code, reviewing the MR, running a deploy) — as opposed to the change sitting idle.
+
+**Wait time**
+The time a change sits *idle* between or within steps: in a backlog, a review queue, blocked on an environment, or waiting for a release window. On most teams it dwarfs process time.
+
+**Flow efficiency**
+Total process time ÷ total lead time × 100 — the share of lead time that is real work rather than waiting. Often shockingly low (single digits to ~15%); raising it is the point of removing waits.
+
+**Percent complete & accurate (%C/A)**
+Of the work arriving at a step, the share usable *as-is*, without being sent back for rework. A low %C/A marks where rework is created; multiplying all steps' %C/A gives the *rolled* share of changes that flow through clean.
+
 **Fail forward (roll forward / fix forward)**
 The default response to a production problem under CD: ship a small fix *through the pipeline* instead of reverting. Because deploys are small, fast, and canary-verified, the fix lands in minutes and the defect is actually resolved. Preferred over rollback except when a problem is costly *and* time-sensitive.
 

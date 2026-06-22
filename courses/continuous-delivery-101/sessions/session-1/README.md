@@ -12,7 +12,7 @@ By the end of this session, participants will be able to:
 - ✅ Distinguish Continuous Delivery from Continuous Deployment
 - ✅ List the MinimumCD practices for CI and CD and say *why* each exists
 - ✅ Map CD practices onto how we build today — established .NET APIs alongside new cloud-native services
-- ✅ Score our current `iac-baseline` pipeline against the minimums and name the gaps
+- ✅ Map our delivery value stream, compute its flow efficiency, and name the one constraint most worth fixing
 
 ## 📚 Session Agenda
 
@@ -153,24 +153,28 @@ The litmus test: *Could a small change committed right now reach production toda
 
 ---
 
-### 5. Workshop: Score Our Current Pipeline (25 minutes)
+### 5. Workshop: Map Your Value Stream (25 minutes)
 
-We don't learn CD against a strawman — we learn it against *our own* real pipeline.
+Before we fix anything, we look honestly at where the time actually goes. A **value stream map** traces a change from *idea* to *running in production* and measures each step, so the biggest constraint surfaces from the numbers instead of from whoever argues loudest. It's platform-agnostic — it maps *your* flow, whether you ship a Lambda or a .NET app to IIS.
 
-#### 5.1 Walk the baseline (10 minutes)
+Run the [Map Your Value Stream](../../exercises/value-stream-map.md) exercise as a team.
 
-Read [`examples/current-state-pipeline-walkthrough.md`](./examples/current-state-pipeline-walkthrough.md): an annotated tour of the **real** `iac-baseline` GitLab pipeline (`validate → build → dev → qa → prod`, OIDC auth, immutable SHA-tagged images) — and where it meets the minimums versus where it falls short.
+#### 5.1 Learn the method + walk the example (10 minutes)
 
-The headline finding: the baseline already does a *lot* right (single pipeline path, OIDC, immutable artifacts, config-with-artifact), but it gates **every** stage — `deploy:dev`, `deploy:qa`, `deploy:prod` — with `when: manual`. A human clicks every deploy.
+For every step a change passes through, capture three numbers: **process time** (actively working), **wait time** (sitting idle — queues, approvals, the release window), and **%C/A** (the share that arrives usable, without rework). Then derive **total lead time** (process + wait) and **flow efficiency** (process ÷ lead). Map it *backward* from production so the deploy-side waits don't get forgotten.
 
-#### 5.2 Score it as a team (15 minutes)
+Walk the worked weekly-release example in the exercise: it comes out at ~16 working days of lead time but only **~15% flow efficiency** — the change spends three weeks in the stream and ~2.5 days being worked. The two worst steps (the 4-day wait for the release window, and the 70%-accurate batch deploy) both point at the same fix: smaller batches, more often.
 
-Open the [Current-State Assessment](../../exercises/current-state-assessment.md) and score *your team's* services against the minimums. Be honest. Capture:
+#### 5.2 Map your own stream (15 minutes)
 
-- Which minimums you already meet
-- Which are Partial (manual gates → does the *pipeline* decide releasability, or the human?)
-- The single biggest constraint for your team (hint: for most, it's branch lifetime)
-- A pilot service and team
+Map *your team's* real flow from last week — not the process you wish you had. Capture:
+
+- Every step, idea → prod, working backward from production
+- Process time, wait time, and %C/A on each step
+- Total lead time and flow efficiency
+- The two starred steps — biggest wait, lowest %C/A — and the single binding constraint they point to
+
+The point isn't a pretty diagram; it's the constraint. For most teams coming off weekly releases it's the batching wait — but let your own numbers say so.
 
 ---
 
@@ -181,12 +185,12 @@ Open the [Current-State Assessment](../../exercises/current-state-assessment.md)
 - Big batches *cause* deployment risk; small, frequent deploys reduce it
 - CD ≠ Continuous Deployment — CD keeps changes deployable; a human still decides *when*
 - The MinimumCD practices are the floor, not the ceiling
-- Our `iac-baseline` already nails several minimums; the main gap is manual gates and (team-side) branch lifetime
+- Most of your lead time is *waiting*, not working — flow efficiency exposes it, and the biggest wait is the constraint to fix first
 - CD is practices, not a product
 
 #### Homework
 
-1. Finish the [Current-State Assessment](../../exercises/current-state-assessment.md) with real numbers (branch lifetime, MR size, deploy frequency)
+1. Back your value stream map with the [Current-State Assessment](../../exercises/current-state-assessment.md): score the CI/CD minimums and controls, and replace your estimated times with real numbers (branch lifetime, MR size, deploy frequency). Bring it to Session 3 — it's your migration-plan input.
 2. Read [`resources/minimums-reference.md`](../../resources/minimums-reference.md) end to end
 3. Pick one real feature from your backlog — you'll decompose it in Session 2
 
@@ -196,6 +200,8 @@ Trunk-based development and CI in practice: killing long-lived branches, decompo
 
 ## 📚 Resources for This Session
 
+- [Map Your Value Stream](../../exercises/value-stream-map.md) — the in-session workshop
+- [Current-State Assessment](../../exercises/current-state-assessment.md) — the homework scorecard
 - [Minimums Reference](../../resources/minimums-reference.md)
 - [Glossary](../../resources/glossary.md)
 - [Migration Checklist](../../resources/migration-checklist.md) (Phase 0)

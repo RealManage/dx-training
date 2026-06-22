@@ -12,10 +12,11 @@ A team's working template for adopting Continuous Delivery, organized as the fiv
 
 Understand your current state and name the constraints holding you back. **Do this first.**
 
-- [ ] Complete the [Current-State Assessment](../exercises/current-state-assessment.md) as a team
+- [ ] [Map your value stream](../exercises/value-stream-map.md) (idea → prod): process time, wait time, and %C/A per step; compute flow efficiency and mark the biggest wait / lowest-%C/A step
+- [ ] Complete the [Current-State Assessment](../exercises/current-state-assessment.md) as a team to back the map with scored minimums and controls
 - [ ] Measure today's baseline: deployment frequency, lead time, change failure rate, time to restore
 - [ ] Record how long branches actually live (look at merged MRs over the last month)
-- [ ] Identify the single biggest constraint (branch lifetime? manual deploys? slow tests? no rollback?)
+- [ ] Confirm the single biggest constraint where the map and the scorecard agree (branch lifetime? manual deploys? slow tests? no rollback?)
 - [ ] Pick one service and one team to pilot
 - [ ] Inventory in-flight long-lived branches; for each, decide *merge now* (decompose first if it's too big) or *abandon* — you can't adopt trunk-based development on top of a pile of week-old branches
 - [ ] If your estate is mixed (monolith + new services), sequence it deliberately: prove CD where it's easiest to see, but commit to carrying it to the monolith
