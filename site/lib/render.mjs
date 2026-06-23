@@ -59,8 +59,26 @@ export const humanize = (name) =>
     .replace(/\b\w/g, (c) => c.toUpperCase());
 
 // First H1 of a markdown source, stripped of trailing emoji noise.
+// Parse a leading YAML-ish frontmatter block (flat `key: value` scalars only).
+// Returns the parsed data and the content with the block removed. Files without
+// a leading `---` fence are returned unchanged with empty data.
+export function parseFrontmatter(raw) {
+  const m = raw.match(/^---\r?\n([\s\S]*?)\r?\n---[ \t]*\r?\n?/);
+  if (!m) return { data: {}, content: raw };
+  const data = {};
+  for (const line of m[1].split(/\r?\n/)) {
+    const mm = line.match(/^([A-Za-z0-9_-]+)\s*:\s*(.*)$/);
+    if (!mm) continue;
+    let v = mm[2].trim();
+    if ((v[0] === '"' && v.at(-1) === '"') || (v[0] === "'" && v.at(-1) === "'")) v = v.slice(1, -1);
+    const n = Number(v);
+    data[mm[1]] = v !== "" && Number.isFinite(n) ? n : v;
+  }
+  return { data, content: raw.slice(m[0].length) };
+}
+
 export function firstH1(raw) {
-  const m = raw.match(/^#\s+(.+)$/m);
+  const m = parseFrontmatter(raw).content.match(/^#\s+(.+)$/m);
   return m ? m[1].trim() : null;
 }
 
@@ -147,7 +165,7 @@ function transform(html, rewrite, stepper) {
 // Render markdown body -> { title, chipsHtml, body }. `rewrite` maps an href.
 // `fallbackTitle` is used when the source has no H1.
 export function renderMarkdown(raw, { rewrite, fallbackTitle }) {
-  let src = raw;
+  let src = parseFrontmatter(raw).content;
   let stepper = "";
   src = src.replace(/```mermaid\n([\s\S]*?)```/g, (m, body) => {
     const s = buildStepper(body);

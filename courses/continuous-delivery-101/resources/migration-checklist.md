@@ -1,3 +1,6 @@
+---
+order: 30
+---
 # CD Migration Checklist — From Weekly Releases to Deploy on Demand
 
 A team's working template for adopting Continuous Delivery, organized as the five-phase migration path from the [MinimumCD migration guide](https://beyond.minimumcd.org/docs/migrate-to-cd/). Copy this into your team's repo or wiki and check items off as you go.

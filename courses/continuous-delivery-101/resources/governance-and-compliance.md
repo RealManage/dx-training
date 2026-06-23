@@ -1,3 +1,6 @@
+---
+order: 60
+---
 # Governance, Compliance & Control Under CD
 
 > "We can't just let things deploy." Right instinct, wrong conclusion. Continuous

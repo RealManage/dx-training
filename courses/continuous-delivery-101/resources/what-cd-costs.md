@@ -1,3 +1,6 @@
+---
+order: 40
+---
 # What Continuous Delivery Costs You
 
 > Most CD material sells the upside and hides the bill. If you've shipped weekly

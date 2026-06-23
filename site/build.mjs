@@ -26,6 +26,7 @@ import {
   pageShell,
   catalogPage,
   firstH1,
+  parseFrontmatter,
   humanize,
   esc,
   THEMES,
@@ -130,6 +131,31 @@ const naturalCmp = (a, b) =>
 // ============================================================================
 // Pass 1 — build a model per course (published set, sidebar, labels, sections)
 // ============================================================================
+// Frontmatter `order:` lookup (memoized). Files/dirs without an order sort last
+// and fall back to natural filename order; a directory's order is read from its
+// README.md. Lets authors sequence examples/resources without renaming files.
+const _orderCache = new Map();
+function orderOf(courseDir, rel, isDir) {
+  const key = `${courseDir}::${rel}`;
+  if (_orderCache.has(key)) return _orderCache.get(key);
+  const mdRel = isDir ? `${rel}/README.md` : rel;
+  let ord = Infinity;
+  if (mdRel.toLowerCase().endsWith(".md")) {
+    const abs = path.join(courseDir, mdRel);
+    if (existsSync(abs)) {
+      const { data } = parseFrontmatter(readFileSync(abs, "utf8"));
+      if (typeof data.order === "number") ord = data.order;
+    }
+  }
+  _orderCache.set(key, ord);
+  return ord;
+}
+const byOrderThenName = (courseDir, dirRel) => (a, b) => {
+  const oa = orderOf(courseDir, `${dirRel}/${a.name}`, a.isDir);
+  const ob = orderOf(courseDir, `${dirRel}/${b.name}`, b.isDir);
+  return oa !== ob ? oa - ob : naturalCmp(a.name, b.name);
+};
+
 function buildCourseModel(slug) {
   const courseDir = path.join(COURSES_DIR, slug);
   const config = JSON.parse(readFileSync(path.join(courseDir, "site.config.json"), "utf8"));
@@ -164,7 +190,7 @@ function buildCourseModel(slug) {
     const out = [];
     for (const e of entries(path.join(courseDir, dirRel))
       .filter((x) => !HARD_IGNORE_DIRS.has(x.name) && !excluded(`${dirRel}/${x.name}`))
-      .sort((a, b) => naturalCmp(a.name, b.name))) {
+      .sort(byOrderThenName(courseDir, dirRel))) {
       const rel = `${dirRel}/${e.name}`;
       if (e.isDir) {
         const readme = `${rel}/README.md`;
@@ -213,7 +239,7 @@ function buildCourseModel(slug) {
       const items = [];
       const dirEntries = entries(path.join(courseDir, entry.dir))
         .filter((e) => !HARD_IGNORE_DIRS.has(e.name) && !excluded(`${entry.dir}/${e.name}`))
-        .sort((a, b) => naturalCmp(a.name, b.name));
+        .sort(byOrderThenName(courseDir, entry.dir));
       // a README directly in the section dir is the section landing, listed first
       const ownReadme = `${entry.dir}/README.md`;
       if (published.has(ownReadme)) items.push({ src: ownReadme, label: labelText(ownReadme) });
@@ -472,14 +498,16 @@ function renderCourse(model, coursesBySlug) {
           const label = published.has(childPath + "/README.md")
             ? labelText(childPath + "/README.md")
             : humanize(path.basename(childPath));
-          return out ? { out, label, dir: true } : null;
+          return out ? { out, label, dir: true, ord: orderOf(courseDir, childPath, true) } : null;
         }
         const meta = published.get(childPath);
         const label = meta.kind === "code" ? path.basename(childPath) : labelText(childPath);
-        return { out: srcToOut(childPath, meta.kind), label, dir: false };
+        return { out: srcToOut(childPath, meta.kind), label, dir: false, ord: orderOf(courseDir, childPath, false) };
       })
       .filter(Boolean)
-      .sort((a, b) => (a.dir === b.dir ? naturalCmp(a.label, b.label) : a.dir ? -1 : 1));
+      .sort((a, b) =>
+        a.ord !== b.ord ? a.ord - b.ord : a.dir === b.dir ? naturalCmp(a.label, b.label) : a.dir ? -1 : 1,
+      );
   };
 
   let nSynth = 0;

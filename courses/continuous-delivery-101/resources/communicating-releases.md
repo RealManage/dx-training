@@ -1,3 +1,6 @@
+---
+order: 50
+---
 # Communicating Releases Under Continuous Delivery
 
 > If we ship continuously, what happens to the weekly email that tells clients

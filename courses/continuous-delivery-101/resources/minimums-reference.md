@@ -1,3 +1,6 @@
+---
+order: 20
+---
 # The MinimumCD Practices — Reference
 
 > This is the bar. Everything in this course exists to help a team meet it. Source: [minimumcd.org](https://minimumcd.org). Keep this page open during merge requests and pipeline reviews.

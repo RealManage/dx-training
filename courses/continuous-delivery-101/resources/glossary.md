@@ -1,3 +1,6 @@
+---
+order: 10
+---
 # Continuous Delivery Glossary
 
 Plain-language definitions for the terms used throughout this course.

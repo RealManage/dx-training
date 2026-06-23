@@ -1,3 +1,6 @@
+---
+order: 70
+---
 # Continuous Delivery When AI Writes the Code
 
 Most of this course is **authorship-agnostic**. Small batches, an always-deployable trunk, an automated definition of deployable, build-once-promote, expand/contract, and fail-forward all work the same whether a person or an agent typed the source. This page is **not a rewrite**. It covers the handful of places where AI-assisted authorship *raises the stakes* on a practice you already have — and the one place it opens a genuinely new failure mode.

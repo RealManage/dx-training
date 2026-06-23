@@ -1,3 +1,6 @@
+---
+order: 80
+---
 # CD Troubleshooting — Objections, Blockers, and Answers
 
 Continuous Delivery adoption rarely fails on technology. It stalls on habits, fears, and a few recurring objections. This guide gives you straight answers to the ones you will hear most.
