@@ -46,7 +46,7 @@ A DORA metric: how quickly you recover from a failed deployment or incident. Fas
 Every step a change passes through from *idea* to *running in production* — intake, refinement, development, review, deploy, and the waits between them.
 
 **Value stream map (VSM)**
-A diagram of the value stream annotated with process time, wait time, and %C/A at each step. The Phase-0 tool for seeing *where lead time is actually lost* and naming the binding constraint. Worked in the [value stream map exercise](../exercises/value-stream-map.md).
+A diagram of the value stream annotated with process time, wait time, and %C/A at each step. The Phase-0 tool for seeing *where lead time is actually lost* and naming the binding constraint. Worked in the [value stream map exercise](../sessions/session-1/exercises/value-stream-map.md).
 
 **Process time**
 The time someone is *actively working* a change at a step (writing code, reviewing the MR, running a deploy) — as opposed to the change sitting idle.

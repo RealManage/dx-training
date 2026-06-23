@@ -50,7 +50,7 @@ Continuous Delivery adoption rarely fails on technology. It stalls on habits, fe
 
 **Fixes:**
 
-- Decompose the work before starting (see [decompose-a-branch](../exercises/decompose-a-branch.md))
+- Decompose the work before starting (see [decompose-a-branch](../sessions/session-2/exercises/decompose-a-branch.md))
 - Merge a thin vertical slice behind a flag on day one
 - Set a hard team rule: a branch open more than a day gets split or merged
 

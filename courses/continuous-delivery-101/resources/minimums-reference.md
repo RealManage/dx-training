@@ -101,4 +101,4 @@ The practices are identical across the estate; only the concrete tools differ.
 
 > **Could a single small change, committed right now, reach production today through the pipeline, with no human re-typing commands and no meeting to decide if it's "ready"?**
 
-If yes — you're doing CD. If no — the gap *is* your migration backlog. Use the [Current-State Assessment](../exercises/current-state-assessment.md) to find it and the [Migration Checklist](./migration-checklist.md) to close it.
+If yes — you're doing CD. If no — the gap *is* your migration backlog. Use the [Current-State Assessment](../sessions/session-3/exercises/current-state-assessment.md) to find it and the [Migration Checklist](./migration-checklist.md) to close it.

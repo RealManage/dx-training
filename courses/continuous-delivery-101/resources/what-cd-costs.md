@@ -69,7 +69,7 @@ failure — it's usually a *decomposition* failure. Make flag hygiene mechanical
   system, not someone's memory, enforces cleanup.
 - **Deletion is a planned slice, not a someday-ticket.** The last step of a feature's
   decomposition is "delete the flag and the dead path" — scheduled in the same plan
-  as the rest (see [decompose-a-branch](../exercises/decompose-a-branch.md)).
+  as the rest (see [decompose-a-branch](../sessions/session-2/exercises/decompose-a-branch.md)).
 - **A flag explosion is a re-slicing signal.** If a feature needs several interacting
   flags, the slices probably aren't independent. Fix the decomposition rather than
   adding more switches.
@@ -123,7 +123,7 @@ so the one cost that compounds, flag debt, doesn't.
 ## Related
 
 - [Migration Checklist](./migration-checklist.md) — the velocity dip is Phase 1
-- [Decompose a Branch](../exercises/decompose-a-branch.md) — where "delete the flag" becomes a slice
+- [Decompose a Branch](../sessions/session-2/exercises/decompose-a-branch.md) — where "delete the flag" becomes a slice
 - [Communicating Releases](./communicating-releases.md) — the flag inventory's other job
 - [Governance & Compliance](./governance-and-compliance.md) — governing flag flips
 - [CD When AI Writes the Code](./ai-assisted-delivery.md) — the seams AI authorship stresses

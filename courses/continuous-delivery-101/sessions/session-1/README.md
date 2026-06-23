@@ -159,7 +159,7 @@ The litmus test: *Could a small change committed right now reach production toda
 
 Before we fix anything, we look honestly at where the time actually goes. A **value stream map** traces a change from *idea* to *running in production* and measures each step, so the biggest constraint surfaces from the numbers instead of from whoever argues loudest. It's platform-agnostic — it maps *your* flow, whether you ship a Lambda or a .NET app to IIS.
 
-Run the [Map Your Value Stream](../../exercises/value-stream-map.md) exercise as a team.
+Run the [Map Your Value Stream](./exercises/value-stream-map.md) exercise as a team.
 
 #### 5.1 Learn the method + walk the example (10 minutes)
 
@@ -194,7 +194,7 @@ The point isn't a pretty diagram; it's the constraint. For most teams coming off
 
 #### Homework
 
-1. Back your value stream map with the [Current-State Assessment](../../exercises/current-state-assessment.md): score the CI/CD minimums and controls, and replace your estimated times with real numbers (branch lifetime, MR size, deploy frequency). Bring it to Session 3 — it's your migration-plan input.
+1. Start your [Current-State Assessment](../session-3/exercises/current-state-assessment.md): capture your real delivery numbers now — branch lifetime, MR size, deploy frequency — and score the practices you can already judge. You'll **complete** it in Session 3, once you've seen the full set of minimums and controls, where it becomes your migration-plan input.
 2. Read [`resources/minimums-reference.md`](../../resources/minimums-reference.md) end to end
 3. Pick one real feature from your backlog — you'll decompose it in Session 2
 
@@ -204,8 +204,8 @@ Trunk-based development and CI in practice: killing long-lived branches, decompo
 
 ## 📚 Resources for This Session
 
-- [Map Your Value Stream](../../exercises/value-stream-map.md) — the in-session workshop
-- [Current-State Assessment](../../exercises/current-state-assessment.md) — the homework scorecard
+- [Map Your Value Stream](./exercises/value-stream-map.md) — the in-session workshop
+- [Current-State Assessment](../session-3/exercises/current-state-assessment.md) — start it now; complete it in Session 3
 - [Minimums Reference](../../resources/minimums-reference.md)
 - [Glossary](../../resources/glossary.md)
 - [Migration Checklist](../../resources/migration-checklist.md) (Phase 0)

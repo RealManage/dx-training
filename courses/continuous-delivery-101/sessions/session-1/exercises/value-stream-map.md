@@ -4,7 +4,7 @@
 **Format:** Team exercise, ~25 minutes
 **Goal:** Draw the path a change takes from *idea* to *running in production*, measure where the time actually goes, and let the map — not a hunch — name the one constraint most worth fixing.
 
-This is the first step of Phase 0 in the [migration checklist](../resources/migration-checklist.md): before you score yourself against the minimums or plan a migration, see your *current* flow honestly. Almost every team discovers the same thing — the time is spent **waiting**, not **working** — and the biggest wait is the constraint the rest of the course exists to remove.
+This is the first step of Phase 0 in the [migration checklist](../../../resources/migration-checklist.md): before you score yourself against the minimums or plan a migration, see your *current* flow honestly. Almost every team discovers the same thing — the time is spent **waiting**, not **working** — and the biggest wait is the constraint the rest of the course exists to remove.
 
 > **Platform-agnostic on purpose.** A value stream map doesn't care whether you ship a TypeScript Lambda or a .NET app to an IIS pool. It maps *your* flow, in *your* stack, with *your* numbers. If you run a long-lived monolith, this is where its real delivery pain shows up in figures you can defend.
 
@@ -20,7 +20,7 @@ For every step a change passes through, capture three things:
 
 Two derived numbers fall out of those:
 
-- **Total lead time** = sum of all process time **+** all wait time. (This is the DORA *lead time for changes* you'll measure in [Part 3 of the assessment](current-state-assessment.md).)
+- **Total lead time** = sum of all process time **+** all wait time. (This is the DORA *lead time for changes* you'll measure in [Part 3 of the assessment](../../session-3/exercises/current-state-assessment.md).)
 - **Flow efficiency** = total process time ÷ total lead time × 100. The share of lead time that is actual work. Most teams are shocked how low it is.
 
 ---
@@ -80,7 +80,7 @@ Mark two kinds of step on your map (a star ⭐ or a "kaizen burst" scribble work
 
 Often they point at the same thing. That thing is your **binding constraint** — the one place where fixing it would move lead time most. Fixing anything else first just moves the queue.
 
-> **When an agent writes the code, watch this map move.** *Develop* is the step AI collapses first — an agent drafts in minutes what took a day, so its process time falls toward zero. But that doesn't shorten lead time if the change still waits two days for review and four for the release window. It just shifts the constraint *downstream*, onto the review queue and the deploy window. Re-map once AI is in your loop: the biggest wait will have moved, and your fix should move with it. See [CD when AI writes the code](../resources/ai-assisted-delivery.md).
+> **When an agent writes the code, watch this map move.** *Develop* is the step AI collapses first — an agent drafts in minutes what took a day, so its process time falls toward zero. But that doesn't shorten lead time if the change still waits two days for review and four for the release window. It just shifts the constraint *downstream*, onto the review queue and the deploy window. Re-map once AI is in your loop: the biggest wait will have moved, and your fix should move with it. See [CD when AI writes the code](../../../resources/ai-assisted-delivery.md).
 
 Then answer, as a team:
 
@@ -137,4 +137,4 @@ By the end you should have:
 - Three headline numbers: total lead time, flow efficiency, and (optionally) rolled %C/A
 - Two starred steps — the biggest wait and the lowest %C/A — and the single binding constraint they point to, with an owner
 
-Carry this into the homework [Current-State Assessment](current-state-assessment.md), where you'll back these estimates with measured numbers and score yourself against the minimums, and into your [migration plan](../resources/migration-checklist.md). Re-map after the course and watch the flow efficiency climb.
+Carry this into the homework [Current-State Assessment](../../session-3/exercises/current-state-assessment.md), where you'll back these estimates with measured numbers and score yourself against the minimums, and into your [migration plan](../../../resources/migration-checklist.md). Re-map after the course and watch the flow efficiency climb.

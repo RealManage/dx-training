@@ -6,7 +6,7 @@
 
 This is the single most important skill for CD. Trunk-based development isn't about banning branches — it's about making each change *small enough that it doesn't need a long branch*. The work is in the decomposition.
 
-> **This is the durable human skill.** As AI writes more of the code, deciding *what* the slices are — the seam, the order, the flags, the expand/contract steps — is the part that stays yours. An agent can write any one slice; designing the decomposition is the "design the factory" work. See [CD when AI writes the code](../resources/ai-assisted-delivery.md).
+> **This is the durable human skill.** As AI writes more of the code, deciding *what* the slices are — the seam, the order, the flags, the expand/contract steps — is the part that stays yours. An agent can write any one slice; designing the decomposition is the "design the factory" work. See [CD when AI writes the code](../../../resources/ai-assisted-delivery.md).
 
 ---
 
@@ -40,7 +40,7 @@ Write your slices in order. Aim for 6–10. Example starting points:
 
 Continue: escalation-level logic, the SNS publish, the history endpoint, turning the flag on.
 
-> **Changing an existing service instead of building a new one?** The method is identical, but your first slices find the *seam* and add the new path **dark**, rather than scaffolding from a `501`. See the brownfield decomposition below, and the worked [strangler-fig migration](../sessions/session-3/examples/strangler-fig-violations.md).
+> **Changing an existing service instead of building a new one?** The method is identical, but your first slices find the *seam* and add the new path **dark**, rather than scaffolding from a `501`. See the brownfield decomposition below, and the worked [strangler-fig migration](../../session-3/examples/strangler-fig-violations.md).
 
 ---
 

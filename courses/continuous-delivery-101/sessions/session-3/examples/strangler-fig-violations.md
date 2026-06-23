@@ -259,6 +259,6 @@ re-platforming:
 
 Take a capability in *your* system that you would carve out (or simply change in
 place) and run it through the brownfield variant of the
-[decompose-a-branch](../../../exercises/decompose-a-branch.md) exercise. Name the
+[decompose-a-branch](../../session-2/exercises/decompose-a-branch.md) exercise. Name the
 seam, the slices, the flags, and — the part that is never free — the
 expand/contract steps and the dual-write window.

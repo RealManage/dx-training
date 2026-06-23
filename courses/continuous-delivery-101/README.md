@@ -59,20 +59,22 @@ continuous-delivery-101/
 │   ├── what-cd-costs.md               # The honest costs of CD + a flag-debt mechanism
 │   ├── ai-assisted-delivery.md        # CD when AI writes the code — the three seams
 │   └── troubleshooting.md             # Common objections and adoption blockers
-├── exercises/                          # Practice materials
-│   ├── value-stream-map.md            # Map idea→prod flow; find the constraint by flow efficiency
-│   ├── current-state-assessment.md    # Score your team against the minimums
-│   └── decompose-a-branch.md          # Turn one long-lived branch into small, safe changes
-├── sessions/                           # Session-by-session content
+├── sessions/                           # Session-by-session content (examples + exercises live with their session)
 │   ├── session-1/                     # Why CD & the Minimums
 │   │   ├── README.md
-│   │   └── examples/
+│   │   ├── examples/
+│   │   └── exercises/
+│   │       └── value-stream-map.md            # Map idea→prod flow; find the constraint by flow efficiency
 │   ├── session-2/                     # Trunk-Based Development & CI
 │   │   ├── README.md
-│   │   └── examples/
+│   │   ├── examples/
+│   │   └── exercises/
+│   │       └── decompose-a-branch.md          # Turn one long-lived branch into small, safe changes
 │   └── session-3/                     # The Pipeline: Single Path to Production
 │       ├── README.md
-│       └── examples/
+│       ├── examples/
+│       └── exercises/
+│           └── current-state-assessment.md    # Score your team against the minimums (done here, w/ full course in hand)
 ├── CLAUDE.md                           # Course context for AI assistance
 └── README.md                           # You are here
 ```
@@ -94,7 +96,7 @@ Before starting, ensure you have:
 ### Getting Started
 
 1. **Read [Session 1](./sessions/session-1/README.md)** → understand *why* CD matters before *how*
-2. **Map your flow, then score your team** → the [Value Stream Map](./exercises/value-stream-map.md) (Session 1 workshop) finds your constraint; the [Current-State Assessment](./exercises/current-state-assessment.md) (homework) backs it with numbers
+2. **Map your flow, then score your team** → the [Value Stream Map](./sessions/session-1/exercises/value-stream-map.md) (Session 1 workshop) finds your constraint; the [Current-State Assessment](./sessions/session-3/exercises/current-state-assessment.md) (homework) backs it with numbers
 3. **Work through Sessions 2 and 3** → practices, then the pipeline
 4. **Write your migration plan** → the [Migration Checklist](./resources/migration-checklist.md) is your template
 

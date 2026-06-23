@@ -12,8 +12,8 @@ A team's working template for adopting Continuous Delivery, organized as the fiv
 
 Understand your current state and name the constraints holding you back. **Do this first.**
 
-- [ ] [Map your value stream](../exercises/value-stream-map.md) (idea → prod): process time, wait time, and %C/A per step; compute flow efficiency and mark the biggest wait / lowest-%C/A step
-- [ ] Complete the [Current-State Assessment](../exercises/current-state-assessment.md) as a team to back the map with scored minimums and controls
+- [ ] [Map your value stream](../sessions/session-1/exercises/value-stream-map.md) (idea → prod): process time, wait time, and %C/A per step; compute flow efficiency and mark the biggest wait / lowest-%C/A step
+- [ ] Complete the [Current-State Assessment](../sessions/session-3/exercises/current-state-assessment.md) as a team to back the map with scored minimums and controls
 - [ ] Measure today's baseline: deployment frequency, lead time, change failure rate, time to restore
 - [ ] Record how long branches actually live (look at merged MRs over the last month)
 - [ ] Confirm the single biggest constraint where the map and the scorecard agree (branch lifetime? manual deploys? slow tests? no rollback?)
@@ -32,7 +32,7 @@ Build the CI capabilities: daily integration, automated testing, small batches, 
 
 - [ ] Adopt trunk-based development: branches off `main`, merged within a day
 - [ ] Set a team agreement: every engineer integrates to `main` at least daily
-- [ ] Decompose work so changes are small enough to ship daily (see [decompose-a-branch](../exercises/decompose-a-branch.md))
+- [ ] Decompose work so changes are small enough to ship daily (see [decompose-a-branch](../sessions/session-2/exercises/decompose-a-branch.md))
 - [ ] Automated unit tests run on every MR branch before merge
 - [ ] Automated tests run on `main` after merge
 - [ ] Adopt the stop-the-line rule: a red `main` build is the team's top priority
@@ -101,7 +101,7 @@ The phases above are the destination map. Getting there is a journey, and a few 
 
 - **It's a quarter, not a sprint.** A team coming from weekly releases typically spends weeks in Phase 1 alone, and the phases overlap — you don't finish one to begin the next. Size the effort accordingly and protect the time.
 - **Expect a velocity dip in Phase 1 — and say so out loud.** Learning to decompose work, integrate daily, and keep `main` green feels slower before it feels faster. Tell leadership to expect the dip and to watch *stability* (the DORA metrics) alongside speed, so a temporary slowdown isn't mistaken for failure. The payoff shows up in Phases 3–4.
-- **Deal with your existing long-lived branches on day one.** You can't adopt trunk-based development on top of a pile of week-old branches. For each open branch, decide: merge it now (decompose first if it's too big — see [decompose-a-branch](../exercises/decompose-a-branch.md)) or abandon it. Draw the line and start clean.
+- **Deal with your existing long-lived branches on day one.** You can't adopt trunk-based development on top of a pile of week-old branches. For each open branch, decide: merge it now (decompose first if it's too big — see [decompose-a-branch](../sessions/session-2/exercises/decompose-a-branch.md)) or abandon it. Draw the line and start clean.
 - **Sequence a mixed estate deliberately.** Prove CD on a low-blast-radius service first — a new cloud-native one is easiest — but commit to carrying it back to the monolith, where most of the pain and most of the payoff live. The [strangler-fig migration](../sessions/session-3/examples/strangler-fig-violations.md) is how the two estates converge. "We'll get to the monolith later" is how later becomes never.
 - **Buy-in is earned, not announced.** CD spreads by proof. Let the pilot team's numbers make the case to the next team rather than mandating the practice estate-wide on day one — and let the engineers who'll live with trunk-based development help shape how it works on their service.
 

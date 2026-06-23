@@ -138,7 +138,7 @@ CI is worthless if it's slow — people route around slow gates. Keep the pre-me
 
 ### 5. Workshop: Decompose a Real Feature (25 minutes)
 
-Use the [Decompose a Long-Lived Branch](../../exercises/decompose-a-branch.md) exercise with the feature you brought from Session 1 homework.
+Use the [Decompose a Long-Lived Branch](./exercises/decompose-a-branch.md) exercise with the feature you brought from Session 1 homework.
 
 1. **Individually (10 min):** break your feature into 6–10 small slices, each mergeable to trunk within a day, each labeled *visible-now* or *behind-a-flag*.
 2. **In pairs/small groups (10 min):** pressure-test each other's slices — "could this merge to `main` today without breaking anything?" Split anything that fails.
@@ -167,7 +167,7 @@ The pipeline that turns "trunk is always deployable" into "any change reaches pr
 
 ## 📚 Resources for This Session
 
-- [Decompose a Long-Lived Branch](../../exercises/decompose-a-branch.md)
+- [Decompose a Long-Lived Branch](./exercises/decompose-a-branch.md)
 - [Minimums Reference](../../resources/minimums-reference.md)
 - [Glossary](../../resources/glossary.md) — *feature flag*, *deploy* vs *release*, *expand/contract*
 - [Trunk-Based Development](https://beyond.minimumcd.org/docs/reference/practices/trunk-based-development/) (MinimumCD)

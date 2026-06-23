@@ -17,10 +17,6 @@
     {
       "section": "Resources",
       "dir": "resources"
-    },
-    {
-      "section": "Exercises",
-      "dir": "exercises"
     }
   ],
   "labels": {
@@ -31,8 +27,8 @@
     "resources/glossary.md": "Glossary",
     "resources/migration-checklist.md": "Migration Checklist",
     "resources/troubleshooting.md": "Troubleshooting",
-    "exercises/value-stream-map.md": "Value Stream Map",
-    "exercises/current-state-assessment.md": "Current-State Assessment",
-    "exercises/decompose-a-branch.md": "Decompose a Branch"
+    "sessions/session-1/exercises/value-stream-map.md": "Value Stream Map",
+    "sessions/session-3/exercises/current-state-assessment.md": "Current-State Assessment",
+    "sessions/session-2/exercises/decompose-a-branch.md": "Decompose a Branch"
   }
 }

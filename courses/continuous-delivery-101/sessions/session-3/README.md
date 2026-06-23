@@ -127,7 +127,9 @@ Read [`examples/rollback-on-aws.md`](./examples/rollback-on-aws.md) for the deci
 
 We don't learn the pipeline against a strawman — we read our *own* real one first, then the target it's migrating toward.
 
-Start with the [current-state walkthrough](examples/current-state-pipeline-walkthrough.md): an annotated tour of the **real** `iac-baseline` GitLab pipeline (`validate → build → dev → qa → prod`, OIDC auth, immutable SHA-tagged images). The headline finding is honest both ways — the baseline already does a *lot* right (single pipeline path, OIDC, immutable artifacts, config-with-artifact), but it gates **every** stage with `when: manual`, so a human, not the pipeline, owns releasability.
+First, **finalize your [Current-State Assessment](./exercises/current-state-assessment.md)** as a team. You started it after Session 1 with your real delivery numbers; now — with every CI and CD minimum and the governance controls in hand — score the rows you had to leave open. That completed scorecard, alongside your value stream map, is the Phase-0 baseline your migration plan builds on.
+
+Then read the pipeline. Start with the [current-state walkthrough](examples/current-state-pipeline-walkthrough.md): an annotated tour of the **real** `iac-baseline` GitLab pipeline (`validate → build → dev → qa → prod`, OIDC auth, immutable SHA-tagged images). The headline finding is honest both ways — the baseline already does a *lot* right (single pipeline path, OIDC, immutable artifacts, config-with-artifact), but it gates **every** stage with `when: manual`, so a human, not the pipeline, owns releasability.
 
 Now open the target — [`examples/.gitlab-ci.yml`](./examples/.gitlab-ci.yml), the full commit→prod pipeline for the Violations API. As a group, locate:
 
@@ -143,7 +145,7 @@ The gap between the two — all-manual gates versus green-flows-automatically �
 
 #### 6.2 Write your migration plan (15 minutes)
 
-Using the [Migration Checklist](../../resources/migration-checklist.md) and your Session 1 assessment, draft your team's plan:
+Using the [Migration Checklist](../../resources/migration-checklist.md) and your completed [Current-State Assessment](./exercises/current-state-assessment.md), draft your team's plan:
 
 - **Phase 0 (Assess):** your value stream map and scorecard + the one binding constraint they named
 - **Phase 1 (Foundations):** the CI/TBD behaviors to adopt next (branch lifetime target, daily integration, flags, stop-the-line)
@@ -173,11 +175,12 @@ You've completed Continuous Delivery 101 when you can:
 - Explain when to fail forward versus roll back, and how to do each on AWS
 - Produce a phased migration plan for your team
 
-Re-run the [Current-State Assessment](../../exercises/current-state-assessment.md) in a month and measure how far you moved.
+Re-run the [Current-State Assessment](./exercises/current-state-assessment.md) in a month and measure how far you moved.
 
 ## 📚 Resources for This Session
 
 - [Worked service: violations-api/](./examples/violations-api/)
+- [Current-State Assessment](./exercises/current-state-assessment.md) — the Phase-0 scorecard you complete here
 - [Current-state pipeline walkthrough](examples/current-state-pipeline-walkthrough.md) — the `iac-baseline` baseline we score
 - [Target pipeline: .gitlab-ci.yml](./examples/.gitlab-ci.yml)
 - [Rollback on AWS](./examples/rollback-on-aws.md)

@@ -67,6 +67,6 @@ Every anti-pattern above produces the same thing: **a bigger batch and more drif
 
 ## Related
 
-- [Decompose a Long-Lived Branch](../../../exercises/decompose-a-branch.md)
+- [Decompose a Long-Lived Branch](../exercises/decompose-a-branch.md)
 - [Feature flags in TypeScript](./feature-flag.ts)
 - [Minimums Reference — Trunk-Based Development](../../../resources/minimums-reference.md)
