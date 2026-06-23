@@ -67,7 +67,7 @@ Of the work arriving at a step, the share usable *as-is*, without being sent bac
 The default response to a production problem under CD: ship a small fix *through the pipeline* instead of reverting. Because deploys are small, fast, and canary-verified, the fix lands in minutes and the defect is actually resolved. Preferred over rollback except when a problem is costly *and* time-sensitive.
 
 **Rollback**
-Returning a service to the last known-good version. CD requires the *capability* (minimum #8), but operationally it's the emergency lever — used when a problem is costly and time-sensitive and a forward fix won't land fast enough. On AWS: shift a Lambda alias, redeploy a prior immutable artifact, or rely on canary/CloudFormation auto-rollback. Caveat: rolling *code* back does not roll *data* back.
+Returning a service to the last known-good version. CD requires the *capability* (minimum #8), but operationally it's the emergency lever — used when a problem is costly and time-sensitive and a forward fix won't land fast enough. On AWS: re-run the last known-good deployment in GitLab (it redeploys the prior immutable artifact through the pipeline); the canary and CloudFormation auto-rollback are automatic safety nets. Caveat: rolling *code* back does not roll *data* back.
 
 ## Pipeline and artifacts
 
@@ -153,7 +153,7 @@ AWS's native IaC service. SAM and CDK both compile down to it. The `iac-baseline
 The mechanism GitLab CI uses to assume an AWS IAM role for deploys without storing static AWS credentials. The only acceptable CI auth for our pipelines.
 
 **Lambda alias / version**
-A Lambda *version* is an immutable snapshot of function code; an *alias* (e.g., `live`) is a pointer to a version. Shifting the alias enables instant rollback and canary releases.
+A Lambda *version* is an immutable snapshot of function code; an *alias* (e.g., `live`) is a pointer to a version. Each deploy publishes a new version and the canary shifts the `live` alias to it gradually, auto-rolling-back on alarm. (Routine rollback is re-running the last good deployment, not hand-editing the alias.)
 
 **Canary release**
 Routing a small percentage of traffic to a new version, watching metrics, then shifting the rest if healthy — automated via CodeDeploy / SAM `DeploymentPreference`.

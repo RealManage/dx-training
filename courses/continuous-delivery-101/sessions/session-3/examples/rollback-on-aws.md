@@ -25,7 +25,7 @@ Why fail-forward is usually the right first move:
 - **It's safe by the same logic as any deploy** — small batch, tests, canary are exactly what made the original change low-risk.
 - **It sidesteps the rollback data trap (below).**
 
-The fastest mitigation of all is often neither a rollback nor a redeploy: if the bad behavior is behind a **feature flag, flip it off** (Strategy 5) — no deploy — then fix forward behind the flag at a calm pace.
+The fastest mitigation of all is often neither a rollback nor a redeploy: if the bad behavior is behind a **feature flag, flip it off** (Strategy 4) — no deploy — then fix forward behind the flag at a calm pace.
 
 ## When to roll back instead
 
@@ -40,29 +40,18 @@ Then: roll back immediately to stop the bleeding, and fail forward afterward to 
 
 ## Rollback mechanisms
 
-When you do roll back, these are the AWS mechanisms, fastest first.
+When you decide to roll back, the move is to **re-run the last known-good deployment in GitLab** — redeploying the previous immutable artifact through the pipeline. Two automatic safety nets and a flag kill-switch back that up.
 
-## Strategy 1 — Lambda alias shift (fastest; seconds)
+## Strategy 1 — Re-run the last good deployment in GitLab (our rollback)
 
-> **Drift warning — do this, then immediately redeploy the known-good artifact.** An out-of-band `update-alias` points the alias somewhere CloudFormation doesn't know about. Your *very next* `sam deploy` — even an unrelated one — resets the alias to the version the stack still thinks is current, silently reintroducing the bug. So an alias shift is a *stop-the-bleeding* move, not a fix: redeploy the good artifact through the pipeline before anything else touches the stack.
+Because every artifact is packaged and kept (tagged by `CI_COMMIT_SHA`, retained 30 days), rolling back *is* redeploying the previous good build — through the same pipeline that ships everything else. Two ways:
 
-Our `template.yaml` sets `AutoPublishAlias: live`. Every deploy publishes an immutable Lambda **version** (1, 2, 3, …) and points the `live` alias at the newest. API Gateway invokes the alias, not a raw version.
+- **Re-run `deploy:prod` from the last known-good pipeline** (GitLab → CI/CD → Pipelines → the last good pipeline → re-run its prod deploy). This redeploys the stored previous artifact — no rebuild.
+- **`git revert` the bad commit on `main`** and let the pipeline build and promote the revert.
 
-Rollback = repoint the alias to the previous version:
-
-```bash
-# Find the version the alias currently points at, and the prior one.
-aws lambda get-alias --function-name prod-aws-violations-api --name live
-
-# Repoint live to the known-good prior version (e.g. 7 instead of 8).
-aws lambda update-alias \
-  --function-name prod-aws-violations-api \
-  --name live --function-version 7
-```
-
-- **Speed:** near-instant. No build, no CloudFormation.
-- **Use when:** a freshly deployed version is misbehaving and the prior version was healthy.
-- **Note:** this is an emergency action (see the drift warning above) — reconcile by redeploying the good artifact through the pipeline so IaC and reality agree.
+- **Speed:** minutes — a deploy of an already-built artifact, not a rebuild.
+- **Use when:** you've decided to roll back. This is the standard move.
+- **Why this, not a hand-edited Lambda alias:** it goes through the pipeline (CD minimum #2), so IaC and running state stay consistent — there's no out-of-band alias change for the next `sam deploy` to silently undo.
 
 ## Strategy 2 — Canary with automatic rollback (no human needed)
 
@@ -75,21 +64,11 @@ aws lambda update-alias \
 - **Use when:** always, as the default safety net for prod Lambda deploys.
 - **Tradeoff:** deploys take a few minutes longer (the canary window). Worth it.
 
-## Strategy 3 — Redeploy the previous immutable artifact (the clean path)
-
-Because every artifact is packaged and kept (tagged by `CI_COMMIT_SHA`, retained 30 days), you can re-run the deploy job against the *previous* packaged template:
-
-- Re-run `deploy:prod` from the last-good pipeline, **or**
-- `git revert` the bad commit on `main` and let the pipeline build + promote the revert.
-
-- **Speed:** minutes (a deploy, not a rebuild if you target the stored artifact).
-- **Use when:** you want IaC and running state to stay consistent (preferred over a raw alias shift once the fire is out).
-
-## Strategy 4 — CloudFormation automatic rollback (built in)
+## Strategy 3 — CloudFormation automatic rollback (built in)
 
 If a `sam deploy` / stack update *fails partway*, CloudFormation rolls the stack back to its last good state by default. You get this for free — it covers failed updates, not "deployed fine but behaves badly" (that's what canary + alarms catch).
 
-## Strategy 5 — Feature-flag kill switch (rollback with no deploy)
+## Strategy 4 — Feature-flag kill switch (rollback with no deploy)
 
 If the bad behavior is behind a flag, the fastest "rollback" is to **turn the flag off** — no deploy at all. With env-var flags, that's a config change + redeploy; with a managed flag service (AppConfig/LaunchDarkly), it's a runtime toggle that takes effect in seconds.
 
@@ -97,19 +76,18 @@ If the bad behavior is behind a flag, the fastest "rollback" is to **turn the fl
 
 ## ECS note
 
-For ECS services the equivalents are: a **CodeDeploy blue/green** deployment (analogous to the Lambda canary, with alarm-based auto-rollback), or redeploying the previous **immutable task definition revision** (analogous to the alias shift — task defs are versioned and stored).
+For ECS services the equivalents are: a **CodeDeploy blue/green** deployment (analogous to the Lambda canary, with alarm-based auto-rollback), or re-running the last good deployment so the service lands back on the previous **immutable task definition revision** (task defs are versioned and stored — the same "redeploy the prior artifact through the pipeline" move).
 
 ## Choosing your move
 
 | Situation | Reach for |
 | --------- | --------- |
 | A problem you can fix with a small change | **Fail forward** — ship the fix through the pipeline *(default)* |
-| Regression is behind a feature flag | Flip the flag off (Strategy 5), then fail forward |
+| Regression is behind a feature flag | Flip the flag off (Strategy 4), then fail forward |
 | Costly **and** time-sensitive, forward fix too slow | **Roll back now**, then fail forward |
-| → newest deploy is the culprit, need it gone in seconds | Alias shift (Strategy 1) |
+| → you've decided to roll back | Re-run the last good GitLab deployment (Strategy 1) |
 | → want gradual, self-protecting prod deploys | Canary auto-rollback (Strategy 2) — on by default |
-| → keep IaC and running state consistent | Redeploy prior artifact (Strategy 3) |
-| A stack update failed partway through | CloudFormation auto-rollback (Strategy 4) — automatic |
+| A stack update failed partway through | CloudFormation auto-rollback (Strategy 3) — automatic |
 
 ## Make it boring — rehearse both
 

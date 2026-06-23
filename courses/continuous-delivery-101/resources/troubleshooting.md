@@ -85,8 +85,8 @@ Continuous Delivery adoption rarely fails on technology. It stalls on habits, fe
 
 - **Default to failing forward.** Because the pipeline makes shipping small and safe, the normal response is to ship a small fix through it — the defect gets *fixed*, not deferred.
 - **Keep rollback as a rehearsed emergency lever** for problems that are costly *and* time-sensitive:
-  - For Lambda: use versions + an alias (`live`); roll back by shifting the alias to the previous version
-  - For CloudFormation/SAM: redeploy the previous immutable artifact; rely on stack rollback on failure
+  - Roll back by **re-running the last known-good deployment in GitLab** — it redeploys the previous immutable artifact through the pipeline, so there's no out-of-band change to reconcile
+  - Automatic safety nets back this up: the canary rolls a bad prod deploy back on alarm, and CloudFormation rolls back a stack update that fails partway
 - **Mind the data trap:** rolling code back doesn't roll data back — keep changes backward-compatible (expand/contract) so both directions stay safe
 - Rehearse both loops in qa before you need them in prod (see [recovery on AWS](../sessions/session-3/examples/rollback-on-aws.md))
 

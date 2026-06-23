@@ -58,7 +58,7 @@ Contrast with the anti-pattern: running `sam build` separately in each environme
 
 When something breaks, the default move is to **fail forward** — ship a small fix through this same pipeline. These hooks make the rare *rollback* fast for when a problem is costly and time-sensitive:
 
-- `AutoPublishAlias: live` → every deploy creates an immutable Lambda **version** and points the `live` alias at it. Roll back = repoint the alias to the prior version (seconds, no rebuild).
+- `AutoPublishAlias: live` → every deploy creates an immutable Lambda **version** and the canary shifts the `live` alias onto it. Roll back = re-run the last good deployment in GitLab (redeploys the prior artifact through the pipeline) — not a hand-edited alias.
 - `DeploymentPreference: Canary10Percent5Minutes` + a CloudWatch error **alarm** → traffic shifts gradually and **auto-rolls-back** if errors spike, so most bad deploys never fully roll out.
 
 Fail-forward vs roll-back decision guide and full strategies: [`../rollback-on-aws.md`](../rollback-on-aws.md).

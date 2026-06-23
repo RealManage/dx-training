@@ -209,7 +209,7 @@ and more frequent* until "release" stops being a weekly event.
 | - | -------------------- | --------------------- |
 | **Default** | Fail forward — ship a small fix through the pipeline | Fail forward — same |
 | **Immutable artifact** | versioned bundle in S3, promoted by SHA | the published `a/` artifact, built once and promoted to each environment (config applied at deploy) |
-| **Fast lever** | shift the `live` alias / canary auto-rollback (see [rollback-on-aws.md](./rollback-on-aws.md)) | **flip the routing flag** — reads/writes return to the monolith instantly |
+| **Fast lever** | canary auto-rollback (automatic on alarm — see [rollback-on-aws.md](./rollback-on-aws.md)) | **flip the routing flag** — reads/writes return to the monolith instantly |
 | **Hard rollback** | redeploy the prior bundle | redeploy the prior published artifact to IIS |
 | **Data** | expand/contract keeps both directions safe | same — the dual-write window is itself the rollback path |
 

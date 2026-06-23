@@ -117,7 +117,7 @@ Why fail-forward is usually right:
 
 The fastest mitigation of all is often neither: if the bad behavior is behind a **feature flag, flip it off** — no deploy — then fix forward behind the flag.
 
-Read [`examples/rollback-on-aws.md`](./examples/rollback-on-aws.md) for the decision guide and the AWS rollback mechanisms (alias shift, canary auto-rollback, redeploy prior artifact). Then **rehearse rollback in qa** so it's boring the day you actually need it.
+Read [`examples/rollback-on-aws.md`](./examples/rollback-on-aws.md) for the decision guide and the AWS rollback mechanisms (re-running the last good GitLab deployment, plus canary and CloudFormation auto-rollback). Then **rehearse rollback in qa** so it's boring the day you actually need it.
 
 ---
 
