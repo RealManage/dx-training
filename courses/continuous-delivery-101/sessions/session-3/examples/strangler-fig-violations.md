@@ -1,7 +1,7 @@
 # Strangler Fig in Practice: Carving Violations Out of the Monolith
 
 > The HOA Violations API you studied earlier in this session did not start life
-> cloud-native. It was *carved out* of the legacy Community Management monolith,
+> cloud-native. It was *carved out* of the established Community Management monolith,
 > one safe step at a time. This is that journey — the worked example the course's
 > framing kept promising. Every step is a small, independently shippable,
 > reversible change. It is Continuous Delivery applied to the **hardest** case we
@@ -22,7 +22,7 @@ the monolith, not just the new service.
 
 ## The starting state
 
-- **Legacy Community Management monolith:** an ASP.NET Framework Web API on IIS,
+- **The Community Management monolith:** an ASP.NET Framework Web API on IIS,
   spread across Azure VMs, with one shared **SQL Server** database. "Violations"
   is one capability among many (assessments, work orders, ARC requests, ...).
 - **Today's delivery:** weekly deploys, feature branches that live for days, a
@@ -30,8 +30,8 @@ the monolith, not just the new service.
 - **The same GitLab CI** that builds the new AWS services also builds and deploys
   the monolith — it just targets **IIS on the VMs** instead of Lambda. The CI
   tooling is not the hard part; the delivery habits and the shared database are.
-- **The destination:** the cloud-native **HOA Violations API** (TypeScript Lambda
-  + DynamoDB + SNS) you already studied. We are going to build it *beside* the
+- **The destination:** the cloud-native **HOA Violations API** (TypeScript Lambda +
+  DynamoDB + SNS) you already studied. We are going to build it *beside* the
   monolith and move callers and data across — without a big-bang rewrite, and
   without a release freeze.
 
@@ -234,7 +234,7 @@ This migration is not a detour from the course; it is the course:
 
 ## And the parts you are *not* carving out
 
-Most of the monolith is staying put for a long time. It gets CD too — without any
+Most of the monolith stays exactly where it is, by design. It gets CD too — without any
 re-platforming:
 
 - **Trunk-based development** and short-lived branches: a habit, not a platform.

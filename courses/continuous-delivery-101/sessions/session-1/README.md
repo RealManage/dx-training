@@ -20,11 +20,13 @@ By the end of this session, participants will be able to:
 
 #### The landscape today
 
-RealManage runs a mix, and will for a long time:
+RealManage runs a mix, by design:
 
-- **Established .NET Framework Web APIs on Azure VMs** — large, long-lived, and not going anywhere soon
+- **Established .NET Framework Web APIs on Azure VMs** — themselves a recent rewrite off an older platform; they run much of the business today and are core to the estate
 - **New, small, cloud-native services on AWS** — Lambda (TypeScript), ECS, DynamoDB, SNS, SQS — built cloud-native where possible
 - We use the **strangler fig pattern** to gradually carve functionality out of the monoliths into these new services — incrementally, not a big-bang rewrite (worked end to end in [Strangler Fig in Practice](../session-3/examples/strangler-fig-violations.md) — the Violations API you'll meet in Session 3 is the *result* of this migration)
+
+This is a story of *continuous improvement*, not a bail-out. Those .NET APIs are themselves a recent rewrite off an older platform — real progress the team already delivered — and CD is the next increment of that same journey, applied across the whole estate rather than reserved for the new services.
 
 #### What this course changes
 
@@ -38,7 +40,7 @@ Continuous Delivery moves that to small batches integrated daily, an always-depl
 
 Note who owns quality in this picture: at RealManage there is no separate QA team or QA gate — the team that builds a change owns its quality, and the pipeline is where that ownership becomes automated, enforceable checks rather than a handoff to someone else.
 
-> The new cloud-native services are an easy *place to start* — they carry no legacy deploy process to fight. But CD is not something you do only on the new services: it is a set of working agreements that apply to the monolith too. Trunk-based development, feature flags (via config, not just Lambda env vars), expand/contract on SQL Server, and build-once-promote all work on an IIS-on-VMs .NET app shipped through the same GitLab CI. We start where the practices are easiest to *see*, then carry them straight back to the estate that needs them most — including the strangler-fig migrations that carve new services out of the monolith ([worked end to end in Session 3](../session-3/examples/strangler-fig-violations.md)).
+> The new cloud-native services are an easy *place to start* — they begin from a clean slate, with no existing deploy process to retrofit. But CD is not something you do only on the new services: it is a set of working agreements that apply to the established .NET systems too. Trunk-based development, feature flags (via config, not just Lambda env vars), expand/contract on SQL Server, and build-once-promote all work on an IIS-on-VMs .NET app shipped through the same GitLab CI. We start where the practices are easiest to *see*, then carry them straight back to the systems that run the business — where the same discipline pays off just as much, including the strangler-fig work that selectively carves new services out where that serves the product ([worked end to end in Session 3](../session-3/examples/strangler-fig-violations.md)).
 
 ---
 
