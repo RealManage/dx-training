@@ -71,7 +71,7 @@ Trunk-based development is the branching model CI runs on — so closely bound t
 1. **Commit directly to trunk** (with strong tests and review discipline), or
 2. **Very short-lived branches** that branch from trunk and merge back within a day.
 
-Long-lived branches are replaced by *engineering* techniques — chiefly **feature flags** — instead of *process* (branch isolation). See [Session 2](../sessions/session-2/README.md).
+Long-lived branches are replaced by *engineering* techniques — chiefly **feature flags**, with **branch by abstraction** for larger structural changes a call-site switch can't cleanly wrap — instead of *process* (branch isolation). See [Session 2](../sessions/session-2/README.md).
 
 ### Why long-lived branches fail
 

@@ -100,6 +100,9 @@ A pipeline is organized into *stages* (e.g., `build`, `test`, `dev`, `qa`, `prod
 
 ## Decoupling deploy from release
 
+**Branch by abstraction**
+A technique for making a large or structural change on trunk without a long-lived branch: introduce an abstraction (a *seam*) over the component you are changing, build the new implementation behind it while the old one keeps running, switch callers across, then delete the old path. Like a feature flag it lets you integrate before the work is finished — but it gates an *implementation* behind an interface, where a flag gates a *behavior* at a call site. The tool of choice for swapping a dependency or a large refactor. See [Session 2](../sessions/session-2/README.md).
+
 **Dark launch**
 Deploying a feature to production turned off (or to a subset of users) to validate it before a full release.
 
@@ -131,6 +134,9 @@ Rolling application *code* back does not roll *data* back — rows already writt
 
 **DbUp**
 A .NET library that applies ordered SQL scripts to a database and tracks them in a `SchemaVersions` journal. Forward-only and idempotent. RealManage's migration runner for SQL Server. See [Database Delivery](database-delivery.md).
+
+**DDL (Data Definition Language)**
+The subset of SQL that changes a database's *structure* — `CREATE`, `ALTER`, `DROP` of tables, columns, indexes, and constraints — as opposed to DML (`INSERT` / `UPDATE` / `DELETE`), which changes *data*. "No standing human DDL access" means engineers cannot hand-alter schema on a shared database; structural change happens only through migrations the pipeline runs. See [database-delivery](database-delivery.md).
 
 **Environment drift**
 The state where `prod`, `qa`, and `dev` schemas have diverged, so a migration that works in one may fail in another. Resolved by baselining production as the source of truth and reconciling lower environments up to it.
