@@ -126,9 +126,11 @@ align it to what users actually experienced.
 
 ## The release manager's role, evolved
 
-Worth saying plainly: under CD, the **pipeline** performs the deploys our release
-manager runs by hand today. That isn't the role disappearing — it's the role moving
-up to the work that actually needs judgment:
+Worth saying plainly: the **pipeline** already performs the deploy. Today our release
+manager presses its release button on a weekly schedule; under CD that *same* button is
+pressed on demand instead. The mechanism doesn't change — the *cadence* does, and deploy
+decouples from the user-facing release (the flag flip). That isn't the role disappearing —
+it's the role moving up to the work that actually needs judgment:
 
 - **Owning the release-communication data source** — the flag inventory, the
   `customer-facing` discipline, the curated changelog.
@@ -138,8 +140,10 @@ up to the work that actually needs judgment:
 - **Customer and support communication** — the human, audience-facing work no
   pipeline can do.
 
-The weekly manual deploy was the least valuable part of the job. CD automates that
-and leaves the judgment.
+Pressing the release button was never the hard part, and it doesn't go away. What changes
+is that releasing stops being a weekly ritual to gatekeep and becomes routine and on-demand,
+decoupled from the flag flip. CD leaves the judgment: which features go live, when, to whom,
+and how it's communicated.
 
 ## Putting it in the migration
 
