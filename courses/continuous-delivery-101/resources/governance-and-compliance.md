@@ -25,7 +25,7 @@ Two very different things wear the same "click to deploy" button:
 
 - **Debt:** a gate that re-litigates *readiness* the pipeline already proved — a
   meeting asking "is this tested enough?" when automated tests, coverage, and
-  security scans already answered. This is slow theatre. Remove it.
+  security scans already answered. This is slow theater. Remove it.
 - **Legitimate, permanent control:** a single deliberate human *authorization* —
   accepting business risk, honoring a contractual change window, or a regulated
   environment that requires named sign-off. Keep it, deliberately and honestly.
@@ -99,7 +99,7 @@ needs an out-of-band action. A sound **break-glass** procedure is:
 > **Concretely**, for our AWS estate: a pre-created `break-glass-deploy` IAM role,
 > assumable only by named on-call engineers, granting the scoped access an incident
 > needs and **nothing more**; its assumption requires a second person's recorded
-> acknowledgement (in the incident channel), auto-expires within a few hours, and
+> acknowledgment (in the incident channel), auto-expires within a few hours, and
 > alerts the security channel on every use. The *who*, the *scope*, and the *expiry*
 > are decided in advance — under pressure you follow the procedure, you don't invent
 > one.

@@ -2,7 +2,7 @@
 
 A deliberately small **schema-as-code** example for Continuous Delivery 101. It shows how a database change reaches production the same way application code does: built once, promoted, and applied by the pipeline — never by hand on a shared database. Like the [Violations API](../violations-api/README.md), it is a **teaching reference**, not a buildable project (there is no NuGet restore here; treat the files as annotated illustrations).
 
-It is deliberately in **C#/.NET against SQL Server** — the one example in this course that is — because database delivery lives in RealManage's established .NET estate, and DbUp is the runner we use there. The migrator is a standalone modern .NET console tool; it targets SQL Server but does not need to match the monolith's .NET Framework version. The CD minimums are identical to the cloud-native pipeline; only the surface differs.
+It is deliberately in **C#/.NET against SQL Server** — one of only two C#/.NET examples in the course (the other is [characterization testing](../../../session-2/examples/characterization-test/README.md)) — because database delivery lives in RealManage's established .NET estate, and DbUp is the runner we use there. The migrator is a standalone modern .NET console tool; it targets SQL Server but does not need to match the monolith's .NET Framework version. The CD minimums are identical to the cloud-native pipeline; only the surface differs.
 
 ## What it does
 

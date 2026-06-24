@@ -28,9 +28,11 @@
     "resources/migration-checklist.md": "Migration Checklist",
     "resources/troubleshooting.md": "Troubleshooting",
     "resources/database-delivery.md": "Database Delivery",
+    "resources/testing-and-cd.md": "Testing & CD",
     "sessions/session-1/exercises/value-stream-map.md": "Value Stream Map",
     "sessions/session-3/exercises/current-state-assessment.md": "Current-State Assessment",
     "sessions/session-3/examples/db-migrations/README.md": "Database Migrations (DbUp)",
+    "sessions/session-2/examples/characterization-test/README.md": "Characterization Test",
     "sessions/session-2/exercises/decompose-a-branch.md": "Decompose a Branch"
   }
 }

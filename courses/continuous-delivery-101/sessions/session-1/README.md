@@ -40,6 +40,8 @@ Continuous Delivery moves that to small batches integrated daily, an always-depl
 
 Note who owns quality in this picture: at RealManage there is no separate QA team or QA gate — the team that builds a change owns its quality, and the pipeline is where that ownership becomes automated, enforceable checks rather than a handoff to someone else.
 
+What if there are no automated checks yet? Much of the established estate is verified by hand today — and that does not block CD. Owning quality can start as the delivering engineer testing their own change; a "throw it over to QA" *wait* is the waste, not the act of verifying your own work. The path from manual to automated — test new code, add characterization tests to legacy code as you touch it, and let feature flags keep you integrating meanwhile — is its own guide: [Testing and CD](../../resources/testing-and-cd.md).
+
 > The new cloud-native services are an easy *place to start* — they begin from a clean slate, with no existing deploy process to retrofit. But CD is not something you do only on the new services: it is a set of working agreements that apply to the established .NET systems too. Trunk-based development, feature flags (via config, not just Lambda env vars), expand/contract on SQL Server, and build-once-promote all work on an IIS-on-VMs .NET app shipped through the same GitLab CI. We start where the practices are easiest to *see*, then carry them straight back to the systems that run the business — where the same discipline pays off just as much, including the strangler-fig work that selectively carves new services out where that serves the product ([worked end to end in Session 3](../session-3/examples/strangler-fig-violations.md)).
 
 ---

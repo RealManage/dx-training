@@ -29,6 +29,8 @@ CI is **each developer integrating their work to the trunk at least daily, and v
 5. **When the build goes red, fixing it is the team's top priority.** Feature work stops.
 6. **New work does not break delivered work.** Backward-compatible by default.
 
+> **Starting from little or no automated testing?** Minimums #3 and #4 ask for automated tests on every integration — a bar a manual-testing team does not meet yet. That is a gap to close, not a reason to wait: test all *new* code, add **characterization tests** when you change untested legacy, and use **feature flags** to keep integrating daily while verification is still manual. See [Testing and CD](testing-and-cd.md).
+
 ### "We have a CI server, so we do CI" — no
 
 Owning GitLab CI, Jenkins, or GitHub Actions is **not** CI. Those are pipeline tools. CI is the *discipline* of small, daily integrations to trunk with fast automated feedback. Many teams run pipelines for weeks-old feature branches and never integrate — that is the opposite of CI.

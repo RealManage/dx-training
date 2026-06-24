@@ -74,8 +74,14 @@ The time a change sits *idle* between or within steps: in a backlog, a review qu
 **Artifact**
 The built, deployable thing produced from a commit — a Lambda bundle (`.zip`), a container image, a packaged SAM template.
 
+**Characterization test**
+A test written to pin the *current* behavior of existing code — quirks and all — before you change it, so any unintended change fails loudly. It captures what the code *does*, not what it *should* do. The tool for safely modifying untested legacy code, and how an automated suite grows where change actually happens — at the code's *seams* (see *Seam*). See [Testing and CD](testing-and-cd.md).
+
 **Definition of deployable**
 The automated criteria that determine whether an artifact may be deployed. Criteria, not a meeting.
+
+**Exploratory testing**
+Deliberate, time-boxed manual investigation of a change — trying the unexpected, judging whether it behaves well — as opposed to scripted regression checks. Under CD it is a permanent practice that gates the *release* (the feature-flag flip), not the merge. Distinct from a QA *handoff*: the delivering engineer does it. See [Testing and CD](testing-and-cd.md).
 
 **Immutable artifact**
 An artifact built exactly once from a commit and never modified afterward. The same bytes promoted through dev, qa, and prod.
@@ -91,6 +97,9 @@ Moving the *same* artifact from one environment to the next (dev → qa → prod
 
 **Quality gate**
 An automated check that must pass for a change to proceed — lint, unit tests, coverage threshold, security scan. Collectively, they form the *definition of deployable*.
+
+**Regression testing**
+Re-verifying that previously working behavior still works after a change. Where it is automated it belongs in the pipeline's definition of deployable; where it is still manual it is debt to automate down — not a permanent gate. See [Testing and CD](testing-and-cd.md).
 
 **Smoke test**
 A fast, shallow check run immediately *after* a deploy to confirm the service is actually up and serving — a health endpoint or one real request — before promotion continues. It proves the deploy worked; it is not full testing.
@@ -160,7 +169,7 @@ A small, ordered, version-controlled change to a database's structure (or baseli
 The table a migration runner uses to record which scripts an environment has already applied, so each runs exactly once and re-running is safe. In DbUp it is `SchemaVersions`.
 
 **Seam**
-A controlled insertion point where you can intercept calls to existing behaviour and redirect them — the place a strangler-fig migration adds a routing flag so an old code path and its replacement can run side by side.
+A place where you can change or observe a program's behavior without editing in that place. A strangler-fig migration adds a routing flag at a seam so an old code path and its replacement run side by side; a characterization test exploits a seam to get otherwise-untestable legacy code under test.
 
 **Strangler fig pattern**
 Replacing a system incrementally by carving one capability at a time out of it into a new service, running both in parallel and moving callers and data across in small, reversible steps, until the old path can be deleted. Named for the vine that grows around a tree and gradually replaces it. The opposite of a big-bang rewrite. Worked end to end in [strangler-fig in practice](../sessions/session-3/examples/strangler-fig-violations.md).

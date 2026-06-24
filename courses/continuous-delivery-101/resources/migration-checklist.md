@@ -40,6 +40,9 @@ Build the CI capabilities: daily integration, automated testing, small batches, 
 - [ ] Automated tests run on `main` after merge
 - [ ] Adopt the stop-the-line rule: a red `main` build is the team's top priority
 - [ ] Introduce feature flags so incomplete work can merge safely (off by default)
+- [ ] All **new** code ships with automated tests that pin intent; AI makes these cheap to draft — see [testing-and-cd](testing-and-cd.md)
+- [ ] When you change untested legacy code, add **characterization tests** around the change first — do not backfill the whole estate
+- [ ] Manual verification is an explicit, owned step gating the **flag flip** (release), not the merge; automate it down as characterization tests accumulate
 - [ ] Code review turnaround target: under ~4 hours
 
 **Exit question:** *Can we integrate safely every day?*

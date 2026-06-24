@@ -132,7 +132,9 @@ The trunk is only "always deployable" if merging proves it. Minimum gates for an
 
 These are the *front half* of the pipeline you'll build in Session 3. Preview them in [`examples/ci-pipeline.gitlab-ci.yml`](./examples/ci-pipeline.gitlab-ci.yml).
 
-> **A gate is only as honest as the tests behind it.** When the same author writes the code *and* its tests — increasingly an AI agent — the tests can assert whatever the code already does, clear the coverage floor, and verify nothing. The coverage threshold then becomes a target the author optimizes directly, not a guarantee. Tests must specify *intent* (behaviour contracts), and something independent must confirm they do. See [CD when AI writes the code](../../resources/ai-assisted-delivery.md).
+> **A gate is only as honest as the tests behind it.** When the same author writes the code *and* its tests — increasingly an AI agent — the tests can assert whatever the code already does, clear the coverage floor, and verify nothing. The coverage threshold then becomes a target the author optimizes directly, not a guarantee. Tests must specify *intent* (behavior contracts), and something independent must confirm they do. See [CD when AI writes the code](../../resources/ai-assisted-delivery.md).
+
+**Starting with little test coverage?** New code still gets tests — and with AI drafting them, that is cheap. You do not backfill the whole monolith: you add **characterization tests** when you change untested code, and you lean on **feature flags** to keep integrating daily while verification is still manual. A change merged behind an off flag is integrated (CI satisfied) but not released; the manual test then gates the *flip*, not the merge. The full path is in [Testing and CD](../../resources/testing-and-cd.md).
 
 #### 4.3 Keep feedback fast (5 minutes)
 

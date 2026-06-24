@@ -7,7 +7,7 @@
 
 ## 📚 Course Overview
 
-This course teaches the engineering discipline of **Continuous Delivery (CD)**: keeping software in an always-deployable state so that any change can reach production safely, on demand. It is built directly on the practices catalogued at [minimumcd.org](https://minimumcd.org) — the industry's minimum bar for what CD actually requires. It grounds every practice in how RealManage builds today: our established .NET Framework APIs on Azure VMs — themselves a recent modernization that runs much of the business — sit alongside new work that is increasingly **small and cloud-native on AWS** (Lambda, ECS, DynamoDB, SNS, SQS), with the **strangler fig pattern** selectively carving functionality out into new services where that serves the product — a migration we work end to end in [Strangler Fig in Practice](./sessions/session-3/examples/strangler-fig-violations.md). CD is the discipline that keeps the whole estate — established APIs and new services alike — deliverable.
+This course teaches the engineering discipline of **Continuous Delivery (CD)**: keeping software in an always-deployable state so that any change can reach production safely, on demand. It is built directly on the practices cataloged at [minimumcd.org](https://minimumcd.org) — the industry's minimum bar for what CD actually requires. It grounds every practice in how RealManage builds today: our established .NET Framework APIs on Azure VMs — themselves a recent modernization that runs much of the business — sit alongside new work that is increasingly **small and cloud-native on AWS** (Lambda, ECS, DynamoDB, SNS, SQS), with the **strangler fig pattern** selectively carving functionality out into new services where that serves the product — a migration we work end to end in [Strangler Fig in Practice](./sessions/session-3/examples/strangler-fig-violations.md). CD is the discipline that keeps the whole estate — established APIs and new services alike — deliverable.
 
 If your team deploys weekly, keeps feature branches alive for days or weeks, and treats release day as an event to brace for, this course is for you. CD is not a tool you install — it is a set of working agreements and engineering practices that make small, frequent, low-drama releases the normal way you work.
 
@@ -23,6 +23,7 @@ By completing this course, you'll be able to:
 - ✅ Build immutable artifacts and promote the *same* artifact across dev → qa → prod
 - ✅ Recover from a bad deploy — fail forward by default, roll back when it's costly and time-sensitive
 - ✅ Deliver **database** schema and baseline data as code through the pipeline, the same way you ship application changes
+- ✅ Adopt CD from a mostly-untested estate: test new code, characterize legacy as you change it, and use flags to keep integrating
 - ✅ Assess your team's current state and write a concrete CD migration plan
 
 > **New to any of these terms?** Each is defined in plain language in the [Glossary](./resources/glossary.md) and introduced in the session that uses it — you don't need to know them going in.
@@ -56,6 +57,7 @@ continuous-delivery-101/
 │   ├── glossary.md                    # CD vocabulary
 │   ├── migration-checklist.md         # The 5-phase migration path as a checklist
 │   ├── database-delivery.md           # Schema & baseline data as code through the pipeline (DbUp)
+│   ├── testing-and-cd.md              # Adopting CD from a mostly-untested estate; characterization tests + flags
 │   ├── communicating-releases.md      # Release notes & client comms once deploy ≠ release
 │   ├── governance-and-compliance.md   # Control, audit, segregation of duties, break-glass
 │   ├── what-cd-costs.md               # The honest costs of CD + a flag-debt mechanism

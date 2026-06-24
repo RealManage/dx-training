@@ -64,8 +64,8 @@ Notice slices 5 and 6 are the only ones that move user-visible behavior, and bot
 are governed by a flag you can turn down in seconds. That is the whole safety
 argument of CD, applied to a migration.
 
-> **Human/agent division of labour.** This migration is the clearest case of
-> "design the line; let the machine turn the bolts." The judgement is human:
+> **Human/agent division of labor.** This migration is the clearest case of
+> "design the line; let the machine turn the bolts." The judgment is human:
 > *where the seam goes*, *what the slices are*, *which store is authoritative at
 > each step*, *when to ramp*. The rote build is what an agent is good at — the
 > dual-write shim, the idempotent backfill job, the reconciliation check, each
@@ -124,7 +124,7 @@ Adding a column is the *easy* shared-database change. The harder — and more co
 one is a **shared stored procedure**: `usp_GetHomeownerLedger`, called by your code
 *and* by three apps you do not own. Here the schema dance has a sharp edge: **a
 feature flag in your code cannot hide an `ALTER PROC` from their code.** The instant
-you change the proc in place, every caller gets the new behaviour at once — no dark
+you change the proc in place, every caller gets the new behavior at once — no dark
 launch, no per-caller ramp, no flag to turn off.
 
 So treat the proc exactly like the column: expand/contract by **versioning**, never

@@ -62,6 +62,8 @@ For the Violations API, "deployable" means all of these are green:
 
 These are the `validate` / `test` / `security` stages from [Session 2's CI file](../session-2/examples/ci-pipeline.gitlab-ci.yml). They are the *front half* of the full pipeline. The discipline: if it isn't gated automatically, it isn't part of your definition of deployable — it's a hope.
 
+**When the automated checks don't exist yet** — true across much of the estate — manual verification does not vanish, but it stays *outside* the automated definition of deployable: it gates the **release** (the feature-flag flip), never the merge. Make it an explicit, owned step rather than a side-channel sign-off, and automate it down over time by adding tests where you change code. See [Testing and CD](../../resources/testing-and-cd.md).
+
 ---
 
 ### 4. Immutable Artifacts & Promotion (20 minutes)
