@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Teaching reference for CD 101. A real migrator would `dotnet restore` these. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Migrator</AssemblyName>
+  </PropertyGroup>
+
+  <!-- dbup-sqlserver pulls in DbUp.Engine and the SQL Server provider. -->
+  <ItemGroup>
+    <PackageReference Include="dbup-sqlserver" Version="5.0.40" />
+  </ItemGroup>
+
+  <!-- Compile the ordered SQL files INTO the assembly so the published artifact is
+       self-contained: the same bytes carry the scripts to every environment. -->
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\*.sql" />
+  </ItemGroup>
+
+</Project>

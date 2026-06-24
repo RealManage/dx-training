@@ -90,7 +90,7 @@ Continuous Delivery adoption rarely fails on technology. It stalls on habits, fe
 - **Mind the data trap:** rolling code back doesn't roll data back — keep changes backward-compatible (expand/contract) so both directions stay safe
 - Rehearse both loops in qa before you need them in prod (see [recovery on AWS](../sessions/session-3/examples/rollback-on-aws.md))
 
-### Problem: a stateful change (e.g., a DynamoDB schema shift) blocks small deploys
+### Problem: a stateful change (e.g., a SQL Server or DynamoDB schema change) blocks small deploys
 
 **Symptoms:** "we can't deploy incrementally because of the database change."
 
@@ -98,6 +98,8 @@ Continuous Delivery adoption rarely fails on technology. It stalls on habits, fe
 
 - Use expand/contract (parallel-change): add the new shape, write to both, migrate, then remove the old — each step is a small, backward-compatible deploy
 - Keep changes backward-compatible so new work doesn't break delivered work (a CI minimum)
+- Deliver schema as code: ordered migrations run by the pipeline (DbUp), built once and promoted — never hand-applied to a shared database. See [database-delivery](./database-delivery.md)
+- Develop and test the migration against a local database first, the same way you'd use a personal sandbox stack
 
 ### Problem: deploying to a shared env still happens from someone's laptop
 

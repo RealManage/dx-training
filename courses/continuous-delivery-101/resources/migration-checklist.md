@@ -60,8 +60,11 @@ Build one automated path from commit to production, with security scanning.
 - [ ] Map change-control evidence to pipeline artifacts (MR review = segregation of duties; pipeline run + SHA-tagged immutable artifact = audit trail) — see [governance-and-compliance](governance-and-compliance.md)
 - [ ] Document a break-glass procedure for emergencies: scoped, logged, with post-incident review
 - [ ] **Failing forward is the default recovery move** — a small fix flows through the pipeline in minutes
-- [ ] Rollback is implemented and **rehearsed** as the emergency lever for costly, time-sensitive problems (redeploy previous artifact / shift Lambda alias)
+- [ ] Rollback is implemented and **rehearsed** as the emergency lever for costly, time-sensitive problems (re-run the last known-good deployment in GitLab; canary and CloudFormation auto-rollback back it up)
 - [ ] Stop-the-line extends to the deployment pipeline, not just the build
+
+- [ ] Database schema and baseline data change **only** through the pipeline (a migration runner such as DbUp), never by hand on a shared environment — see [database-delivery](database-delivery.md)
+- [ ] Engineers develop and test migrations against a **local database** (the database analog of a personal sandbox stack) before merge
 
 **Exit question:** *Can we deploy any commit automatically through one trusted path?*
 

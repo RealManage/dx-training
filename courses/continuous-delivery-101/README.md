@@ -22,6 +22,7 @@ By completing this course, you'll be able to:
 - ✅ Read and reason about a pipeline as the single, definitive path to production
 - ✅ Build immutable artifacts and promote the *same* artifact across dev → qa → prod
 - ✅ Recover from a bad deploy — fail forward by default, roll back when it's costly and time-sensitive
+- ✅ Deliver **database** schema and baseline data as code through the pipeline, the same way you ship application changes
 - ✅ Assess your team's current state and write a concrete CD migration plan
 
 > **New to any of these terms?** Each is defined in plain language in the [Glossary](./resources/glossary.md) and introduced in the session that uses it — you don't need to know them going in.
@@ -54,6 +55,7 @@ continuous-delivery-101/
 │   ├── minimums-reference.md          # The MinimumCD CI + CD practices, cited
 │   ├── glossary.md                    # CD vocabulary
 │   ├── migration-checklist.md         # The 5-phase migration path as a checklist
+│   ├── database-delivery.md           # Schema & baseline data as code through the pipeline (DbUp)
 │   ├── communicating-releases.md      # Release notes & client comms once deploy ≠ release
 │   ├── governance-and-compliance.md   # Control, audit, segregation of duties, break-glass
 │   ├── what-cd-costs.md               # The honest costs of CD + a flag-debt mechanism

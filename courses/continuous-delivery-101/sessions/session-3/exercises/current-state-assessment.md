@@ -47,6 +47,8 @@ In the **Deliberate?** column, mark ◆ when a Partial/No is a *conscious, defen
 
 ---
 
+> **Apply the minimums to your database.** Run a quick gut-check on minimums #2, #5, and #9 *for schema*: do schema and baseline-data changes go through the pipeline, or by hand on a shared server? Is there one migration runner and history, or ad-hoc scripts? Do engineers have a local database to develop against? Where the answer is "by hand," that is a deliberate target DX is driving toward automation — note it, don't score it as a personal gap. See [Database Delivery](../../../resources/database-delivery.md).
+
 ## Part 2 — Score your controls (governance & communication)
 
 CD doesn't remove governance — it *relocates* it into the pipeline and the flag flip, and usually *strengthens* it. Score how well your current controls are accounted for, so the migration carries them forward instead of quietly dropping them. Leaders and whoever owns release communication should weigh in here.

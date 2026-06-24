@@ -116,6 +116,8 @@ CI is *daily integration to trunk with automated verification*. The minimums and
 | Stop the line on red | A red `main` is the team's #1 priority — no new feature work |
 | Don't break delivered work | Changes are backward-compatible (expand/contract for data) |
 
+> **Migrations are code, too.** A database migration is reviewed, tested, and merged like any change. You develop and test it against a **local database** — the database analog of the personal sandbox stack — before it merges, and a migration that fails to apply is a **red build** that stops the line. See [Database Delivery](../../resources/database-delivery.md).
+
 #### 4.2 The quality gates that protect trunk (10 minutes)
 
 The trunk is only "always deployable" if merging proves it. Minimum gates for an app service:
@@ -171,6 +173,7 @@ The pipeline that turns "trunk is always deployable" into "any change reaches pr
 - [Minimums Reference](../../resources/minimums-reference.md)
 - [Glossary](../../resources/glossary.md) — *feature flag*, *deploy* vs *release*, *expand/contract*
 - [Trunk-Based Development](https://beyond.minimumcd.org/docs/reference/practices/trunk-based-development/) (MinimumCD)
+- [Database Delivery](../../resources/database-delivery.md) — developing and testing schema migrations locally before merge
 
 ---
 

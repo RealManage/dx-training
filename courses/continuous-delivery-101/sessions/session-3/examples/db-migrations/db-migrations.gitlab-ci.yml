@@ -1,0 +1,97 @@
+# =============================================================================
+# Database migrations — DbUp, commit -> production (CD 101 worked example)
+# =============================================================================
+# Same shape as the app pipeline: build the migrator artifact ONCE, then promote
+# the SAME bytes through dev -> qa -> prod, varying ONLY the connection string.
+# The migrator is forward-only and idempotent (DbUp's SchemaVersions journal), so
+# re-running the last good deployment is a safe rollback action.
+#
+# Auth: GitLab OIDC, no static AWS credentials. The DB connection string is pulled
+# per-environment from AWS Secrets Manager at deploy time — never baked into the
+# artifact, never typed by a human against a shared database.
+# =============================================================================
+
+stages:
+  - validate
+  - build
+  - dev
+  - qa
+  - prod
+
+variables:
+  SERVICE_NAME: db-assessments-migrations
+
+default:
+  image: mcr.microsoft.com/dotnet/sdk:8.0 # pin by digest before merging
+
+.aws_oidc:
+  id_tokens:
+    GITLAB_OIDC_TOKEN: { aud: "https://gitlab.com" }
+  before_script:
+    - echo "$GITLAB_OIDC_TOKEN" > /tmp/gitlab-oidc-token
+    - export AWS_WEB_IDENTITY_TOKEN_FILE=/tmp/gitlab-oidc-token
+    - export AWS_ROLE_ARN="arn:aws:iam::${AWS_ACCOUNT}:role/gitlab-runner-role-${CI_ENVIRONMENT_NAME}"
+    - export AWS_ROLE_SESSION_NAME="ci-${CI_PIPELINE_ID}"
+    - aws sts get-caller-identity # fail fast if the role or its trust policy is wrong
+
+# validate: prove the migrations APPLY against a real, ephemeral SQL Server before any
+# shared environment sees them — a production-like test (#7) for schema.
+validate:migrations:
+  stage: validate
+  services:
+    - name: mcr.microsoft.com/mssql/server:2022-latest
+      alias: sqlserver
+  variables:
+    ACCEPT_EULA: "Y"
+    MSSQL_SA_PASSWORD: "Your_local_dev_password_1" # ephemeral CI database only; not a real secret
+  script:
+    - dotnet publish Migrator.csproj -c Release -o publish
+    - >
+      dotnet publish/Migrator.dll
+      "Server=sqlserver;Database=assessments;User Id=sa;Password=$MSSQL_SA_PASSWORD;TrustServerCertificate=True"
+
+# build: assemble the IMMUTABLE migrator artifact ONCE on main; promote it as-is below.
+build:migrator:
+  stage: build
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  script:
+    - dotnet publish Migrator.csproj -c Release -o publish
+  artifacts:
+    paths: ["publish/"] # the same bytes deploy to every environment
+    expire_in: 30 days
+
+# Reusable migrate step. Each environment runs the SAME artifact; only the connection
+# string differs, fetched at deploy time from Secrets Manager.
+.migrate:
+  extends: .aws_oidc
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  script:
+    - >
+      export DB_CONNECTION_STRING="$(aws secretsmanager get-secret-value
+      --secret-id ${CI_ENVIRONMENT_NAME}/db-assessments/connection-string
+      --query SecretString --output text)"
+    - dotnet publish/Migrator.dll "$DB_CONNECTION_STRING"
+
+migrate:dev:
+  extends: .migrate
+  stage: dev
+  environment: { name: dev }
+  needs: [validate:migrations, build:migrator]
+  # AUTO on green — the pipeline decides releasability.
+
+migrate:qa:
+  extends: .migrate
+  stage: qa
+  environment: { name: qa }
+  needs: [migrate:dev]
+  # AUTO after dev. Promotes the SAME artifact.
+
+migrate:prod:
+  extends: .migrate
+  stage: prod
+  environment: { name: prod }
+  needs: [migrate:qa]
+  when: manual # ONLY gate: a human approves TIMING, not readiness the pipeline proved
+  allow_failure: false

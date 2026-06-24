@@ -88,6 +88,8 @@ Almost every CD benefit traces back to shrinking the batch:
 | Release is a risky event | Release is a non-event |
 
 > **When an agent writes the code, this is the practice that matters most.** A human author self-limits by friction — 1,200 lines is a day's grind. An agent emits them before lunch, so the friction that used to cap batch size is gone. Small batches stop being a habit you adopt to go faster and become a *throttle you impose* to keep machine output from drowning the trunk and your reviewers. See [CD when AI writes the code](../../resources/ai-assisted-delivery.md).
+>
+> **The elephant: the database.** The hardest batch to shrink is a schema change. Teams accept tiny code deploys and then bundle a quarter's worth of database changes into one dreaded release, because "the database can't be done incrementally." It can — schema and baseline data delivered as code, through the pipeline, in small backward-compatible steps. We return to this in [Database Delivery](../../resources/database-delivery.md); name it now as the constraint it usually is.
 
 #### 2.3 The evidence (5 minutes)
 
@@ -211,6 +213,7 @@ Trunk-based development and CI in practice: killing long-lived branches, decompo
 - [Migration Checklist](../../resources/migration-checklist.md) (Phase 0)
 - [MinimumCD.org](https://minimumcd.org) — the source
 - [DORA / Accelerate research](https://dora.dev/)
+- [Database Delivery](../../resources/database-delivery.md) — why the database is the elephant blocking small batches, and the shape of the fix
 
 ---
 

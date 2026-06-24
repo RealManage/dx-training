@@ -22,7 +22,7 @@ Continuous Delivery is **the engineering discipline of delivering all changes in
 
 CI is **each developer integrating their work to the trunk at least daily, and verifying that the work is, to the best of our knowledge, deployable.** It is a team working agreement, not a server.
 
-1. **Use trunk-based development.** All work integrates into one shared trunk.
+1. **Use trunk-based development.** All work integrates into one shared trunk, with long-lived branches resisted — the branching model that makes integration *continuous* (detailed below).
 2. **Integrate to trunk at least daily.** Every developer, every day.
 3. **Automated tests run before merge to trunk.** The change proves itself first.
 4. **Automated tests run on the merged result.** The combined work is verified together.
@@ -60,7 +60,7 @@ CD is the prerequisite. Continuous Deployment is an optional step beyond it. Thi
 
 ## Trunk-Based Development — the minimums
 
-Trunk-based development is the branching pattern CI requires.
+Trunk-based development is the branching model CI runs on — so closely bound to CI that the terms are often used almost interchangeably. The relationship is precise: CI *requires* TBD (you cannot integrate continuously while work sits on long-lived branches), and TBD is the first CI minimum above — but they are not synonyms. TBD is the source-control model; CI adds automated verification on every integration and stop-the-line. And TBD is defined as much by what it *resists* as by what it does: long-lived branches are replaced by engineering technique, and the trunk is kept releasable at all times.
 
 - **All changes integrate into the trunk.**
 - **If you use branches, they:** originate from trunk, reintegrate to trunk, and are **short-lived (less than a day)**.
@@ -95,7 +95,7 @@ The practices are identical across the estate; only the concrete tools differ.
 | Definition of deployable | Lint + unit tests + coverage threshold + security scan all green | MSBuild (warnings as errors) + tests + coverage + dependency scan all green |
 | Immutable artifacts | Lambda bundle / container tagged by `CI_COMMIT_SHA`, built once, promoted | One MSBuild publish output (the `a/` dir) built once, versioned by GitVersion, promoted to every environment |
 | Production-like environment | `qa` mirrors `prod` config via `configuration/qa.config` | `qa` mirrors the IIS/SQL topology — the shared SQL Server is the hard part to make prod-like |
-| Rollback on demand | Fail forward; shift the Lambda alias / redeploy prior artifact / CloudFormation rollback | Fail forward; flip the routing/feature flag, or redeploy the prior `a/` artifact to IIS |
+| Rollback on demand | Fail forward; re-run the last good deployment in GitLab, with canary + CloudFormation auto-rollback as safety nets | Fail forward; re-run the last good deployment (redeploys the prior `a/` artifact to IIS), or flip the routing/feature flag |
 | Config with the artifact | `configuration/{env}.config` deployed with the SAM/CloudFormation stack | `web.{env}.config` XDT transform applied **at deploy** to the one artifact — same bytes, per-env values |
 
 ---
