@@ -223,6 +223,6 @@ deploy:prod:
 # - Config with the artifact .... configuration/${ENV}.config -> parameter-overrides
 # - Recovery .................... fail forward by default (ship a fix through THIS
 #                                 pipeline); roll back only when costly + time-
-#                                 sensitive — canary auto-rollback / alias shift
-#                                 (rollback-on-aws.md)
+#                                 sensitive — re-run the last good deployment; canary
+#                                 + CloudFormation auto-rollback (rollback-on-aws.md)
 # =============================================================================

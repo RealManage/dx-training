@@ -23,6 +23,8 @@ internal static class Program
         }
 
         // Safe no-op if the database already exists; convenient for a fresh local DB.
+        // On shared envs the database is pre-created and the deploy login is least-privilege
+        // (no CREATE DATABASE / standing DDL), so this line simply no-ops there.
         EnsureDatabase.For.SqlDatabase(connectionString);
 
         var upgrader = DeployChanges.To

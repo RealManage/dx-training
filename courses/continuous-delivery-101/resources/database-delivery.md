@@ -11,12 +11,12 @@ The database is usually *the* reason small batches feel impossible. This guide t
 
 - **#2 — the pipeline is the only way to deploy.** Schema changes run from the pipeline, not a laptop. No human holds DDL rights on a shared database.
 - **#5 — immutable artifacts.** The migration runner is built once and promoted; the *same* scripts run against every environment.
-- **#7 — a production-like test environment.** Migrations prove out against a real database (a local one, then `qa`) before `prod` sees them.
+- **#7 — a production-like test environment.** Migrations prove out against a real database (a local one, then `qa`) before `prod` sees them — production-like in engine and schema, though matching production *data* is a separate, harder problem.
 - **#9 — config travels with the artifact.** The only thing that changes between environments is the connection string, supplied at deploy time — never baked in, never typed by hand.
 
 ## The mechanism: migrations as code
 
-A *migration* is a small, ordered SQL script checked into the repo next to the code that needs it. A migration runner applies the scripts an environment has not seen yet, in order, and records each one in a **schema-history table** so it never runs twice. RealManage uses **DbUp** (a .NET library): it reads ordered scripts, tracks them in a `SchemaVersions` table, and applies only the new ones.
+A *migration* is a small, ordered SQL script checked into the repo next to the code that needs it. A migration runner applies the scripts an environment has not seen yet, in order, and records each one in a **schema-history table** (the *journal*) so it never runs twice. RealManage uses **DbUp** (a .NET library): it reads ordered scripts, tracks them in a `SchemaVersions` table, and applies only the new ones.
 
 Two properties matter for CD:
 
@@ -51,10 +51,12 @@ Our estate is one large database plus smaller ones that hold references across t
 
 ## Baseline (reference) data
 
-Reference data — status codes, lookup tables, seed rows — is delivered exactly like schema: versioned scripts, run by the same runner. Write them **idempotently** (`MERGE` or `IF NOT EXISTS`) so the same script converges to the same rows whether the table is empty or already seeded. That is what makes re-running a deployment safe for data as well as structure.
+Reference data — status codes, lookup tables, seed rows — is delivered exactly like schema: versioned scripts, run by the same runner. Write them **idempotently** (`MERGE` or `IF NOT EXISTS`) so the same script converges to the same rows whether the table is empty or already seeded. That is what makes re-running a deployment safe for data as well as structure. When a reference-data change alters what users see, treat the flip as a release and communicate it — see [communicating releases](communicating-releases.md).
 
 ## Reversibility and recovery
 
 Because migrations are forward-only, recovery follows the course's default: **fail forward.** A bad schema change is corrected by a new forward migration, shipped through the pipeline in minutes — never by a hand-edit on a shared database (the database analog of "never hand-edit the Lambda alias").
 
 For changes that must be reversible, **expand/contract** is the answer: keep every step backward-compatible so application code can roll back independently of the schema. Mind the **data trap** — rolling code back does not roll data back; only backward-compatible steps keep both directions safe. (See the [glossary](glossary.md) entries for expand/contract and the data trap.)
+
+> **When an agent writes the migration.** AI strips away the friction that used to make a risky `ALTER TABLE` *feel* risky, so these guardrails matter more, not less — especially two: prove every migration against a local database before it merges, and have a human name the expand/contract steps the agent then executes. See [AI-assisted delivery](ai-assisted-delivery.md).

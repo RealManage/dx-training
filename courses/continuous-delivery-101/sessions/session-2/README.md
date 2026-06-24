@@ -89,7 +89,7 @@ Benefits:
 
 > Because the **release** is now the flag flip (not the deploy), the flip is also the moment you *communicate* — it's what a client-facing note should announce, and the flip date is the release date. See [Communicating Releases](../../resources/communicating-releases.md).
 
-**Flags aren't the only technique.** A feature flag gates a *behavior* at a call site — ideal for "is this feature on?" But some work is *structural*: swapping a data-access layer, replacing a dependency, a large refactor a single switch can't cleanly wrap. There the technique is **branch by abstraction** — put an interface (a *seam*) over what you're changing, build the replacement behind it while the old path stays live, move callers across, then delete the old path. Same goal as a flag (integrate on trunk before the work is done), different mechanism. See the [glossary](../../resources/glossary.md).
+**Flags aren't the only technique.** A feature flag gates a *behavior* at a call site — ideal for "is this feature on?" But some work is *structural*: swapping a data-access layer, replacing a dependency, a large refactor a single switch can't cleanly wrap. There the technique is **branch by abstraction** — put an interface (a *seam*) over what you're changing, build the replacement behind it while the old path stays live, then flip which implementation the seam resolves to (a one-line wiring change, often itself behind a flag) once the replacement is ready, and delete the old path. Same goal as a flag (integrate on trunk before the work is done), different mechanism. See the [glossary](../../resources/glossary.md).
 
 #### 3.3 A flag in TypeScript (15 minutes)
 

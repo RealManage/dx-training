@@ -85,13 +85,13 @@ migrate:qa:
   extends: .migrate
   stage: qa
   environment: { name: qa }
-  needs: [migrate:dev]
-  # AUTO after dev. Promotes the SAME artifact.
+  needs: [migrate:dev, build:migrator] # migrate:dev enforces order; build:migrator delivers the ONE artifact
+  # AUTO after dev. Promotes the SAME bytes built once.
 
 migrate:prod:
   extends: .migrate
   stage: prod
   environment: { name: prod }
-  needs: [migrate:qa]
+  needs: [migrate:qa, build:migrator] # migrate:qa enforces order; build:migrator delivers the ONE artifact
   when: manual # ONLY gate: a human approves TIMING, not readiness the pipeline proved
   allow_failure: false

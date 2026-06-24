@@ -47,7 +47,7 @@ Key facts about how it really works:
 
 2. **Definition of deployable is thin for app code (minimum 4).** The baseline validates *infrastructure*. A TypeScript Lambda service must add fast unit tests, a coverage threshold, and dependency/IaC security scanning to the `validate`/`test` stages so "green" actually means "deployable."
 
-3. **Recovery isn't rehearsed (minimum 8).** "Revert and re-deploy manually" is a procedure, not on-demand recovery. Session 3 covers failing forward as the default plus Lambda alias shifting and CloudFormation rollback as the emergency lever.
+3. **Recovery isn't rehearsed (minimum 8).** "Revert and re-deploy manually" is a procedure, not on-demand recovery. Session 3 covers failing forward as the default, with re-running the last known-good GitLab deployment — backed by canary and CloudFormation auto-rollback — as the emergency lever.
 
 **And the biggest gap isn't in the YAML at all.** Minimum 1 (real CI: daily integration, short-lived branches) is a *team* practice. A perfect pipeline pointed at week-old branches still isn't CD. That's why Session 2 comes before Session 3.
 

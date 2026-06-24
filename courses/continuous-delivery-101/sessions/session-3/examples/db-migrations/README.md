@@ -64,4 +64,4 @@ Run it twice: the second run applies nothing (the journal skips applied scripts)
 
 ## How it flows through the pipeline
 
-See [`db-migrations.gitlab-ci.yml`](./db-migrations.gitlab-ci.yml): the migrations first prove out against an ephemeral SQL Server service container (a production-like test, #7), the artifact is built once, then promoted dev → qa → prod. Only `prod` keeps a manual gate — a human approving *timing*, not *readiness* the pipeline already proved.
+See [`db-migrations.gitlab-ci.yml`](./db-migrations.gitlab-ci.yml): the migrations first prove out against an ephemeral SQL Server service container (a production-like test, #7 — same engine, not a data clone), the artifact is built once, then promoted dev → qa → prod. Only `prod` keeps a manual gate — a human approving *timing*, not *readiness* the pipeline already proved.

@@ -83,7 +83,8 @@ Resources:
       Handler: dist/handler.handler
       # ---- Rollback machinery (CD minimum #8) -----------------------------
       # AutoPublishAlias creates an immutable version per deploy and a `live`
-      # alias pointing at it. Rollback = repoint the alias to the prior version.
+      # alias pointing at it. The canary repoints the alias automatically; rollback
+      # is re-running the last good GitLab deployment, never a hand-edited alias.
       AutoPublishAlias: live
       # Canary: shift 10% of traffic for 5 min; auto-roll-back on the alarm below.
       DeploymentPreference:

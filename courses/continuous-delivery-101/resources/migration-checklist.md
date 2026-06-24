@@ -66,6 +66,8 @@ Build one automated path from commit to production, with security scanning.
 - [ ] Database schema and baseline data change **only** through the pipeline (a migration runner such as DbUp), never by hand on a shared environment — see [database-delivery](database-delivery.md)
 - [ ] Engineers develop and test migrations against a **local database** (the database analog of a personal sandbox stack) before merge
 
+> **A shared handoff on the two items above.** DX lays the groundwork — the production baseline, the local-database workflow, and the eventual removal of direct shared-DB access. Committing to the practices is still the team's: adopt the local database and route every schema change through the pipeline as that groundwork lands. Treat these as a handoff to drive together, not a box to wait on or a lift to carry alone.
+
 **Exit question:** *Can we deploy any commit automatically through one trusted path?*
 
 ---

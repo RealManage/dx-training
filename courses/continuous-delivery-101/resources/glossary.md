@@ -101,7 +101,7 @@ A pipeline is organized into *stages* (e.g., `build`, `test`, `dev`, `qa`, `prod
 ## Decoupling deploy from release
 
 **Branch by abstraction**
-A technique for making a large or structural change on trunk without a long-lived branch: introduce an abstraction (a *seam*) over the component you are changing, build the new implementation behind it while the old one keeps running, switch callers across, then delete the old path. Like a feature flag it lets you integrate before the work is finished — but it gates an *implementation* behind an interface, where a flag gates a *behavior* at a call site. The tool of choice for swapping a dependency or a large refactor. See [Session 2](../sessions/session-2/README.md).
+A technique for making a large or structural change on trunk without a long-lived branch: introduce an abstraction (a *seam*) over the component you are changing, build the new implementation behind it while the old one keeps running, flip which implementation the seam resolves to (a one-line wiring change, often itself behind a flag), then delete the old path. Like a feature flag it lets you integrate before the work is finished — but it gates an *implementation* behind an interface, where a flag gates a *behavior* at a call site. The tool of choice for swapping a dependency or a large refactor. See [Session 2](../sessions/session-2/README.md).
 
 **Dark launch**
 Deploying a feature to production turned off (or to a subset of users) to validate it before a full release.

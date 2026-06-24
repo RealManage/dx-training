@@ -68,7 +68,7 @@ The course treats `npm audit` as advisory, which is right. AI-assisted work adds
 Most of CD is genuinely authorship-agnostic. These are unchanged whether a person or an agent wrote the code:
 
 - **Build-once-promote and immutable artifacts** — provenance is, if anything, *more* valuable when there is no human author to ask.
-- **Expand/contract** — a schema-safety discipline the agent executes once a human names the steps.
+- **Expand/contract** — a schema-safety discipline the agent executes once a human names the steps (worked for the database in [database-delivery](database-delivery.md)).
 - **OIDC / no standing credentials, production-like qa, config-with-the-artifact** — entirely unaffected.
 - **Fail-forward-first** — *more* clearly right, because an agent produces the forward fix in minutes. The one caveat: the forward fix needs the **same gates** as any change. The temptation under pressure is to let the agent hot-fix straight to prod because it is fast — that is exactly the side door the "pipeline is the only path" rule forbids, and AI makes the temptation stronger. And the two risks compound: the incident fix is both the moment review most easily decays into a rubber stamp (seam 2) *and* the moment speed tempts you to skip it — so the forward fix under pressure is the *most* dangerous place to let an agent's work merge unread, not the most excusable.
 
