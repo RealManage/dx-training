@@ -14,9 +14,11 @@ This is Phase 0 of the [migration checklist](../../../resources/migration-checkl
 
 ## Part 1 — Score the minimums
 
-For each practice, mark one: **Yes** (consistently true), **Partial** (sometimes / for some services), or **No** (not yet). Be honest — a generous score helps no one.
+Fill each row across all three columns:
 
-In the **Deliberate?** column, mark ◆ when a Partial/No is a *conscious, defensible choice* — a control you keep on purpose (e.g., a mandated prod approval), not a gap you intend to close. A ◆ is not a failing score; an unmarked No is a gap. Telling the two apart is the point — see [Governance & Compliance](../../../resources/governance-and-compliance.md) for the debt-gate-versus-legitimate-control test.
+- **Score — Yes / Partial / No.** **Yes** = consistently true; **Partial** = sometimes, or only for some services; **No** = not yet. Be honest — a generous score helps no one.
+- **Deliberate?** Leave it blank for an ordinary gap. Mark **◆** only when a Partial/No is a *conscious, defensible choice* you keep on purpose — e.g., a compliance-mandated prod approval — not a gap you intend to close. A ◆ is not a failing score; an unmarked **No** is a gap. Telling the two apart is the point — see [Governance & Compliance](../../../resources/governance-and-compliance.md) for the debt-gate-versus-legitimate-control test.
+- **Evidence.** Cite the proof for the score, not a gut feeling — a number, a link, or a concrete artifact: "GitLab shows median branch life of 1.8 days," "pipeline config is the only deploy path," "we hand-edit the Lambda during incidents." If you can't point to evidence, the honest score is usually lower than you think.
 
 ### Continuous Integration
 
