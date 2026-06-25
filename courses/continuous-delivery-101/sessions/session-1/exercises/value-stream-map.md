@@ -8,6 +8,8 @@ This is the first step of Phase 0 in the [migration checklist](../../../resource
 
 > **Platform-agnostic on purpose.** A value stream map doesn't care whether you ship a TypeScript Lambda or a .NET app to an IIS pool. It maps *your* flow, in *your* stack, with *your* numbers. If you run a long-lived monolith, this is where its real delivery pain shows up in figures you can defend.
 
+**Build it in the browser.** Use the [Value Stream Mapper](./value-stream-map.tool.html) to enter each step, reorder them, and read the totals live — it computes lead time, flow efficiency, and rolled %C/A, and stars your binding constraint as you type. We'll demo it together on the projector, then you'll use it in your breakout. It works offline and your map autosaves in your browser.
+
 ---
 
 ## The three numbers
@@ -125,7 +127,7 @@ What the map reveals:
 
 Notice what 15% flow efficiency means: the change took three weeks, but only ~2.5 days of that was anyone working on it. You don't fix a number like that by working faster — you fix it by removing the waiting.
 
-> **This example is a team already close to trunk-based** — its branches live two days. A long-lived-branch monolith would show *weeks* in step 3 (develop, plus its wait), pushing flow efficiency into the low single digits. If that's you, the map will look worse before the course makes it better — which is exactly why you measure first.
+> **This example is a team already close to trunk-based** — its branches live two days. A long-lived-branch monolith would show *weeks* in step 3 (develop, plus its wait), pushing flow efficiency to ~10% or worse. If that's you, the map will look worse before the course makes it better — which is exactly why you measure first.
 
 ---
 

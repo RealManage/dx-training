@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Value Stream Mapper — CD 101</title>
+<style>
+  :root {
+    --ink: #1d2733;
+    --muted: #5b6b7d;
+    --line: #d8e0e8;
+    --bg: #f5f7fa;
+    --card: #ffffff;
+    --accent: #1f6feb;
+    --wait: #b54708;     /* biggest-wait constraint */
+    --wait-bg: #fff3e6;
+    --ca: #b42318;       /* lowest-%C/A constraint */
+    --ca-bg: #fdeceb;
+    --good: #067647;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0 1.25rem 4rem;
+    font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--ink); background: var(--bg);
+  }
+  header { max-width: 1080px; margin: 0 auto; padding: 1.5rem 0 0.5rem; }
+  h1 { font-size: 1.6rem; margin: 0 0 0.25rem; }
+  .sub { color: var(--muted); margin: 0 0 1rem; }
+  main { max-width: 1080px; margin: 0 auto; }
+
+  .toolbar { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0 0 1rem; }
+  button {
+    font: inherit; cursor: pointer; border: 1px solid var(--line);
+    background: var(--card); color: var(--ink); border-radius: 6px;
+    padding: 0.45rem 0.8rem;
+  }
+  button:hover { border-color: var(--accent); color: var(--accent); }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  button.primary:hover { filter: brightness(1.07); color: #fff; }
+  button.ghost { background: transparent; }
+
+  .stream-name { width: 100%; max-width: 540px; font: inherit; padding: 0.45rem 0.6rem;
+    border: 1px solid var(--line); border-radius: 6px; margin: 0 0 1rem; }
+
+  table { width: 100%; border-collapse: collapse; background: var(--card);
+    border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  th, td { padding: 0.45rem 0.55rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: middle; }
+  th { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--muted); background: #fbfcfe; }
+  th.num, td.num { text-align: right; }
+  td.idx { white-space: nowrap; color: var(--muted); font-variant-numeric: tabular-nums; }
+  td.idx .stars { margin-left: 0.25rem; }
+  tbody tr:last-child td { border-bottom: none; }
+
+  td input { font: inherit; width: 100%; border: 1px solid transparent; background: transparent;
+    border-radius: 5px; padding: 0.35rem 0.4rem; color: inherit; }
+  td input:focus { outline: none; border-color: var(--accent); background: #fff; }
+  td input[type=number] { text-align: right; width: 7.5rem; }
+  td input::placeholder { color: #aab4bf; }
+
+  .row-actions { white-space: nowrap; text-align: right; }
+  .row-actions button { padding: 0.2rem 0.5rem; line-height: 1; }
+
+  tr.star-wait { background: var(--wait-bg); }
+  tr.star-ca { background: var(--ca-bg); }
+  tr.star-wait.star-ca { background: linear-gradient(90deg, var(--wait-bg), var(--ca-bg)); }
+
+  .addrow { margin: 0.6rem 0 0; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.75rem; margin: 1.5rem 0 0; }
+  .stat { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 0.8rem 0.9rem; }
+  .stat .k { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--muted); }
+  .stat .v { font-size: 1.5rem; font-weight: 650; margin-top: 0.15rem; font-variant-numeric: tabular-nums; }
+  .stat .v small { font-size: 0.95rem; font-weight: 500; color: var(--muted); }
+  .stat.flow .v { color: var(--accent); }
+
+  .bar { height: 9px; border-radius: 5px; background: #e7edf3; margin-top: 0.55rem; overflow: hidden; }
+  .bar > span { display: block; height: 100%; background: var(--accent); width: 0; }
+
+  .callout { margin: 1.5rem 0 0; background: var(--card); border: 1px solid var(--line);
+    border-left: 4px solid var(--accent); border-radius: 8px; padding: 0.9rem 1.1rem; }
+  .callout h2 { font-size: 1.05rem; margin: 0 0 0.5rem; }
+  .callout p { margin: 0.3rem 0; }
+  .chip { display: inline-block; font-size: 0.85rem; padding: 0.1rem 0.5rem; border-radius: 99px; margin-right: 0.4rem; }
+  .chip.wait { background: var(--wait-bg); color: var(--wait); }
+  .chip.ca { background: var(--ca-bg); color: var(--ca); }
+  .muted { color: var(--muted); }
+  footer { max-width: 1080px; margin: 2rem auto 0; color: var(--muted); font-size: 0.9rem; }
+  footer a, .callout a { color: var(--accent); }
+  .legend { font-size: 0.88rem; color: var(--muted); margin: 0.6rem 0 0; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Value Stream Mapper</h1>
+  <p class="sub">Continuous Delivery 101 · Session 1 — map a change from idea to production, see where the time really goes, and let the numbers name the constraint.</p>
+</header>
+
+<main>
+  <div class="toolbar">
+    <button class="primary" id="ex">Load worked example</button>
+    <button class="ghost" id="blank">Start blank</button>
+    <span style="flex:1"></span>
+    <button id="copy">Copy as Markdown</button>
+  </div>
+
+  <input class="stream-name" id="stream-name" placeholder="Name this stream (e.g. Payments team — small feature)" autocomplete="off">
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:3.5rem">#</th>
+        <th>Step (idea → prod)</th>
+        <th class="num" style="width:8.5rem" title="Time someone is actively working the change">Process (h)</th>
+        <th class="num" style="width:8.5rem" title="Time the change sits idle: queues, environments, the release window">Wait (h)</th>
+        <th class="num" style="width:7rem" title="Share of work usable as-is, no rework. Leave blank for pure-wait steps.">%C/A</th>
+        <th style="width:9.5rem"></th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <div class="addrow"><button id="add">+ Add step</button></div>
+  <p class="legend">Use working hours (1 day = 8 h). <strong>When in doubt, it's wait.</strong> A queue is a step — give "waiting for the release window" its own row. Leave %C/A blank on pure-wait steps.</p>
+
+  <div class="grid">
+    <div class="stat"><div class="k">Total process</div><div class="v" id="s-process">—</div></div>
+    <div class="stat"><div class="k">Total wait</div><div class="v" id="s-wait">—</div></div>
+    <div class="stat"><div class="k">Total lead time</div><div class="v" id="s-lead">—</div></div>
+    <div class="stat flow"><div class="k">Flow efficiency</div><div class="v" id="s-flow">—</div><div class="bar"><span id="s-flow-bar"></span></div></div>
+    <div class="stat"><div class="k">Rolled %C/A</div><div class="v" id="s-rolled">—</div></div>
+  </div>
+
+  <div class="callout">
+    <h2>The binding constraint</h2>
+    <p id="constraint-text" class="muted">Fill in the table — the biggest wait <span class="chip wait">⭐ wait</span> and the lowest %C/A <span class="chip ca">⭐ %C/A</span> get starred automatically. Fixing anything else first just moves the queue.</p>
+  </div>
+
+  <footer>
+    <p>Back to the exercise: <a href="./value-stream-map.html">Map Your Value Stream</a>. This map carries into the homework <a href="../../session-3/exercises/current-state-assessment.html">Current-State Assessment</a>. Your work autosaves in this browser.</p>
+  </footer>
+</main>
+
+<script>
+  "use strict";
+  const STORAGE_KEY = "vsm-cd101-v1";
+  const HOURS_PER_DAY = 8;
+
+  const EXAMPLE = {
+    name: "Weekly-release team (from the exercise)",
+    steps: [
+      { name: "Intake & prioritize",                    process: 0.5, wait: 24, ca: 90 },
+      { name: "Refine & size",                          process: 2,   wait: 16, ca: 85 },
+      { name: "Develop on a feature branch",            process: 12,  wait: 16, ca: 90 },
+      { name: "Code review",                            process: 1,   wait: 16, ca: 75 },
+      { name: "Wait for the weekly release window",     process: 0,   wait: 32, ca: "" },
+      { name: "Release-day batch deploy (~20 changes)", process: 3,   wait: 0,  ca: 70 },
+      { name: "Verify in production",                   process: 1,   wait: 4,  ca: 95 },
+    ],
+  };
+
+  const emptyStep = () => ({ name: "", process: "", wait: "", ca: "" });
+  const blankState = () => ({ name: "", steps: [emptyStep(), emptyStep(), emptyStep()] });
+
+  function loadState() {
+    try { const raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : null; }
+    catch { return null; }
+  }
+  function saveState() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch { /* ignore */ }
+  }
+
+  let state = loadState() || structuredClone(EXAMPLE);
+
+  // ---- helpers ----
+  const num = (v) => { const n = parseFloat(v); return isFinite(n) ? n : 0; };
+  const hasCA = (s) => s.ca !== "" && s.ca != null && isFinite(parseFloat(s.ca));
+  const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  const round1 = (n) => Math.round(n * 10) / 10;
+
+  function fmtHrs(h) {
+    const r = round1(h);
+    if (h >= HOURS_PER_DAY) {
+      const d = h / HOURS_PER_DAY;
+      const dStr = Number.isInteger(d) ? d : round1(d);
+      return `${r} h <small>(${dStr} d)</small>`;
+    }
+    return `${r} h`;
+  }
+
+  function compute() {
+    const s = state.steps;
+    const totalProcess = s.reduce((a, x) => a + num(x.process), 0);
+    const totalWait = s.reduce((a, x) => a + num(x.wait), 0);
+    const lead = totalProcess + totalWait;
+    const flow = lead > 0 ? (totalProcess / lead) * 100 : 0;
+    const caSteps = s.filter(hasCA);
+    const rolled = caSteps.length ? caSteps.reduce((a, x) => a * (num(x.ca) / 100), 1) * 100 : null;
+
+    let maxWaitIdx = -1, maxWait = 0;
+    s.forEach((x, i) => { const w = num(x.wait); if (x.wait !== "" && w > maxWait) { maxWait = w; maxWaitIdx = i; } });
+    let minCaIdx = -1, minCa = Infinity;
+    s.forEach((x, i) => { if (hasCA(x)) { const c = num(x.ca); if (c < minCa) { minCa = c; minCaIdx = i; } } });
+
+    return { totalProcess, totalWait, lead, flow, rolled, maxWaitIdx, minCaIdx };
+  }
+
+  // ---- rendering ----
+  const rowsEl = document.getElementById("rows");
+  const nameEl = document.getElementById("stream-name");
+
+  function renderTable() {
+    nameEl.value = state.name || "";
+    rowsEl.innerHTML = state.steps.map((s, i) => `
+      <tr data-i="${i}">
+        <td class="idx"><span class="n">${i + 1}</span><span class="stars"></span></td>
+        <td><input class="f-name" data-f="name" value="${esc(s.name)}" placeholder="step name" autocomplete="off"></td>
+        <td class="num"><input class="f-process" data-f="process" type="number" min="0" step="0.5" value="${s.process}" placeholder="0"></td>
+        <td class="num"><input class="f-wait" data-f="wait" type="number" min="0" step="0.5" value="${s.wait}" placeholder="0"></td>
+        <td class="num"><input class="f-ca" data-f="ca" type="number" min="0" max="100" step="1" value="${s.ca}" placeholder="—"></td>
+        <td class="row-actions">
+          <button data-act="ins" title="Insert step above">＋</button>
+          <button data-act="up" title="Move up"${i === 0 ? " disabled" : ""}>↑</button>
+          <button data-act="down" title="Move down"${i === state.steps.length - 1 ? " disabled" : ""}>↓</button>
+          <button data-act="del" title="Delete step">✕</button>
+        </td>
+      </tr>`).join("");
+    refresh();
+  }
+
+  function refresh() {
+    const c = compute();
+    document.getElementById("s-process").innerHTML = fmtHrs(c.totalProcess);
+    document.getElementById("s-wait").innerHTML = fmtHrs(c.totalWait);
+    document.getElementById("s-lead").innerHTML = fmtHrs(c.lead);
+    document.getElementById("s-flow").textContent = c.lead > 0 ? round1(c.flow) + "%" : "—";
+    document.getElementById("s-flow-bar").style.width = Math.min(100, c.flow) + "%";
+    document.getElementById("s-rolled").textContent = c.rolled == null ? "—" : round1(c.rolled) + "%";
+
+    // row stars + highlight classes
+    rowsEl.querySelectorAll("tr").forEach((tr) => {
+      const i = +tr.dataset.i;
+      const stars = tr.querySelector(".stars");
+      let mark = "";
+      tr.classList.toggle("star-wait", i === c.maxWaitIdx);
+      tr.classList.toggle("star-ca", i === c.minCaIdx);
+      if (i === c.maxWaitIdx) mark += '<span title="Biggest wait">⭐</span>';
+      if (i === c.minCaIdx) mark += '<span title="Lowest %C/A">⭐</span>';
+      stars.innerHTML = mark;
+    });
+
+    // constraint sentence
+    const el = document.getElementById("constraint-text");
+    const steps = state.steps;
+    if (c.maxWaitIdx < 0 && c.minCaIdx < 0) {
+      el.classList.add("muted");
+      el.innerHTML = 'Fill in the table — the biggest wait <span class="chip wait">⭐ wait</span> and the lowest %C/A <span class="chip ca">⭐ %C/A</span> get starred automatically. Fixing anything else first just moves the queue.';
+      return;
+    }
+    el.classList.remove("muted");
+    const parts = [];
+    if (c.maxWaitIdx >= 0) {
+      const s = steps[c.maxWaitIdx];
+      parts.push(`<p><span class="chip wait">⭐ biggest wait</span> <strong>${esc(s.name || "step " + (c.maxWaitIdx + 1))}</strong> — ${round1(num(s.wait))} h idle. Where changes sit longest.</p>`);
+    }
+    if (c.minCaIdx >= 0) {
+      const s = steps[c.minCaIdx];
+      parts.push(`<p><span class="chip ca">⭐ lowest %C/A</span> <strong>${esc(s.name || "step " + (c.minCaIdx + 1))}</strong> — ${round1(num(s.ca))}% pass clean. Where the most rework is created.</p>`);
+    }
+    if (c.maxWaitIdx === c.minCaIdx) {
+      parts.push('<p>Both stars land on the same step — that is your binding constraint, unambiguously.</p>');
+    } else {
+      parts.push('<p class="muted">Often these point at the same fix. If you removed only that one constraint next month, what would lead time become — and who owns it?</p>');
+    }
+    el.innerHTML = parts.join("");
+  }
+
+  // ---- events ----
+  nameEl.addEventListener("input", () => { state.name = nameEl.value; saveState(); });
+
+  rowsEl.addEventListener("input", (e) => {
+    const inp = e.target.closest("input");
+    if (!inp) return;
+    const i = +inp.closest("tr").dataset.i;
+    state.steps[i][inp.dataset.f] = inp.value;
+    saveState();
+    refresh();
+  });
+
+  rowsEl.addEventListener("click", (e) => {
+    const btn = e.target.closest("button");
+    if (!btn) return;
+    const i = +btn.closest("tr").dataset.i;
+    const act = btn.dataset.act;
+    if (act === "up" && i > 0) [state.steps[i - 1], state.steps[i]] = [state.steps[i], state.steps[i - 1]];
+    else if (act === "down" && i < state.steps.length - 1) [state.steps[i + 1], state.steps[i]] = [state.steps[i], state.steps[i + 1]];
+    else if (act === "ins") state.steps.splice(i, 0, emptyStep());
+    else if (act === "del") state.steps.splice(i, 1);
+    else return;
+    saveState();
+    renderTable();
+    if (act === "ins") focusStep(i);
+  });
+
+  function focusStep(i) {
+    const inp = rowsEl.querySelector(`tr[data-i="${i}"] .f-name`);
+    if (inp) inp.focus();
+  }
+
+  document.getElementById("add").addEventListener("click", () => {
+    state.steps.push(emptyStep());
+    saveState();
+    renderTable();
+    focusStep(state.steps.length - 1);
+  });
+
+  document.getElementById("ex").addEventListener("click", () => { state = structuredClone(EXAMPLE); saveState(); renderTable(); });
+  document.getElementById("blank").addEventListener("click", () => {
+    if (!confirm("Start a blank map? This clears the current one in this browser.")) return;
+    state = blankState(); saveState(); renderTable();
+  });
+
+  document.getElementById("copy").addEventListener("click", async () => {
+    const c = compute();
+    const lines = [];
+    if (state.name) lines.push(`**Stream:** ${state.name}`, "");
+    lines.push("| # | Step (idea → prod) | Process (h) | Wait (h) | %C/A |");
+    lines.push("| - | ------------------ | ----------: | -------: | ---: |");
+    state.steps.forEach((s, i) => {
+      const star = (i === c.maxWaitIdx ? " ⭐" : "") + (i === c.minCaIdx ? " ⭐" : "");
+      const ca = hasCA(s) ? round1(num(s.ca)) + "%" : "—";
+      lines.push(`| ${i + 1} | ${(s.name || "").trim()}${star} | ${round1(num(s.process))} | ${round1(num(s.wait))} | ${ca} |`);
+    });
+    lines.push("");
+    lines.push(`- **Total process:** ${round1(c.totalProcess)} h`);
+    lines.push(`- **Total wait:** ${round1(c.totalWait)} h`);
+    lines.push(`- **Total lead time:** ${round1(c.lead)} h (${round1(c.lead / HOURS_PER_DAY)} working days)`);
+    lines.push(`- **Flow efficiency:** ${round1(c.flow)}%`);
+    if (c.rolled != null) lines.push(`- **Rolled %C/A:** ${round1(c.rolled)}%`);
+    const md = lines.join("\n");
+    try { await navigator.clipboard.writeText(md); flash("Copied Markdown to clipboard"); }
+    catch { window.prompt("Copy this Markdown:", md); }
+  });
+
+  let flashTimer;
+  function flash(msg) {
+    const b = document.getElementById("copy");
+    const orig = b.textContent;
+    b.textContent = msg;
+    clearTimeout(flashTimer);
+    flashTimer = setTimeout(() => { b.textContent = orig; }, 1600);
+  }
+
+  renderTable();
+</script>
+</body>
+</html>

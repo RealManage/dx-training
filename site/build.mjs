@@ -65,6 +65,7 @@ function kindOf(rel) {
   if (HARD_IGNORE_FILES.has(base) || HARD_IGNORE_FILE_RE.test(base)) return null;
   const ext = path.extname(rel).toLowerCase();
   if (ext === ".md") return "md";
+  if (base.endsWith(".tool.html")) return "asset"; // interactive tools served live, not as code views
   if (CODE_EXT[ext]) return "code";
   if (ASSET_EXT.has(ext)) return "asset";
   return null;
