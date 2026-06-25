@@ -136,10 +136,13 @@ function transform(html, rewrite, stepper) {
     return `<aside class="callout cv-${v.cls}"><div class="cv-ic" aria-hidden="true">${v.icon}</div><div class="cv-body">${inner}</div></aside>`;
   });
 
-  // task list items -> styled checkboxes
+  // task list items -> styled checkboxes. Emit the checkbox as a direct child of
+  // <li> (before any <p>) so it sizes in both tight and loose lists: a loose list
+  // wraps item text in <p>, and an inline <span> inside <p> ignores width/height,
+  // which would collapse the checkbox to a thin vertical bar.
   html = html.replace(/<li>(\s*<p>)?\s*\[( |x|X)\]\s*/g, (_m, p, c) => {
     const done = c.toLowerCase() === "x";
-    return `<li class="task${done ? " done" : ""}">${p ? "<p>" : ""}<span class="cb" aria-hidden="true"></span>`;
+    return `<li class="task${done ? " done" : ""}"><span class="cb" aria-hidden="true"></span>${p ? "<p>" : ""}`;
   });
 
   // heading anchors
