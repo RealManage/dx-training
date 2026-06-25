@@ -18,11 +18,35 @@ Continuous Delivery is **the engineering discipline of delivering all changes in
 
 ---
 
+## Trunk-Based Development — the minimums
+
+Trunk-based development is the source-control model the rest of CD is built on, and the first thing Continuous Integration (next section) requires — so closely bound to CI that the terms are often used almost interchangeably. The relationship is precise: CI *requires* TBD — you cannot integrate continuously while work sits on long-lived branches — but they are not synonyms. TBD is the source-control model; CI adds automated verification on every integration and stop-the-line. TBD is defined as much by what it *resists* as by what it does: long-lived branches are replaced by engineering technique, and the trunk is kept deployable at all times.
+
+1. **All changes integrate into the trunk.** One shared line of development — no parallel long-lived lines.
+2. **Branches, if used, are short-lived.** They originate from trunk, reintegrate to trunk, and live **less than a day**.
+
+> **Healthy signal:** fewer than three active branches at a time; branches measured in hours, not days; no code-freeze or "stabilization" periods.
+
+### The two workflows
+
+1. **Commit directly to trunk** (with strong tests and review discipline), or
+2. **Very short-lived branches** that branch from trunk and merge back within a day.
+
+Long-lived branches are replaced by *engineering* techniques — chiefly **feature flags**, with **branch by abstraction** for larger structural changes a call-site switch can't cleanly wrap — instead of *process* (branch isolation). See [Session 2](../sessions/session-2/README.md).
+
+### Why long-lived branches fail
+
+- **Merge pain / lost work:** the longer a branch lives, the more the trunk drifts, and the riskier the merge. Conflict resolution corrupts or loses code.
+- **Abandonment:** branches that get too painful to merge get abandoned, blocking delivery.
+- **Big batches:** a branch that lives two weeks *is* a two-week batch — the exact risk CD is trying to eliminate.
+
+---
+
 ## Continuous Integration — the minimums
 
 CI is **each developer integrating their work to the trunk at least daily, and verifying that the work is, to the best of our knowledge, deployable.** It is a team working agreement, not a server.
 
-1. **Use trunk-based development.** All work integrates into one shared trunk, with long-lived branches resisted — the branching model that makes integration *continuous* (detailed below).
+1. **Use trunk-based development.** All work integrates into one shared trunk, with long-lived branches resisted — the branching model that makes integration *continuous* (detailed above).
 2. **Integrate to trunk at least daily.** Every developer, every day.
 3. **Automated tests run before merge to trunk.** The change proves itself first.
 4. **Automated tests run on the merged result.** The combined work is verified together.
@@ -57,29 +81,6 @@ Owning GitLab CI, Jenkins, or GitHub Actions is **not** CI. Those are pipeline t
 - **Continuous Deployment:** every change that passes the pipeline *is automatically* deployed to production, with no human gate.
 
 CD is the prerequisite. Continuous Deployment is an optional step beyond it. This course targets **Continuous Delivery**. See [`cd-vs-continuous-deployment.md`](../sessions/session-1/examples/cd-vs-continuous-deployment.md).
-
----
-
-## Trunk-Based Development — the minimums
-
-Trunk-based development is the branching model CI runs on — so closely bound to CI that the terms are often used almost interchangeably. The relationship is precise: CI *requires* TBD (you cannot integrate continuously while work sits on long-lived branches), and TBD is the first CI minimum above — but they are not synonyms. TBD is the source-control model; CI adds automated verification on every integration and stop-the-line. And TBD is defined as much by what it *resists* as by what it does: long-lived branches are replaced by engineering technique, and the trunk is kept releasable at all times.
-
-- **All changes integrate into the trunk.**
-- **If you use branches, they:** originate from trunk, reintegrate to trunk, and are **short-lived (less than a day)**.
-- Healthy signal: fewer than three active branches at a time; branches measured in hours, not days; no code-freeze or "stabilization" periods.
-
-### The two workflows
-
-1. **Commit directly to trunk** (with strong tests and review discipline), or
-2. **Very short-lived branches** that branch from trunk and merge back within a day.
-
-Long-lived branches are replaced by *engineering* techniques — chiefly **feature flags**, with **branch by abstraction** for larger structural changes a call-site switch can't cleanly wrap — instead of *process* (branch isolation). See [Session 2](../sessions/session-2/README.md).
-
-### Why long-lived branches fail
-
-- **Merge pain / lost work:** the longer a branch lives, the more the trunk drifts, and the riskier the merge. Conflict resolution corrupts or loses code.
-- **Abandonment:** branches that get too painful to merge get abandoned, blocking delivery.
-- **Big batches:** a branch that lives two weeks *is* a two-week batch — the exact risk CD is trying to eliminate.
 
 ---
 
