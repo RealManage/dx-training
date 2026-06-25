@@ -34,7 +34,7 @@ The pipeline up to `[ DEPLOYABLE ]` is *identical*. The only difference is the l
 
 ## A RealManage example
 
-Take the **HOA Violations API** (TypeScript Lambda). A board-facing change — say, a new escalation rule — is committed.
+Take the **HOA Violations API** — a small TypeScript Lambda that records and escalates HOA rule violations. It's the cloud-native example this course follows throughout, built out in [Session 3](../../session-3/README.md). A board-facing change — say, a new escalation rule — is committed.
 
 **Under Continuous Delivery:**
 
