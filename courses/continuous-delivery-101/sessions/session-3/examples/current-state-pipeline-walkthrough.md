@@ -51,7 +51,7 @@ Key facts about how it really works:
 
 **And the biggest gap isn't in the YAML at all.** Minimum 1 (real CI: daily integration, short-lived branches) is a *team* practice. A perfect pipeline pointed at week-old branches still isn't CD. That's why Session 2 comes before Session 3.
 
-## How to use this in the workshop
+## How to apply this to your pipeline
 
 1. Pull up *your* service's pipeline — for a new AWS service its `.gitlab-ci.yml`, for the .NET/IIS monolith the GitLab pipeline that `include:`s the shared `ci-templates` (MSBuild publish → IIS). Score *your* shape against the minimums, not the AWS one; use this baseline only if you have no pipeline at all yet.
 2. Fill the same table for your pipeline in the [Current-State Assessment](../exercises/current-state-assessment.md).

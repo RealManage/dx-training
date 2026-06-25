@@ -139,7 +139,7 @@ First, **finalize your [Current-State Assessment](./exercises/current-state-asse
 
 Then read the pipeline. Start with the [current-state walkthrough](examples/current-state-pipeline-walkthrough.md): an annotated tour of the **real** `iac-baseline` GitLab pipeline (`validate → build → dev → qa → prod`, OIDC auth, immutable SHA-tagged images). The headline finding is honest both ways — the baseline already does a *lot* right (single pipeline path, OIDC, immutable artifacts, config-with-artifact), but it gates **every** stage with `when: manual`, so a human, not the pipeline, owns releasability.
 
-Now open the target — [`examples/.gitlab-ci.yml`](./examples/.gitlab-ci.yml), the full commit→prod pipeline for the Violations API. As a group, locate:
+Now open the target — [`examples/.gitlab-ci.yml`](./examples/.gitlab-ci.yml), the full commit→prod pipeline for the Violations API. Locate:
 
 1. Where the **definition of deployable** is enforced (which jobs gate the merge)
 2. Where the **immutable artifact** is built and how it's promoted (not rebuilt)

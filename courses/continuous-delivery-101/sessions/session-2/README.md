@@ -18,7 +18,7 @@ By the end of this session, participants will be able to:
 
 ### 1. Review & Connect (10 minutes)
 
-Quick recap of Session 1: big batches cause risk; CD keeps every change deployable; the pipeline (eventually) owns releasability. Today we tackle the **team practice** that makes all of it possible — and that no pipeline can do for you: **trunk-based development**.
+Quick recap of Session 1: big batches cause risk; CD keeps every change deployable; the pipeline (eventually) owns releasability. This session tackles the **team practice** that makes all of it possible — and that no pipeline can do for you: **trunk-based development**.
 
 Share one number from your homework assessment: *how long does your median branch actually live?* For most teams coming from weekly releases, it's days to weeks. That single number is usually the binding constraint on CD.
 
