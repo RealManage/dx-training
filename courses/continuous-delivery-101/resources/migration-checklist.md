@@ -92,7 +92,7 @@ Shrink deployment size and work-in-progress; improve observability.
 
 ## Phase 4 — Deliver on Demand
 
-Deploy any change to production at any time, based on business need.
+Deploy any change to production at any time; release features to users on the business's schedule, decoupled via flags.
 
 - [ ] Any green commit on `main` can reach production the same day with no re-typed commands
 - [ ] Deploys are routine and low-drama, not events
@@ -102,7 +102,7 @@ Deploy any change to production at any time, based on business need.
 - [ ] Metrics show the trend: frequency up, lead time down, failure rate steady or down, restore time down
 - [ ] Roll the pattern out from the pilot team to the next team
 
-**Exit question:** *Can we deploy any change to production whenever the business wants?*
+**Exit question:** *Can we deploy any change on demand, and release it to users whenever the business chooses?*
 
 ---
 
