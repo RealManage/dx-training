@@ -49,14 +49,14 @@ What if there are no automated checks yet? Much of the established estate is ver
 
 Almost nothing in this course was invented in software. The values below come from **Lean manufacturing** — the Toyota Production System, refined on factory floors since the 1950s — and from the **quality movement** that rebuilt postwar industry. The software industry relearned them the hard way and wrote them down as Continuous Delivery.
 
-Everything in the next six hours serves one idea:
+Everything in this course serves one idea:
 
 > **Continuously shrink the distance — in time *and* in risk — between making a change and getting it safely into users' hands.**
 
 **Three beliefs (the values).**
 
 1. **Undeployed code is inventory, not value.** A change sitting on a branch is work-in-process inventory — paid for, not yet earning, quietly going stale as the trunk moves under it. Taiichi Ohno built Toyota's system on the insight that inventory is *waste* (*muda*), and that producing in large batches to feel efficient is one of the most expensive habits on the floor. Software's version: code delivers nothing until it runs for a user.
-2. **Speed and safety rise together — they are not a trade-off.** The weekly-release instinct is "slow down to be careful." Over a decade of **DORA** research (*Accelerate*, 2018) found the opposite — the teams that deploy most often also have the lowest change-failure rate. Small and frequent is *easier* to get right. This is the belief most worth converting the room on.
+2. **Speed and safety rise together — they are not a trade-off.** The weekly-release instinct is "slow down to be careful." Over a decade of **DORA** research (*Accelerate*, 2018) found the opposite — the teams that deploy most often also have the lowest change-failure rate. Small and frequent is *easier* to get right. This is the central mindset shift — and the one most teams resist at first.
 3. **You can't inspect quality in — you build it in.** W. Edwards Deming, the American statistician who helped rebuild Japanese industry, made it his third point: *"Cease dependence on inspection to achieve quality. Build quality into the product in the first place."* A separate quality gate at the end is the thing to design *out*. At RealManage that is literal — there is no QA team — so the delivering team owns quality, and the pipeline is where that ownership becomes automated checks instead of a handoff.
 
 **Five principles — what those beliefs demand, and the practices each forces:**
@@ -69,12 +69,12 @@ Everything in the next six hours serves one idea:
 | **Separate deploy from release** | Decouple technical risk from business risk | Feature flags, deploy dark, release on the business's schedule | CD vs Continuous Deployment; Session 2 |
 | **Improve the whole, continuously** | *Kaizen*; Theory of Constraints (Goldratt) | Value-stream mapping, the four DORA signals, a phased migration, fail forward | Value-stream workshop; ongoing |
 
-Two more we borrow by name — point at them when they come up:
+Two more we borrow by name — both recur later in the course:
 
 - **Stop the line.** On a Toyota line any worker can pull the **andon cord** to halt production the moment a defect appears, because letting a defect flow downstream costs more than stopping. Our "stop the line on red" (CI minimum 5, CD minimum 6) is the same rule: a broken trunk is the whole team's top priority.
-- **Go and see.** Toyota calls it *genchi genbutsu* — observe the real work where it happens instead of theorizing from a conference room. That is exactly the value-stream map you'll build today: measure where the time *actually* goes.
+- **Go and see.** Toyota calls it *genchi genbutsu* — observe the real work where it happens instead of theorizing from a conference room. That is exactly the value-stream map you'll build in the workshop: measure where the time *actually* goes.
 
-When someone challenges a practice later — "why must branches be short-lived?" — walk back up the chain: practice → principle → belief. You rarely lose that argument, because almost no one disputes that inventory is waste or that quality can't be inspected in.
+When a practice seems arbitrary — "why must branches be short-lived?" — trace it back to its root: practice → principle → belief. The reasoning holds up, because almost no one disputes that inventory is waste or that quality can't be inspected in.
 
 ---
 
