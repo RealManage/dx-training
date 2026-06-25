@@ -10,6 +10,8 @@ This is Phase 0 of the [migration checklist](../../../resources/migration-checkl
 >
 > **Mixed estate?** If you run a long-lived monolith *and* newer services, they're usually at very different CD maturity. Either score your **weakest** system — that's where the binding constraint lives — or fill the scorecard once per system; don't average them into a misleading middle. Note which system each answer refers to.
 
+**Fill it in the browser.** The [Current-State Assessment scorecard](./current-state-assessment.tool.html) walks all five parts, tallies your Yes/Partial/No across the fifteen minimums, captures evidence and targets, and exports the finished scorecard as Markdown to drop into your migration plan. It autosaves in your browser.
+
 ---
 
 ## Part 1 — Score the minimums

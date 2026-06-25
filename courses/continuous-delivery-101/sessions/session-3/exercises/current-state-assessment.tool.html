@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Current-State Assessment Scorecard — CD 101</title>
+<style>
+  :root {
+    --ink: #1d2733; --muted: #5b6b7d; --line: #d8e0e8; --bg: #f5f7fa; --card: #fff;
+    --accent: #1f6feb;
+    --yes: #067647; --yes-bg: #f0faf4;
+    --partial: #b54708; --partial-bg: #fff7ed;
+    --no: #b42318; --no-bg: #fdeceb;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 0 1.25rem 4rem; color: var(--ink); background: var(--bg);
+    font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  header, main, footer { max-width: 1080px; margin: 0 auto; }
+  header { padding: 1.5rem 0 0.5rem; }
+  h1 { font-size: 1.6rem; margin: 0 0 0.25rem; }
+  h2 { font-size: 1.15rem; margin: 1.6rem 0 0.5rem; }
+  h3 { font-size: 1rem; margin: 1rem 0 0.4rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.03em; }
+  .sub { color: var(--muted); margin: 0 0 1rem; }
+
+  .toolbar { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin: 0 0 1rem; }
+  button { font: inherit; cursor: pointer; border: 1px solid var(--line); background: var(--card); border-radius: 6px; padding: 0.45rem 0.8rem; }
+  button:hover { border-color: var(--accent); color: var(--accent); }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  button.primary:hover { filter: brightness(1.07); color: #fff; }
+
+  .scope { width: 100%; max-width: 560px; font: inherit; padding: 0.45rem 0.6rem; border: 1px solid var(--line); border-radius: 6px; margin: 0 0 1rem; }
+
+  .tally { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 0.7rem 1rem; margin: 0 0 1rem; position: sticky; top: 0; z-index: 2; }
+  .tally .muted { color: var(--muted); font-weight: 400; }
+
+  table { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  th, td { padding: 0.45rem 0.55rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: middle; }
+  th { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--muted); background: #fbfcfe; }
+  tbody tr:last-child td { border-bottom: none; }
+  td.idx { color: var(--muted); width: 2.2rem; font-variant-numeric: tabular-nums; }
+  td.ctr { text-align: center; width: 3rem; }
+  .prac { width: 44%; }
+
+  select.cell-score { font: inherit; padding: 0.3rem 0.4rem; border: 1px solid var(--line); border-radius: 5px; background: #fff; }
+  tr[data-score="Yes"] { background: var(--yes-bg); }
+  tr[data-score="Partial"] { background: var(--partial-bg); }
+  tr[data-score="No"] { background: var(--no-bg); }
+  input.cell-ev, input.cell-today, input.cell-meta { font: inherit; width: 100%; border: 1px solid transparent; background: transparent; border-radius: 5px; padding: 0.35rem 0.4rem; }
+  input.cell-ev:focus, input.cell-today:focus, input.cell-meta:focus { outline: none; border-color: var(--accent); background: #fff; }
+  input::placeholder { color: #aab4bf; }
+  td.target { color: var(--muted); width: 30%; }
+
+  .qa { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 0.4rem 1rem 1rem; }
+  .qa .q { margin: 0.9rem 0 0.3rem; font-weight: 600; }
+  .qa textarea { width: 100%; font: inherit; border: 1px solid var(--line); border-radius: 6px; padding: 0.45rem 0.55rem; resize: vertical; min-height: 2.4rem; }
+  .pilot { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 0.75rem; }
+  .pilot label { display: block; font-weight: 600; margin: 0 0 0.25rem; }
+  .pilot input { width: 100%; font: inherit; border: 1px solid var(--line); border-radius: 6px; padding: 0.45rem 0.55rem; }
+
+  .note { color: var(--muted); font-size: 0.9rem; margin: 0.5rem 0 0; }
+  footer { color: var(--muted); font-size: 0.9rem; margin-top: 1.8rem; }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Current-State Assessment Scorecard</h1>
+  <p class="sub">Continuous Delivery 101 — score your team against the minimums and controls, capture the baseline, and name the one constraint to fix first. Autosaves in this browser.</p>
+</header>
+
+<main>
+  <div class="toolbar">
+    <button id="copy" class="primary">Copy as Markdown</button>
+    <button id="blank">Start blank</button>
+  </div>
+
+  <input class="scope" id="scope" placeholder="Which system / team does this scorecard cover? (score your weakest system if mixed)" autocomplete="off">
+
+  <div class="tally" id="tally"></div>
+
+  <h2>Part 1 — Score the minimums</h2>
+  <p class="note">Score each: <strong>Yes</strong> = consistently true · <strong>Partial</strong> = sometimes / some services · <strong>No</strong> = not yet. Mark <strong>◆</strong> only when a Partial/No is a deliberate, kept-on-purpose control (not a gap). Evidence = a number, link, or artifact — not a gut feeling.</p>
+
+  <h3>Continuous Integration</h3>
+  <table><thead><tr><th class="idx">#</th><th class="prac">Practice</th><th>Score</th><th class="ctr">◆</th><th>Evidence</th></tr></thead><tbody id="ci"></tbody></table>
+
+  <h3>Continuous Delivery</h3>
+  <table><thead><tr><th class="idx">#</th><th class="prac">Practice</th><th>Score</th><th class="ctr">◆</th><th>Evidence</th></tr></thead><tbody id="cd"></tbody></table>
+
+  <h2>Part 2 — Score your controls (governance &amp; communication)</h2>
+  <table><thead><tr><th class="prac">Control</th><th>Score</th><th>Evidence / who owns it</th></tr></thead><tbody id="controls"></tbody></table>
+
+  <h2>Part 3 — Measure today's baseline</h2>
+  <p class="note">Pull the numbers; don't guess (GitLab MR history, deployment logs, incident records).</p>
+  <table><thead><tr><th class="prac">Metric</th><th>Today</th><th class="target">Where you want to be</th></tr></thead><tbody id="metrics"></tbody></table>
+
+  <h2>Part 4 — Confirm the constraint</h2>
+  <div class="qa" id="constraint"></div>
+
+  <h2>Part 5 — Pick your pilot</h2>
+  <div class="pilot" id="pilot"></div>
+
+  <footer>
+    <p>This mirrors the <a href="./current-state-assessment.html">Current-State Assessment</a> exercise. Start it after Session 1, complete it in Session 3, and carry the export into your <a href="../../../resources/migration-checklist.html">migration plan</a>.</p>
+  </footer>
+</main>
+
+<script>
+  "use strict";
+  const STORAGE_KEY = "csa-cd101-v1";
+
+  const CI = [
+    "We use trunk-based development — one shared trunk, no long-lived branches",
+    "Every engineer integrates to trunk at least daily — median branch life < 1 day",
+    "Automated tests run before merge to trunk",
+    "Automated tests run on the merged result",
+    "A red build stops feature work until it's fixed",
+    "New work does not break delivered work",
+  ];
+  const CD = [
+    "We practice CI (all six above are Yes)",
+    "The pipeline is the only way to deploy to shared environments",
+    "The pipeline decides releasability; its verdict is definitive",
+    "Artifacts meet an automated definition of deployable",
+    "Artifacts are immutable (built once, never hand-edited)",
+    "A red deployment pipeline stops feature work",
+    "A production-like test environment exists",
+    "Rollback is available on demand and has been rehearsed",
+    "Application config is deployed with the artifact",
+  ];
+  const CONTROLS = [
+    "Audit trail — who deployed what, when, and from which commit",
+    "Segregation of duties — merges require a second person; author ≠ approver",
+    "Least privilege — deploy lives with the pipeline (OIDC); no standing human prod access",
+    "Mandated approvals identified — compliance/contractual approvals named, not habitual clicks",
+    "Break-glass — a documented emergency-change path that still records what happened",
+    "Release communication — clients/support learn a release shipped, from a defined source",
+    "Release authorization — when deploy ≠ release, someone authorizes the flag flip, recorded",
+  ];
+  const METRICS = [
+    ["Deployment frequency (deploys to prod / week)", "On demand, multiple/day"],
+    ["Lead time for changes (commit → prod)", "Hours"],
+    ["Change failure rate (% deploys needing remediation)", "Low and steady"],
+    ["Time to restore (how fast you recover)", "Minutes"],
+    ["Median branch lifetime (last month's merged MRs)", "< 1 day"],
+    ["Median MR size (lines / files changed)", "Small"],
+    ["Changes bundled per prod deploy", "Trending toward one"],
+  ];
+  const CONSTRAINT_Q = [
+    "1. Which step did the value stream map flag as the constraint (biggest wait / lowest %C/A)?",
+    "2. Does the scorecard agree? Which single unmarked No/Partial corresponds — or hurts more?",
+    "3. What's the root cause? (long branches, manual deploys, slow/missing tests, no rollback, no prod-like env, ungoverned release)",
+    "4. If you fixed only that one thing next month, what would improve?",
+    "5. Who owns the fix, and what does \"fixed\" look like?",
+  ];
+  const PILOT = [
+    ["service", "Pilot service (small, active, low blast radius)"],
+    ["team", "Pilot team"],
+    ["milestone", "First milestone (e.g. branches under a day for two weeks)"],
+    ["signal", "How we'll know it worked (which metric moves)"],
+  ];
+
+  const blank = () => ({
+    scope: "",
+    ci: CI.map(() => ({ score: "", deliberate: false, evidence: "" })),
+    cd: CD.map(() => ({ score: "", deliberate: false, evidence: "" })),
+    controls: CONTROLS.map(() => ({ score: "", evidence: "" })),
+    metrics: METRICS.map(() => ({ today: "" })),
+    constraint: CONSTRAINT_Q.map(() => ""),
+    pilot: { service: "", team: "", milestone: "", signal: "" },
+  });
+
+  function load() { try { const r = localStorage.getItem(STORAGE_KEY); return r ? JSON.parse(r) : null; } catch { return null; } }
+  function save() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch { /* ignore */ } }
+  let state = load() || blank();
+
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+  const scoreSelect = (s, i, val) =>
+    `<select class="cell-score" data-s="${s}" data-i="${i}" data-f="score">` +
+    ["", "Yes", "Partial", "No"].map((o) =>
+      `<option value="${o}"${o === val ? " selected" : ""}>${o === "" ? "—" : o}</option>`).join("") +
+    `</select>`;
+
+  function buildMinimums(section, list) {
+    $(section).innerHTML = list.map((text, i) => {
+      const it = state[section][i];
+      return `<tr data-score="${esc(it.score)}">
+        <td class="idx">${i + 1}</td>
+        <td class="prac">${esc(text)}</td>
+        <td>${scoreSelect(section, i, it.score)}</td>
+        <td class="ctr"><input type="checkbox" class="cell-del" data-s="${section}" data-i="${i}" data-f="deliberate"${it.deliberate ? " checked" : ""}></td>
+        <td><input class="cell-ev" data-s="${section}" data-i="${i}" data-f="evidence" value="${esc(it.evidence)}" placeholder="number, link, or artifact"></td>
+      </tr>`;
+    }).join("");
+  }
+
+  function buildControls() {
+    $("controls").innerHTML = CONTROLS.map((text, i) => {
+      const it = state.controls[i];
+      return `<tr data-score="${esc(it.score)}">
+        <td class="prac">${esc(text)}</td>
+        <td>${scoreSelect("controls", i, it.score)}</td>
+        <td><input class="cell-ev" data-s="controls" data-i="${i}" data-f="evidence" value="${esc(it.evidence)}" placeholder="evidence / who owns it"></td>
+      </tr>`;
+    }).join("");
+  }
+
+  function buildMetrics() {
+    $("metrics").innerHTML = METRICS.map(([label, target], i) =>
+      `<tr>
+        <td class="prac">${esc(label)}</td>
+        <td><input class="cell-today" data-s="metrics" data-i="${i}" data-f="today" value="${esc(state.metrics[i].today)}" placeholder="measure it"></td>
+        <td class="target">${esc(target)}</td>
+      </tr>`).join("");
+  }
+
+  function buildConstraint() {
+    $("constraint").innerHTML = CONSTRAINT_Q.map((q, i) =>
+      `<p class="q">${esc(q)}</p><textarea class="cell-meta" data-s="constraint" data-i="${i}">${esc(state.constraint[i])}</textarea>`).join("");
+  }
+
+  function buildPilot() {
+    $("pilot").innerHTML = PILOT.map(([k, label]) =>
+      `<div><label>${esc(label)}</label><input class="cell-meta" data-s="pilot" data-k="${k}" value="${esc(state.pilot[k])}"></div>`).join("");
+  }
+
+  function buildAll() {
+    $("scope").value = state.scope || "";
+    buildMinimums("ci", CI);
+    buildMinimums("cd", CD);
+    buildControls();
+    buildMetrics();
+    buildConstraint();
+    buildPilot();
+    updateTally();
+  }
+
+  function updateTally() {
+    const all = state.ci.concat(state.cd);
+    let y = 0, p = 0, n = 0, del = 0;
+    all.forEach((x) => {
+      if (x.score === "Yes") y++; else if (x.score === "Partial") p++; else if (x.score === "No") n++;
+      if (x.deliberate) del++;
+    });
+    const blanks = all.length - y - p - n;
+    $("tally").innerHTML =
+      `<strong style="color:var(--yes)">${y}</strong> Yes · ` +
+      `<strong style="color:var(--partial)">${p}</strong> Partial · ` +
+      `<strong style="color:var(--no)">${n}</strong> No · ` +
+      `<strong>${del}</strong> deliberate ◆ ` +
+      `<span class="muted">(of ${all.length} minimums${blanks ? `, ${blanks} unscored` : ""})</span>`;
+  }
+
+  $("scope").addEventListener("input", (e) => { state.scope = e.target.value; save(); });
+
+  function onCell(e) {
+    const t = e.target;
+    const s = t.dataset.s;
+    if (!s) return;
+    if (s === "constraint") { state.constraint[+t.dataset.i] = t.value; }
+    else if (s === "pilot") { state.pilot[t.dataset.k] = t.value; }
+    else {
+      const i = +t.dataset.i, f = t.dataset.f;
+      state[s][i][f] = t.type === "checkbox" ? t.checked : t.value;
+      if (f === "score") { const tr = t.closest("tr"); if (tr) tr.dataset.score = t.value; }
+    }
+    save();
+    updateTally();
+  }
+  document.querySelector("main").addEventListener("input", onCell);
+  document.querySelector("main").addEventListener("change", onCell);
+
+  $("blank").addEventListener("click", () => {
+    if (!confirm("Start a blank scorecard? This clears the current one in this browser.")) return;
+    state = blank(); save(); buildAll();
+  });
+
+  function mdTable(headers, rows) {
+    const cell = (c) => String(c == null ? "" : c).replace(/\|/g, "\\|").replace(/\n/g, " ");
+    return [
+      "| " + headers.map(cell).join(" | ") + " |",
+      "| " + headers.map(() => "-").join(" | ") + " |",
+      ...rows.map((r) => "| " + r.map(cell).join(" | ") + " |"),
+    ].join("\n");
+  }
+
+  function buildMarkdown() {
+    const sc = (v) => v || "—";
+    const out = [];
+    out.push(`# Current-State Assessment${state.scope ? " — " + state.scope : ""}`, "");
+    const all = state.ci.concat(state.cd);
+    const y = all.filter((x) => x.score === "Yes").length;
+    const p = all.filter((x) => x.score === "Partial").length;
+    const n = all.filter((x) => x.score === "No").length;
+    const del = all.filter((x) => x.deliberate).length;
+    out.push(`**Tally:** ${y} Yes · ${p} Partial · ${n} No · ${del} deliberate ◆ (of ${all.length} minimums)`, "");
+
+    out.push("## Part 1 — Minimums", "", "### Continuous Integration", "");
+    out.push(mdTable(["#", "Practice", "Score", "◆", "Evidence"],
+      CI.map((t, i) => [i + 1, t, sc(state.ci[i].score), state.ci[i].deliberate ? "◆" : "", state.ci[i].evidence || ""])), "");
+    out.push("### Continuous Delivery", "");
+    out.push(mdTable(["#", "Practice", "Score", "◆", "Evidence"],
+      CD.map((t, i) => [i + 1, t, sc(state.cd[i].score), state.cd[i].deliberate ? "◆" : "", state.cd[i].evidence || ""])), "");
+
+    out.push("## Part 2 — Controls", "");
+    out.push(mdTable(["Control", "Score", "Evidence / owner"],
+      CONTROLS.map((t, i) => [t, sc(state.controls[i].score), state.controls[i].evidence || ""])), "");
+
+    out.push("## Part 3 — Baseline metrics", "");
+    out.push(mdTable(["Metric", "Today", "Target"],
+      METRICS.map(([label, target], i) => [label, state.metrics[i].today || "—", target])), "");
+
+    out.push("## Part 4 — Constraint", "");
+    CONSTRAINT_Q.forEach((q, i) => out.push(`**${q}**`, state.constraint[i] || "_(blank)_", ""));
+
+    out.push("## Part 5 — Pilot", "");
+    PILOT.forEach(([k, label]) => out.push(`- **${label}:** ${state.pilot[k] || "—"}`));
+
+    return out.join("\n");
+  }
+
+  $("copy").addEventListener("click", async () => {
+    const md = buildMarkdown();
+    const b = $("copy"), orig = b.textContent;
+    try { await navigator.clipboard.writeText(md); b.textContent = "Copied!"; setTimeout(() => { b.textContent = orig; }, 1500); }
+    catch { window.prompt("Copy this Markdown:", md); }
+  });
+
+  buildAll();
+</script>
+</body>
+</html>
