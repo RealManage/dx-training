@@ -329,7 +329,8 @@
     state.steps.forEach((s, i) => {
       const star = (i === c.maxWaitIdx ? " ⭐" : "") + (i === c.minCaIdx ? " ⭐" : "");
       const ca = hasCA(s) ? round1(num(s.ca)) + "%" : "—";
-      lines.push(`| ${i + 1} | ${(s.name || "").trim()}${star} | ${round1(num(s.process))} | ${round1(num(s.wait))} | ${ca} |`);
+      const name = (s.name || "").trim().replace(/\|/g, "\\|").replace(/\n/g, " ");
+      lines.push(`| ${i + 1} | ${name}${star} | ${round1(num(s.process))} | ${round1(num(s.wait))} | ${ca} |`);
     });
     lines.push("");
     lines.push(`- **Total process:** ${round1(c.totalProcess)} h`);
