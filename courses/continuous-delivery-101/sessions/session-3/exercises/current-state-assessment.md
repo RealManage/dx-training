@@ -22,8 +22,8 @@ In the **Deliberate?** column, mark ◆ when a Partial/No is a *conscious, defen
 
 | # | Practice | Yes / Partial / No | Deliberate? | Evidence |
 | - | -------- | ------------------ | ----------- | -------- |
-| 1 | We use trunk-based development | | | |
-| 2 | Every engineer integrates to trunk at least daily | | | |
+| 1 | We use trunk-based development — one shared trunk, no long-lived branches | | | |
+| 2 | Every engineer integrates to trunk at least daily — median branch life < 1 day | | | |
 | 3 | Automated tests run before merge to trunk | | | |
 | 4 | Automated tests run on the merged result | | | |
 | 5 | A red build stops feature work until it's fixed | | | |
