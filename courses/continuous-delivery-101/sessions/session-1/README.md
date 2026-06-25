@@ -8,6 +8,7 @@
 
 By the end of this session, participants will be able to:
 
+- ✅ Trace the CD practices back to their roots in Lean manufacturing and the quality movement, and to the values and principles they serve
 - ✅ Explain why infrequent, big-batch deployment is self-reinforcing and risky
 - ✅ Distinguish Continuous Delivery from Continuous Deployment
 - ✅ List the MinimumCD practices for CI and CD and say *why* each exists
@@ -16,7 +17,7 @@ By the end of this session, participants will be able to:
 
 ## 📚 Session Agenda
 
-### 1. Welcome & Framing (10 minutes)
+### 1. Welcome & Framing (15 minutes)
 
 #### The landscape today
 
@@ -43,6 +44,37 @@ Note who owns quality in this picture: at RealManage there is no separate QA tea
 What if there are no automated checks yet? Much of the established estate is verified by hand today — and that does not block CD. Owning quality can start as the delivering engineer testing their own change; a "throw it over to QA" *wait* is the waste, not the act of verifying your own work. The path from manual to automated — test new code, add characterization tests to legacy code as you touch it, and let feature flags keep you integrating meanwhile — is its own guide: [Testing and CD](../../resources/testing-and-cd.md).
 
 > The new cloud-native services are an easy *place to start* — they begin from a clean slate, with no existing deploy process to retrofit. But CD is not something you do only on the new services: it is a set of working agreements that apply to the established .NET systems too. Trunk-based development, feature flags (via config, not just Lambda env vars), expand/contract on SQL Server, and build-once-promote all work on an IIS-on-VMs .NET app shipped through the same GitLab CI. We start where the practices are easiest to *see*, then carry them straight back to the systems that run the business — where the same discipline pays off just as much, including the strangler-fig work that selectively carves new services out where that serves the product ([worked end to end in Session 3](../session-3/examples/strangler-fig-violations.md)).
+
+#### The roots: from the factory floor to the trunk
+
+Almost nothing in this course was invented in software. The values below come from **Lean manufacturing** — the Toyota Production System, refined on factory floors since the 1950s — and from the **quality movement** that rebuilt postwar industry. The software industry relearned them the hard way and wrote them down as Continuous Delivery.
+
+Everything in the next six hours serves one idea:
+
+> **Continuously shrink the distance — in time *and* in risk — between making a change and getting it safely into users' hands.**
+
+**Three beliefs (the values).**
+
+1. **Undeployed code is inventory, not value.** A change sitting on a branch is work-in-process inventory — paid for, not yet earning, quietly going stale as the trunk moves under it. Taiichi Ohno built Toyota's system on the insight that inventory is *waste* (*muda*), and that producing in large batches to feel efficient is one of the most expensive habits on the floor. Software's version: code delivers nothing until it runs for a user.
+2. **Speed and safety rise together — they are not a trade-off.** The weekly-release instinct is "slow down to be careful." Over a decade of **DORA** research (*Accelerate*, 2018) found the opposite — the teams that deploy most often also have the lowest change-failure rate. Small and frequent is *easier* to get right. This is the belief most worth converting the room on.
+3. **You can't inspect quality in — you build it in.** W. Edwards Deming, the American statistician who helped rebuild Japanese industry, made it his third point: *"Cease dependence on inspection to achieve quality. Build quality into the product in the first place."* A separate quality gate at the end is the thing to design *out*. At RealManage that is literal — there is no QA team — so the delivering team owns quality, and the pipeline is where that ownership becomes automated checks instead of a handoff.
+
+**Five principles — what those beliefs demand, and the practices each forces:**
+
+| Principle | Rooted in | Practices it forces | Covered in |
+| --------- | --------- | ------------------- | ---------- |
+| **Work in small batches** | Lean batch-size economics (Ohno; Reinertsen) | Trunk-based development, daily integration, short-lived branches, decomposing work, frequent deploys | Big batches (next); Session 2 |
+| **Get feedback fast** | Lean fast flow; the scientific method | Tests before merge, CI on every commit, a fast pipeline | CI minimums; Session 2 |
+| **Build quality in** | Deming; Toyota *jidoka* | A definition of deployable, the pipeline decides releasability, immutable artifacts, one path to production | CD minimums; Session 3 |
+| **Separate deploy from release** | Decouple technical risk from business risk | Feature flags, deploy dark, release on the business's schedule | CD vs Continuous Deployment; Session 2 |
+| **Improve the whole, continuously** | *Kaizen*; Theory of Constraints (Goldratt) | Value-stream mapping, the four DORA signals, a phased migration, fail forward | Value-stream workshop; ongoing |
+
+Two more we borrow by name — point at them when they come up:
+
+- **Stop the line.** On a Toyota line any worker can pull the **andon cord** to halt production the moment a defect appears, because letting a defect flow downstream costs more than stopping. Our "stop the line on red" (CI minimum 5, CD minimum 6) is the same rule: a broken trunk is the whole team's top priority.
+- **Go and see.** Toyota calls it *genchi genbutsu* — observe the real work where it happens instead of theorizing from a conference room. That is exactly the value-stream map you'll build today: measure where the time *actually* goes.
+
+When someone challenges a practice later — "why must branches be short-lived?" — walk back up the chain: practice → principle → belief. You rarely lose that argument, because almost no one disputes that inventory is waste or that quality can't be inspected in.
 
 ---
 
@@ -192,6 +224,7 @@ The point isn't a pretty diagram; it's the constraint. For most teams coming off
 
 #### Key takeaways
 
+- These practices are old and proven — Lean manufacturing and the quality movement, not software fashion; each serves a value (small batches, fast feedback, built-in quality)
 - Big batches *cause* deployment risk; small, frequent deploys reduce it
 - CD ≠ Continuous Deployment — CD keeps changes deployable; a human still decides *when*
 - The MinimumCD practices are the floor, not the ceiling
