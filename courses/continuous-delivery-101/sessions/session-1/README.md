@@ -138,6 +138,8 @@ The [DORA research](https://dora.dev/) (*Accelerate*) found that teams who deplo
 
 CD moves all four in the right direction at once.
 
+> **Benchmark yourself.** DORA's official [Quick Check](https://dora.dev/quickcheck/?v=2025) asks a handful of questions about these four metrics and places you against this year's industry cohorts. It's a directional snapshot, not a grade (same survey caveats as above) — but it answers "where do we stand?" in about two minutes. Landing better than average isn't a reason to coast: it's evidence the improvements already made are working, with a higher tier still ahead. Re-run it after adopting these practices, and the climb between runs is your continuous improvement made visible — against the industry, not just your own past.
+
 ---
 
 ### 3. CD vs Continuous Deployment (15 minutes)
@@ -250,6 +252,7 @@ Trunk-based development and CI in practice: killing long-lived branches, decompo
 - [Migration Checklist](../../resources/migration-checklist.md) (Phase 0)
 - [MinimumCD.org](https://minimumcd.org) — the source
 - [DORA / Accelerate research](https://dora.dev/)
+- [DORA Quick Check](https://dora.dev/quickcheck/?v=2025) — benchmark your four metrics against this year's cohorts
 - [Database Delivery](../../resources/database-delivery.md) — why the database is the elephant blocking small batches, and the shape of the fix
 
 ---

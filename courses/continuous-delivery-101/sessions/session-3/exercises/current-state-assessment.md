@@ -87,6 +87,14 @@ Pull the numbers; don't guess. (GitLab MR history, deployment logs, incident rec
 
 > **Read median MR size as *review burden*, not author effort.** When an agent writes the code, a 600-line MR is cheap to produce and expensive to review — the old "big MR = lots of work" intuition breaks. Track it as a reviewability ceiling, and keep it small so review stays substantive.
 
+**Benchmark yourself against the industry.** The targets above say where *you* want to be; they don't say where you stand against everyone else. Feed rows 1–4 into DORA's official [Quick Check](https://dora.dev/quickcheck/?v=2025) — a handful of questions, ~two minutes — to get your performance cohort for this year's report. Record it now and again when you re-run this assessment; the movement between them is your continuous improvement, benchmarked.
+
+| DORA Quick Check (`?v=2025`) | Now | After the course |
+| ---------------------------- | --- | ---------------- |
+| Performance cohort | | |
+
+> Treat it as a directional snapshot, not a grade — it rests on the same correlational survey data the course flags in Session 1. Landing above average is progress your team earned; the point of re-running is the *trend*, not the label.
+
 ---
 
 ## Part 4 — Confirm the constraint
@@ -121,6 +129,7 @@ By the end you should have:
 - A filled scorecard (CI + CD minimums, with deliberate controls marked ◆)
 - A controls scorecard (governance + release communication), each line with an owner
 - Four baseline numbers plus branch lifetime and MR size
+- Your DORA Quick Check cohort, recorded so you can re-check it after the course
 - One named constraint — a real gap, not a deliberate control — with an owner
 - A pilot service, team, and first milestone
 
