@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Batch Size = Blast Radius — CD 101</title>
+<style>
+  :root {
+    --ink: #1d2733;
+    --muted: #5b6b7d;
+    --line: #d8e0e8;
+    --bg: #f5f7fa;
+    --card: #ffffff;
+    --accent: #1f6feb;
+    --danger: #b42318;
+    --good: #067647;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0 1.25rem 4rem;
+    font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--ink); background: var(--bg);
+  }
+  header, main, footer { max-width: 1000px; margin: 0 auto; }
+  header { padding: 1.5rem 0 0.5rem; }
+  h1 { font-size: 1.6rem; margin: 0 0 0.25rem; }
+  .sub { color: var(--muted); margin: 0 0 1rem; }
+
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1.1rem 1.2rem; margin: 0 0 1.1rem; }
+
+  .control { margin: 0 0 1.1rem; }
+  .control:last-child { margin-bottom: 0; }
+  .control label { display: block; font-weight: 600; margin: 0 0 0.35rem; }
+  .control .hint { color: var(--muted); font-weight: 400; }
+  input[type=number] { font: inherit; width: 6rem; padding: 0.4rem 0.5rem; border: 1px solid var(--line); border-radius: 6px; }
+  input[type=range] { width: 100%; accent-color: var(--accent); }
+
+  .readout { display: grid; grid-template-columns: auto 1fr; gap: 0.4rem 1rem; align-items: baseline; }
+  .bignum { font-size: 3rem; font-weight: 750; line-height: 1; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .bignum small { font-size: 1rem; font-weight: 500; color: var(--muted); display: block; }
+  .consequences { margin: 0.6rem 0 0; }
+  .consequences p { margin: 0.3rem 0; }
+  .consequences strong { color: var(--danger); }
+
+  .blocks { display: flex; flex-wrap: wrap; gap: 4px; margin: 0.9rem 0 0.3rem; }
+  .blocks i { width: 16px; height: 16px; border-radius: 3px; background: var(--accent); opacity: 0.85; display: block; }
+  .blocks i.bad { background: var(--danger); opacity: 1; box-shadow: 0 0 0 2px #fde0dd; }
+  .blocks-cap { color: var(--muted); font-size: 0.9rem; align-self: center; }
+  .blocks-note { color: var(--muted); font-size: 0.9rem; margin: 0.2rem 0 0; }
+
+  .cmp { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+  .cmp .col { border: 1px solid var(--line); border-radius: 8px; padding: 0.8rem 0.9rem; background: #fbfcfe; }
+  .cmp .col h3 { margin: 0 0 0.15rem; font-size: 1rem; }
+  .cmp .col .cad { color: var(--muted); font-size: 0.85rem; margin: 0 0 0.5rem; }
+  .cmp .col .n { font-size: 1.8rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .cmp .col .n small { font-size: 0.85rem; font-weight: 500; color: var(--muted); }
+  .cmp .col .mini { height: 8px; border-radius: 4px; background: #e7edf3; margin-top: 0.5rem; overflow: hidden; }
+  .cmp .col .mini > span { display: block; height: 100%; background: var(--accent); }
+  .cmp .col.best { border-color: var(--good); }
+  .cmp .col.best .n { color: var(--good); }
+
+  .note { background: #fff8ec; border: 1px solid #f1d9a8; border-radius: 8px; padding: 0.8rem 1rem; color: #6b4e16; margin: 1.1rem 0 0; }
+  h2 { font-size: 1.1rem; margin: 0 0 0.6rem; }
+  button { font: inherit; cursor: pointer; border: 1px solid var(--line); background: var(--card); border-radius: 6px; padding: 0.4rem 0.8rem; }
+  button:hover { border-color: var(--accent); color: var(--accent); }
+  footer { color: var(--muted); font-size: 0.9rem; margin-top: 1.5rem; }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Batch Size = Blast Radius</h1>
+  <p class="sub">Continuous Delivery 101 · Session 1 — why "deploy more often, in smaller pieces" is the master variable. Drag the slider.</p>
+</header>
+
+<main>
+  <div class="panel">
+    <div class="control">
+      <label for="cpw">Changes merged per week <span class="hint">— your team's throughput</span></label>
+      <input type="number" id="cpw" min="1" max="200" value="30">
+    </div>
+    <div class="control">
+      <label for="dpw">Deploys to production per week — <span id="cad" class="hint"></span></label>
+      <input type="range" id="dpw" min="1" max="30" value="1">
+    </div>
+    <button id="reset">Reset</button>
+  </div>
+
+  <div class="panel">
+    <div class="readout">
+      <div class="bignum"><span id="batch">30</span><small>changes per deploy</small></div>
+      <div class="consequences" id="consequences"></div>
+    </div>
+    <div class="blocks" id="blocks"></div>
+    <p class="blocks-note">One of these changes broke production. In a big batch, which one? A rollback takes them <em>all</em> back.</p>
+  </div>
+
+  <h2>The same throughput, three cadences</h2>
+  <div class="cmp" id="cmp"></div>
+
+  <div class="note" id="honest"></div>
+
+  <footer>
+    <p>This illustrates the mechanism, not a forecast — batch size, rollback blast radius, and the number of suspects on a failure are <em>the same number by definition</em>. That is the point: your batch size <em>is</em> your blast radius. See the <a href="../README.html">Session 1</a> "batch size is the master variable" section and the <a href="./value-stream-map.html">value stream map</a> exercise.</p>
+  </footer>
+</main>
+
+<script>
+  "use strict";
+  const STORAGE_KEY = "batch-size-cd101-v1";
+  const DEFAULTS = { cpw: 30, dpw: 1 };
+
+  function load() { try { const r = localStorage.getItem(STORAGE_KEY); return r ? JSON.parse(r) : null; } catch { return null; } }
+  function save() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch { /* ignore */ } }
+  let state = load() || { ...DEFAULTS };
+
+  const $ = (id) => document.getElementById(id);
+  const batchOf = (cpw, dpw) => Math.ceil(cpw / Math.max(1, dpw));
+
+  function cadence(dpw, cpw) {
+    if (dpw >= cpw) return "every change ships on its own";
+    if (dpw === 1) return "weekly — one release window";
+    if (dpw === 2) return "twice a week";
+    if (dpw <= 4) return "every couple of days";
+    if (dpw === 5) return "≈ daily (a 5-day work week)";
+    if (dpw <= 9) return "more than once a day";
+    return "multiple times a day";
+  }
+
+  function renderBlocks(batch) {
+    const el = $("blocks");
+    const CAP = 80;
+    const n = Math.min(batch, CAP);
+    const badIdx = Math.floor((n - 1) / 2);
+    let html = "";
+    for (let i = 0; i < n; i++) html += `<i class="${i === badIdx ? "bad" : ""}"></i>`;
+    if (batch > CAP) html += `<span class="blocks-cap">+${batch - CAP} more</span>`;
+    el.innerHTML = html;
+  }
+
+  function renderCmp(cpw) {
+    const presets = [
+      { key: "Weekly", cad: "1 / week", dpw: 1 },
+      { key: "Daily", cad: "5 / week", dpw: 5 },
+      { key: "Per change", cad: `${cpw} / week`, dpw: cpw },
+    ];
+    const worst = batchOf(cpw, 1);
+    $("cmp").innerHTML = presets.map((p) => {
+      const b = batchOf(cpw, p.dpw);
+      const pct = Math.max(2, Math.round((b / worst) * 100));
+      const best = b === 1 ? " best" : "";
+      return `<div class="col${best}">
+        <h3>${p.key}</h3>
+        <div class="cad">${p.cad}</div>
+        <div class="n">${b}<small> changes/deploy</small></div>
+        <div class="mini"><span style="width:${pct}%"></span></div>
+      </div>`;
+    }).join("");
+  }
+
+  function render() {
+    const cpw = state.cpw, dpw = Math.min(state.dpw, cpw);
+    const batch = batchOf(cpw, dpw);
+    $("cpw").value = cpw;
+    const slider = $("dpw");
+    slider.max = cpw;
+    slider.value = dpw;
+    $("cad").textContent = cadence(dpw, cpw);
+    $("batch").textContent = batch;
+    $("consequences").innerHTML =
+      `<p>A rollback reverts <strong>${batch}</strong> change${batch === 1 ? "" : "s"} at once.</p>` +
+      `<p>When it breaks, you have <strong>${batch}</strong> suspect${batch === 1 ? "" : "s"} to diagnose.</p>` +
+      (batch === 1
+        ? `<p style="color:var(--good)">One change per deploy: trivially diagnosable, trivially reversible.</p>`
+        : `<p>That is the release-day anxiety — the bigger the batch, the scarier the button.</p>`);
+    renderBlocks(batch);
+    renderCmp(cpw);
+    $("honest").innerHTML = dpw >= cpw
+      ? "<strong>This is the goal:</strong> one change per deploy. Each failure points at exactly one diff, and rollback costs one change."
+      : `<strong>To shrink the batch, deploy more often.</strong> At ${dpw} deploy${dpw === 1 ? "" : "s"}/week you ship ${batch} changes at a time; the only way down is more frequent, smaller deploys.`;
+  }
+
+  $("cpw").addEventListener("input", (e) => {
+    const v = parseInt(e.target.value, 10);
+    state.cpw = isFinite(v) && v > 0 ? Math.min(v, 200) : 1;
+    if (state.dpw > state.cpw) state.dpw = state.cpw;
+    save(); render();
+  });
+  $("dpw").addEventListener("input", (e) => {
+    state.dpw = parseInt(e.target.value, 10) || 1;
+    save(); render();
+  });
+  $("reset").addEventListener("click", () => { state = { ...DEFAULTS }; save(); render(); });
+
+  render();
+</script>
+</body>
+</html>

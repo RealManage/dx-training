@@ -89,6 +89,8 @@ Almost every CD benefit traces back to shrinking the batch:
 | Rollback reverts everything | Rollback reverts one thing |
 | Release is a risky event | Release is a non-event |
 
+**See it live.** Open the [Batch Size visualizer](./examples/batch-size.tool.html) and drag the deploy-frequency slider — batch size, rollback blast radius, and the number of suspects on a failure all move together. That single number *is* your blast radius.
+
 > **When an agent writes the code, this is the practice that matters most.** A human author self-limits by friction — 1,200 lines is a day's grind. An agent emits them before lunch, so the friction that used to cap batch size is gone. Small batches stop being a habit you adopt to go faster and become a *throttle you impose* to keep machine output from drowning the trunk and your reviewers. See [CD when AI writes the code](../../resources/ai-assisted-delivery.md).
 >
 > **The elephant: the database.** The hardest batch to shrink is a schema change. Teams accept tiny code deploys and then bundle a quarter's worth of database changes into one dreaded release, because "the database can't be done incrementally." It can — schema and baseline data delivered as code, through the pipeline, in small backward-compatible steps. We return to this in [Database Delivery](../../resources/database-delivery.md); name it now as the constraint it usually is.
