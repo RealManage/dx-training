@@ -78,15 +78,20 @@ on-slide text, it's doing too much — push it into *Say* or split it.
 
 - **Message:** Almost every CD benefit traces back to one lever: shrink the batch.
 - **Visual:** A single strong contrast image — one boulder vs a handful of pebbles, or a
-  balance scale tipping. If you want the comparison, two columns of *icons* (conflict /
+  balance scale tipping. If you want the comparison, two columns of *icons* (review /
   magnifying glass / rollback / alarm) for big-batch vs small-batch — icons, not the
   full table.
 - **On-slide text:** "Batch size = the master variable" · "Big batch ⟶ risk · Small
   batch ⟶ non-event"
-- **Say:** Walk 2–3 contrasts max (conflicts, reviewability, isolation, rollback). If
-  the room is AI-forward, land the AI angle: a human self-limits by friction — 1,200
-  lines is a day's grind; an agent emits them before lunch, so small batches become a
-  *throttle you impose*, not a habit. Then the evidence: DORA shows frequent small
+- **Say:** "Batch" lives at two independent hand-offs — don't conflate them. *Integration
+  batch* (branch → trunk) drives review size; conflicts only follow *if* work overlaps a
+  moving trunk, so a team can rarely see conflicts yet still drown in oversized reviews.
+  *Deploy batch* (trunk → prod) drives isolation, rollback blast radius, and release risk.
+  Walk 2–3 contrasts max, leading with review burden (the reliable cost); conflicts are
+  conditional. If the room is AI-forward, land the AI angle: a human self-limits by friction
+  — 1,200 lines is a day's grind; an agent emits them before lunch, so small batches become a
+  *throttle you impose*, not a habit — and review burden is where that bites first. Then the
+  evidence: DORA shows frequent small
   deploys give higher throughput *and* stability (survey data — correlational, but
   strong and replicated). Make it actionable: DORA's official **Quick Check**
   ([dora.dev/quickcheck](https://dora.dev/quickcheck/?v=2025)) benchmarks your four

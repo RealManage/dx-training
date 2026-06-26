@@ -111,12 +111,17 @@ The only escape is counterintuitive: **deploy *more* often, in *smaller* pieces.
 
 #### 2.2 Batch size is the master variable (10 minutes)
 
-Almost every CD benefit traces back to shrinking the batch:
+Almost every CD benefit traces back to shrinking the batch — but "batch" lives at **two independent hand-offs**, and lumping them together hides what actually bites:
 
-| Big batch (weekly branch) | Small batch (daily trunk) |
-| ------------------------- | ------------------------- |
-| Merge conflicts pile up | Few conflicts; trunk barely drifts |
-| Hard to review (1000s of lines) | Easy to review (tens of lines) |
+- **Integration batch** — how much piles up on a branch before it merges to trunk. Bigger here means a **bigger review**. Merge conflicts only follow *if* your changes overlap a trunk that moved underneath you — which is why a team can rarely hit conflicts yet still drown in oversized reviews.
+- **Deploy batch** — how much accumulates on trunk between production deploys. Bigger here is what makes **failure hard to isolate**, **rollback all-or-nothing**, and the **release a risky event**.
+
+A long-lived branch inflates the first; a weekly deploy *cadence* inflates the second. They often travel together — but you can have one without the other, so shrink both.
+
+| Big batch | Small batch |
+| --------- | ----------- |
+| Reviews balloon to 1000s of lines | Reviews are tens of lines |
+| Conflicts pile up *if* work overlaps a drifting trunk | Trunk barely drifts |
 | Failure is hard to isolate | Failure points at one change |
 | Rollback reverts everything | Rollback reverts one thing |
 | Release is a risky event | Release is a non-event |
