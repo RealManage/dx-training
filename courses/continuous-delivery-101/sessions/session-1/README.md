@@ -69,7 +69,7 @@ Everything in this course serves one idea:
 | **Separate deploy from release** | Decouple technical risk from business risk | Feature flags, deploy dark, release on the business's schedule | CD vs Continuous Deployment; Session 2 |
 | **Improve the whole, continuously** | *Kaizen*; Theory of Constraints (Goldratt) | Value-stream mapping, the four DORA signals, a phased migration, fail forward | Value-stream workshop; ongoing |
 
-Two more we borrow by name — both recur later in the course:
+Two more practices we borrow by name — both recur later in the course:
 
 - **Stop the line.** On a Toyota line any worker can pull the **andon cord** to halt production the moment a defect appears, because letting a defect flow downstream costs more than stopping. Our "stop the line on red" (CI minimum 5, CD minimum 6) is the same rule: a broken trunk is the whole team's top priority.
 - **Go and see.** Toyota calls it *genchi genbutsu* — observe the real work where it happens instead of theorizing from a conference room. That is exactly the value-stream map you'll build in the workshop: measure where the time *actually* goes.
