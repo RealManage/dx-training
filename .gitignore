@@ -393,3 +393,8 @@ TestResults/
 # ================
 
 # Add any project-specific exclusions below
+
+# Vendored reveal.js runtime for course slide decks — committed on purpose so the
+# decks run fully offline in the room. Overrides the generic `dist/` rule above.
+!courses/continuous-delivery-101/slides/reveal/dist/
+!courses/continuous-delivery-101/slides/reveal/dist/**

@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CD 101 — Session 1: Why CD &amp; the Minimums</title>
+  <link rel="stylesheet" href="reveal/dist/reveal.css">
+  <link rel="stylesheet" href="theme/cd101.css">
+</head>
+<body>
+<div class="reveal">
+
+  <!-- persistent chrome -->
+  <div class="cd-chip"><span class="mark">CD</span><span>Continuous Delivery 101</span></div>
+  <div class="cd-foot">Session 1 · Why CD &amp; the Minimums</div>
+
+  <div class="slides">
+
+    <!-- ============================================================ 1 · TITLE -->
+    <section class="is-hero"
+      data-background-gradient="linear-gradient(135deg,#16306f 0%,#2b59c3 55%,#0f9d8c 130%)">
+      <div class="hero-wrap">
+        <p class="cd-kicker">RealManage · DX Training</p>
+        <h1>Continuous Delivery <span class="t-teal">101</span></h1>
+        <p class="cd-sub" style="color:rgba(255,255,255,.88)">Session 1 — Why CD &amp; the Minimums</p>
+        <p class="cd-mini" style="color:rgba(255,255,255,.72);margin-top:1.5em">
+          About <em>how</em> we deliver — not which platform we're on.</p>
+      </div>
+      <aside class="notes">
+        Set the frame. By the end they can:
+        (1) explain why big batches are risky,
+        (2) tell Continuous Delivery from Continuous Deployment,
+        (3) recite the minimums and WHY each exists,
+        (4) map our delivery value stream and find its biggest constraint.
+        Tease the one question they'll hold all session — the litmus test on the
+        second-to-last slide. Keep it warm: this is continuous improvement, not a verdict on anyone's stack.
+      </aside>
+    </section>
+
+    <!-- ============================================= 2 · THE ROOTS (factory floor) -->
+    <section data-background-gradient="radial-gradient(900px 520px at 50% 4%, #16223f, #0b0e14 62%)">
+      <h2>Principles with deep roots</h2>
+      <svg class="dia" viewBox="0 0 1000 170" role="img"
+           aria-label="Timeline of the ideas behind continuous delivery — each with its source and authors. 1950s: Lean, from Toyota, by Ohno and Deming. 1984: Theory of Constraints, from the book The Goal, by Goldratt. 1999: Continuous Integration, from Extreme Programming, by Kent Beck. 2010: Continuous Delivery, from ThoughtWorks, by Humble and Farley. 2018: Hard evidence, from DORA and the book Accelerate, by Forsgren, Humble and Kim.">
+        <line x1="80" y1="76" x2="920" y2="76" stroke="#3a4554" stroke-width="2"/>
+        <!-- each node, three fixed tiers: idea (bold) · source · authors -->
+        <g text-anchor="middle">
+          <!-- 1950s -->
+          <text x="110" y="40" fill="#3ed7c4" font-size="19" font-weight="800">1950s</text>
+          <circle cx="110" cy="76" r="8" fill="#3ed7c4"/>
+          <text x="110" y="110" fill="#eef3fa" font-size="14" font-weight="700">Lean</text>
+          <text x="110" y="130" fill="#93a6b8" font-size="11.5">Toyota</text>
+          <text x="110" y="149" fill="#93a6b8" font-size="11.5">Ohno · Deming</text>
+
+          <!-- 1984 -->
+          <text x="305" y="40" fill="#3ed7c4" font-size="19" font-weight="800">1984</text>
+          <circle cx="305" cy="76" r="8" fill="#3ed7c4"/>
+          <text x="305" y="110" fill="#eef3fa" font-size="14" font-weight="700">Theory of Constraints</text>
+          <text x="305" y="130" fill="#93a6b8" font-size="11.5" font-style="italic">The Goal</text>
+          <text x="305" y="149" fill="#93a6b8" font-size="11.5">Goldratt</text>
+
+          <!-- 1999 -->
+          <text x="500" y="40" fill="#3ed7c4" font-size="19" font-weight="800">1999</text>
+          <circle cx="500" cy="76" r="8" fill="#3ed7c4"/>
+          <text x="500" y="110" fill="#eef3fa" font-size="14" font-weight="700">Continuous Integration</text>
+          <text x="500" y="130" fill="#93a6b8" font-size="11.5">Extreme Programming</text>
+          <text x="500" y="149" fill="#93a6b8" font-size="11.5">Beck</text>
+
+          <!-- 2010 — the focus of this course -->
+          <text x="695" y="38" fill="#3ed7c4" font-size="19" font-weight="800">2010</text>
+          <circle cx="695" cy="76" r="17" fill="none" stroke="#3ed7c4" stroke-width="1.5" opacity=".5"/>
+          <circle cx="695" cy="76" r="11" fill="#3ed7c4"/>
+          <text x="695" y="112" fill="#3ed7c4" font-size="14" font-weight="800">Continuous Delivery</text>
+          <text x="695" y="131" fill="#93a6b8" font-size="11.5">ThoughtWorks</text>
+          <text x="695" y="150" fill="#93a6b8" font-size="11.5">Humble · Farley</text>
+
+          <!-- 2018 -->
+          <text x="890" y="40" fill="#3ed7c4" font-size="19" font-weight="800">2018</text>
+          <circle cx="890" cy="76" r="8" fill="#3ed7c4"/>
+          <text x="890" y="110" fill="#eef3fa" font-size="14" font-weight="700">Hard evidence</text>
+          <text x="890" y="130" fill="#93a6b8" font-size="11.5">DORA · <tspan font-style="italic">Accelerate</tspan></text>
+          <text x="890" y="149" fill="#93a6b8" font-size="11.5">Forsgren · Humble · Kim</text>
+        </g>
+      </svg>
+      <div class="fragment fade-up roots-distill">
+        <p class="distill">distills to <b>five principles we live by</b></p>
+        <div class="principles">
+          <span class="prin">Small batches</span>
+          <span class="prin">Fast feedback</span>
+          <span class="prin">Built-in quality</span>
+          <span class="prin">Deploy/release separation</span>
+          <span class="prin">Continuous improvement</span>
+        </div>
+      </div>
+      <aside class="notes">
+        Almost nothing here was invented in software. The values come from Lean manufacturing — the
+        Toyota Production System, refined on factory floors since the 1950s — and the postwar quality
+        movement. Software relearned them the hard way and wrote them down as Continuous Delivery.
+        The sell for the skeptic: CD isn't a fad — it's proven, cross-industry wisdom, validated for
+        decades on factory floors before software ever adopted it.
+        Three beliefs underneath:
+        (1) Undeployed code is INVENTORY, not value — Ohno: inventory is waste; producing big batches to
+        feel efficient is one of the most expensive habits on the floor. Code delivers nothing until it
+        runs for a user.
+        (2) Speed and safety rise TOGETHER, not a trade-off — DORA / Accelerate (2018): the teams that
+        deploy most often also have the lowest change-failure rate. The mindset shift most teams resist.
+        (3) You can't inspect quality in — you BUILD it in — Deming. A separate quality gate at the end is
+        the thing to design out. At RealManage that's literal: no QA team, so the delivering team owns
+        quality and the pipeline is where that becomes automated checks.
+        Each principle traces to a root — small batches (Ohno; Reinertsen), fast feedback (Lean flow),
+        built-in quality (Deming; Toyota jidoka), deploy/release separation (decouple technical risk from
+        business risk — feature flags), continuous improvement (Kaizen; Goldratt's Theory of Constraints).
+        Two factory images to use out loud: the ANDON CORD — any worker stops the line the moment a defect
+        appears = our "stop the line on red"; and GENCHI GENBUTSU, "go and see" — observe the real work
+        where it happens = the value-stream map you'll build today.
+        When a practice seems arbitrary ("why short-lived branches?"), trace it back: practice → principle
+        → belief. Small batches is first on purpose — that's the next two slides.
+      </aside>
+    </section>
+
+    <!-- ================================================= 3 · THE BIG-BATCH TRAP -->
+    <section data-background-color="#0b0e14">
+      <h2>The big-batch trap</h2>
+      <svg class="dia" viewBox="0 0 1000 470" style="max-height:470px" role="img"
+           aria-label="A self-reinforcing loop: deploy rarely, so deploys are large, so large is risky, so we fear deploys and deploy even less.">
+        <defs>
+          <marker id="ar3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="#f08a52"/>
+          </marker>
+        </defs>
+        <!-- faint center loop -->
+        <circle cx="500" cy="238" r="92" fill="none" stroke="#3a2a1e" stroke-width="2" stroke-dasharray="3 9"/>
+        <text x="500" y="234" text-anchor="middle" fill="#f08a52" font-size="13" font-weight="800" letter-spacing=".1em">SELF-</text>
+        <text x="500" y="252" text-anchor="middle" fill="#f08a52" font-size="13" font-weight="800" letter-spacing=".1em">REINFORCING</text>
+        <!-- clockwise arcs in the gaps (r=170 about 500,238) -->
+        <g fill="none" stroke="#f08a52" stroke-width="3">
+          <path d="M 571.8 84 A 170 170 0 0 1 654 166"   marker-end="url(#ar3)"/>
+          <path d="M 654 310 A 170 170 0 0 1 571.8 392"  marker-end="url(#ar3)"/>
+          <path d="M 428.2 392 A 170 170 0 0 1 345.9 310" marker-end="url(#ar3)"/>
+          <path d="M 345.9 166 A 170 170 0 0 1 428.2 84"  marker-end="url(#ar3)"/>
+        </g>
+        <!-- nodes -->
+        <g font-size="17" font-weight="700" text-anchor="middle">
+          <g>
+            <rect x="400" y="52" width="200" height="64" rx="12" fill="#1c1410" stroke="#7a4a2e" stroke-width="2"/>
+            <text x="500" y="90" fill="#f6d2b8">Deploy rarely</text>
+          </g>
+          <g>
+            <rect x="572" y="206" width="200" height="64" rx="12" fill="#1c1410" stroke="#7a4a2e" stroke-width="2"/>
+            <text x="672" y="244" fill="#f6d2b8">Deploys are large</text>
+          </g>
+          <g>
+            <rect x="400" y="360" width="200" height="64" rx="12" fill="#1c1410" stroke="#7a4a2e" stroke-width="2"/>
+            <text x="500" y="398" fill="#f6d2b8">Large is risky</text>
+          </g>
+          <g>
+            <rect x="228" y="206" width="200" height="64" rx="12" fill="#1c1410" stroke="#7a4a2e" stroke-width="2"/>
+            <text x="328" y="244" fill="#f6d2b8">Fear deploys less</text>
+          </g>
+        </g>
+      </svg>
+      <div class="caption"><span class="t-orange" style="font-weight:700">Deploying rarely manufactures risk.</span></div>
+      <aside class="notes">
+        A weekly release isn't one change — it's a WEEK of changes: diagnosis hell (which of 30 broke prod?),
+        all-or-nothing rollback, release-day anxiety.
+        Be fair to the weekly cadence — it gave a predictable window, a comms batching point, a forcing
+        function for "is it ready?". CD must REPLACE each of those, not just delete them.
+        The escape is counterintuitive: deploy MORE often, in SMALLER pieces.
+      </aside>
+    </section>
+
+    <!-- ============================================== 4 · BATCH SIZE = MASTER VARIABLE -->
+    <section data-background-color="#0b0e14">
+      <h2>Batch size is the master variable</h2>
+      <svg class="dia" viewBox="0 0 1000 410" style="max-height:430px" role="img"
+           aria-label="One big boulder — a weekly release — versus a handful of pebbles — many small changes. Shrinking the batch turns risk into a non-event.">
+        <defs>
+          <marker id="ar4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M0 0 L10 5 L0 10 z" fill="#3ed7c4"/>
+          </marker>
+        </defs>
+        <!-- shrink arrow across the top -->
+        <line x1="372" y1="96" x2="628" y2="96" stroke="#3ed7c4" stroke-width="2.5" marker-end="url(#ar4)"/>
+        <text x="500" y="84" text-anchor="middle" fill="#3ed7c4" font-size="15" font-weight="700">shrink the batch</text>
+
+        <!-- LEFT: boulder -->
+        <circle cx="248" cy="250" r="98" fill="#241710" stroke="#f08a52" stroke-width="2.5"/>
+        <path d="M188 214 q60 -28 120 6 M178 264 q70 30 142 -6 M214 318 q40 -18 78 -2"
+              fill="none" stroke="#7a4a2e" stroke-width="2"/>
+        <g text-anchor="middle">
+          <rect x="206" y="120" width="84" height="30" rx="15" fill="rgba(240,138,82,.12)" stroke="#f08a52"/>
+          <text x="248" y="140" fill="#f08a52" font-size="15" font-weight="700">risk</text>
+          <text x="248" y="384" fill="#9fb2c6" font-size="16">one weekly release</text>
+        </g>
+
+        <!-- divider -->
+        <line x1="500" y1="150" x2="500" y2="356" stroke="#2a3340" stroke-width="2" stroke-dasharray="2 8"/>
+
+        <!-- RIGHT: pebbles -->
+        <g fill="#12221f" stroke="#3ed7c4" stroke-width="2">
+          <circle cx="690" cy="208" r="22"/><circle cx="744" cy="232" r="19"/>
+          <circle cx="800" cy="206" r="23"/><circle cx="672" cy="266" r="18"/>
+          <circle cx="726" cy="288" r="21"/><circle cx="788" cy="272" r="20"/>
+          <circle cx="838" cy="250" r="17"/><circle cx="700" cy="320" r="16"/>
+          <circle cx="766" cy="332" r="18"/>
+        </g>
+        <g text-anchor="middle">
+          <rect x="708" y="120" width="116" height="30" rx="15" fill="rgba(62,215,196,.1)" stroke="#3ed7c4"/>
+          <text x="766" y="140" fill="#3ed7c4" font-size="15" font-weight="700">non-event</text>
+          <text x="766" y="384" fill="#9fb2c6" font-size="16">many small changes</text>
+        </g>
+      </svg>
+      <div class="caption">
+        <span>Big batch <span class="t-orange">→ risk</span> · Small batch <span class="t-teal">→ non-event</span></span>
+        <span class="cd-mini">conflicts · reviewability · blast radius · rollback</span>
+      </div>
+      <aside class="notes">
+        Walk 2–3 contrasts max: merge conflicts, reviewability, blast radius / isolation, rollback.
+        If the room is AI-forward, land the AI angle: a human self-limits by friction — 1,200 lines is a
+        day's grind; an agent emits them before lunch. So small batches become a THROTTLE you impose,
+        not a habit you fall into.
+        Evidence: DORA shows frequent small deploys give higher throughput AND stability
+        (survey data — correlational, but strong and replicated year over year).
+        Make it actionable: DORA's official Quick Check (dora.dev/quickcheck) benchmarks your four
+        metrics against this year's industry cohorts in about two minutes — "where do we stand?"
+        Re-run it after adopting these practices; the climb between runs is your improvement made visible.
+      </aside>
+    </section>
+
+    <!-- ===================================== 5 · CD ≠ CONTINUOUS DEPLOYMENT -->
+    <section data-background-color="#0b0e14">
+      <h2>CD <span class="muted" style="font-weight:600">≠</span> Continuous Deployment</h2>
+      <svg class="dia" viewBox="0 0 1000 440" style="max-height:440px" role="img"
+           aria-label="Two pipeline rails. The top rail ends at a human gate before production — Continuous Delivery, our target. The bottom rail runs automatically through to production — Continuous Deployment, optional and later.">
+        <defs>
+          <marker id="ar5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M0 0 L10 5 L0 10 z" fill="#5a6b80"/>
+          </marker>
+        </defs>
+
+        <!-- TOP RAIL — Continuous Delivery -->
+        <text x="30" y="118" fill="#eef3fa" font-size="19" font-weight="800">Continuous Delivery</text>
+        <rect x="30" y="128" width="92" height="26" rx="13" fill="rgba(62,215,196,.1)" stroke="#3ed7c4"/>
+        <text x="76" y="146" text-anchor="middle" fill="#3ed7c4" font-size="13" font-weight="700">our target</text>
+        <text x="250" y="106" fill="#9fb2c6" font-size="13">commit · build · test · stage</text>
+        <line x1="250" y1="148" x2="600" y2="148" stroke="#3ed7c4" stroke-width="3"/>
+        <g fill="#3ed7c4"><circle cx="280" cy="148" r="6"/><circle cx="386" cy="148" r="6"/><circle cx="492" cy="148" r="6"/><circle cx="588" cy="148" r="6"/></g>
+        <line x1="600" y1="148" x2="650" y2="148" stroke="#5a6b80" stroke-width="2.5" marker-end="url(#ar5)"/>
+        <!-- gate: person + barrier -->
+        <circle cx="690" cy="120" r="9" fill="#3ed7c4"/>
+        <path d="M690 130 v20 M690 136 l-13 8 M690 136 l13 8 M690 150 l-11 16 M690 150 l11 16"
+              stroke="#3ed7c4" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <rect x="712" y="120" width="7" height="56" rx="2" fill="#3ed7c4"/>
+        <rect x="712" y="128" width="40" height="8" rx="4" fill="#3ed7c4" opacity=".7"/>
+        <text x="724" y="196" text-anchor="middle" fill="#3ed7c4" font-size="13" font-weight="700">human “go”</text>
+        <line x1="756" y1="148" x2="806" y2="148" stroke="#5a6b80" stroke-width="2.5" marker-end="url(#ar5)"/>
+        <rect x="812" y="122" width="150" height="52" rx="10" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2"/>
+        <text x="887" y="154" text-anchor="middle" fill="#cdeee8" font-size="17" font-weight="800">PROD</text>
+
+        <!-- divider -->
+        <line x1="30" y1="240" x2="962" y2="240" stroke="#1c2632" stroke-width="1.5"/>
+
+        <!-- BOTTOM RAIL — Continuous Deployment -->
+        <text x="30" y="318" fill="#cdd7e3" font-size="19" font-weight="800">Continuous Deployment</text>
+        <rect x="30" y="328" width="116" height="26" rx="13" fill="rgba(116,160,242,.1)" stroke="#74a0f2"/>
+        <text x="88" y="346" text-anchor="middle" fill="#74a0f2" font-size="13" font-weight="700">optional, later</text>
+        <text x="250" y="306" fill="#9fb2c6" font-size="13">commit · build · test · stage</text>
+        <line x1="250" y1="348" x2="700" y2="348" stroke="#74a0f2" stroke-width="3"/>
+        <g fill="#74a0f2"><circle cx="280" cy="348" r="6"/><circle cx="400" cy="348" r="6"/><circle cx="520" cy="348" r="6"/><circle cx="640" cy="348" r="6"/></g>
+        <!-- lightning: auto on green -->
+        <path d="M712 322 l-16 30 h14 l-10 28 28 -34 h-15 z" fill="#f0c451" stroke="#f0c451"/>
+        <text x="712" y="396" text-anchor="middle" fill="#f0c451" font-size="13" font-weight="700">auto on green</text>
+        <line x1="744" y1="348" x2="806" y2="348" stroke="#5a6b80" stroke-width="2.5" marker-end="url(#ar5)"/>
+        <rect x="812" y="322" width="150" height="52" rx="10" fill="#11203b" stroke="#74a0f2" stroke-width="2"/>
+        <text x="887" y="354" text-anchor="middle" fill="#cfe0ff" font-size="17" font-weight="800">PROD</text>
+      </svg>
+      <div class="caption">
+        <span class="t-teal" style="font-weight:700">Delivery = a human decides <em>when</em></span>
+        <span class="muted">Deployment = auto on green</span>
+      </div>
+      <aside class="notes">
+        This confusion derails adoption. Continuous Delivery does NOT mean losing control — you GAIN the
+        ability to deploy on your schedule instead of a weekly window, and releasing a feature to users
+        stays a separate, deliberate call (that's what feature flags are for).
+        Continuous Deployment — every green commit auto-to-prod — is a later, per-service choice once you
+        trust the pipeline. You must reach Delivery first. We target Delivery.
+      </aside>
+    </section>
+
+    <!-- ============================================ 6 · THE MINIMUMS ARE THE FLOOR -->
+    <section data-background-color="#0b0e14">
+      <h2>The minimums are the floor, <span class="muted" style="font-weight:600">not the ceiling</span></h2>
+      <div class="floor">
+        <div class="floor-group">
+          <div class="floor-h"><span class="t-teal">CI</span> — 6 practices</div>
+          <div class="tiles">
+            <span class="tile ci">Trunk-based dev</span>
+            <span class="tile ci">Integrate daily</span>
+            <span class="tile ci">Test before merge</span>
+            <span class="tile ci">Test merged work</span>
+            <span class="tile ci">Stop on red</span>
+            <span class="tile ci">Don't break delivered work</span>
+          </div>
+        </div>
+        <div class="floor-group">
+          <div class="floor-h"><span class="t-indigo">CD</span> — 9 practices</div>
+          <div class="tiles">
+            <span class="tile cd">Use CI</span>
+            <span class="tile cd">Pipeline-only deploys</span>
+            <span class="tile cd">Pipeline verdict is final</span>
+            <span class="tile cd">Meets “deployable”</span>
+            <span class="tile cd">Immutable artifacts</span>
+            <span class="tile cd">Stop on red</span>
+            <span class="tile cd">Prod-like test env</span>
+            <span class="tile cd">Rollback on demand</span>
+            <span class="tile cd">Config ships with artifact</span>
+          </div>
+        </div>
+        <div class="slab"></div>
+      </div>
+      <div class="caption">
+        <span><b class="t-teal">MinimumCD</b> — the floor we meet or we don't · <b>6 CI · 9 CD</b></span>
+        <span class="cd-mini">full list → resources/minimums-reference.md</span>
+      </div>
+      <aside class="notes">
+        Don't read 15 items aloud — let them land as "a floor we either meet or we don't."
+        Puncture the big myth: "we have GitLab CI, so we do CI" — NO. A pipeline tool isn't the discipline;
+        if branches live a week, you have a build server, not CI.
+        These are the FLOOR, not stretch goals. Point them to the full reference for the list and the why.
+      </aside>
+    </section>
+
+    <!-- ================================================= 7 · THE LITMUS TEST -->
+    <section class="is-hero litmus"
+      data-background-gradient="linear-gradient(135deg,#3a2d72 0%,#5b4bbf 60%,#2b59c3 130%)">
+      <div class="litmus-wrap">
+        <svg class="stopwatch" viewBox="0 0 120 130" aria-hidden="true">
+          <line x1="60" y1="6" x2="60" y2="20" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+          <line x1="48" y1="8" x2="72" y2="8" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+          <line x1="98" y1="30" x2="106" y2="22" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="60" cy="74" r="46" fill="none" stroke="#fff" stroke-width="5"/>
+          <line x1="60" y1="74" x2="60" y2="40" stroke="#3ed7c4" stroke-width="5" stroke-linecap="round"/>
+          <line x1="60" y1="74" x2="84" y2="84" stroke="#3ed7c4" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="60" cy="74" r="5" fill="#3ed7c4"/>
+        </svg>
+        <p class="cd-kicker" style="color:rgba(255,255,255,.8)">The litmus test</p>
+        <h2 class="q">Could a change committed <em>now</em><br>reach prod <em>today</em>?</h2>
+        <p class="cd-sub" style="color:rgba(255,255,255,.85)">No re-typed commands. No readiness meeting.</p>
+      </div>
+      <aside class="notes">
+        This is the sentence that reframes the whole course. Most teams answer "no" — and the reasons WHY
+        are their migration backlog, the rest of this course in miniature.
+        Let it sit. Don't answer it for them. They'll carry this question through every session.
+      </aside>
+    </section>
+
+    <!-- ============================================ 8 · MAP YOUR VALUE STREAM -->
+    <section data-background-gradient="radial-gradient(900px 520px at 50% 4%, #16223f, #0b0e14 62%)">
+      <p class="cd-kicker">Now — map <span class="t-teal">your</span> value stream</p>
+      <svg class="dia" viewBox="0 0 1000 360" role="img"
+           aria-label="A value stream from idea to production. Thin work boxes are separated by wide wait gaps; the release window is the biggest wait. Flow efficiency is work divided by total lead time, often near 15 percent.">
+        <!-- lane -->
+        <!-- waits (muted) + big release-window wait (orange) -->
+        <g>
+          <rect x="146" y="160" width="58" height="12" rx="6" fill="#4a5a6e"/>
+          <rect x="294" y="160" width="58" height="12" rx="6" fill="#4a5a6e"/>
+          <rect x="442" y="160" width="48" height="12" rx="6" fill="#4a5a6e"/>
+          <rect x="580" y="158" width="208" height="16" rx="8" fill="#7a4a2e"/>
+          <text x="684" y="122" text-anchor="middle" fill="#f08a52" font-size="14" font-weight="700">release window — the biggest wait</text>
+        </g>
+        <!-- work steps (teal) -->
+        <g text-anchor="middle" font-size="14" font-weight="700">
+          <rect x="62" y="139" width="84" height="54" rx="9" fill="#10211f" stroke="#3ed7c4" stroke-width="2"/>
+          <text x="104" y="171" fill="#cdeee8">Idea</text>
+          <rect x="210" y="139" width="84" height="54" rx="9" fill="#10211f" stroke="#3ed7c4" stroke-width="2"/>
+          <text x="252" y="171" fill="#cdeee8">Code</text>
+          <rect x="358" y="139" width="84" height="54" rx="9" fill="#10211f" stroke="#3ed7c4" stroke-width="2"/>
+          <text x="400" y="171" fill="#cdeee8">Review</text>
+          <rect x="496" y="139" width="84" height="54" rx="9" fill="#10211f" stroke="#3ed7c4" stroke-width="2"/>
+          <text x="538" y="171" fill="#cdeee8">Merge</text>
+          <rect x="788" y="139" width="84" height="54" rx="9" fill="#10211f" stroke="#3ed7c4" stroke-width="2"/>
+          <text x="830" y="171" fill="#cdeee8">Deploy</text>
+        </g>
+        <!-- prod flag -->
+        <g>
+          <line x1="906" y1="128" x2="906" y2="204" stroke="#3ed7c4" stroke-width="3" stroke-linecap="round"/>
+          <path d="M906 132 h40 l-10 12 l10 12 h-40 z" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2"/>
+          <text x="922" y="224" text-anchor="middle" fill="#cdeee8" font-size="14" font-weight="700">Prod</text>
+        </g>
+        <!-- lead-time bracket -->
+        <path d="M62 250 v12 H906 v-12" fill="none" stroke="#5a6b80" stroke-width="2"/>
+        <text x="300" y="296" fill="#9fb2c6" font-size="15">lead time</text>
+        <text x="470" y="296" fill="#eef3fa" font-size="15" font-weight="700">flow efficiency = work / (work + wait)</text>
+        <text x="888" y="296" fill="#f08a52" font-size="17" font-weight="800" text-anchor="end">≈ 15%</text>
+      </svg>
+      <div class="caption">
+        <span><b>Map idea → prod</b> · process vs wait vs %C/A · <b class="t-teal">name your #1 constraint</b></span>
+        <span class="pill teal">Your turn →</span>
+      </div>
+      <aside class="notes">
+        Transition to the workshop — slides stop, hands-on starts.
+        For every step capture three numbers: process time, wait time, %C/A (percent complete &amp; accurate).
+        Then derive lead time and flow efficiency.
+        Most teams are shocked how low flow efficiency is — the worked example lands near 15%.
+        The biggest wait is almost always the release window, not slow typing — confirm it from YOUR numbers.
+        Homework: back the map with the current-state assessment (real numbers + minimums score),
+        read the minimums reference, and bring one backlog feature for Session 2.
+      </aside>
+    </section>
+
+  </div>
+</div>
+
+<script src="reveal/dist/reveal.js"></script>
+<script src="reveal/plugin/notes/notes.js"></script>
+<script>
+  Reveal.initialize({
+    width: 1280,
+    height: 720,
+    margin: 0.045,
+    minScale: 0.2,
+    maxScale: 2.0,
+    center: true,
+    hash: true,
+    controls: true,
+    progress: true,
+    slideNumber: 'c/t',
+    transition: 'fade',
+    transitionSpeed: 'default',
+    plugins: [ RevealNotes ],
+  });
+</script>
+</body>
+</html>

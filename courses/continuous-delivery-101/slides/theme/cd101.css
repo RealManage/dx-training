@@ -1,0 +1,223 @@
+/* =============================================================================
+   CD 101 — reveal.js theme
+   Palette, type, and chrome lifted from the course site (site/lib/render.mjs,
+   indigo theme, dark mode) so the deck reads as part of the course.
+
+   Loaded after reveal.css. Provides the theme layer reveal.css omits (colors,
+   fonts, headings, controls) plus deck chrome (brand chip, footer) and the
+   shared styling primitives the inline-SVG diagrams reference.
+   ========================================================================== */
+
+:root {
+  /* --- course palette (indigo theme, dark surface) --- */
+  --cd-bg:      #0b0e14;   /* deep surface for diagram slides            */
+  --cd-panel:   rgba(255, 255, 255, .045);
+  --cd-line:    rgba(255, 255, 255, .14);
+  --cd-ink:     #eef3fa;   /* primary text on dark                       */
+  --cd-muted:   #9fb2c6;   /* secondary text on dark                     */
+
+  --cd-indigo:  #74a0f2;   /* brand, bright-on-dark                      */
+  --cd-indigo-d:#a9c4f7;
+  --cd-teal:    #3ed7c4;   /* accent — "CD / good"                       */
+  --cd-teal-d:  #5fe3d2;
+  --cd-orange:  #f08a52;   /* warn — "big batch / risk"                  */
+  --cd-orange-d:#f4a878;
+
+  /* raw brand inks (for gradients / chips) */
+  --cd-indigo-deep: #16306f;
+  --cd-indigo-mid:  #2b59c3;
+  --cd-indigo-dk:   #1d3f93;
+  --cd-teal-raw:    #0f9d8c;
+
+  /* full-bleed gradients (mirror the course hero gradients) */
+  --cd-hero:        linear-gradient(135deg, #16306f 0%, #2b59c3 55%, #0f9d8c 130%);
+  --cd-hero-violet: linear-gradient(135deg, #3a2d72 0%, #5b4bbf 60%, #2b59c3 130%);
+
+  /* fonts — the course's system stacks */
+  --cd-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --cd-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  /* --- reveal.js theme variables --- */
+  --r-background-color: var(--cd-bg);
+  --r-main-font: var(--cd-sans);
+  --r-main-font-size: 30px;
+  --r-main-color: var(--cd-ink);
+  --r-block-margin: 18px;
+  --r-heading-font: var(--cd-sans);
+  --r-heading-color: var(--cd-ink);
+  --r-heading-line-height: 1.12;
+  --r-heading-letter-spacing: -0.015em;
+  --r-heading-text-transform: none;
+  --r-heading-font-weight: 800;
+  --r-heading1-text-size: 2.5em;
+  --r-heading2-text-size: 1.7em;
+  --r-heading3-text-size: 1.25em;
+  --r-heading4-text-size: 1em;
+  --r-code-font: var(--cd-mono);
+  --r-link-color: var(--cd-teal);
+  --r-link-color-hover: var(--cd-teal-d);
+  --r-link-color-dark: var(--cd-teal-raw);
+  --r-selection-background-color: rgba(62, 215, 196, .3);
+  --r-selection-color: #fff;
+  --r-overlay-element-bg-color: 240, 240, 240;
+  --r-overlay-element-fg-color: 28, 28, 28;
+}
+
+/* ----- base ----------------------------------------------------------------- */
+.reveal {
+  font-family: var(--cd-sans);
+  font-size: var(--r-main-font-size);
+  color: var(--cd-ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+.reveal .slides { text-align: left; }
+.reveal .slides section { line-height: 1.45; }
+
+.reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+  color: var(--cd-ink);
+  font-weight: var(--r-heading-font-weight);
+  line-height: var(--r-heading-line-height);
+  letter-spacing: var(--r-heading-letter-spacing);
+  text-shadow: none;
+  text-wrap: balance;
+  margin: 0 0 .35em;
+}
+.reveal h1 { font-size: var(--r-heading1-text-size); }
+.reveal h2 { font-size: var(--r-heading2-text-size); }
+.reveal h3 { font-size: var(--r-heading3-text-size); }
+.reveal p { margin: 0 0 .6em; }
+.reveal strong { color: #fff; font-weight: 800; }
+.reveal em { font-style: normal; color: var(--cd-teal); font-weight: 700; }
+
+/* on the gradient (hero) slides, soften the secondary text to translucent white */
+.reveal section.is-hero .muted,
+.reveal section.is-hero .cd-kicker { color: rgba(255, 255, 255, .82); }
+.reveal section.is-hero em { color: var(--cd-teal-d); }
+
+/* ----- text utilities ------------------------------------------------------- */
+.cd-kicker {
+  font-size: .62em; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--cd-indigo); margin: 0 0 .9em;
+}
+.cd-lead   { font-size: 1.18em; color: var(--cd-ink); max-width: 22ch; }
+.cd-sub    { font-size: 1.05em; color: var(--cd-muted); font-weight: 500; }
+.cd-mini   { font-size: .72em; color: var(--cd-muted); }
+.muted     { color: var(--cd-muted); }
+.t-teal    { color: var(--cd-teal); }
+.t-orange  { color: var(--cd-orange); }
+.t-indigo  { color: var(--cd-indigo); }
+.nowrap    { white-space: nowrap; }
+.center    { text-align: center; }
+
+/* a small accent rule under a kicker/title */
+.cd-rule { width: 64px; height: 4px; border-radius: 3px; margin: 0 0 1em;
+  background: linear-gradient(90deg, var(--cd-indigo), var(--cd-teal)); }
+
+/* ----- deck chrome: brand chip + footer ------------------------------------- */
+.cd-chip {
+  position: absolute; top: 26px; left: 34px; z-index: 5;
+  display: inline-flex; align-items: center; gap: 9px;
+  font-size: 15px; font-weight: 700; color: rgba(255, 255, 255, .9);
+}
+.cd-chip .mark {
+  display: grid; place-items: center; min-width: 30px; height: 30px; padding: 0 8px;
+  border-radius: 8px; color: #fff; font-size: 12px; font-weight: 800; letter-spacing: .03em;
+  background: linear-gradient(135deg, var(--cd-indigo-dk), var(--cd-teal-raw));
+}
+.reveal .cd-foot {
+  position: fixed; bottom: 18px; left: 34px; z-index: 5;
+  font-size: 13px; letter-spacing: .02em; color: var(--cd-muted);
+}
+/* keep chrome legible on the bright gradient slides */
+.reveal .backgrounds .slide-background.is-hero ~ * { }
+
+/* ----- pills / chips inline ------------------------------------------------- */
+.pill {
+  display: inline-block; padding: .28em .7em; border-radius: 999px;
+  font-size: .8em; font-weight: 700; border: 1px solid var(--cd-line);
+  background: var(--cd-panel); color: var(--cd-ink);
+}
+.pill.teal   { color: var(--cd-teal);   border-color: rgba(62, 215, 196, .4);  background: rgba(62, 215, 196, .08); }
+.pill.orange { color: var(--cd-orange); border-color: rgba(240, 138, 82, .4);  background: rgba(240, 138, 82, .08); }
+.pill.indigo { color: var(--cd-indigo); border-color: rgba(116, 160, 242, .4); background: rgba(116, 160, 242, .08); }
+
+/* ----- layout helpers ------------------------------------------------------- */
+.stack   { display: flex; flex-direction: column; }
+.stack.gap-s > * + * { margin-top: .5em; }
+.stack.gap-m > * + * { margin-top: 1em; }
+.fill    { width: 100%; }
+.dia     { display: block; width: 100%; height: auto; }          /* inline svg */
+.dia text { font-family: var(--cd-sans); }
+
+/* a centered, width-capped content column for hero/title slides */
+.hero-wrap { max-width: 920px; }
+
+/* ----- slide 2: roots timeline + the four principles ----------------------- */
+.reveal .roots-distill { margin-top: .2em; }
+.distill {
+  text-align: center; color: var(--cd-muted); font-size: .82em; margin: 0 0 .7em;
+}
+.distill::before {
+  content: "↓"; display: block; color: var(--cd-teal);
+  font-size: 1.5em; line-height: 1; margin-bottom: .15em;
+}
+.distill b { color: var(--cd-teal); font-weight: 800; }
+.principles { display: flex; justify-content: center; flex-wrap: wrap; gap: 11px; }
+.prin {
+  font-size: .62em; font-weight: 700; color: var(--cd-ink);
+  padding: .62em .95em; border-radius: 11px;
+  background: var(--cd-panel); border: 1px solid var(--cd-line);
+  border-top: 3px solid var(--cd-teal);
+}
+
+/* caption strip beneath a diagram */
+.caption {
+  display: flex; gap: 1.4em; flex-wrap: wrap; align-items: baseline;
+  font-size: .82em; color: var(--cd-muted); margin-top: .4em;
+}
+.caption b { color: var(--cd-ink); font-weight: 700; }
+
+/* ----- reveal controls / progress tinting ---------------------------------- */
+.reveal .controls { color: var(--cd-indigo); }
+.reveal .progress { color: var(--cd-teal); height: 4px; }
+.reveal .slide-number {
+  background: transparent; color: var(--cd-muted); font-family: var(--cd-mono); font-size: 13px;
+}
+
+/* ----- diagram sizing: cap width so tall diagrams fit 720h ----------------- */
+.reveal .dia { max-width: 1040px; margin-left: auto; margin-right: auto; }
+
+/* ----- slide 1: hero title ------------------------------------------------- */
+.reveal section.is-hero h1 { font-size: 3em; line-height: 1.06; margin-bottom: .12em; }
+
+/* ----- slide 6: the floor of practices ------------------------------------- */
+.floor { position: relative; max-width: 1080px; padding-bottom: 4px; }
+.floor-group { margin-bottom: 16px; }
+.floor-h { font-size: .8em; font-weight: 700; color: var(--cd-muted); margin: 0 0 .5em; }
+.tiles { display: flex; flex-wrap: wrap; gap: 10px; }
+.tile {
+  font-size: .62em; font-weight: 600; line-height: 1.2; color: var(--cd-ink);
+  padding: .55em .8em; border-radius: 9px;
+  background: var(--cd-panel); border: 1px solid var(--cd-line); border-bottom-width: 3px;
+}
+.tile.ci { border-bottom-color: var(--cd-teal); }
+.tile.cd { border-bottom-color: var(--cd-indigo); }
+.slab {
+  height: 16px; border-radius: 6px; margin-top: 8px;
+  background: linear-gradient(180deg, #243042, #161b22);
+  border-top: 2px solid rgba(255, 255, 255, .16);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, .45);
+}
+
+/* ----- slide 7: the litmus test (airy, centered) --------------------------- */
+.litmus { text-align: center; }
+.litmus-wrap { max-width: 780px; margin: 0 auto; }
+.litmus .stopwatch { width: 92px; height: auto; display: block; margin: 0 auto 1.1em; }
+.litmus .cd-kicker { margin-bottom: .7em; }
+.reveal .litmus .q { font-size: 2em; line-height: 1.14; margin: 0 0 .55em; }
+
+/* ----- print / PDF: keep gradients and fills ------------------------------- */
+@media print {
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+}
