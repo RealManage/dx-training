@@ -4,6 +4,8 @@
 **Format:** Interactive workshop
 **Prerequisites:** Git familiarity; you deploy *something* today, however painfully
 
+> 🖥️ **Presenting?** Open the [Session 1 slide deck](../../slides/session-1.html) — press `S` for speaker notes. The deck is built from [`slides/session-1-outline.md`](../../slides/session-1-outline.md).
+
 ## 🎯 Learning Objectives
 
 By the end of this session, participants will be able to:

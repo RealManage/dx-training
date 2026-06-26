@@ -7,6 +7,7 @@
   "level": "Intermediate",
   "duration": "3 sessions (2h each)",
   "extLink": { "href": "https://minimumcd.org", "label": "Built on MinimumCD" },
+  "static": ["slides"],
   "nav": [
     { "path": "README.md", "label": "Course Overview" },
     {

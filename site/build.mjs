@@ -126,6 +126,21 @@ function walkPublishable(courseDir, relDir, excluded, acc) {
   return acc;
 }
 
+// Recursively collect ALL files under a course subdir, for verbatim static copy
+// (slide decks etc.) — unlike walkPublishable, it keeps .html/.css/.js as-is.
+function walkAllFiles(courseDir, relDir, acc) {
+  for (const e of entries(path.join(courseDir, relDir))) {
+    const rel = relDir ? `${relDir}/${e.name}` : e.name;
+    if (e.isDir) {
+      if (HARD_IGNORE_DIRS.has(e.name)) continue;
+      walkAllFiles(courseDir, rel, acc);
+    } else if (!HARD_IGNORE_FILES.has(e.name)) {
+      acc.push(rel);
+    }
+  }
+  return acc;
+}
+
 const naturalCmp = (a, b) =>
   a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" });
 
@@ -302,7 +317,7 @@ function buildCourseModel(slug) {
     return best;
   };
 
-  return { slug, config, courseDir, published, synth, sidebar, linear, linearSet, nearestAncestor, labelText };
+  return { slug, config, courseDir, published, synth, sidebar, linear, linearSet, nearestAncestor, labelText, staticDirs: config.static || [] };
 }
 
 // ============================================================================
@@ -311,7 +326,7 @@ function buildCourseModel(slug) {
 const warnings = [];
 
 function renderCourse(model, coursesBySlug) {
-  const { slug, config, courseDir, published, synth, sidebar, linear, linearSet, nearestAncestor, labelText } = model;
+  const { slug, config, courseDir, published, synth, sidebar, linear, linearSet, nearestAncestor, labelText, staticDirs } = model;
   const courseTitle = config.title;
   const brandMark = config.mark || "•";
   const short = config.short || config.mark || courseTitle;
@@ -338,6 +353,9 @@ function renderCourse(model, coursesBySlug) {
     if (!target.startsWith("..")) {
       const out = resolveLocal(target);
       if (out) return relHref(outRel, out) + frag;
+      // verbatim static passthrough (e.g. slide decks): copied as-is at their course path
+      if (staticDirs.some((d) => target === d || target.startsWith(d + "/")))
+        return relHref(outRel, target) + frag;
       warnings.push(`${slug}/${srcRel} → ${href} (not published)`);
       return rawPath + frag;
     }
@@ -549,8 +567,19 @@ function renderCourse(model, coursesBySlug) {
     nSynth++;
   }
 
-  console.log(`  ${slug}: ${nPages} pages, ${nCode} code views, ${nSynth} folder indexes, ${nAssets} assets`);
-  return { slug, nPages, nCode, nSynth, nAssets };
+  // verbatim static passthrough — copy declared dirs (e.g. slides/) byte-for-byte
+  let nStatic = 0;
+  for (const dir of staticDirs) {
+    for (const rel of walkAllFiles(courseDir, dir, [])) {
+      const outAbs = path.join(OUT_DIR, slug, rel);
+      mkdirSync(path.dirname(outAbs), { recursive: true });
+      copyFileSync(path.join(courseDir, rel), outAbs);
+      nStatic++;
+    }
+  }
+
+  console.log(`  ${slug}: ${nPages} pages, ${nCode} code views, ${nSynth} folder indexes, ${nAssets} assets, ${nStatic} static`);
+  return { slug, nPages, nCode, nSynth, nAssets, nStatic };
 }
 
 // ============================================================================
