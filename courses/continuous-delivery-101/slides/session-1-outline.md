@@ -77,12 +77,13 @@ on-slide text, it's doing too much — push it into *Say* or split it.
 ## Slide 4 — Batch size is the master variable
 
 - **Message:** Almost every CD benefit traces back to one lever: shrink the batch.
-- **Visual:** A single strong contrast image — one boulder vs a handful of pebbles, or a
-  balance scale tipping. If you want the comparison, two columns of *icons* (review /
-  magnifying glass / rollback / alarm) for big-batch vs small-batch — icons, not the
-  full table.
-- **On-slide text:** "Batch size = the master variable" · "Big batch ⟶ risk · Small
-  batch ⟶ non-event"
+- **Visual:** Two side-by-side panels, one per hand-off, each a "shrink the batch"
+  contrast. Left — *integration batch* (branch → trunk): a tall diff/review page shrinks
+  to a stack of small reviews — same work, many small commits (review size; conflicts on
+  overlap). Right — *deploy batch* (trunk → prod): a boulder shrinks to pebbles
+  (isolation · rollback · release). A dashed divider marks the two categories.
+- **On-slide text:** "Batch size is the master variable" · "One lever, two hand-offs —
+  shrink the batch at both"
 - **Say:** "Batch" lives at two independent hand-offs — don't conflate them. *Integration
   batch* (branch → trunk) drives review size; conflicts only follow *if* work overlaps a
   moving trunk, so a team can rarely see conflicts yet still drown in oversized reviews.

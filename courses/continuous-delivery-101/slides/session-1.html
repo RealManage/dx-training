@@ -172,47 +172,76 @@
     <!-- ============================================== 4 · BATCH SIZE = MASTER VARIABLE -->
     <section data-background-color="#0b0e14">
       <h2>Batch size is the master variable</h2>
-      <svg class="dia" viewBox="0 0 1000 410" style="max-height:430px" role="img"
-           aria-label="One big boulder — a weekly release — versus a handful of pebbles — many small changes. Shrinking the batch turns risk into a non-event.">
+      <svg class="dia" viewBox="0 0 1000 430" style="max-height:430px" role="img"
+           aria-label="Batch size matters at two hand-offs, side by side. Left — the integration batch (branch to trunk): a large code review shrinks to a small one, driving review size and (on overlap) conflicts. Right — the deploy batch (trunk to prod): one big release shrinks to many small ones, driving failure isolation, rollback blast radius, and release risk.">
         <defs>
           <marker id="ar4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
             <path d="M0 0 L10 5 L0 10 z" fill="#3ed7c4"/>
           </marker>
         </defs>
-        <!-- shrink arrow across the top -->
-        <line x1="372" y1="96" x2="628" y2="96" stroke="#3ed7c4" stroke-width="2.5" marker-end="url(#ar4)"/>
-        <text x="500" y="84" text-anchor="middle" fill="#3ed7c4" font-size="15" font-weight="700">shrink the batch</text>
 
-        <!-- LEFT: boulder -->
-        <circle cx="248" cy="250" r="98" fill="#241710" stroke="#f08a52" stroke-width="2.5"/>
-        <path d="M188 214 q60 -28 120 6 M178 264 q70 30 142 -6 M214 318 q40 -18 78 -2"
+        <!-- divider between the two hand-offs -->
+        <line x1="500" y1="58" x2="500" y2="382" stroke="#2a3340" stroke-width="2" stroke-dasharray="2 8"/>
+
+        <!-- ============ LEFT PANEL · INTEGRATION (branch -> trunk) ============ -->
+        <g text-anchor="middle">
+          <text x="250" y="42" fill="#eef3fa" font-size="20" font-weight="800">Integration batch</text>
+          <text x="250" y="66" fill="#9fb2c6" font-size="14">branch → trunk</text>
+        </g>
+        <!-- big review: a tall diff page (orange) -->
+        <rect x="72" y="128" width="140" height="164" rx="8" fill="#1a120b" stroke="#f08a52" stroke-width="2"/>
+        <g fill="#f08a52">
+          <rect x="88" y="148" width="104" height="6" rx="3"/>
+          <rect x="88" y="164" width="88"  height="6" rx="3"/>
+          <rect x="88" y="180" width="112" height="6" rx="3"/>
+          <rect x="88" y="196" width="80"  height="6" rx="3"/>
+          <rect x="88" y="212" width="100" height="6" rx="3"/>
+          <rect x="88" y="228" width="90"  height="6" rx="3"/>
+          <rect x="88" y="244" width="108" height="6" rx="3"/>
+          <rect x="88" y="260" width="84"  height="6" rx="3"/>
+          <rect x="88" y="276" width="96"  height="6" rx="3"/>
+        </g>
+        <text x="142" y="314" text-anchor="middle" fill="#f08a52" font-size="14" font-weight="700">~1,200 lines</text>
+        <!-- shrink arrow -->
+        <line x1="230" y1="206" x2="300" y2="206" stroke="#3ed7c4" stroke-width="2.5" marker-end="url(#ar4)"/>
+        <text x="265" y="194" text-anchor="middle" fill="#3ed7c4" font-size="12" font-weight="700">shrink</text>
+        <!-- small reviews: a stack of small diff pages — same work, many small commits (teal) -->
+        <rect x="316" y="150" width="72" height="46" rx="6" fill="#0a1f1c" stroke="#3ed7c4" stroke-width="1.8"/>
+        <rect x="334" y="168" width="72" height="46" rx="6" fill="#0a1f1c" stroke="#3ed7c4" stroke-width="1.8"/>
+        <rect x="352" y="186" width="72" height="46" rx="6" fill="#0a1f1c" stroke="#3ed7c4" stroke-width="1.8"/>
+        <rect x="370" y="204" width="72" height="46" rx="6" fill="#0a1f1c" stroke="#3ed7c4" stroke-width="1.8"/>
+        <g fill="#3ed7c4">
+          <rect x="382" y="220" width="46" height="5" rx="2.5"/>
+          <rect x="382" y="232" width="34" height="5" rx="2.5"/>
+        </g>
+        <text x="379" y="282" text-anchor="middle" fill="#3ed7c4" font-size="14" font-weight="700">~40 lines each</text>
+        <text x="250" y="406" text-anchor="middle" fill="#9fb2c6" font-size="14">review size <tspan fill="#7d8fa1" font-style="italic">· conflicts on overlap</tspan></text>
+
+        <!-- ============ RIGHT PANEL · DEPLOY (trunk -> prod) ============ -->
+        <g text-anchor="middle">
+          <text x="750" y="42" fill="#eef3fa" font-size="20" font-weight="800">Deploy batch</text>
+          <text x="750" y="66" fill="#9fb2c6" font-size="14">trunk → prod</text>
+        </g>
+        <!-- big deploy: boulder (orange) -->
+        <circle cx="628" cy="206" r="64" fill="#241710" stroke="#f08a52" stroke-width="2.5"/>
+        <path d="M590 188 q38 -14 76 4 M584 216 q44 16 88 -2 M604 240 q24 -10 48 0"
               fill="none" stroke="#7a4a2e" stroke-width="2"/>
-        <g text-anchor="middle">
-          <rect x="206" y="120" width="84" height="30" rx="15" fill="rgba(240,138,82,.12)" stroke="#f08a52"/>
-          <text x="248" y="140" fill="#f08a52" font-size="15" font-weight="700">risk</text>
-          <text x="248" y="384" fill="#9fb2c6" font-size="16">one weekly release</text>
-        </g>
-
-        <!-- divider -->
-        <line x1="500" y1="150" x2="500" y2="356" stroke="#2a3340" stroke-width="2" stroke-dasharray="2 8"/>
-
-        <!-- RIGHT: pebbles -->
+        <text x="628" y="300" text-anchor="middle" fill="#f08a52" font-size="14" font-weight="700">one big release</text>
+        <!-- shrink arrow -->
+        <line x1="702" y1="206" x2="772" y2="206" stroke="#3ed7c4" stroke-width="2.5" marker-end="url(#ar4)"/>
+        <text x="737" y="194" text-anchor="middle" fill="#3ed7c4" font-size="12" font-weight="700">shrink</text>
+        <!-- small deploys: pebbles (teal) -->
         <g fill="#12221f" stroke="#3ed7c4" stroke-width="2">
-          <circle cx="690" cy="208" r="22"/><circle cx="744" cy="232" r="19"/>
-          <circle cx="800" cy="206" r="23"/><circle cx="672" cy="266" r="18"/>
-          <circle cx="726" cy="288" r="21"/><circle cx="788" cy="272" r="20"/>
-          <circle cx="838" cy="250" r="17"/><circle cx="700" cy="320" r="16"/>
-          <circle cx="766" cy="332" r="18"/>
+          <circle cx="818" cy="192" r="15"/><circle cx="860" cy="178" r="13"/>
+          <circle cx="902" cy="198" r="16"/><circle cx="834" cy="226" r="12"/>
+          <circle cx="876" cy="222" r="14"/><circle cx="916" cy="234" r="12"/>
+          <circle cx="852" cy="252" r="11"/>
         </g>
-        <g text-anchor="middle">
-          <rect x="708" y="120" width="116" height="30" rx="15" fill="rgba(62,215,196,.1)" stroke="#3ed7c4"/>
-          <text x="766" y="140" fill="#3ed7c4" font-size="15" font-weight="700">non-event</text>
-          <text x="766" y="384" fill="#9fb2c6" font-size="16">many small changes</text>
-        </g>
+        <text x="864" y="300" text-anchor="middle" fill="#3ed7c4" font-size="14" font-weight="700">many small</text>
+        <text x="750" y="406" text-anchor="middle" fill="#9fb2c6" font-size="14">isolation · rollback · release</text>
       </svg>
       <div class="caption">
-        <span>Big batch <span class="t-orange">→ risk</span> · Small batch <span class="t-teal">→ non-event</span></span>
-        <span class="cd-mini">review size · isolation · blast radius · release</span>
+        <span>One lever, two hand-offs — <span class="t-teal" style="font-weight:700">shrink the batch at both</span></span>
       </div>
       <aside class="notes">
         Batch size shows up at TWO independent hand-offs — don't conflate them. INTEGRATION batch
