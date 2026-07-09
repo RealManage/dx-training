@@ -427,22 +427,26 @@
       </svg>
       <div class="stickies">
         <span class="stik">Default <b>OFF</b> — the flag's absence is safe</span>
-        <span class="stik">Config <b>travels with the deploy</b></span>
+        <span class="stik"><b>Config, not code</b> — per environment, never per branch</span>
         <span class="stik">Flags are <b>temporary</b> — owner + expiry + stale-flag CI check</span>
       </div>
       <p style="margin:0"><span class="to-editor"><span class="arrow">→</span> examples/feature-flag.ts</span></p>
       <aside class="notes">
         Frame first, then open the file. Three discipline points to land at the editor:
         (1) DEFAULT OFF — the flag's absence or misconfiguration must be safe (DEFAULTS are all false).
-        (2) flag state is ENVIRONMENT CONFIG, read from env vars via configuration/{env}.config — it
-        travels with the deploy, never hard-coded per branch (this keeps config-with-the-artifact, a CD
-        minimum).
+        (2) flag state is CONFIG, NOT CODE — externalized and keyed to ENVIRONMENT, never hard-coded per
+        branch. Because the value is config (not baked into the immutable artifact), the SAME bytes can run
+        flag-ON in qa and flag-OFF in prod — which is exactly what lets you TEST IN QA WHILE THE CHANGE IS
+        ALREADY DEPLOYED DARK TO PROD, then flip prod to release. Per-branch variation is the anti-pattern
+        TBD kills; per-environment variation is the reward (config-with-the-artifact + immutable artifacts,
+        both CD minimums).
         (3) flags are TEMPORARY scaffolding — give each an owner, a creation date, and a removal condition
         in a flag inventory, add a CI STALE-FLAG CHECK that fails when one outlives its expiry, and make
         "delete the flag" the LAST planned slice of the feature.
-        Show recordViolation returning 501 while dark. Close with graduating to AWS AppConfig / LaunchDarkly
-        when you need runtime flips without a deploy, per-cohort targeting, or an audit trail — the
-        isEnabled(...) API stays the same; only loadFeatureFlags changes.
+        Show recordViolation returning 501 while dark. Close with graduating to AWS AppConfig / LaunchDarkly:
+        in the simple env-var pattern flipping prod is a config-only redeploy, whereas a managed store flips
+        at runtime with no deploy — reach for it when you need that, per-cohort targeting, or an audit trail.
+        The isEnabled(...) API stays the same; only loadFeatureFlags changes.
       </aside>
     </section>
 

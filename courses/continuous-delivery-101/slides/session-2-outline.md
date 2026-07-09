@@ -227,16 +227,23 @@ Connect is the open and the workshop / wrap-up is the close, so they aren't part
   /violations` → an `isEnabled("violations.record")` check that forks two ways — **OFF ▶
   `501` Not Implemented** (dashed/muted: *dark — shipped, not released*) and **ON ▶ `201`
   Created** (teal: *live — the flag is flipped on*). Below it, three discipline chips —
-  *default OFF (absence is safe) · config travels with the deploy · flags are temporary* —
+  *default OFF (absence is safe) · config not code (per environment, never per branch) ·
+  flags are temporary* —
   and a "→ `feature-flag.ts`" call-to-editor. Then switch to the actual file. The diagram
-  carries the deploy-dark / `501` point, so there is **no caption**.
+  carries the deploy-dark / `501` point, so there is **no caption**. (Rendered as three
+  **sticky notes** below the diagram to read apart from it — see the deck.)
 - **On-slide text:** the gate (OFF ▶ `501` dark / ON ▶ `201` live) · "default off · config
-  with the deploy · temporary" · "`feature-flag.ts` →"
+  not code · temporary" · "`feature-flag.ts` →"
 - **Say:** Frame first, then open the file. Three discipline points to land at the editor:
   (1) **default OFF** — the flag's absence or misconfiguration must be safe (`DEFAULTS`
-  are all `false`); (2) flag state is **environment config**, read from env vars via
-  `configuration/{env}.config` — it travels with the deploy, never hard-coded per branch
-  (this keeps config-with-the-artifact, a CD minimum); (3) flags are **temporary**
+  are all `false`); (2) flag state is **config, not code** — externalized and keyed to
+  *environment*, never hard-coded per *branch*. Because the value is config, not baked into
+  the immutable artifact, the same bytes run flag-ON in qa and flag-OFF in prod — which is
+  what lets you *test in qa while the change is already deployed dark to prod*, then flip
+  prod to release (config-with-the-artifact + immutable artifacts, both CD minimums). How
+  the flip lands depends on mechanism: the simple env-var pattern makes it a config-only
+  redeploy of prod; a managed store (AppConfig / LaunchDarkly) flips at runtime, no deploy;
+  (3) flags are **temporary**
   scaffolding — give each an owner, a creation date, and a removal condition in a flag
   inventory, add a CI **stale-flag check** that fails when one outlives its expiry, and
   make "delete the flag" the *last planned slice* of the feature. Show `recordViolation`
