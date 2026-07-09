@@ -25,7 +25,7 @@ Trunk-based development is the source-control model the rest of CD is built on, 
 1. **All changes integrate into the trunk.** One shared line of development — no parallel long-lived lines.
 2. **Branches, if used, are short-lived.** They originate from trunk, reintegrate to trunk, and live **less than a day**.
 
-> **Healthy signal:** fewer than three active branches at a time; branches measured in hours, not days; no code-freeze or "stabilization" periods.
+> **Healthy signal:** branches measured in hours, not days; no code-freeze or "stabilization" periods; and few branches open at once. That last one is a *symptom* that scales with team size (a small team lands under three) — the real targets are short branch **lifetime** (< 1 day) and low work-in-progress (about one in-flight change per person); the branch count follows.
 
 ### The two workflows
 

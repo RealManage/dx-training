@@ -49,7 +49,7 @@ Two acceptable workflows:
 1. **Commit directly to trunk** — viable with strong tests and tight review discipline.
 2. **Very short-lived branches** — branch from `main`, open a small MR, merge back within a day, delete the branch.
 
-Healthy signals: fewer than ~3 active branches at once; branch age in *hours*; no "code freeze" or "stabilization" periods.
+Healthy signals: branch age in *hours*, not days; no "code freeze" or "stabilization" periods; and few branches open at once. That last one is a *symptom*, not a target — it scales with team size (a small team lands under ~3), because the real invariants are short branch **lifetime** (< 1 day) and low work-in-progress (roughly one in-flight change per person). Chase lifetime and WIP; the branch count follows.
 
 #### 2.3 RealManage flavor (5 minutes)
 

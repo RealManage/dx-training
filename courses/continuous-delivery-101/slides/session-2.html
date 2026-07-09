@@ -1,0 +1,730 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CD 101 — Session 2: Trunk-Based Development &amp; CI</title>
+  <link rel="stylesheet" href="reveal/dist/reveal.css">
+  <link rel="stylesheet" href="theme/cd101.css">
+</head>
+<body>
+<div class="reveal">
+
+  <!-- persistent chrome -->
+  <div class="cd-chip"><span class="mark">CD</span><span>Continuous Delivery 101</span></div>
+  <div class="cd-foot">Session 2 · Trunk-Based Development &amp; CI</div>
+
+  <div class="slides">
+
+    <!-- ============================================================ 1 · TITLE -->
+    <section class="is-hero"
+      data-background-gradient="linear-gradient(135deg,#16306f 0%,#2b59c3 55%,#0f9d8c 130%)">
+      <div class="hero-wrap">
+        <p class="cd-kicker">RealManage · DX Training</p>
+        <h1>Continuous Delivery <span class="t-teal">101</span></h1>
+        <p class="cd-sub" style="color:rgba(255,255,255,.88)">Session 2 — Trunk-Based Development &amp; CI</p>
+        <p class="cd-mini" style="color:rgba(255,255,255,.72);margin-top:1.5em">
+          The team practice no pipeline can do <em>for</em> you.</p>
+      </div>
+      <aside class="notes">
+        Set the frame and objectives. By the end they can:
+        (1) explain why long-lived branches cost merge pain, lost work, and big batches;
+        (2) apply trunk-based development — branches under a day;
+        (3) decompose a feature into small, independently shippable slices;
+        (4) use a feature flag to merge unfinished work safely;
+        (5) name the CI gates that keep the trunk deployable.
+        The frame: Session 1 was the WHY; today is the first PRACTICE that makes it real —
+        and it's a working agreement and engineering discipline, not a tool you buy.
+      </aside>
+    </section>
+
+    <!-- ==================================================== 2 · RECAP → CONNECT -->
+    <section data-background-gradient="radial-gradient(900px 520px at 50% 4%, #16223f, #0b0e14 62%)">
+      <h2>Where we left off — and your one number</h2>
+      <svg class="dia" viewBox="0 0 1000 340" style="max-height:340px" role="img"
+           aria-label="Recap of Session 1 on the left — big batches are risky and the trunk stays deployable — and on the right the connecting question: how long does your median branch live? For weekly-release teams it is days to weeks, usually the binding constraint.">
+        <!-- divider -->
+        <line x1="420" y1="40" x2="420" y2="300" stroke="#2a3340" stroke-width="2" stroke-dasharray="2 8"/>
+
+        <!-- LEFT: Session 1 recap -->
+        <text x="60" y="52" fill="#9fb2c6" font-size="15" font-weight="700" letter-spacing=".08em">SESSION 1 SAID</text>
+        <!-- big batch = risk (small orange ring) -->
+        <circle cx="110" cy="132" r="34" fill="none" stroke="#f08a52" stroke-width="3" stroke-dasharray="3 8"/>
+        <text x="110" y="137" text-anchor="middle" fill="#f08a52" font-size="13" font-weight="800">risk</text>
+        <text x="175" y="128" fill="#eef3fa" font-size="16" font-weight="700">Big batches</text>
+        <text x="175" y="150" fill="#9fb2c6" font-size="14">manufacture risk</text>
+        <!-- trunk always deployable (teal line + dots) -->
+        <line x1="80" y1="238" x2="230" y2="238" stroke="#3ed7c4" stroke-width="3"/>
+        <g fill="#3ed7c4"><circle cx="100" cy="238" r="6"/><circle cx="140" cy="238" r="6"/><circle cx="180" cy="238" r="6"/><circle cx="220" cy="238" r="6"/></g>
+        <text x="255" y="234" fill="#eef3fa" font-size="16" font-weight="700">The trunk</text>
+        <text x="255" y="256" fill="#9fb2c6" font-size="14">stays deployable</text>
+
+        <!-- RIGHT: the connecting question -->
+        <text x="470" y="52" fill="#9fb2c6" font-size="15" font-weight="700" letter-spacing=".08em">YOUR ONE NUMBER</text>
+        <!-- calendar glyph -->
+        <g>
+          <rect x="470" y="96" width="96" height="86" rx="10" fill="#12203b" stroke="#74a0f2" stroke-width="2"/>
+          <rect x="470" y="96" width="96" height="22" rx="10" fill="#74a0f2" opacity=".25"/>
+          <line x1="492" y1="88" x2="492" y2="108" stroke="#74a0f2" stroke-width="4" stroke-linecap="round"/>
+          <line x1="544" y1="88" x2="544" y2="108" stroke="#74a0f2" stroke-width="4" stroke-linecap="round"/>
+          <text x="518" y="158" text-anchor="middle" fill="#a9c4f7" font-size="34" font-weight="800">?</text>
+        </g>
+        <text x="600" y="128" fill="#eef3fa" font-size="21" font-weight="800">How long does your</text>
+        <text x="600" y="156" fill="#eef3fa" font-size="21" font-weight="800">median branch live?</text>
+        <text x="600" y="196" fill="#f08a52" font-size="15" font-weight="700">days → weeks = usually your #1 constraint</text>
+      </svg>
+      <div class="caption">
+        <span>60-second recap, then <b class="t-teal">say your number out loud</b></span>
+      </div>
+      <aside class="notes">
+        60-second recap only — don't re-teach Session 1. Then the connect: have each person name
+        their MEDIAN BRANCH LIFE out loud — the number from their homework assessment. For teams
+        coming off weekly releases it's days to weeks, and that single number is usually the binding
+        constraint on CD. Don't try to fix it yet; just surface it so the next slide lands on their
+        own reality. (This is a connect, not a thread we keep returning to — we deliberately chose
+        no single held device this session.)
+      </aside>
+    </section>
+
+    <!-- ================================================ DIVIDER · PART 1 of 3 -->
+    <section class="is-hero is-divider"
+      data-background-gradient="linear-gradient(135deg,#3a2d72 0%,#5b4bbf 60%,#2b59c3 130%)">
+      <div class="divider-wrap">
+        <span class="part">Part 1 of 3</span>
+        <h1>The Branching Problem</h1>
+        <p class="sub">The habit that quietly blocks everything.</p>
+      </div>
+      <aside class="notes">
+        One line: "Start with the habit that quietly blocks everything — the long-lived branch."
+        Move straight to the next slide.
+      </aside>
+    </section>
+
+    <!-- ==================================== 3 · WHAT LONG-LIVED BRANCHES COST -->
+    <section data-background-color="#0b0e14">
+      <h2>A long branch is a big batch in disguise</h2>
+      <svg class="dia" viewBox="0 0 1000 420" style="max-height:420px" role="img"
+           aria-label="Main is a straight lane. A feature branch peels away and the gap widens as it travels, accumulating drift, merge pain, and lost work. Two weeks later it merges back in a big-bang collision — a two-week batch hitting production at once.">
+        <defs>
+          <marker id="ar3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M0 0 L10 5 L0 10 z" fill="#f08a52"/>
+          </marker>
+        </defs>
+        <!-- main lane -->
+        <line x1="60" y1="120" x2="940" y2="120" stroke="#3ed7c4" stroke-width="3"/>
+        <g fill="#3ed7c4">
+          <circle cx="90" cy="120" r="6"/><circle cx="230" cy="120" r="6"/><circle cx="370" cy="120" r="6"/>
+          <circle cx="510" cy="120" r="6"/><circle cx="650" cy="120" r="6"/><circle cx="790" cy="120" r="6"/>
+        </g>
+        <text x="60" y="102" fill="#3ed7c4" font-size="15" font-weight="800">main</text>
+
+        <!-- feature branch peeling away, widening gap -->
+        <path d="M150 120 C 320 150, 520 250, 860 300" fill="none" stroke="#f08a52" stroke-width="3"/>
+        <g fill="#f08a52">
+          <circle cx="150" cy="120" r="6"/><circle cx="300" cy="146" r="6"/><circle cx="470" cy="212" r="6"/>
+          <circle cx="640" cy="266" r="6"/><circle cx="800" cy="292" r="6"/>
+        </g>
+        <text x="150" y="342" fill="#f08a52" font-size="15" font-weight="800">feature branch — 2 weeks</text>
+
+        <!-- cost labels attaching along the way -->
+        <text x="300" y="182" fill="#f6d2b8" font-size="14" font-weight="700">drift ↑</text>
+        <text x="470" y="248" fill="#f6d2b8" font-size="14" font-weight="700">merge pain ↑</text>
+        <text x="628" y="302" fill="#f6d2b8" font-size="14" font-weight="700">lost work ↑</text>
+
+        <!-- big-bang merge collision back into main -->
+        <path d="M800 292 C 870 270, 900 180, 900 132" fill="none" stroke="#f08a52" stroke-width="3" marker-end="url(#ar3)"/>
+        <g>
+          <path d="M900 120 m-16 0 l6 -10 l4 6 l8 -12 l6 14 l-4 2 l4 8 z" fill="#f08a52"/>
+          <text x="905" y="86" text-anchor="middle" fill="#f08a52" font-size="14" font-weight="800">big-bang merge</text>
+        </g>
+      </svg>
+      <div class="caption">
+        <span class="t-orange" style="font-weight:700">drift · merge pain · lost work — and it IS a two-week batch</span>
+      </div>
+      <aside class="notes">
+        Walk the four costs. DRIFT: trunk moves on; the longer you're away, the more the world changed
+        under you. MERGE PAIN: reconciling two weeks of divergence is error-prone — conflict resolution
+        silently drops or corrupts code. LOST WORK: branches too painful to merge get ABANDONED — real
+        work thrown away. And the killer: it IS a big batch — everything Session 1 said about big-batch
+        risk lands the moment you merge.
+        Then the reframe (say it, don't put it on the slide): TBD is not "no branches" — it's branches so
+        short they never get the CHANCE to drift.
+        Point to branching-antipatterns.md for the other five (shared develop, branch-per-env, code
+        freeze, the long-open MR).
+      </aside>
+    </section>
+
+    <!-- =========================== 4 · TBD: BRANCHES SO SHORT THEY NEVER DRIFT -->
+    <section data-background-color="#0b0e14">
+      <h2>Trunk-based dev: branches so short they never drift</h2>
+      <svg class="dia" viewBox="0 0 1000 175" style="max-height:200px" role="img"
+           aria-label="A git graph of trunk-based development over day columns. Monday and Tuesday are shown in full; Wednesday is only beginning and fades off to the right. Main is one trunk of commits. Monday holds two short-lived branches back to back; Tuesday holds two branches open at the same time — concurrent developers — drawn at two heights; Wednesday has one branch just opening. Each branch carries one or two commit dots and merges back into a later commit the same day.">
+        <defs>
+          <linearGradient id="dayfade" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#ffffff" stop-opacity=".05"/>
+            <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <!-- day columns: Mon & Tue in full, Wed partial (fade = the week continues) -->
+        <rect x="70"  y="42" width="340" height="108" fill="rgba(255,255,255,.05)"/>
+        <rect x="750" y="42" width="180" height="108" fill="url(#dayfade)"/>
+        <line x1="410" y1="42" x2="410" y2="150" stroke="#2a3340" stroke-width="1.5" stroke-dasharray="3 6"/>
+        <line x1="750" y1="42" x2="750" y2="150" stroke="#2a3340" stroke-width="1.5" stroke-dasharray="3 6"/>
+        <g text-anchor="middle" fill="#9fb2c6" font-size="13" font-weight="700" letter-spacing=".06em">
+          <text x="240" y="32">MON</text>
+          <text x="580" y="32">TUE</text>
+          <text x="800" y="32">WED</text>
+        </g>
+        <!-- main trunk -->
+        <line x1="60" y1="118" x2="940" y2="118" stroke="#3ed7c4" stroke-width="3"/>
+        <text x="60" y="104" fill="#3ed7c4" font-size="15" font-weight="800">main</text>
+        <!-- commits on main: only branch-points + merges -->
+        <g fill="#3ed7c4">
+          <circle cx="110" cy="118" r="6"/><circle cx="240" cy="118" r="6"/><circle cx="280" cy="118" r="6"/><circle cx="392" cy="118" r="6"/>
+          <circle cx="440" cy="118" r="6"/><circle cx="520" cy="118" r="6"/><circle cx="592" cy="118" r="6"/><circle cx="708" cy="118" r="6"/>
+          <circle cx="790" cy="118" r="6"/>
+        </g>
+        <!-- short-lived branches; dots on an arc = commits made on that branch -->
+        <g fill="none" stroke-width="2.5">
+          <!-- Mon: two branches back to back -->
+          <path stroke="#74a0f2" d="M110 118 C 124 96, 134 86, 145 86 L205 86 C216 86, 226 96, 240 118"/>
+          <path stroke="#74a0f2" d="M280 118 C 294 96, 302 86, 312 86 L360 86 C371 86, 380 96, 392 118"/>
+          <!-- Tue: two branches open at once (concurrent) — second tinted violet to tell them apart -->
+          <path stroke="#74a0f2" d="M440 118 C 454 96, 460 86, 470 86 L560 86 C572 86, 582 96, 592 118"/>
+          <path stroke="#a78bfa" d="M520 118 C 536 88, 544 64, 556 64 L668 64 C680 64, 696 90, 708 118"/>
+          <!-- Wed: one branch just opening, trailing into the fade -->
+          <path stroke="#74a0f2" d="M790 118 C 806 96, 815 86, 828 86 L905 86"/>
+        </g>
+        <!-- commits made on the branches (dots on the arcs) -->
+        <g fill="#74a0f2">
+          <circle cx="165" cy="86" r="4"/><circle cx="195" cy="86" r="4"/>
+          <circle cx="336" cy="86" r="4"/>
+          <circle cx="495" cy="86" r="4"/><circle cx="525" cy="86" r="4"/>
+          <circle cx="610" cy="64" r="4" fill="#a78bfa"/>
+          <circle cx="866" cy="86" r="4"/>
+        </g>
+        <!-- label one exemplar branch: branch-point (left) vs merge (right) -->
+        <text x="110" y="142" text-anchor="middle" fill="#9fb2c6" font-size="11">branch</text>
+        <text x="240" y="142" text-anchor="middle" fill="#9fb2c6" font-size="11">merge</text>
+      </svg>
+      <aside class="notes">
+        The TBD minimums: all changes integrate to main; if you branch, it comes from trunk, returns to
+        trunk, and lives LESS THAN A DAY. Two acceptable workflows: commit directly to trunk (viable with
+        strong tests + tight review), or a very short-lived branch with a small MR merged the same day.
+        RealManage flavor (fold in here): for our GitLab + AWS world, short-lived branches with small MRs
+        is the natural fit — it pairs with our existing MR review and Jira branch-naming; what changes is
+        the SIZE and LIFETIME of the branch, not the tooling.
+        Read the picture: each day holds SEVERAL short branches, each with a commit or two, each merged the
+        same day. MONDAY runs two branches back to back. TUESDAY deliberately shows two open AT THE SAME
+        TIME — concurrent developers. That overlap window is the only interval in which they can conflict;
+        because the branches are small and short-lived, the window is tiny, so conflicts are rare and small
+        when they do happen. Long branches MAXIMIZE that overlap — that's why they're conflict factories.
+        The fix for conflicts isn't better merging, it's smaller, shorter branches.
+        Healthy signals to name out loud (they don't need to be on the slide): branch age in HOURS, not
+        days; no code-freeze or stabilization periods; and few branches open at once. On that last one —
+        "fewer than ~3 active branches" is a small-team heuristic, not a law: it scales with how many people
+        are mid-change, because each branch is short-lived. The real invariants are short branch LIFETIME
+        (&lt; 1 day) and low work-in-progress (~one in-flight change per person); low branch count is just
+        the symptom you can eyeball.
+        One trap from the anti-patterns: a small branch that WAITS two days for review IS a long branch —
+        wall-clock age is what counts, so pair small MRs with a ~4-hour review norm.
+      </aside>
+    </section>
+
+    <!-- ================================================ DIVIDER · PART 2 of 3 -->
+    <section class="is-hero is-divider"
+      data-background-gradient="linear-gradient(135deg,#3a2d72 0%,#5b4bbf 60%,#2b59c3 130%)">
+      <div class="divider-wrap">
+        <span class="part">Part 2 of 3</span>
+        <h1>Decoupling Deploy from Release</h1>
+        <p class="sub">Feature flags — so "unfinished" no longer holds a branch open.</p>
+      </div>
+      <aside class="notes">
+        One line: "Now the objection everyone raises — and the one idea that dissolves it."
+        Move to the next slide.
+      </aside>
+    </section>
+
+    <!-- ==================================================== 5 · THE OBJECTION -->
+    <section class="objection" data-background-color="#0b0e14">
+      <div class="objection-wrap">
+        <p class="cd-kicker" style="color:var(--cd-orange)">The #1 reason teams cling to long branches</p>
+        <h2 class="q">I can't merge to <span class="nowrap">main</span> —<br>my feature isn't finished.</h2>
+        <p class="cd-sub">"It'll break things, or expose half-built UI."</p>
+      </div>
+      <aside class="notes">
+        Let it sit. This is the honest, near-universal objection, and it FEELS correct — merging half-built
+        UI or a broken path to main sounds reckless. Don't answer it yet. Deliberate tension; the next
+        slide is the unlock.
+      </aside>
+    </section>
+
+    <!-- =================================================== 6 · DEPLOY ≠ RELEASE -->
+    <section data-background-color="#0b0e14">
+      <h2>Deploy <span class="muted" style="font-weight:600">≠</span> Release</h2>
+      <svg class="dia" viewBox="0 0 1000 320" style="max-height:320px" role="img"
+           aria-label="One timeline with two separate events. Deploy: code lands in production with the flag off, a padlock. Later, Release: the flag flips on. Between them, unfinished code lives in production safely, turned off.">
+        <!-- timeline -->
+        <line x1="70" y1="170" x2="930" y2="170" stroke="#5a6b80" stroke-width="3"/>
+        <text x="70" y="300" fill="#9fb2c6" font-size="14">time →</text>
+
+        <!-- DEPLOY event -->
+        <line x1="270" y1="120" x2="270" y2="170" stroke="#74a0f2" stroke-width="2.5"/>
+        <circle cx="270" cy="170" r="8" fill="#74a0f2"/>
+        <!-- padlock -->
+        <g transform="translate(252,74)">
+          <rect x="0" y="16" width="36" height="28" rx="5" fill="#12203b" stroke="#74a0f2" stroke-width="2"/>
+          <path d="M7 16 v-6 a11 11 0 0 1 22 0 v6" fill="none" stroke="#74a0f2" stroke-width="2.5"/>
+        </g>
+        <text x="270" y="210" text-anchor="middle" fill="#a9c4f7" font-size="17" font-weight="800">Deploy</text>
+        <text x="270" y="232" text-anchor="middle" fill="#9fb2c6" font-size="13">code in the env · flag OFF</text>
+        <text x="270" y="250" text-anchor="middle" fill="#7d8fa1" font-size="12" font-style="italic">a technical act</text>
+
+        <!-- gap: unfinished code lives here safely -->
+        <rect x="286" y="150" width="368" height="40" rx="8" fill="rgba(62,215,196,.06)" stroke="rgba(62,215,196,.35)" stroke-dasharray="4 6"/>
+        <text x="470" y="175" text-anchor="middle" fill="#3ed7c4" font-size="13" font-weight="700">unfinished code lives here — safely, turned off</text>
+
+        <!-- RELEASE event -->
+        <line x1="670" y1="120" x2="670" y2="170" stroke="#3ed7c4" stroke-width="2.5"/>
+        <circle cx="670" cy="170" r="8" fill="#3ed7c4"/>
+        <!-- switch (on) -->
+        <g transform="translate(646,78)">
+          <rect x="0" y="6" width="48" height="26" rx="13" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2"/>
+          <circle cx="35" cy="19" r="9" fill="#3ed7c4"/>
+        </g>
+        <text x="670" y="210" text-anchor="middle" fill="#3ed7c4" font-size="17" font-weight="800">Release</text>
+        <text x="670" y="232" text-anchor="middle" fill="#9fb2c6" font-size="13">users see it · flip the flag</text>
+        <text x="670" y="250" text-anchor="middle" fill="#7d8fa1" font-size="12" font-style="italic">a business decision</text>
+      </svg>
+      <div class="caption">
+        <span>A <b class="t-teal">feature flag</b> is the switch between them</span>
+      </div>
+      <aside class="notes">
+        Deploy is a technical act; release is a business decision. A FEATURE FLAG is a runtime switch that
+        lets unfinished code live in main and in production — turned OFF — until you choose to turn it on.
+        So "not finished" stops being a reason to hold a branch: you merge it DARK. This is the pivot the
+        whole session turns on.
+        Flag the payoff for later: because the release is now the flag flip (not the deploy), the flip is
+        also the moment you COMMUNICATE to clients, and the flip date is the release date.
+      </aside>
+    </section>
+
+    <!-- ============================================ 7 · HOW A FLAG CHANGES THE GAME -->
+    <section data-background-color="#0b0e14">
+      <h2>How a flag changes the game</h2>
+      <div class="contrast">
+        <div class="contrast-col bad">
+          <h3>Without flags</h3>
+          <ul>
+            <li>Branch lives until "done"</li>
+            <li>Big-bang merge + release</li>
+            <li>Release <em>is</em> the merge</li>
+            <li>Rollback = revert + redeploy</li>
+          </ul>
+        </div>
+        <div class="contrast-col good">
+          <h3>With flags</h3>
+          <ul>
+            <li>Merge daily, flag <b>off</b></li>
+            <li>Ships dark, integrating continuously</li>
+            <li>Release = flip the flag (no deploy)</li>
+            <li>"Rollback" a feature = flip it back</li>
+          </ul>
+        </div>
+      </div>
+      <div class="caption">
+        <span>Merge daily → branches stay short · reveal on the <b class="t-teal">business's</b> schedule · dark-launch safely</span>
+      </div>
+      <aside class="notes">
+        Walk the contrast. Merge incomplete work daily → branches stay short → batches stay small. Reveal
+        the feature exactly when the business wants (e.g. after the board meeting). If it misbehaves, flip
+        it OFF instantly — no deploy. And dark launch: you can test in production safely before exposing
+        anyone. This is the concrete cash-out of deploy ≠ release.
+      </aside>
+    </section>
+
+    <!-- ======================================= 8 · BRANCH BY ABSTRACTION -->
+    <section data-background-color="#0b0e14">
+      <h2>Flags aren't the only tool: branch by abstraction</h2>
+      <svg class="dia" viewBox="0 0 1000 330" style="max-height:330px" role="img"
+           aria-label="A seam — an interface — sits over the thing you're changing. The old implementation stays live below it while the new implementation is built behind it. A switch on the seam decides which resolves. Sequence: build behind, flip the seam, delete the old path.">
+        <defs>
+          <marker id="ar8" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M0 0 L10 5 L0 10 z" fill="#3ed7c4"/>
+          </marker>
+        </defs>
+        <!-- callers -->
+        <text x="120" y="70" text-anchor="middle" fill="#9fb2c6" font-size="14">callers</text>
+        <line x1="120" y1="80" x2="120" y2="120" stroke="#5a6b80" stroke-width="2.5" marker-end="url(#ar8)"/>
+        <!-- seam bar -->
+        <rect x="60" y="122" width="880" height="46" rx="10" fill="#101826" stroke="#3ed7c4" stroke-width="2.5"/>
+        <text x="500" y="151" text-anchor="middle" fill="#cdeee8" font-size="17" font-weight="800">seam — an interface over what you're changing</text>
+        <!-- switch on the seam -->
+        <g transform="translate(846,132)">
+          <rect x="0" y="4" width="44" height="24" rx="12" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2"/>
+          <circle cx="32" cy="16" r="8" fill="#3ed7c4"/>
+        </g>
+        <!-- old implementation (live) -->
+        <rect x="120" y="212" width="300" height="70" rx="10" fill="#241710" stroke="#f08a52" stroke-width="2"/>
+        <text x="270" y="245" text-anchor="middle" fill="#f6d2b8" font-size="16" font-weight="700">old implementation</text>
+        <text x="270" y="267" text-anchor="middle" fill="#f08a52" font-size="13" font-weight="700">stays live</text>
+        <line x1="270" y1="168" x2="270" y2="212" stroke="#f08a52" stroke-width="2.5"/>
+        <!-- new implementation (building behind) -->
+        <rect x="580" y="212" width="300" height="70" rx="10" fill="#0a1f1c" stroke="#3ed7c4" stroke-width="2" stroke-dasharray="5 5"/>
+        <text x="730" y="245" text-anchor="middle" fill="#cdeee8" font-size="16" font-weight="700">new implementation</text>
+        <text x="730" y="267" text-anchor="middle" fill="#3ed7c4" font-size="13" font-weight="700">built behind the seam</text>
+        <line x1="730" y1="168" x2="730" y2="212" stroke="#3ed7c4" stroke-width="2.5" stroke-dasharray="5 5"/>
+      </svg>
+      <div class="caption">
+        <span><b class="t-teal">Structural change:</b> build behind the seam → flip → delete the old path</span>
+      </div>
+      <aside class="notes">
+        Feature flags are perfect for "is this feature on?" But some work is STRUCTURAL — swapping a
+        data-access layer, replacing a dependency, a large refactor a single if can't cleanly wrap. There
+        the technique is BRANCH BY ABSTRACTION: introduce an interface (a seam) over what you're changing,
+        build the replacement behind it while the old path stays live, flip which implementation the seam
+        resolves to (a one-line wiring change, often itself behind a flag), then delete the old path.
+        Same goal as a flag — integrate on trunk before the work is done — different mechanism.
+        This also previews the strangler-fig migration you'll see in Session 3.
+      </aside>
+    </section>
+
+    <!-- ============================== 9 · A FLAG IN TYPESCRIPT (framing → editor) -->
+    <section data-background-color="#0b0e14">
+      <h2>A feature flag in TypeScript</h2>
+      <svg class="dia" viewBox="0 0 1000 250" style="max-height:220px" role="img"
+           aria-label="A request, POST /violations, reaches a feature-flag check: isEnabled of violations.record. If the flag is OFF the handler returns 501 Not Implemented — the code is shipped to production but dark, not released. If the flag is ON it returns 201 Created — live.">
+        <defs>
+          <marker id="arfn" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M0 0 L10 5 L0 10 z" fill="#9fb2c6"/>
+          </marker>
+          <marker id="arft" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M0 0 L10 5 L0 10 z" fill="#3ed7c4"/>
+          </marker>
+        </defs>
+        <!-- request -->
+        <rect x="40" y="100" width="190" height="54" rx="10" fill="#12203b" stroke="#74a0f2" stroke-width="2"/>
+        <text x="135" y="132" text-anchor="middle" fill="#cfe0ff" font-size="16" font-weight="700" style="font-family:var(--cd-mono)">POST /violations</text>
+        <line x1="232" y1="127" x2="312" y2="127" stroke="#9fb2c6" stroke-width="2.5" marker-end="url(#arfn)"/>
+        <!-- flag check -->
+        <rect x="320" y="96" width="320" height="62" rx="12" fill="#101826" stroke="#9fb2c6" stroke-width="2"/>
+        <text x="480" y="122" text-anchor="middle" fill="#9fb2c6" font-size="12.5" font-weight="800" letter-spacing=".08em">FEATURE FLAG</text>
+        <text x="480" y="145" text-anchor="middle" fill="#eef3fa" font-size="14" style="font-family:var(--cd-mono)">isEnabled("violations.record")</text>
+        <!-- OFF branch → 501 (dark) -->
+        <path d="M640 116 L690 70" fill="none" stroke="#9fb2c6" stroke-width="2.5" marker-end="url(#arfn)"/>
+        <text x="652" y="84" fill="#9fb2c6" font-size="13" font-weight="800">OFF</text>
+        <rect x="700" y="44" width="256" height="50" rx="10" fill="#141a24" stroke="#9fb2c6" stroke-width="2" stroke-dasharray="5 5"/>
+        <text x="722" y="75" fill="#cdd7e3" font-size="16" font-weight="800" style="font-family:var(--cd-mono)">501</text>
+        <text x="766" y="75" fill="#9fb2c6" font-size="14">Not Implemented</text>
+        <text x="828" y="112" text-anchor="middle" fill="#7d8fa1" font-size="12.5" font-style="italic">dark — shipped, not released</text>
+        <!-- ON branch → 201 (live) -->
+        <path d="M640 138 L690 186" fill="none" stroke="#3ed7c4" stroke-width="2.5" marker-end="url(#arft)"/>
+        <text x="652" y="184" fill="#3ed7c4" font-size="13" font-weight="800">ON</text>
+        <rect x="700" y="164" width="256" height="50" rx="10" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2"/>
+        <text x="722" y="195" fill="#cdeee8" font-size="16" font-weight="800" style="font-family:var(--cd-mono)">201</text>
+        <text x="766" y="195" fill="#cdeee8" font-size="14">Created</text>
+        <text x="828" y="232" text-anchor="middle" fill="#3ed7c4" font-size="12.5">live — the flag is flipped on</text>
+      </svg>
+      <div class="stickies">
+        <span class="stik">Default <b>OFF</b> — the flag's absence is safe</span>
+        <span class="stik">Config <b>travels with the deploy</b></span>
+        <span class="stik">Flags are <b>temporary</b> — owner + expiry + stale-flag CI check</span>
+      </div>
+      <p style="margin:0"><span class="to-editor"><span class="arrow">→</span> examples/feature-flag.ts</span></p>
+      <aside class="notes">
+        Frame first, then open the file. Three discipline points to land at the editor:
+        (1) DEFAULT OFF — the flag's absence or misconfiguration must be safe (DEFAULTS are all false).
+        (2) flag state is ENVIRONMENT CONFIG, read from env vars via configuration/{env}.config — it
+        travels with the deploy, never hard-coded per branch (this keeps config-with-the-artifact, a CD
+        minimum).
+        (3) flags are TEMPORARY scaffolding — give each an owner, a creation date, and a removal condition
+        in a flag inventory, add a CI STALE-FLAG CHECK that fails when one outlives its expiry, and make
+        "delete the flag" the LAST planned slice of the feature.
+        Show recordViolation returning 501 while dark. Close with graduating to AWS AppConfig / LaunchDarkly
+        when you need runtime flips without a deploy, per-cohort targeting, or an audit trail — the
+        isEnabled(...) API stays the same; only loadFeatureFlags changes.
+      </aside>
+    </section>
+
+    <!-- ================================================ DIVIDER · PART 3 of 3 -->
+    <section class="is-hero is-divider"
+      data-background-gradient="linear-gradient(135deg,#3a2d72 0%,#5b4bbf 60%,#2b59c3 130%)">
+      <div class="divider-wrap">
+        <span class="part">Part 3 of 3</span>
+        <h1>Continuous Integration in Practice</h1>
+        <p class="sub">The discipline half — the part no tool gives you for free.</p>
+      </div>
+      <aside class="notes">
+        One line: "The pipeline half comes next session; this is the DISCIPLINE half — the part no tool
+        gives you for free." Move to the next slide.
+      </aside>
+    </section>
+
+    <!-- ===================================== 10 · REAL CI = DAILY INTEGRATION -->
+    <section data-background-color="#0b0e14">
+      <h2>Real CI = daily integration + automated verification</h2>
+      <div class="floor">
+        <div class="floor-group">
+          <div class="floor-h"><span class="t-teal">CI minimums</span> — the floor, in practice</div>
+          <div class="tiles">
+            <span class="tile ci">Trunk-based dev</span>
+            <span class="tile ci">Integrate ≥ daily</span>
+            <span class="tile ci">Tests before merge</span>
+            <span class="tile ci">Tests on merged result</span>
+            <span class="tile ci">Stop the line on red</span>
+            <span class="tile ci">Don't break delivered work</span>
+          </div>
+        </div>
+        <div class="floor-group">
+          <div class="floor-h muted">a pipeline tool alone is <em>not</em> this</div>
+          <div class="tiles">
+            <span class="tile" style="border-bottom-color:#7d8fa1;opacity:.55;text-decoration:line-through">"We have GitLab CI, so we do CI"</span>
+          </div>
+        </div>
+        <div class="slab"></div>
+      </div>
+      <div class="caption">
+        <span><b class="t-teal">CI = daily integration + automated verification</b> · a tool isn't the discipline</span>
+        <span class="cd-mini">migrations are code too → tested on a local DB, red build stops the line</span>
+      </div>
+      <aside class="notes">
+        Don't read all six aloud — let them land as a FLOOR. The six: trunk-based development · integrate
+        at least daily · tests before merge · tests on the merged result · STOP THE LINE ON RED (a red main
+        is the team's #1 priority — no new feature work) · don't break delivered work (backward-compatible;
+        expand/contract for data).
+        Puncture the myth again (carried over from Session 1): a pipeline tool running on week-old branches
+        is a BUILD SERVER, not CI — CI is only as continuous as the integration behind it.
+        And MIGRATIONS ARE CODE TOO: reviewed, tested against a LOCAL database, merged like any change; a
+        migration that fails to apply is a red build that stops the line.
+      </aside>
+    </section>
+
+    <!-- ============================= 11 · THE GATES THAT PROTECT TRUNK (→ editor) -->
+    <section data-background-color="#0b0e14">
+      <h2>The gates that keep the trunk deployable</h2>
+      <svg class="dia" viewBox="0 0 1000 250" style="max-height:250px" role="img"
+           aria-label="On the path from a branch to main sit five gates: lint, unit tests, a coverage floor, IaC validation, and a security scan. A caution mark sits on coverage — a gate is only as honest as the tests behind it. A red result blocks the merge.">
+        <defs>
+          <marker id="ar11" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M0 0 L10 5 L0 10 z" fill="#5a6b80"/>
+          </marker>
+        </defs>
+        <!-- branch -> main path -->
+        <text x="40" y="126" fill="#9fb2c6" font-size="14" font-weight="700">branch</text>
+        <line x1="110" y1="120" x2="880" y2="120" stroke="#5a6b80" stroke-width="2.5" marker-end="url(#ar11)"/>
+        <rect x="892" y="98" width="86" height="44" rx="9" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2"/>
+        <text x="935" y="126" text-anchor="middle" fill="#cdeee8" font-size="16" font-weight="800">main</text>
+        <!-- five gates -->
+        <g font-size="13" font-weight="700" text-anchor="middle">
+          <g><rect x="150" y="96" width="110" height="48" rx="9" fill="#101826" stroke="#3ed7c4" stroke-width="1.8"/><text x="205" y="125" fill="#cdeee8">lint</text></g>
+          <g><rect x="290" y="96" width="110" height="48" rx="9" fill="#101826" stroke="#3ed7c4" stroke-width="1.8"/><text x="345" y="125" fill="#cdeee8">unit tests</text></g>
+          <g><rect x="430" y="96" width="120" height="48" rx="9" fill="#101826" stroke="#3ed7c4" stroke-width="1.8"/><text x="490" y="125" fill="#cdeee8">coverage floor</text></g>
+          <g><rect x="580" y="96" width="120" height="48" rx="9" fill="#101826" stroke="#3ed7c4" stroke-width="1.8"/><text x="640" y="125" fill="#cdeee8">IaC validate</text></g>
+          <g><rect x="730" y="96" width="120" height="48" rx="9" fill="#101826" stroke="#3ed7c4" stroke-width="1.8"/><text x="790" y="125" fill="#cdeee8">security scan</text></g>
+        </g>
+        <!-- caution on coverage -->
+        <g transform="translate(490,66)">
+          <path d="M0 -14 L14 12 L-14 12 z" fill="#1c1410" stroke="#f0c451" stroke-width="2"/>
+          <text x="0" y="9" text-anchor="middle" fill="#f0c451" font-size="15" font-weight="800">!</text>
+        </g>
+        <text x="490" y="180" text-anchor="middle" fill="#f0c451" font-size="12">only as honest as its tests</text>
+        <text x="500" y="220" text-anchor="middle" fill="#9fb2c6" font-size="14">red result <tspan fill="#f08a52" font-weight="700">blocks the merge</tspan> — the trunk stays deployable by construction</text>
+      </svg>
+      <p><span class="to-editor"><span class="arrow">→</span> examples/ci-pipeline.gitlab-ci.yml</span><span class="editor-note">the front half of the Session 3 pipeline</span></p>
+      <aside class="notes">
+        Frame, then open the YAML. These are the front half of the pipeline you build in Session 3:
+        validate (lint + sam validate) → test (unit + a coverage threshold that FAILS the job below the
+        floor) → security (npm audit + cfn-lint).
+        What makes it real CI (the note at the bottom of the file): it runs on every branch, it's fast, a
+        red result BLOCKS the merge, and the branches feeding it are short-lived.
+        The honesty caveat — a gate is only as honest as the tests behind it: when the same author
+        (increasingly an AI agent) writes both the code AND its tests, the tests can assert whatever the
+        code already does and still clear the coverage floor. Tests must pin INTENT, independently
+        confirmed. Keep this file open next to Session 3's.
+      </aside>
+    </section>
+
+    <!-- ======================= 12 · BROWNFIELD: LITTLE COVERAGE (→ editor) -->
+    <section data-background-color="#0b0e14">
+      <h2>Brownfield: starting with little coverage</h2>
+      <ol class="rules">
+        <li><b>New code gets tests</b> — cheap with AI, but they must pin real <em>intent</em>, independently confirmed</li>
+        <li><b>Don't backfill the monolith</b> — existing untested code is "tested in production"</li>
+        <li><b>Characterize before you change</b> — pin current behavior so an unintended change fails loudly</li>
+        <li><b>Manual test gates the flip</b> (release), not the merge</li>
+      </ol>
+      <div class="flow">
+        <span class="step">characterize</span><span class="sep">→</span>
+        <span class="step">change behind a flag</span><span class="sep">→</span>
+        <span class="step">merge dark (CI ✓)</span><span class="sep">→</span>
+        <span class="step">verify in qa</span><span class="sep">→</span>
+        <span class="step">flip the flag</span>
+      </div>
+      <p style="margin-top:.7em"><span class="to-editor"><span class="arrow">→</span> examples/characterization-test/</span><span class="editor-note">C# on purpose — untested code lives in the .NET estate</span></p>
+      <aside class="notes">
+        The realistic case — a mostly-untested estate and no QA team. Four rules:
+        (1) new code gets automated tests (cheap with AI, but they must pin real INTENT, independently
+        confirmed);
+        (2) existing untested code is "tested in production," not backfilled wholesale;
+        (3) CHARACTERIZE before you change — pin current behavior, quirks included, so an unintended change
+        fails loudly;
+        (4) exploratory manual testing is permanent and gates the FLAG FLIP (release), not the merge.
+        Walk the LateFeeCalculator example: characterize the legacy fee, add late-fee-v2 as new, tested
+        code behind a flag, merge it dark (still doing CI), hand-verify in qa, then flip. It's C# on
+        purpose — the untested code lives in the .NET estate (one of the course's two deliberate exceptions
+        to "examples are TypeScript").
+      </aside>
+    </section>
+
+    <!-- ================================================ 13 · KEEP FEEDBACK FAST -->
+    <section data-background-color="#0b0e14">
+      <h2>Keep feedback fast</h2>
+      <svg class="dia" viewBox="0 0 1000 300" style="max-height:300px" role="img"
+           aria-label="Two lanes. The pre-merge lane runs in seconds and is green. Slow integration tests move to a later stage. Jobs are parallelized and node modules and the SAM build are cached. A slow gate gets routed around.">
+        <!-- stopwatch -->
+        <g transform="translate(70,96) scale(1.05)">
+          <line x1="60" y1="6" x2="60" y2="20" stroke="#3ed7c4" stroke-width="5" stroke-linecap="round"/>
+          <line x1="48" y1="8" x2="72" y2="8" stroke="#3ed7c4" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="60" cy="74" r="46" fill="none" stroke="#3ed7c4" stroke-width="5"/>
+          <line x1="60" y1="74" x2="60" y2="42" stroke="#3ed7c4" stroke-width="5" stroke-linecap="round"/>
+          <line x1="60" y1="74" x2="82" y2="84" stroke="#3ed7c4" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="60" cy="74" r="5" fill="#3ed7c4"/>
+        </g>
+        <!-- pre-merge lane (fast, green) -->
+        <rect x="250" y="86" width="470" height="56" rx="10" fill="#0a1f1c" stroke="#3ed7c4" stroke-width="2"/>
+        <text x="270" y="112" fill="#cdeee8" font-size="16" font-weight="800">pre-merge: lint + unit</text>
+        <text x="270" y="132" fill="#3ed7c4" font-size="13" font-weight="700">seconds — nobody is tempted to skip it</text>
+        <text x="740" y="120" fill="#3ed7c4" font-size="20" font-weight="800">✓</text>
+        <!-- later stage lane (slow, deferred) -->
+        <rect x="250" y="176" width="470" height="52" rx="10" fill="#141a24" stroke="#5a6b80" stroke-width="2" stroke-dasharray="5 5"/>
+        <text x="270" y="200" fill="#cdd7e3" font-size="15" font-weight="700">later stage: slower integration tests</text>
+        <text x="270" y="219" fill="#9fb2c6" font-size="12">off the critical path to merge</text>
+        <!-- parallel + cache note -->
+        <text x="760" y="196" fill="#9fb2c6" font-size="13">parallelize jobs</text>
+        <text x="760" y="216" fill="#9fb2c6" font-size="13">cache node_modules + SAM build</text>
+      </svg>
+      <div class="caption">
+        <span class="t-orange" style="font-weight:700">A slow gate gets routed around.</span>
+        <span>Fast feedback is what makes "stop the line on red" bearable.</span>
+      </div>
+      <aside class="notes">
+        CI only works if it's fast enough that nobody is tempted to skip it. Keep the pre-merge suite in
+        SECONDS: unit tests pre-merge, slower integration tests in a later stage, parallelize jobs, cache
+        node_modules and the SAM build. It's why the example pipeline splits validate / test / security and
+        pins images by digest. Fast feedback is also what makes "stop the line on red" bearable — a red
+        trunk clears in minutes, not hours.
+      </aside>
+    </section>
+
+    <!-- ==================================== 14 · DECOMPOSE YOUR FEATURE (workshop) -->
+    <section data-background-gradient="radial-gradient(900px 520px at 50% 4%, #16223f, #0b0e14 62%)">
+      <p class="cd-kicker">Now — decompose <span class="t-teal">your</span> feature</p>
+      <svg class="dia" viewBox="0 0 1000 300" style="max-height:300px" role="img"
+           aria-label="One big feature block on the left shatters into six to ten small slices on the right, ordered left to right. Some slices are tagged flag or dark; the last slices are flag flips — the release decisions.">
+        <defs>
+          <marker id="ar14" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M0 0 L10 5 L0 10 z" fill="#3ed7c4"/>
+          </marker>
+        </defs>
+        <!-- big feature block -->
+        <rect x="60" y="96" width="150" height="120" rx="12" fill="#241710" stroke="#f08a52" stroke-width="2.5"/>
+        <text x="135" y="150" text-anchor="middle" fill="#f6d2b8" font-size="16" font-weight="800">one big</text>
+        <text x="135" y="172" text-anchor="middle" fill="#f6d2b8" font-size="16" font-weight="800">feature</text>
+        <!-- shatter arrow -->
+        <line x1="222" y1="156" x2="292" y2="156" stroke="#3ed7c4" stroke-width="2.5" marker-end="url(#ar14)"/>
+        <text x="257" y="144" text-anchor="middle" fill="#3ed7c4" font-size="12" font-weight="700">slice</text>
+        <!-- small slices -->
+        <g font-size="12" font-weight="700" text-anchor="middle">
+          <g><rect x="308" y="108" width="86" height="42" rx="8" fill="#10211f" stroke="#3ed7c4" stroke-width="1.8"/><text x="351" y="134" fill="#cdeee8">scaffold</text></g>
+          <g><rect x="406" y="108" width="86" height="42" rx="8" fill="#10211f" stroke="#3ed7c4" stroke-width="1.8"/><text x="449" y="134" fill="#cdeee8">table</text></g>
+          <g><rect x="504" y="108" width="86" height="42" rx="8" fill="#0a1f1c" stroke="#3ed7c4" stroke-width="1.8" stroke-dasharray="4 4"/><text x="547" y="128" fill="#cdeee8">record</text><text x="547" y="143" fill="#3ed7c4" font-size="10">flag</text></g>
+          <g><rect x="602" y="108" width="86" height="42" rx="8" fill="#0a1f1c" stroke="#3ed7c4" stroke-width="1.8" stroke-dasharray="4 4"/><text x="645" y="128" fill="#cdeee8">notify</text><text x="645" y="143" fill="#3ed7c4" font-size="10">flag</text></g>
+          <g><rect x="700" y="108" width="86" height="42" rx="8" fill="#0a1f1c" stroke="#3ed7c4" stroke-width="1.8" stroke-dasharray="4 4"/><text x="743" y="128" fill="#cdeee8">history</text><text x="743" y="143" fill="#3ed7c4" font-size="10">flag</text></g>
+        </g>
+        <!-- flag-flip finish -->
+        <g>
+          <rect x="812" y="108" width="120" height="42" rx="8" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2"/>
+          <text x="872" y="134" text-anchor="middle" fill="#3ed7c4" font-size="12" font-weight="800">flip flags = release</text>
+        </g>
+        <text x="620" y="196" text-anchor="middle" fill="#9fb2c6" font-size="14">6–10 slices · each mergeable to trunk within a day · dashed = behind a flag</text>
+      </svg>
+      <div class="caption">
+        <span><b>Break your feature into 6–10 daily slices</b> · mergeable today? visible-now or behind-a-flag?</span>
+        <span class="pill teal">Your turn →</span>
+      </div>
+      <aside class="notes">
+        Transition to the 25-minute workshop with the backlog feature they brought from Session 1 homework.
+        INDIVIDUALLY (10 min): 6–10 slices, each small, safe, independently shippable, hidden-if-needed,
+        labeled visible-now vs behind-a-flag.
+        IN PAIRS (10 min): pressure-test — "could this merge to main today without breaking anything?" —
+        split anything that fails; find the database change and express it as expand/contract.
+        GROUP (5 min): share one; call out where a flag let you merge unfinished work.
+        Emphasize the AI angle: an agent can write any one slice — designing the DECOMPOSITION (the seam,
+        the order, the flags, the expand/contract steps) is the "design the factory" work that stays yours.
+        Greenfield ADDS behavior from a 501 scaffold; brownfield REPLACES it safely behind a seam with a
+        named dual-write window — make them name both.
+      </aside>
+    </section>
+
+    <!-- =============================================== 15 · WRAP-UP & HOMEWORK -->
+    <section data-background-gradient="radial-gradient(900px 520px at 50% 4%, #16223f, #0b0e14 62%)">
+      <h2>Wrap-up &amp; homework</h2>
+      <div class="cols2">
+        <div>
+          <div class="col-h">Four takeaways</div>
+          <div class="take">
+            <span class="tk">Long-lived branches are big batches in disguise</span>
+            <span class="tk">TBD = all work to trunk, branches &lt; 1 day</span>
+            <span class="tk">Flags decouple deploy from release — "unfinished" no longer holds a branch</span>
+            <span class="tk">Real CI = daily integration + fast gates + stop-the-line (no tool gives this free)</span>
+          </div>
+        </div>
+        <div>
+          <div class="col-h">Homework</div>
+          <ol class="hw">
+            <li>Take one real change through the full loop: short branch → small MR → merge to <b>main</b> the same day</li>
+            <li>No flag mechanism? Sketch where one belongs, from the <span style="font-family:var(--cd-mono)">feature-flag.ts</span> pattern</li>
+            <li>List your service's gates today vs. the minimum set — that diff is Session 3 work</li>
+          </ol>
+          <p class="cd-mini" style="margin-top:.6em">Next → <b class="t-indigo">Session 3: The Pipeline</b> — single path to prod, immutable artifacts, recovery on AWS, your migration plan.</p>
+        </div>
+      </div>
+      <aside class="notes">
+        Four takeaways: long-lived branches are big batches in disguise; TBD = all work to trunk, branches
+        &lt; 1 day; feature flags decouple deploy from release, so "unfinished" is no longer a reason to
+        hold a branch; real CI is daily integration + fast gates + stop-the-line, none of which a tool gives
+        you for free.
+        Homework: (1) take one real change this week through the full loop — short branch → small MR →
+        merge to main the same day; (2) if your service has no flag mechanism, sketch where one belongs,
+        starting from the feature-flag.ts pattern; (3) list the quality gates your service runs today vs.
+        the minimum set — that diff is Session 3 work.
+        Preview Session 3: the pipeline that turns "trunk is always deployable" into "any change reaches
+        prod on demand" — single path to production, immutable artifacts promoted across environments,
+        recovery on AWS (fail forward, rollback for emergencies), and your team's migration plan.
+      </aside>
+    </section>
+
+  </div>
+</div>
+
+<script src="reveal/dist/reveal.js"></script>
+<script src="reveal/plugin/notes/notes.js"></script>
+<script>
+  Reveal.initialize({
+    width: 1280,
+    height: 720,
+    margin: 0.045,
+    minScale: 0.2,
+    maxScale: 2.0,
+    center: true,
+    hash: true,
+    controls: true,
+    progress: true,
+    slideNumber: 'c/t',
+    transition: 'fade',
+    transitionSpeed: 'default',
+    plugins: [ RevealNotes ],
+  });
+</script>
+</body>
+</html>
