@@ -198,15 +198,17 @@ Connect is the open and the workshop / wrap-up is the close, so they aren't part
 - **Message:** The same four pains from long branches invert once release = a flag flip,
   not a deploy.
 - **Visual:** The README's two-column contrast as the whole slide. Left "Without flags"
-  (*branch until done · big-bang merge · release = the merge · rollback = revert +
-  redeploy*) vs right "With flags" (*merge daily, flag off · ships dark · release = flip ·
-  "rollback" = flip back*). Arrows crossing the dashed divider.
-- **On-slide text:** "Without → With" · "release = flip, not deploy"
+  (*branch until done · big-bang merge · release == deploy · rollback = revert +
+  redeploy*) vs right "With flags" (*merge daily, flag off · ships dark · release == flip
+  the flag, already deployed · "rollback" = flip back*). Arrows crossing the dashed divider.
+- **On-slide text:** "Without → With" · "release == deploy → release == flip (already deployed)"
 - **Say:** Walk the contrast. Merge incomplete work daily → branches stay short → batches
   stay small. Reveal the feature exactly when the business wants (e.g. after the board
   meeting). If it misbehaves, flip it *off* instantly — no deploy. And dark launch: you
-  can test in production safely before exposing anyone. This is the concrete cash-out of
-  deploy ≠ release.
+  can test in production safely before exposing anyone. Per-environment flag state is the
+  other unlock: flip the flag *on* in dev and qa for manual/exploratory testing while it
+  stays *off* in prod — so merged code keeps deploying to prod every integration and manual
+  testing never blocks the pipeline. This is the concrete cash-out of deploy ≠ release.
 
 ---
 

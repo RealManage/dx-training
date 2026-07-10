@@ -325,7 +325,7 @@
           <ul>
             <li>Branch lives until "done"</li>
             <li>Big-bang merge + release</li>
-            <li>Release <em>is</em> the merge</li>
+            <li>Release == deploy</li>
             <li>Rollback = revert + redeploy</li>
           </ul>
         </div>
@@ -334,19 +334,19 @@
           <ul>
             <li>Merge daily, flag <b>off</b></li>
             <li>Ships dark, integrating continuously</li>
-            <li>Release = flip the flag (no deploy)</li>
+            <li>Release == flip the flag (already deployed)</li>
             <li>"Rollback" a feature = flip it back</li>
           </ul>
         </div>
-      </div>
-      <div class="caption">
-        <span>Merge daily → branches stay short · reveal on the <b class="t-teal">business's</b> schedule · dark-launch safely</span>
       </div>
       <aside class="notes">
         Walk the contrast. Merge incomplete work daily → branches stay short → batches stay small. Reveal
         the feature exactly when the business wants (e.g. after the board meeting). If it misbehaves, flip
         it OFF instantly — no deploy. And dark launch: you can test in production safely before exposing
-        anyone. This is the concrete cash-out of deploy ≠ release.
+        anyone. Per-environment flag state is the other unlock: flip the flag ON in dev and qa to do manual
+        or exploratory testing there, while it stays OFF in prod — so merged code keeps deploying to prod on
+        every integration, and manual testing never blocks the pipeline. This is the concrete cash-out of
+        deploy ≠ release.
       </aside>
     </section>
 
@@ -567,10 +567,10 @@
     <section data-background-color="#0b0e14">
       <h2>Brownfield: starting with little coverage</h2>
       <ol class="rules below-title">
-        <li><b>New code gets tests</b> — cheap with AI, but they must pin real <em>intent</em>, independently confirmed</li>
-        <li><b>Don't backfill the monolith</b> — existing untested code is "tested in production"</li>
-        <li><b>Characterize before you change</b> — pin current behavior so an unintended change fails loudly</li>
-        <li><b>Manual test gates the flip</b> (release), not the merge</li>
+        <li><b class="t-teal">New code gets tests</b> — cheap with AI, but they must pin real <em>intent</em>, independently confirmed</li>
+        <li><b class="t-teal">Don't backfill the monolith</b> — existing untested code is "tested in production"</li>
+        <li><b class="t-teal">Characterize before you change</b> — pin current behavior so an unintended change fails loudly</li>
+        <li><b class="t-teal">Manual test gates the flip</b> (release), not the merge</li>
       </ol>
       <div class="flow">
         <span class="step">characterize</span><span class="sep">→</span>
@@ -579,7 +579,7 @@
         <span class="step">verify in qa</span><span class="sep">→</span>
         <span class="step">flip the flag</span>
       </div>
-      <p style="margin-top:.7em"><span class="to-editor"><span class="arrow">→</span> examples/characterization-test/</span><span class="editor-note">C# on purpose — untested code lives in the .NET estate</span></p>
+      <p style="margin-top:.7em"><span class="to-editor"><span class="arrow">→</span> examples/characterization-test/</span></p>
       <aside class="notes">
         The realistic case — a mostly-untested estate and no QA team. Four rules:
         (1) new code gets automated tests (cheap with AI, but they must pin real INTENT, independently
