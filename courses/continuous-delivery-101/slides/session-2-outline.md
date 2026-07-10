@@ -7,7 +7,7 @@ slide (keep it to this). *Say* is your talking track — it does **not** go on t
 
 The run-sheet is [`../sessions/session-2/README.md`](../sessions/session-2/README.md);
 this covers the ~16 present-the-concept moments plus three section dividers. The 25-minute
-decompose workshop is hands-on — no concept slides, just the one transition slide (15).
+decision workshop (flag / branch-by-abstraction / ship) is hands-on — no concept slides, just the one transition slide (15).
 
 Target: **~16 concept slides + 3 dividers** for a 2-hour session. Same rule as Session 1:
 if a slide needs more than one sentence of on-slide text, it's doing too much — push it
@@ -33,8 +33,9 @@ instead the three teaching blocks each get a light section-divider slide.
   · "Discipline, not tooling."
 - **Say:** Set the frame and objectives. By the end they can: explain why long-lived
   branches cost merge pain, lost work, and big batches; apply TBD (branches < 1 day);
-  decompose a feature into small, independently shippable slices; use a feature flag to
-  merge unfinished work safely; and name the CI gates that keep the trunk deployable.
+  choose the right mechanism to integrate unfinished work (flag / branch-by-abstraction /
+  ship); use a feature flag to merge unfinished work safely; and name the CI gates that
+  keep the trunk deployable.
   The frame: Session 1 was the *why*; today is the first *practice* that makes it real —
   and it's a working agreement and engineering discipline, not a tool you buy.
 
@@ -416,26 +417,26 @@ Connect is the open and the workshop / wrap-up is the close, so they aren't part
 
 ---
 
-## Slide 15 — Now: decompose YOUR feature
+## Slide 15 — Now: flag it, abstract it, or ship it?
 
-- **Message:** The durable human skill — deciding the *slices* — is the workshop; slides
-  stop here.
-- **Visual:** A big feature block shattering into 6–10 small labeled slices, some tagged
-  "flag / dark," ordered left → right; a "your turn" workshop cue (whiteboard photo).
+- **Message:** The durable human skill — deciding the *mechanism* to integrate unfinished
+  work (flag / branch by abstraction / just ship it) — is the workshop; slides stop here.
+- **Visual:** A three-gate decision funnel: a change drops through Gate 1 (finished & safe?
+  → *just ship it*), Gate 2 (structural swap? → *branch by abstraction*), Gate 3
+  (reveal-timing / rollout / kill switch? → *feature flag*); a "your turn" workshop cue.
   Signals: slides stop, hands-on starts (mirror Session 1's slide 8).
-- **On-slide text:** "Break your feature into 6–10 daily slices" · "each: mergeable today?
-  visible-now or behind-a-flag?"
-- **Say:** Transition to the 25-minute workshop with the backlog feature they brought from
-  Session 1 homework. **Individually (10 min):** 6–10 slices, each small, safe,
-  independently shippable, hidden-if-needed, labeled *visible-now* vs *behind-a-flag*.
-  **In pairs (10 min):** pressure-test — "could this merge to `main` today without breaking
-  anything?" — split anything that fails; find the database change and express it as
-  expand/contract. **Group (5 min):** share one; call out where a flag let you merge
-  unfinished work. Emphasize the AI angle: an agent can write any one slice — designing the
-  *decomposition* (the seam, the order, the flags, the expand/contract steps) is the
-  "design the factory" work that stays yours. Greenfield *adds* behavior from a `501`
-  scaffold; brownfield *replaces* it safely behind a seam with a named dual-write window —
-  make them name both.
+- **On-slide text:** "Pick the cheapest mechanism that keeps trunk deployable" · "and say
+  why not the other two"
+- **Say:** Transition to the 25-minute workshop — classify real changes with the decision
+  walker. **Together (5 min):** walk one scenario aloud through the three gates — model the
+  reasoning, not the label. **Individually, then pairs (13 min):** classify the rest —
+  verdict + one-line rationale + the trap each tests; argue disagreements from the *gates*,
+  not from taste. **Group (7 min):** debate the three contested ones — a "done" change that
+  still needs a flag (shadow/ramp), a *permanent* flag (kill switch / entitlement), and the
+  compose case (branch by abstraction + a flag on the flip). The AI angle: an agent can
+  implement any of the three mechanisms — deciding *which* the change calls for is the
+  judgment that stays yours. Decomposing the feature into slices is the complementary skill —
+  that's this session's homework.
 
 ---
 

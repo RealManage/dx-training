@@ -73,7 +73,8 @@ continuous-delivery-101/
 │   │   ├── README.md
 │   │   ├── examples/
 │   │   └── exercises/
-│   │       └── decompose-a-branch.md          # Turn one long-lived branch into small, safe changes
+│   │       ├── feature-flag-decision.md       # Workshop: flag / branch-by-abstraction / just ship it (+ decision walker)
+│   │       └── decompose-a-branch.md          # Homework: turn one long-lived branch into small, safe changes
 │   └── session-3/                     # The Pipeline: Single Path to Production
 │       ├── README.md
 │       ├── examples/
@@ -146,6 +147,7 @@ Before starting, ensure you have:
 - Apply trunk-based development with short-lived branches (< 1 day)
 - Decompose a large change so it can ship in small, safe increments
 - Use a feature flag to merge incomplete work to trunk safely
+- Choose the right mechanism to integrate incomplete work — feature flag, branch by abstraction, or just ship it
 - Identify the minimum CI quality gates that protect the trunk
 
 ### [→ Full Session 2 Content](./sessions/session-2/README.md)

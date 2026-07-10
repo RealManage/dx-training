@@ -12,6 +12,7 @@ By the end of this session, participants will be able to:
 - ✅ Apply trunk-based development with short-lived branches (< 1 day)
 - ✅ Decompose a large feature into small, independently shippable changes
 - ✅ Use a feature flag to merge incomplete work to trunk safely
+- ✅ Choose the right mechanism to integrate incomplete work — feature flag, branch by abstraction, or just ship it
 - ✅ Identify the minimum CI quality gates that keep the trunk deployable
 
 ## 📚 Session Agenda
@@ -142,13 +143,15 @@ CI is worthless if it's slow — people route around slow gates. Keep the pre-me
 
 ---
 
-### 5. Workshop: Decompose a Real Feature (25 minutes)
+### 5. Workshop: Flag it, Abstract it, or Ship it? (25 minutes)
 
-Use the [Decompose a Long-Lived Branch](./exercises/decompose-a-branch.md) exercise with the feature you brought from Session 1 homework.
+Use the [Flag it, Abstract it, or Ship it?](./exercises/feature-flag-decision.md) exercise. For a series of real changes, decide the *cheapest mechanism that still keeps trunk deployable* — a feature flag, branch by abstraction, or just shipping it — and defend *why not the other two*. Walk each change through the [decision walker](./exercises/feature-flag-decision.tool.html).
 
-1. **Individually (10 min):** break your feature into 6–10 small slices, each mergeable to trunk within a day, each labeled *visible-now* or *behind-a-flag*.
-2. **In pairs/small groups (10 min):** pressure-test each other's slices — "could this merge to `main` today without breaking anything?" Split anything that fails.
-3. **Group (5 min):** share one decomposition. Identify where a feature flag let you merge incomplete work, and how you handled any data change with expand/contract.
+1. **Together (5 min):** walk one scenario through the three gates out loud, to model the reasoning — not the label.
+2. **Individually, then pairs (13 min):** classify the rest — verdict + one-line rationale + the trap each is testing. Argue disagreements from the *gates*, not from taste.
+3. **Group (7 min):** debate the three contested scenarios — a "done" change that still needs a flag, a *permanent* flag (a kill switch), and the case where branch by abstraction and a flag compose.
+
+This is the payoff of §3.2: flags are one tool among several, and the skill is choosing among them. Deciding the *slices* of a feature — the complementary skill — is this session's homework.
 
 ---
 
@@ -163,9 +166,10 @@ Use the [Decompose a Long-Lived Branch](./exercises/decompose-a-branch.md) exerc
 
 #### Homework
 
-1. For one real change this week, try the full loop: short branch → small MR → merge to `main` same day
-2. If your service has no flag mechanism, sketch where one belongs (start with the `feature-flag.ts` pattern)
-3. List the quality gates your service runs today vs. the minimum set above — the diff is Session 3 work
+1. **Decompose a real feature.** Take the backlog feature you brought from Session 1 and work the [Decompose a Long-Lived Branch](./exercises/decompose-a-branch.md) exercise: break it into 6–10 slices, each mergeable to trunk within a day, each labeled *visible-now* or *behind-a-flag*, with any data change expressed as expand/contract. This is where you apply the mechanism you'd pick in the workshop to real work.
+2. For one real change this week, try the full loop: short branch → small MR → merge to `main` same day
+3. If your service has no flag mechanism, sketch where one belongs (start with the `feature-flag.ts` pattern)
+4. List the quality gates your service runs today vs. the minimum set above — the diff is Session 3 work
 
 #### Preview of Session 3
 
@@ -173,9 +177,11 @@ The pipeline that turns "trunk is always deployable" into "any change reaches pr
 
 ## 📚 Resources for This Session
 
-- [Decompose a Long-Lived Branch](./exercises/decompose-a-branch.md)
+- [Flag it, Abstract it, or Ship it?](./exercises/feature-flag-decision.md) — the workshop, with its interactive decision walker
+- [Decompose a Long-Lived Branch](./exercises/decompose-a-branch.md) — this session's homework
 - [Minimums Reference](../../resources/minimums-reference.md)
-- [Glossary](../../resources/glossary.md) — *feature flag*, *deploy* vs *release*, *expand/contract*
+- [Glossary](../../resources/glossary.md) — *feature flag*, *branch by abstraction*, *deploy* vs *release*, *expand/contract*
+- [Feature flags decision tree](https://beyond.minimumcd.org/docs/migrate-to-cd/optimize/feature-flags/) (MinimumCD) — the source for the workshop's three gates
 - [Trunk-Based Development](https://beyond.minimumcd.org/docs/reference/practices/trunk-based-development/) (MinimumCD)
 - [Database Delivery](../../resources/database-delivery.md) — developing and testing schema migrations locally before merge
 

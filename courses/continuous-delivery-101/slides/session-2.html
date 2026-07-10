@@ -30,7 +30,7 @@
         Set the frame and objectives. By the end they can:
         (1) explain why long-lived branches cost merge pain, lost work, and big batches;
         (2) apply trunk-based development — branches under a day;
-        (3) decompose a feature into small, independently shippable slices;
+        (3) choose the cheapest safe mechanism to integrate unfinished work — flag, branch by abstraction, or just ship it;
         (4) use a feature flag to merge unfinished work safely;
         (5) name the CI gates that keep the trunk deployable.
         The frame: Session 1 was the WHY; today is the first PRACTICE that makes it real —
@@ -705,53 +705,64 @@
       </aside>
     </section>
 
-    <!-- ==================================== 15 · DECOMPOSE YOUR FEATURE (workshop) -->
+    <!-- ==================================== 15 · FLAG / ABSTRACT / SHIP (workshop) -->
     <section data-background-gradient="radial-gradient(900px 520px at 50% 4%, #16223f, #0b0e14 62%)">
-      <p class="cd-kicker">Now — decompose <span class="t-teal">your</span> feature</p>
-      <svg class="dia" viewBox="0 0 1000 300" style="max-height:300px" role="img"
-           aria-label="One big feature block on the left shatters into six to ten small slices on the right, ordered left to right. Some slices are tagged flag or dark; the last slices are flag flips — the release decisions.">
+      <p class="cd-kicker">Now — <span class="t-teal">flag it, abstract it, or ship it?</span></p>
+      <svg class="dia" viewBox="0 0 1000 340" style="max-height:340px" role="img"
+           aria-label="A decision funnel. A new change enters Gate 1: finished and safe to ship today? Yes leads to just ship it. No falls to Gate 2: is it a structural swap of an implementation or layer? Yes leads to branch by abstraction. No falls to Gate 3: does it need reveal-timing control, a gradual rollout, or a kill switch? Yes leads to a feature flag.">
         <defs>
-          <marker id="ar14" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+          <marker id="ar15" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
             <path d="M0 0 L10 5 L0 10 z" fill="#3ed7c4"/>
           </marker>
         </defs>
-        <!-- big feature block -->
-        <rect x="60" y="96" width="150" height="120" rx="12" fill="#241710" stroke="#f08a52" stroke-width="2.5"/>
-        <text x="135" y="150" text-anchor="middle" fill="#f6d2b8" font-size="16" font-weight="800">one big</text>
-        <text x="135" y="172" text-anchor="middle" fill="#f6d2b8" font-size="16" font-weight="800">feature</text>
-        <!-- shatter arrow -->
-        <line x1="222" y1="156" x2="292" y2="156" stroke="#3ed7c4" stroke-width="2.5" marker-end="url(#ar14)"/>
-        <text x="257" y="144" text-anchor="middle" fill="#3ed7c4" font-size="12" font-weight="700">slice</text>
-        <!-- small slices -->
-        <g font-size="12" font-weight="700" text-anchor="middle">
-          <g><rect x="308" y="108" width="86" height="42" rx="8" fill="#10211f" stroke="#3ed7c4" stroke-width="1.8"/><text x="351" y="134" fill="#cdeee8">scaffold</text></g>
-          <g><rect x="406" y="108" width="86" height="42" rx="8" fill="#10211f" stroke="#3ed7c4" stroke-width="1.8"/><text x="449" y="134" fill="#cdeee8">table</text></g>
-          <g><rect x="504" y="108" width="86" height="42" rx="8" fill="#0a1f1c" stroke="#3ed7c4" stroke-width="1.8" stroke-dasharray="4 4"/><text x="547" y="128" fill="#cdeee8">record</text><text x="547" y="143" fill="#3ed7c4" font-size="10">flag</text></g>
-          <g><rect x="602" y="108" width="86" height="42" rx="8" fill="#0a1f1c" stroke="#3ed7c4" stroke-width="1.8" stroke-dasharray="4 4"/><text x="645" y="128" fill="#cdeee8">notify</text><text x="645" y="143" fill="#3ed7c4" font-size="10">flag</text></g>
-          <g><rect x="700" y="108" width="86" height="42" rx="8" fill="#0a1f1c" stroke="#3ed7c4" stroke-width="1.8" stroke-dasharray="4 4"/><text x="743" y="128" fill="#cdeee8">history</text><text x="743" y="143" fill="#3ed7c4" font-size="10">flag</text></g>
-        </g>
-        <!-- flag-flip finish -->
-        <g>
-          <rect x="812" y="108" width="120" height="42" rx="8" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2"/>
-          <text x="872" y="134" text-anchor="middle" fill="#3ed7c4" font-size="12" font-weight="800">flip flags = release</text>
-        </g>
-        <text x="620" y="196" text-anchor="middle" fill="#9fb2c6" font-size="14">6–10 slices · each mergeable to trunk within a day · dashed = behind a flag</text>
+        <!-- entry -->
+        <rect x="60" y="10" width="170" height="30" rx="8" fill="#132038" stroke="#3ed7c4" stroke-width="1.6"/>
+        <text x="145" y="30" text-anchor="middle" fill="#cdeee8" font-size="14" font-weight="800">a new change</text>
+        <line x1="145" y1="40" x2="145" y2="52" stroke="#3ed7c4" stroke-width="2.2" marker-end="url(#ar15)"/>
+        <!-- gate 1 -->
+        <rect x="60" y="54" width="440" height="64" rx="10" fill="#101a2e" stroke="#43506a" stroke-width="1.8"/>
+        <text x="80" y="80" fill="#7fe9dc" font-size="12" font-weight="800">GATE 1</text>
+        <text x="80" y="102" fill="#d6e0ee" font-size="15" font-weight="700">Finished &amp; safe to ship today?</text>
+        <line x1="500" y1="86" x2="612" y2="86" stroke="#3ed7c4" stroke-width="2.2" marker-end="url(#ar15)"/>
+        <text x="556" y="76" text-anchor="middle" fill="#7fe9dc" font-size="11" font-weight="700">yes</text>
+        <rect x="620" y="60" width="320" height="52" rx="10" fill="#0e2b1c" stroke="#5fd38c" stroke-width="2"/>
+        <text x="780" y="92" text-anchor="middle" fill="#cfeede" font-size="15" font-weight="800">just ship it</text>
+        <!-- gate1 no -> gate2 -->
+        <line x1="150" y1="118" x2="150" y2="150" stroke="#8090a6" stroke-width="2.2" marker-end="url(#ar15)"/>
+        <text x="166" y="140" fill="#9fb2c6" font-size="11" font-weight="700">no</text>
+        <!-- gate 2 -->
+        <rect x="60" y="152" width="440" height="64" rx="10" fill="#101a2e" stroke="#43506a" stroke-width="1.8"/>
+        <text x="80" y="178" fill="#f0a878" font-size="12" font-weight="800">GATE 2</text>
+        <text x="80" y="200" fill="#d6e0ee" font-size="15" font-weight="700">Structural swap? (implementation / layer)</text>
+        <line x1="500" y1="184" x2="612" y2="184" stroke="#3ed7c4" stroke-width="2.2" marker-end="url(#ar15)"/>
+        <text x="556" y="174" text-anchor="middle" fill="#7fe9dc" font-size="11" font-weight="700">yes</text>
+        <rect x="620" y="158" width="320" height="52" rx="10" fill="#241710" stroke="#f08a52" stroke-width="2"/>
+        <text x="780" y="190" text-anchor="middle" fill="#f6d2b8" font-size="15" font-weight="800">branch by abstraction</text>
+        <!-- gate2 no -> gate3 -->
+        <line x1="150" y1="216" x2="150" y2="248" stroke="#8090a6" stroke-width="2.2" marker-end="url(#ar15)"/>
+        <text x="166" y="238" fill="#9fb2c6" font-size="11" font-weight="700">no</text>
+        <!-- gate 3 -->
+        <rect x="60" y="250" width="440" height="64" rx="10" fill="#101a2e" stroke="#43506a" stroke-width="1.8"/>
+        <text x="80" y="276" fill="#7fe9dc" font-size="12" font-weight="800">GATE 3</text>
+        <text x="80" y="298" fill="#d6e0ee" font-size="15" font-weight="700">Reveal-timing, rollout, or kill switch?</text>
+        <line x1="500" y1="282" x2="612" y2="282" stroke="#3ed7c4" stroke-width="2.2" marker-end="url(#ar15)"/>
+        <text x="556" y="272" text-anchor="middle" fill="#7fe9dc" font-size="11" font-weight="700">yes</text>
+        <rect x="620" y="256" width="320" height="52" rx="10" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2"/>
+        <text x="780" y="288" text-anchor="middle" fill="#cdeee8" font-size="15" font-weight="800">feature flag</text>
       </svg>
       <div class="caption">
-        <span><b>Break your feature into 6–10 daily slices</b> · mergeable today? visible-now or behind-a-flag?</span>
+        <span><b>Pick the cheapest mechanism that keeps trunk deployable</b> · and say why not the other two</span>
         <span class="pill teal">Your turn →</span>
       </div>
       <aside class="notes">
-        Transition to the 25-minute workshop with the backlog feature they brought from Session 1 homework.
-        INDIVIDUALLY (10 min): 6–10 slices, each small, safe, independently shippable, hidden-if-needed,
-        labeled visible-now vs behind-a-flag.
-        IN PAIRS (10 min): pressure-test — "could this merge to main today without breaking anything?" —
-        split anything that fails; find the database change and express it as expand/contract.
-        GROUP (5 min): share one; call out where a flag let you merge unfinished work.
-        Emphasize the AI angle: an agent can write any one slice — designing the DECOMPOSITION (the seam,
-        the order, the flags, the expand/contract steps) is the "design the factory" work that stays yours.
-        Greenfield ADDS behavior from a 501 scaffold; brownfield REPLACES it safely behind a seam with a
-        named dual-write window — make them name both.
+        Transition to the 25-minute workshop: classify a series of real changes with the decision walker.
+        TOGETHER (5 min): walk one scenario aloud through the three gates — model the reasoning, not the label.
+        INDIVIDUAL → PAIRS (13 min): classify the rest — verdict + one-line rationale + the trap each tests;
+        argue disagreements from the GATES, not from taste.
+        GROUP (7 min): debate the three contested ones — a "done" change that still needs a flag (shadow/ramp),
+        a PERMANENT flag (kill switch / entitlement), and the compose case (branch by abstraction + a flag on the flip).
+        The AI angle: an agent can implement any of the three mechanisms — deciding WHICH the change calls for
+        is the judgment that stays yours. Decomposing the feature into slices is the complementary skill — that's the homework.
       </aside>
     </section>
 

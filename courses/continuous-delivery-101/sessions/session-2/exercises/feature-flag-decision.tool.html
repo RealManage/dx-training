@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flag-it Decision Walker — CD 101</title>
+<style>
+  :root {
+    --ink: #1d2733;
+    --muted: #5b6b7d;
+    --line: #d8e0e8;
+    --bg: #f5f7fa;
+    --card: #ffffff;
+    --accent: #1f6feb;
+    --ship: #067647;   --ship-bg: #f0faf4;
+    --bba: #b54708;    --bba-bg: #fff7ed;
+    --flag: #1f6feb;   --flag-bg: #eaf1fe;
+    --none: #b42318;   --none-bg: #fdeceb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0 1.25rem 4rem;
+    font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--ink); background: var(--bg);
+  }
+  header, main, footer { max-width: 1080px; margin: 0 auto; }
+  header { padding: 1.5rem 0 0.5rem; }
+  h1 { font-size: 1.6rem; margin: 0 0 0.25rem; }
+  .sub { color: var(--muted); margin: 0 0 1rem; }
+
+  .toolbar { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin: 0 0 1rem; }
+  button { font: inherit; cursor: pointer; border: 1px solid var(--line); background: var(--card);
+    color: var(--ink); border-radius: 6px; padding: 0.45rem 0.8rem; }
+  button:hover { border-color: var(--accent); color: var(--accent); }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  button.primary:hover { filter: brightness(1.07); color: #fff; }
+  button.on { background: #eef4ff; border-color: var(--accent); color: var(--accent); }
+
+  .tally { background: var(--card); border: 1px solid var(--line); border-radius: 8px;
+    padding: 0.7rem 1rem; margin: 0 0 1rem; position: sticky; top: 0; z-index: 2; }
+  .tally strong { font-variant-numeric: tabular-nums; }
+  .tally .muted { color: var(--muted); font-weight: 400; }
+
+  .cols { display: grid; grid-template-columns: 320px 1fr; gap: 1rem; align-items: start; }
+  @media (max-width: 820px) { .cols { grid-template-columns: 1fr; } }
+
+  .list { background: var(--card); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .list button { display: flex; width: 100%; text-align: left; border: none; border-bottom: 1px solid var(--line);
+    border-radius: 0; padding: 0.6rem 0.8rem; gap: 0.55rem; align-items: baseline; background: var(--card); }
+  .list button:hover { background: #f7f9fc; color: inherit; }
+  .list button:last-child { border-bottom: none; }
+  .list button.sel { background: #eef4ff; box-shadow: inset 3px 0 0 var(--accent); }
+  .list .st { width: 1.1rem; flex: none; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .list .st.ok { color: var(--ship); }
+  .list .st.miss { color: var(--none); }
+  .list .st.mid { color: var(--muted); }
+  .list .st.todo { color: var(--line); }
+  .list .tl { flex: 1; }
+  .list .tl small { display: block; color: var(--muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.03em; }
+  .list .badge { flex: none; font-size: 0.68rem; color: var(--muted); border: 1px solid var(--line);
+    border-radius: 99px; padding: 0 0.4rem; align-self: center; }
+
+  .detail { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.1rem; }
+  .detail .scn { font-size: 1.05rem; font-weight: 700; margin: 0 0 0.5rem; }
+  .detail .scn .n { color: var(--muted); }
+  .detail .txt { margin: 0 0 1rem; }
+
+  .gate { border: 1px solid var(--line); border-radius: 8px; padding: 0.9rem 1rem; background: #fbfcfe; }
+  .gate .g-k { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--accent); font-weight: 700; }
+  .gate .g-q { font-weight: 700; margin: 0.15rem 0 0.35rem; }
+  .gate .g-d { color: var(--muted); margin: 0 0 0.8rem; }
+  .gate .ans { display: flex; gap: 0.5rem; }
+  .gate .ans button { flex: 1; }
+
+  .trail { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0 0 0.8rem; }
+  .trail .step { font-size: 0.8rem; color: var(--muted); border: 1px solid var(--line); border-radius: 99px; padding: 0.05rem 0.55rem; }
+  .trail .step b { color: var(--ink); }
+
+  .verdict { border-radius: 8px; padding: 0.6rem 0.9rem; font-weight: 800; margin: 0 0 0.8rem; border: 1px solid; }
+  .v-ship { background: var(--ship-bg); color: var(--ship); border-color: var(--ship); }
+  .v-bba  { background: var(--bba-bg);  color: var(--bba);  border-color: var(--bba); }
+  .v-flag { background: var(--flag-bg); color: var(--flag); border-color: var(--flag); }
+  .v-none { background: var(--none-bg); color: var(--none); border-color: var(--none); }
+
+  .result { border: 1px solid var(--line); border-radius: 8px; padding: 0.2rem 1rem 0.9rem; margin-top: 0.9rem; }
+  .result h3 { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--muted); margin: 0.9rem 0 0.2rem; }
+  .result p { margin: 0.1rem 0 0; }
+  .match { display: inline-block; font-weight: 800; border-radius: 99px; padding: 0.1rem 0.6rem; font-size: 0.9rem; }
+  .match.yes { background: var(--ship-bg); color: var(--ship); }
+  .match.no { background: var(--none-bg); color: var(--none); }
+  .intended { color: var(--muted); margin-left: 0.4rem; }
+  .life { display: inline-block; font-size: 0.8rem; border: 1px dashed var(--muted); color: var(--muted); border-radius: 6px; padding: 0.05rem 0.5rem; margin-top: 0.4rem; }
+  .keybar { margin-top: 0.9rem; }
+
+  .empty { color: var(--muted); }
+  footer { color: var(--muted); font-size: 0.9rem; margin-top: 1.8rem; }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Flag it, Abstract it, or Ship it?</h1>
+  <p class="sub">Continuous Delivery 101 · Session 2 — walk each change through the three gates, land on a verdict, and check it against the reasoning. Autosaves in this browser.</p>
+</header>
+
+<main>
+  <div class="toolbar">
+    <button id="key">Reveal answer key</button>
+    <span style="flex:1"></span>
+    <button id="copy" class="primary">Copy as Markdown</button>
+    <button id="reset">Reset scorecard</button>
+  </div>
+
+  <div class="tally" id="tally"></div>
+
+  <div class="cols">
+    <div class="list" id="list"></div>
+    <div class="detail" id="detail"></div>
+  </div>
+
+  <footer>
+    <p>Back to the exercise: <a href="./feature-flag-decision.html">Flag it, Abstract it, or Ship it?</a> · terms in the <a href="../../../resources/glossary.html">glossary</a>. Your work autosaves in this browser.</p>
+  </footer>
+</main>
+
+<script>
+  "use strict";
+  const STORAGE_KEY = "ffd-cd101-v1";
+
+  const GATES = [
+    null,
+    { k: "Gate 1 — Ship-it test",
+      q: "Can it merge to trunk today, finished and safe?",
+      d: "Finished, backward-compatible, exposing nothing half-built or risky." },
+    { k: "Gate 2 — Structural or behavioral?",
+      q: "Is what's-not-ready a structural swap?",
+      d: "Replacing an implementation, dependency, or data layer — no intended user-visible change — where old and new can't both live at one call site." },
+    { k: "Gate 3 — Otherwise",
+      q: "User-facing behavior, or a rollout / kill switch / targeting need?",
+      d: "Behavior you must integrate before it's ready to reveal — or you need staged rollout, a kill switch, or per-customer targeting." },
+  ];
+
+  const VLABEL = { ship: "✅ Just ship it", bba: "🔀 Branch by abstraction", flag: "🚩 Feature flag", none: "⚠️ Neither — expand/contract" };
+  const VCLASS = { ship: "v-ship", bba: "v-bba", flag: "v-flag", none: "v-none" };
+
+  const SCENARIOS = [
+    { id: 1, title: "The error-message typo", tag: "live",
+      text: "The Violations API returns a validation error reading \"propertyId is requried\". You fix the spelling — one line, one updated unit test, backward-compatible.",
+      accept: ["ship"], label: "Just ship it",
+      why: "Finished, one line, backward-compatible, nothing to hide.",
+      whyNot: "A flag or seam here is pure overhead and a future deletion chore.",
+      trap: "\"Shouldn't everything go behind a flag?\" No — YAGNI." },
+    { id: 2, title: "History endpoint, revealed after the board meeting", tag: "live",
+      text: "Product wants GET /violations/history for board members, but not until the quarterly board meeting three weeks out. The work spans several days and you want to merge to trunk daily as you build it.",
+      accept: ["flag"], label: "Feature flag (release)", life: "Release flag — temporary; delete once the board is live.",
+      why: "User-facing, incomplete, reveal timing is a business call — decouple deploy from release.",
+      whyNot: "Shipping exposes half-built behavior; nothing structural is being swapped.",
+      trap: "The textbook case — the shared worked example." },
+    { id: 3, title: "Swap the data-access layer", tag: "live",
+      text: "Persistence in the Violations API is scattered, hand-rolled AWS SDK calls. You're moving all of it behind a new ViolationRepository — no behavior change intended — but you can't have half the handlers on the old calls and half on the new mid-way.",
+      accept: ["bba"], label: "Branch by abstraction",
+      why: "A structural swap of a whole layer; a seam lets old and new coexist until the swap is complete, then you delete the old path.",
+      whyNot: "A call-site flag can't cleanly wrap an entire data layer; it's too big to swap atomically and just ship.",
+      trap: "Reaching for a flag reflexively — structural swaps want a seam." },
+    { id: 4, title: "The late-fee rewrite you don't trust yet", tag: "live",
+      text: "You've rewritten the late-fee escalation calculation. Unit tests pass, but a wrong fee charges a homeowner real money. Before trusting it you want to run the new logic against real production inputs alongside the old and compare — without changing what anyone is charged.",
+      accept: ["flag"], label: "Feature flag (dark launch / shadow)", life: "Release flag — remove once parity is proven and it's ramped to 100%.",
+      why: "\"Done\" is not \"trusted\" — a flag lets you shadow / ramp and validate against real data before it charges anyone.",
+      whyNot: "Shipping it live risks wrong fees; it's a behavior to validate, not a subsystem to swap.",
+      trap: "\"Tests pass, just ship it\" — high-blast-radius money logic shadows first." },
+    { id: 5, title: "The report that melts the database", tag: "live",
+      text: "The monthly delinquency report runs an expensive query that has twice degraded the shared database at month-end. You want to switch report generation off instantly during an incident, without a deploy.",
+      accept: ["flag"], label: "Feature flag (kill switch — permanent)", life: "Operational / kill-switch flag — permanent by design; it is not deleted.",
+      why: "You need a runtime off-switch for incidents; that switch is an operational flag.",
+      whyNot: "Nothing is being replaced; shipping doesn't give you the switch.",
+      trap: "Assuming every flag is temporary — this one is architecture." },
+    { id: 6, title: "The premium analytics dashboard", tag: "live",
+      text: "A new violations-analytics dashboard is sold as part of the top-tier HOA management contract. Only communities on that tier should ever see it; everyone else should not — indefinitely.",
+      accept: ["flag"], label: "Feature flag (permission / entitlement — permanent)", life: "Permission / entitlement flag — permanent, tied to subscription tier.",
+      why: "Behavior gated by subscription tier, indefinitely — a permanent targeting flag.",
+      whyNot: "It's paid, so you can't ship it to everyone; it's not a structural swap.",
+      trap: "Confusing a permanent entitlement toggle with a temporary release flag — or with mere config." },
+    { id: 7, title: "The null-reference hotfix", tag: "live",
+      text: "The Violations API throws a NullReferenceException (HTTP 500) when a request omits propertyId. You add a guard that returns a 400 with a clear message, plus a test. Backward-compatible.",
+      accept: ["ship"], label: "Just ship it",
+      why: "A small, backward-compatible correctness fix with a test — nothing incomplete to hide.",
+      whyNot: "A flag delays the fix and adds a dead path; there's nothing to abstract.",
+      trap: "\"It touches behavior, so flag it\" — no. Contrast #4: a hotfix ships; an untrusted rewrite shadows." },
+    { id: 8, title: "Swap the notification provider, gradually", tag: "live",
+      text: "Violation notifications go out via raw SNS today. You're moving them to a new managed email service with better deliverability tracking — and you want to cut over one community at a time and fall back instantly if bounce rates spike.",
+      accept: ["bba", "flag"], label: "Branch by abstraction + Feature flag", life: "Seam for the swap; a release flag on the flip, removed after full cutover.",
+      why: "A structural provider swap (seam) whose cutover you want gradual and instantly reversible (a flag on the flip).",
+      whyNot: "A seam alone gives a big-bang flip; a flag alone can't wrap two whole provider implementations. Together they do.",
+      trap: "The \"pick one\" instinct — the mechanisms compose." },
+    { id: 9, title: "Restructure escalation from a string to a history", tag: "stretch",
+      text: "Each violation stores its escalation as a single level string. Product now wants a full escalationHistory — every step, with a timestamp — on live data with live readers.",
+      accept: ["none", "bba"], label: "Neither cleanly → expand/contract",
+      why: "A schema/data change on live readers uses expand/contract — the data cousin of a seam; the read-path cutover can itself be flag-gated.",
+      whyNot: "A call-site flag doesn't migrate data; a code seam isn't a schema migration.",
+      trap: "Forcing it into one of the three — the model has a boundary, and this is it." },
+    { id: 10, title: "The internal backfill script", tag: "stretch",
+      text: "You write a one-off CLI an engineer runs by hand to backfill a new createdBy field on old violation records. No request path calls it; it runs once, from a developer machine, then it's done.",
+      accept: ["ship"], label: "Just ship it",
+      why: "No user path calls it, nothing to reveal, backward-compatible.",
+      whyNot: "Nothing to gate, nothing to abstract.",
+      trap: "\"It touches prod data, so flag it\" — internal, manual, one-shot tools rarely need flags." },
+  ];
+
+  const byId = (id) => SCENARIOS.find((s) => s.id === id);
+
+  const blank = () => ({ sel: SCENARIOS[0].id, showKey: false, results: {} });
+  function load() { try { const r = localStorage.getItem(STORAGE_KEY); return r ? JSON.parse(r) : null; } catch { return null; } }
+  function save() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch { /* ignore */ } }
+  let state = load() || blank();
+  if (!state.results) state.results = {};
+
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+  // resolve a path of "yes"/"no" answers to either the next gate or a landed verdict
+  function resolve(path) {
+    if (path.length === 0) return { gate: 1 };
+    if (path[0] === "yes") return { done: true, verdict: "ship" };
+    if (path.length === 1) return { gate: 2 };
+    if (path[1] === "yes") return { done: true, verdict: "bba" };
+    if (path.length === 2) return { gate: 3 };
+    if (path[2] === "yes") return { done: true, verdict: "flag" };
+    return { done: true, verdict: "none" };
+  }
+
+  const resultOf = (id) => state.results[id] || { path: [], verdict: null, matched: null };
+
+  function statusOf(id) {
+    const r = resultOf(id);
+    if (!r.path.length) return "todo";
+    if (r.verdict == null) return "mid";
+    return r.matched ? "ok" : "miss";
+  }
+  const STCHAR = { todo: "○", mid: "…", ok: "✓", miss: "✗" };
+
+  // ---- tally ----
+  function renderTally() {
+    let done = 0, ok = 0;
+    SCENARIOS.forEach((s) => { const r = resultOf(s.id); if (r.verdict != null) { done++; if (r.matched) ok++; } });
+    $("tally").innerHTML =
+      `<strong style="color:var(--ship)">${ok}</strong> matched · ` +
+      `<strong style="color:var(--none)">${done - ok}</strong> to reconsider ` +
+      `<span class="muted">(of ${SCENARIOS.length} scenarios, ${done} walked)</span>`;
+  }
+
+  // ---- list ----
+  function renderList() {
+    $("list").innerHTML = SCENARIOS.map((s) => {
+      const st = statusOf(s.id);
+      const sel = s.id === state.sel ? " sel" : "";
+      const badge = s.tag === "stretch" ? '<span class="badge">stretch</span>' : "";
+      return `<button data-id="${s.id}" class="scn-btn${sel}">
+        <span class="st ${st}">${STCHAR[st]}</span>
+        <span class="tl"><small>Scenario ${s.id}</small>${esc(s.title)}</span>
+        ${badge}
+      </button>`;
+    }).join("");
+  }
+
+  // ---- detail ----
+  function trailHtml(path) {
+    if (!path.length) return "";
+    const steps = [];
+    let p = [];
+    for (let i = 0; i < path.length; i++) {
+      const r = resolve(p);
+      if (r.gate) steps.push(`<span class="step">G${r.gate}: <b>${path[i] === "yes" ? "Yes" : "No"}</b></span>`);
+      p = p.concat(path[i]);
+    }
+    return `<div class="trail">${steps.join("")}</div>`;
+  }
+
+  function keyPanelHtml(s, landed) {
+    const matched = landed != null ? s.accept.includes(landed) : null;
+    const head = landed != null
+      ? `<span class="match ${matched ? "yes" : "no"}">${matched ? "MATCH ✓" : "RECONSIDER ✗"}</span><span class="intended">Intended: ${esc(s.label)}</span>`
+      : `<span class="match yes" style="background:#eef4ff;color:var(--accent)">ANSWER KEY</span><span class="intended">Intended: ${esc(s.label)}</span>`;
+    return `<div class="result">
+      <p style="margin-top:0.6rem">${head}</p>
+      <h3>Why</h3><p>${esc(s.why)}</p>
+      <h3>Why not the other two</h3><p>${esc(s.whyNot)}</p>
+      <h3>The trap</h3><p>${esc(s.trap)}</p>
+      ${s.life ? `<span class="life">Lifecycle: ${esc(s.life)}</span>` : ""}
+    </div>`;
+  }
+
+  function renderDetail() {
+    const s = byId(state.sel);
+    if (!s) { $("detail").innerHTML = '<p class="empty">Pick a scenario.</p>'; return; }
+    const r = resultOf(s.id);
+    const res = resolve(r.path);
+
+    let mid = "";
+    if (res.done) {
+      const v = res.verdict;
+      mid = `${trailHtml(r.path)}
+        <div class="verdict ${VCLASS[v]}">You landed on: ${VLABEL[v]}</div>
+        <div class="keybar"><button data-act="again">↺ Walk again</button></div>
+        ${keyPanelHtml(s, v)}`;
+    } else {
+      const g = GATES[res.gate];
+      mid = `${trailHtml(r.path)}
+        <div class="gate">
+          <div class="g-k">${esc(g.k)}</div>
+          <div class="g-q">${esc(g.q)}</div>
+          <div class="g-d">${esc(g.d)}</div>
+          <div class="ans">
+            <button data-act="ans" data-v="yes" class="primary">Yes</button>
+            <button data-act="ans" data-v="no">No</button>
+          </div>
+        </div>
+        ${state.showKey ? keyPanelHtml(s, null) : ""}`;
+    }
+
+    $("detail").innerHTML = `
+      <p class="scn"><span class="n">Scenario ${s.id}${s.tag === "stretch" ? " · stretch" : ""} —</span> ${esc(s.title)}</p>
+      <p class="txt">${esc(s.text)}</p>
+      ${mid}`;
+  }
+
+  function renderAll() { renderTally(); renderList(); renderDetail(); }
+
+  // ---- events ----
+  $("list").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-id]");
+    if (!b) return;
+    state.sel = +b.dataset.id;
+    save(); renderAll();
+  });
+
+  $("detail").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-act]");
+    if (!b) return;
+    const s = byId(state.sel);
+    const r = resultOf(s.id);
+    const act = b.dataset.act;
+    if (act === "again") {
+      state.results[s.id] = { path: [], verdict: null, matched: null };
+    } else if (act === "ans") {
+      const path = r.path.concat(b.dataset.v);
+      const res = resolve(path);
+      const entry = { path, verdict: null, matched: null };
+      if (res.done) { entry.verdict = res.verdict; entry.matched = s.accept.includes(res.verdict); }
+      state.results[s.id] = entry;
+    }
+    save(); renderAll();
+  });
+
+  $("key").addEventListener("click", () => {
+    state.showKey = !state.showKey;
+    $("key").classList.toggle("on", state.showKey);
+    $("key").textContent = state.showKey ? "Hide answer key" : "Reveal answer key";
+    save(); renderDetail();
+  });
+
+  $("reset").addEventListener("click", () => {
+    if (!confirm("Reset the scorecard? This clears every walked scenario in this browser.")) return;
+    state.results = {}; save(); renderAll();
+  });
+
+  $("copy").addEventListener("click", async () => {
+    const out = [];
+    out.push("# Flag it, Abstract it, or Ship it? — my calls", "");
+    let done = 0, ok = 0;
+    SCENARIOS.forEach((s) => { const r = resultOf(s.id); if (r.verdict != null) { done++; if (r.matched) ok++; } });
+    out.push(`**Scorecard:** ${ok} matched · ${done - ok} to reconsider (of ${SCENARIOS.length} scenarios, ${done} walked)`, "");
+    out.push("| # | Scenario | My verdict | Intended | Match |");
+    out.push("| - | -------- | ---------- | -------- | ----- |");
+    const plain = { ship: "Just ship it", bba: "Branch by abstraction", flag: "Feature flag", none: "Neither (expand/contract)" };
+    SCENARIOS.forEach((s) => {
+      const r = resultOf(s.id);
+      const mine = r.verdict ? plain[r.verdict] : "—";
+      const m = r.verdict == null ? "" : (r.matched ? "✓" : "✗");
+      const title = s.title.replace(/\|/g, "\\|");
+      out.push(`| ${s.id} | ${title} | ${mine} | ${s.label.replace(/\|/g, "\\|")} | ${m} |`);
+    });
+    const md = out.join("\n");
+    const b = $("copy"), orig = b.textContent;
+    try { await navigator.clipboard.writeText(md); b.textContent = "Copied!"; setTimeout(() => { b.textContent = orig; }, 1500); }
+    catch { window.prompt("Copy this Markdown:", md); }
+  });
+
+  // init toggle label
+  $("key").classList.toggle("on", !!state.showKey);
+  $("key").textContent = state.showKey ? "Hide answer key" : "Reveal answer key";
+
+  renderAll();
+</script>
+</body>
+</html>
