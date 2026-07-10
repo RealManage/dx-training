@@ -102,45 +102,54 @@
 
     <!-- ==================================== 3 · WHAT LONG-LIVED BRANCHES COST -->
     <section data-background-color="#0b0e14">
-      <h2>A long branch is a big batch in disguise</h2>
-      <svg class="dia" viewBox="0 0 1000 420" style="max-height:420px" role="img"
-           aria-label="Main is a straight lane. A feature branch peels away and the gap widens as it travels, accumulating drift, merge pain, and lost work. Two weeks later it merges back in a big-bang collision — a two-week batch hitting production at once.">
-        <defs>
-          <marker id="ar3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-            <path d="M0 0 L10 5 L0 10 z" fill="#f08a52"/>
-          </marker>
-        </defs>
-        <!-- main lane -->
-        <line x1="60" y1="120" x2="940" y2="120" stroke="#3ed7c4" stroke-width="3"/>
-        <g fill="#3ed7c4">
-          <circle cx="90" cy="120" r="6"/><circle cx="230" cy="120" r="6"/><circle cx="370" cy="120" r="6"/>
-          <circle cx="510" cy="120" r="6"/><circle cx="650" cy="120" r="6"/><circle cx="790" cy="120" r="6"/>
+      <h2>Long-lived branch == big batch</h2>
+      <svg class="dia below-title" viewBox="0 0 1000 220" style="max-height:300px" role="img"
+           aria-label="A git graph over eight day columns — Monday to Friday, then Monday to Wednesday, spanning two weeks. Main runs along the bottom, collecting other people's merges as it moves on. One feature branch peels up to a plateau on day one and stays off main the whole two weeks, piling up its own commits while the trunk drifts beneath it. Drift, merge pain, and lost work accumulate, then the branch crashes back into main in a single big-bang merge at the end.">
+        <!-- day columns: M–F, then M–W (two weeks), alternating shading per day -->
+        <g fill="rgba(255,255,255,.05)">
+          <rect x="70"  y="40" width="107" height="160"/><rect x="284" y="40" width="107" height="160"/>
+          <rect x="498" y="40" width="107" height="160"/><rect x="712" y="40" width="107" height="160"/>
         </g>
-        <text x="60" y="102" fill="#3ed7c4" font-size="15" font-weight="800">main</text>
-
-        <!-- feature branch peeling away, widening gap -->
-        <path d="M150 120 C 320 150, 520 250, 860 300" fill="none" stroke="#f08a52" stroke-width="3"/>
+        <line x1="605" y1="40" x2="605" y2="200" stroke="#3a4656" stroke-width="1.6" stroke-dasharray="2 7"/>
+        <g text-anchor="middle" fill="#9fb2c6" font-size="12" font-weight="700" letter-spacing=".05em">
+          <text x="124" y="28">MON</text><text x="230" y="28">TUE</text><text x="337" y="28">WED</text>
+          <text x="444" y="28">THU</text><text x="551" y="28">FRI</text>
+          <text x="658" y="28">MON</text><text x="765" y="28">TUE</text><text x="872" y="28">WED</text>
+        </g>
+        <!-- feature branch: peels up on day 1, plateaus off main for two weeks, big-bang merge at the end -->
+        <text x="505" y="62" text-anchor="middle" fill="#f08a52" font-size="15" font-weight="800">feature branch</text>
+        <path d="M120 155 C 134 132, 144 80, 162 80 L848 80 C866 80, 878 132, 890 155" fill="none" stroke="#f08a52" stroke-width="3"/>
+        <!-- branch commits: sporadic, 0–2 per day -->
         <g fill="#f08a52">
-          <circle cx="150" cy="120" r="6"/><circle cx="300" cy="146" r="6"/><circle cx="470" cy="212" r="6"/>
-          <circle cx="640" cy="266" r="6"/><circle cx="800" cy="292" r="6"/>
+          <circle cx="210" cy="80" r="5"/><circle cx="250" cy="80" r="5"/>
+          <circle cx="337" cy="80" r="5"/>
+          <circle cx="525" cy="80" r="5"/><circle cx="578" cy="80" r="5"/>
+          <circle cx="658" cy="80" r="5"/>
+          <circle cx="740" cy="80" r="5"/><circle cx="790" cy="80" r="5"/>
         </g>
-        <text x="150" y="342" fill="#f08a52" font-size="15" font-weight="800">feature branch — 2 weeks</text>
-
-        <!-- cost labels attaching along the way -->
-        <text x="300" y="182" fill="#f6d2b8" font-size="14" font-weight="700">drift ↑</text>
-        <text x="470" y="248" fill="#f6d2b8" font-size="14" font-weight="700">merge pain ↑</text>
-        <text x="628" y="302" fill="#f6d2b8" font-size="14" font-weight="700">lost work ↑</text>
-
-        <!-- big-bang merge collision back into main -->
-        <path d="M800 292 C 870 270, 900 180, 900 132" fill="none" stroke="#f08a52" stroke-width="3" marker-end="url(#ar3)"/>
-        <g>
-          <path d="M900 120 m-16 0 l6 -10 l4 6 l8 -12 l6 14 l-4 2 l4 8 z" fill="#f08a52"/>
-          <text x="905" y="86" text-anchor="middle" fill="#f08a52" font-size="14" font-weight="800">big-bang merge</text>
+        <!-- cost piling up in the divergence gap -->
+        <g fill="#f6d2b8" font-size="14" font-weight="700" text-anchor="middle">
+          <text x="300" y="120">drift ↑</text><text x="520" y="120">merge pain ↑</text><text x="720" y="120">lost work ↑</text>
         </g>
+        <!-- main: moves on beneath the branch (other people's merges = drift) -->
+        <line x1="60" y1="155" x2="940" y2="155" stroke="#3ed7c4" stroke-width="3"/>
+        <text x="60" y="141" fill="#3ed7c4" font-size="15" font-weight="800">main</text>
+        <!-- main commits: busier trunk, 1–3 per day (the drift) -->
+        <g fill="#3ed7c4">
+          <circle cx="120" cy="155" r="6"/><circle cx="165" cy="155" r="6"/>
+          <circle cx="200" cy="155" r="6"/><circle cx="235" cy="155" r="6"/><circle cx="270" cy="155" r="6"/>
+          <circle cx="337" cy="155" r="6"/>
+          <circle cx="420" cy="155" r="6"/><circle cx="470" cy="155" r="6"/>
+          <circle cx="515" cy="155" r="6"/><circle cx="550" cy="155" r="6"/><circle cx="585" cy="155" r="6"/>
+          <circle cx="635" cy="155" r="6"/><circle cx="685" cy="155" r="6"/>
+          <circle cx="730" cy="155" r="6"/><circle cx="765" cy="155" r="6"/><circle cx="800" cy="155" r="6"/>
+          <circle cx="850" cy="155" r="6"/>
+        </g>
+        <!-- big-bang merge: the two-week branch collapses into main at one point -->
+        <circle cx="890" cy="155" r="15" fill="none" stroke="#f08a52" stroke-width="1.5" opacity=".45"/>
+        <circle cx="890" cy="155" r="9" fill="#f08a52"/>
+        <text x="890" y="190" text-anchor="middle" fill="#f08a52" font-size="14" font-weight="800">big-bang merge</text>
       </svg>
-      <div class="caption">
-        <span class="t-orange" style="font-weight:700">drift · merge pain · lost work — and it IS a two-week batch</span>
-      </div>
       <aside class="notes">
         Walk the four costs. DRIFT: trunk moves on; the longer you're away, the more the world changed
         under you. MERGE PAIN: reconciling two weeks of divergence is error-prone — conflict resolution
@@ -156,9 +165,9 @@
 
     <!-- =========================== 4 · TBD: BRANCHES SO SHORT THEY NEVER DRIFT -->
     <section data-background-color="#0b0e14">
-      <h2>Trunk-based dev: branches so short they never drift</h2>
+      <h2>Trunk-based dev: small batches</h2>
       <svg class="dia below-title" viewBox="0 0 1000 175" style="max-height:200px" role="img"
-           aria-label="A git graph of trunk-based development over day columns. Monday and Tuesday are shown in full; Wednesday is only beginning and fades off to the right. Main is one trunk of commits. Monday holds two short-lived branches back to back; Tuesday holds two branches open at the same time — concurrent developers — drawn at two heights; Wednesday has one branch just opening. Each branch carries one or two commit dots and merges back into a later commit the same day.">
+           aria-label="A git graph of trunk-based development over day columns. Monday and Tuesday are shown in full; Wednesday is only beginning and fades off to the right. Main is one trunk of commits. Monday holds two short-lived branches back to back; the second opens late on Monday and merges first thing Tuesday — its arc crosses the day divider but still lives under a day. Tuesday then holds two branches open at the same time — concurrent developers — drawn at two heights. Wednesday has one branch just opening. Each branch carries one or two commit dots and merges back into a later commit.">
         <defs>
           <linearGradient id="dayfade" x1="0" y1="0" x2="1" y2="0">
             <stop offset="0" stop-color="#ffffff" stop-opacity=".05"/>
@@ -180,27 +189,27 @@
         <text x="60" y="104" fill="#3ed7c4" font-size="15" font-weight="800">main</text>
         <!-- commits on main: only branch-points + merges -->
         <g fill="#3ed7c4">
-          <circle cx="110" cy="118" r="6"/><circle cx="240" cy="118" r="6"/><circle cx="280" cy="118" r="6"/><circle cx="392" cy="118" r="6"/>
-          <circle cx="440" cy="118" r="6"/><circle cx="520" cy="118" r="6"/><circle cx="592" cy="118" r="6"/><circle cx="708" cy="118" r="6"/>
+          <circle cx="110" cy="118" r="6"/><circle cx="240" cy="118" r="6"/><circle cx="345" cy="118" r="6"/><circle cx="455" cy="118" r="6"/>
+          <circle cx="495" cy="118" r="6"/><circle cx="565" cy="118" r="6"/><circle cx="630" cy="118" r="6"/><circle cx="715" cy="118" r="6"/>
           <circle cx="790" cy="118" r="6"/>
         </g>
         <!-- short-lived branches; dots on an arc = commits made on that branch -->
         <g fill="none" stroke-width="2.5">
-          <!-- Mon: two branches back to back -->
+          <!-- Mon: two branches back to back; the second opens late and stays open overnight -->
           <path stroke="#74a0f2" d="M110 118 C 124 96, 134 86, 145 86 L205 86 C216 86, 226 96, 240 118"/>
-          <path stroke="#74a0f2" d="M280 118 C 294 96, 302 86, 312 86 L360 86 C371 86, 380 96, 392 118"/>
+          <path stroke="#74a0f2" d="M345 118 C 359 96, 369 86, 380 86 L420 86 C431 86, 441 96, 455 118"/>
           <!-- Tue: two branches open at once (concurrent) — second tinted violet to tell them apart -->
-          <path stroke="#74a0f2" d="M440 118 C 454 96, 460 86, 470 86 L560 86 C572 86, 582 96, 592 118"/>
-          <path stroke="#a78bfa" d="M520 118 C 536 88, 544 64, 556 64 L668 64 C680 64, 696 90, 708 118"/>
+          <path stroke="#74a0f2" d="M495 118 C 509 96, 519 86, 530 86 L595 86 C606 86, 616 96, 630 118"/>
+          <path stroke="#a78bfa" d="M565 118 C 581 88, 589 64, 601 64 L675 64 C687 64, 703 90, 715 118"/>
           <!-- Wed: one branch just opening, trailing into the fade -->
           <path stroke="#74a0f2" d="M790 118 C 806 96, 815 86, 828 86 L905 86"/>
         </g>
         <!-- commits made on the branches (dots on the arcs) -->
         <g fill="#74a0f2">
           <circle cx="165" cy="86" r="4"/><circle cx="195" cy="86" r="4"/>
-          <circle cx="336" cy="86" r="4"/>
-          <circle cx="495" cy="86" r="4"/><circle cx="525" cy="86" r="4"/>
-          <circle cx="610" cy="64" r="4" fill="#a78bfa"/>
+          <circle cx="398" cy="86" r="4"/>
+          <circle cx="550" cy="86" r="4"/><circle cx="580" cy="86" r="4"/>
+          <circle cx="640" cy="64" r="4" fill="#a78bfa"/>
           <circle cx="866" cy="86" r="4"/>
         </g>
         <!-- label one exemplar branch: branch-point (left) vs merge (right) -->
@@ -214,8 +223,13 @@
         RealManage flavor (fold in here): for our GitLab + AWS world, short-lived branches with small MRs
         is the natural fit — it pairs with our existing MR review and Jira branch-naming; what changes is
         the SIZE and LIFETIME of the branch, not the tooling.
-        Read the picture: each day holds SEVERAL short branches, each with a commit or two, each merged the
-        same day. MONDAY runs two branches back to back. TUESDAY deliberately shows two open AT THE SAME
+        Read the picture: each day holds SEVERAL short branches, each with a commit or two, each short-lived.
+        MONDAY runs two branches back to back — and the SECOND one deliberately opens late in the day and
+        merges first thing TUESDAY. That's the nuance: "less than a day" is about branch LIFETIME, not the
+        clock on the wall. Starting a branch with two hours left is fine — you commit your bit, and integrate
+        it next morning; it's still a sub-day branch. It's fully consistent with "integrate at least daily":
+        you never go more than a day without integrating, and not every line you touch today has to merge
+        today. TUESDAY deliberately shows two open AT THE SAME
         TIME — concurrent developers. That overlap window is the only interval in which they can conflict;
         because the branches are small and short-lived, the window is tiny, so conflicts are rare and small
         when they do happen. Long branches MAXIMIZE that overlap — that's why they're conflict factories.

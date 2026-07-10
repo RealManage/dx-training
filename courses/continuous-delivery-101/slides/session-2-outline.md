@@ -75,12 +75,16 @@ Connect is the open and the workshop / wrap-up is the close, so they aren't part
 
 - **Message:** A two-week branch isn't safe isolation — it's risk accumulating
   off-camera.
-- **Visual:** Anti-pattern-1 made visual: `main` as a straight lane; a feature branch
-  peels away and the gap **widens** as it travels, with four cost labels attaching along
-  the way — *drift · merge pain · lost work · it's a 2-week batch*. The big-bang merge at
-  the end drawn as a collision.
-- **On-slide text:** "A long branch is a big batch in disguise" · "drift · merge pain ·
-  lost work"
+- **Visual:** Same clean git-graph language as the TBD diagram (slide 4), inverted to show
+  the anti-pattern: eight **alternating-shaded day columns** (Mon–Fri, then Mon–Wed = two
+  weeks, with a heavier divider at the weekend). `main` runs along the bottom, collecting
+  other people's merges as it **moves on**. One **feature branch** peels up to a **plateau**
+  on day one and stays off main the whole two weeks, piling up its own commits (a sporadic
+  0–2/day) while the busier trunk drifts beneath it (1–3/day) — *drift · merge pain · lost
+  work* accumulate in the divergence gap, then the branch collapses back into main at a single
+  emphasized **big-bang merge** node.
+- **On-slide text:** slide title only, plus the in-diagram labels (main · feature branch ·
+  drift · merge pain · lost work · big-bang merge) — no bottom caption
 - **Say:** Walk the four costs. **Drift:** trunk moves on; the longer you're away, the
   more the world changed under you. **Merge pain:** reconciling two weeks of divergence
   is error-prone — conflict resolution silently drops or corrupts code. **Lost work:**
@@ -93,16 +97,19 @@ Connect is the open and the workshop / wrap-up is the close, so they aren't part
 
 ---
 
-## Slide 4 — TBD: branches so short they never drift
+## Slide 4 — TBD: small batches (branches < 1 day)
 
 - **Message:** Trunk-based development is the branching pattern CI *requires* — and it's
   tooling you already have, just smaller and shorter.
 - **Visual:** An honest **git graph laid over day columns**: **Mon and Tue shown in full,
   Wed only beginning and fading off the right edge** (the pattern continues — and the
   partial day frees up width in the full ones). `main` is one trunk of commits; **each
-  full day holds two short-lived branches** that merge back at a *later* commit **within
-  the same day** — several integrations per day, not one. **Monday** runs its two branches
-  *back to back*; **Tuesday** runs its two *concurrently* — overlapping in time, drawn at
+  full day holds two short-lived branches** that merge back at a *later* commit — several
+  integrations per day, not one. **Monday** runs its two branches *back to back*, and
+  Monday's **second branch opens late in the day and merges first thing Tuesday** — its arc
+  crosses the day divider yet still lives under a day (the teaching beat: "< 1 day" is branch
+  *lifetime*, not the wall clock, so don't hesitate to start work with a couple of hours
+  left). **Tuesday** then runs its two *concurrently* — overlapping in time, drawn at
   two heights and **tinted differently** (the second branch violet) so they read apart
   where they cross — which sets up the merge / merge-conflict talk (the overlap window is
   the only interval in which they can conflict). Each branch carries **one or two commit dots**
