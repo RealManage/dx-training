@@ -174,7 +174,7 @@ Connect is the open and the workshop / wrap-up is the close, so they aren't part
 
 ---
 
-## Slide 6 — Deploy ≠ Release
+## Slide 6 — Deploy != Release
 
 - **Message:** The unlock is one distinction: deploying code and releasing a feature are
   two different events.
