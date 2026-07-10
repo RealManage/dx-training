@@ -4,6 +4,8 @@
 **Format:** Interactive workshop
 **Prerequisites:** Session 1; a real backlog feature in mind (from Session 1 homework)
 
+> 🖥️ **Presenting?** Open the [Session 2 slide deck](../../slides/session-2.html) — press `S` for speaker notes. The deck is built from [`slides/session-2-outline.md`](../../slides/session-2-outline.md).
+
 ## 🎯 Learning Objectives
 
 By the end of this session, participants will be able to:
