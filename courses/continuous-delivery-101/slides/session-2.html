@@ -42,22 +42,22 @@
     <section data-background-gradient="radial-gradient(900px 520px at 50% 4%, #16223f, #0b0e14 62%)">
       <h2>Where we left off — and your one number</h2>
       <svg class="dia" viewBox="0 0 1000 340" style="max-height:340px" role="img"
-           aria-label="Recap of Session 1 on the left — big batches are risky and the trunk stays deployable — and on the right the connecting question: how long does your median branch live? For weekly-release teams it is days to weeks, usually the binding constraint.">
+           aria-label="Recap of Session 1 on the left — big batches manufacture risk, small batches shrink it — and on the right the connecting question: how long does your median branch live? For weekly-release teams it is days to weeks, usually the binding constraint.">
         <!-- divider -->
         <line x1="420" y1="40" x2="420" y2="300" stroke="#2a3340" stroke-width="2" stroke-dasharray="2 8"/>
 
-        <!-- LEFT: Session 1 recap -->
+        <!-- LEFT: Session 1 recap — one axis (batch size), parallel big vs small -->
         <text x="60" y="52" fill="#9fb2c6" font-size="15" font-weight="700" letter-spacing=".08em">SESSION 1 SAID</text>
-        <!-- big batch = risk (small orange ring) -->
+        <!-- big batch = risk (large orange ring) -->
         <circle cx="110" cy="132" r="34" fill="none" stroke="#f08a52" stroke-width="3" stroke-dasharray="3 8"/>
         <text x="110" y="137" text-anchor="middle" fill="#f08a52" font-size="13" font-weight="800">risk</text>
         <text x="175" y="128" fill="#eef3fa" font-size="16" font-weight="700">Big batches</text>
         <text x="175" y="150" fill="#9fb2c6" font-size="14">manufacture risk</text>
-        <!-- trunk always deployable (teal line + dots) -->
-        <line x1="80" y1="238" x2="230" y2="238" stroke="#3ed7c4" stroke-width="3"/>
-        <g fill="#3ed7c4"><circle cx="100" cy="238" r="6"/><circle cx="140" cy="238" r="6"/><circle cx="180" cy="238" r="6"/><circle cx="220" cy="238" r="6"/></g>
-        <text x="255" y="234" fill="#eef3fa" font-size="16" font-weight="700">The trunk</text>
-        <text x="255" y="256" fill="#9fb2c6" font-size="14">stays deployable</text>
+        <!-- small batch = safe (same glyph, smaller, teal) -->
+        <circle cx="110" cy="238" r="16" fill="none" stroke="#3ed7c4" stroke-width="3"/>
+        <text x="110" y="242" text-anchor="middle" fill="#3ed7c4" font-size="10" font-weight="800">safe</text>
+        <text x="175" y="234" fill="#eef3fa" font-size="16" font-weight="700">Small batches</text>
+        <text x="175" y="256" fill="#9fb2c6" font-size="14">shrink it</text>
 
         <!-- RIGHT: the connecting question -->
         <text x="470" y="52" fill="#9fb2c6" font-size="15" font-weight="700" letter-spacing=".08em">YOUR ONE NUMBER</text>
@@ -92,7 +92,6 @@
       <div class="divider-wrap">
         <span class="part">Part 1 of 3</span>
         <h1>The Branching Problem</h1>
-        <p class="sub">The habit that quietly blocks everything.</p>
       </div>
       <aside class="notes">
         One line: "Start with the habit that quietly blocks everything — the long-lived branch."
@@ -251,11 +250,10 @@
       <div class="divider-wrap">
         <span class="part">Part 2 of 3</span>
         <h1>Decoupling Deploy from Release</h1>
-        <p class="sub">Feature flags — so "unfinished" no longer holds a branch open.</p>
       </div>
       <aside class="notes">
-        One line: "Now the objection everyone raises — and the one idea that dissolves it."
-        Move to the next slide.
+        One line: "Now the objection everyone raises — and the one idea that dissolves it:
+        feature flags, so 'unfinished' no longer holds a branch open." Move to the next slide.
       </aside>
     </section>
 
@@ -470,7 +468,6 @@
       <div class="divider-wrap">
         <span class="part">Part 3 of 3</span>
         <h1>Continuous Integration in Practice</h1>
-        <p class="sub">The discipline half — the part no tool gives you for free.</p>
       </div>
       <aside class="notes">
         One line: "The pipeline half comes next session; this is the DISCIPLINE half — the part no tool

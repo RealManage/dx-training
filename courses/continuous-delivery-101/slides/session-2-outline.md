@@ -41,13 +41,15 @@ instead the three teaching blocks each get a light section-divider slide.
 
 ## Slide 2 — Recap → Connect
 
-- **Message:** Session 1 proved big batches are risky and CD keeps every change
-  deployable; today's practice is the one the pipeline can't give you.
-- **Visual:** Split panel. Left: tiny thumbnails of Session 1's vicious-cycle ring + an
-  "always-deployable trunk." Right (the bigger half): a calendar with a single large
-  question mark — "how long does your branch live?"
-- **On-slide text:** "Recap: big batch = risk · trunk stays deployable" · "Your median
-  branch life = ?"
+- **Message:** Session 1 proved batch size drives risk — big batches manufacture it, small
+  batches shrink it; today's practice is what shrinks the batch.
+- **Visual:** Split panel, left side on one axis (batch size) so the two points are
+  parallel: a **large orange ring ("risk")** for big batches over a **small teal ring
+  ("safe")** for small batches — glyph size = batch size, orange↔teal = risk↔safe. Right
+  (the bigger half): a calendar with a single large question mark — "how long does your
+  branch live?"
+- **On-slide text:** "Big batches manufacture risk · Small batches shrink it" · "Your
+  median branch life = ?"
 - **Say:** 60-second recap only — don't re-teach Session 1. Then the connect: have each
   person name their **median branch life** out loud (the number from their homework
   assessment). For teams coming off weekly releases it's days to weeks — and that single
@@ -153,7 +155,7 @@ Connect is the open and the workshop / wrap-up is the close, so they aren't part
   motif behind it.
 - **On-slide text:** "Part 2 of 3 — Decoupling Deploy from Release"
 - **Say:** One line: "Now the objection everyone raises — and the one idea that dissolves
-  it." Move to slide 5.
+  it: feature flags, so 'unfinished' no longer holds a branch open." Move to slide 5.
 
 ---
 
