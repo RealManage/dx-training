@@ -267,14 +267,16 @@ Connect is the open and the workshop / wrap-up is the close, so they aren't part
 
 ---
 
-## Slide 10 — Real CI = daily integration + automated verification
+## Slide 10 — Continuous Integration Minimum Practices
 
 - **Message:** CI is a discipline, not a tool — "we have GitLab CI" is not "we do CI."
-- **Visual:** The six CI minimums as a floor / tile grid (echo Session 1's slide-6 "floor"
-  motif), each tile with a one-word "in practice" tag. One tile drawn cracked / greyed =
-  "a pipeline on week-old branches isn't CI."
-- **On-slide text:** "CI = daily integration + automated verification" · "a tool isn't the
-  discipline"
+- **Visual:** Title **"Continuous Integration Minimum Practices"**; the six CI minimums as a
+  even 3×2 tile grid (echo Session 1's slide-6 "floor" motif) resting on a horizontal slab;
+  below the slab, a single caption line — *Real CI = daily integration + automated
+  verification + discipline*. Deliberately spare. The myth ("a tool isn't CI") and the migrations point
+  are **spoken**, not drawn (see *Say*), to keep the slide uncluttered.
+- **On-slide text:** title "Continuous Integration Minimum Practices" · six CI-minimum
+  tiles · below the line: "Real CI = daily integration + automated verification + discipline"
 - **Say:** Don't read all six aloud — let them land as a *floor*. The six: trunk-based
   development · integrate at least daily · tests before merge · tests on the merged result
   · **stop the line on red** (a red `main` is the team's #1 priority — no new feature work)
@@ -291,20 +293,44 @@ Connect is the open and the workshop / wrap-up is the close, so they aren't part
 
 - **Message:** The trunk is "always deployable" only if merging *proves* it — five minimum
   gates, and they must be honest.
-- **Visual:** Framing: five gate icons on the branch → `main` path — *lint · unit ·
-  coverage floor · IaC validate · security scan*. A caution glyph over "coverage" = "only
-  as honest as its tests." Then "→ `ci-pipeline.gitlab-ci.yml`".
-- **On-slide text:** "lint · unit · coverage · IaC validate · security" · "the front half
-  of the Session 3 pipeline"
+- **Visual:** Keep git and pipeline as **distinct** concepts (don't repeat slide 4's
+  conflation). A **feature branch** feeds a boxed **merge gate** whose five checks — *lint ·
+  automated tests · coverage floor · IaC validate · security scan* — are drawn as lanes
+  between a fork bar and a join bar (parallelism shown by the lanes; the box carries **no
+  title** and "runs in parallel" is spoken — see *Say*). The picture shows a **failure
+  state**:
+  *automated tests* is red (a red ✗ in its lane, the lane turned red) and the **join bar
+  turns red**. The line continues right toward the **`main`** box but is stopped by a
+  no-entry **"merge blocked"** barrier — one red check makes the whole gate red, so the
+  merge can't reach main (which stays deployable). Then "→ `ci-pipeline.gitlab-ci.yml`".
+  The coverage caveat is **spoken**, not drawn (see *Say*).
+- **On-slide text:** the five checks (automated tests shown red ✗) · "merge blocked" →
+  `main` · "→ `ci-pipeline.gitlab-ci.yml`"
 - **Say:** Frame, then open the YAML. These are the front half of the pipeline you build
-  in Session 3: `validate` (lint + `sam validate`) → `test` (unit + a coverage threshold
-  that *fails the job* below the floor) → `security` (`npm audit` + `cfn-lint`). What makes
-  it real CI (the note at the bottom of the file): it runs on every branch, it's fast, a
-  red result *blocks the merge*, and the branches feeding it are short-lived. The honesty
-  caveat — a gate is only as honest as the tests behind it: when the same author
-  (increasingly an AI agent) writes both the code and its tests, the tests can assert
-  whatever the code already does and still clear the coverage floor. Tests must pin
-  *intent*, independently confirmed. Keep this file open next to Session 3's.
+  in Session 3: `validate` (lint + `sam validate`) → `test` (automated tests + a coverage
+  threshold that *fails the job* below the floor) → `security` (`npm audit` + `cfn-lint`).
+  **Unit tests are just the fast layer, not the whole story** — CI cares about the whole
+  test pyramid; what changes is *where* each type runs, governed by speed: fast layers
+  (unit + narrow integration) run pre-merge as the blocking gate; broader integration,
+  contract, and end-to-end / acceptance tests run in *later* stages (slide 13's
+  keep-feedback-fast staging). More test types in CI, not fewer — just not all pre-merge.
+  **On the coverage floor** — it catches *erosion*, it is not a target to maximize.
+  Coverage measures which lines *ran*, not whether the tests *assert* anything: 100%
+  coverage with empty assertions verifies nothing. Goodhart's law — once the number is the
+  target, that is exactly what you get, worst when one author (increasingly an AI) writes
+  both the code and its tests. Guards: keep the floor *modest*; tests must pin *intent*
+  (behavior contracts), confirmed *independently* (a human or a different agent than the
+  one that wrote the code); and *mutation testing* is what actually measures test
+  effectiveness — break the code and a real test fails. Read the diagram deliberately: the
+  git side is the branch that wants to merge to `main` (the goal); the pipeline side is the
+  boxed merge gate whose checks run *in parallel* (fork → join) so it stays fast, and it's
+  all-or-nothing. The picture shows a *failure* — automated tests went red, turning that
+  check and the join bar red; one red check makes the whole gate red, and the path onward to
+  `main` is stopped at the barrier, so the bad change never reaches the trunk (main stays
+  deployable). Flip it green and, the rest being green, it would merge. What makes it real CI
+  (the note at the bottom of the file): it runs on every branch, it's fast, a red result
+  *blocks the merge*, and the branches feeding it are short-lived. Keep this file open next
+  to Session 3's.
 
 ---
 

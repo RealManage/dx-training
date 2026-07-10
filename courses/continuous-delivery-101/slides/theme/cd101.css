@@ -87,6 +87,8 @@
 .reveal h2 { font-size: var(--r-heading2-text-size); }
 .reveal h3 { font-size: var(--r-heading3-text-size); }
 .reveal p { margin: 0 0 .6em; }
+/* consistent gap between a slide title and the first block beneath it */
+.reveal .below-title { margin-top: .9em; }
 .reveal strong { color: #fff; font-weight: 800; }
 .reveal em { font-style: normal; color: var(--cd-teal); font-weight: 700; }
 
@@ -196,6 +198,8 @@
 .floor-group { margin-bottom: 16px; }
 .floor-h { font-size: .8em; font-weight: 700; color: var(--cd-muted); margin: 0 0 .5em; }
 .tiles { display: flex; flex-wrap: wrap; gap: 10px; }
+.tiles.even3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.tiles.even3 .tile { text-align: center; }
 .tile {
   font-size: .62em; font-weight: 600; line-height: 1.2; color: var(--cd-ink);
   padding: .55em .8em; border-radius: 9px;

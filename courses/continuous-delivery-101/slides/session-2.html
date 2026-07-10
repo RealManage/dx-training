@@ -157,7 +157,7 @@
     <!-- =========================== 4 · TBD: BRANCHES SO SHORT THEY NEVER DRIFT -->
     <section data-background-color="#0b0e14">
       <h2>Trunk-based dev: branches so short they never drift</h2>
-      <svg class="dia" viewBox="0 0 1000 175" style="max-height:200px" role="img"
+      <svg class="dia below-title" viewBox="0 0 1000 175" style="max-height:200px" role="img"
            aria-label="A git graph of trunk-based development over day columns. Monday and Tuesday are shown in full; Wednesday is only beginning and fades off to the right. Main is one trunk of commits. Monday holds two short-lived branches back to back; Tuesday holds two branches open at the same time — concurrent developers — drawn at two heights; Wednesday has one branch just opening. Each branch carries one or two commit dots and merges back into a later commit the same day.">
         <defs>
           <linearGradient id="dayfade" x1="0" y1="0" x2="1" y2="0">
@@ -312,7 +312,7 @@
     <!-- ============================================ 7 · HOW A FLAG CHANGES THE GAME -->
     <section data-background-color="#0b0e14">
       <h2>How a flag changes the game</h2>
-      <div class="contrast">
+      <div class="contrast below-title">
         <div class="contrast-col bad">
           <h3>Without flags</h3>
           <ul>
@@ -466,11 +466,10 @@
 
     <!-- ===================================== 10 · REAL CI = DAILY INTEGRATION -->
     <section data-background-color="#0b0e14">
-      <h2>Real CI = daily integration + automated verification</h2>
-      <div class="floor">
+      <h2>Continuous Integration Minimum Practices</h2>
+      <div class="floor below-title">
         <div class="floor-group">
-          <div class="floor-h"><span class="t-teal">CI minimums</span> — the floor, in practice</div>
-          <div class="tiles">
+          <div class="tiles even3">
             <span class="tile ci">Trunk-based dev</span>
             <span class="tile ci">Integrate ≥ daily</span>
             <span class="tile ci">Tests before merge</span>
@@ -479,17 +478,10 @@
             <span class="tile ci">Don't break delivered work</span>
           </div>
         </div>
-        <div class="floor-group">
-          <div class="floor-h muted">a pipeline tool alone is <em>not</em> this</div>
-          <div class="tiles">
-            <span class="tile" style="border-bottom-color:#7d8fa1;opacity:.55;text-decoration:line-through">"We have GitLab CI, so we do CI"</span>
-          </div>
-        </div>
         <div class="slab"></div>
       </div>
       <div class="caption">
-        <span><b class="t-teal">CI = daily integration + automated verification</b> · a tool isn't the discipline</span>
-        <span class="cd-mini">migrations are code too → tested on a local DB, red build stops the line</span>
+        <span><b class="t-teal">Real CI = daily integration + automated verification + discipline</b></span>
       </div>
       <aside class="notes">
         Don't read all six aloud — let them land as a FLOOR. The six: trunk-based development · integrate
@@ -506,52 +498,69 @@
     <!-- ============================= 11 · THE GATES THAT PROTECT TRUNK (→ editor) -->
     <section data-background-color="#0b0e14">
       <h2>The gates that keep the trunk deployable</h2>
-      <svg class="dia" viewBox="0 0 1000 250" style="max-height:250px" role="img"
-           aria-label="On the path from a branch to main sit five gates: lint, unit tests, a coverage floor, IaC validation, and a security scan. A caution mark sits on coverage — a gate is only as honest as the tests behind it. A red result blocks the merge.">
+      <svg class="dia below-title" viewBox="0 68 946 194" style="max-height:320px" role="img"
+           aria-label="A feature branch feeds a boxed merge gate whose five checks — lint, automated tests, a coverage floor, IaC validation, and a security scan — run in parallel between a fork bar and a join bar. The automated-tests check has failed: its lane shows a red cross and turns red, and the join bar turns red, so the whole gate is red. The path onward to the main branch is stopped at a no-entry barrier labelled merge blocked; main stays untouched and deployable.">
         <defs>
-          <marker id="ar11" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-            <path d="M0 0 L10 5 L0 10 z" fill="#5a6b80"/>
-          </marker>
+          <marker id="arg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#5a6b80"/></marker>
         </defs>
-        <!-- branch -> main path -->
-        <text x="40" y="126" fill="#9fb2c6" font-size="14" font-weight="700">branch</text>
-        <line x1="110" y1="120" x2="880" y2="120" stroke="#5a6b80" stroke-width="2.5" marker-end="url(#ar11)"/>
-        <rect x="892" y="98" width="86" height="44" rx="9" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2"/>
-        <text x="935" y="126" text-anchor="middle" fill="#cdeee8" font-size="16" font-weight="800">main</text>
-        <!-- five gates -->
-        <g font-size="13" font-weight="700" text-anchor="middle">
-          <g><rect x="150" y="96" width="110" height="48" rx="9" fill="#101826" stroke="#3ed7c4" stroke-width="1.8"/><text x="205" y="125" fill="#cdeee8">lint</text></g>
-          <g><rect x="290" y="96" width="110" height="48" rx="9" fill="#101826" stroke="#3ed7c4" stroke-width="1.8"/><text x="345" y="125" fill="#cdeee8">unit tests</text></g>
-          <g><rect x="430" y="96" width="120" height="48" rx="9" fill="#101826" stroke="#3ed7c4" stroke-width="1.8"/><text x="490" y="125" fill="#cdeee8">coverage floor</text></g>
-          <g><rect x="580" y="96" width="120" height="48" rx="9" fill="#101826" stroke="#3ed7c4" stroke-width="1.8"/><text x="640" y="125" fill="#cdeee8">IaC validate</text></g>
-          <g><rect x="730" y="96" width="120" height="48" rx="9" fill="#101826" stroke="#3ed7c4" stroke-width="1.8"/><text x="790" y="125" fill="#cdeee8">security scan</text></g>
+        <!-- git side: feature branch -->
+        <rect x="24" y="128" width="132" height="46" rx="10" fill="#12203b" stroke="#74a0f2" stroke-width="2"/>
+        <text x="90" y="156" text-anchor="middle" fill="#cfe0ff" font-size="13" font-weight="700">feature branch</text>
+        <line x1="156" y1="151" x2="281" y2="151" stroke="#5a6b80" stroke-width="2.5" marker-end="url(#arg)"/>
+        <!-- pipeline side: merge gate, checks in parallel between a fork bar and a join bar -->
+        <rect x="246" y="78" width="410" height="172" rx="14" fill="#0d141e" stroke="#2f3e52" stroke-width="1.5"/>
+        <line x1="286" y1="98" x2="286" y2="236" stroke="#3ed7c4" stroke-width="3"/>
+        <line x1="616" y1="98" x2="616" y2="236" stroke="#ef5350" stroke-width="3"/>
+        <g font-size="13" font-weight="700">
+          <g><rect x="292" y="101" width="318" height="22" rx="6" fill="#101826" stroke="#3ed7c4" stroke-width="1.4"/><text x="304" y="117" fill="#3ed7c4">✓</text><text x="322" y="117" fill="#cdeee8">lint</text></g>
+          <g><rect x="292" y="129" width="318" height="22" rx="6" fill="#241315" stroke="#ef5350" stroke-width="1.8"/><text x="304" y="145" fill="#ef5350" font-weight="800">✗</text><text x="322" y="145" fill="#f2d0ce">automated tests</text></g>
+          <g><rect x="292" y="157" width="318" height="22" rx="6" fill="#101826" stroke="#3ed7c4" stroke-width="1.4"/><text x="304" y="173" fill="#3ed7c4">✓</text><text x="322" y="173" fill="#cdeee8">coverage floor</text></g>
+          <g><rect x="292" y="185" width="318" height="22" rx="6" fill="#101826" stroke="#3ed7c4" stroke-width="1.4"/><text x="304" y="201" fill="#3ed7c4">✓</text><text x="322" y="201" fill="#cdeee8">IaC validate</text></g>
+          <g><rect x="292" y="213" width="318" height="22" rx="6" fill="#101826" stroke="#3ed7c4" stroke-width="1.4"/><text x="304" y="229" fill="#3ed7c4">✓</text><text x="322" y="229" fill="#cdeee8">security scan</text></g>
         </g>
-        <!-- caution on coverage -->
-        <g transform="translate(490,66)">
-          <path d="M0 -14 L14 12 L-14 12 z" fill="#1c1410" stroke="#f0c451" stroke-width="2"/>
-          <text x="0" y="9" text-anchor="middle" fill="#f0c451" font-size="15" font-weight="800">!</text>
-        </g>
-        <text x="490" y="180" text-anchor="middle" fill="#f0c451" font-size="12">only as honest as its tests</text>
-        <text x="500" y="220" text-anchor="middle" fill="#9fb2c6" font-size="14">red result <tspan fill="#f08a52" font-weight="700">blocks the merge</tspan> — the trunk stays deployable by construction</text>
+        <!-- path to main, stopped by the red gate -->
+        <line x1="616" y1="151" x2="700" y2="151" stroke="#ef5350" stroke-width="2.5"/>
+        <circle cx="720" cy="151" r="16" fill="#ef5350"/>
+        <rect x="710" y="147" width="20" height="8" rx="2" fill="#0b0e14"/>
+        <text x="720" y="189" text-anchor="middle" fill="#ef5350" font-size="12" font-weight="700">merge blocked</text>
+        <line x1="738" y1="151" x2="800" y2="151" stroke="#5a6b80" stroke-width="2" stroke-dasharray="5 5"/>
+        <rect x="804" y="129" width="118" height="44" rx="10" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2"/>
+        <text x="863" y="157" text-anchor="middle" fill="#cdeee8" font-size="16" font-weight="800">main</text>
       </svg>
-      <p><span class="to-editor"><span class="arrow">→</span> examples/ci-pipeline.gitlab-ci.yml</span><span class="editor-note">the front half of the Session 3 pipeline</span></p>
+      <p style="margin-top:1.5em"><span class="to-editor"><span class="arrow">→</span> examples/ci-pipeline.gitlab-ci.yml</span></p>
       <aside class="notes">
         Frame, then open the YAML. These are the front half of the pipeline you build in Session 3:
-        validate (lint + sam validate) → test (unit + a coverage threshold that FAILS the job below the
-        floor) → security (npm audit + cfn-lint).
+        validate (lint + sam validate) → test (automated tests + a coverage threshold that FAILS the job
+        below the floor) → security (npm audit + cfn-lint).
+        On "automated tests" — unit tests are just the FAST layer, not the whole story. CI cares about the
+        whole test pyramid; what changes is WHERE each type runs, governed by speed: the fast layers (unit +
+        narrow integration) run pre-merge as the blocking gate; broader integration, contract, and
+        end-to-end / acceptance tests run in LATER stages (that's slide 13's keep-feedback-fast staging).
+        More test types in CI, not fewer — just not all pre-merge.
+        On the coverage floor — it catches EROSION, it is not a target to maximize. Coverage measures which
+        lines RAN, not whether the tests ASSERT anything: 100% coverage with empty assertions verifies
+        nothing. Goodhart's law — once the number is the target, that's exactly what you get, worst when one
+        author (increasingly an AI) writes both the code and its tests. Guards: keep the floor MODEST; tests
+        must pin INTENT (behavior contracts), confirmed INDEPENDENTLY (a human or a different agent than the
+        one that wrote the code); and MUTATION TESTING is what actually measures test effectiveness — break
+        the code and a real test fails.
+        On the diagram: keep the two concepts apart — the git side is the branch that wants to merge to
+        main (the goal); the pipeline side is the boxed MERGE GATE. Its checks run IN PARALLEL (fork bar →
+        lanes → join bar) so the gate stays fast, and it is an all-or-nothing verdict. The picture shows a
+        FAILURE: automated tests went red, which turns that check red and the join bar red — ONE red check
+        makes the whole gate red, so the path onward to main is STOPPED at the barrier: the bad change never
+        reaches the trunk, and main stays deployable. Flip that check green and, with the rest already
+        green, the merge would go through. That is what "the trunk stays deployable by construction" means.
         What makes it real CI (the note at the bottom of the file): it runs on every branch, it's fast, a
-        red result BLOCKS the merge, and the branches feeding it are short-lived.
-        The honesty caveat — a gate is only as honest as the tests behind it: when the same author
-        (increasingly an AI agent) writes both the code AND its tests, the tests can assert whatever the
-        code already does and still clear the coverage floor. Tests must pin INTENT, independently
-        confirmed. Keep this file open next to Session 3's.
+        red result BLOCKS the merge, and the branches feeding it are short-lived. Keep this file open next
+        to Session 3's.
       </aside>
     </section>
 
     <!-- ======================= 12 · BROWNFIELD: LITTLE COVERAGE (→ editor) -->
     <section data-background-color="#0b0e14">
       <h2>Brownfield: starting with little coverage</h2>
-      <ol class="rules">
+      <ol class="rules below-title">
         <li><b>New code gets tests</b> — cheap with AI, but they must pin real <em>intent</em>, independently confirmed</li>
         <li><b>Don't backfill the monolith</b> — existing untested code is "tested in production"</li>
         <li><b>Characterize before you change</b> — pin current behavior so an unintended change fails loudly</li>
@@ -673,7 +682,7 @@
     <!-- =============================================== 15 · WRAP-UP & HOMEWORK -->
     <section data-background-gradient="radial-gradient(900px 520px at 50% 4%, #16223f, #0b0e14 62%)">
       <h2>Wrap-up &amp; homework</h2>
-      <div class="cols2">
+      <div class="cols2 below-title">
         <div>
           <div class="col-h">Four takeaways</div>
           <div class="take">
