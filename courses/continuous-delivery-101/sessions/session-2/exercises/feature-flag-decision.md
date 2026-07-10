@@ -46,7 +46,7 @@ Three gates, asked in order. Stop at the first that fires.
 
 - **Deploy ≠ release.** *Deploy* puts code in an environment (technical); *release* exposes it to users (business). A flag is what decouples them.
 - **Seam.** The interface branch-by-abstraction puts *over* the thing you're replacing, so the old and new implementations can coexist while you build. A flag gates a *behavior* at a call site; a seam gates an *implementation* behind an interface.
-- **YAGNI.** A flag "just in case" is not caution, it's debt. If the change is finished and safe, ship it.
+- **YAGNI** (*You Aren't Gonna Need It*). A flag "just in case" is not caution, it's debt. If the change is finished and safe, ship it.
 - **Flags aren't all temporary.** A *release* flag is scaffolding you delete in weeks. A *kill switch* (operational) and a *permission/entitlement* toggle are permanent by design. Same verdict, different lifecycle — name which one.
 - **The mechanisms compose.** Branch by abstraction and a flag are not rivals: a seam's cutover is often *itself* flag-gated for a gradual, reversible flip.
 
