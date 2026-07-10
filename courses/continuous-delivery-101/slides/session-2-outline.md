@@ -23,13 +23,14 @@ instead the three teaching blocks each get a light section-divider slide.
 
 ## Slide 1 — Title
 
-- **Message:** Session 2 is about the one thing no pipeline can do for you — the *team
-  practice* of trunk-based development.
+- **Message:** Session 2 is about the practices no tool gives you — trunk-based development
+  and CI as working agreements and engineering discipline, not a product you buy.
 - **Visual:** Full-bleed hero echoing Session 1's flow imagery but zoomed to the team:
   many small parcels merging onto one steady conveyor (the trunk), set against one lone
   boulder waiting to drop. Reuse the course hero gradient; drop a real photo in later via
   reveal's `data-background-image` if you want.
 - **On-slide text:** "Continuous Delivery 101" · "Session 2 — Trunk-Based Development & CI"
+  · "Discipline, not tooling."
 - **Say:** Set the frame and objectives. By the end they can: explain why long-lived
   branches cost merge pain, lost work, and big batches; apply TBD (branches < 1 day);
   decompose a feature into small, independently shippable slices; use a feature flag to
