@@ -1,0 +1,3 @@
+# Local render-check artifacts (headless screenshots + helper)
+.shot.mjs
+.shot-*.png
