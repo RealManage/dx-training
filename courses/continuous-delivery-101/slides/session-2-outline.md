@@ -182,7 +182,8 @@ Connect is the open and the workshop / wrap-up is the close, so they aren't part
   in prod, flag OFF — a padlock) then, later, *Release* (flag flip — a switch / eye-open).
   Highlight the gap between them: "unfinished code lives here, safely."
 - **On-slide text:** "Deploy = code in the environment (technical)" · "Release = users
-  see it (business)" · "a flag is the switch"
+  see it (business)" · the release toggle is labeled "feature flag" (no bottom caption —
+  the concept is talk-track)
 - **Say:** Deploy is a technical act; release is a business decision. A **feature flag**
   is a runtime switch that lets unfinished code live in `main` and in production — turned
   **off** — until you choose to turn it on. So "not finished" stops being a reason to hold

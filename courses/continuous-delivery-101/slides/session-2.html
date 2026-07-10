@@ -296,7 +296,8 @@
         <!-- RELEASE event -->
         <line x1="670" y1="120" x2="670" y2="170" stroke="#3ed7c4" stroke-width="2.5"/>
         <circle cx="670" cy="170" r="8" fill="#3ed7c4"/>
-        <!-- switch (on) -->
+        <!-- switch (on) — the feature flag -->
+        <text x="670" y="62" text-anchor="middle" fill="#3ed7c4" font-size="14" font-weight="800">feature flag</text>
         <g transform="translate(646,78)">
           <rect x="0" y="6" width="48" height="26" rx="13" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2"/>
           <circle cx="35" cy="19" r="9" fill="#3ed7c4"/>
@@ -305,9 +306,6 @@
         <text x="670" y="232" text-anchor="middle" fill="#9fb2c6" font-size="13">users see it · flip the flag</text>
         <text x="670" y="250" text-anchor="middle" fill="#7d8fa1" font-size="12" font-style="italic">a business decision</text>
       </svg>
-      <div class="caption">
-        <span>A <b class="t-teal">feature flag</b> is the switch between them</span>
-      </div>
       <aside class="notes">
         Deploy is a technical act; release is a business decision. A FEATURE FLAG is a runtime switch that
         lets unfinished code live in main and in production — turned OFF — until you choose to turn it on.
