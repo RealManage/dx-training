@@ -6,15 +6,15 @@ the slide should be mostly that image. *On-slide text* is the few words that go 
 slide (keep it to this). *Say* is your talking track — it does **not** go on the slide.
 
 The run-sheet is [`../sessions/session-2/README.md`](../sessions/session-2/README.md);
-this covers the ~15 present-the-concept moments plus three section dividers. The 25-minute
-decompose workshop is hands-on — no concept slides, just the one transition slide (14).
+this covers the ~16 present-the-concept moments plus three section dividers. The 25-minute
+decompose workshop is hands-on — no concept slides, just the one transition slide (15).
 
-Target: **~15 concept slides + 3 dividers** for a 2-hour session. Same rule as Session 1:
+Target: **~16 concept slides + 3 dividers** for a 2-hour session. Same rule as Session 1:
 if a slide needs more than one sentence of on-slide text, it's doing too much — push it
 into *Say* or split it. This session is more concept-heavy than Session 1 (≈90 min of
 teaching vs a 25-min workshop), so it runs longer than Session 1's eight — that's expected.
 
-Three code walkthroughs (slides 9, 11, 12) use **framing slide → editor**: the slide sets
+Three code walkthroughs (slides 10, 12, 13) use **framing slide → editor**: the slide sets
 up the *why* and the discipline points, then you switch to the real file. There is **no
 single held device** this session (Session 1 held the litmus test all the way through);
 instead the three teaching blocks each get a light section-divider slide.
@@ -193,7 +193,33 @@ Connect is the open and the workshop / wrap-up is the close, so they aren't part
 
 ---
 
-## Slide 7 — How a flag changes the game
+## Slide 7 — Four kinds of feature flag
+
+- **Message:** "Feature flag" isn't one thing — Fowler/Hodgson name four kinds; this course
+  means the *Release* toggle.
+- **Visual:** Fowler/Hodgson's chart, his axes — each toggle a **shaded region spanning a
+  range** (not a point), mirroring the article. **X = dynamism** (changes with deployment →
+  runtime re-configuration → each request), **Y = longevity** (days → weeks → months →
+  years). **Release** accented (teal zone, star): days–weeks, straddling the deployment line →
+  reconfig; **Ops** (kill switch): ~reconfig, a tall zone from ~weeks up to the axis top (kill
+  switches live for years); **Experiment** (A/B test): ~each-request, around weeks;
+  **Permission** (per-user access): ~each-request, top band (months–years), top level with the
+  axis arrow. Large chart, no caption — the teal Release zone is the only scoping cue on-slide.
+- **On-slide text:** none beyond the chart itself (axis labels + the four toggle labels);
+  Release is accented to mark it as the one this course uses. Scope/flag-debt line is talk-track.
+- **Say:** Pete Hodgson's taxonomy on martinfowler.com sorts toggles by two questions: how
+  long-lived, and how dynamic. **Release** toggles let unfinished code ship dark for
+  trunk-based dev — transient and fairly static; *delete* them once the feature is fully on.
+  **Experiment** toggles A/B-test and live only as long as the experiment; highly dynamic.
+  **Ops** toggles are runtime kill switches to shed load or disable a bad feature — mostly
+  short-lived, a few stay for good. **Permission** toggles gate features per user (premium,
+  alpha/beta) and can live for years. Release is the odd one out — lower-left region,
+  short-lived and near-static. The trap is treating a Release toggle as permanent: that's flag debt.
+  In this course, "feature flag" = the Release toggle.
+
+---
+
+## Slide 8 — How a flag changes the game
 
 - **Message:** The same four pains from long branches invert once release = a flag flip,
   not a deploy.
@@ -212,15 +238,15 @@ Connect is the open and the workshop / wrap-up is the close, so they aren't part
 
 ---
 
-## Slide 8 — Flags aren't the only tool: branch by abstraction
+## Slide 9 — Branch by abstraction
 
 - **Message:** A flag gates a *behavior* at a call site; for structural change you can't
   wrap in one switch, put a *seam* over what you're changing.
 - **Visual:** A seam/interface bar with the OLD implementation live below it and a NEW one
   being built behind it; a switch sits on the seam. Sequence hint along the bottom: *build
   behind → flip the seam → delete the old path.*
-- **On-slide text:** "Structural change → branch by abstraction" · "seam · build behind ·
-  flip · delete old"
+- **On-slide text:** title only ("Branch by abstraction") — the seam diagram carries it; the
+  build-behind → flip → delete sequence is talk-track.
 - **Say:** Feature flags are perfect for "is this feature on?" But some work is
   *structural* — swapping a data-access layer, replacing a dependency, a large refactor a
   single `if` can't cleanly wrap. There the technique is **branch by abstraction**:
@@ -232,7 +258,7 @@ Connect is the open and the workshop / wrap-up is the close, so they aren't part
 
 ---
 
-## Slide 9 — A flag in TypeScript (framing → editor)
+## Slide 10 — A flag in TypeScript (framing → editor)
 
 - **Message:** The minimal, dependency-free flag pattern — and the discipline that keeps
   flags from rotting.
@@ -276,11 +302,11 @@ Connect is the open and the workshop / wrap-up is the close, so they aren't part
   green-check / pipeline-stage motif behind it.
 - **On-slide text:** "Part 3 of 3 — Continuous Integration in Practice"
 - **Say:** One line: "The pipeline half comes next session; this is the *discipline* half
-  — the part no tool gives you for free." Move to slide 10.
+  — the part no tool gives you for free." Move to slide 11.
 
 ---
 
-## Slide 10 — Continuous Integration Minimum Practices
+## Slide 11 — Continuous Integration Minimum Practices
 
 - **Message:** CI is a discipline, not a tool — "we have GitLab CI" is not "we do CI."
 - **Visual:** Title **"Continuous Integration Minimum Practices"**; the six CI minimums as a
@@ -302,7 +328,7 @@ Connect is the open and the workshop / wrap-up is the close, so they aren't part
 
 ---
 
-## Slide 11 — The gates that protect trunk (framing → editor)
+## Slide 12 — The gates that protect trunk (framing → editor)
 
 - **Message:** The trunk is "always deployable" only if merging *proves* it — five minimum
   gates, and they must be honest.
@@ -325,7 +351,7 @@ Connect is the open and the workshop / wrap-up is the close, so they aren't part
   **Unit tests are just the fast layer, not the whole story** — CI cares about the whole
   test pyramid; what changes is *where* each type runs, governed by speed: fast layers
   (unit + narrow integration) run pre-merge as the blocking gate; broader integration,
-  contract, and end-to-end / acceptance tests run in *later* stages (slide 13's
+  contract, and end-to-end / acceptance tests run in *later* stages (slide 14's
   keep-feedback-fast staging). More test types in CI, not fewer — just not all pre-merge.
   **On the coverage floor** — it catches *erosion*, it is not a target to maximize.
   Coverage measures which lines *ran*, not whether the tests *assert* anything: 100%
@@ -347,7 +373,7 @@ Connect is the open and the workshop / wrap-up is the close, so they aren't part
 
 ---
 
-## Slide 12 — Brownfield: starting with little coverage (framing → editor)
+## Slide 13 — Brownfield: starting with little coverage (framing → editor)
 
 - **Message:** You don't backfill the whole monolith — you characterize what you touch and
   let flags carry the rest.
@@ -369,7 +395,7 @@ Connect is the open and the workshop / wrap-up is the close, so they aren't part
 
 ---
 
-## Slide 13 — Keep feedback fast
+## Slide 14 — Keep feedback fast
 
 - **Message:** Keep the pre-merge suite fast; the slowest tests gate deploy, not merge.
 - **Visual:** A stopwatch over the pipeline: the pre-merge suite in "under ~5 min" (green)
@@ -390,7 +416,7 @@ Connect is the open and the workshop / wrap-up is the close, so they aren't part
 
 ---
 
-## Slide 14 — Now: decompose YOUR feature
+## Slide 15 — Now: decompose YOUR feature
 
 - **Message:** The durable human skill — deciding the *slices* — is the workshop; slides
   stop here.
@@ -413,7 +439,7 @@ Connect is the open and the workshop / wrap-up is the close, so they aren't part
 
 ---
 
-## Slide 15 — Wrap-up & homework
+## Slide 16 — Wrap-up & homework
 
 - **Message:** TBD + flags + real CI are one system; here's the week's practice and the
   bridge to the pipeline.

@@ -316,7 +316,76 @@
       </aside>
     </section>
 
-    <!-- ============================================ 7 · HOW A FLAG CHANGES THE GAME -->
+    <!-- ================================= 7 · FOUR KINDS OF FEATURE FLAG (Fowler) -->
+    <section data-background-color="#0b0e14">
+      <h2>Four kinds of feature flag</h2>
+      <svg class="dia" viewBox="0 0 1000 400" style="max-height:450px" role="img"
+           aria-label="A chart after Fowler's. Horizontal axis: dynamism, from 'changes with deployment' on the left, through 'changes with runtime re-configuration', to 'changes with each request' on the right. Vertical axis: longevity, from days at the bottom up through weeks and months to years at the top. Each toggle type is drawn as a shaded region spanning a range on both axes. The Release region (highlighted) is low-left, spanning days to weeks in longevity and crossing 'changes with deployment' toward 'changes with runtime re-configuration' in dynamism. Ops sits around 'changes with runtime re-configuration' and runs tall — from around weeks up to the top of the longevity axis, because kill switches are long-lived. Experiment sits around 'changes with each request' at roughly weeks. Permission sits around 'changes with each request' in the top band, months to years. This course uses Release toggles.">
+        <defs>
+          <marker id="axr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M0 0 L10 5 L0 10 z" fill="#5a6b80"/>
+          </marker>
+        </defs>
+        <!-- faint gridlines at each tick -->
+        <g stroke="#22303f" stroke-width="1">
+          <line x1="180" y1="300" x2="950" y2="300"/><line x1="180" y1="232" x2="950" y2="232"/>
+          <line x1="180" y1="164" x2="950" y2="164"/><line x1="180" y1="96" x2="950" y2="96"/>
+          <line x1="320" y1="70" x2="320" y2="330"/><line x1="565" y1="70" x2="565" y2="330"/>
+          <line x1="815" y1="70" x2="815" y2="330"/>
+        </g>
+        <!-- axes -->
+        <line x1="180" y1="330" x2="180" y2="66" stroke="#5a6b80" stroke-width="2.5" marker-end="url(#axr)"/>
+        <line x1="180" y1="330" x2="958" y2="330" stroke="#5a6b80" stroke-width="2.5" marker-end="url(#axr)"/>
+        <!-- axis titles -->
+        <text x="46" y="200" fill="#9fb2c6" font-size="14" transform="rotate(-90 46 200)" text-anchor="middle">longevity</text>
+        <text x="567" y="388" fill="#9fb2c6" font-size="14" text-anchor="middle">dynamism</text>
+        <!-- longevity ticks (bottom → top) -->
+        <text x="166" y="304" fill="#7d8fa1" font-size="12" text-anchor="end">days</text>
+        <text x="166" y="236" fill="#7d8fa1" font-size="12" text-anchor="end">weeks</text>
+        <text x="166" y="168" fill="#7d8fa1" font-size="12" text-anchor="end">months</text>
+        <text x="166" y="100" fill="#7d8fa1" font-size="12" text-anchor="end">years</text>
+        <!-- dynamism ticks (left → right) -->
+        <text x="320" y="352" fill="#7d8fa1" font-size="11" text-anchor="middle">changes with deployment</text>
+        <text x="565" y="352" fill="#7d8fa1" font-size="11" text-anchor="middle">changes with runtime re-configuration</text>
+        <text x="815" y="352" fill="#7d8fa1" font-size="11" text-anchor="middle">changes with each request</text>
+
+        <!-- toggle regions: each spans a RANGE on both axes (after Hodgson's charts) -->
+        <!-- OPS: runtime re-configuration; from ~weeks up to the top — kill switches run for years -->
+        <rect x="500" y="64" width="180" height="151" rx="26" fill="rgba(159,178,198,.09)" stroke="#6b7c91" stroke-width="1.5"/>
+        <text x="590" y="133" text-anchor="middle" fill="#cdd7e3" font-size="15" font-weight="700">Ops</text>
+        <text x="590" y="151" text-anchor="middle" fill="#9fb2c6" font-size="12">kill switch · shed load</text>
+        <!-- EXPERIMENT: per request (centred on 'each request'); around weeks -->
+        <rect x="715" y="200" width="200" height="68" rx="26" fill="rgba(159,178,198,.09)" stroke="#6b7c91" stroke-width="1.5"/>
+        <text x="815" y="230" text-anchor="middle" fill="#cdd7e3" font-size="15" font-weight="700">Experiment</text>
+        <text x="815" y="248" text-anchor="middle" fill="#9fb2c6" font-size="12">A/B test a change</text>
+        <!-- PERMISSION: per request (centred on 'each request'); top band, months to years -->
+        <rect x="715" y="64" width="200" height="74" rx="26" fill="rgba(159,178,198,.09)" stroke="#6b7c91" stroke-width="1.5"/>
+        <text x="815" y="94" text-anchor="middle" fill="#cdd7e3" font-size="15" font-weight="700">Permission</text>
+        <text x="815" y="112" text-anchor="middle" fill="#9fb2c6" font-size="12">per-user access</text>
+
+        <!-- RELEASE (accent): crosses 'changes with deployment' → runtime re-config, days → weeks -->
+        <rect x="285" y="224" width="281" height="84" rx="26" fill="rgba(62,215,196,.13)" stroke="#3ed7c4" stroke-width="2"/>
+        <text x="426" y="260" text-anchor="middle" fill="#3ed7c4" font-size="16" font-weight="800">★ Release</text>
+        <text x="426" y="279" text-anchor="middle" fill="#8fd8ce" font-size="12.5">ship code dark — enables TBD</text>
+      </svg>
+      <aside class="notes">
+        Pete Hodgson's taxonomy (on martinfowler.com) sorts feature toggles by two questions: how LONG-LIVED
+        is it, and how DYNAMIC is the toggle decision. RELEASE toggles let unfinished code ship dark so you can
+        do trunk-based development — transient and fairly static (flipped once, per rollout), and you DELETE
+        them once the feature is fully on. EXPERIMENT toggles A/B-test a change and live only as long as it
+        takes to reach a significant result; highly dynamic, per user. OPS toggles are runtime controls — kill
+        switches to shed load or disable a misbehaving feature; mostly short-lived, though a few kill switches
+        stay for good. PERMISSION toggles gate features per user — premium tiers, alpha/beta cohorts — and can
+        live for years, always per-request. Each type spans a RANGE, not a point — Release has wiggle room too
+        (days–weeks, deployment–to-reconfig). Release is still the odd one out: low and left — short-lived and
+        the least dynamic; the others reach further right, and Ops and Permission run tall (kill switches and
+        per-user grants can live for years).
+        The trap is treating a Release toggle as permanent — that's flag debt. In this course, "feature flag"
+        means the Release toggle.
+      </aside>
+    </section>
+
+    <!-- ============================================ 8 · HOW A FLAG CHANGES THE GAME -->
     <section data-background-color="#0b0e14">
       <h2>How a flag changes the game</h2>
       <div class="contrast below-title">
@@ -350,9 +419,9 @@
       </aside>
     </section>
 
-    <!-- ======================================= 8 · BRANCH BY ABSTRACTION -->
+    <!-- ======================================= 9 · BRANCH BY ABSTRACTION -->
     <section data-background-color="#0b0e14">
-      <h2>Flags aren't the only tool: branch by abstraction</h2>
+      <h2>Branch by abstraction</h2>
       <svg class="dia" viewBox="0 0 1000 330" style="max-height:330px" role="img"
            aria-label="A seam — an interface — sits over the thing you're changing. The old implementation stays live below it while the new implementation is built behind it. A switch on the seam decides which resolves. Sequence: build behind, flip the seam, delete the old path.">
         <defs>
@@ -382,9 +451,6 @@
         <text x="730" y="267" text-anchor="middle" fill="#3ed7c4" font-size="13" font-weight="700">built behind the seam</text>
         <line x1="730" y1="168" x2="730" y2="212" stroke="#3ed7c4" stroke-width="2.5" stroke-dasharray="5 5"/>
       </svg>
-      <div class="caption">
-        <span><b class="t-teal">Structural change:</b> build behind the seam → flip → delete the old path</span>
-      </div>
       <aside class="notes">
         Feature flags are perfect for "is this feature on?" But some work is STRUCTURAL — swapping a
         data-access layer, replacing a dependency, a large refactor a single if can't cleanly wrap. There
@@ -396,7 +462,7 @@
       </aside>
     </section>
 
-    <!-- ============================== 9 · A FLAG IN TYPESCRIPT (framing → editor) -->
+    <!-- ============================== 10 · A FLAG IN TYPESCRIPT (framing → editor) -->
     <section data-background-color="#0b0e14">
       <h2>A feature flag in TypeScript</h2>
       <svg class="dia" viewBox="0 0 1000 250" style="max-height:220px" role="img"
@@ -470,7 +536,7 @@
       </aside>
     </section>
 
-    <!-- ===================================== 10 · REAL CI = DAILY INTEGRATION -->
+    <!-- ===================================== 11 · REAL CI = DAILY INTEGRATION -->
     <section data-background-color="#0b0e14">
       <h2>Continuous Integration Minimum Practices</h2>
       <div class="floor below-title">
@@ -501,7 +567,7 @@
       </aside>
     </section>
 
-    <!-- ============================= 11 · THE GATES THAT PROTECT TRUNK (→ editor) -->
+    <!-- ============================= 12 · THE GATES THAT PROTECT TRUNK (→ editor) -->
     <section data-background-color="#0b0e14">
       <h2>The gates that keep the trunk deployable</h2>
       <svg class="dia below-title" viewBox="0 68 946 194" style="max-height:320px" role="img"
@@ -563,7 +629,7 @@
       </aside>
     </section>
 
-    <!-- ======================= 12 · BROWNFIELD: LITTLE COVERAGE (→ editor) -->
+    <!-- ======================= 13 · BROWNFIELD: LITTLE COVERAGE (→ editor) -->
     <section data-background-color="#0b0e14">
       <h2>Brownfield: starting with little coverage</h2>
       <ol class="rules below-title">
@@ -595,7 +661,7 @@
       </aside>
     </section>
 
-    <!-- ================================================ 13 · KEEP FEEDBACK FAST -->
+    <!-- ================================================ 14 · KEEP FEEDBACK FAST -->
     <section data-background-color="#0b0e14">
       <h2>Keep feedback fast</h2>
       <svg class="dia" viewBox="0 0 1000 300" style="max-height:300px" role="img"
@@ -639,7 +705,7 @@
       </aside>
     </section>
 
-    <!-- ==================================== 14 · DECOMPOSE YOUR FEATURE (workshop) -->
+    <!-- ==================================== 15 · DECOMPOSE YOUR FEATURE (workshop) -->
     <section data-background-gradient="radial-gradient(900px 520px at 50% 4%, #16223f, #0b0e14 62%)">
       <p class="cd-kicker">Now — decompose <span class="t-teal">your</span> feature</p>
       <svg class="dia" viewBox="0 0 1000 300" style="max-height:300px" role="img"
@@ -689,7 +755,7 @@
       </aside>
     </section>
 
-    <!-- =============================================== 15 · WRAP-UP & HOMEWORK -->
+    <!-- =============================================== 16 · WRAP-UP & HOMEWORK -->
     <section data-background-gradient="radial-gradient(900px 520px at 50% 4%, #16223f, #0b0e14 62%)">
       <h2>Wrap-up &amp; homework</h2>
       <div class="cols2 below-title">
