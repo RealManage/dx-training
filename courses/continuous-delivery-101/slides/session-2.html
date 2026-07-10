@@ -599,7 +599,7 @@
     <section data-background-color="#0b0e14">
       <h2>Keep feedback fast</h2>
       <svg class="dia" viewBox="0 0 1000 300" style="max-height:300px" role="img"
-           aria-label="Two lanes. The pre-merge lane runs in seconds and is green. Slow integration tests move to a later stage. Jobs are parallelized and node modules and the SAM build are cached. A slow gate gets routed around.">
+           aria-label="Two lanes. The pre-merge lane runs in under about five minutes and is green. Slower integration tests move to a later stage that gates deploy, not merge. Jobs are parallelized and node modules and the SAM build are cached across both lanes. The slowest tests gate deploy, not merge.">
         <!-- stopwatch -->
         <g transform="translate(70,96) scale(1.05)">
           <line x1="60" y1="6" x2="60" y2="20" stroke="#3ed7c4" stroke-width="5" stroke-linecap="round"/>
@@ -612,26 +612,30 @@
         <!-- pre-merge lane (fast, green) -->
         <rect x="250" y="86" width="470" height="56" rx="10" fill="#0a1f1c" stroke="#3ed7c4" stroke-width="2"/>
         <text x="270" y="112" fill="#cdeee8" font-size="16" font-weight="800">pre-merge: lint + unit</text>
-        <text x="270" y="132" fill="#3ed7c4" font-size="13" font-weight="700">seconds — nobody is tempted to skip it</text>
+        <text x="270" y="132" fill="#3ed7c4" font-size="13" font-weight="700">under ~5 min — nobody is tempted to skip it</text>
         <text x="740" y="120" fill="#3ed7c4" font-size="20" font-weight="800">✓</text>
         <!-- later stage lane (slow, deferred) -->
         <rect x="250" y="176" width="470" height="52" rx="10" fill="#141a24" stroke="#5a6b80" stroke-width="2" stroke-dasharray="5 5"/>
         <text x="270" y="200" fill="#cdd7e3" font-size="15" font-weight="700">later stage: slower integration tests</text>
-        <text x="270" y="219" fill="#9fb2c6" font-size="12">off the critical path to merge</text>
-        <!-- parallel + cache note -->
-        <text x="760" y="196" fill="#9fb2c6" font-size="13">parallelize jobs</text>
-        <text x="760" y="216" fill="#9fb2c6" font-size="13">cache node_modules + SAM build</text>
+        <text x="270" y="219" fill="#9fb2c6" font-size="12">off the critical path to merge — Session 3</text>
+        <!-- parallel + cache note (applies to both lanes) -->
+        <text x="760" y="148" fill="#9fb2c6" font-size="13">parallelize jobs</text>
+        <text x="760" y="168" fill="#9fb2c6" font-size="13">cache node_modules + SAM build</text>
       </svg>
       <div class="caption">
-        <span class="t-orange" style="font-weight:700">A slow gate gets routed around.</span>
+        <span class="t-orange" style="font-weight:700">The slowest tests gate deploy, not merge.</span>
         <span>Fast feedback is what makes "stop the line on red" bearable.</span>
       </div>
       <aside class="notes">
-        CI only works if it's fast enough that nobody is tempted to skip it. Keep the pre-merge suite in
-        SECONDS: unit tests pre-merge, slower integration tests in a later stage, parallelize jobs, cache
-        node_modules and the SAM build. It's why the example pipeline splits validate / test / security and
-        pins images by digest. Fast feedback is also what makes "stop the line on red" bearable — a red
-        trunk clears in minutes, not hours.
+        CI only works if it's fast enough that nobody is tempted to skip it. Aim for the Continuous Delivery
+        book's commit-stage target — under five minutes, ten at the outside (Kent Beck's "ten-minute build"):
+        lint plus unit tests, parallelized and cached. Two different "builds" hide in this slide —
+        pre-merge we compile only enough to run the unit tests; the `sam build` that produces the deployable
+        artifact is the pipeline's build stage, not a merge gate. Don't conflate them. The genuinely slow
+        tests — integration and E2E against a real environment — gate DEPLOY, not merge; that's Session 3.
+        Caching (node_modules, the SAM build, digest-pinned images) speeds both lanes, not just the slow one.
+        It's why the example pipeline splits validate / test / security and pins images by digest. Fast
+        feedback is also what makes "stop the line on red" bearable — a red trunk clears in minutes, not hours.
       </aside>
     </section>
 

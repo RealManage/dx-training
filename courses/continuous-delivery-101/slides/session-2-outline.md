@@ -371,17 +371,22 @@ Connect is the open and the workshop / wrap-up is the close, so they aren't part
 
 ## Slide 13 — Keep feedback fast
 
-- **Message:** Slow CI is worthless — people route around gates that make them wait.
-- **Visual:** A stopwatch over the pipeline: the pre-merge suite in "seconds" (green) vs a
-  slow suite pushed to a "later stage" lane. Cache + parallel arrows.
-- **On-slide text:** "Seconds pre-merge — or people route around it" · "parallelize ·
-  cache · defer slow tests"
-- **Say:** CI only works if it's fast enough that nobody is tempted to skip it. Keep the
-  pre-merge suite in *seconds*: unit tests pre-merge, slower integration tests in a later
-  stage, parallelize jobs, cache `node_modules` and the SAM build. It's why the example
-  pipeline splits `validate` / `test` / `security` and pins images by digest. Fast
-  feedback is also what makes "stop the line on red" bearable — a red trunk clears in
-  minutes, not hours.
+- **Message:** Keep the pre-merge suite fast; the slowest tests gate deploy, not merge.
+- **Visual:** A stopwatch over the pipeline: the pre-merge suite in "under ~5 min" (green)
+  vs a slow suite pushed to a "later stage" lane. Parallelize + cache note centered between
+  the two lanes (it speeds both, not just the slow one).
+- **On-slide text:** "The slowest tests gate deploy, not merge." · "Fast feedback is what
+  makes 'stop the line on red' bearable."
+- **Say:** CI only works if it's fast enough that nobody is tempted to skip it. Aim for the
+  *Continuous Delivery* book's commit-stage target — under five minutes, ten at the outside
+  (Kent Beck's "ten-minute build"): lint plus unit tests, parallelized and cached. Two different
+  "builds" hide here — pre-merge we compile only enough to run the unit tests; the `sam build`
+  that produces the deployable artifact is the pipeline's *build stage*, not a merge gate —
+  don't conflate them. The genuinely slow tests (integration and E2E against a real
+  environment) gate DEPLOY, not merge; that's Session 3. Caching (`node_modules`, the SAM
+  build, digest-pinned images) speeds both lanes. It's why the example pipeline splits
+  `validate` / `test` / `security` and pins images by digest. Fast feedback is also what
+  makes "stop the line on red" bearable — a red trunk clears in minutes, not hours.
 
 ---
 
