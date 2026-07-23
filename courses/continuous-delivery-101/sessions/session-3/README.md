@@ -38,11 +38,11 @@ CD minimum #2: **the pipeline is the only way to deploy to any shared environmen
 
 #### 2.2 The pipeline decides releasability (10 minutes)
 
-CD minimum #3: **the pipeline decides releasability and its verdict is definitive.** This is the one most teams (and our current `iac-baseline`) haven't fully reached, because every deploy is `when: manual`.
+CD minimum #3: **the pipeline decides releasability and its verdict is definitive.** This is the one most teams (and our current `iac-baseline`) haven't fully reached: `dev` auto-promotes on green, but `qa` and `prod` are still `when: manual`.
 
 The shift: green should *mean* deployable, automatically. A human may still choose *when* to deploy to prod (that's Continuous Delivery, not Continuous Deployment), but they are approving **timing**, not re-litigating **readiness**. If a meeting decides whether the build is "ready," the pipeline doesn't own releasability yet.
 
-> **Engineering Lead note:** a manual prod gate is a legitimate control — for compliance, or for early confidence in a new service. Keep it *honest*: it approves timing, the pipeline already proved readiness. The goal is to let green flow automatically at least through qa, and to make prod *one* deliberate decision, not three manual clicks per release. Revisit each gate as trust grows. (When a gate is a legitimate permanent control rather than debt — and for segregation of duties and audit evidence under CD — see [Governance & Compliance](../../resources/governance-and-compliance.md).)
+> **Engineering Lead note:** a manual prod gate is a legitimate control — for compliance, or for early confidence in a new service. Keep it *honest*: it approves timing, the pipeline already proved readiness. The goal is to let green flow automatically through qa as well (`dev` already does), keeping prod *one* deliberate decision, not two manual clicks per release. Revisit each gate as trust grows. And if you gate qa today to protect in-flight manual testing, that's an *isolation* gap, not a control — fix it with flags and ephemeral environments, not a permanent gate. (When a gate is a legitimate permanent control rather than debt — and for segregation of duties and audit evidence under CD — see [Governance & Compliance](../../resources/governance-and-compliance.md).)
 
 Decoupling deploy from release also splits the *timing* decision in two. The prod **deploy** gate above (if you keep one) is an engineering authorization — owned by the Engineering Lead. The **release** — the flag flip users actually feel — is a separate decision about *which* feature goes live *when* and *to whom*, owned by whoever runs release communication and flag governance (our evolved release-manager role), in coordination with the business. And it moves *communication* too: you announce the release, not the deploy — the weekly client email doesn't die, it gets rebuilt from user-facing releases instead of the deploy log. See [Communicating Releases](../../resources/communicating-releases.md).
 
@@ -137,19 +137,19 @@ We don't learn the pipeline against a strawman — we read our *own* real one fi
 
 First, **finalize your [Current-State Assessment](./exercises/current-state-assessment.md)** as a team. You started it after Session 1 with your real delivery numbers; now — with every CI and CD minimum and the governance controls in hand — score the rows you had to leave open. That completed scorecard, alongside your value stream map, is the Phase-0 baseline your migration plan builds on.
 
-Then read the pipeline. Start with the [current-state walkthrough](examples/current-state-pipeline-walkthrough.md): an annotated tour of the **real** `iac-baseline` GitLab pipeline (`validate → build → dev → qa → prod`, OIDC auth, immutable SHA-tagged images). The headline finding is honest both ways — the baseline already does a *lot* right (single pipeline path, OIDC, immutable artifacts, config-with-artifact), but it gates **every** stage with `when: manual`, so a human, not the pipeline, owns releasability.
+Then read the pipeline. Start with the [current-state walkthrough](examples/current-state-pipeline-walkthrough.md): an annotated tour of the **real** `iac-baseline` GitLab pipeline (`validate → build → dev → qa → prod`, OIDC auth, immutable SHA-tagged images). The headline finding is honest both ways — the baseline already does a *lot* right (single pipeline path, OIDC, immutable artifacts, config-with-artifact) and auto-promotes `dev` on green, but `qa` and `prod` are still `when: manual`, so a human, not the pipeline, still owns the release verdict.
 
 Now open the target — [`examples/.gitlab-ci.yml`](./examples/.gitlab-ci.yml), the full commit→prod pipeline for the Violations API. Locate:
 
 1. Where the **definition of deployable** is enforced (which jobs gate the merge)
 2. Where the **immutable artifact** is built and how it's promoted (not rebuilt)
-3. Where **releasability is decided** — and how this differs from the baseline you just read (dev/qa auto-promote on green; only prod keeps a deliberate gate)
+3. Where **releasability is decided** — and how this differs from the baseline you just read (the target also auto-promotes qa; the baseline still gates qa by hand, leaving prod the only manual gate in the target)
 4. How **OIDC** gives each environment its own role with no static creds
 5. Where you'd add a **smoke test** so promotion is verified, not just attempted
 
 The full pipeline also runs one **merge-request-time** job — `release-impact-label` — which is why its `workflow:` enables MR pipelines alongside the branch pipeline (a deliberate step up from Session 2's branch-only form): it forces each change to declare its release impact before merge. Details in [Communicating Releases](../../resources/communicating-releases.md).
 
-The gap between the two — all-manual gates versus green-flows-automatically — is the gap your migration plan closes.
+The gap between the two — the baseline's manual qa gate versus the target's green-flows-through-qa — is the gap your migration plan closes.
 
 #### 6.2 Write your migration plan (15 minutes)
 

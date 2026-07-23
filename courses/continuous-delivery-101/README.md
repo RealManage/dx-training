@@ -156,7 +156,7 @@ Before starting, ensure you have:
 
 ## Session 3: The Pipeline — Single Path to Production
 
-**Focus:** The pipeline that takes a commit to production. Deployability, immutable artifacts, production-like environments, recovery (fail forward, with rollback for emergencies), and the path from "manual gate everywhere" to deploy on demand.
+**Focus:** The pipeline that takes a commit to production. Deployability, immutable artifacts, production-like environments, recovery (fail forward, with rollback for emergencies), and the path from manual qa/prod gates to deploy on demand.
 
 ### Learning Objectives
 

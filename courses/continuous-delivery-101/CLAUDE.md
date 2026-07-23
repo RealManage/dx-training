@@ -94,7 +94,7 @@ Examples align with the RealManage `iac-baseline` repo conventions:
 - **Environments:** `dev`, `qa`, `prod`, parameterized via `configuration/{env}.config`
 - **Validation gates:** `cfn-lint`, `aws cloudformation validate-template`, strict config validation
 - **Immutability:** build artifacts tagged by commit SHA; digest-pinned CI images
-- **Important teaching point:** the *current* baseline gates **every** stage with `when: manual`. That is a valid early migration state, not the end state. This course shows the gap to full CD and the path to closing it.
+- **Important teaching point:** the *current* baseline auto-promotes `dev` on green but still gates `qa` and `prod` with `when: manual`. That is a valid early migration state, not the end state: the remaining gap is the `qa` gate — a *debt* gate to automate — leaving `prod` as one deliberate timing control. This course shows the gap to full CD and the path to closing it.
 
 ## Course Philosophy
 

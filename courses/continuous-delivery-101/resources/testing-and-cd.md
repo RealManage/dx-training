@@ -43,6 +43,8 @@ Two kinds of manual testing, treated differently:
 
 Neither is a *handoff*. RealManage has no separate QA team, and this does not reintroduce one: the delivering engineer owns the verification, the same way they own the change. The value-stream lesson still holds — a "throw it over to QA" *wait* is waste. An engineer verifying their own change before flipping its flag is not a handoff; it is owning quality.
 
+One practical wrinkle: when exploratory testing runs against a **shared** `qa`, continuous deploys can disrupt a session already in progress — which is why teams reach for a manual `qa` deploy gate. Resist that. The gate only re-batches the work; the real fix is *isolation* — other changes ride in **dark behind their own flags** so they never alter the surface under test, and where the deploy itself is disruptive, each change gets an **ephemeral environment**. See [Governance & Compliance](governance-and-compliance.md).
+
 ## The trajectory
 
 You are not choosing between "manual forever" and "automate everything now." You are moving along a line: new code tested from the start, legacy code characterized as you touch it, manual regression automated down release by release, and exploratory testing kept as the permanent human edge. Feature flags are what let you travel that line while already practicing CI — integrating continuously today, on the coverage you earn tomorrow.

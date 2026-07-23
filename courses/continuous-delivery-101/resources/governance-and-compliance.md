@@ -29,11 +29,21 @@ Two very different things wear the same "click to deploy" button:
 - **Legitimate, permanent control:** a single deliberate human *authorization* —
   accepting business risk, honoring a contractual change window, or a regulated
   environment that requires named sign-off. Keep it, deliberately and honestly.
+- **A workaround for missing isolation:** a gate that decides *nothing* — it shields a
+  shared, mutable environment from disruption. The classic is a manual `qa` deploy gate that
+  stops an auto-deploy clobbering someone's in-flight manual test. Real friction, not theater
+  — but the fix is *isolation*, not a permanent gate: ship other work **dark behind flags** so
+  it never changes the surface under test, and give each change an **ephemeral environment**
+  where the deploy itself is disruptive (a Lambda alias shift is invisible; a CloudFront
+  converge is not). Its hidden cost is **batching** — work queues behind the held gate and
+  lands in a lump. Book it as *"we owe ourselves environment isolation."*
 
 > **The test:** *what is the human actually deciding?* If it's **readiness**, it's
 > debt — automate it. If it's **timing, authorization, or risk acceptance**, it's a
-> control — keep it. The course's "remove the gate" advice is about debt gates, not
-> authorization gates.
+> control — keep it. If the human is deciding **nothing** — the gate only shields a shared
+> environment from disruption — it's an **isolation gap**: fix it with flags and ephemeral
+> environments, don't enshrine it. The course's "remove the gate" advice is about debt gates
+> (and isolation gaps), not authorization gates.
 
 ## Segregation of duties: the MR review *is* the control
 

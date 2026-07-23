@@ -10,7 +10,7 @@ The fastest way to understand CD is to hold a *real* pipeline up against the min
 stages:
   - validate   # cfn-lint on every branch push
   - build      # build + push immutable, SHA-tagged Docker image
-  - dev        # deploy to dev account   (when: manual)
+  - dev        # deploy to dev account   (auto on green)
   - qa         # deploy to qa account    (when: manual, needs dev)
   - prod       # deploy to prod account  (when: manual, needs qa)
 ```
@@ -21,7 +21,7 @@ Key facts about how it really works:
 - **Artifacts are immutable.** Images are tagged by `CI_COMMIT_SHA` and CI base images are **digest-pinned** (`@sha256:...`) because mutable tags have been re-pushed upstream before.
 - **Config travels with the deploy.** Per-environment values live in `configuration/{dev,qa,prod}.config`, validated by a strict parser at deploy time.
 - **Promotion is ordered.** `deploy:qa` has `needs: [deploy:dev]`; `deploy:prod` has `needs: [deploy:qa]`. You cannot skip an environment.
-- **Every deploy is `when: manual`.** A human clicks `deploy:dev`, then `deploy:qa`, then `deploy:prod`.
+- **`dev` auto-promotes on green; `qa` and `prod` are `when: manual`.** A human clicks `deploy:qa`, then `deploy:prod`.
 
 ## Score it against the minimums
 
@@ -29,12 +29,12 @@ Key facts about how it really works:
 | ---------- | --------------- | ----- |
 | 1. Use CI | ⚠️ Partial | The pipeline supports it, but *daily integration / short branches* is a **team behavior**, not something the YAML can enforce. This is usually the real gap. |
 | 2. Pipeline is the only way to deploy | ✅ Yes | Shared envs deploy only via the pipeline + OIDC. Laptops can only touch personal sandbox stacks. |
-| 3. Pipeline decides releasability | ⚠️ Partial | The pipeline proves the artifact is *valid*, but a **human clicks every gate**, so a person — not the pipeline — pulls the trigger. Closing this gap is the heart of the migration. |
+| 3. Pipeline decides releasability | ⚠️ Partial | The pipeline proves the artifact is *valid* and auto-promotes `dev` on green, but a **human still clicks `qa` then `prod`**, so a person — not the pipeline — still pulls the release trigger. Closing this gap is the heart of the migration. |
 | 4. Definition of deployable | ⚠️ Partial | `cfn-lint` + `validate-template` + config validation are real gates. App services should add **unit tests, coverage thresholds, and dependency/security scans**. |
 | 5. Immutable artifacts | ✅ Yes | SHA-tagged images, digest-pinned bases. Build once. |
 | 6. Stop the line on red pipeline | ✅ Yes (by rule) | `allow_failure: false`; a red deploy blocks the chain. Whether the team *actually* drops everything to fix it is cultural. |
 | 7. Production-like environment | ✅ Yes | `qa` mirrors `prod` via `configuration/qa.config`. |
-| 8. Rollback on demand | ⚠️ Partial | Recovery = revert the commit and re-run the (manual) deploys, or admin break-glass. Works, but it isn't *fast, automated, rehearsed* rollback. |
+| 8. Rollback on demand | ⚠️ Partial | Recovery = revert the commit and re-run the pipeline (a human still clicks `qa`/`prod`), or admin break-glass. Works, but it isn't *fast, automated, rehearsed* rollback. |
 | 9. Config with the artifact | ✅ Yes | `configuration/{env}.config` deploys with the stack. |
 
 ## What this tells us
@@ -43,7 +43,7 @@ Key facts about how it really works:
 
 **The gaps are concentrated in three places:**
 
-1. **Manual gates everywhere (minimum 3).** Today a human decides every deploy. That's a *valid Phase-2 state* — fine for early confidence or a compliance control — but it means the *pipeline* doesn't yet own releasability. The migration goal is to let green automatically flow at least to qa, and to make prod a single deliberate decision rather than three manual clicks per release.
+1. **Manual gates at qa and prod (minimum 3).** `dev` now auto-promotes on green; a human still decides the qa and prod deploys. That's a *valid Phase-2 state* — fine for early confidence or a compliance control — but it means the *pipeline* doesn't yet own releasability. The migration goal is to let green flow automatically through qa as well, leaving prod a single deliberate decision rather than two manual clicks per release.
 
 2. **Definition of deployable is thin for app code (minimum 4).** The baseline validates *infrastructure*. A TypeScript Lambda service must add fast unit tests, a coverage threshold, and dependency/IaC security scanning to the `validate`/`test` stages so "green" actually means "deployable."
 

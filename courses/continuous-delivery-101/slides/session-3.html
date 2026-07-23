@@ -44,7 +44,7 @@
     <section data-background-gradient="radial-gradient(900px 520px at 50% 4%, #16223f, #0b0e14 62%)">
       <h2>You have a deployable trunk — what carries it to prod?</h2>
       <svg class="dia" viewBox="0 0 1000 340" style="max-height:340px" role="img"
-           aria-label="On the left, what Sessions 1 and 2 earned: short-lived branches merging onto main, tagged trunk always deployable. On the right, the reality today: a change reaching production passes three manual click gates at dev, qa, and prod — a human clicks every stage. The connecting question: how many hands touch a change on its way to prod today?">
+           aria-label="On the left, what Sessions 1 and 2 earned: short-lived branches merging onto main, tagged trunk always deployable. On the right, the reality today: a change reaching production auto-promotes to dev on green, then passes two manual click gates at qa and prod — a human still gates qa and prod. The connecting question: how many hands touch a change on its way to prod today?">
         <line x1="415" y1="40" x2="415" y2="300" stroke="#2a3340" stroke-width="2" stroke-dasharray="2 8"/>
 
         <!-- LEFT: what Sessions 1–2 earned -->
@@ -64,10 +64,10 @@
         <rect x="452" y="122" width="86" height="42" rx="8" fill="#12203b" stroke="#74a0f2" stroke-width="2"/>
         <text x="495" y="148" text-anchor="middle" fill="#cfe0ff" font-size="13" font-weight="700">a change</text>
         <line x1="538" y1="143" x2="905" y2="143" stroke="#5a6b80" stroke-width="2.5"/>
-        <!-- three manual gates: dev / qa / prod -->
+        <!-- dev auto on green; manual gates at qa / prod -->
         <g text-anchor="middle">
-          <rect x="606" y="128" width="7" height="30" rx="2" fill="#f08a52"/>
-          <text x="609" y="118" fill="#f08a52" font-size="12" font-weight="800">manual</text>
+          <rect x="606" y="128" width="7" height="30" rx="2" fill="#3ed7c4"/>
+          <text x="609" y="118" fill="#3ed7c4" font-size="12" font-weight="800">auto ✓</text>
           <text x="609" y="176" fill="#9fb2c6" font-size="12">dev</text>
           <rect x="726" y="128" width="7" height="30" rx="2" fill="#f08a52"/>
           <text x="729" y="118" fill="#f08a52" font-size="12" font-weight="800">manual</text>
@@ -78,14 +78,14 @@
         </g>
         <text x="700" y="238" text-anchor="middle" fill="#eef3fa" font-size="20" font-weight="800">How many hands touch a change</text>
         <text x="700" y="265" text-anchor="middle" fill="#eef3fa" font-size="20" font-weight="800">on its way to prod today?</text>
-        <text x="700" y="296" text-anchor="middle" fill="#f08a52" font-size="14" font-weight="700">weekly release = a human clicks every stage</text>
+        <text x="700" y="296" text-anchor="middle" fill="#f08a52" font-size="14" font-weight="700">dev auto-promotes — a human still gates qa and prod</text>
       </svg>
       <aside class="notes">
         60-second recap only — don't re-teach Sessions 1–2. Small batches, daily integration, flags, CI
         gates gave us a trunk that is ALWAYS DEPLOYABLE. Then the connect: have each person name, out loud,
-        HOW a change reaches prod on their service today — how many manual steps, how many hands. For teams
-        on weekly releases it's a human clicking each environment (our own iac-baseline gates EVERY stage
-        when: manual) — that's the reality this session addresses. Don't fix it yet; surface it so the
+        HOW a change reaches prod on their service today — how many manual steps, how many hands. Our own
+        iac-baseline now auto-promotes dev on green and still gates qa and prod when: manual, so the human
+        clicks are at qa and prod — for weekly-release teams that's the reality this session addresses. Don't fix it yet; surface it so the
         "pipeline decides releasability" slide lands on their own process.
         Name the running example once: the HOA VIOLATIONS API — a TypeScript Lambda behind API Gateway that
         records a violation to DynamoDB and publishes a ViolationRecorded event to SNS. Every slide today is
@@ -266,15 +266,15 @@
     <section data-background-color="#0b0e14">
       <h2>The pipeline decides releasability</h2>
       <svg class="dia below-title" viewBox="0 0 1000 300" style="max-height:300px" role="img"
-           aria-label="Two panels over the same green build. Today: green checks pass, then a person at a gate decides whether it is ready — dev, qa, and prod are all manual. Continuous Delivery: the same green checks flow automatically through dev and qa, and only prod keeps a single deliberate gate labelled timing, not readiness.">
+           aria-label="Two panels over the same green build. Today: green checks pass and dev auto-promotes, but a person at a gate still decides whether qa and prod are ready — qa and prod are manual. Continuous Delivery: the same green checks flow automatically through dev and qa, and only prod keeps a single deliberate gate labelled timing, not readiness.">
         <line x1="500" y1="30" x2="500" y2="280" stroke="#2a3340" stroke-width="2" stroke-dasharray="2 8"/>
 
         <!-- LEFT panel: TODAY -->
         <text x="40" y="30" fill="#9fb2c6" font-size="14" font-weight="800" letter-spacing=".08em">TODAY</text>
         <text x="40" y="52" fill="#7d8fa1" font-size="13">a person owns the verdict</text>
         <g>
-          <rect x="40" y="78" width="150" height="34" rx="8" fill="#101826" stroke="#f08a52" stroke-width="1.6"/>
-          <text x="115" y="100" text-anchor="middle" fill="#f6d2b8" font-size="13" font-weight="700">manual · dev</text>
+          <rect x="40" y="78" width="150" height="34" rx="8" fill="#0e2b28" stroke="#3ed7c4" stroke-width="1.6"/>
+          <text x="115" y="100" text-anchor="middle" fill="#cdeee8" font-size="13" font-weight="700">auto · dev ✓</text>
           <rect x="40" y="122" width="150" height="34" rx="8" fill="#101826" stroke="#f08a52" stroke-width="1.6"/>
           <text x="115" y="144" text-anchor="middle" fill="#f6d2b8" font-size="13" font-weight="700">manual · qa</text>
           <rect x="40" y="166" width="150" height="34" rx="8" fill="#101826" stroke="#f08a52" stroke-width="1.6"/>
@@ -310,8 +310,9 @@
         <span class="muted"><b>Continuous Deployment</b> — every green commit auto-ships (keep them distinct)</span>
       </div>
       <aside class="notes">
-        This is the minimum most teams — and our own baseline — haven't reached, because every deploy is
-        when: manual. The shift: GREEN SHOULD MEAN DEPLOYABLE, and the pipeline should say so without a
+        This is the minimum most teams haven't fully reached. Our own baseline now auto-promotes dev on
+        green, but qa and prod are still when: manual, so the pipeline doesn't yet own the release verdict.
+        The shift: GREEN SHOULD MEAN DEPLOYABLE, and the pipeline should say so without a
         meeting. A human may still choose WHEN prod happens — that's Continuous DELIVERY, not Continuous
         DEPLOYMENT, and the distinction matters — but they're approving TIMING, not re-deciding READINESS
         the pipeline already proved. The tell that you're not there yet: a meeting decides whether the build
@@ -320,7 +321,11 @@
         ENGINEERING-LEAD NOTE (say it, keep it honest): a manual prod gate can be a LEGITIMATE, PERMANENT
         control — compliance, or early confidence in a new service — distinct from a DEBT gate that just
         re-litigates readiness the pipeline already proved. Keep the legitimate ones, name them as timing
-        decisions, and remove the rest as trust grows.
+        decisions, and remove the rest as trust grows. IF ASKED "I gate qa so auto-deploys don't clobber my
+        manual testing" — that's real, but it's an ISOLATION gap, not a control: keep other work dark behind
+        flags so it doesn't change the surface under test, and use an ephemeral env per change where the
+        deploy itself disrupts (a Lambda alias shift is invisible; a CloudFront converge isn't). The gate's
+        hidden cost is batching — green work queues behind it. Fix the isolation; don't enshrine the gate.
         And the stop-the-line rule from Session 2 now extends past the build to the DEPLOYMENT PIPELINE: a
         red pipeline is the team's #1 priority — no new feature work until it's green (minimum #6).
       </aside>
@@ -861,7 +866,7 @@
           <div class="scorecard">
             <div class="row"><span class="st warn">⚠</span><span><b>1</b> Use CI <span class="muted">— daily integration is a team behavior</span></span></div>
             <div class="row"><span class="st ok">✓</span><span><b>2</b> Pipeline is the only way to deploy</span></div>
-            <div class="row"><span class="st warn">⚠</span><span><b>3</b> Pipeline decides releasability <span class="muted">— all gates manual</span></span></div>
+            <div class="row"><span class="st warn">⚠</span><span><b>3</b> Pipeline decides releasability <span class="muted">— qa + prod still manual</span></span></div>
             <div class="row"><span class="st warn">⚠</span><span><b>4</b> Definition of deployable <span class="muted">— thin for app code</span></span></div>
             <div class="row"><span class="st ok">✓</span><span><b>5</b> Immutable artifacts</span></div>
             <div class="row"><span class="st ok">✓</span><span><b>6</b> Stop the line on red</span></div>
@@ -889,14 +894,15 @@
         the rows you left open. That completed scorecard plus your value stream map is your PHASE-0 BASELINE.
         Then read pipelines — start with the current-state walkthrough: our real iac-baseline pipeline scores
         HONESTLY BOTH WAYS — it already nails single-path, OIDC, immutable artifacts, config-with-artifact,
-        prod-like qa, ordered promotion, but it gates EVERY stage when: manual, so a human owns releasability.
+        prod-like qa, ordered promotion, and auto-promotes dev on green — but qa and prod are still when: manual,
+        so a human still owns the release verdict.
         Now OPEN THE TARGET .gitlab-ci.yml in the editor and locate five things: (1) where the DEFINITION OF
         DEPLOYABLE is enforced (validate / test / security); (2) where the IMMUTABLE ARTIFACT is built once and
         how it's promoted (build:artifact → deploy:* all consuming ${PACKAGED_TEMPLATE}); (3) where
-        RELEASABILITY IS DECIDED and how it differs from the baseline (deploy:dev / deploy:qa auto on green via
-        needs:, only deploy:prod is when: manual); (4) how OIDC gives each env its own role with no static
+        RELEASABILITY IS DECIDED and how it differs from the baseline (the target also auto-promotes deploy:qa
+        on green via needs: — the baseline still gates qa by hand — leaving only deploy:prod when: manual); (4) how OIDC gives each env its own role with no static
         creds (.aws_oidc); (5) where a SMOKE TEST verifies each deploy (smoke-test.sh, so promotion is verified,
-        not just attempted). The gap between all-manual and green-flows-automatically IS your migration plan.
+        not just attempted). The gap — automating the qa gate so green flows to qa the way it already does to dev — IS your migration plan.
       </aside>
     </section>
 

@@ -61,16 +61,17 @@ session, so the close carries course certification, not just homework.
 - **Visual:** Split panel. Left (small): a compressed recap glyph — the short-lived
   branches merging onto the trunk from Session 2, capped with a small teal "always
   deployable" tag. Right (the bigger half): a single change trying to reach a `prod` box,
-  its path broken by **three manual "click" gates** (a hand icon at `dev`, `qa`, `prod`) —
-  with a large question mark: "how many hands touch a change on its way to prod today?"
+  its path: `dev` **auto-promotes on green**, then **two manual "click" gates** at `qa` and
+  `prod` (a hand icon at each) — with a large question mark: "how many hands touch a change on
+  its way to prod today?"
 - **On-slide text:** "Trunk is always deployable — now what carries it to prod?" · "Hands
   between your commit and prod = ?"
 - **Say:** 60-second recap only — don't re-teach Sessions 1–2. Small batches, daily
   integration, flags, CI gates gave us a trunk that is *always deployable*. Then the
   connect: have each person name, out loud, **how a change reaches prod on their service
-  today — how many manual steps, how many hands.** For teams on weekly releases it's a
-  human clicking each environment (our own `iac-baseline` gates *every* stage `when:
-  manual`) — that's the reality this session addresses. Don't fix it yet; surface it so the
+  today — how many manual steps, how many hands.** Our own `iac-baseline` now
+  **auto-promotes `dev`** on green and still gates `qa` and `prod` `when: manual`, so the
+  human clicks are at qa and prod — for weekly-release teams that's the reality this session addresses. Don't fix it yet; surface it so the
   "pipeline decides releasability" slide lands on their own process. Name the running
   example once: the **HOA Violations API** — a TypeScript Lambda behind API Gateway that
   records a violation to DynamoDB and publishes a `ViolationRecorded` event to SNS. Every
@@ -172,8 +173,9 @@ count — same convention as Session 2.)*
   **Deployment*** (every green commit auto-ships) — keep them distinct.
 - **On-slide text:** "Green = deployable, automatically" · "a human approves *timing*, not
   *readiness*"
-- **Say:** This is the minimum most teams — and our own baseline — haven't reached, because
-  every deploy is `when: manual`. The shift: **green should mean deployable, and the pipeline
+- **Say:** This is the minimum most teams haven't fully reached. Our own baseline now
+  auto-promotes `dev` on green, but `qa` and `prod` are still `when: manual`, so the pipeline
+  doesn't yet own the release verdict. The shift: **green should mean deployable, and the pipeline
   should say so without a meeting.** A human may still choose *when* prod happens — that's
   Continuous *Delivery*, not Continuous *Deployment*, and the distinction matters — but
   they're approving **timing**, not re-deciding **readiness** the pipeline already proved. The
@@ -183,7 +185,10 @@ count — same convention as Session 2.)*
   a *legitimate, permanent* control — compliance, or early confidence in a new service —
   distinct from a *debt* gate that just re-litigates readiness the pipeline already proved.
   Keep the legitimate ones, name them as timing decisions, and remove the rest as trust
-  grows. And the stop-the-line rule from Session 2 now extends past the build to the
+  grows. If someone gates `qa` to protect in-flight manual testing, that's an *isolation* gap,
+  not a control — keep other work dark behind flags so it doesn't change the surface under
+  test, and use an ephemeral env per change where the deploy itself disrupts; the gate's hidden
+  cost is batching. Fix the isolation, don't enshrine the gate. And the stop-the-line rule from Session 2 now extends past the build to the
   **deployment pipeline**: a red pipeline is the team's #1 priority — no new feature work
   until it's green (minimum #6).
 
@@ -479,17 +484,17 @@ count — same convention as Session 2.)*
   stream map is your **Phase-0 baseline**. Then read pipelines — start with the [current-state
   walkthrough](../sessions/session-3/examples/current-state-pipeline-walkthrough.md): our real
   `iac-baseline` pipeline scores *honestly both ways* — it already nails single-path, OIDC,
-  immutable artifacts, config-with-artifact, prod-like qa, ordered promotion, but it gates
-  **every** stage `when: manual`, so a human owns releasability. Now **open the target
+  immutable artifacts, config-with-artifact, prod-like qa, ordered promotion, and already
+  auto-promotes `dev` on green — but `qa` and `prod` are still `when: manual`, so a human still owns the release verdict. Now **open the target
   [`.gitlab-ci.yml`](../sessions/session-3/examples/.gitlab-ci.yml) in the editor** and locate
   five things: (1) where the **definition of deployable** is enforced (`validate` / `test` /
   `security`); (2) where the **immutable artifact** is built once and how it's promoted
   (`build:artifact` → `deploy:*` all consuming `${PACKAGED_TEMPLATE}`); (3) where
-  **releasability is decided** and how it differs from the baseline (`deploy:dev` / `deploy:qa`
-  auto on green via `needs:`, only `deploy:prod` is `when: manual`); (4) how **OIDC** gives
+  **releasability is decided** and how it differs from the baseline (the target also auto-promotes
+  `deploy:qa` via `needs:` — the baseline still gates qa by hand — leaving only `deploy:prod` `when: manual`); (4) how **OIDC** gives
   each env its own role with no static creds (`.aws_oidc`); (5) where a **smoke test** verifies
-  each deploy (`smoke-test.sh`, so promotion is *verified*, not just attempted). The gap
-  between all-manual and green-flows-automatically **is** your migration plan.
+  each deploy (`smoke-test.sh`, so promotion is *verified*, not just attempted). The gap —
+  automating the qa gate the way `dev` already is — **is** your migration plan.
 
 ---
 
