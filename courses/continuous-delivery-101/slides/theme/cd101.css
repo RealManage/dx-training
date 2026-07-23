@@ -321,6 +321,48 @@
 .hw { margin: 0; padding-left: 1.15em; }
 .hw li { font-size: .68em; line-height: 1.3; margin: .35em 0; color: var(--cd-ink); }
 
+/* ===========================================================================
+   Session 3 — The Pipeline: Single Path to Production
+   Layout primitives specific to the Session 3 deck. Same convention as the
+   Session 1 / Session 2 blocks above: slide-specific styles live here, not inline.
+   ========================================================================== */
+
+/* ----- slide 14 (workshop A): the current-state scorecard ------------------ */
+.scorecard { display: flex; flex-direction: column; gap: 6px; }
+.scorecard .row {
+  display: flex; align-items: center; gap: .55em;
+  font-size: .58em; line-height: 1.2; color: var(--cd-ink);
+  padding: .42em .65em; border-radius: 8px;
+  background: var(--cd-panel); border: 1px solid var(--cd-line);
+}
+.scorecard .st { flex: none; width: 1.3em; text-align: center; font-weight: 800; font-size: 1.05em; }
+.scorecard .st.ok   { color: var(--cd-teal); }
+.scorecard .st.warn { color: var(--cd-orange); }
+.scorecard .st.no   { color: #ef5350; }
+.scorecard .row b { color: #fff; font-weight: 700; }
+
+/* ----- slide 14: numbered "find these" list (denser than .rules) ----------- */
+.find { max-width: 100%; margin: 0; padding-left: 1.2em; }
+.find li { font-size: .6em; line-height: 1.28; margin: .3em 0; color: var(--cd-ink); }
+.find li b, .find li code { color: var(--cd-teal); }
+.find li code { font-family: var(--cd-mono); font-size: .95em; }
+
+/* ----- slide 16: course-completion panel ----------------------------------- */
+.complete {
+  margin-top: .2em; padding: 12px 18px 14px; border-radius: 12px;
+  background: rgba(62, 215, 196, .06); border: 1px solid rgba(62, 215, 196, .28);
+}
+.complete .col-h { color: var(--cd-teal); }
+.complete ul { list-style: none; margin: 0; padding: 0; }
+.complete li {
+  font-size: .62em; line-height: 1.25; padding: .32em 0 .32em 1.5em; position: relative;
+  color: var(--cd-ink); border-top: 1px solid rgba(255, 255, 255, .06);
+}
+.complete li:first-child { border-top: 0; }
+.complete li::before {
+  content: "✓"; position: absolute; left: 0; color: var(--cd-teal); font-weight: 800;
+}
+
 /* ----- print / PDF: keep gradients and fills ------------------------------- */
 @media print {
   * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }

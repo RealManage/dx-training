@@ -11,6 +11,8 @@ Presenter decks for Continuous Delivery 101. Built on [reveal.js](https://reveal
 | `session-1-outline.md` | The per-slide spec (Message / Visual / On-slide text / Say) the deck is built from |
 | `session-2.html` | Session 2 deck — *Trunk-Based Development & CI* (15 slides + 3 section dividers) |
 | `session-2-outline.md` | The per-slide spec for Session 2 |
+| `session-3.html` | Session 3 deck — *The Pipeline — Single Path to Production* (18 slides + 3 section dividers) |
+| `session-3-outline.md` | The per-slide spec for Session 3 |
 | `theme/cd101.css` | Deck theme — the course's indigo palette + diagram styling |
 | `reveal/` | Vendored reveal.js 5.2.1 (core + notes plugin). Do not edit. |
 
@@ -41,9 +43,11 @@ value-stream flow, stopwatch) are inline SVG in the HTML — edit them there. Sl
 use the course hero gradients; drop a real photo into slides 1–2 later via reveal's
 `data-background-image` if you want.
 
-## Future sessions
+## Adding a deck
 
-Copy an existing deck to `session-3.html`, reuse `reveal/` and `theme/cd101.css`, and
-rebuild the slide list from that session's outline. Session 2 added a few layout
-primitives to `theme/cd101.css` (section dividers, the without/with contrast, the
-editor hand-off pill) under a labeled "Session 2" block — reuse them as needed.
+All three course sessions are built. To spin up another deck (a re-run variant, a
+spin-off topic), copy an existing `session-*.html`, reuse `reveal/` and `theme/cd101.css`,
+and rebuild the slide list from an outline. `theme/cd101.css` carries labeled per-session
+blocks of layout primitives — Session 2 (section dividers, without/with contrast, the
+editor hand-off pill) and Session 3 (the baseline scorecard, findings list, completion
+panel) — reuse them as needed.

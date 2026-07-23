@@ -1,0 +1,1030 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CD 101 — Session 3: The Pipeline — Single Path to Production</title>
+  <link rel="stylesheet" href="reveal/dist/reveal.css">
+  <link rel="stylesheet" href="theme/cd101.css">
+</head>
+<body>
+<div class="reveal">
+
+  <!-- persistent chrome -->
+  <div class="cd-chip"><span class="mark">CD</span><span>Continuous Delivery 101</span></div>
+  <div class="cd-foot">Session 3 · The Pipeline — Single Path to Production</div>
+
+  <div class="slides">
+
+    <!-- ============================================================ 1 · TITLE -->
+    <section class="is-hero"
+      data-background-gradient="linear-gradient(135deg,#16306f 0%,#2b59c3 55%,#0f9d8c 130%)">
+      <div class="hero-wrap">
+        <p class="cd-kicker">RealManage · DX Training</p>
+        <h1>Continuous Delivery <span class="t-teal">101</span></h1>
+        <p class="cd-sub" style="color:rgba(255,255,255,.88)">Session 3 — The Pipeline: Single Path to Production</p>
+        <p class="cd-mini" style="color:rgba(255,255,255,.72);margin-top:1.5em">
+          Green means deployable.</p>
+      </div>
+      <aside class="notes">
+        Set the frame and objectives. By the end they can:
+        (1) treat the pipeline as the SOLE path to every shared environment;
+        (2) express "deployable" as automated criteria, not a meeting;
+        (3) build one immutable artifact and promote the SAME bytes dev → qa → prod;
+        (4) design fast, safe recovery on AWS — fail forward first, roll back when it's costly;
+        (5) write their team's phased migration plan.
+        The one-line arc of the course: Session 1 was the WHY (small batches, the minimums), Session 2
+        was the first PRACTICE (trunk-based dev, flags, CI) — today is the SYSTEM those two make possible.
+        Keep the course refrain: this is about HOW we deliver, independent of platform; the new AWS
+        services are just where it's cheapest to establish.
+      </aside>
+    </section>
+
+    <!-- ==================================================== 2 · RECAP → CONNECT -->
+    <section data-background-gradient="radial-gradient(900px 520px at 50% 4%, #16223f, #0b0e14 62%)">
+      <h2>You have a deployable trunk — what carries it to prod?</h2>
+      <svg class="dia" viewBox="0 0 1000 340" style="max-height:340px" role="img"
+           aria-label="On the left, what Sessions 1 and 2 earned: short-lived branches merging onto main, tagged trunk always deployable. On the right, the reality today: a change reaching production passes three manual click gates at dev, qa, and prod — a human clicks every stage. The connecting question: how many hands touch a change on its way to prod today?">
+        <line x1="415" y1="40" x2="415" y2="300" stroke="#2a3340" stroke-width="2" stroke-dasharray="2 8"/>
+
+        <!-- LEFT: what Sessions 1–2 earned -->
+        <text x="55" y="52" fill="#9fb2c6" font-size="15" font-weight="700" letter-spacing=".08em">SESSIONS 1–2 EARNED</text>
+        <line x1="60" y1="150" x2="360" y2="150" stroke="#3ed7c4" stroke-width="3"/>
+        <text x="60" y="136" fill="#3ed7c4" font-size="14" font-weight="800">main</text>
+        <g fill="none" stroke="#74a0f2" stroke-width="2.5">
+          <path d="M110 150 C 122 128, 132 120, 145 120 L185 120 C198 120, 208 128, 220 150"/>
+          <path d="M225 150 C 237 128, 247 120, 260 120 L300 120 C313 120, 323 128, 335 150"/>
+        </g>
+        <g fill="#74a0f2"><circle cx="165" cy="120" r="4"/><circle cx="280" cy="120" r="4"/></g>
+        <rect x="110" y="198" width="210" height="42" rx="21" fill="rgba(62,215,196,.1)" stroke="#3ed7c4" stroke-width="2"/>
+        <text x="215" y="224" text-anchor="middle" fill="#3ed7c4" font-size="15" font-weight="800">trunk always deployable</text>
+
+        <!-- RIGHT: reaching prod today, by hand -->
+        <text x="460" y="52" fill="#9fb2c6" font-size="15" font-weight="700" letter-spacing=".08em">TODAY — REACHING PROD</text>
+        <rect x="452" y="122" width="86" height="42" rx="8" fill="#12203b" stroke="#74a0f2" stroke-width="2"/>
+        <text x="495" y="148" text-anchor="middle" fill="#cfe0ff" font-size="13" font-weight="700">a change</text>
+        <line x1="538" y1="143" x2="905" y2="143" stroke="#5a6b80" stroke-width="2.5"/>
+        <!-- three manual gates: dev / qa / prod -->
+        <g text-anchor="middle">
+          <rect x="606" y="128" width="7" height="30" rx="2" fill="#f08a52"/>
+          <text x="609" y="118" fill="#f08a52" font-size="12" font-weight="800">manual</text>
+          <text x="609" y="176" fill="#9fb2c6" font-size="12">dev</text>
+          <rect x="726" y="128" width="7" height="30" rx="2" fill="#f08a52"/>
+          <text x="729" y="118" fill="#f08a52" font-size="12" font-weight="800">manual</text>
+          <text x="729" y="176" fill="#9fb2c6" font-size="12">qa</text>
+          <rect x="846" y="128" width="7" height="30" rx="2" fill="#f08a52"/>
+          <text x="849" y="118" fill="#f08a52" font-size="12" font-weight="800">manual</text>
+          <text x="849" y="176" fill="#9fb2c6" font-size="12">prod</text>
+        </g>
+        <text x="700" y="238" text-anchor="middle" fill="#eef3fa" font-size="20" font-weight="800">How many hands touch a change</text>
+        <text x="700" y="265" text-anchor="middle" fill="#eef3fa" font-size="20" font-weight="800">on its way to prod today?</text>
+        <text x="700" y="296" text-anchor="middle" fill="#f08a52" font-size="14" font-weight="700">weekly release = a human clicks every stage</text>
+      </svg>
+      <aside class="notes">
+        60-second recap only — don't re-teach Sessions 1–2. Small batches, daily integration, flags, CI
+        gates gave us a trunk that is ALWAYS DEPLOYABLE. Then the connect: have each person name, out loud,
+        HOW a change reaches prod on their service today — how many manual steps, how many hands. For teams
+        on weekly releases it's a human clicking each environment (our own iac-baseline gates EVERY stage
+        when: manual) — that's the reality this session addresses. Don't fix it yet; surface it so the
+        "pipeline decides releasability" slide lands on their own process.
+        Name the running example once: the HOA VIOLATIONS API — a TypeScript Lambda behind API Gateway that
+        records a violation to DynamoDB and publishes a ViolationRecorded event to SNS. Every slide today is
+        grounded in that one service.
+      </aside>
+    </section>
+
+    <!-- ============================== 2A · A FLAG IS NOT FREE (Session 2 callback) -->
+    <section data-background-gradient="radial-gradient(900px 520px at 50% 4%, #16223f, #0b0e14 62%)">
+      <h2>A flag is not free — reach for the cheapest mechanism first</h2>
+      <div class="contrast below-title">
+        <div class="contrast-col good">
+          <h3>Default: no flag</h3>
+          <ul>
+            <li>Behavior change → <b>branch by abstraction</b></li>
+            <li>New feature, nothing calls it yet → <b>keystone: wire it up last</b></li>
+            <li>New API route → <b>build it, expose it last</b></li>
+            <li>Bug fix / simple change → <b>just deploy</b></li>
+          </ul>
+        </div>
+        <div class="contrast-col bad">
+          <h3>A flag earns its keep when</h3>
+          <ul>
+            <li>Gradual rollout or test-in-prod → <b>dark launch</b></li>
+            <li>Different behavior <b>per customer</b></li>
+            <li>An <b>experiment</b> — A/B test</li>
+            <li>Cross-team / cross-service <b>coordination</b></li>
+          </ul>
+        </div>
+      </div>
+      <div class="caption">
+        <span><b>Flags aren't free</b> — they double the test burden and nest into combinatorial state; a Release toggle no one removes is <span class="t-orange">flag debt</span>.</span>
+        <span class="muted" style="font-family:var(--cd-mono)">full decision tree → beyond.minimumcd.org/docs/migrate-to-cd/optimize/feature-flags</span>
+      </div>
+      <aside class="notes">
+        Callback to the Session 2 decision — flag / branch-by-abstraction / ship. You CAN merge dark behind
+        a flag, but reach for it last, not first. A flag is code and config you carry in every environment
+        until you remove it — and most teams never do. Cheaper mechanisms keep the trunk deployable without
+        that tax: branch by abstraction for a behavior change; the keystone pattern for a brand-new feature
+        — merge it daily but reachable only from its own tests, then wire in the real entry point as the
+        last commit; build a new route and expose it last; for a bug fix, just deploy. Reserve the flag for genuine
+        gradual rollout, test-in-prod, per-customer behavior, an experiment, or cross-team coordination.
+        Full decision tree is the beyond.minimumCD link on the slide. Note the tension with later today:
+        when a flag IS warranted, it's also your fastest recovery lever — flip it off, no deploy. Powerful,
+        but not free.
+      </aside>
+    </section>
+
+    <!-- ===================== 2B · WHEN THE TRUNK ISN'T DEPLOYABLE (war story) -->
+    <section data-background-gradient="radial-gradient(900px 520px at 50% 4%, #16223f, #0b0e14 62%)">
+      <h2>When the trunk isn't deployable</h2>
+      <svg class="dia below-title" viewBox="0 0 1000 200" style="max-height:230px" role="img"
+           aria-label="A production incident fires on the left and needs a fix now. The trunk, main, will not go green because it carries two large in-flight changes that are both broken. A one-line fix merges onto that same trunk, but the deploy to prod is blocked by a no-entry gate — the broken work is in the way. The lesson: the fix was small, the trunk wasn't ready.">
+        <defs>
+          <marker id="aro2b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#f08a52"/></marker>
+        </defs>
+        <!-- prod incident (bell) -->
+        <g transform="translate(44,30)">
+          <path d="M30 4 a20 20 0 0 1 20 20 v14 l8 10 h-56 l8 -10 v-14 a20 20 0 0 1 20 -20 z" fill="#241710" stroke="#f08a52" stroke-width="2"/>
+          <circle cx="30" cy="56" r="5" fill="#f08a52"/>
+        </g>
+        <text x="74" y="108" text-anchor="middle" fill="#f08a52" font-size="13" font-weight="700">prod incident</text>
+        <text x="74" y="126" text-anchor="middle" fill="#f0a9a9" font-size="11">fix needed now</text>
+        <line x1="104" y1="82" x2="150" y2="84" stroke="#f08a52" stroke-width="2.5" marker-end="url(#aro2b)"/>
+
+        <!-- main trunk (won't go green) -->
+        <text x="150" y="46" fill="#ef5350" font-size="14" font-weight="800">main — won't go green</text>
+        <line x1="150" y1="84" x2="731" y2="84" stroke="#ef5350" stroke-width="3" opacity=".85"/>
+
+        <!-- two broken in-flight changes on the trunk -->
+        <g text-anchor="middle">
+          <rect x="200" y="60" width="150" height="48" rx="10" fill="#2a1618" stroke="#ef5350" stroke-width="2"/>
+          <text x="275" y="80" fill="#f6c4c4" font-size="12.5" font-weight="700">big change A</text>
+          <text x="275" y="98" fill="#ef5350" font-size="10">in flight · broken</text>
+          <rect x="378" y="60" width="150" height="48" rx="10" fill="#2a1618" stroke="#ef5350" stroke-width="2"/>
+          <text x="453" y="80" fill="#f6c4c4" font-size="12.5" font-weight="700">big change B</text>
+          <text x="453" y="98" fill="#ef5350" font-size="10">in flight · broken</text>
+        </g>
+
+        <!-- the one clean thing, stuck on the same trunk -->
+        <rect x="566" y="64" width="128" height="40" rx="9" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2"/>
+        <text x="630" y="88" text-anchor="middle" fill="#cdeee8" font-size="12.5" font-weight="700">one-line fix</text>
+
+        <!-- blocked: no-entry between trunk and prod -->
+        <circle cx="748" cy="84" r="17" fill="#241014" stroke="#ef5350" stroke-width="2.5"/>
+        <line x1="736" y1="84" x2="760" y2="84" stroke="#ef5350" stroke-width="3.5"/>
+        <text x="748" y="126" text-anchor="middle" fill="#ef5350" font-size="11" font-weight="700">deploy blocked</text>
+
+        <!-- prod (healthy, but unreachable) -->
+        <rect x="800" y="60" width="150" height="48" rx="10" fill="#101826" stroke="#74a0f2" stroke-width="2"/>
+        <text x="875" y="90" text-anchor="middle" fill="#cfe0ff" font-size="15" font-weight="800">prod</text>
+      </svg>
+      <div class="caption">
+        <span><b>The fix was small — the trunk wasn't ready.</b> Two big broken changes sat between it and prod.</span>
+        <span class="t-orange">big batches + a red trunk = you can't ship when it matters most</span>
+      </div>
+      <aside class="notes">
+        Tell it blameless — no names, no team. Recently, on one of our services: two large changes were
+        both in flight, both merged to main, and both had issues. Before either was sorted, a production
+        problem surfaced. The fix itself was a one-liner — but it couldn't go out, because the pipeline
+        ships the TRUNK, and the trunk now carried two broken changes that wouldn't go green. The small fix
+        was trapped behind big broken batches. This is the whole case for what Sessions 1–2 asked for: small
+        batches, stop-the-line when the build is red (CI minimum #5), new work doesn't break delivered work
+        (#6), and a trunk you keep deployable at ALL times — not for tidiness, but because the day you need
+        to ship in a hurry is the day you can't afford a red trunk. This is exactly what today's single-path
+        pipeline is built to protect. Then move to Part 1.
+      </aside>
+    </section>
+
+    <!-- ================================================ DIVIDER · PART 1 of 3 -->
+    <section class="is-hero is-divider"
+      data-background-gradient="linear-gradient(135deg,#3a2d72 0%,#5b4bbf 60%,#2b59c3 130%)">
+      <div class="divider-wrap">
+        <span class="part">Part 1 of 3</span>
+        <h1>The Single Path &amp; Its Verdict</h1>
+      </div>
+      <aside class="notes">
+        One line: "Two ideas do the heavy lifting — there is exactly ONE way in, and the pipeline, not a
+        meeting, decides what's deployable." Move to the next slide.
+      </aside>
+    </section>
+
+    <!-- =========================================== 3 · ONE PATH, NO SIDE DOORS -->
+    <section data-background-color="#0b0e14">
+      <h2>One path to shared environments — no side doors</h2>
+      <svg class="dia below-title" viewBox="0 0 1000 320" style="max-height:330px" role="img"
+           aria-label="Shared environments — dev, qa, prod — can be reached only one way: through the pipeline, which assumes a per-environment role via OIDC. A laptop running sam deploy is blocked from shared environments by a no-entry barrier. The same laptop is free to deploy to a personal sandbox stack, which is not shared and so does not go through the pipeline.">
+        <defs>
+          <marker id="ar3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#3ed7c4"/></marker>
+        </defs>
+        <!-- shared environments box -->
+        <rect x="630" y="44" width="320" height="118" rx="16" fill="#101826" stroke="#74a0f2" stroke-width="2.5"/>
+        <text x="790" y="90" text-anchor="middle" fill="#cfe0ff" font-size="18" font-weight="800">shared environments</text>
+        <text x="790" y="122" text-anchor="middle" fill="#9fb2c6" font-size="14">dev · qa · prod</text>
+
+        <!-- ALLOWED: the pipeline through the OIDC gate -->
+        <text x="46" y="72" fill="#3ed7c4" font-size="15" font-weight="800">the pipeline</text>
+        <line x1="48" y1="103" x2="536" y2="103" stroke="#3ed7c4" stroke-width="3"/>
+        <rect x="540" y="80" width="74" height="46" rx="9" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2"/>
+        <text x="577" y="102" text-anchor="middle" fill="#3ed7c4" font-size="13" font-weight="800">OIDC</text>
+        <text x="577" y="118" text-anchor="middle" fill="#8fd8ce" font-size="10">per-env role</text>
+        <line x1="614" y1="103" x2="628" y2="103" stroke="#3ed7c4" stroke-width="3" marker-end="url(#ar3)"/>
+        <text x="330" y="90" text-anchor="middle" fill="#8fd8ce" font-size="12">the only way in · no static keys</text>
+
+        <!-- laptop -->
+        <rect x="60" y="238" width="168" height="60" rx="10" fill="#241710" stroke="#f08a52" stroke-width="2"/>
+        <text x="144" y="264" text-anchor="middle" fill="#f6d2b8" font-size="14" font-weight="700">a laptop</text>
+        <text x="144" y="285" text-anchor="middle" fill="#f08a52" font-size="13" font-weight="700" style="font-family:var(--cd-mono)">sam deploy</text>
+
+        <!-- BLOCKED: laptop → shared -->
+        <line x1="228" y1="250" x2="470" y2="150" stroke="#ef5350" stroke-width="2.5" stroke-dasharray="6 6"/>
+        <circle cx="392" cy="188" r="17" fill="#ef5350"/>
+        <rect x="381" y="184" width="22" height="8" rx="2" fill="#0b0e14"/>
+        <text x="440" y="238" text-anchor="middle" fill="#ef5350" font-size="13" font-weight="800">no side door into shared</text>
+
+        <!-- ALLOWED: laptop → sandbox -->
+        <line x1="228" y1="280" x2="626" y2="250" stroke="#3ed7c4" stroke-width="2.5" marker-end="url(#ar3)"/>
+        <rect x="630" y="222" width="320" height="72" rx="12" fill="#0a1f1c" stroke="#3ed7c4" stroke-width="2" stroke-dasharray="5 5"/>
+        <text x="790" y="252" text-anchor="middle" fill="#cdeee8" font-size="14" font-weight="700" style="font-family:var(--cd-mono)">dev-aws-violations-api-&lt;you&gt;</text>
+        <text x="790" y="274" text-anchor="middle" fill="#3ed7c4" font-size="13" font-weight="700">personal sandbox — break it freely</text>
+      </svg>
+      <aside class="notes">
+        The minimum (#2): every change to a SHARED environment goes through the pipeline — no "just this
+        once" sam deploy from a laptop to qa. Three reasons it's non-negotiable.
+        REPRODUCIBILITY: every shared-env change has the same provenance — a commit, a pipeline run, an
+        audit trail. SECURITY: deploy permissions live with the pipeline via GitLab OIDC — short-lived,
+        per-environment role assumption, NO static AWS keys anywhere. TRUST: if there's exactly one path,
+        the pipeline's verdict can MEAN something — which is the whole next slide.
+        The escape valve that keeps this liveable: PERSONAL SANDBOX STACKS (dev-aws-violations-api-&lt;username&gt;)
+        are yours to sam deploy to and break freely — they're not shared, so they don't need the pipeline.
+        Everything SHARED does.
+        AI note, one line: when an agent can emit a fix in seconds, the temptation to hot-fix straight to
+        prod is STRONGER — that shortcut is exactly the side door this rule forbids.
+      </aside>
+    </section>
+
+    <!-- ================================= 4 · THE PIPELINE DECIDES RELEASABILITY -->
+    <section data-background-color="#0b0e14">
+      <h2>The pipeline decides releasability</h2>
+      <svg class="dia below-title" viewBox="0 0 1000 300" style="max-height:300px" role="img"
+           aria-label="Two panels over the same green build. Today: green checks pass, then a person at a gate decides whether it is ready — dev, qa, and prod are all manual. Continuous Delivery: the same green checks flow automatically through dev and qa, and only prod keeps a single deliberate gate labelled timing, not readiness.">
+        <line x1="500" y1="30" x2="500" y2="280" stroke="#2a3340" stroke-width="2" stroke-dasharray="2 8"/>
+
+        <!-- LEFT panel: TODAY -->
+        <text x="40" y="30" fill="#9fb2c6" font-size="14" font-weight="800" letter-spacing=".08em">TODAY</text>
+        <text x="40" y="52" fill="#7d8fa1" font-size="13">a person owns the verdict</text>
+        <g>
+          <rect x="40" y="78" width="150" height="34" rx="8" fill="#101826" stroke="#f08a52" stroke-width="1.6"/>
+          <text x="115" y="100" text-anchor="middle" fill="#f6d2b8" font-size="13" font-weight="700">manual · dev</text>
+          <rect x="40" y="122" width="150" height="34" rx="8" fill="#101826" stroke="#f08a52" stroke-width="1.6"/>
+          <text x="115" y="144" text-anchor="middle" fill="#f6d2b8" font-size="13" font-weight="700">manual · qa</text>
+          <rect x="40" y="166" width="150" height="34" rx="8" fill="#101826" stroke="#f08a52" stroke-width="1.6"/>
+          <text x="115" y="188" text-anchor="middle" fill="#f6d2b8" font-size="13" font-weight="700">manual · prod</text>
+        </g>
+        <!-- person deciding "ready?" -->
+        <g transform="translate(300,110)">
+          <circle cx="0" cy="0" r="16" fill="none" stroke="#f08a52" stroke-width="2.5"/>
+          <path d="M-20 52 a20 24 0 0 1 40 0" fill="none" stroke="#f08a52" stroke-width="2.5"/>
+        </g>
+        <text x="300" y="212" text-anchor="middle" fill="#f08a52" font-size="13" font-weight="700">a meeting decides</text>
+        <text x="300" y="230" text-anchor="middle" fill="#f08a52" font-size="14" font-weight="800">"ready?"</text>
+
+        <!-- RIGHT panel: CD -->
+        <text x="536" y="30" fill="#3ed7c4" font-size="14" font-weight="800" letter-spacing=".08em">CONTINUOUS DELIVERY</text>
+        <text x="536" y="52" fill="#8fd8ce" font-size="13">the pipeline owns the verdict</text>
+        <g>
+          <rect x="536" y="78" width="170" height="34" rx="8" fill="#0e2b28" stroke="#3ed7c4" stroke-width="1.8"/>
+          <text x="621" y="100" text-anchor="middle" fill="#cdeee8" font-size="13" font-weight="700">dev · auto on green ✓</text>
+          <rect x="536" y="122" width="170" height="34" rx="8" fill="#0e2b28" stroke="#3ed7c4" stroke-width="1.8"/>
+          <text x="621" y="144" text-anchor="middle" fill="#cdeee8" font-size="13" font-weight="700">qa · auto on green ✓</text>
+          <rect x="536" y="166" width="170" height="34" rx="8" fill="#101826" stroke="#f08a52" stroke-width="1.8"/>
+          <text x="621" y="188" text-anchor="middle" fill="#f6d2b8" font-size="13" font-weight="700">prod · one gate</text>
+        </g>
+        <line x1="621" y1="112" x2="621" y2="122" stroke="#3ed7c4" stroke-width="2.5"/>
+        <line x1="621" y1="156" x2="621" y2="166" stroke="#5a6b80" stroke-width="2.5"/>
+        <rect x="736" y="158" width="224" height="50" rx="10" fill="rgba(240,138,82,.08)" stroke="#f08a52" stroke-width="1.6"/>
+        <text x="848" y="180" text-anchor="middle" fill="#f4a878" font-size="13" font-weight="800">approves TIMING,</text>
+        <text x="848" y="198" text-anchor="middle" fill="#f4a878" font-size="13" font-weight="800">not READINESS</text>
+      </svg>
+      <div class="caption">
+        <span><b class="t-teal">Continuous Delivery</b> — deployable on demand; a human picks the moment</span>
+        <span class="muted"><b>Continuous Deployment</b> — every green commit auto-ships (keep them distinct)</span>
+      </div>
+      <aside class="notes">
+        This is the minimum most teams — and our own baseline — haven't reached, because every deploy is
+        when: manual. The shift: GREEN SHOULD MEAN DEPLOYABLE, and the pipeline should say so without a
+        meeting. A human may still choose WHEN prod happens — that's Continuous DELIVERY, not Continuous
+        DEPLOYMENT, and the distinction matters — but they're approving TIMING, not re-deciding READINESS
+        the pipeline already proved. The tell that you're not there yet: a meeting decides whether the build
+        is "ready."
+        In the target pipeline you'll read later, dev and qa AUTO-PROMOTE on green and only prod keeps a gate.
+        ENGINEERING-LEAD NOTE (say it, keep it honest): a manual prod gate can be a LEGITIMATE, PERMANENT
+        control — compliance, or early confidence in a new service — distinct from a DEBT gate that just
+        re-litigates readiness the pipeline already proved. Keep the legitimate ones, name them as timing
+        decisions, and remove the rest as trust grows.
+        And the stop-the-line rule from Session 2 now extends past the build to the DEPLOYMENT PIPELINE: a
+        red pipeline is the team's #1 priority — no new feature work until it's green (minimum #6).
+      </aside>
+    </section>
+
+    <!-- ================================================ 5 · DEFINITION OF DEPLOYABLE -->
+    <section data-background-color="#0b0e14">
+      <h2>"Deployable" is automated criteria, not a meeting</h2>
+      <svg class="dia below-title" viewBox="0 0 1000 250" style="max-height:250px" role="img"
+           aria-label="A commit feeds a gate labelled definition of deployable, whose five checks run in parallel between a fork bar and a join bar: lint, unit tests, coverage floor, IaC valid, security scan — all green. The join bar is green and the change flows through to a deployable box.">
+        <defs>
+          <marker id="ar5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#3ed7c4"/></marker>
+        </defs>
+        <!-- commit -->
+        <rect x="20" y="100" width="120" height="46" rx="10" fill="#12203b" stroke="#74a0f2" stroke-width="2"/>
+        <text x="80" y="128" text-anchor="middle" fill="#cfe0ff" font-size="14" font-weight="700">a commit</text>
+        <line x1="140" y1="123" x2="252" y2="123" stroke="#5a6b80" stroke-width="2.5" marker-end="url(#ar5)"/>
+        <!-- gate box -->
+        <rect x="256" y="24" width="470" height="200" rx="14" fill="#0d141e" stroke="#2f3e52" stroke-width="1.5"/>
+        <text x="491" y="48" text-anchor="middle" fill="#9fb2c6" font-size="13" font-weight="800" letter-spacing=".06em">DEFINITION OF DEPLOYABLE</text>
+        <line x1="296" y1="60" x2="296" y2="212" stroke="#3ed7c4" stroke-width="3"/>
+        <line x1="686" y1="60" x2="686" y2="212" stroke="#3ed7c4" stroke-width="3"/>
+        <g font-size="13" font-weight="700">
+          <g><rect x="302" y="64" width="378" height="26" rx="6" fill="#0e2b28" stroke="#3ed7c4" stroke-width="1.4"/><text x="316" y="82" fill="#3ed7c4">✓</text><text x="338" y="82" fill="#cdeee8">lint</text></g>
+          <g><rect x="302" y="94" width="378" height="26" rx="6" fill="#0e2b28" stroke="#3ed7c4" stroke-width="1.4"/><text x="316" y="112" fill="#3ed7c4">✓</text><text x="338" y="112" fill="#cdeee8">unit tests</text></g>
+          <g><rect x="302" y="124" width="378" height="26" rx="6" fill="#0e2b28" stroke="#3ed7c4" stroke-width="1.4"/><text x="316" y="142" fill="#3ed7c4">✓</text><text x="338" y="142" fill="#cdeee8">coverage floor</text></g>
+          <g><rect x="302" y="154" width="378" height="26" rx="6" fill="#0e2b28" stroke="#3ed7c4" stroke-width="1.4"/><text x="316" y="172" fill="#3ed7c4">✓</text><text x="338" y="172" fill="#cdeee8">IaC valid · sam validate / cfn-lint</text></g>
+          <g><rect x="302" y="184" width="378" height="26" rx="6" fill="#0e2b28" stroke="#3ed7c4" stroke-width="1.4"/><text x="316" y="202" fill="#3ed7c4">✓</text><text x="338" y="202" fill="#cdeee8">security scan</text></g>
+        </g>
+        <!-- to deployable -->
+        <line x1="726" y1="123" x2="800" y2="123" stroke="#3ed7c4" stroke-width="2.5" marker-end="url(#ar5)"/>
+        <rect x="804" y="98" width="150" height="50" rx="10" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2"/>
+        <text x="879" y="122" text-anchor="middle" fill="#cdeee8" font-size="15" font-weight="800">deployable</text>
+        <text x="879" y="140" text-anchor="middle" fill="#8fd8ce" font-size="11">the pipeline runs it</text>
+      </svg>
+      <div class="caption">
+        <span class="pill orange">when the automated checks don't exist yet →</span>
+        <span>manual verification gates the <b class="t-teal">flag flip</b> (release), <b>not the merge</b></span>
+      </div>
+      <aside class="notes">
+        "Deployable" is exactly the set of checks the pipeline runs — for the Violations API: lint clean,
+        unit tests pass, coverage at or above the team floor, IaC valid, security scan clean. These are the
+        validate / test / security stages you already met in Session 2's CI file — the FRONT HALF of the
+        full pipeline. The discipline in one line: IF IT ISN'T GATED AUTOMATICALLY, IT ISN'T PART OF YOUR
+        DEFINITION OF DEPLOYABLE — it's a hope.
+        Now the honest brownfield case — true across much of our estate: when those automated checks don't
+        exist yet, manual verification does NOT vanish, but it stays OUTSIDE the automated definition of
+        deployable — it gates the RELEASE (the feature-flag flip), never the merge. Make it an explicit,
+        owned step, not a side-channel sign-off, and automate it down over time by adding tests where you
+        change code.
+        AI note: two cautions live right here. COVERAGE is a SMOKE ALARM, not a target — when the same agent
+        writes the code and its tests it will hit the number and verify nothing; tests must pin INTENT,
+        confirmed INDEPENDENTLY. And add a DEPENDENCY-PROVENANCE / lockfile-integrity check once an agent is
+        editing package.json — hallucinated package names are a real supply-chain hole.
+      </aside>
+    </section>
+
+    <!-- ============================ 6 · TWO DECISIONS, TWO OWNERS · COMMUNICATE -->
+    <section data-background-color="#0b0e14">
+      <h2>Two decisions, two owners — communicate the <em>release</em></h2>
+      <svg class="dia" viewBox="0 0 1000 300" style="max-height:300px" role="img"
+           aria-label="One timeline with two separate events. Deploy: code reaches production with the flag off, a padlock — an engineering authorization owned by the Engineering Lead. Later, Release: the flag flips on — a business decision owned by the release-manager. The client email is built from the release, not the deploy log.">
+        <line x1="70" y1="150" x2="930" y2="150" stroke="#5a6b80" stroke-width="3"/>
+        <text x="70" y="284" fill="#9fb2c6" font-size="14">time →</text>
+
+        <!-- DEPLOY -->
+        <line x1="290" y1="104" x2="290" y2="150" stroke="#74a0f2" stroke-width="2.5"/>
+        <circle cx="290" cy="150" r="8" fill="#74a0f2"/>
+        <g transform="translate(272,60)">
+          <rect x="0" y="16" width="36" height="28" rx="5" fill="#12203b" stroke="#74a0f2" stroke-width="2"/>
+          <path d="M7 16 v-6 a11 11 0 0 1 22 0 v6" fill="none" stroke="#74a0f2" stroke-width="2.5"/>
+        </g>
+        <text x="290" y="190" text-anchor="middle" fill="#a9c4f7" font-size="17" font-weight="800">Deploy</text>
+        <text x="290" y="212" text-anchor="middle" fill="#9fb2c6" font-size="13">code in prod · flag OFF</text>
+        <text x="290" y="234" text-anchor="middle" fill="#74a0f2" font-size="13" font-weight="700">engineering authorization</text>
+        <text x="290" y="252" text-anchor="middle" fill="#7d8fa1" font-size="12" font-style="italic">Engineering Lead</text>
+
+        <!-- gap -->
+        <rect x="306" y="132" width="368" height="36" rx="8" fill="rgba(62,215,196,.06)" stroke="rgba(62,215,196,.35)" stroke-dasharray="4 6"/>
+        <text x="490" y="155" text-anchor="middle" fill="#3ed7c4" font-size="13" font-weight="700">deployed dark — often a different day</text>
+
+        <!-- RELEASE -->
+        <line x1="690" y1="104" x2="690" y2="150" stroke="#3ed7c4" stroke-width="2.5"/>
+        <circle cx="690" cy="150" r="8" fill="#3ed7c4"/>
+        <g transform="translate(666,64)">
+          <rect x="0" y="6" width="48" height="26" rx="13" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2"/>
+          <circle cx="35" cy="19" r="9" fill="#3ed7c4"/>
+        </g>
+        <text x="690" y="190" text-anchor="middle" fill="#3ed7c4" font-size="17" font-weight="800">Release</text>
+        <text x="690" y="212" text-anchor="middle" fill="#9fb2c6" font-size="13">flip the flag · users see it</text>
+        <text x="690" y="234" text-anchor="middle" fill="#3ed7c4" font-size="13" font-weight="700">business decision</text>
+        <text x="690" y="252" text-anchor="middle" fill="#7d8fa1" font-size="12" font-style="italic">release-manager</text>
+
+        <!-- envelope: comms from the release -->
+        <g transform="translate(772,116)">
+          <rect x="0" y="0" width="150" height="40" rx="6" fill="#101826" stroke="#3ed7c4" stroke-width="1.6"/>
+          <path d="M0 4 L75 30 L150 4" fill="none" stroke="#3ed7c4" stroke-width="1.6"/>
+        </g>
+        <text x="847" y="176" text-anchor="middle" fill="#8fd8ce" font-size="11.5">client email built from</text>
+        <text x="847" y="192" text-anchor="middle" fill="#8fd8ce" font-size="11.5">releases, not the deploy log</text>
+      </svg>
+      <aside class="notes">
+        Session 2 taught deploy ≠ release; here's what it does to OWNERSHIP and COMMUNICATION. The prod
+        DEPLOY gate (if you keep one) is an ENGINEERING AUTHORIZATION — owned by the Engineering Lead: is
+        this safe to put in prod now. The RELEASE — the flag flip users actually feel — is a separate
+        decision about WHICH feature goes live WHEN and to WHOM, owned by whoever runs release comms and
+        flag governance (our evolved RELEASE-MANAGER role), with the business. Two decisions, two owners,
+        often two different days.
+        And it moves COMMUNICATION: you announce the RELEASE, not the deploy — the weekly client email
+        doesn't die, it gets REBUILT FROM USER-FACING RELEASES instead of the deploy log. That's why the
+        target pipeline runs one merge-request-time job, release-impact-label, that forces every change to
+        declare customer-facing (with a note) or no-user-impact before merge — so release notes have a
+        reliable source. Pointer: resources/communicating-releases.md.
+      </aside>
+    </section>
+
+    <!-- ================================================ DIVIDER · PART 2 of 3 -->
+    <section class="is-hero is-divider"
+      data-background-gradient="linear-gradient(135deg,#3a2d72 0%,#5b4bbf 60%,#2b59c3 130%)">
+      <div class="divider-wrap">
+        <span class="part">Part 2 of 3</span>
+        <h1>Build Once, Promote the Same Bytes</h1>
+      </div>
+      <aside class="notes">
+        One line: "The verdict only means something if the thing you tested is the thing you ship — so build
+        the artifact once and promote the SAME bytes." Move to the next slide.
+      </aside>
+    </section>
+
+    <!-- ================================= 7 · BUILD ONCE, PROMOTE THE SAME BYTES -->
+    <section data-background-color="#0b0e14">
+      <h2>Build once · promote the same bytes</h2>
+      <svg class="dia below-title" viewBox="0 0 1000 300" style="max-height:300px" role="img"
+           aria-label="A commit feeds a single build-once step, which produces one immutable artifact. That same artifact is promoted, unchanged, to deploy dev, deploy qa, and deploy prod — three arrows off one box. The artifact is labelled twice: CI_COMMIT_SHA, how you find it, and content hash, how CloudFormation knows the bytes did not change. A crossed-out rebuild-per-environment variant sits below.">
+        <defs>
+          <marker id="ar7" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#3ed7c4"/></marker>
+        </defs>
+        <!-- commit -->
+        <rect x="20" y="96" width="112" height="46" rx="10" fill="#12203b" stroke="#74a0f2" stroke-width="2"/>
+        <text x="76" y="124" text-anchor="middle" fill="#cfe0ff" font-size="14" font-weight="700">commit</text>
+        <line x1="132" y1="119" x2="188" y2="119" stroke="#5a6b80" stroke-width="2.5" marker-end="url(#ar7)"/>
+        <!-- build ONCE -->
+        <rect x="192" y="92" width="150" height="54" rx="10" fill="#101826" stroke="#3ed7c4" stroke-width="2"/>
+        <text x="267" y="116" text-anchor="middle" fill="#cdeee8" font-size="15" font-weight="800">build ONCE</text>
+        <text x="267" y="135" text-anchor="middle" fill="#8fd8ce" font-size="11">sam build + package</text>
+        <line x1="342" y1="119" x2="398" y2="119" stroke="#3ed7c4" stroke-width="2.5" marker-end="url(#ar7)"/>
+        <!-- the one artifact -->
+        <rect x="402" y="80" width="200" height="78" rx="12" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2.5"/>
+        <text x="502" y="106" text-anchor="middle" fill="#cdeee8" font-size="15" font-weight="800">one artifact</text>
+        <text x="502" y="126" text-anchor="middle" fill="#8fd8ce" font-size="10.5" style="font-family:var(--cd-mono)">tag: CI_COMMIT_SHA</text>
+        <text x="502" y="143" text-anchor="middle" fill="#8fd8ce" font-size="10.5" style="font-family:var(--cd-mono)">ref: content hash</text>
+        <!-- promote (same bytes) to three envs -->
+        <line x1="602" y1="100" x2="700" y2="66" stroke="#3ed7c4" stroke-width="2.5" marker-end="url(#ar7)"/>
+        <line x1="602" y1="119" x2="700" y2="119" stroke="#3ed7c4" stroke-width="2.5" marker-end="url(#ar7)"/>
+        <line x1="602" y1="138" x2="700" y2="172" stroke="#3ed7c4" stroke-width="2.5" marker-end="url(#ar7)"/>
+        <g>
+          <rect x="704" y="46" width="150" height="40" rx="9" fill="#101826" stroke="#74a0f2" stroke-width="1.8"/>
+          <text x="779" y="71" text-anchor="middle" fill="#cfe0ff" font-size="14" font-weight="700">deploy dev</text>
+          <rect x="704" y="99" width="150" height="40" rx="9" fill="#101826" stroke="#74a0f2" stroke-width="1.8"/>
+          <text x="779" y="124" text-anchor="middle" fill="#cfe0ff" font-size="14" font-weight="700">deploy qa</text>
+          <rect x="704" y="152" width="150" height="40" rx="9" fill="#101826" stroke="#74a0f2" stroke-width="1.8"/>
+          <text x="779" y="177" text-anchor="middle" fill="#cfe0ff" font-size="14" font-weight="700">deploy prod</text>
+        </g>
+        <text x="876" y="104" fill="#8fd8ce" font-size="12" transform="rotate(90 876 104)" text-anchor="middle">same bytes</text>
+
+        <!-- crossed-out: rebuild per env -->
+        <g opacity=".8">
+          <rect x="192" y="232" width="470" height="42" rx="9" fill="#241315" stroke="#ef5350" stroke-width="1.6" stroke-dasharray="5 5"/>
+          <text x="427" y="258" text-anchor="middle" fill="#f2b8b6" font-size="13" font-weight="700">rebuild per environment = deploy something you never tested</text>
+          <line x1="200" y1="236" x2="654" y2="270" stroke="#ef5350" stroke-width="2"/>
+        </g>
+      </svg>
+      <aside class="notes">
+        Build the Lambda bundle ONCE, from one commit, then promote the IDENTICAL artifact through dev → qa
+        → prod — never rebuild per environment. Why it matters: IF YOU REBUILD FOR PROD, YOU'VE DEPLOYED
+        SOMETHING YOU NEVER TESTED. "Works in qa, breaks in prod" is almost always a rebuild, or config baked
+        into the build.
+        For SAM specifically: sam build then sam package uploads the code to an artifact bucket and emits a
+        PACKAGED TEMPLATE referencing it by a CONTENT HASH; each environment's sam deploy consumes that SAME
+        packaged template. Two keys, same bytes: CI_COMMIT_SHA labels the pipeline artifact so YOU can find
+        and redeploy it; the content hash is how CLOUDFORMATION knows the bytes are unchanged.
+        MULTI-ACCOUNT NOTE (common at RealManage): if dev/qa/prod are separate AWS accounts, the artifact
+        bucket must be readable across accounts — a shared artifacts account or a cross-account bucket policy
+        — so each stage promotes the same bytes. Rebuilding per account silently breaks the guarantee.
+        This immutable, stored artifact is also what makes rollback real in Part 3 — "the last good version"
+        is a thing you can redeploy, not a memory of what main used to be.
+      </aside>
+    </section>
+
+    <!-- ============================== 8 · CONFIG TRAVELS WITH THE ARTIFACT -->
+    <section data-background-color="#0b0e14">
+      <h2>Config travels with the artifact</h2>
+      <svg class="dia below-title" viewBox="0 0 1000 290" style="max-height:290px" role="img"
+           aria-label="The same artifact passes through three deploy stations — dev, qa, prod. At each, a configuration file clips on with different values: table names, flag values, log level, SNS topic ARN. Secrets are not in the config files — they are references to SSM or Secrets Manager ARNs.">
+        <defs>
+          <marker id="ar8s" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#5a6b80"/></marker>
+        </defs>
+        <!-- artifact travelling -->
+        <text x="40" y="60" fill="#3ed7c4" font-size="14" font-weight="800">same artifact →</text>
+        <line x1="60" y1="150" x2="930" y2="150" stroke="#5a6b80" stroke-width="2.5" marker-end="url(#ar8s)"/>
+        <!-- three stations -->
+        <g>
+          <!-- dev -->
+          <rect x="150" y="126" width="120" height="48" rx="10" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2"/>
+          <text x="210" y="155" text-anchor="middle" fill="#cdeee8" font-size="14" font-weight="800">deploy dev</text>
+          <rect x="150" y="196" width="120" height="66" rx="8" fill="#101826" stroke="#74a0f2" stroke-width="1.5"/>
+          <text x="210" y="216" text-anchor="middle" fill="#a9c4f7" font-size="10.5" style="font-family:var(--cd-mono)">dev.config</text>
+          <text x="210" y="234" text-anchor="middle" fill="#9fb2c6" font-size="10">flags OFF · debug</text>
+          <text x="210" y="250" text-anchor="middle" fill="#9fb2c6" font-size="10">retain 7d</text>
+          <line x1="210" y1="174" x2="210" y2="196" stroke="#74a0f2" stroke-width="1.8" stroke-dasharray="3 3"/>
+          <!-- qa -->
+          <rect x="440" y="126" width="120" height="48" rx="10" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2"/>
+          <text x="500" y="155" text-anchor="middle" fill="#cdeee8" font-size="14" font-weight="800">deploy qa</text>
+          <rect x="440" y="196" width="120" height="66" rx="8" fill="#101826" stroke="#74a0f2" stroke-width="1.5"/>
+          <text x="500" y="216" text-anchor="middle" fill="#a9c4f7" font-size="10.5" style="font-family:var(--cd-mono)">qa.config</text>
+          <text x="500" y="234" text-anchor="middle" fill="#9fb2c6" font-size="10">flags ON to test</text>
+          <text x="500" y="250" text-anchor="middle" fill="#9fb2c6" font-size="10">retain 30d</text>
+          <line x1="500" y1="174" x2="500" y2="196" stroke="#74a0f2" stroke-width="1.8" stroke-dasharray="3 3"/>
+          <!-- prod -->
+          <rect x="730" y="126" width="120" height="48" rx="10" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2"/>
+          <text x="790" y="155" text-anchor="middle" fill="#cdeee8" font-size="14" font-weight="800">deploy prod</text>
+          <rect x="730" y="196" width="120" height="66" rx="8" fill="#101826" stroke="#74a0f2" stroke-width="1.5"/>
+          <text x="790" y="216" text-anchor="middle" fill="#a9c4f7" font-size="10.5" style="font-family:var(--cd-mono)">prod.config</text>
+          <text x="790" y="234" text-anchor="middle" fill="#9fb2c6" font-size="10">flags OFF (dark)</text>
+          <text x="790" y="250" text-anchor="middle" fill="#9fb2c6" font-size="10">retain 365d</text>
+          <line x1="790" y1="174" x2="790" y2="196" stroke="#74a0f2" stroke-width="1.8" stroke-dasharray="3 3"/>
+        </g>
+        <!-- secrets: references, not values -->
+        <g transform="translate(322,38)">
+          <rect x="0" y="16" width="26" height="20" rx="4" fill="#241710" stroke="#f08a52" stroke-width="1.8"/>
+          <path d="M5 16 v-4 a8 8 0 0 1 16 0 v4" fill="none" stroke="#f08a52" stroke-width="2"/>
+        </g>
+        <text x="362" y="58" fill="#f4a878" font-size="12.5" font-weight="700">secrets = references to SSM / Secrets Manager ARNs — never values</text>
+      </svg>
+      <aside class="notes">
+        Environment differences live in configuration/{dev,qa,prod}.config (the iac-baseline convention) and
+        arrive as SAM parameters — NOT hand-patched into a running Lambda. The artifact is identical across
+        environments; only the config APPLIED AT DEPLOY differs: table names, log levels, SNS topic ARNs —
+        and FLAG VALUES. Secrets are never in config files — they're REFERENCES to SSM Parameter Store /
+        Secrets Manager ARNs.
+        Here's the payoff that ties back to Session 2: because a FLAG'S VALUE IS CONFIG, not baked into the
+        immutable artifact, the SAME BYTES run flag-ON in qa and flag-OFF in prod — which is exactly what
+        lets you test in qa while the change is already deployed DARK to prod, then flip prod to release.
+        Immutable artifact (#5) + config-with-the-artifact (#9) are what make deploy ≠ release mechanically
+        true.
+      </aside>
+    </section>
+
+    <!-- ============================ 9 · READ THE ARTIFACT'S CONTRACT (→ editor) -->
+    <section data-background-color="#0b0e14">
+      <h2>Read the artifact's contract</h2>
+      <svg class="dia" viewBox="0 0 1000 190" style="max-height:180px" role="img"
+           aria-label="A SAM template outline with three regions highlighted: the Parameters block where per-environment differences arrive; the two feature-flag parameters defaulting to false so the artifact ships dark; and the AutoPublishAlias with a canary deployment preference, the rollback machinery used in Part 3.">
+        <!-- template silhouette -->
+        <rect x="40" y="20" width="920" height="150" rx="12" fill="#0d141e" stroke="#2f3e52" stroke-width="1.5"/>
+        <text x="60" y="46" fill="#9fb2c6" font-size="13" font-weight="800" style="font-family:var(--cd-mono)">template.yaml</text>
+        <!-- region 1: Parameters -->
+        <rect x="60" y="58" width="270" height="96" rx="8" fill="rgba(116,160,242,.08)" stroke="#74a0f2" stroke-width="1.8"/>
+        <text x="74" y="80" fill="#a9c4f7" font-size="13" font-weight="800" style="font-family:var(--cd-mono)">Parameters:</text>
+        <text x="74" y="102" fill="#9fb2c6" font-size="11.5">env differences arrive here —</text>
+        <text x="74" y="120" fill="#9fb2c6" font-size="11.5">the artifact itself is identical</text>
+        <!-- region 2: flags default off -->
+        <rect x="350" y="58" width="270" height="96" rx="8" fill="rgba(62,215,196,.08)" stroke="#3ed7c4" stroke-width="1.8"/>
+        <text x="364" y="80" fill="#8fd8ce" font-size="12.5" font-weight="800" style="font-family:var(--cd-mono)">FlagViolations*:</text>
+        <text x="364" y="102" fill="#8fd8ce" font-size="11.5" style="font-family:var(--cd-mono)">Default: "false"</text>
+        <text x="364" y="120" fill="#9fb2c6" font-size="11.5">ships DARK — a flip releases it</text>
+        <!-- region 3: rollback machinery -->
+        <rect x="640" y="58" width="300" height="96" rx="8" fill="rgba(240,138,82,.08)" stroke="#f08a52" stroke-width="1.8"/>
+        <text x="654" y="80" fill="#f4a878" font-size="12.5" font-weight="800" style="font-family:var(--cd-mono)">AutoPublishAlias: live</text>
+        <text x="654" y="102" fill="#f4a878" font-size="11.5" style="font-family:var(--cd-mono)">DeploymentPreference: Canary…</text>
+        <text x="654" y="120" fill="#9fb2c6" font-size="11.5">rollback machinery → Part 3</text>
+      </svg>
+      <div class="stickies">
+        <span class="stik"><b>Parameters</b> carry the only per-environment differences — the bytes don't change</span>
+        <span class="stik">Flags <b>default off</b> — the artifact ships dark; a flip (config) releases it</span>
+        <span class="stik"><b>Canary + alias</b> is the rollback machinery we build on in Part 3</span>
+      </div>
+      <p style="margin:0"><span class="to-editor"><span class="arrow">→</span> examples/violations-api/template.yaml</span></p>
+      <aside class="notes">
+        Frame, then open the file. Three things to land at the editor.
+        (1) The Parameters block is where environment differences arrive — EnvironmentName, LogLevel, the two
+        flags — and the comment says it out loud: the artifact is identical; only these change.
+        (2) FlagViolationsRecord / FlagViolationsNotify default to "false" — the artifact ships DARK, and a
+        flag flip (config), not a deploy, releases it — the mechanical cash-out of the last slide.
+        (3) AutoPublishAlias: live plus DeploymentPreference: Canary10Percent5Minutes with a CloudWatch error
+        ALARM — that's the ROLLBACK MACHINERY we build on in Part 3; every deploy creates an immutable
+        version and shifts traffic gradually.
+        Point out briefly that the alarm watches the ERROR RATE of the live alias, not a raw count — a
+        threshold of 1 error would roll back a healthy deploy on a single stray error, and a canary over an
+        idle window verifies nothing (missing data reads as OK). The canary is only as strong as the traffic
+        during its window. Keep this file open next to Session 3's .gitlab-ci.yml in the workshop.
+      </aside>
+    </section>
+
+    <!-- ================================================ DIVIDER · PART 3 of 3 -->
+    <section class="is-hero is-divider"
+      data-background-gradient="linear-gradient(135deg,#3a2d72 0%,#5b4bbf 60%,#2b59c3 130%)">
+      <div class="divider-wrap">
+        <span class="part">Part 3 of 3</span>
+        <h1>Production-Like Environments &amp; Recovery</h1>
+      </div>
+      <aside class="notes">
+        One line: "Green only means something if it's green somewhere that looks like prod — and even then,
+        things break, so the last thing we build is how we recover." Move to the next slide.
+      </aside>
+    </section>
+
+    <!-- ============================== 10 · A PRODUCTION-LIKE ENVIRONMENT -->
+    <section data-background-color="#0b0e14">
+      <h2>A production-like environment</h2>
+      <svg class="dia below-title" viewBox="0 0 1000 270" style="max-height:270px" role="img"
+           aria-label="Two environment diagrams side by side, qa and prod, built from the same resource types and topology — API Gateway, Lambda, DynamoDB, SNS — with qa drawn at smaller scale and shorter log retention than prod. The closer qa is to prod, the more a green qa means.">
+        <!-- qa -->
+        <text x="70" y="40" fill="#9fb2c6" font-size="15" font-weight="800">qa · smaller scale</text>
+        <g stroke="#5a6b80" stroke-width="1.6" fill="#101826">
+          <rect x="60" y="70" width="90" height="34" rx="7"/>
+          <rect x="60" y="120" width="90" height="34" rx="7"/>
+          <rect x="60" y="170" width="90" height="34" rx="7"/>
+          <rect x="60" y="220" width="90" height="30" rx="7"/>
+        </g>
+        <g fill="#9fb2c6" font-size="11.5" text-anchor="middle">
+          <text x="105" y="91">API Gateway</text>
+          <text x="105" y="141">Lambda</text>
+          <text x="105" y="191">DynamoDB</text>
+          <text x="105" y="240">SNS</text>
+        </g>
+        <text x="180" y="262" fill="#7d8fa1" font-size="11">log retain 30d</text>
+
+        <!-- same-shape connector -->
+        <text x="500" y="130" text-anchor="middle" fill="#3ed7c4" font-size="14" font-weight="800">same shape</text>
+        <text x="500" y="150" text-anchor="middle" fill="#8fd8ce" font-size="12">same resource types + topology</text>
+        <g stroke="#3ed7c4" stroke-width="1.5" stroke-dasharray="4 5">
+          <line x1="160" y1="87" x2="700" y2="87"/>
+          <line x1="160" y1="137" x2="700" y2="137"/>
+          <line x1="160" y1="187" x2="700" y2="187"/>
+          <line x1="160" y1="235" x2="700" y2="235"/>
+        </g>
+
+        <!-- prod (bigger) -->
+        <text x="710" y="40" fill="#cfe0ff" font-size="15" font-weight="800">prod · full scale</text>
+        <g stroke="#74a0f2" stroke-width="2" fill="#12203b">
+          <rect x="700" y="66" width="150" height="42" rx="8"/>
+          <rect x="700" y="120" width="150" height="42" rx="8"/>
+          <rect x="700" y="174" width="150" height="42" rx="8"/>
+          <rect x="700" y="228" width="150" height="34" rx="8"/>
+        </g>
+        <g fill="#cfe0ff" font-size="13" text-anchor="middle">
+          <text x="775" y="92">API Gateway</text>
+          <text x="775" y="146">Lambda</text>
+          <text x="775" y="200">DynamoDB</text>
+          <text x="775" y="250">SNS</text>
+        </g>
+        <text x="880" y="250" fill="#9fb2c6" font-size="11">retain 365d</text>
+      </svg>
+      <div class="caption">
+        <span><b class="t-teal">The closer qa is to prod, the more a green qa means.</b></span>
+        <span class="muted">divergence is where "passed qa, broke in prod" is born</span>
+      </div>
+      <aside class="notes">
+        Keep this short — it's a 5-minute beat. Our qa mirrors prod's SHAPE via configuration/qa.config: same
+        resource types, same topology, smaller scale (you saw it in the template's Mappings — log retention
+        7 / 30 / 365 days for dev / qa / prod). The principle is simple and unforgiving: THE CLOSER QA IS TO
+        PROD, THE MORE A GREEN QA MEANS SOMETHING. Divergence between qa and prod is exactly where "passed qa,
+        broke in prod" is born — and it's the other half of the same guarantee as build-once: same bytes,
+        prod-like shape.
+      </aside>
+    </section>
+
+    <!-- ================================================ 11 · FAIL FORWARD (default) -->
+    <section data-background-color="#0b0e14">
+      <h2>Fail forward — the default</h2>
+      <svg class="dia below-title" viewBox="0 0 1000 250" style="max-height:250px" role="img"
+           aria-label="A production alarm fires. The default response is drawn as a bold forward path: reproduce with a fast test, ship a small fix MR, through the same pipeline, the canary verifies, healthy in minutes. A faint greyed backward arrow labelled roll back sits beneath as the exception. The fastest move of all, when the feature is flagged, is to flip the flag off — no deploy.">
+        <defs>
+          <marker id="ar11" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#3ed7c4"/></marker>
+        </defs>
+        <!-- alarm -->
+        <g transform="translate(40,70)">
+          <path d="M30 4 a20 20 0 0 1 20 20 v14 l8 10 h-56 l8 -10 v-14 a20 20 0 0 1 20 -20 z" fill="#241710" stroke="#f08a52" stroke-width="2"/>
+          <circle cx="30" cy="56" r="5" fill="#f08a52"/>
+        </g>
+        <text x="70" y="150" text-anchor="middle" fill="#f08a52" font-size="13" font-weight="700">prod problem</text>
+
+        <!-- forward path (bold, teal) -->
+        <line x1="118" y1="96" x2="180" y2="96" stroke="#3ed7c4" stroke-width="2.5" marker-end="url(#ar11)"/>
+        <g>
+          <rect x="184" y="74" width="150" height="44" rx="9" fill="#101826" stroke="#3ed7c4" stroke-width="1.8"/>
+          <text x="259" y="94" text-anchor="middle" fill="#cdeee8" font-size="12.5" font-weight="700">reproduce with</text>
+          <text x="259" y="110" text-anchor="middle" fill="#cdeee8" font-size="12.5" font-weight="700">a fast test</text>
+        </g>
+        <line x1="334" y1="96" x2="360" y2="96" stroke="#3ed7c4" stroke-width="2.5" marker-end="url(#ar11)"/>
+        <g>
+          <rect x="364" y="74" width="140" height="44" rx="9" fill="#101826" stroke="#3ed7c4" stroke-width="1.8"/>
+          <text x="434" y="94" text-anchor="middle" fill="#cdeee8" font-size="12.5" font-weight="700">small fix MR</text>
+          <text x="434" y="110" text-anchor="middle" fill="#8fd8ce" font-size="11">same pipeline</text>
+        </g>
+        <line x1="504" y1="96" x2="530" y2="96" stroke="#3ed7c4" stroke-width="2.5" marker-end="url(#ar11)"/>
+        <g>
+          <rect x="534" y="74" width="140" height="44" rx="9" fill="#101826" stroke="#3ed7c4" stroke-width="1.8"/>
+          <text x="604" y="94" text-anchor="middle" fill="#cdeee8" font-size="12.5" font-weight="700">canary</text>
+          <text x="604" y="110" text-anchor="middle" fill="#8fd8ce" font-size="11">verifies</text>
+        </g>
+        <line x1="674" y1="96" x2="700" y2="96" stroke="#3ed7c4" stroke-width="2.5" marker-end="url(#ar11)"/>
+        <rect x="704" y="70" width="150" height="52" rx="10" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2.5"/>
+        <text x="779" y="92" text-anchor="middle" fill="#cdeee8" font-size="14" font-weight="800">healthy —</text>
+        <text x="779" y="110" text-anchor="middle" fill="#cdeee8" font-size="14" font-weight="800">in minutes</text>
+
+        <!-- faint backward = the exception -->
+        <line x1="854" y1="168" x2="120" y2="168" stroke="#5a6b80" stroke-width="2" stroke-dasharray="6 6" opacity=".7"/>
+        <text x="490" y="160" text-anchor="middle" fill="#7d8fa1" font-size="12">↩ roll back — the exception (next slide)</text>
+
+        <!-- flag callout -->
+        <rect x="184" y="196" width="632" height="40" rx="10" fill="rgba(62,215,196,.06)" stroke="rgba(62,215,196,.35)" stroke-dasharray="4 6"/>
+        <text x="500" y="221" text-anchor="middle" fill="#3ed7c4" font-size="13" font-weight="700">fastest of all: if it's behind a flag, flip it OFF — no deploy — then fix forward</text>
+      </svg>
+      <aside class="notes">
+        The whole point of the pipeline is that shipping is now small, fast, and safe — and that changes your
+        DEFAULT when prod misbehaves. FAIL FORWARD: diagnose, reproduce it with a fast unit test (which now
+        also guards the regression from returning), ship a small fix MR, and let the same canary-verified
+        pipeline carry it to prod in minutes.
+        Why this is usually right: a forward fix SOLVES the problem — a rollback only DEFERS it, you still
+        have to fix and re-ship; it's safe by the same logic as any deploy (small batch, tests, canary); and
+        it sidesteps the data trap on the next slide. The genuinely fastest mitigation, when the bad behavior
+        is behind a FEATURE FLAG, is to flip it off — no deploy at all — then fix forward behind the flag at a
+        calm pace.
+        AI note, one line: an agent produces the forward fix in minutes, which makes fail-forward MORE clearly
+        right — but the fix needs the SAME GATES as any change; the incident is the most tempting, and most
+        dangerous, place to let unreviewed work skip the pipeline.
+      </aside>
+    </section>
+
+    <!-- ==================== 12 · ROLL BACK — THE EMERGENCY LEVER (→ editor) -->
+    <section data-background-color="#0b0e14">
+      <h2>Roll back — the emergency lever</h2>
+      <svg class="dia below-title" viewBox="0 0 1000 210" style="max-height:200px" role="img"
+           aria-label="Roll back only when a problem is both costly and time-sensitive: then roll back now and fail forward after. Four recovery mechanisms: re-run the last good GitLab deployment (our rollback), canary auto-rollback on by default, CloudFormation auto-rollback for failed updates, and the feature-flag kill switch with no deploy. A warning: rolling code back does not roll data back — keep changes backward-compatible with expand and contract.">
+        <!-- the two-condition trigger -->
+        <rect x="40" y="20" width="300" height="70" rx="12" fill="#241315" stroke="#ef5350" stroke-width="2"/>
+        <text x="190" y="46" text-anchor="middle" fill="#f2b8b6" font-size="14" font-weight="800">costly AND time-sensitive?</text>
+        <text x="190" y="70" text-anchor="middle" fill="#f4a878" font-size="12.5">roll back now → fail forward after</text>
+
+        <!-- four mechanisms -->
+        <g font-size="11.5" font-weight="700">
+          <rect x="372" y="14" width="288" height="30" rx="7" fill="#101826" stroke="#3ed7c4" stroke-width="1.6"/>
+          <text x="386" y="33" fill="#cdeee8"><tspan fill="#3ed7c4" font-weight="800">1 </tspan>re-run last good GitLab deploy <tspan fill="#8fd8ce">· ours</tspan></text>
+          <rect x="372" y="50" width="288" height="30" rx="7" fill="#101826" stroke="#5a6b80" stroke-width="1.4"/>
+          <text x="386" y="69" fill="#cdd7e3"><tspan fill="#8fd8ce" font-weight="800">2 </tspan>canary auto-rollback · on by default</text>
+          <rect x="372" y="86" width="288" height="30" rx="7" fill="#101826" stroke="#5a6b80" stroke-width="1.4"/>
+          <text x="386" y="105" fill="#cdd7e3"><tspan fill="#8fd8ce" font-weight="800">3 </tspan>CloudFormation auto-rollback</text>
+          <rect x="372" y="122" width="288" height="30" rx="7" fill="#101826" stroke="#5a6b80" stroke-width="1.4"/>
+          <text x="386" y="141" fill="#cdd7e3"><tspan fill="#8fd8ce" font-weight="800">4 </tspan>flag kill-switch · no deploy</text>
+        </g>
+
+        <!-- data trap warning -->
+        <rect x="680" y="14" width="280" height="138" rx="12" fill="rgba(239,83,80,.08)" stroke="#ef5350" stroke-width="1.8"/>
+        <text x="820" y="44" text-anchor="middle" fill="#f2b8b6" font-size="14" font-weight="800">code back</text>
+        <text x="820" y="66" text-anchor="middle" fill="#f2b8b6" font-size="14" font-weight="800">≠ data back</text>
+        <text x="820" y="98" text-anchor="middle" fill="#9fb2c6" font-size="11.5">reverting code strands you on</text>
+        <text x="820" y="115" text-anchor="middle" fill="#9fb2c6" font-size="11.5">data the old code can't read</text>
+        <text x="820" y="140" text-anchor="middle" fill="#3ed7c4" font-size="12" font-weight="800">→ expand / contract</text>
+
+        <!-- rehearse -->
+        <text x="350" y="188" text-anchor="middle" fill="#f4a878" font-size="13" font-weight="700">rehearse it in qa — an unrehearsed rollback is a hope, not a capability</text>
+      </svg>
+      <p style="margin:0"><span class="to-editor"><span class="arrow">→</span> examples/rollback-on-aws.md</span></p>
+      <aside class="notes">
+        Minimum #8 still requires you to HAVE fast, rehearsed rollback — it's the emergency lever, not the
+        reflex. Reach for it only when BOTH are true: COSTLY (users, the board, data, revenue, or compliance
+        being harmed right now) AND TIME-SENSITIVE (a forward fix won't land fast enough). Then roll back to
+        stop the bleeding, and fail forward once the pressure's off.
+        At the editor, walk the file: OUR ROLLBACK is re-running the last known-good deployment in GitLab —
+        because every artifact is immutable and stored (tagged by CI_COMMIT_SHA, kept 30 days), that's a
+        REDEPLOY of the previous good build through the same pipeline, not a rebuild — NEVER a hand-edited
+        Lambda alias, which bypasses the pipeline (#2) and drifts from IaC. Behind it: canary auto-rollback
+        (the template.yaml DeploymentPreference from slide 9), CloudFormation auto-rollback for failed
+        updates, and the flag kill-switch.
+        The trap to burn in: ROLLING CODE BACK DOES NOT ROLL DATA BACK — if the bad version already wrote a
+        new DynamoDB shape or emitted an SNS event, reverting code strands you on data the old code can't
+        read; that's why changes stay backward-compatible (EXPAND/CONTRACT), and once state has moved, failing
+        forward is often the only safe option.
+        Close with the rule: REHEARSE IT IN QA — deploy a deliberately broken version, practice and TIME both
+        the fail-forward loop and each rollback move. A recovery move you've never run is a hope, not a
+        capability — only then does #8 count as met.
+      </aside>
+    </section>
+
+    <!-- ============================== 13 · THE DATABASE IS NO EXCEPTION (bonus) -->
+    <section data-background-color="#0b0e14">
+      <h2>The database is no exception <span class="muted" style="font-weight:600;font-size:.6em">· bonus</span></h2>
+      <svg class="dia below-title" viewBox="0 0 1000 250" style="max-height:250px" role="img"
+           aria-label="The three ideas of this session, redrawn over a database. One path in: schema changes reach a shared database only through the pipeline. One immutable runner: the migration runner is built once and promoted, the same scripts against dev, qa, prod. Forward-only recovery: a bad migration is fixed by a new forward script plus expand and contract, never a backward hand-edit.">
+        <!-- database cylinder -->
+        <g transform="translate(430,70)">
+          <ellipse cx="70" cy="14" rx="70" ry="18" fill="#101826" stroke="#3ed7c4" stroke-width="2"/>
+          <path d="M0 14 v92 a70 18 0 0 0 140 0 v-92" fill="#101826" stroke="#3ed7c4" stroke-width="2"/>
+          <path d="M0 54 a70 18 0 0 0 140 0" fill="none" stroke="#3ed7c4" stroke-width="1.4" opacity=".6"/>
+          <path d="M0 84 a70 18 0 0 0 140 0" fill="none" stroke="#3ed7c4" stroke-width="1.4" opacity=".6"/>
+          <text x="70" y="150" text-anchor="middle" fill="#8fd8ce" font-size="13" font-weight="700">shared database</text>
+        </g>
+        <!-- one path in -->
+        <rect x="40" y="44" width="230" height="52" rx="10" fill="#101826" stroke="#74a0f2" stroke-width="1.8"/>
+        <text x="155" y="68" text-anchor="middle" fill="#cfe0ff" font-size="13" font-weight="800">one path in</text>
+        <text x="155" y="86" text-anchor="middle" fill="#9fb2c6" font-size="11.5">pipeline-only (#2)</text>
+        <!-- immutable runner -->
+        <rect x="40" y="150" width="230" height="52" rx="10" fill="#101826" stroke="#74a0f2" stroke-width="1.8"/>
+        <text x="155" y="174" text-anchor="middle" fill="#cfe0ff" font-size="13" font-weight="800">one immutable runner</text>
+        <text x="155" y="192" text-anchor="middle" fill="#9fb2c6" font-size="11.5">same scripts dev → qa → prod (#5)</text>
+        <!-- forward-only recovery -->
+        <rect x="730" y="96" width="230" height="70" rx="10" fill="#101826" stroke="#f08a52" stroke-width="1.8"/>
+        <text x="845" y="120" text-anchor="middle" fill="#f4a878" font-size="13" font-weight="800">forward-only recovery</text>
+        <text x="845" y="139" text-anchor="middle" fill="#9fb2c6" font-size="11.5">new forward script +</text>
+        <text x="845" y="155" text-anchor="middle" fill="#9fb2c6" font-size="11.5">expand/contract · no hand-edit</text>
+      </svg>
+      <div class="caption">
+        <span>Worked end-to-end with <b>DbUp</b> — a deliberate C#/.NET example (the schema estate lives in .NET)</span>
+        <span class="muted">the end-state — automation-only schema, no standing DDL — is owned by <b>DX</b></span>
+      </div>
+      <aside class="notes">
+        Time-permitting bonus — the database is not a special case. The PIPELINE IS THE ONLY WAY to change a
+        shared database (#2). The MIGRATION RUNNER IS AN IMMUTABLE ARTIFACT built once and promoted — the same
+        scripts run against dev → qa → prod, varying only the connection string (#5). And recovery is
+        FORWARD-ONLY: a bad migration is fixed by a new FORWARD script plus expand/contract, NEVER a hand-edit
+        on a shared database — the exact analog of fail-forward for code.
+        The end-state we're driving toward: schema and baseline data change ONLY through automation, local
+        databases as the playground, no standing human DDL on shared environments — and DX OWNS THAT PATH;
+        here we just make the mechanism concrete. Worked end to end in the DbUp example (C# on purpose — the
+        schema estate lives in .NET; one of the course's two deliberate non-TypeScript examples). Pointer:
+        resources/database-delivery.md.
+      </aside>
+    </section>
+
+    <!-- ==================== 14 · WORKSHOP A: SCORE THE BASELINE, READ THE TARGET -->
+    <section data-background-gradient="radial-gradient(900px 520px at 50% 4%, #16223f, #0b0e14 62%)">
+      <h2>Workshop — score the baseline, read the target</h2>
+      <div class="cols2 below-title">
+        <div>
+          <div class="col-h">① Finalize your scorecard — the 9 CD minimums</div>
+          <div class="scorecard">
+            <div class="row"><span class="st warn">⚠</span><span><b>1</b> Use CI <span class="muted">— daily integration is a team behavior</span></span></div>
+            <div class="row"><span class="st ok">✓</span><span><b>2</b> Pipeline is the only way to deploy</span></div>
+            <div class="row"><span class="st warn">⚠</span><span><b>3</b> Pipeline decides releasability <span class="muted">— all gates manual</span></span></div>
+            <div class="row"><span class="st warn">⚠</span><span><b>4</b> Definition of deployable <span class="muted">— thin for app code</span></span></div>
+            <div class="row"><span class="st ok">✓</span><span><b>5</b> Immutable artifacts</span></div>
+            <div class="row"><span class="st ok">✓</span><span><b>6</b> Stop the line on red</span></div>
+            <div class="row"><span class="st ok">✓</span><span><b>7</b> Production-like environment</span></div>
+            <div class="row"><span class="st warn">⚠</span><span><b>8</b> Rollback on demand <span class="muted">— not rehearsed</span></span></div>
+            <div class="row"><span class="st ok">✓</span><span><b>9</b> Config with the artifact</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="col-h">② Read the target <span style="font-family:var(--cd-mono)">.gitlab-ci.yml</span> — find these 5</div>
+          <ol class="find">
+            <li><b>Definition of deployable</b> — <code>validate</code> / <code>test</code> / <code>security</code></li>
+            <li><b>Immutable artifact, built once + promoted</b> — <code>build:artifact</code> → every <code>deploy:*</code> consumes <code>${PACKAGED_TEMPLATE}</code></li>
+            <li><b>Where releasability is decided</b> — <code>dev</code>/<code>qa</code> auto on green (<code>needs:</code>); only <code>prod</code> is <code>when: manual</code></li>
+            <li><b>OIDC per-env role, no static creds</b> — <code>.aws_oidc</code></li>
+            <li><b>Smoke test verifies each deploy</b> — <code>smoke-test.sh</code></li>
+          </ol>
+          <p class="cd-mini" style="margin-top:.5em">The target file opens in the <b>editor</b>, not on this slide.</p>
+          <p style="margin:.4em 0 0"><span class="pill teal">Your turn → 15 min</span></p>
+        </div>
+      </div>
+      <aside class="notes">
+        Transition to the workshop (15 min of the 30). FIRST, finalize your Current-State Assessment as a team
+        — you started it after Session 1; now, with every minimum and the governance controls in hand, score
+        the rows you left open. That completed scorecard plus your value stream map is your PHASE-0 BASELINE.
+        Then read pipelines — start with the current-state walkthrough: our real iac-baseline pipeline scores
+        HONESTLY BOTH WAYS — it already nails single-path, OIDC, immutable artifacts, config-with-artifact,
+        prod-like qa, ordered promotion, but it gates EVERY stage when: manual, so a human owns releasability.
+        Now OPEN THE TARGET .gitlab-ci.yml in the editor and locate five things: (1) where the DEFINITION OF
+        DEPLOYABLE is enforced (validate / test / security); (2) where the IMMUTABLE ARTIFACT is built once and
+        how it's promoted (build:artifact → deploy:* all consuming ${PACKAGED_TEMPLATE}); (3) where
+        RELEASABILITY IS DECIDED and how it differs from the baseline (deploy:dev / deploy:qa auto on green via
+        needs:, only deploy:prod is when: manual); (4) how OIDC gives each env its own role with no static
+        creds (.aws_oidc); (5) where a SMOKE TEST verifies each deploy (smoke-test.sh, so promotion is verified,
+        not just attempted). The gap between all-manual and green-flows-automatically IS your migration plan.
+      </aside>
+    </section>
+
+    <!-- ==================== 15 · WORKSHOP B: WRITE YOUR MIGRATION PLAN -->
+    <section data-background-gradient="radial-gradient(900px 520px at 50% 4%, #16223f, #0b0e14 62%)">
+      <p class="cd-kicker">Workshop — <span class="t-teal">write your migration plan</span></p>
+      <svg class="dia" viewBox="0 0 1000 320" style="max-height:340px" role="img"
+           aria-label="A rising five-phase ramp from Phase 0 Assess, through Phase 1 Foundations, Phase 2 Pipeline, Phase 3 Optimize, to Phase 4 Deliver on demand. Each phase carries its exit question. A start-here pin sits on Phase 0 and a DORA metrics badge on Phase 4.">
+        <defs>
+          <marker id="ar15" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#3ed7c4"/></marker>
+        </defs>
+        <!-- rising connector -->
+        <path d="M110 250 L290 214 L470 178 L650 142 L830 106" fill="none" stroke="#3ed7c4" stroke-width="2" stroke-dasharray="5 6" marker-end="url(#ar15)"/>
+        <!-- phase blocks -->
+        <g>
+          <rect x="20" y="234" width="180" height="52" rx="10" fill="#241710" stroke="#f08a52" stroke-width="2"/>
+          <text x="110" y="258" text-anchor="middle" fill="#f6d2b8" font-size="13" font-weight="800">0 · Assess</text>
+          <text x="110" y="276" text-anchor="middle" fill="#f08a52" font-size="10.5">where are we?</text>
+
+          <rect x="200" y="198" width="180" height="52" rx="10" fill="#101826" stroke="#74a0f2" stroke-width="1.8"/>
+          <text x="290" y="222" text-anchor="middle" fill="#cfe0ff" font-size="13" font-weight="800">1 · Foundations</text>
+          <text x="290" y="240" text-anchor="middle" fill="#9fb2c6" font-size="10.5">integrate safely daily?</text>
+
+          <rect x="380" y="162" width="180" height="52" rx="10" fill="#101826" stroke="#74a0f2" stroke-width="1.8"/>
+          <text x="470" y="186" text-anchor="middle" fill="#cfe0ff" font-size="13" font-weight="800">2 · Pipeline</text>
+          <text x="470" y="204" text-anchor="middle" fill="#9fb2c6" font-size="10.5">one trusted path?</text>
+
+          <rect x="560" y="126" width="180" height="52" rx="10" fill="#0e2b28" stroke="#3ed7c4" stroke-width="1.8"/>
+          <text x="650" y="150" text-anchor="middle" fill="#cdeee8" font-size="13" font-weight="800">3 · Optimize</text>
+          <text x="650" y="168" text-anchor="middle" fill="#8fd8ce" font-size="10.5">small + observable?</text>
+
+          <rect x="740" y="90" width="200" height="52" rx="10" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2.5"/>
+          <text x="840" y="114" text-anchor="middle" fill="#cdeee8" font-size="13" font-weight="800">4 · Deliver on demand</text>
+          <text x="840" y="132" text-anchor="middle" fill="#8fd8ce" font-size="10.5">any change, any day?</text>
+        </g>
+        <!-- start here pin -->
+        <text x="110" y="224" text-anchor="middle" fill="#f08a52" font-size="11" font-weight="800">▲ start: your scorecard</text>
+        <!-- DORA badge -->
+        <rect x="742" y="30" width="200" height="44" rx="10" fill="rgba(62,215,196,.08)" stroke="#3ed7c4" stroke-width="1.6"/>
+        <text x="842" y="50" text-anchor="middle" fill="#3ed7c4" font-size="12" font-weight="800">DORA proves it</text>
+        <text x="842" y="66" text-anchor="middle" fill="#8fd8ce" font-size="10">freq ↑ · lead ↓ · fail ↓ · restore ↓</text>
+      </svg>
+      <div class="caption">
+        <span><b>Name the one binding constraint</b> · pick the DORA metric that proves the move</span>
+        <span class="pill teal">Your turn → 15 min</span>
+      </div>
+      <aside class="notes">
+        Second half of the workshop (15 min). Using the Migration Checklist and your completed scorecard, draft
+        your team's plan. PHASE 0 (Assess): your value stream map + scorecard, and the ONE binding constraint
+        they agree on (branch lifetime? manual deploys? slow tests? no rollback?). PHASE 1 (Foundations): the
+        CI/TBD behaviors to adopt next — branch-lifetime target, daily integration, flags, stop-the-line.
+        PHASE 2 (Pipeline): the gaps you just found — automated definition of deployable, promote-don't-rebuild,
+        rehearsed rollback, removing DEBT manual gates. PHASE 3–4 (Optimize / Deliver on demand): what "done"
+        looks like for the pilot service and which DORA metric proves it.
+        Two honesty notes to say aloud: it's A QUARTER, NOT A SPRINT, and expect a VELOCITY DIP in Phase 1 —
+        tell leadership to watch STABILITY (DORA) alongside speed so the dip isn't mistaken for failure. And
+        deal with existing long-lived branches on day one — you can't do trunk-based dev on top of a pile of
+        week-old branches.
+      </aside>
+    </section>
+
+    <!-- ============================== 16 · WRAP-UP, TAKEAWAYS & CERTIFICATION -->
+    <section data-background-gradient="radial-gradient(900px 520px at 50% 4%, #16223f, #0b0e14 62%)">
+      <h2>Wrap-up — and you've completed CD 101</h2>
+      <div class="cols2 below-title">
+        <div>
+          <div class="col-h">Six takeaways</div>
+          <div class="take">
+            <span class="tk">One pipeline, one path — shared envs only, via OIDC</span>
+            <span class="tk">"Deployable" is automated criteria — releasability is the pipeline's, timing a human's</span>
+            <span class="tk">Communicate the <b>release</b> (the flag flip), not the deploy</span>
+            <span class="tk">Build once, promote the same bytes — vary only config</span>
+            <span class="tk">Fail forward by default; keep rollback fast, rehearsed, reserved</span>
+            <span class="tk">The migration is phased — shrink, build, optimize, deliver on demand</span>
+          </div>
+        </div>
+        <div>
+          <div class="complete">
+            <div class="col-h">You've completed CD 101 when you can</div>
+            <ul>
+              <li>Explain the MinimumCD practices without notes</li>
+              <li>Decompose a feature into daily, flag-guarded increments</li>
+              <li>Read a <span style="font-family:var(--cd-mono)">.gitlab-ci.yml</span> and point to where releasability is decided</li>
+              <li>Explain when to fail forward vs roll back — and do each on AWS</li>
+              <li>Produce a phased migration plan for your team</li>
+            </ul>
+          </div>
+          <p class="cd-mini" style="margin-top:.6em">Re-run the <b class="t-teal">Current-State Assessment</b> in a month and measure how far you moved.</p>
+        </div>
+      </div>
+      <aside class="notes">
+        Six takeaways: ONE PIPELINE, ONE PATH — shared environments deploy only through it, via OIDC;
+        "DEPLOYABLE" IS AUTOMATED CRITERIA — releasability belongs to the pipeline, timing to a human;
+        COMMUNICATE THE RELEASE (the flag flip users feel), not the deploy; BUILD ONCE, PROMOTE THE SAME
+        BYTES, vary only config; FAIL FORWARD BY DEFAULT, keep rollback fast and rehearsed for costly,
+        time-sensitive problems; and THE MIGRATION IS PHASED — shrink batches, build the path, optimize,
+        deliver on demand.
+        Then close the COURSE: you've completed CD 101 when you can explain the minimums without notes;
+        decompose a feature into daily, flag-guarded increments; read a .gitlab-ci.yml and point to where
+        releasability is decided; explain when to fail forward vs roll back and how to do each on AWS; and
+        produce a phased migration plan.
+        The course refrain to end on: this was never a verdict on the stack or the people who built it — the
+        .NET estate is itself a recent modernization, and CD is the next increment of that same journey,
+        applied across the whole estate. Re-run the assessment in a month and measure the move.
+      </aside>
+    </section>
+
+  </div>
+</div>
+
+<script src="reveal/dist/reveal.js"></script>
+<script src="reveal/plugin/notes/notes.js"></script>
+<script>
+  Reveal.initialize({
+    width: 1280,
+    height: 720,
+    margin: 0.045,
+    minScale: 0.2,
+    maxScale: 2.0,
+    center: true,
+    hash: true,
+    controls: true,
+    progress: true,
+    slideNumber: 'c/t',
+    transition: 'fade',
+    transitionSpeed: 'default',
+    plugins: [ RevealNotes ],
+  });
+</script>
+</body>
+</html>
