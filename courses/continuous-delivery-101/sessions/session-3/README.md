@@ -195,7 +195,7 @@ Re-run the [Current-State Assessment](./exercises/current-state-assessment.md) i
 - [Migration Checklist](../../resources/migration-checklist.md)
 - [Communicating Releases](../../resources/communicating-releases.md)
 - [Minimums Reference](../../resources/minimums-reference.md)
-- [`iac-baseline`](https://gitlab.com/therealmanage/infrastructure/aws/iac-baseline) — our IaC conventions
+- [`iac-baseline`](https://gitlab.com/therealmanage/tools/dx/dx-iac-baseline) — our IaC conventions
 - [Database Migrations (DbUp)](./examples/db-migrations/README.md) — schema as code, built once and promoted through the pipeline
 - [Database Delivery](../../resources/database-delivery.md) — the minimums applied to schema; drift, cross-database coupling, and the end-state
 

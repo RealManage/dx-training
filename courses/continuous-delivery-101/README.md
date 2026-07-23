@@ -95,7 +95,7 @@ Before starting, ensure you have:
 - [ ] Basic familiarity with **AWS** concepts (Lambda, CloudFormation/SAM, IAM roles)
 - [ ] Exposure to **GitLab CI/CD** (`.gitlab-ci.yml`) — helpful, not required
 - [ ] (Optional, for the hands-on labs) **Node.js 22 LTS**, the **AWS SAM CLI**, and an AWS sandbox account
-- [ ] Read access to the [`iac-baseline`](https://gitlab.com/therealmanage/infrastructure/aws/iac-baseline) repo — our examples align with it
+- [ ] Read access to the [`iac-baseline`](https://gitlab.com/therealmanage/tools/dx/dx-iac-baseline) repo — our examples align with it
 - [ ] Slack access to `#dx-training`
 
 ### Getting Started
@@ -216,7 +216,7 @@ Seek help or revisit the material if:
 
 ### Internal References
 
-- [`iac-baseline`](https://gitlab.com/therealmanage/infrastructure/aws/iac-baseline) — our canonical AWS IaC pipeline and conventions
+- [`iac-baseline`](https://gitlab.com/therealmanage/tools/dx/dx-iac-baseline) — our canonical AWS IaC pipeline and conventions
 - [BDD 101](../bdd-101/README.md) — the testing discipline that feeds your pipeline's quality gates
 - [AI 101: Claude Code](../ai-101-claude-code/README.md) — using Claude Code to write tests, pipelines, and IaC
 

@@ -1,6 +1,6 @@
 # Worked Example: Scoring Our Current Pipeline Against the Minimums
 
-The fastest way to understand CD is to hold a *real* pipeline up against the minimums and see what's already there and what's missing. This walkthrough uses the RealManage [`iac-baseline`](https://gitlab.com/therealmanage/infrastructure/aws/iac-baseline) GitLab pipeline — the canonical template every new AWS IaC project starts from. It is a genuinely good pipeline. It is also **not yet full CD**, and seeing *why* is the lesson.
+The fastest way to understand CD is to hold a *real* pipeline up against the minimums and see what's already there and what's missing. This walkthrough uses the RealManage [`iac-baseline`](https://gitlab.com/therealmanage/tools/dx/dx-iac-baseline) GitLab pipeline — the canonical template every new AWS IaC project starts from. It is a genuinely good pipeline. It is also **not yet full CD**, and seeing *why* is the lesson.
 
 > The baseline deploys infrastructure (CloudFormation). Your app services use SAM, but the pipeline *shape* is the same — which is exactly the point of having a baseline.
 
