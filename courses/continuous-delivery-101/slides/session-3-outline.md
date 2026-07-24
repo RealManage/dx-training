@@ -182,26 +182,39 @@ count — same convention as Session 2.)*
 
 ## Slide 4 — The pipeline decides releasability
 
-- **Message:** CD minimum #3 — green should *mean* deployable, automatically; a human may
-  choose *when*, but never re-litigate *whether*.
-- **Visual:** Two panels over the same commit. **Left "Today" (muted):** green checks, then
-  a **person** at a gate deciding "ready?" — the meeting/click owns the verdict. **Right
-  "CD" (teal):** the same green checks flow straight through `dev` and `qa` **automatically**;
-  only `prod` has a single deliberate gate, and that gate is labelled **"timing, not
-  readiness."** A caption strip underneath differentiates the two words *Continuous
-  **Delivery*** (deployable on demand; a human picks the moment) vs *Continuous
-  **Deployment*** (every green commit auto-ships) — keep them distinct.
-- **On-slide text:** "Green = deployable, automatically" · "a human approves *timing*, not
-  *readiness*"
-- **Say:** This is the minimum most teams haven't fully reached. Our own baseline now
-  auto-promotes `dev` on green, but `qa` and `prod` are still `when: manual`, so the pipeline
-  doesn't yet own the release verdict. The shift: **green should mean deployable, and the pipeline
-  should say so without a meeting.** A human may still choose *when* prod happens — that's
-  Continuous *Delivery*, not Continuous *Deployment*, and the distinction matters — but
-  they're approving **timing**, not re-deciding **readiness** the pipeline already proved. The
-  tell that you're not there yet: a meeting decides whether the build is "ready." In the
-  target pipeline you'll read later, `dev` and `qa` **auto-promote on green** and only `prod`
-  keeps a gate. **Engineering-Lead note** (say it, keep it honest): a manual prod gate can be
+- **Message:** CD minimum #3 — the pipeline owns the *releasability verdict* ("this build is
+  **deployable**"), and it's definitive. The real shift isn't one fewer manual click; it's the
+  **cadence of the verdict** — it stops being a batched human sign-off and becomes a per-change
+  verdict. Keep it distinct from *release* (exposing a feature to users): this slide is about
+  deployability, not the flag flip.
+- **Visual:** Two panels over the same green build; a caption strip underneath. **Left "Today"
+  (muted/orange):** green commits *queue* on trunk, hit a **weekly-cutoff** gate, and collapse
+  into **one weekly batch** — "work batches to the cutoff · a person owns the verdict." **Right
+  "CD" (teal):** each green commit flows straight to its own **"deployable ✓"** — four
+  independent verdicts, not one batch — "cleared the moment it's green · the pipeline owns the
+  verdict." The caption strip differentiates *Continuous **Delivery*** (deployable on demand; a
+  human picks the moment) vs *Continuous **Deployment*** (every green commit auto-ships) — keep
+  them distinct.
+- **On-slide text:** Today — "signed off in weekly batches" · "work batches to the cutoff · a
+  person owns the verdict"; CD — "every green commit, on its own" · "cleared the moment it's
+  green · the pipeline owns the verdict"
+- **Say:** This is minimum #3 — the pipeline owns the releasability verdict, and it's
+  definitive. **Keep the words straight:** this slide is only about that verdict — "this build
+  is *deployable*" — and who gives it; it is **not** about releasing a feature to users. *Deploy*
+  = pushing a cleared artifact to an environment; *release* = exposing the feature (a flag flip),
+  a separate decision on its own schedule. Watch what actually changes and what doesn't: `dev`
+  already auto-promotes on green, and even under full CD a human still picks *when* to deploy
+  prod — so "one fewer manual click at `qa`" is **not** the point; don't sell it as the reform.
+  The real shift is the **cadence of the verdict**. Today it's signed off in *batches*: the
+  established .NET apps cut a release branch weekly and a person clears the whole batch at the
+  cutoff; the newer AWS services can already deploy per change but still wait on a human's
+  go-ahead. Either way the verdict is a human's, given to a weekly batch. Under CD the pipeline
+  gives the verdict **per change, the moment it's green** — so any green commit is deployable the
+  day it lands instead of waiting for the window. Deploying it to prod is still a human's timing
+  call (that's Continuous *Delivery*, not Continuous *Deployment*), and releasing the feature to
+  users is still a separate flag decision — but neither re-opens *readiness*, which the pipeline
+  already proved. In the target pipeline you'll read later, `dev` and `qa` **auto-promote on
+  green** and only `prod` keeps a gate. **Engineering-Lead note** (say it, keep it honest): a manual prod gate can be
   a *legitimate, permanent* control — compliance, or early confidence in a new service —
   distinct from a *debt* gate that just re-litigates readiness the pipeline already proved.
   Keep the legitimate ones, name them as timing decisions, and remove the rest as trust

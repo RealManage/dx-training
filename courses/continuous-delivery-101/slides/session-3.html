@@ -308,57 +308,76 @@
     <section data-background-color="#0b0e14">
       <h2>The pipeline decides releasability</h2>
       <svg class="dia below-title" viewBox="0 0 1000 300" style="max-height:300px" role="img"
-           aria-label="Two panels over the same green build. Today: green checks pass and dev auto-promotes, but a person at a gate still decides whether qa and prod are ready — qa and prod are manual. Continuous Delivery: the same green checks flow automatically through dev and qa, and only prod keeps a single deliberate gate labelled timing, not readiness.">
+           aria-label="Two panels over the same green build, both about who owns the releasability verdict. Today: green commits queue behind a weekly human sign-off and are cleared as one batch — a person owns the verdict. Continuous Delivery: every green commit is independently deployable, cleared by the pipeline the moment it's green — the pipeline owns the verdict.">
         <line x1="500" y1="30" x2="500" y2="280" stroke="#2a3340" stroke-width="2" stroke-dasharray="2 8"/>
 
-        <!-- LEFT panel: TODAY -->
-        <text x="40" y="30" fill="#9fb2c6" font-size="14" font-weight="800" letter-spacing=".08em">TODAY</text>
-        <text x="40" y="52" fill="#7d8fa1" font-size="13">a person owns the verdict</text>
-        <g>
-          <rect x="40" y="78" width="150" height="34" rx="8" fill="#0e2b28" stroke="#3ed7c4" stroke-width="1.6"/>
-          <text x="115" y="100" text-anchor="middle" fill="#cdeee8" font-size="13" font-weight="700">auto · dev ✓</text>
-          <rect x="40" y="122" width="150" height="34" rx="8" fill="#101826" stroke="#f08a52" stroke-width="1.6"/>
-          <text x="115" y="144" text-anchor="middle" fill="#f6d2b8" font-size="13" font-weight="700">manual · qa</text>
-          <rect x="40" y="166" width="150" height="34" rx="8" fill="#101826" stroke="#f08a52" stroke-width="1.6"/>
-          <text x="115" y="188" text-anchor="middle" fill="#f6d2b8" font-size="13" font-weight="700">manual · prod</text>
-        </g>
-        <!-- person deciding "ready?" -->
-        <g transform="translate(300,110)">
-          <circle cx="0" cy="0" r="16" fill="none" stroke="#f08a52" stroke-width="2.5"/>
-          <path d="M-20 52 a20 24 0 0 1 40 0" fill="none" stroke="#f08a52" stroke-width="2.5"/>
-        </g>
-        <text x="300" y="212" text-anchor="middle" fill="#f08a52" font-size="13" font-weight="700">a meeting decides</text>
-        <text x="300" y="230" text-anchor="middle" fill="#f08a52" font-size="14" font-weight="800">"ready?"</text>
+        <defs>
+          <marker id="s7ao" markerWidth="8" markerHeight="8" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="#f08a52"/></marker>
+          <marker id="s7at" markerWidth="8" markerHeight="8" refX="5.5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="#3ed7c4"/></marker>
+        </defs>
 
-        <!-- RIGHT panel: CD -->
+        <!-- LEFT panel: TODAY — releasability signed off in weekly batches -->
+        <text x="40" y="30" fill="#9fb2c6" font-size="14" font-weight="800" letter-spacing=".08em">TODAY</text>
+        <text x="40" y="52" fill="#7d8fa1" font-size="13">signed off in weekly batches</text>
+        <!-- green commits queue on trunk -->
+        <text x="56" y="116" fill="#7d8fa1" font-size="11">green commits</text>
+        <line x1="58" y1="135" x2="152" y2="135" stroke="#2f3a49" stroke-width="2"/>
+        <circle cx="72" cy="135" r="7" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2"/>
+        <circle cx="96" cy="135" r="7" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2"/>
+        <circle cx="120" cy="135" r="7" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2"/>
+        <circle cx="144" cy="135" r="7" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2"/>
+        <!-- weekly human gate -->
+        <text x="175" y="105" text-anchor="middle" fill="#f6d2b8" font-size="11" font-weight="700">weekly cutoff</text>
+        <rect x="172" y="111" width="7" height="48" rx="2" fill="#f08a52"/>
+        <line x1="152" y1="135" x2="200" y2="135" stroke="#f08a52" stroke-width="2" marker-end="url(#s7ao)"/>
+        <!-- one batched release -->
+        <rect x="206" y="117" width="150" height="36" rx="8" fill="#101826" stroke="#f08a52" stroke-width="1.8"/>
+        <text x="281" y="139" text-anchor="middle" fill="#f6d2b8" font-size="12" font-weight="700">one weekly batch</text>
+        <text x="205" y="196" text-anchor="middle" fill="#f08a52" font-size="13" font-weight="700">work batches to the cutoff</text>
+        <text x="205" y="216" text-anchor="middle" fill="#f08a52" font-size="14" font-weight="800">a person owns the verdict</text>
+
+        <!-- RIGHT panel: CD — every green commit releasable on its own -->
         <text x="536" y="30" fill="#3ed7c4" font-size="14" font-weight="800" letter-spacing=".08em">CONTINUOUS DELIVERY</text>
-        <text x="536" y="52" fill="#8fd8ce" font-size="13">the pipeline owns the verdict</text>
-        <g>
-          <rect x="536" y="78" width="170" height="34" rx="8" fill="#0e2b28" stroke="#3ed7c4" stroke-width="1.8"/>
-          <text x="621" y="100" text-anchor="middle" fill="#cdeee8" font-size="13" font-weight="700">dev · auto on green ✓</text>
-          <rect x="536" y="122" width="170" height="34" rx="8" fill="#0e2b28" stroke="#3ed7c4" stroke-width="1.8"/>
-          <text x="621" y="144" text-anchor="middle" fill="#cdeee8" font-size="13" font-weight="700">qa · auto on green ✓</text>
-          <rect x="536" y="166" width="170" height="34" rx="8" fill="#101826" stroke="#f08a52" stroke-width="1.8"/>
-          <text x="621" y="188" text-anchor="middle" fill="#f6d2b8" font-size="13" font-weight="700">prod · one gate</text>
-        </g>
-        <line x1="621" y1="112" x2="621" y2="122" stroke="#3ed7c4" stroke-width="2.5"/>
-        <line x1="621" y1="156" x2="621" y2="166" stroke="#5a6b80" stroke-width="2.5"/>
-        <rect x="736" y="158" width="224" height="50" rx="10" fill="rgba(240,138,82,.08)" stroke="#f08a52" stroke-width="1.6"/>
-        <text x="848" y="180" text-anchor="middle" fill="#f4a878" font-size="13" font-weight="800">approves TIMING,</text>
-        <text x="848" y="198" text-anchor="middle" fill="#f4a878" font-size="13" font-weight="800">not READINESS</text>
+        <text x="536" y="52" fill="#8fd8ce" font-size="13">every green commit, on its own</text>
+        <line x1="560" y1="82" x2="560" y2="200" stroke="#2f3a49" stroke-width="2"/>
+        <circle cx="560" cy="93" r="7" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2"/>
+        <line x1="571" y1="93" x2="600" y2="93" stroke="#3ed7c4" stroke-width="2" marker-end="url(#s7at)"/>
+        <rect x="604" y="80" width="150" height="26" rx="6" fill="#0e2b28" stroke="#3ed7c4" stroke-width="1.6"/>
+        <text x="679" y="97" text-anchor="middle" fill="#cdeee8" font-size="12" font-weight="700">deployable ✓</text>
+        <circle cx="560" cy="128" r="7" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2"/>
+        <line x1="571" y1="128" x2="600" y2="128" stroke="#3ed7c4" stroke-width="2" marker-end="url(#s7at)"/>
+        <rect x="604" y="115" width="150" height="26" rx="6" fill="#0e2b28" stroke="#3ed7c4" stroke-width="1.6"/>
+        <text x="679" y="132" text-anchor="middle" fill="#cdeee8" font-size="12" font-weight="700">deployable ✓</text>
+        <circle cx="560" cy="163" r="7" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2"/>
+        <line x1="571" y1="163" x2="600" y2="163" stroke="#3ed7c4" stroke-width="2" marker-end="url(#s7at)"/>
+        <rect x="604" y="150" width="150" height="26" rx="6" fill="#0e2b28" stroke="#3ed7c4" stroke-width="1.6"/>
+        <text x="679" y="167" text-anchor="middle" fill="#cdeee8" font-size="12" font-weight="700">deployable ✓</text>
+        <circle cx="560" cy="198" r="7" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2"/>
+        <line x1="571" y1="198" x2="600" y2="198" stroke="#3ed7c4" stroke-width="2" marker-end="url(#s7at)"/>
+        <rect x="604" y="185" width="150" height="26" rx="6" fill="#0e2b28" stroke="#3ed7c4" stroke-width="1.6"/>
+        <text x="679" y="202" text-anchor="middle" fill="#cdeee8" font-size="12" font-weight="700">deployable ✓</text>
+        <text x="657" y="238" text-anchor="middle" fill="#3ed7c4" font-size="13" font-weight="700">cleared the moment it's green</text>
+        <text x="657" y="258" text-anchor="middle" fill="#8fd8ce" font-size="13" font-weight="800">the pipeline owns the verdict</text>
       </svg>
       <div class="caption">
         <span><b class="t-teal">Continuous Delivery</b> — deployable on demand; a human picks the moment</span>
         <span class="muted"><b>Continuous Deployment</b> — every green commit auto-ships (keep them distinct)</span>
       </div>
       <aside class="notes">
-        This is the minimum most teams haven't fully reached. Our own baseline now auto-promotes dev on
-        green, but qa and prod are still when: manual, so the pipeline doesn't yet own the release verdict.
-        The shift: GREEN SHOULD MEAN DEPLOYABLE, and the pipeline should say so without a
-        meeting. A human may still choose WHEN prod happens — that's Continuous DELIVERY, not Continuous
-        DEPLOYMENT, and the distinction matters — but they're approving TIMING, not re-deciding READINESS
-        the pipeline already proved. The tell that you're not there yet: a meeting decides whether the build
-        is "ready."
+        This is minimum #3 — the pipeline owns the releasability verdict, and it's definitive. KEEP THE WORDS
+        STRAIGHT: this slide is only about that verdict — "this build is DEPLOYABLE" — and who gives it. It is
+        NOT about releasing a feature to users. Deploy = pushing a cleared artifact to an environment; release
+        = exposing the feature (a flag flip), a separate decision on its own schedule. Don't let the cadence
+        story blur those. Watch what actually changes and what doesn't: dev already auto-promotes on green, and
+        even under full CD a human still picks WHEN to deploy prod — so "one fewer manual click at qa" is NOT
+        the point; don't sell it as the reform. The real shift is CADENCE OF THE VERDICT. Today it's signed off
+        in BATCHES: the established .NET apps cut a release branch weekly and a person clears the whole batch at
+        the cutoff; the newer AWS services can already deploy per change but still wait on a human's go-ahead.
+        Either way the verdict is a human's, given to a weekly batch. Under CD the pipeline gives the verdict
+        per change, the moment it's green — so any green commit is deployable the day it lands instead of
+        waiting for the window. Deploying it to prod is still a human's timing call (that's Continuous DELIVERY,
+        not Continuous DEPLOYMENT), and releasing the feature to users is still a separate flag decision — but
+        neither re-opens READINESS, which the pipeline already proved.
         In the target pipeline you'll read later, dev and qa AUTO-PROMOTE on green and only prod keeps a gate.
         ENGINEERING-LEAD NOTE (say it, keep it honest): a manual prod gate can be a LEGITIMATE, PERMANENT
         control — compliance, or early confidence in a new service — distinct from a DEBT gate that just
