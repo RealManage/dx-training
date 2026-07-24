@@ -571,13 +571,17 @@
         → prod — never rebuild per environment. Why it matters: IF YOU REBUILD FOR PROD, YOU'VE DEPLOYED
         SOMETHING YOU NEVER TESTED. "Works in qa, breaks in prod" is almost always a rebuild, or config baked
         into the build.
-        For SAM specifically: sam build then sam package uploads the code to an artifact bucket and emits a
-        PACKAGED TEMPLATE referencing it by a CONTENT HASH; each environment's sam deploy consumes that SAME
-        packaged template. Two keys, same bytes: CI_COMMIT_SHA labels the pipeline artifact so YOU can find
-        and redeploy it; the content hash is how CLOUDFORMATION knows the bytes are unchanged.
-        MULTI-ACCOUNT NOTE (common at RealManage): if dev/qa/prod are separate AWS accounts, the artifact
-        bucket must be readable across accounts — a shared artifacts account or a cross-account bucket policy
-        — so each stage promotes the same bytes. Rebuilding per account silently breaks the guarantee.
+        For SAM specifically: sam build assembles the deployable ONCE into .aws-sam/ — that built directory
+        IS the artifact, carried between pipeline jobs and keyed by CI_COMMIT_SHA. Each environment's sam
+        deploy then uploads those SAME bytes and deploys; CloudFormation references the code by a CONTENT
+        HASH, so identical bytes are provably the same deploy. CI_COMMIT_SHA is how YOU find the artifact;
+        the content hash is how CLOUDFORMATION knows the bytes didn't change. Never re-run sam build per env.
+        MULTI-ACCOUNT NOTE (how RealManage actually does it): dev/qa/prod are separate AWS accounts, and each
+        has its OWN artifact bucket — every sam deploy resolves a bucket in the account it targets (sam deploy
+        --resolve-s3 uses a managed bucket per account; some services pin an explicit per-account bucket from
+        SSM). There is NO shared artifacts account and NO cross-account bucket policy. "Same bytes" does NOT
+        require a shared bucket: build ONCE, then upload that identical artifact into each account's own
+        bucket. What breaks the guarantee is re-running sam build per account — not the bucket being per-account.
         This immutable, stored artifact is also what makes rollback real in Part 3 — "the last good version"
         is a thing you can redeploy, not a memory of what main used to be.
       </aside>
@@ -947,7 +951,7 @@
           <div class="col-h">② Read the target <span style="font-family:var(--cd-mono)">.gitlab-ci.yml</span> — find these 5</div>
           <ol class="find">
             <li><b>Definition of deployable</b> — <code>validate</code> / <code>test</code> / <code>security</code></li>
-            <li><b>Immutable artifact, built once + promoted</b> — <code>build:artifact</code> → every <code>deploy:*</code> consumes <code>${PACKAGED_TEMPLATE}</code></li>
+            <li><b>Immutable artifact, built once + promoted</b> — <code>build:artifact</code> → every <code>deploy:*</code> reuses the same <code>.aws-sam/</code> bundle</li>
             <li><b>Where releasability is decided</b> — <code>dev</code>/<code>qa</code> auto on green (<code>needs:</code>); only <code>prod</code> is <code>when: manual</code></li>
             <li><b>OIDC per-env role, no static creds</b> — <code>.aws_oidc</code></li>
             <li><b>Smoke test verifies each deploy</b> — <code>smoke-test.sh</code></li>
@@ -966,7 +970,7 @@
         so a human still owns the release verdict.
         Now OPEN THE TARGET .gitlab-ci.yml in the editor and locate five things: (1) where the DEFINITION OF
         DEPLOYABLE is enforced (validate / test / security); (2) where the IMMUTABLE ARTIFACT is built once and
-        how it's promoted (build:artifact → deploy:* all consuming ${PACKAGED_TEMPLATE}); (3) where
+        how it's promoted (build:artifact builds .aws-sam/ once → every deploy:* reuses it, no rebuild); (3) where
         RELEASABILITY IS DECIDED and how it differs from the baseline (the target also auto-promotes deploy:qa
         on green via needs: — the baseline still gates qa by hand — leaving only deploy:prod when: manual); (4) how OIDC gives each env its own role with no static
         creds (.aws_oidc); (5) where a SMOKE TEST verifies each deploy (smoke-test.sh, so promotion is verified,

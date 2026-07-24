@@ -42,12 +42,13 @@ workflow:
 
 variables:
   SERVICE_NAME: aws-violations-api
-  # Immutable artifact coordinates — keyed by commit SHA. Built once, reused.
-  # Multi-account estates: this bucket must be readable by EVERY environment's
-  #   deploy role (shared artifacts account or a cross-account bucket policy) so
-  #   each stage promotes the SAME bytes instead of rebuilding per account.
-  ARTIFACT_BUCKET: realmanage-${SERVICE_NAME}-artifacts
-  PACKAGED_TEMPLATE: packaged-${CI_COMMIT_SHA}.yaml
+  # Build ONCE: `sam build` produces the .aws-sam/ bundle, promoted as the GitLab
+  #   job artifact (keyed by CI_COMMIT_SHA) and reused by every deploy below.
+  #   dev/qa/prod are SEPARATE AWS accounts, each with its OWN artifact bucket —
+  #   every `sam deploy --resolve-s3` uploads these SAME bytes into a managed bucket
+  #   in whatever account it targets. No shared bucket, no cross-account policy; the
+  #   immutability guarantee comes from NOT rebuilding, not from a shared bucket.
+  #   (A service can instead pin an explicit per-account bucket via SSM — same idea.)
 
 default:
   image: node:22-alpine # ← pin by digest before merging (iac-baseline convention)
@@ -128,35 +129,30 @@ dependency-audit:
   allow_failure: true
 
 # -----------------------------------------------------------------------------
-# build — assemble the artifact ONCE on main, package it to S3, and persist the
-# packaged template so EVERY environment deploys the identical bytes. (#5, #9)
+# build — assemble the artifact ONCE on main and persist the .aws-sam/ bundle so
+# EVERY environment deploys the identical bytes. Touches no AWS account: the S3
+# upload happens per-account at deploy time (below), not here. (#5, #9)
 # -----------------------------------------------------------------------------
 
 build:artifact:
   stage: build
-  extends: .aws_oidc
   image: public.ecr.aws/sam/build-nodejs22.x:latest
-  environment: { name: dev } # needs an account to reach the artifact bucket
+  # default before_script (npm ci) applies; no OIDC — build reaches no AWS account.
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   script:
     - npm run build # esbuild bundle
-    - sam build
-    - >
-      sam package
-      --s3-bucket "${ARTIFACT_BUCKET}"
-      --s3-prefix "${CI_COMMIT_SHA}"
-      --output-template-file "${PACKAGED_TEMPLATE}"
+    - sam build     # assemble the deployable ONCE into .aws-sam/
   artifacts:
-    paths: ["${PACKAGED_TEMPLATE}"] # promoted as-is to every stage below
+    paths: [".aws-sam/"] # the built bytes, promoted as-is to every deploy stage
     # 30 days is a PROMOTION window, not an audit-retention policy. If you rely on the
     # stored artifact as compliance evidence, set this to your framework's retention
     # (often years). See resources/governance-and-compliance.md.
     expire_in: 30 days
 
 # -----------------------------------------------------------------------------
-# Reusable deploy + smoke template. Each environment deploys the SAME packaged
-# template; only --parameter-overrides (from configuration/${ENV}.config) differ.
+# Reusable deploy + smoke template. Each environment deploys the SAME .aws-sam/
+# bundle; only --parameter-overrides (from configuration/${ENV}.config) differ.
 # -----------------------------------------------------------------------------
 
 .deploy:
@@ -166,12 +162,17 @@ build:artifact:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   script:
     - source ./configuration/${CI_ENVIRONMENT_NAME}.config
+    # Deploy the artifact built ONCE upstream (.aws-sam/ from build:artifact). With
+    # --resolve-s3, SAM uploads those SAME bytes to a managed bucket in THIS account
+    # — dev/qa/prod are separate accounts, so each gets its own bucket; nothing is
+    # shared or cross-account. No `sam build` here → no rebuild. (Pin an explicit
+    # per-account bucket with --s3-bucket from SSM if you'd rather not use managed.)
     # CAPABILITY_IAM suffices here because SAM auto-names the execution role. Add a
     # named role (RoleName) or an expanding macro and you must widen this to
     # CAPABILITY_NAMED_IAM / CAPABILITY_AUTO_EXPAND, or the deploy fails.
     - >
       sam deploy
-      --template-file "${PACKAGED_TEMPLATE}"
+      --resolve-s3
       --stack-name "${CI_ENVIRONMENT_NAME}-${SERVICE_NAME}"
       --capabilities CAPABILITY_IAM
       --no-confirm-changeset --no-fail-on-empty-changeset
@@ -198,14 +199,16 @@ deploy:qa:
   extends: .deploy
   stage: qa
   environment: { name: qa }
-  needs: [deploy:dev]
+  # deploy:dev orders the promotion; build:artifact hands over the .aws-sam/ bundle
+  # (needs: downloads artifacts only from the jobs it lists — deploy:dev has none).
+  needs: [deploy:dev, build:artifact]
   # AUTO after dev's smoke test passes. Promotes the SAME artifact.
 
 deploy:prod:
   extends: .deploy
   stage: prod
   environment: { name: prod }
-  needs: [deploy:qa]
+  needs: [deploy:qa, build:artifact] # same bundle; deploy:qa just orders it after qa
   when: manual # ONLY remaining gate: a human approves TIMING (Continuous Delivery)
   allow_failure: false
 
@@ -214,7 +217,7 @@ deploy:prod:
 # =============================================================================
 # - Definition of deployable .... validate + test + security stages
 # - Immutable artifact .......... build:artifact (built ONCE, kept 30 days)
-# - Promotion (not rebuild) ..... deploy:* all consume ${PACKAGED_TEMPLATE}
+# - Promotion (not rebuild) ..... deploy:* all reuse build:artifact's .aws-sam/
 # - Releasability decided by ..... the pipeline (dev/qa auto on green)
 # - Human decision .............. ONLY prod timing (when: manual)
 # - Release-impact gate ......... release-impact-label (MR pipeline; feeds release notes)

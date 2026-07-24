@@ -34,14 +34,14 @@ This is the heart of Session 3. **Build once; promote the same bytes; vary only 
 ```text
             ┌─────────────────────────── build ONCE ───────────────────────────┐
 commit ───▶ │ npm run build  (esbuild bundle)                                   │
-            │ sam build      (assemble the deployable)                          │
-            │ sam package    (upload code to artifact S3, emit packaged.yaml)   │
+            │ sam build      (assemble the deployable into .aws-sam/)           │
             └───────────────────────────────────────────────────────────────────┘
-                                        │  packaged.yaml + artifact (by content hash)
+                                        │  .aws-sam/ bundle (carried between jobs)
               ┌─────────────────────────┼─────────────────────────┐
               ▼                         ▼                         ▼
-        sam deploy --config dev    sam deploy --config qa    sam deploy --config prod
-        (Flag..=false, retain 7d)  (mirror prod, retain 30d) (deliberate gate)
+         sam deploy → dev          sam deploy → qa           sam deploy → prod
+        (--resolve-s3: upload the SAME bytes into each account's OWN bucket;
+         only --parameter-overrides, from configuration/{env}.config, differ)
               │                         │                         │
         SAME artifact              SAME artifact             SAME artifact
 ```

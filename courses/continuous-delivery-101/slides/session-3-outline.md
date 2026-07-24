@@ -321,15 +321,19 @@ count — same convention as Session 2.)*
   artifact through dev → qa → prod — never rebuild per environment. Why it matters:
   **if you rebuild for prod, you've deployed something you never tested.** "Works in qa,
   breaks in prod" is almost always a rebuild, or config baked into the build. For SAM
-  specifically: `sam build` then `sam package` uploads the code to an artifact bucket and
-  emits a *packaged template* referencing it by a **content hash**; each environment's `sam
-  deploy` consumes that **same** packaged template. Two keys, same bytes: `CI_COMMIT_SHA`
-  labels the pipeline artifact so *you* can find and redeploy it; the content hash is how
-  *CloudFormation* knows the bytes are unchanged. **Multi-account note** (common at
-  RealManage): if dev/qa/prod are separate AWS accounts, the artifact bucket must be
-  readable across accounts — a shared artifacts account or a cross-account bucket policy —
-  so each stage promotes the same bytes. Rebuilding per account silently breaks the
-  guarantee. (This immutable, stored artifact is also what makes rollback real in Part 3 —
+  specifically: `sam build` assembles the deployable *once* into `.aws-sam/` — that built
+  directory is the artifact, carried between jobs and keyed by `CI_COMMIT_SHA`. Each
+  environment's `sam deploy` then uploads those **same** bytes and deploys; `CloudFormation`
+  references the code by a **content hash**, so identical bytes are provably the same deploy.
+  `CI_COMMIT_SHA` is how *you* find the artifact; the content hash is how *CloudFormation*
+  knows the bytes didn't change — never re-run `sam build` per environment. **Multi-account
+  note** (how RealManage actually does it): dev/qa/prod are separate AWS accounts, and each
+  has its *own* artifact bucket — every `sam deploy` resolves a bucket in the account it
+  targets (`--resolve-s3` uses a managed bucket per account; some services pin an explicit
+  per-account bucket from SSM), *not* one shared bucket. "Same bytes" doesn't need a shared
+  bucket: build once, then upload that identical artifact into each account's own bucket.
+  What breaks the guarantee is re-running `sam build` per account — not the bucket being
+  per-account. (This immutable, stored artifact is also what makes rollback real in Part 3 —
   "the last good version" is a thing you can redeploy, not a memory of what `main` used to be.)
 
 ---
@@ -530,7 +534,7 @@ count — same convention as Session 2.)*
   [`.gitlab-ci.yml`](../sessions/session-3/examples/.gitlab-ci.yml) in the editor** and locate
   five things: (1) where the **definition of deployable** is enforced (`validate` / `test` /
   `security`); (2) where the **immutable artifact** is built once and how it's promoted
-  (`build:artifact` → `deploy:*` all consuming `${PACKAGED_TEMPLATE}`); (3) where
+  (`build:artifact` builds `.aws-sam/` once → every `deploy:*` reuses it, no rebuild); (3) where
   **releasability is decided** and how it differs from the baseline (the target also auto-promotes
   `deploy:qa` via `needs:` — the baseline still gates qa by hand — leaving only `deploy:prod` `when: manual`); (4) how **OIDC** gives
   each env its own role with no static creds (`.aws_oidc`); (5) where a **smoke test** verifies

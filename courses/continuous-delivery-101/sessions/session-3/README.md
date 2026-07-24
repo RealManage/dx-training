@@ -75,18 +75,17 @@ CD minimum #5: **artifacts are immutable.** Build the Lambda bundle *once*, from
 ```text
                        ┌─ deploy to dev  ─┐
 commit ─→ build ONCE ──┼─ deploy to qa   ─┤  (same artifact, tagged by CI_COMMIT_SHA)
-   (sam build +        └─ deploy to prod ─┘
-    sam package →
-    artifact in S3)
+   (sam build →        └─ deploy to prod ─┘   each deploy uploads it to
+    .aws-sam/ bundle)                          that account's own bucket
 ```
 
-> Two keys, same immutable bytes: `CI_COMMIT_SHA` labels the *pipeline artifact* (the S3 prefix and the GitLab job artifact), while *inside* the packaged template SAM references the code by its own **content hash** (see 4.1 below). The SHA is how *you* find the artifact; the content hash is how *CloudFormation* knows the bytes didn't change.
+> Two keys, same immutable bytes: `CI_COMMIT_SHA` labels the *pipeline artifact* (the built `.aws-sam/` bundle carried between GitLab jobs), while each `sam deploy` uploads that bundle and lets `CloudFormation` reference the code by its own **content hash** (see 4.1 below). The SHA is how *you* find the artifact; the content hash is how *CloudFormation* knows the bytes didn't change.
 
 Why it matters: if you rebuild for prod, you've deployed *something you never tested*. "Works in qa, breaks in prod" is almost always a rebuild or a config-baked-into-build problem. The bytes that passed qa must be the bytes in prod.
 
-For SAM specifically: `sam build` then `sam package` uploads the code to an artifact bucket and emits a packaged template referencing it by a content hash. Each environment's `sam deploy` consumes that **same** packaged template. Walk it in [`examples/violations-api/README.md`](./examples/violations-api/README.md).
+For SAM specifically: `sam build` assembles the deployable **once** into `.aws-sam/`. Each environment's `sam deploy` then uploads those **same** bytes into its own account and deploys — never re-running `sam build`. Walk it in [`examples/violations-api/README.md`](./examples/violations-api/README.md).
 
-> **Multi-account note:** if dev/qa/prod live in *separate AWS accounts* (common at RealManage), "promote the same bytes" requires the artifact bucket to be reachable across accounts — a shared artifacts account whose bucket policy grants each environment's deploy role read access, or one bucket the build writes to and every account can read. Rebuilding per account would silently break the immutability guarantee. Make the bucket cross-account-readable; don't rebuild.
+> **Multi-account note:** at RealManage dev/qa/prod are *separate AWS accounts*, and each has its **own** artifact bucket — the deploy resolves a bucket in the target account (`sam deploy --resolve-s3` uses a managed bucket per account; some services pin an explicit per-account bucket name from SSM), *not* one shared bucket every account reads. "Promote the same bytes" does **not** require a shared bucket: build once, then upload that identical `.aws-sam/` bundle into each account's own bucket. What breaks the immutability guarantee is re-running `sam build` per account — not the bucket being per-account.
 
 #### 4.2 Config travels with the artifact (10 minutes)
 
