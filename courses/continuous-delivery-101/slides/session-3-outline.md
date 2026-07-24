@@ -55,23 +55,32 @@ session, so the close carries course certification, not just homework.
 
 ## Slide 2 — Recap → Connect
 
-- **Message:** Sessions 1–2 earned us an always-deployable trunk; the only thing missing is
-  the automated path that carries any commit to prod — and today most changes still travel
-  that path by hand.
+- **Message:** Sessions 1–2 earned us an always-deployable trunk; what carries it to prod
+  differs by stack — the new cloud-native services ship straight from trunk, while the
+  established .NET apps still route `qa`/`prod` through a weekly release branch (the
+  long-lived branch Session 2 told us to retire).
 - **Visual:** Split panel. Left (small): a compressed recap glyph — the short-lived
   branches merging onto the trunk from Session 2, capped with a small teal "always
-  deployable" tag. Right (the bigger half): a single change trying to reach a `prod` box,
-  its path: `dev` **auto-promotes on green**, then **two manual "click" gates** at `qa` and
-  `prod` (a hand icon at each) — with a large question mark: "how many hands touch a change on
-  its way to prod today?"
-- **On-slide text:** "Trunk is always deployable — now what carries it to prod?" · "Hands
-  between your commit and prod = ?"
+  deployable" tag. Right (the bigger half): **two paths to prod**, one per stack.
+  **New — AWS cloud-native:** `trunk` → `dev` (auto) → `qa` (manual) → `prod` (manual);
+  ships straight from trunk. **Established — .NET on Azure VMs:** `dev` also auto-deploys
+  from trunk, but `qa` and `prod` deploy from a `release/YY.M.W` branch (orange) — `qa`
+  auto on the branch, `prod` manual — annotated *weekly · many commits · cherry-picks*.
+- **On-slide text:** "You have a deployable trunk — what carries it to prod?" (diagram only;
+  the "release branch is the long-lived branch to retire" line is talk track, not on-slide).
 - **Say:** 60-second recap only — don't re-teach Sessions 1–2. Small batches, daily
   integration, flags, CI gates gave us a trunk that is *always deployable*. Then the
-  connect: have each person name, out loud, **how a change reaches prod on their service
-  today — how many manual steps, how many hands.** Our own `iac-baseline` now
-  **auto-promotes `dev`** on green and still gates `qa` and `prod` `when: manual`, so the
-  human clicks are at qa and prod — for weekly-release teams that's the reality this session addresses. Don't fix it yet; surface it so the
+  connect: have each person name, out loud, **how a change reaches prod on their stack
+  today — and notice the two shapes.** New cloud-native services (our `iac-baseline`):
+  straight from trunk — `dev` auto on green, `qa`/`prod` behind manual gates, no extra
+  branch. Established .NET apps (verified against `ciranet-attorney-api`'s shared dotnet
+  ci-template): `dev` also auto-deploys from trunk, but `qa` and `prod` deploy from a
+  `release/YY.M.W` branch **cut weekly by a scheduled job** — `qa` auto on that branch,
+  `prod` a manual rolling wave deploy across the app servers; a week of commits pile in and
+  cherry-picks are routine. **The point:** that release branch is exactly the long-lived
+  branch Session 2 told us to retire — weekly batching and cherry-picks are its cost. (For
+  the older apps a *release manager* owns cutting and curating the weekly release — mention
+  it, but the burden is the branch, not the person.) Don't fix it yet; surface it so the
   "pipeline decides releasability" slide lands on their own process. Name the running
   example once: the **HOA Violations API** — a TypeScript Lambda behind API Gateway that
   records a violation to DynamoDB and publishes a `ViolationRecorded` event to SNS. Every

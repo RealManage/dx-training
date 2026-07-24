@@ -43,49 +43,80 @@
     <!-- ==================================================== 2 · RECAP → CONNECT -->
     <section data-background-gradient="radial-gradient(900px 520px at 50% 4%, #16223f, #0b0e14 62%)">
       <h2>You have a deployable trunk — what carries it to prod?</h2>
-      <svg class="dia" viewBox="0 0 1000 340" style="max-height:340px" role="img"
-           aria-label="On the left, what Sessions 1 and 2 earned: short-lived branches merging onto main, tagged trunk always deployable. On the right, the reality today: a change reaching production auto-promotes to dev on green, then passes two manual click gates at qa and prod — a human still gates qa and prod. The connecting question: how many hands touch a change on its way to prod today?">
-        <line x1="415" y1="40" x2="415" y2="300" stroke="#2a3340" stroke-width="2" stroke-dasharray="2 8"/>
+      <svg class="dia" viewBox="0 0 1000 380" style="max-height:400px" role="img"
+           aria-label="On the left, what Sessions 1 and 2 earned: short-lived branches merging onto main, a trunk that is always deployable. On the right, how a change reaches production today on two stacks. New AWS cloud-native services deploy straight from trunk — dev automatically on green, qa and prod behind manual gates. Established .NET applications on Azure VMs also auto-deploy dev from trunk, but qa and prod are deployed from a separate release branch that is cut weekly, accumulates many commits, and needs frequent cherry-picks — the long-lived branch trunk-based development is meant to retire.">
+        <line x1="415" y1="40" x2="415" y2="345" stroke="#2a3340" stroke-width="2" stroke-dasharray="2 8"/>
 
         <!-- LEFT: what Sessions 1–2 earned -->
         <text x="55" y="52" fill="#9fb2c6" font-size="15" font-weight="700" letter-spacing=".08em">SESSIONS 1–2 EARNED</text>
-        <line x1="60" y1="150" x2="360" y2="150" stroke="#3ed7c4" stroke-width="3"/>
-        <text x="60" y="136" fill="#3ed7c4" font-size="14" font-weight="800">main</text>
+        <line x1="60" y1="175" x2="360" y2="175" stroke="#3ed7c4" stroke-width="3"/>
+        <text x="60" y="161" fill="#3ed7c4" font-size="14" font-weight="800">main</text>
         <g fill="none" stroke="#74a0f2" stroke-width="2.5">
-          <path d="M110 150 C 122 128, 132 120, 145 120 L185 120 C198 120, 208 128, 220 150"/>
-          <path d="M225 150 C 237 128, 247 120, 260 120 L300 120 C313 120, 323 128, 335 150"/>
+          <path d="M110 175 C 122 153, 132 145, 145 145 L185 145 C198 145, 208 153, 220 175"/>
+          <path d="M225 175 C 237 153, 247 145, 260 145 L300 145 C313 145, 323 153, 335 175"/>
         </g>
-        <g fill="#74a0f2"><circle cx="165" cy="120" r="4"/><circle cx="280" cy="120" r="4"/></g>
-        <rect x="110" y="198" width="210" height="42" rx="21" fill="rgba(62,215,196,.1)" stroke="#3ed7c4" stroke-width="2"/>
-        <text x="215" y="224" text-anchor="middle" fill="#3ed7c4" font-size="15" font-weight="800">trunk always deployable</text>
+        <g fill="#74a0f2"><circle cx="165" cy="145" r="4"/><circle cx="280" cy="145" r="4"/></g>
+        <rect x="110" y="223" width="210" height="42" rx="21" fill="rgba(62,215,196,.1)" stroke="#3ed7c4" stroke-width="2"/>
+        <text x="215" y="249" text-anchor="middle" fill="#3ed7c4" font-size="15" font-weight="800">trunk always deployable</text>
+        <text x="215" y="292" text-anchor="middle" fill="#9fb2c6" font-size="12">short-lived branches · integrate daily</text>
 
-        <!-- RIGHT: reaching prod today, by hand -->
+        <!-- RIGHT: reaching prod today, two stacks -->
         <text x="460" y="52" fill="#9fb2c6" font-size="15" font-weight="700" letter-spacing=".08em">TODAY — REACHING PROD</text>
-        <rect x="452" y="122" width="86" height="42" rx="8" fill="#12203b" stroke="#74a0f2" stroke-width="2"/>
-        <text x="495" y="148" text-anchor="middle" fill="#cfe0ff" font-size="13" font-weight="700">a change</text>
-        <line x1="538" y1="143" x2="905" y2="143" stroke="#5a6b80" stroke-width="2.5"/>
-        <!-- dev auto on green; manual gates at qa / prod -->
+
+        <!-- Row 1: new cloud-native — straight from trunk -->
+        <text x="460" y="84" fill="#cfe0ff" font-size="13" font-weight="800">AWS cloud-native</text>
+        <rect x="452" y="106" width="64" height="34" rx="8" fill="#12203b" stroke="#3ed7c4" stroke-width="2"/>
+        <text x="484" y="128" text-anchor="middle" fill="#cfe0ff" font-size="12" font-weight="700">trunk</text>
+        <line x1="516" y1="123" x2="930" y2="123" stroke="#5a6b80" stroke-width="2.5"/>
         <g text-anchor="middle">
-          <rect x="606" y="128" width="7" height="30" rx="2" fill="#3ed7c4"/>
-          <text x="609" y="118" fill="#3ed7c4" font-size="12" font-weight="800">auto ✓</text>
-          <text x="609" y="176" fill="#9fb2c6" font-size="12">dev</text>
-          <rect x="726" y="128" width="7" height="30" rx="2" fill="#f08a52"/>
-          <text x="729" y="118" fill="#f08a52" font-size="12" font-weight="800">manual</text>
-          <text x="729" y="176" fill="#9fb2c6" font-size="12">qa</text>
-          <rect x="846" y="128" width="7" height="30" rx="2" fill="#f08a52"/>
-          <text x="849" y="118" fill="#f08a52" font-size="12" font-weight="800">manual</text>
-          <text x="849" y="176" fill="#9fb2c6" font-size="12">prod</text>
+          <rect x="600" y="110" width="7" height="26" rx="2" fill="#3ed7c4"/>
+          <text x="603" y="102" fill="#3ed7c4" font-size="11" font-weight="800">auto</text>
+          <text x="603" y="154" fill="#9fb2c6" font-size="11">dev</text>
+          <rect x="740" y="110" width="7" height="26" rx="2" fill="#f08a52"/>
+          <text x="743" y="102" fill="#f08a52" font-size="11" font-weight="800">manual</text>
+          <text x="743" y="154" fill="#9fb2c6" font-size="11">qa</text>
+          <rect x="880" y="110" width="7" height="26" rx="2" fill="#f08a52"/>
+          <text x="883" y="102" fill="#f08a52" font-size="11" font-weight="800">manual</text>
+          <text x="883" y="154" fill="#9fb2c6" font-size="11">prod</text>
         </g>
-        <text x="700" y="238" text-anchor="middle" fill="#eef3fa" font-size="20" font-weight="800">How many hands touch a change</text>
-        <text x="700" y="265" text-anchor="middle" fill="#eef3fa" font-size="20" font-weight="800">on its way to prod today?</text>
-        <text x="700" y="296" text-anchor="middle" fill="#f08a52" font-size="14" font-weight="700">dev auto-promotes — a human still gates qa and prod</text>
+
+        <!-- Row 2: established .NET — qa + prod off a weekly release branch -->
+        <text x="460" y="224" fill="#cfe0ff" font-size="13" font-weight="800">.NET on Azure VMs</text>
+        <rect x="452" y="250" width="64" height="34" rx="8" fill="#12203b" stroke="#3ed7c4" stroke-width="2"/>
+        <text x="484" y="272" text-anchor="middle" fill="#cfe0ff" font-size="12" font-weight="700">trunk</text>
+        <!-- dev auto off trunk (same as new) -->
+        <path d="M516 258 C 548 246, 570 240, 598 240" fill="none" stroke="#3ed7c4" stroke-width="2.5"/>
+        <rect x="600" y="228" width="7" height="24" rx="2" fill="#3ed7c4"/>
+        <text x="616" y="239" fill="#3ed7c4" font-size="11" font-weight="800">dev · auto</text>
+        <!-- qa + prod only via the weekly release branch -->
+        <path d="M516 278 C 534 290, 542 300, 558 305" fill="none" stroke="#f08a52" stroke-width="2.5"/>
+        <rect x="560" y="288" width="150" height="34" rx="8" fill="rgba(240,138,82,.12)" stroke="#f08a52" stroke-width="2"/>
+        <text x="635" y="310" text-anchor="middle" fill="#f0a878" font-size="12" font-weight="800">release/YY.M.W</text>
+        <text x="635" y="344" text-anchor="middle" fill="#9fb2c6" font-size="11">weekly · many commits · cherry-picks</text>
+        <line x1="710" y1="305" x2="936" y2="305" stroke="#5a6b80" stroke-width="2.5"/>
+        <g text-anchor="middle">
+          <rect x="792" y="292" width="7" height="26" rx="2" fill="#3ed7c4"/>
+          <text x="795" y="284" fill="#3ed7c4" font-size="11" font-weight="800">auto</text>
+          <text x="795" y="336" fill="#9fb2c6" font-size="11">qa</text>
+          <rect x="892" y="292" width="7" height="26" rx="2" fill="#f08a52"/>
+          <text x="895" y="284" fill="#f08a52" font-size="11" font-weight="800">manual</text>
+          <text x="895" y="336" fill="#9fb2c6" font-size="11">prod</text>
+        </g>
       </svg>
       <aside class="notes">
-        60-second recap only — don't re-teach Sessions 1–2. Small batches, daily integration, flags, CI
+        60-second recap only — don't re-teach Sessions 1–2. Small batches, daily integration, flags and CI
         gates gave us a trunk that is ALWAYS DEPLOYABLE. Then the connect: have each person name, out loud,
-        HOW a change reaches prod on their service today — how many manual steps, how many hands. Our own
-        iac-baseline now auto-promotes dev on green and still gates qa and prod when: manual, so the human
-        clicks are at qa and prod — for weekly-release teams that's the reality this session addresses. Don't fix it yet; surface it so the
+        how a change reaches prod on THEIR stack today — and notice the two shapes.
+        NEW cloud-native services (our iac-baseline): deploy straight from trunk — dev auto on green, qa and
+        prod behind manual gates. No extra branch.
+        ESTABLISHED .NET apps on Azure VMs (verified against ciranet-attorney-api's shared dotnet ci-template):
+        dev ALSO auto-deploys from trunk, BUT qa and prod deploy from a release/YY.M.W branch cut WEEKLY by a
+        scheduled job — qa auto on that branch, prod a manual rolling wave deploy across the app servers. A week
+        of commits pile into it and cherry-picks are routine. (There's also a demo env, omitted here.)
+        THE POINT: that release branch is exactly the long-lived branch Session 2 told us to retire — weekly
+        batching and cherry-picks are its cost. Session 3 is about collapsing to a single path from trunk.
+        Release manager: for the older apps a release manager owns cutting and curating that weekly release —
+        mention it, but it's not the burden; the branch is. Don't fix anything yet; just surface it so the
         "pipeline decides releasability" slide lands on their own process.
         Name the running example once: the HOA VIOLATIONS API — a TypeScript Lambda behind API Gateway that
         records a violation to DynamoDB and publishes a ViolationRecorded event to SNS. Every slide today is
