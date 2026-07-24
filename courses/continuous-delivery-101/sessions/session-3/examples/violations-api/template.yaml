@@ -76,6 +76,16 @@ Resources:
     Properties:
       TopicName: !Sub "${EnvironmentName}-${ServiceName}-violation-events"
 
+  # Explicit log group so the per-env retention in Mappings ACTUALLY applies. Without it,
+  # Lambda auto-creates /aws/lambda/<FunctionName> at "never expire"; matching that
+  # conventional name here makes Lambda adopt this group instead, so retention scales per
+  # environment (7 / 30 / 365) — a production-like difference (CD minimum #7).
+  ViolationsLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${EnvironmentName}-${ServiceName}"
+      RetentionInDays: !FindInMap [EnvConfig, !Ref EnvironmentName, LogRetentionDays]
+
   ViolationsFunction:
     Type: AWS::Serverless::Function
     Properties:
