@@ -359,6 +359,10 @@ count — same convention as Session 2.)*
   prod** — which is exactly what lets you test in qa while the change is already deployed
   *dark* to prod, then flip prod to release. Immutable artifact (#5) + config-with-the-artifact
   (#9) are what make deploy ≠ release mechanically true.
+- **Honest aside (if asked):** this `configuration/{env}.config` + `--parameter-overrides` flow
+  is the `iac-baseline` standard; several live SAM apps (e.g. `meeting-hub`) instead keep per-env
+  values in `samconfig.toml` and deploy with `sam deploy --config-env` — SAM's native mechanism,
+  the same idea in a different file.
 
 ---
 

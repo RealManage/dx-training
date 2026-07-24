@@ -22,6 +22,7 @@ client ──POST /violations──▶ API Gateway ──▶ Lambda ──▶ Dy
 | File | What it teaches |
 | ---- | --------------- |
 | [`template.yaml`](./template.yaml) | SAM/IaC. Per-env **parameters** (config with the artifact), feature-flag env vars, `AutoPublishAlias` + canary `DeploymentPreference` (rollback), SSM publishing — all on `iac-baseline` conventions. |
+| [`configuration/{dev,qa,prod}.config`](./configuration/) | The per-env **parameter values** the deploy job sources and passes to `sam deploy`. Same artifact everywhere; only these differ. Flags on in dev/qa, **dark in prod** — flipping one to `true` is the release. |
 | [`src/handler.ts`](./src/handler.ts) | Pure domain logic + injected I/O + flag gating, so the CI gate is fast and the code ships dark. |
 | [`src/handler.test.ts`](./src/handler.test.ts) | The "definition of deployable" in practice: fast unit tests, no AWS. |
 | [`package.json`](./package.json) | `lint` / `test` / `build` (esbuild) / `validate` (sam) — the verbs the pipeline runs. |
@@ -53,6 +54,13 @@ Why it matters:
 - **Secrets are never baked in.** Config references SSM/Secrets Manager ARNs; the artifact carries no secrets.
 
 Contrast with the anti-pattern: running `sam build` separately in each environment rebuilds the artifact three times, so prod runs something qa never saw.
+
+> **Two config styles at RealManage.** This example follows the `iac-baseline` standard: per-env
+> `configuration/{env}.config` files passed via `--parameter-overrides` — transparent, tool-agnostic,
+> and what the baseline mandates (and its review tooling checks for). Several live SAM apps (e.g.
+> `meeting-hub`) instead keep per-env values in `samconfig.toml` and deploy with `sam deploy
+> --config-env <env>` — SAM's native mechanism, the same idea in a different file. Expect the TOML if
+> you copy a real app; use the config files if you follow the baseline.
 
 ## Recovery hooks built into the template
 
