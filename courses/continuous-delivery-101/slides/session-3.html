@@ -126,7 +126,7 @@
 
     <!-- ============================== 2A · A FLAG IS NOT FREE (Session 2 callback) -->
     <section data-background-gradient="radial-gradient(900px 520px at 50% 4%, #16223f, #0b0e14 62%)">
-      <h2>A flag is not free — reach for the cheapest mechanism first</h2>
+      <h2>Flags aren't free</h2>
       <div class="contrast below-title">
         <div class="contrast-col good">
           <h3>Default: no flag</h3>
@@ -141,6 +141,7 @@
           <h3>A flag earns its keep when</h3>
           <ul>
             <li>Gradual rollout or test-in-prod → <b>dark launch</b></li>
+            <li>Testing in <b>qa</b> → keeps the path to prod unblocked</li>
             <li>Different behavior <b>per customer</b></li>
             <li>An <b>experiment</b> — A/B test</li>
             <li>Cross-team / cross-service <b>coordination</b></li>
@@ -148,17 +149,19 @@
         </div>
       </div>
       <div class="caption">
-        <span><b>Flags aren't free</b> — they double the test burden and nest into combinatorial state; a Release toggle no one removes is <span class="t-orange">flag debt</span>.</span>
         <span class="muted" style="font-family:var(--cd-mono)">full decision tree → beyond.minimumcd.org/docs/migrate-to-cd/optimize/feature-flags</span>
       </div>
       <aside class="notes">
         Callback to the Session 2 decision — flag / branch-by-abstraction / ship. You CAN merge dark behind
         a flag, but reach for it last, not first. A flag is code and config you carry in every environment
-        until you remove it — and most teams never do. Cheaper mechanisms keep the trunk deployable without
+        until you remove it — and most teams never do: a flag roughly doubles the test burden, flags nest into
+        combinatorial state, and a Release toggle no one removes is flag debt. Cheaper mechanisms keep the trunk deployable without
         that tax: branch by abstraction for a behavior change; the keystone pattern for a brand-new feature
         — merge it daily but reachable only from its own tests, then wire in the real entry point as the
         last commit; build a new route and expose it last; for a bug fix, just deploy. Reserve the flag for genuine
-        gradual rollout, test-in-prod, per-customer behavior, an experiment, or cross-team coordination.
+        gradual rollout, test-in-prod, per-customer behavior, an experiment, cross-team coordination, or to
+        test a change in a shared qa without blocking the path to prod — merge it dark, so held-back work never
+        stalls a prod fix.
         Full decision tree is the beyond.minimumCD link on the slide. Note the tension with later today:
         when a flag IS warranted, it's also your fastest recovery lever — flip it off, no deploy. Powerful,
         but not free.

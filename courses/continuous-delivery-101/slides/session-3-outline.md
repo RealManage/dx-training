@@ -88,7 +88,7 @@ session, so the close carries course certification, not just homework.
 
 ---
 
-## Slide 2A — A flag is not free (Session 2 callback)
+## Slide 2A — Flags aren't free (Session 2 callback)
 
 - **Message:** You *can* merge unfinished work behind a flag (Session 2) — but a flag is
   complexity you carry in every environment until you remove it. Default to the cheapest
@@ -97,10 +97,10 @@ session, so the close carries course certification, not just homework.
   — **Default: no flag:** behavior change → branch by abstraction; new feature, nothing
   calls it yet → keystone (merge daily, reachable only from tests, wire the entry point in
   last); new API route → build it, expose it last; bug fix → just deploy. Right, orange — **A flag earns its keep when:** gradual rollout / test-in-prod
-  (dark launch) · per-customer behavior · experiment (A/B) · cross-team coordination. Caption
-  strip: flags double the test burden and nest into combinatorial state; unremoved Release
-  toggle = flag debt. Pointer: full decision tree → beyond.minimumcd.org/…/feature-flags.
-- **On-slide text:** the two columns + the cost caption + the decision-tree URL.
+  (dark launch) · testing in qa without blocking the path to prod · per-customer behavior ·
+  experiment (A/B) · cross-team coordination. Pointer:
+  full decision tree → beyond.minimumcd.org/…/feature-flags.
+- **On-slide text:** the two columns + the decision-tree URL.
 - **Say:** Callback to the Session 2 flag / branch-by-abstraction / ship decision — the
   beyond.minimumCD tree just formalizes it. Reach for a flag *last*, not first. Note the
   tension with later today: when a flag *is* warranted, it's also the fastest recovery lever
