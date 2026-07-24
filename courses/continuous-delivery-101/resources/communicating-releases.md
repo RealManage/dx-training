@@ -124,26 +124,25 @@ align it to what users actually experienced.
 - **Announce on the flag flip, not the deploy.** Tell people when it's actually on
   for the audience you're telling.
 
-## The release manager's role, evolved
+## Who owns release communication? (an open question)
 
-Worth saying plainly: the **pipeline** already performs the deploy. Today our release
-manager presses its release button on a weekly schedule; under CD that *same* button is
-pressed on demand instead. The mechanism doesn't change — the *cadence* does, and deploy
-decouples from the user-facing release (the flag flip). That isn't the role disappearing —
-it's the role moving up to the work that actually needs judgment:
+Worth saying plainly: the **pipeline** performs the deploy, and in the target state there is
+**no central release manager** pressing a weekly button. But the *communication* work doesn't
+vanish with that role — and it still needs an owner:
 
-- **Owning the release-communication data source** — the flag inventory, the
-  `customer-facing` discipline, the curated changelog.
-- **Governing flag flips** — coordinating *which* features go live *when* and *to
-  whom*: the release-timing decisions CD makes routine but not automatic. (This is
-  where release management meets governance.)
-- **Customer and support communication** — the human, audience-facing work no
-  pipeline can do.
+- **The release-communication data source** — the flag inventory, the `customer-facing`
+  discipline, the curated changelog.
+- **Which features go live, when, and to whom** — the release-timing judgment CD makes
+  routine but not automatic. (This is where release management meets governance.)
+- **Customer and support communication** — the human, audience-facing work no pipeline can do.
 
-Pressing the release button was never the hard part, and it doesn't go away. What changes
-is that releasing stops being a weekly ritual to gatekeep and becomes routine and on-demand,
-decoupled from the flag flip. CD leaves the judgment: which features go live, when, to whom,
-and how it's communicated.
+*Who* owns that work is an open **organizational** decision — not one this course settles, and
+bigger than any single team. The leading candidate is that **each product manager owns
+communicating their own product's releases**, mirroring who owns the release decision itself.
+An org might instead centralize the curation, automate the client digest from the
+`customer-facing` declarations, or split the internal and external halves. Whatever you choose,
+decide it deliberately and **name the owner** — the failure mode is assuming a release manager
+still quietly does it when that role no longer exists.
 
 ## Putting it in the migration
 
@@ -154,7 +153,7 @@ team stops doing a single weekly deploy. Before you call it done:
 - [ ] Release notes are generated from user-facing releases (flag flips), not the deploy log
 - [ ] A flag inventory exists, with flip dates, and support can see it
 - [ ] The client-communication cadence is an explicit, agreed decision
-- [ ] The release manager's evolved role (comms + flag governance) is named and owned
+- [ ] Release-communication ownership is explicitly decided and named (leading candidate: each PM owns their product's release comms)
 
 ## Related
 

@@ -263,18 +263,25 @@ count — same convention as Session 2.)*
   with two different owners — and it's the *release*, not the deploy, that you communicate.
 - **Visual:** One timeline, two clearly separated events (echo Session 2's deploy≠release
   timeline, now with owners attached). **Deploy** — code reaches prod, flag OFF, padlock —
-  tagged *"engineering authorization · Eng Lead."* Later, **Release** — the flag flip, eye
-  opens — tagged *"business decision · release-manager."* A small envelope on the *release*
+  tagged *"an engineering verdict · the pipeline decides."* Later, **Release** — the flag flip,
+  eye opens — tagged *"business decision · product manager."* A small envelope on the *release*
   event: "the client email is built from *this*, not the deploy log."
-- **On-slide text:** "Deploy = timing (engineering) · Release = the flag flip (business)" ·
-  "announce the release, not the deploy"
+- **On-slide text:** "Deploy = an engineering verdict (the pipeline decides) · Release = the
+  flag flip (business · product manager)" · "announce the release, not the deploy"
 - **Say:** Session 2 taught deploy ≠ release; here's what it does to *ownership and
-  communication*. The prod **deploy** gate (if you keep one) is an **engineering
-  authorization** — owned by the Engineering Lead: is this safe to put in prod now. The
-  **release** — the flag flip users actually feel — is a separate decision about *which*
-  feature goes live *when* and *to whom*, owned by whoever runs release comms and flag
-  governance (our evolved **release-manager** role), with the business. Two decisions, two
-  owners, often two different days. And it moves *communication*: you announce the
+  communication*. **Keep it consistent with the last slide:** the **deploy** verdict is the
+  **pipeline's** — green means deployable, and the pipeline performs the deploy under a scoped
+  role; no individual signs off each deploy. Engineers are still very much in control — but
+  *upstream*, at **code review / MR approval**, the human gate that precedes the pipeline
+  (segregation of duties). What the Engineering Lead owns under CD is **designing the controls
+  the pipeline enforces**, not approving each deploy. (If a prod gate remains, it's a *timing*
+  control, not a readiness re-judgment — see the previous slide.) So the human **authorization**
+  that used to sit at the deploy **moves to the release** — the flag flip users actually feel —
+  a separate decision about *which* feature goes live *when* and *to whom*, owned by the
+  **product manager** for that product, with the business. In the target state there is **no
+  central release manager** — each PM owns the release of their *own* products; deploy ≠ release
+  is what makes that ownership per-product. Two decisions, two owners — the pipeline and the
+  product manager — often two different days. And it moves *communication*: you announce the
   **release**, not the deploy — the weekly client email doesn't die, it gets **rebuilt from
   user-facing releases instead of the deploy log.** That's why the target pipeline runs one
   merge-request-time job, `release-impact-label`, that forces every change to declare

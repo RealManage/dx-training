@@ -448,7 +448,7 @@
     <section data-background-color="#0b0e14">
       <h2>Two decisions, two owners — communicate the <em>release</em></h2>
       <svg class="dia" viewBox="0 0 1000 300" style="max-height:300px" role="img"
-           aria-label="One timeline with two separate events. Deploy: code reaches production with the flag off, a padlock — an engineering authorization owned by the Engineering Lead. Later, Release: the flag flips on — a business decision owned by the release-manager. The client email is built from the release, not the deploy log.">
+           aria-label="One timeline with two separate events. Deploy: code reaches production with the flag off, a padlock — an engineering verdict the pipeline decides (green means deployable). Later, Release: the flag flips on — a business decision owned by the product manager for that product. The client email is built from the release, not the deploy log.">
         <line x1="70" y1="150" x2="930" y2="150" stroke="#5a6b80" stroke-width="3"/>
         <text x="70" y="284" fill="#9fb2c6" font-size="14">time →</text>
 
@@ -461,8 +461,8 @@
         </g>
         <text x="290" y="190" text-anchor="middle" fill="#a9c4f7" font-size="17" font-weight="800">Deploy</text>
         <text x="290" y="212" text-anchor="middle" fill="#9fb2c6" font-size="13">code in prod · flag OFF</text>
-        <text x="290" y="234" text-anchor="middle" fill="#74a0f2" font-size="13" font-weight="700">engineering authorization</text>
-        <text x="290" y="252" text-anchor="middle" fill="#7d8fa1" font-size="12" font-style="italic">Engineering Lead</text>
+        <text x="290" y="234" text-anchor="middle" fill="#74a0f2" font-size="13" font-weight="700">an engineering verdict</text>
+        <text x="290" y="252" text-anchor="middle" fill="#7d8fa1" font-size="12" font-style="italic">the pipeline decides</text>
 
         <!-- gap -->
         <rect x="306" y="132" width="368" height="36" rx="8" fill="rgba(62,215,196,.06)" stroke="rgba(62,215,196,.35)" stroke-dasharray="4 6"/>
@@ -478,23 +478,30 @@
         <text x="690" y="190" text-anchor="middle" fill="#3ed7c4" font-size="17" font-weight="800">Release</text>
         <text x="690" y="212" text-anchor="middle" fill="#9fb2c6" font-size="13">flip the flag · users see it</text>
         <text x="690" y="234" text-anchor="middle" fill="#3ed7c4" font-size="13" font-weight="700">business decision</text>
-        <text x="690" y="252" text-anchor="middle" fill="#7d8fa1" font-size="12" font-style="italic">release-manager</text>
+        <text x="690" y="252" text-anchor="middle" fill="#7d8fa1" font-size="12" font-style="italic">product manager</text>
 
         <!-- envelope: comms from the release -->
-        <g transform="translate(772,116)">
-          <rect x="0" y="0" width="150" height="40" rx="6" fill="#101826" stroke="#3ed7c4" stroke-width="1.6"/>
-          <path d="M0 4 L75 30 L150 4" fill="none" stroke="#3ed7c4" stroke-width="1.6"/>
+        <g transform="translate(799,94)">
+          <rect x="0" y="0" width="96" height="60" rx="6" fill="#101826" stroke="#3ed7c4" stroke-width="1.6"/>
+          <path d="M0 6 L48 34 L96 6" fill="none" stroke="#3ed7c4" stroke-width="1.6"/>
         </g>
         <text x="847" y="176" text-anchor="middle" fill="#8fd8ce" font-size="11.5">client email built from</text>
         <text x="847" y="192" text-anchor="middle" fill="#8fd8ce" font-size="11.5">releases, not the deploy log</text>
       </svg>
       <aside class="notes">
-        Session 2 taught deploy ≠ release; here's what it does to OWNERSHIP and COMMUNICATION. The prod
-        DEPLOY gate (if you keep one) is an ENGINEERING AUTHORIZATION — owned by the Engineering Lead: is
-        this safe to put in prod now. The RELEASE — the flag flip users actually feel — is a separate
-        decision about WHICH feature goes live WHEN and to WHOM, owned by whoever runs release comms and
-        flag governance (our evolved RELEASE-MANAGER role), with the business. Two decisions, two owners,
-        often two different days.
+        Session 2 taught deploy ≠ release; here's what it does to OWNERSHIP and COMMUNICATION. Keep it
+        consistent with the last slide: the DEPLOY verdict is the PIPELINE's — green means deployable, and
+        the pipeline performs the deploy under a scoped role; no individual signs off each deploy. Engineers
+        are still very much in control — but UPSTREAM, at CODE REVIEW / MR approval, the human gate that
+        precedes the pipeline (segregation of duties). What the Engineering Lead owns under CD is DESIGNING
+        the controls the pipeline enforces, not approving each deploy. (If a prod gate remains, it's a
+        TIMING control, not a readiness re-judgment — see the previous slide.) So the human AUTHORIZATION
+        that used to sit at the deploy MOVES to the RELEASE — the flag flip users actually feel — a
+        separate, logged decision about WHICH feature goes live WHEN and to WHOM, owned by the PRODUCT
+        MANAGER for that product, with the business. In the target state there is NO central release
+        manager — each PM owns the release of their OWN products; deploy ≠ release is what makes that
+        ownership per-product. Two decisions, two owners — the pipeline and the product manager — often two
+        different days.
         And it moves COMMUNICATION: you announce the RELEASE, not the deploy — the weekly client email
         doesn't die, it gets REBUILT FROM USER-FACING RELEASES instead of the deploy log. That's why the
         target pipeline runs one merge-request-time job, release-impact-label, that forces every change to
