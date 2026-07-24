@@ -150,7 +150,7 @@ Don't declare the migration "done" (Phase 4) until communication is re-establish
 on the new footing — otherwise the weekly email quietly breaks the first week the
 team stops doing a single weekly deploy. Before you call it done:
 
-- [ ] Release notes are generated from user-facing releases (flag flips), not the deploy log
+- [ ] Release notes are generated from user-facing releases (flag flips), not weekly release-number tags
 - [ ] A flag inventory exists, with flip dates, and support can see it
 - [ ] The client-communication cadence is an explicit, agreed decision
 - [ ] Release-communication ownership is explicitly decided and named (leading candidate: each PM owns their product's release comms)

@@ -448,7 +448,7 @@
     <section data-background-color="#0b0e14">
       <h2>Two decisions, two owners — communicate the <em>release</em></h2>
       <svg class="dia" viewBox="0 0 1000 300" style="max-height:300px" role="img"
-           aria-label="One timeline with two separate events. Deploy: code reaches production with the flag off, a padlock — an engineering verdict the pipeline decides (green means deployable). Later, Release: the flag flips on — a business decision owned by the product manager for that product. The client email is built from the release, not the deploy log.">
+           aria-label="One timeline with two separate events. Deploy: code reaches production with the flag off, a padlock — an engineering verdict the pipeline decides (green means deployable). Later, Release: the flag flips on — a business decision owned by the product manager for that product. The client email is built from the user-facing release (the flag flip), not from weekly release-number tags.">
         <line x1="70" y1="150" x2="930" y2="150" stroke="#5a6b80" stroke-width="3"/>
         <text x="70" y="284" fill="#9fb2c6" font-size="14">time →</text>
 
@@ -486,7 +486,7 @@
           <path d="M0 6 L48 34 L96 6" fill="none" stroke="#3ed7c4" stroke-width="1.6"/>
         </g>
         <text x="847" y="176" text-anchor="middle" fill="#8fd8ce" font-size="11.5">client email built from</text>
-        <text x="847" y="192" text-anchor="middle" fill="#8fd8ce" font-size="11.5">releases, not the deploy log</text>
+        <text x="847" y="192" text-anchor="middle" fill="#8fd8ce" font-size="11.5">flag flips, not release numbers</text>
       </svg>
       <aside class="notes">
         Session 2 taught deploy ≠ release; here's what it does to OWNERSHIP and COMMUNICATION. Keep it
@@ -503,7 +503,7 @@
         ownership per-product. Two decisions, two owners — the pipeline and the product manager — often two
         different days.
         And it moves COMMUNICATION: you announce the RELEASE, not the deploy — the weekly client email
-        doesn't die, it gets REBUILT FROM USER-FACING RELEASES instead of the deploy log. That's why the
+        doesn't die, it gets REBUILT FROM USER-FACING RELEASES instead of from the weekly release-number tagging it uses today. That's why the
         target pipeline runs one merge-request-time job, release-impact-label, that forces every change to
         declare customer-facing (with a note) or no-user-impact before merge — so release notes have a
         reliable source. Pointer: resources/communicating-releases.md.

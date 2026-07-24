@@ -265,7 +265,7 @@ count — same convention as Session 2.)*
   timeline, now with owners attached). **Deploy** — code reaches prod, flag OFF, padlock —
   tagged *"an engineering verdict · the pipeline decides."* Later, **Release** — the flag flip,
   eye opens — tagged *"business decision · product manager."* A small envelope on the *release*
-  event: "the client email is built from *this*, not the deploy log."
+  event: "the client email is built from *this*, not weekly release-number tags."
 - **On-slide text:** "Deploy = an engineering verdict (the pipeline decides) · Release = the
   flag flip (business · product manager)" · "announce the release, not the deploy"
 - **Say:** Session 2 taught deploy ≠ release; here's what it does to *ownership and
@@ -283,7 +283,8 @@ count — same convention as Session 2.)*
   is what makes that ownership per-product. Two decisions, two owners — the pipeline and the
   product manager — often two different days. And it moves *communication*: you announce the
   **release**, not the deploy — the weekly client email doesn't die, it gets **rebuilt from
-  user-facing releases instead of the deploy log.** That's why the target pipeline runs one
+  user-facing releases (flag flips) instead of the weekly release-number tags it uses today.**
+  That's why the target pipeline runs one
   merge-request-time job, `release-impact-label`, that forces every change to declare
   `customer-facing` (with a note) or `no-user-impact` before merge — so release notes have a
   reliable source. Pointer: `resources/communicating-releases.md`.
