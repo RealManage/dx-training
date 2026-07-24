@@ -4,6 +4,8 @@
 **Format:** Interactive workshop + hands-on pipeline reading
 **Prerequisites:** Sessions 1–2; your decomposed feature and current-state assessment
 
+> 🖥️ **Presenting?** Open the [Session 3 slide deck](../../slides/session-3.html) — press `S` for speaker notes. The deck is built from [`slides/session-3-outline.md`](../../slides/session-3-outline.md).
+
 ## 🎯 Learning Objectives
 
 By the end of this session, participants will be able to:
