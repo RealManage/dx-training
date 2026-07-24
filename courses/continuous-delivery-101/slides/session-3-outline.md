@@ -514,8 +514,8 @@ count — same convention as Session 2.)*
   is fixed by a new *forward* script plus expand/contract, **never a hand-edit on a shared
   database** — the exact analog of fail-forward for code. The end-state we're driving toward:
   schema and baseline data change *only* through automation, local databases as the
-  playground, no standing human DDL on shared environments — and **DX owns that path**; here
-  we just make the mechanism concrete. Worked end to end in the DbUp example (C# on purpose —
+  playground, no standing human DDL on shared environments — a path DX is helping lay the
+  groundwork for; here we just make the mechanism concrete. Worked end to end in the DbUp example (C# on purpose —
   the schema estate lives in .NET; one of the course's two deliberate non-TypeScript
   examples). Pointer: `resources/database-delivery.md`.
 

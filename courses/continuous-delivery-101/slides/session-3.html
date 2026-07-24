@@ -924,7 +924,6 @@
       </svg>
       <div class="caption">
         <span>Worked end-to-end with <b>DbUp</b> — a deliberate C#/.NET example (the schema estate lives in .NET)</span>
-        <span class="muted">the end-state — automation-only schema, no standing DDL — is owned by <b>DX</b></span>
       </div>
       <aside class="notes">
         Time-permitting bonus — the database is not a special case. The PIPELINE IS THE ONLY WAY to change a
@@ -933,8 +932,8 @@
         FORWARD-ONLY: a bad migration is fixed by a new FORWARD script plus expand/contract, NEVER a hand-edit
         on a shared database — the exact analog of fail-forward for code.
         The end-state we're driving toward: schema and baseline data change ONLY through automation, local
-        databases as the playground, no standing human DDL on shared environments — and DX OWNS THAT PATH;
-        here we just make the mechanism concrete. Worked end to end in the DbUp example (C# on purpose — the
+        databases as the playground, no standing human DDL on shared environments — a path DX is helping lay
+        the groundwork for; here we just make the mechanism concrete. Worked end to end in the DbUp example (C# on purpose — the
         schema estate lives in .NET; one of the course's two deliberate non-TypeScript examples). Pointer:
         resources/database-delivery.md.
       </aside>

@@ -126,7 +126,7 @@ Read [`examples/rollback-on-aws.md`](./examples/rollback-on-aws.md) for the deci
 
 #### 5.3 The database is no exception (bonus)
 
-Everything in this session applies to schema. The pipeline is the **only** way to change a shared database; the migration runner is an **immutable artifact** built once and promoted (the *same* scripts run against dev → qa → prod, varying only the connection string); and recovery is **forward-only** — a bad migration is fixed by a new forward script (fail forward) plus expand/contract, never a hand-edit on a shared database. The end-state we are driving toward: schema and baseline data change only through automation, with local databases as the playground and no standing human DDL access. **DX owns that path**; here we make the mechanism concrete.
+Everything in this session applies to schema. The pipeline is the **only** way to change a shared database; the migration runner is an **immutable artifact** built once and promoted (the *same* scripts run against dev → qa → prod, varying only the connection string); and recovery is **forward-only** — a bad migration is fixed by a new forward script (fail forward) plus expand/contract, never a hand-edit on a shared database. The end-state we are driving toward: schema and baseline data change only through automation, with local databases as the playground and no standing human DDL access. DX is helping lay the groundwork for that path; here we make the mechanism concrete.
 
 Worked end to end in [Database Migrations (DbUp)](./examples/db-migrations/README.md); the principles, drift, and cross-database tactics are in [Database Delivery](../../resources/database-delivery.md).
 
