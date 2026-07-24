@@ -135,6 +135,31 @@ session, so the close carries course certification, not just homework.
 
 ---
 
+## Slide 2C — Continuous Delivery Minimum Practices (the floor)
+
+- **Message:** The nine CD minimums are the floor this session makes real — the bar CD either
+  clears or it doesn't. Minimum #1 is "use Continuous Integration," so Session 2 was the
+  foundation; the other eight are what the pipeline delivers today. This is the map into Part 1,
+  mirroring the CI-minimums slide Session 2 ended on.
+- **Visual:** Nine indigo `tile cd` tiles in a 3×3 grid (`tiles even3`) on the floor/slab
+  motif reused from Sessions 1–2, matching the CI-minimums slide's layout: Use CI ·
+  Pipeline-only deploys · Pipeline verdict is final · Meets "deployable" · Immutable
+  artifacts · Stop on red · Prod-like test env · Rollback on demand · Config ships with
+  artifact. Caption: **Continuous Delivery = 9 practices** — the floor that makes "deploy any
+  change, any day" real; pointer → `resources/minimums-reference.md`.
+- **On-slide text:** the nine tiles + caption + reference pointer.
+- **Say:** Don't read all nine aloud — let them land as a *floor*, and every slide today makes
+  one concrete. They build on CI: #1 is literally "use CI," so Session 2 wasn't a separate
+  topic, it was the foundation. The other eight are today: pipeline is the *only* way to deploy
+  (#2) and its verdict is *final* (#3); artifacts meet an automated definition of "deployable"
+  (#4), are *immutable* after commit (#5), and carry their own *config* (#9); a red deployment
+  pipeline *stops the line* (#6); a *prod-like* test env (#7) is what lets a green `qa` mean
+  something; *rollback* is on demand (#8). Same source as Sessions 1–2 (minimumcd.org). Point
+  back here whenever a later slide lands — "that was #5," "that was #7." This is the map, not
+  the territory — then straight into Part 1.
+
+---
+
 ## Divider — Part 1 of 3: The Single Path & Its Verdict
 
 *(README agenda §2–§3. The three teaching blocks are numbered 1–3 for the audience; Review

@@ -228,7 +228,43 @@
         batches, stop-the-line when the build is red (CI minimum #5), new work doesn't break delivered work
         (#6), and a trunk you keep deployable at ALL times — not for tidiness, but because the day you need
         to ship in a hurry is the day you can't afford a red trunk. This is exactly what today's single-path
-        pipeline is built to protect. Then move to Part 1.
+        pipeline is built to protect. Then move to the CD-minimums floor, which frames Part 1.
+      </aside>
+    </section>
+
+    <!-- ============================== 2C · CONTINUOUS DELIVERY MINIMUM PRACTICES (the floor) -->
+    <section data-background-color="#0b0e14">
+      <h2>Continuous Delivery Minimum Practices</h2>
+      <div class="floor below-title">
+        <div class="floor-group">
+          <div class="tiles even3">
+            <span class="tile cd">Use CI</span>
+            <span class="tile cd">Pipeline-only deploys</span>
+            <span class="tile cd">Pipeline verdict is final</span>
+            <span class="tile cd">Meets &ldquo;deployable&rdquo;</span>
+            <span class="tile cd">Immutable artifacts</span>
+            <span class="tile cd">Stop on red</span>
+            <span class="tile cd">Prod-like test env</span>
+            <span class="tile cd">Rollback on demand</span>
+            <span class="tile cd">Config ships with artifact</span>
+          </div>
+        </div>
+        <div class="slab"></div>
+      </div>
+      <div class="caption">
+        <span><b class="t-indigo">Continuous Delivery = 9 practices</b> — the floor that makes &ldquo;deploy any change, any day&rdquo; real</span>
+        <span class="cd-mini">full list → resources/minimums-reference.md</span>
+      </div>
+      <aside class="notes">
+        Don't read all nine aloud — let them land as a FLOOR: the bar CD either clears or it doesn't, and every
+        slide in this session makes one of them concrete. They build ON CI — minimum #1 is literally "use CI," so
+        Session 2 wasn't a separate topic, it was the foundation this session stands on. The other eight are what
+        today makes real: the pipeline is the ONLY way to deploy (#2) and its green/red verdict is FINAL (#3);
+        artifacts meet an automated definition of "deployable" (#4), are IMMUTABLE after commit (#5), and carry
+        their own CONFIG (#9); a red deployment pipeline STOPS THE LINE (#6); a PROD-LIKE test environment (#7) is
+        what lets a green qa mean something; and ROLLBACK is available ON DEMAND (#8). Same source as Sessions 1 and
+        2 — minimumcd.org — full list in resources/minimums-reference.md. Point back here whenever a later slide
+        lands: "that was #5," "that was #7." This is the map, not the territory — then straight into Part 1.
       </aside>
     </section>
 
