@@ -101,6 +101,8 @@ The artifact is identical across environments; only the *config applied at deplo
 
 CD minimum #7: validate in something that resembles prod. Our `qa` environment mirrors `prod`'s shape via `configuration/qa.config` — same resource types, same topology, smaller scale. The closer qa is to prod, the more a green qa *means* something.
 
+Shape is the easy half, though; matching prod-like **data** (volume, distributions, edge cases) is the harder one — make qa's data *representative* as code (hermetic fixtures, a curated edge-case corpus, synthetic volume), never copied from prod, and close the residual gap in prod with canary and flags. See [Database Delivery → Production-like data](../../resources/database-delivery.md#production-like-data-the-harder-half-of-7).
+
 #### 5.2 Recovery: fail forward first, roll back when it's costly (15 minutes)
 
 The whole point of the pipeline is that shipping a change is now small, fast, and safe. That changes the *default* response to a production problem:

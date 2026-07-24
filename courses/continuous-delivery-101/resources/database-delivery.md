@@ -11,7 +11,7 @@ The database is usually *the* reason small batches feel impossible. This guide t
 
 - **#2 — the pipeline is the only way to deploy.** Schema changes run from the pipeline, not a laptop. No human holds DDL rights on a shared database.
 - **#5 — immutable artifacts.** The migration runner is built once and promoted; the *same* scripts run against every environment.
-- **#7 — a production-like test environment.** Migrations prove out against a real database (a local one, then `qa`) before `prod` sees them — production-like in engine and schema, though matching production *data* is a separate, harder problem.
+- **#7 — a production-like test environment.** Migrations prove out against a real database (a local one, then `qa`) before `prod` sees them — production-like in engine and schema, though matching production *data* is a separate, harder problem — see [Production-like data](#production-like-data-the-harder-half-of-7) below.
 - **#9 — config travels with the artifact.** The only thing that changes between environments is the connection string, supplied at deploy time — never baked in, never typed by hand.
 
 ## The mechanism: migrations as code
@@ -52,6 +52,20 @@ Our estate is one large database plus smaller ones that hold references across t
 ## Baseline (reference) data
 
 Reference data — status codes, lookup tables, seed rows — is delivered exactly like schema: versioned scripts, run by the same runner. Write them **idempotently** (`MERGE` or `IF NOT EXISTS`) so the same script converges to the same rows whether the table is empty or already seeded. That is what makes re-running a deployment safe for data as well as structure. When a reference-data change alters what users see, treat the flip as a release and communicate it — see [communicating releases](communicating-releases.md).
+
+## Production-like data (the harder half of #7)
+
+Matching prod's *shape* — engine, schema, topology — is the easy half of a production-like environment. Matching prod's *data* — volume, distributions, and awkward edge cases — is the harder one, and it is where "passed qa, broke in prod" most often hides. **Copying raw production data down is the anti-pattern:** it drags PII into a lower-trust environment, inflates cost, and widens blast radius. With no separate QA team, the answer has to be team-owned and automatable, not a data-ops handoff.
+
+Make qa's data *representative*, as code:
+
+- **Hermetic per-test fixtures.** Each automated test arranges the exact rows it needs and asserts against them — deterministic and isolated, with no shared-state coupling. This is where correctness lives.
+- **A curated edge-case corpus.** Keep the rows that have actually bitten you — the unexpected null, the multi-byte name, last quarter's incident row — as versioned fixtures shipped through the pipeline like reference data. It is regression memory that grows every time prod surprises you.
+- **Synthetic volume where it matters.** For load and query-plan realism, generate prod-scale data rather than hand-writing it; distributions are only as good as the generator, so tune it against what you know of prod.
+
+You will never make qa fully prod-like — only prod has prod's data. **Close the residual gap in prod, safely:** canary + feature flags + observability + fast rollback let a change meet real data behind a limited, watched exposure before it is released to everyone (see [rollback and recovery on AWS](../sessions/session-3/examples/rollback-on-aws.md)). So production-like data is two moves, not one: make qa *representative*, and let progressive delivery cover what only prod can show.
+
+> Where compliance allows and the org invests, a **masked/anonymized production subset** refreshed into `qa` can add realism — but treat masking correctness and referential integrity as first-class work, and layer it on top of representative fixtures, never as a substitute.
 
 ## Reversibility and recovery
 

@@ -418,15 +418,21 @@ count — same convention as Session 2.)*
   resource types and topology** (Lambda + API Gateway + DynamoDB + SNS), drawn identically,
   with qa visibly *smaller scale* (thinner, shorter log-retention tag: `qa 30d` vs `prod
   365d`). A dial between them: "how prod-like? = how much a green qa means."
-- **On-slide text:** "qa mirrors prod's shape, at smaller scale" · "the closer it is, the
-  more green means"
+- **On-slide text:** "qa mirrors prod's shape, at smaller scale" · "shape is the easy half —
+  prod-like **data** is the harder one"
 - **Say:** Keep this short — it's a 5-minute beat. Our `qa` mirrors `prod`'s *shape* via
   `configuration/qa.config`: same resource types, same topology, smaller scale (you saw it
   in the template's `Mappings` — log retention 7 / 30 / 365 days for dev / qa / prod). The
   principle is simple and unforgiving: **the closer qa is to prod, the more a green qa
   *means* something.** Divergence between qa and prod is exactly where "passed qa, broke in
   prod" is born — and it's the other half of the same guarantee as build-once: same bytes,
-  prod-like shape.
+  prod-like shape. But shape is only the easy half — the harder half, and our biggest stumbling
+  block, is **data**: qa's volume, distributions, and edge cases rarely match prod's, and
+  copying real prod data down is the anti-pattern (PII, cost, blast radius). Make qa's data
+  *representative* as code — hermetic per-test fixtures, a curated edge-case corpus (the rows
+  that have bitten you, versioned and shipped like reference data), synthetic volume where perf
+  matters — then close the residual gap *in prod* with canary + flags + observability. Full
+  playbook: [database-delivery → production-like data](../resources/database-delivery.md#production-like-data-the-harder-half-of-7).
 
 ---
 

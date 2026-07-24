@@ -758,15 +758,22 @@
       </svg>
       <div class="caption">
         <span><b class="t-teal">The closer qa is to prod, the more a green qa means.</b></span>
-        <span class="muted">divergence is where "passed qa, broke in prod" is born</span>
+        <span class="muted">shape is the easy half — matching prod-like <b>data</b> is the harder one</span>
       </div>
       <aside class="notes">
-        Keep this short — it's a 5-minute beat. Our qa mirrors prod's SHAPE via configuration/qa.config: same
-        resource types, same topology, smaller scale (you saw it in the template's Mappings — log retention
-        7 / 30 / 365 days for dev / qa / prod). The principle is simple and unforgiving: THE CLOSER QA IS TO
-        PROD, THE MORE A GREEN QA MEANS SOMETHING. Divergence between qa and prod is exactly where "passed qa,
-        broke in prod" is born — and it's the other half of the same guarantee as build-once: same bytes,
-        prod-like shape.
+        The shape half is a quick beat; the data half below is the one worth your time. Our qa mirrors prod's
+        SHAPE via configuration/qa.config: same resource types, same topology, smaller scale (you saw it in the
+        template's Mappings — log retention 7 / 30 / 365 days for dev / qa / prod). The principle is simple and
+        unforgiving: THE CLOSER QA IS TO PROD, THE MORE A GREEN QA MEANS SOMETHING. Divergence between qa and
+        prod is exactly where "passed qa, broke in prod" is born — the other half of the same guarantee as
+        build-once: same bytes, prod-like shape.
+        But shape is only the easy half. The harder half — and our biggest stumbling block — is DATA: qa's
+        volume, distributions, and edge cases rarely match prod's, and copying real prod data down is the
+        anti-pattern (PII, cost, blast radius). Make qa's data REPRESENTATIVE as code: hermetic per-test
+        fixtures for correctness, a curated edge-case corpus (the rows that have bitten you — versioned,
+        shipped like reference data), and synthetic volume where perf matters. You'll never make qa fully
+        prod-like, so close the rest IN PROD: canary + flags + observability let a change meet real data behind
+        a limited, watched exposure before full release. Full playbook in resources/database-delivery.md.
       </aside>
     </section>
 
