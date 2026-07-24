@@ -112,11 +112,12 @@ session, so the close carries course certification, not just homework.
 
 - **Message:** An always-deployable trunk isn't a nicety — it's what lets you ship the fix
   that matters, the moment it matters. Big batches + a red trunk take that away.
-- **Visual:** `main` trunk (red, "won't go green") carrying **two large in-flight changes**,
-  both broken. A prod-incident bell (orange) on the left needs a fix now; a **one-line fix**
+- **Visual:** `main` trunk drawn red, carrying **two large in-flight changes**,
+  both broken. A prod-incident bell (orange) on the left needs a fix now; the **incident fix**
   (teal) merges onto the same trunk but the deploy to prod is **blocked** by a no-entry gate —
-  the broken work is in the way. Caption: *the fix was small — the trunk wasn't ready.*
-- **On-slide text:** diagram labels + the two-line caption.
+  the broken work is in the way. Caption: *big batches + a red trunk = you can't ship when it
+  matters most.*
+- **On-slide text:** diagram labels + the caption.
 - **Say (talk-track):** Told blameless — no team, no names. Two large changes both in flight,
   both merged to main, both with issues; then a production problem surfaced and the one-line
   fix couldn't go out, because the pipeline ships the *trunk* and the trunk wouldn't go green.

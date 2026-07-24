@@ -172,21 +172,16 @@
     <section data-background-gradient="radial-gradient(900px 520px at 50% 4%, #16223f, #0b0e14 62%)">
       <h2>When the trunk isn't deployable</h2>
       <svg class="dia below-title" viewBox="0 0 1000 200" style="max-height:230px" role="img"
-           aria-label="A production incident fires on the left and needs a fix now. The trunk, main, will not go green because it carries two large in-flight changes that are both broken. A one-line fix merges onto that same trunk, but the deploy to prod is blocked by a no-entry gate — the broken work is in the way. The lesson: the fix was small, the trunk wasn't ready.">
-        <defs>
-          <marker id="aro2b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#f08a52"/></marker>
-        </defs>
+           aria-label="A production incident fires on the left and needs a fix now. The trunk, main, will not go green because it carries two large in-flight changes that are both broken. The incident fix merges onto that same trunk, but the deploy to prod is blocked by a no-entry gate — the broken work is in the way. The lesson: with big batches and a red trunk, you can't ship when it matters most.">
         <!-- prod incident (bell) -->
         <g transform="translate(44,30)">
           <path d="M30 4 a20 20 0 0 1 20 20 v14 l8 10 h-56 l8 -10 v-14 a20 20 0 0 1 20 -20 z" fill="#241710" stroke="#f08a52" stroke-width="2"/>
           <circle cx="30" cy="56" r="5" fill="#f08a52"/>
         </g>
         <text x="74" y="108" text-anchor="middle" fill="#f08a52" font-size="13" font-weight="700">prod incident</text>
-        <text x="74" y="126" text-anchor="middle" fill="#f0a9a9" font-size="11">fix needed now</text>
-        <line x1="104" y1="82" x2="150" y2="84" stroke="#f08a52" stroke-width="2.5" marker-end="url(#aro2b)"/>
 
         <!-- main trunk (won't go green) -->
-        <text x="150" y="46" fill="#ef5350" font-size="14" font-weight="800">main — won't go green</text>
+        <text x="150" y="46" fill="#eef3fa" font-size="14" font-weight="800">main</text>
         <line x1="150" y1="84" x2="731" y2="84" stroke="#ef5350" stroke-width="3" opacity=".85"/>
 
         <!-- two broken in-flight changes on the trunk -->
@@ -201,7 +196,7 @@
 
         <!-- the one clean thing, stuck on the same trunk -->
         <rect x="566" y="64" width="128" height="40" rx="9" fill="#0e2b28" stroke="#3ed7c4" stroke-width="2"/>
-        <text x="630" y="88" text-anchor="middle" fill="#cdeee8" font-size="12.5" font-weight="700">one-line fix</text>
+        <text x="630" y="88" text-anchor="middle" fill="#cdeee8" font-size="12.5" font-weight="700">incident fix</text>
 
         <!-- blocked: no-entry between trunk and prod -->
         <circle cx="748" cy="84" r="17" fill="#241014" stroke="#ef5350" stroke-width="2.5"/>
@@ -213,7 +208,6 @@
         <text x="875" y="90" text-anchor="middle" fill="#cfe0ff" font-size="15" font-weight="800">prod</text>
       </svg>
       <div class="caption">
-        <span><b>The fix was small — the trunk wasn't ready.</b> Two big broken changes sat between it and prod.</span>
         <span class="t-orange">big batches + a red trunk = you can't ship when it matters most</span>
       </div>
       <aside class="notes">
