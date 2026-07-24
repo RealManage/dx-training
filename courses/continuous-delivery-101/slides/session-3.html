@@ -215,7 +215,16 @@
         both in flight, both merged to main, and both had issues. Before either was sorted, a production
         problem surfaced. The fix itself was a one-liner — but it couldn't go out, because the pipeline
         ships the TRUNK, and the trunk now carried two broken changes that wouldn't go green. The small fix
-        was trapped behind big broken batches. This is the whole case for what Sessions 1–2 asked for: small
+        was trapped behind big broken batches.
+        WHAT THE TEAM DID — and why it's still cheating: they cut a "hotfix" branch and added a special deploy
+        job that runs only on hotfix-prefixed branches and ships straight to prod behind a manual gate. It's IN
+        the pipeline, so it passes minimum #2 on a technicality — but it's a SECOND path to prod: it skips dev
+        and qa, so the fix never met the production-like check (#7) or the promotion every other change makes.
+        That's an ad-hoc, now-permanent break-glass — the opposite of a governed one (pre-authorized, logged,
+        time-boxed, reconciled) — and deploying from a branch quietly drifts this clean trunk-based service
+        toward the release-branch pattern from slide 2. The honest fix was to keep the trunk deployable: revert
+        or stop-the-line so the one-liner rides the normal path.
+        This is the whole case for what Sessions 1–2 asked for: small
         batches, stop-the-line when the build is red (CI minimum #5), new work doesn't break delivered work
         (#6), and a trunk you keep deployable at ALL times — not for tidiness, but because the day you need
         to ship in a hurry is the day you can't afford a red trunk. This is exactly what today's single-path
@@ -256,7 +265,7 @@
         <text x="577" y="102" text-anchor="middle" fill="#3ed7c4" font-size="13" font-weight="800">OIDC</text>
         <text x="577" y="118" text-anchor="middle" fill="#8fd8ce" font-size="10">per-env role</text>
         <line x1="614" y1="103" x2="628" y2="103" stroke="#3ed7c4" stroke-width="3" marker-end="url(#ar3)"/>
-        <text x="330" y="90" text-anchor="middle" fill="#8fd8ce" font-size="12">the only way in · no static keys</text>
+        <text x="330" y="90" text-anchor="middle" fill="#eef3fa" font-size="12">the only way in</text>
 
         <!-- laptop -->
         <rect x="60" y="238" width="168" height="60" rx="10" fill="#241710" stroke="#f08a52" stroke-width="2"/>
@@ -273,7 +282,7 @@
         <line x1="228" y1="280" x2="626" y2="250" stroke="#3ed7c4" stroke-width="2.5" marker-end="url(#ar3)"/>
         <rect x="630" y="222" width="320" height="72" rx="12" fill="#0a1f1c" stroke="#3ed7c4" stroke-width="2" stroke-dasharray="5 5"/>
         <text x="790" y="252" text-anchor="middle" fill="#cdeee8" font-size="14" font-weight="700" style="font-family:var(--cd-mono)">dev-aws-violations-api-&lt;you&gt;</text>
-        <text x="790" y="274" text-anchor="middle" fill="#3ed7c4" font-size="13" font-weight="700">personal sandbox — break it freely</text>
+        <text x="790" y="274" text-anchor="middle" fill="#3ed7c4" font-size="13" font-weight="700">personal sandbox</text>
       </svg>
       <aside class="notes">
         The minimum (#2): every change to a SHARED environment goes through the pipeline — no "just this
@@ -285,6 +294,11 @@
         The escape valve that keeps this liveable: PERSONAL SANDBOX STACKS (dev-aws-violations-api-&lt;username&gt;)
         are yours to sam deploy to and break freely — they're not shared, so they don't need the pipeline.
         Everything SHARED does.
+        CALLBACK to the incident two parts back: the team's "fix" — a hotfix branch plus a special job that ships
+        hotfix-prefixed branches straight to prod behind a manual gate — is precisely the trap this slide names.
+        It's in the pipeline, so it clears minimum #2 on a technicality, but "one path" means the SAME path: it
+        skips dev and qa, so the prod artifact was never proven in a production-like env (#7). A privileged bypass
+        is still a side door. Keep one road — and keep the trunk deployable so you never want a second one.
         AI note, one line: when an agent can emit a fix in seconds, the temptation to hot-fix straight to
         prod is STRONGER — that shortcut is exactly the side door this rule forbids.
       </aside>

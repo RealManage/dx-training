@@ -121,7 +121,14 @@ session, so the close carries course certification, not just homework.
 - **Say (talk-track):** Told blameless — no team, no names. Two large changes both in flight,
   both merged to main, both with issues; then a production problem surfaced and the one-line
   fix couldn't go out, because the pipeline ships the *trunk* and the trunk wouldn't go green.
-  The small fix was trapped behind big broken batches. This is the whole case for small
+  The small fix was trapped behind big broken batches. **What the team did — and why it's still
+  cheating:** they cut a `hotfix` branch and added a special deploy job that runs only on
+  hotfix-prefixed branches and ships straight to prod behind a manual gate. It's *in* the pipeline
+  (so it clears minimum #2 on a technicality) but it's a **second path to prod** — it skips dev and
+  qa, so the fix never met the production-like check (#7) or the promotion every other change makes;
+  an ad-hoc, now-permanent break-glass, and a deploy-from-branch drift back toward the release-branch
+  pattern from slide 2. The honest fix was to keep the trunk deployable (revert / stop-the-line) so
+  the one-liner rides the normal path. This is the whole case for small
   batches, stop-the-line when red (CI #5), new work not breaking delivered work (#6), and a
   trunk kept deployable at all times — exactly what today's single-path pipeline protects.
   Hands into Part 1.
@@ -164,7 +171,10 @@ count — same convention as Session 2.)*
   pipeline's verdict can *mean* something — which is the whole next slide. The escape valve
   that keeps this liveable: **personal sandbox stacks** (`dev-aws-violations-api-<username>`)
   are yours to `sam deploy` to and break freely — they're not shared, so they don't need the
-  pipeline. Everything *shared* does. (AI note, one line: when an agent can emit a fix in
+  pipeline. Everything *shared* does. **Callback to the incident** two parts back: the team's
+  hotfix branch + special job that ships straight to prod is precisely this trap — it's *in* the
+  pipeline yet skips dev/qa, so "one path" is violated in spirit. A privileged bypass is still a
+  side door. (AI note, one line: when an agent can emit a fix in
   seconds, the temptation to hot-fix straight to prod is *stronger* — that shortcut is
   exactly the side door this rule forbids.)
 
