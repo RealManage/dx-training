@@ -38,7 +38,7 @@ Three parts of that line matter:
 
 - `--scope user` makes the server available in every folder. Without it, Claude Code adds it only for the folder you're in.
 - `us5` is our Datadog site.
-- `?toolsets=all` turns on every tool family, including profiling. Without it you only get the core tools. Keep the quotes around the URL.
+- `?toolsets=all` turns on every tool family, including profiling and Error Tracking. Without it you only get the core tools. Keep the quotes around the URL.
 
 Expected output:
 
@@ -116,7 +116,7 @@ You haven't finished Step 3, or the sign-in expired. Run `/mcp` inside Claude Co
 
 ### Claude says it has no profiling tools
 
-The URL is missing `?toolsets=all`, so only the core tools loaded. Nothing warns you about this: the status still says Connected. Fix the URL (below), then restart Claude Code.
+The URL is missing `?toolsets=all`, so only the core tools loaded, without profiling or Error Tracking. Nothing warns you about this: the status still says Connected. Fix the URL (below), then restart Claude Code.
 
 ### Changing the URL: "MCP server datadog-mcp already exists"
 

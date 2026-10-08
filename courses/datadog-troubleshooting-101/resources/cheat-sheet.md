@@ -13,7 +13,7 @@ Items carry the IDs of their full versions in [prompts](demo-prompts.md) (P), [c
 | - | - |
 | P1 | List the services that have continuous profiling data in the last hour. |
 | P2 | Which prod endpoints in *service* have the worst p95 over the last 24 hours? Use the trace metrics, not span counts, and give me a link. |
-| P3 | Find one slow *endpoint* request on prod *service* from the last hour and explain where the time went, including any gap the spans don't cover. |
+| P3 | For the trace below, from prod *service*, in three short bullets: how long did the request take, how much was SQL, how much was our own code? Then paste the trace link. |
 | P4 | Pull the wall-time profile for *endpoint* on prod *service* over the last 24 hours. Which of our own methods take the most time? Include the link. |
 | P5 | Is *endpoint* slow because of our C# or the database? Check traces and the profiler; tell me which queries you ran. |
 | P6 | We got a latency alert on prod *service* around *time UTC*. Real regression or noise? Compare against the same time the day before. |
@@ -26,7 +26,7 @@ Items carry the IDs of their full versions in [prompts](demo-prompts.md) (P), [c
 
 | | Where |
 | - | - |
-| K1 | **APM → Traces**: `service:… resource_name:"…" env:prod @duration:>5s`. Older than 15 min = indexed spans only. |
+| K1 | **APM → Traces**: `service:… resource_name:"…" env:prod @duration:>8s`. Older than 15 min = indexed spans only. |
 | K2 | Open a trace: **Flame Graph · Waterfall** (expand all) **· Span List** (group by Service, read Exec Time). |
 | K3 | Click a span → tabs: Overview · Infrastructure · Metrics · Logs · **SQL Queries** · **Profiles**. |
 | K4 | **APM → Service → *service***: check **operation**, **env**, **version** first. |

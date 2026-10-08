@@ -6,7 +6,7 @@ The presenter deck, built on [reveal.js](https://revealjs.com). reveal.js and th
 
 | File | What it is |
 | - | - |
-| `deck.html` | The deck: 35 slides, 4 part dividers, 8 demo markers (D1–D8) |
+| `deck.html` | The deck: 31 slides plus 4 backup slides for D1, 4 part dividers, 8 demo markers (D1–D8) |
 | `deck-outline.md` | The per-slide source (Message / Visual / On-slide text / Say). **Edit this first**; the deck's speaker notes are its Say track, word for word |
 | `theme/dd101.css` | Deck theme: brand palette, type, layout pieces |
 | `fonts/` | Work Sans and Marcellus (SIL Open Font License, license texts included) |

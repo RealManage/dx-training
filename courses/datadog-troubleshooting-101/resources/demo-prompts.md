@@ -23,6 +23,8 @@ Using the Datadog MCP, list the services that have continuous profiling data in 
 
 ## P2. Find the slowest endpoints
 
+Not used in the live session (it needs p95 and returns a long table); try it on your own service afterwards.
+
 ```text
 Which prod endpoints in resident-api have the worst p95 latency over the last 24 hours? Use the trace metrics rather than counting spans, and give me a Datadog link to check it.
 ```
@@ -31,15 +33,19 @@ Which prod endpoints in resident-api have the worst p95 latency over the last 24
 - **A good answer:** a ranked table with p95 and hit counts. It separates rare endpoints (a few requests, so the p95 is one slow call) from busy ones. `POST /api/account/statement/generate`, `GET /api/community/dashboard/cashinvestment` and `POST /api/user/create` ranked high in both test runs; `GET /api/user/dashboard` showed as a busy endpoint with a slow tail.
 - **Red flags:** p95 or rates computed from span counts ([G8](gotchas.md#g8-span-counts-are-sampled)). In testing, the two runs used different aggregation windows and got different numbers. Both were reasonable, which is why you ask ([C1](checking-claudes-work.md)).
 
-## P3. Explain one slow request, including the gap
+## P3. Where did the time go?
 
 ```text
-Find one slow GET /api/user/dashboard request on prod resident-api from the last hour and explain where the time went, including any gap the spans don't cover.
+For the trace below, from prod resident-api, answer in three short bullet points, in plain English: how long did the request take, how much of that was SQL, and how much was our own code?
+
+[paste the trace link]
 ```
 
-- **Shows:** Claude picking a trace, laying out its timeline and noticing time no span covers.
-- **A good answer:** the stored procedure `api_rp_GetResidentPortalUserDashboardInfo` takes the biggest covered chunk (several seconds), then about **4–6 seconds with no child spans** inside the API. The best answers pull the profile for that trace and name `UserBP.GetUserDashboardItems` / `EnumExtensions.GetEnumFromDescription`. Some also point out time outside the server span, in the browser.
-- **Red flags:** it can't find a slow request in the last hour (traffic varies; say "last 4 hours"), or it only reports the SQL time and ignores the gap.
+Used in D2, with the link to the trace opened in D1: copy it from the browser's address bar. Giving Claude the same trace keeps its answer comparable with what the room just saw by hand. A "find one slow request" prompt let Claude pick any slow request, and many are slow for other reasons: mostly SQL, mostly the browser, or only 3–4 spans. The prompt is deliberately narrow: it asks only what part 1 teaches, so the answer stays short and doesn't jump ahead to the profiler. The link can go on its own line or right after the prompt.
+
+- **Shows:** Claude reading a trace from a link and splitting the time into SQL and our own code, the same split D1 made by hand.
+- **A good answer:** three plain bullets: the total time, the SQL time with `api_rp_GetResidentPortalUserDashboardInfo` named as most of it, and several seconds left for our own code, mostly after the last query. Tested on 2026-10-08 with an 8.7 s trace, once with the link below the prompt and once on the same line: both runs answered in under 30 seconds with 8.7 s total, about 4.4 s of SQL (4.1 s in the dashboard procedure) and about 4.3 s of our own code. Both also said the browser waited longer than the API took. The answer can name a database host: fine on screen, never in a commit.
+- **Red flags:** Claude searching for a different request instead of reading the link, or numbers that add up to more than the total. If it can't open the link, give it only the number after `traceID=`.
 
 ## P4. Name the method with the profiler
 

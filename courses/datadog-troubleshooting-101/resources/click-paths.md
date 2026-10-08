@@ -12,13 +12,13 @@ Our Datadog site is **US5**: every link starts with `https://us5.datadoghq.com`.
 **APM → Traces**
 
 1. In the search bar, type `service:resident-api resource_name:"GET /api/user/dashboard" env:prod`.
-2. Add `@duration:>5s` to see only slow requests.
+2. Add `@duration:>8s` to see only slow requests.
 3. **Search for: Spans | Traces** chooses between one row per span and one row per trace.
-4. Next to it, **in** shows which spans you're searching. The last 15 minutes read **All Ingested Spans (Live Search)**; older windows read **Indexed Spans**, meaning only the spans retention kept.
+4. Left of the time picker, a label shows which spans you're searching: **Live Search** (every ingested span, last 15 minutes only; choose **LIVE · 15 Minutes** at the top of the time picker) or **Historical Search** (indexed spans only, the sample retention kept). Click the label for Datadog's own explanation. Links from the Service page open in Historical Search, even for the last 15 minutes.
 5. The **Duration**, **Status**, **Env**, **Service** and **Resource** facets on the left filter without typing.
 6. Click a row to open the trace.
 
-Deep link: [slow dashboard requests](https://us5.datadoghq.com/apm/traces?query=service%3Aresident-api%20resource_name%3A%22GET%20%2Fapi%2Fuser%2Fdashboard%22%20env%3Aprod%20%40duration%3A%3E5s)
+Deep link: [slow dashboard requests](https://us5.datadoghq.com/apm/traces?query=service%3Aresident-api%20resource_name%3A%22GET%20%2Fapi%2Fuser%2Fdashboard%22%20env%3Aprod%20%40duration%3A%3E8s)
 
 ## K2. Read a trace
 
@@ -52,7 +52,7 @@ In **Profiles**: **Span & Children** vs **Process** picks the scope; the thread 
 
 ## K4. The Service page
 
-**APM → Service**, then pick a service. Deep link: [resident-api, prod](https://us5.datadoghq.com/apm/entity/service%3Aresident-api?env=prod)
+**APM → Service**, then pick a service. Or click **APM** to open **APM Home** and use **Search services** in its **Service List**; opened that way, env starts at `*` (all environments), so set it first. Deep link: [resident-api, prod](https://us5.datadoghq.com/apm/entity/service%3Aresident-api?env=prod)
 
 At the top: **operation**, **env** and **version** selectors. Check them first. The latency chart has its own **Latency for** *operation* selector. The wrong operation or env silently changes every number on the page.
 

@@ -30,7 +30,7 @@ Open one link Claude gives you and check one number in the UI. Check the service
 - "No results" from a span query can mean the filter was silently ignored ([G9](gotchas.md#g9-some-span-filters-silently-return-nothing)). Ask Claude to group by env or service instead of filtering, or check in the UI.
 - Spans are sampled, and errors are kept at a higher rate than successes, so a rate worked out from span counts is biased ([G8](gotchas.md#g8-span-counts-are-sampled)). Ask for the `trace.*` metrics.
 
-**Seen live:** explaining one slow dashboard request (P3), Claude reported "30 requests in the hour" for the endpoint, counted from kept spans. The metrics put it at about 558.
+**Seen live:** explaining one slow dashboard request (an earlier version of P3), Claude reported "30 requests in the hour" for the endpoint, counted from kept spans. The metrics put it at about 558.
 
 ### C4. Compare against a baseline
 

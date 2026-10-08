@@ -39,7 +39,7 @@
   <table>
     <tr><td>P1</td><td>List the services that have continuous profiling data in the last hour.</td></tr>
     <tr><td>P2</td><td>Which prod endpoints in <em>service</em> have the worst p95 over the last 24 hours? Use the trace metrics, not span counts, and give me a link.</td></tr>
-    <tr><td>P3</td><td>Find one slow <em>endpoint</em> request on prod <em>service</em> from the last hour and explain where the time went, including any gap the spans don't cover.</td></tr>
+    <tr><td>P3</td><td>For the trace below, from prod <em>service</em>, in three short bullets: how long did the request take, how much was SQL, how much was our own code? Then paste the trace link.</td></tr>
     <tr><td>P4</td><td>Pull the wall-time profile for <em>endpoint</em> on prod <em>service</em> over the last 24 hours. Which of our own methods take the most time? Include the link.</td></tr>
     <tr><td>P5</td><td>Is <em>endpoint</em> slow because of our C# or the database? Check traces and the profiler; tell me which queries you ran.</td></tr>
     <tr><td>P6</td><td>We got a latency alert on prod <em>service</em> around <em>time UTC</em>. Real regression or noise? Compare against the same time the day before.</td></tr>
@@ -53,7 +53,7 @@
     <section>
       <h2>Click paths</h2>
       <table>
-        <tr><td>K1</td><td><b>APM → Traces</b>: <code>service:… resource_name:"…" env:prod @duration:&gt;5s</code>. Older than 15 min = indexed spans only.</td></tr>
+        <tr><td>K1</td><td><b>APM → Traces</b>: <code>service:… resource_name:"…" env:prod @duration:&gt;8s</code>. Older than 15 min = indexed spans only.</td></tr>
         <tr><td>K2</td><td>Open a trace: <b>Flame Graph · Waterfall</b> (expand all) <b>· Span List</b> (group by Service, read Exec Time).</td></tr>
         <tr><td>K3</td><td>Click a span → tabs: Overview · Infrastructure · Metrics · Logs · <b>SQL Queries</b> · <b>Profiles</b>.</td></tr>
         <tr><td>K4</td><td><b>APM → Service</b>: check <b>operation</b>, <b>env</b>, <b>version</b> first.</td></tr>

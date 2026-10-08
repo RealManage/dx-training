@@ -10,7 +10,7 @@ This page is the lesson in text form. Read it after the session, or instead of i
 
 ---
 
-## 1. Four words first
+## 1. The words first
 
 A **service** is one application reporting to Datadog (`resident-api`). A **span** is one timed piece of work, done once, such as a request or a SQL call. A **resource** is the label on a span that says what kind of work it was: the endpoint for a request (`GET /api/user/dashboard`) or the query for a SQL call. Every request to the dashboard is a new span, and they all share that one resource. A **trace** is every span for one request, parent to child, across services: here the browser (`resident-ui`), the API and the database. The [glossary](../../resources/glossary.md) has the rest.
 
@@ -25,13 +25,13 @@ A guided tour, not a deep dive. The goal is to know what each screen is for. Exa
 **APM → Traces** searches spans. Filter by service, resource, env and duration:
 
 ```text
-service:resident-api resource_name:"GET /api/user/dashboard" env:prod @duration:>5s
+service:resident-api resource_name:"GET /api/user/dashboard" env:prod @duration:>8s
 ```
 
 ![Traces explorer showing slow dashboard requests](../../assets/screenshots/traces-explorer.png)
 
 - **Spans | Traces** switches between one row per span and one row per trace.
-- The last 15 minutes search **all ingested spans** (Live Search). Older windows search **indexed spans** only, a sample kept by retention filters. That is why a span count is never a request count ([G8](../../resources/gotchas.md#g8-span-counts-are-sampled)).
+- **Live Search** (the **LIVE · 15 Minutes** time range) searches **all ingested spans**, for the last 15 minutes only. Every other time range is **Historical Search**: **indexed spans** only, a sample kept by retention filters. The label left of the time picker says which one you're in. That is why a span count is never a request count ([G8](../../resources/gotchas.md#g8-span-counts-are-sampled)).
 
 ### 2.2 Three views of one trace
 
@@ -202,7 +202,7 @@ Claude Code with the Datadog MCP server runs the queries for you: it searches sp
 For a slow request:
 
 1. **Find** the slow endpoints (P2).
-2. **Explain** one slow request, including any gap (P3).
+2. **Split** one slow request into SQL time and our own code (P3).
 3. **Profile** it to name the method (P4).
 4. **Contrast** with a database-bound case (P5).
 
