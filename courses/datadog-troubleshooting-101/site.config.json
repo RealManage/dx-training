@@ -1,0 +1,28 @@
+{
+  "title": "Troubleshooting with Datadog 101",
+  "short": "DD Troubleshooting",
+  "mark": "DD",
+  "theme": "violet",
+  "tagline": "Find out why a request is slow or why it failed, and let Claude do the advanced Datadog work.",
+  "level": "Beginner",
+  "duration": "1 session (about 90 min, plus questions)",
+  "extLink": { "href": "https://docs.datadoghq.com/profiler/", "label": "Datadog profiler docs" },
+  "static": ["slides", "assets"],
+  "nav": [
+    { "path": "README.md", "label": "Course Overview" },
+    { "path": "SETUP-GUIDE.md", "label": "Setup Guide" },
+    { "section": "Session", "dir": "sessions", "depth": 2 },
+    { "section": "Resources", "dir": "resources" }
+  ],
+  "labels": {
+    "sessions/session-1/README.md": "The Lesson",
+    "sessions/session-1/run-sheet.md": "Run Sheet (presenter)",
+    "resources/glossary.md": "Glossary",
+    "resources/click-paths.md": "Click Paths",
+    "resources/demo-prompts.md": "Demo Prompts",
+    "resources/gotchas.md": "Gotchas",
+    "resources/checking-claudes-work.md": "Checking Claude's Work",
+    "resources/cheat-sheet.md": "Cheat Sheet",
+    "resources/feedback-form.md": "Feedback & Success Measure"
+  }
+}

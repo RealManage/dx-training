@@ -1,0 +1,75 @@
+{
+  "_about": "Crop and redact boxes are [x0, y0, x1, y1] in raw-capture pixels (a ~3014x2540 capture of the Datadog page area, browser chrome already excluded). Crops leave out the left nav (signed-in user) and the trace header (trace ID, client location).",
+  "max_width": 1600,
+  "shots": [
+    {
+      "out": "traces-explorer.png",
+      "raw": "01-traces-explorer.png",
+      "crop": [322, 75, 2977, 1369],
+      "alt": "APM Traces explorer searching resident-api GET /api/user/dashboard slower than 5 seconds, showing the Spans/Traces toggle, Indexed Spans, and six 11-13 second results with a latency breakdown bar"
+    },
+    {
+      "out": "trace-flame-graph-gap.png",
+      "raw": "02-trace-flamegraph.png",
+      "crop": [918, 490, 3014, 940],
+      "alt": "Trace flame graph: the stored procedure span ends near 6 seconds while the resident-api request runs to 11.6 seconds, leaving about 5 seconds with no child spans"
+    },
+    {
+      "out": "trace-waterfall.png",
+      "raw": "03-trace-waterfall.png",
+      "crop": [918, 322, 3014, 830],
+      "alt": "Waterfall view of the same trace: a 5.19 second stored procedure, two short queries, then nothing until the request ends at 11.0 seconds"
+    },
+    {
+      "out": "trace-span-list.png",
+      "raw": "04-trace-spanlist.png",
+      "crop": [918, 322, 3014, 1100],
+      "alt": "Span List view grouped by service: resident-api exec time 6.24 seconds, the database 5.38 seconds"
+    },
+    {
+      "out": "span-sql-queries.png",
+      "raw": "08-span-sql-queries.png",
+      "crop": [330, 1870, 3014, 2430],
+      "alt": "The span tab row (Overview, Infrastructure, Metrics, Logs, Network, Processes, SQL Queries, Profiles) with the SQL Queries tab open, listing the stored procedure calls with parameter values obfuscated"
+    },
+    {
+      "out": "span-profiles-flame-graph.png",
+      "raw": "10-span-profiles-flamegraph.png",
+      "crop": [330, 795, 3014, 2420],
+      "alt": "The span's Profiles tab: thread timeline busy from 5 to 11.6 seconds, and a flame graph where UserBP.GetUserDashboardItems shows 5.05 seconds of CPU time"
+    },
+    {
+      "out": "service-page.png",
+      "raw": "11-service-page.png",
+      "crop": [322, 75, 2977, 1809],
+      "alt": "APM Service page for resident-api with the operation, env and version selectors at the top and the left-nav tabs from Service Summary to Security"
+    },
+    {
+      "out": "profiles-cpu-default.png",
+      "raw": "12-profiles-cpu-default.png",
+      "crop": [320, 75, 3014, 1695],
+      "alt": "Profiles explorer opening on CPU Time by default, with the Wall Time card beside it and GET /api/user/dashboard low in the per-endpoint CPU list"
+    },
+    {
+      "out": "profiles-wall-filtered.png",
+      "raw": "13-profiles-wall-filtered.png",
+      "crop": [320, 75, 3014, 2260],
+      "alt": "Profiles explorer on Wall Time with the flame graph filtered by focus_on(method:\"UserBP.GetUserDashboardItems()\"), showing DashboardHelper.GetActivities and EnumExtensions.GetEnumFromDescription underneath"
+    },
+    {
+      "out": "live-debugger-session.png",
+      "raw": "ld-session-page.png",
+      "_note": "A 3030x1832 capture (the pane was shorter than the others). The two redact boxes cover the session owner's name.",
+      "crop": [345, 84, 2980, 1480],
+      "redact": [[2420, 84, 2650, 150], [2733, 498, 2960, 560]],
+      "alt": "Live Debugger session on management-api in dev: a logpoint just before line 53 of FilesController.cs with a message template, the condition IDENT != null && contains(IDENT, \"dx-training\"), capture variables set to All variables at depth 3, and one captured log line underneath"
+    },
+    {
+      "out": "exception-replay-snapshot.png",
+      "raw": "er-snapshot-prod.png",
+      "_note": "A 3030x1832 capture of a prod identity-api issue, chosen because its values are type names and a schema validation message only. Every object stays collapsed. The crop leaves out the left nav, the error sample header (time, version, route) and the floating Back to Top button.",
+      "crop": [390, 765, 2940, 1700],
+      "alt": "Error Tracking stack trace for a DbEntityValidationException in identity-api: under the PortalUserDBEntities.SaveChangesAsync frame, an Exception Replay snapshot (on exit) panel with a Redaction: Targeted badge lists this, @exception, entityValidationErrors (\"The field PORTAL_TYPE must be a string or array type with a maximum length of '1'\"), errorMessages, ex, newExceptionMessage and portalLog"
+    }
+  ]
+}

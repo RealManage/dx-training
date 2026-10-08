@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Troubleshooting with Datadog 101 — Cheat Sheet</title>
+<!-- One-page printable rendering of cheat-sheet.md. Change both together. -->
+<style>
+  @page { size: letter portrait; margin: 0.4in; }
+  :root { --ink: #1c1b22; --muted: #5a5866; --line: #d9d6e3; --accent: #533aa6; --tint: #f3f0fb; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #fff; color: var(--ink); font: 8.9pt/1.28 "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif; }
+  .page { max-width: 7.7in; margin: 0 auto; padding: 16px; }
+  header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid var(--accent); padding-bottom: 4px; margin-bottom: 6px; }
+  h1 { font-size: 16pt; margin: 0; color: var(--accent); }
+  header p { margin: 0; color: var(--muted); }
+  h2 { font-size: 10pt; margin: 6px 0 2px; color: var(--accent); text-transform: uppercase; letter-spacing: .04em; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; }
+  table { width: 100%; border-collapse: collapse; }
+  td { padding: 1px 5px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td:first-child { width: 2.2em; font-weight: 700; color: var(--accent); }
+  code { font: 8.3pt ui-monospace, Consolas, monospace; background: var(--tint); padding: 0 2px; border-radius: 2px; }
+  em { color: var(--muted); }
+  ul, ol { margin: 0; padding-left: 1.3em; }
+  li { margin: 1px 0; }
+  b { font-weight: 700; }
+  footer { margin-top: 6px; color: var(--muted); font-size: 8.4pt; border-top: 1px solid var(--line); padding-top: 3px; }
+  @media screen and (max-width: 640px) { .cols { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<main class="page">
+  <header>
+    <h1>Troubleshooting with Datadog 101 · Cheat Sheet</h1>
+    <p>Site: us5.datadoghq.com · IDs link to the course pages</p>
+  </header>
+
+  <h2>Prompts for Claude Code (Datadog MCP)</h2>
+  <table>
+    <tr><td>P1</td><td>List the services that have continuous profiling data in the last hour.</td></tr>
+    <tr><td>P2</td><td>Which prod endpoints in <em>service</em> have the worst p95 over the last 24 hours? Use the trace metrics, not span counts, and give me a link.</td></tr>
+    <tr><td>P3</td><td>Find one slow <em>endpoint</em> request on prod <em>service</em> from the last hour and explain where the time went, including any gap the spans don't cover.</td></tr>
+    <tr><td>P4</td><td>Pull the wall-time profile for <em>endpoint</em> on prod <em>service</em> over the last 24 hours. Which of our own methods take the most time? Include the link.</td></tr>
+    <tr><td>P5</td><td>Is <em>endpoint</em> slow because of our C# or the database? Check traces and the profiler; tell me which queries you ran.</td></tr>
+    <tr><td>P6</td><td>We got a latency alert on prod <em>service</em> around <em>time UTC</em>. Real regression or noise? Compare against the same time the day before.</td></tr>
+    <tr><td>P7</td><td>Which exact queries, metrics and time windows did you use? Give me Datadog links.</td></tr>
+    <tr><td>P8</td><td>Draft a Jira ticket (do not create it) for <em>endpoint</em>: summary, trace and profiler evidence with links, next step.</td></tr>
+    <tr><td>P9</td><td>Find the most recent Exception Replay snapshot for <em>exception type</em> in prod <em>service</em> and explain what the captured variables tell us about why it failed.</td></tr>
+    <tr><td>P10</td><td><b>Dev only.</b> Start a Live Debugger session on <em>service</em> in dev and add a logpoint just before line <em>N</em> of <em>file</em>, logging <em>variables</em>, only when <em>condition</em>. Don't pin a version. Then: <em>show me what it captured, then disable it.</em></td></tr>
+  </table>
+
+  <div class="cols">
+    <section>
+      <h2>Click paths</h2>
+      <table>
+        <tr><td>K1</td><td><b>APM → Traces</b>: <code>service:… resource_name:"…" env:prod @duration:&gt;5s</code>. Older than 15 min = indexed spans only.</td></tr>
+        <tr><td>K2</td><td>Open a trace: <b>Flame Graph · Waterfall</b> (expand all) <b>· Span List</b> (group by Service, read Exec Time).</td></tr>
+        <tr><td>K3</td><td>Click a span → tabs: Overview · Infrastructure · Metrics · Logs · <b>SQL Queries</b> · <b>Profiles</b>.</td></tr>
+        <tr><td>K4</td><td><b>APM → Service</b>: check <b>operation</b>, <b>env</b>, <b>version</b> first.</td></tr>
+        <tr><td>K5</td><td><b>APM → Profiles → Explorer</b>: <b>Wall Time</b> → endpoint on the right → <b>Filter flame graph</b> → <code>method:"Class.Method()"</code> → focus_on.</td></tr>
+        <tr><td>K6</td><td><b>Errors → Error Tracking</b> → issue → <b>Stack Trace</b>: look for <b>Exception Replay snapshot</b>. Find issues with one: Logs (Flex) <code>source:dd_debugger @debugger.product:er</code>.</td></tr>
+        <tr><td>K7</td><td><b>APM → Debugger → New Session</b> → <b>Start debugging manually</b> → service, env → file → click the gutter → template, <b>when</b> → <b>Start Debug Session</b>.</td></tr>
+      </table>
+
+      <h2>Check Claude's work</h2>
+      <ol>
+        <li><b>C1</b> Ask which query it ran, and for a link.</li>
+        <li><b>C2</b> Open the link; check service, env, time range, profile type, one number.</li>
+        <li><b>C3</b> Distrust "0 results" and rates from span counts.</li>
+        <li><b>C4</b> Compare with the same time yesterday before calling it a regression.</li>
+        <li><b>C5</b> Tell it what Datadog can't see: recycles, config changes, manual work.</li>
+      </ol>
+    </section>
+    <section>
+      <h2>Gotchas</h2>
+      <ul>
+        <li><b>G1</b> Profiles opens on CPU Time; use <b>Wall Time</b> for requests that wait.</li>
+        <li><b>G2</b> Wall Time counts idle threads; filter to an endpoint and our code.</li>
+        <li><b>G3</b> The Method list ranks self time; to find a caller, use <b>Filter flame graph</b>.</li>
+        <li><b>G4</b> Async work shows under the awaited call; read down to our widest frame.</li>
+        <li><b>G5</b> Frames show line 0 until DX-1570.</li>
+        <li><b>G6</b> No profiles before 2026-09-22.</li>
+        <li><b>G7</b> Thin or empty profile? Widen the time range.</li>
+        <li><b>G8</b> Span counts are sampled; use <code>trace.*</code> metrics for rates and percentiles.</li>
+        <li><b>G9</b> "0 results" may be a silently ignored filter; group instead, or check the UI.</li>
+        <li><b>G10</b> Check the operation and env selectors before comparing numbers.</li>
+        <li><b>G11</b> The MCP URL needs <code>?toolsets=all</code>; restart Claude Code after changing it.</li>
+        <li><b>G12</b> Claude only sees what Datadog records; tell it what changed.</li>
+        <li><b>G13</b> Exception Replay starts on the 2nd occurrence; max 1 per type, server, hour.</li>
+        <li><b>G14</b> Some exceptions never get a snapshot ("internal error").</li>
+        <li><b>G15</b> Live Debugger needs a setting on the service: management-api dev only for now.</li>
+        <li><b>G16</b> Strict redaction (most prod services) blocks logpoints.</li>
+        <li><b>G17</b> Logpoints on <code>await</code> lines never fire.</li>
+        <li><b>G18</b> Watch the session page; Logs lag about 3 min.</li>
+        <li><b>G19</b> Leave <b>Target specific instances</b> empty while testing.</li>
+        <li><b>G20</b> Logpoint create "failed"? List the session before retrying.</li>
+      </ul>
+    </section>
+  </div>
+
+  <footer>Answers from Claude include internal details (hosts, trace IDs, client locations): fine on screen, never paste them anywhere public. Full pages: demo prompts, click paths, gotchas, checking Claude's work.</footer>
+</main>
+</body>
+</html>

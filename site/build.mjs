@@ -274,7 +274,7 @@ function buildCourseModel(slug) {
           items.push({ src: rel, label: labelText(rel) });
         }
       }
-      sidebar.push({ label: section, items });
+      sidebar.push({ label: section, items, dir: entry.dir });
     }
   });
 
@@ -303,11 +303,15 @@ function buildCourseModel(slug) {
   const linear = sidebar.flatMap((g) => flattenItems(g.items).map((it) => it.src));
   const linearSet = new Set(linear);
 
-  // nearest sidebar-item ancestor (for back-link on deep, non-sidebar pages)
+  // nearest sidebar-item ancestor (for back-link on deep, non-sidebar pages).
+  // Only a folder landing (its README, or the generated index.html of a
+  // README-less folder) can be an ancestor; a sibling page in the same folder
+  // (e.g. the first file of resources/) is not, or its folder index would say
+  // "Back to <sibling>".
   const nearestAncestor = (rel) => {
     let best = null, bestLen = -1;
     for (const cand of linear) {
-      if (cand === rel) continue;
+      if (cand === rel || !["README.md", "index.html"].includes(posix.basename(cand))) continue;
       const cdir = posix.dirname(cand);
       if ((rel === cdir || rel.startsWith(cdir + "/")) && cdir.length > bestLen) {
         best = cand;
@@ -403,21 +407,31 @@ function renderCourse(model, coursesBySlug) {
     return out;
   };
 
-  const sectionLandingSrc = (section) => {
-    for (const g of sidebar) if (g.label === section && g.items.length) return g.items[0].src;
-    return null;
+  // A section's landing for the breadcrumb: its README when the first sidebar
+  // item is one, else (for a `dir` section) that folder's generated index, else
+  // its first page.
+  // When the landing is just a page, that page still gets its own crumb.
+  const sectionLanding = (section) => {
+    const g = sidebar.find((x) => x.label === section && x.items.length);
+    if (g && posix.basename(g.items[0].src) === "README.md")
+      return { key: g.items[0].src, out: srcToOut(g.items[0].src, published.get(g.items[0].src)?.kind || "md"), page: true };
+    // a `dir` section without a README lands on that folder's generated index
+    if (g && g.dir && synth.has(g.dir)) return { key: g.dir, out: `${g.dir}/index.html`, page: false };
+    return g ? { key: g.items[0].src, out: srcToOut(g.items[0].src, published.get(g.items[0].src)?.kind || "md"), page: false } : null;
   };
 
   const crumbs = (srcRel, outRel, meta) => {
     const homeHref = relHref(outRel, "index.html");
     const parts = [`<a href="${homeHref}">${esc(short)}</a>`];
     if (srcRel !== "README.md") {
-      const landing = sectionLandingSrc(meta.section);
-      if (landing && landing !== srcRel)
-        parts.push(`<a href="${relHref(outRel, srcToOut(landing, published.get(landing)?.kind || "md"))}">${esc(meta.section)}</a>`);
+      const landing = sectionLanding(meta.section);
+      const isLanding = landing && landing.key === srcRel;
+      if (landing && !isLanding) parts.push(`<a href="${relHref(outRel, landing.out)}">${esc(meta.section)}</a>`);
       else parts.push(`<span>${esc(meta.section)}</span>`);
-      const label = labelText(srcRel);
-      if (landing !== srcRel) parts.push(`<span class="cur">${esc(label)}</span>`);
+      // a README landing or the folder index itself needs no extra crumb; a page that is
+      // only standing in as the landing (README-less section) still shows its own name
+      if (!isLanding || (!landing.page && published.has(srcRel)))
+        parts.push(`<span class="cur">${esc(labelText(srcRel))}</span>`);
     }
     return parts.join('<span class="sep">›</span>');
   };

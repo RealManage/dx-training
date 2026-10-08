@@ -16,6 +16,22 @@ const md = new MarkdownIt({
   highlight: (str, lang) => highlight(str, lang),
 });
 
+// The typographer turns "(c)", "(r)" and "(tm)" into © ® ™. Course text uses
+// them as list labels ("(a) … (b) … (c)") and ID keys ("checking Claude (C)"),
+// never as symbols, so guard them through the replacements rule. The other
+// typographer replacements (dashes, ellipses, smart quotes) stay on.
+const ABBR_GUARD = "\uE000"; // private-use char, never in course text
+const eachText = (state, fn) => {
+  for (const t of state.tokens)
+    if (t.type === "inline" && t.children) for (const c of t.children) if (c.type === "text") fn(c);
+};
+md.core.ruler.before("replacements", "guard_abbr", (state) =>
+  eachText(state, (c) => (c.content = c.content.replace(/\((c|tm|r)\)/gi, `(${ABBR_GUARD}$1)`))),
+);
+md.core.ruler.after("replacements", "unguard_abbr", (state) =>
+  eachText(state, (c) => (c.content = c.content.split(ABBR_GUARD).join(""))),
+);
+
 // ---- text helpers -----------------------------------------------------------
 export const esc = (s) =>
   String(s)
@@ -45,11 +61,17 @@ export const slug = (s) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
 
-export const inlineMd = (s) =>
+// Minimal inline markdown for hero titles and meta chips. With `rewrite` (an
+// href mapper), [text](href) becomes a link; without it the link is reduced to
+// its text, so raw link syntax never reaches the page.
+export const inlineMd = (s, rewrite) =>
   esc(s)
     .replace(/`([^`]+)`/g, "<code>$1</code>")
     .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
-    .replace(/\*([^*]+)\*/g, "<em>$1</em>");
+    .replace(/\*([^*]+)\*/g, "<em>$1</em>")
+    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_m, text, href) =>
+      rewrite ? `<a href="${esc(rewrite(href.replace(/&amp;/g, "&")))}">${text}</a>` : text,
+    );
 
 // Humanize a path segment into a label: "session-1" -> "Session 1".
 export const humanize = (name) =>
@@ -123,7 +145,14 @@ function transform(html, rewrite, stepper) {
     /<pre><code(?: class="language-([^"]+)")?>([\s\S]*?)<\/code><\/pre>/g,
     (_m, lang, code) => {
       const label = lang || "text";
-      return `<figure class="code"><figcaption class="code-bar"><span class="dots"><i></i><i></i><i></i></span><span class="code-lang">${esc(
+      // Prose blocks wrap long lines (see .code CSS), except layout-sensitive
+      // ones: box-drawing trees/diagrams and column-aligned text (a run of 3+
+      // spaces between words, e.g. `file   # comment`). Wrapping those breaks
+      // the columns, so they keep white-space:pre and scroll instead.
+      const plain = code.replace(/<[^>]+>/g, "");
+      const layout =
+        /[\u2500-\u257F]/.test(plain) || plain.split("\n").some((l) => /\S {3,}\S/.test(l.trimStart()));
+      return `<figure class="code${layout ? " code-pre" : ""}"><figcaption class="code-bar"><span class="dots"><i></i><i></i><i></i></span><span class="code-lang">${esc(
         label,
       )}</span></figcaption><div class="code-scroll"><pre><code class="hljs">${code}</code></pre></div></figure>`;
     },
@@ -139,7 +168,9 @@ function transform(html, rewrite, stepper) {
   // task list items -> styled checkboxes. Emit the checkbox as a direct child of
   // <li> (before any <p>) so it sizes in both tight and loose lists: a loose list
   // wraps item text in <p>, and an inline <span> inside <p> ignores width/height,
-  // which would collapse the checkbox to a thin vertical bar.
+  // which would collapse the checkbox to a thin vertical bar. The checkbox is
+  // absolutely positioned in the item's left padding; the item must not be a
+  // flex container, or each text run, link and nested list becomes its own column.
   html = html.replace(/<li>(\s*<p>)?\s*\[( |x|X)\]\s*/g, (_m, p, c) => {
     const done = c.toLowerCase() === "x";
     return `<li class="task${done ? " done" : ""}"><span class="cb" aria-hidden="true"></span>${p ? "<p>" : ""}`;
@@ -150,6 +181,18 @@ function transform(html, rewrite, stepper) {
     const id = slug(inner);
     return `<${tag} id="${id}"><a class="anchor" href="#${id}" aria-hidden="true">#</a>${inner}</${tag}>`;
   });
+
+  // short inline code never breaks mid-token: `management-api` split at the
+  // hyphen, or `?toolsets=all` split after the "?", reads as two tokens. Longer
+  // spans may still wrap so they can't overflow narrow columns.
+  html = html.replace(/<code>([^<]{1,24})<\/code>/g, '<code class="nw">$1</code>');
+
+  // a cell holding only a clock range (0:00–0:04) or a duration (1.5 hrs, 10 min)
+  // never wraps mid-value
+  html = html.replace(
+    /<td>(\d{1,2}:\d{2}\s*[–-]\s*\d{1,2}:\d{2}|\d+(?:\.\d+)?\s*(?:hrs?|hours?|mins?|minutes?))<\/td>/g,
+    '<td class="nowrap">$1</td>',
+  );
 
   // tables -> horizontal scroll wrapper
   html = html
@@ -207,7 +250,7 @@ export function renderMarkdown(raw, { rewrite, fallbackTitle }) {
     ? `<ul class="chips">${chips
         .map(
           (c) =>
-            `<li><span class="chip-k">${esc(c.k)}</span><span class="chip-v">${inlineMd(c.v)}</span></li>`,
+            `<li><span class="chip-k">${esc(c.k)}</span><span class="chip-v">${inlineMd(c.v, rewrite)}</span></li>`,
         )
         .join("")}</ul>`
     : "";
@@ -510,6 +553,7 @@ ${heroCss}
 .chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:18px 0 0;padding:0}
 .chips li{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25);
   padding:5px 11px;border-radius:999px;font-size:13px;color:#fff}
+.chips a{color:#fff;text-decoration:underline;text-underline-offset:2px}
 .chip-k{font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:10.5px;opacity:.85}
 
 .prose{padding-top:30px;padding-bottom:8px}
@@ -523,6 +567,10 @@ ${heroCss}
 .prose li::marker{color:var(--accent)}
 .prose strong{font-weight:700}
 .prose hr{border:0;border-top:1px solid var(--line);margin:2em 0}
+.prose hr+h2{border-top:0;padding-top:0;margin-top:0}
+/* a "---" right after the meta lines lands first in the body once the meta moves into the hero chips */
+.prose>hr:first-child{display:none}
+.prose code.nw{white-space:nowrap}
 .prose code{background:var(--soft2);border:1px solid var(--line);border-radius:6px;padding:.1em .42em;font-size:.86em;
   font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace}
 .anchor{float:left;margin-left:-1.1em;padding-right:.35em;color:var(--line2);opacity:0;font-weight:400;text-decoration:none}
@@ -552,6 +600,9 @@ h2:hover .anchor,h3:hover .anchor,h4:hover .anchor{opacity:1}
 .code pre{margin:0;padding:16px 18px;min-width:0}
 .code code{background:none;border:0;padding:0;color:var(--code-ink);font-size:13.5px;line-height:1.65;
   font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;white-space:pre}
+/* fenced blocks in prose wrap long lines (a long command stays readable); full code views and
+   layout-sensitive blocks (trees, aligned columns: .code-pre, set in transform) keep pre */
+figure.code:not(.code-full):not(.code-pre) code{white-space:pre-wrap;overflow-wrap:anywhere}
 .code-full pre{font-size:13px}
 .code .hljs-comment,.code .hljs-quote{color:#5c6e91;font-style:italic}
 .code .hljs-keyword,.code .hljs-selector-tag,.code .hljs-section,.code .hljs-doctag{color:#c099ff}
@@ -582,11 +633,12 @@ thead th{background:var(--soft2);text-align:left;font-weight:700;color:var(--ink
 th,td{padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
 tbody tr:nth-child(even){background:var(--soft)}
 tbody tr:last-child td{border-bottom:0}
+td.nowrap{white-space:nowrap}
 
 .prose ul:has(>li.task){list-style:none;padding-left:.2em}
-li.task{display:flex;align-items:flex-start;gap:10px;margin:.4em 0}
-li.task .cb{flex:0 0 auto;margin-top:.28em;width:17px;height:17px;border:2px solid var(--line2);border-radius:5px;background:var(--cb-bg)}
-li.task.done .cb{background:var(--accent);border-color:var(--accent);position:relative}
+li.task{position:relative;padding-left:29px;margin:.4em 0}
+li.task .cb{position:absolute;left:0;top:.28em;box-sizing:border-box;width:17px;height:17px;border:2px solid var(--line2);border-radius:5px;background:var(--cb-bg)}
+li.task.done .cb{background:var(--accent);border-color:var(--accent)}
 li.task.done .cb::after{content:"";position:absolute;left:4px;top:0px;width:5px;height:10px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
 li.task.done{color:var(--muted)}
 li.task p{margin:0}

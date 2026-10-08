@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Troubleshooting with Datadog 101</title>
+<!-- Built from deck-outline.md: edit the outline first, then this deck. Speaker notes (the notes asides) are the outline's Say track. -->
+<link rel="stylesheet" href="reveal/dist/reveal.css">
+<link rel="stylesheet" href="theme/dd101.css">
+</head>
+<body>
+<div class="reveal"><div class="slides">
+
+<!-- ============================================================ 1 · TITLE -->
+<section class="is-title" data-background-color="#EBE7DE">
+  <div class="kicker">RealManage · DX Training</div>
+  <div class="title-wrap">
+    <h1>Troubleshooting with Datadog 101</h1>
+    <div class="sub">Slow requests and errors, with Claude + Datadog MCP</div>
+  </div>
+  <img class="logo" src="img/realmanage-logo.png" alt="RealManage">
+  <div class="foot">One session · about 90 minutes, plus questions</div>
+  <aside class="notes"><p>Hey everyone, thanks for joining. Today I want to show you how to use Datadog, along with Claude, to troubleshoot a slow request and an error.</p><p>This session is recorded, and the recording stays inside the DX team's channel.</p><p>Before we start: if the setup guide worked for you, please put a thumbs up in the chat. If it didn't work, that's OK. Just follow along, and we can fix it after the session.</p></aside>
+</section>
+<!-- ============================================================ 2 · What You&#x27;ll Leave With -->
+<section>
+  <img class="mark" src="img/realmanage-mark.png" alt="">
+  <div class="kicker">Today</div>
+  <h1>What You'll Leave With</h1>
+  <div class="cols3 goals" style="grid-template-columns:repeat(4,1fr); gap:20px; margin-top:84px">
+  <div class="card"><div class="num">1</div><h3>Find and read a trace</h3><p>Traces, spans and the gap</p></div>
+  <div class="card"><div class="num">2</div><h3>Why is it slow?</h3><p>Profiles: Wall vs CPU, flame graphs</p></div>
+  <div class="card"><div class="num">3</div><h3>Why did it fail?</h3><p>Exception Replay and Live Debugger</p></div>
+  <div class="card"><div class="num">4</div><h3>Investigate with Claude</h3><p>In every part, then check its work</p></div>
+</div>
+  <div class="rule"></div>
+  <aside class="notes"><p>By the end of this session, you should be able to do four things.</p><p>First, find a trace in Datadog and read it. We'll start with a short tour of Datadog APM, for anyone who doesn't use it much yet.</p><p>Second, find out why a request is slow. For that we use the profiler, which is new for most of us.</p><p>Third, find out why a request failed. For that we use two newer Datadog features, Exception Replay and Live Debugger.</p><p>And fourth, ask Claude to do this research for you, with the Datadog MCP server. I think this one is the most important. You don't need to be a Datadog expert for it, because Claude writes the queries for you. You only need to know what to ask, and how to check the answer.</p><p>So in each of the first three parts, I'll first show you how to do it by hand in Datadog, and then I'll ask Claude to do the same thing. In the last part, we'll look at how to check Claude's answers, because sometimes they are wrong.</p><p>I'll stop at the end of the first three parts for a couple of questions.</p><p>For the slow request, we'll use one real example most of the way.</p></aside>
+</section>
+<!-- ============================================================ 3 · Four Words: Service, Resource, Span, Trace -->
+<section>
+  <img class="mark" src="img/realmanage-mark.png" alt="">
+  <div class="kicker">Vocabulary</div>
+  <h1>Four Words: Service, Resource, Span, Trace</h1>
+  <svg class="dia" viewBox="0 0 1180 334" style="margin-top:96px" role="img" aria-label="A trace drawn the way Datadog draws it, inside a gold border that marks the trace. Time runs left to right. Row 1: a span from resident-ui, the browser, resource /api/user/dashboard. Row 2: a span from resident-api, resource GET /api/user/dashboard. Row 3: three SQL spans from the rm_accumulator database, the first with the resource api_rp_GetResidentPortalUserDashboardInfo. A key says color is the service, the resource is the name on a bar, a span is one rectangle, and the trace is every span for one request.">
+  <rect x="8" y="6" width="826" height="322" rx="14" fill="none" stroke="#B8860B" stroke-width="4"/>
+  <text x="34" y="42" font-size="17" fill="#4C5A6E">time →</text>
+  <line x1="34" y1="52" x2="796" y2="52" stroke="#4C5A6E" stroke-width="2"/><path d="M796,46 L810,52 L796,58 Z" fill="#4C5A6E"/>
+  <rect x="34" y="66" width="776" height="62" rx="5" fill="#E0844F"/><text x="48" y="88" font-size="14" font-weight="700" fill="#FFFFFF" fill-opacity=".8" letter-spacing="1">RESOURCE</text><text x="48" y="115" font-size="21" font-weight="500" fill="#FFFFFF">/api/user/dashboard</text>
+  <rect x="56" y="134" width="700" height="62" rx="5" fill="#4E9A2E"/><text x="70" y="156" font-size="14" font-weight="700" fill="#FFFFFF" fill-opacity=".8" letter-spacing="1">RESOURCE</text><text x="70" y="183" font-size="21" font-weight="500" fill="#FFFFFF">GET /api/user/dashboard</text>
+  <rect x="56" y="202" width="408" height="62" rx="5" fill="#9B4F8F" stroke="#121F38" stroke-width="2" stroke-dasharray="6 4"/><text x="70" y="224" font-size="14" font-weight="700" fill="#FFFFFF" fill-opacity=".8" letter-spacing="1">RESOURCE</text><text x="70" y="251" font-size="17" font-weight="500" fill="#FFFFFF">api_rp_GetResidentPortalUserDashboardInfo</text>
+  <rect x="470" y="202" width="7" height="62" rx="2" fill="#9B4F8F"/><rect x="482" y="202" width="9" height="62" rx="2" fill="#9B4F8F"/>
+  <text x="34" y="300" font-size="18" fill="#054549">Each row is called by the row above it. Spans on the same row ran one after another.</text>
+  <text x="866" y="40" font-size="20" font-weight="700" fill="#121F38">SERVICE <tspan font-weight="400" fill="#054549">= the color</tspan></text>
+  <rect x="866" y="54" width="18" height="18" rx="3" fill="#E0844F"/><text x="892" y="70" font-size="17" fill="#121F38">resident-ui (browser)</text>
+  <rect x="866" y="80" width="18" height="18" rx="3" fill="#4E9A2E"/><text x="892" y="96" font-size="17" fill="#121F38">resident-api</text>
+  <rect x="866" y="106" width="18" height="18" rx="3" fill="#9B4F8F"/><text x="892" y="122" font-size="17" fill="#121F38">rm_accumulator (database)</text>
+  <text x="866" y="170" font-size="20" font-weight="700" fill="#121F38">RESOURCE <tspan font-weight="400" fill="#054549">= the name on a bar</tspan></text>
+  <text x="866" y="194" font-size="17" fill="#4C5A6E">the endpoint, or the query</text>
+  <text x="866" y="240" font-size="20" font-weight="700" fill="#121F38">SPAN <tspan font-weight="400" fill="#054549">= one rectangle</tspan></text>
+  <text x="866" y="264" font-size="17" fill="#4C5A6E">one run, with a duration</text>
+  <text x="866" y="304" font-size="20" font-weight="700" fill="#B8860B">TRACE <tspan font-weight="400">= the gold border</tspan></text>
+  <text x="866" y="328" font-size="17" fill="#4C5A6E">every span for one request</text>
+</svg>
+  <div class="rule"></div>
+  <aside class="notes"><p>There are four words we'll use a lot today.</p><p>A service is one application that sends data to Datadog, for example resident-api. On this slide, the color of each bar shows its service.</p><p>A span is one piece of work, with a start time and a duration, for example one request, one SQL call, or one call to another API. Each rectangle on this slide is one span.</p><p>Time goes from left to right, and each row is called by the row above it. The top bar is the resident-ui service, which runs in the browser. It calls resident-api, and resident-api calls the database.</p><p>I'll use this request as the example for most of today. I picked it because it shows the problem clearly, and you'll find the same kind of thing in most of our services.</p><p>Every time someone opens the dashboard, Datadog records a new span, with its own duration, but all of those spans have the same resource. If five hundred people open the dashboard today, that's five hundred spans, all with one resource.</p><p>A trace is all the spans for one request, across every service it went through. On the slide, it's everything inside the gold border: the browser, the API and the database.</p><p>The main thing to remember is that a trace is made of spans. If you forget a word later, the glossary on the course site has all of them.</p></aside>
+</section>
+<!-- ============================================================ 4 · DIVIDER · Part 1 of 4 -->
+<section class="is-divider" data-background-color="#121F38">
+  <img class="mark" src="img/realmanage-mark-white.png" alt="">
+  <div class="divider-wrap"><div class="part">Part 1 of 4</div><h1>Finding Your Way Around APM</h1></div>
+  <aside class="notes"><p>In part one we'll look around Datadog APM. We won't cover every feature. The goal is for you to get familiar with the main pages, and to learn a couple of common mistakes to avoid.</p><p>At the end of this part, we'll ask Claude to find a slow request and explain it.</p></aside>
+</section>
+<!-- ============================================================ 5 · Finding Traces -->
+<section>
+  <img class="mark" src="img/realmanage-mark.png" alt="">
+  <div class="kicker">Part 1 · APM orientation</div>
+  <h1>Finding Traces</h1>
+  <div class="shot-frame" style="width:964px; margin:4px auto 0">
+  <img class="shot" src="../assets/screenshots/traces-explorer.png" alt="APM Traces explorer searching slow dashboard requests: the search bar, the Spans and Traces switch, in Indexed Spans, and a list of spans that all have the resource GET /api/user/dashboard, with their durations">
+  <div class="callout" style="left:3.6%; top:20.4%; width:76.2%; height:7%"></div>
+  <div class="callout" style="left:13.4%; top:8.6%; width:20.2%; height:5.8%"></div>
+  <div class="callout" style="left:54.4%; top:71.6%; width:6.8%; height:27.6%"></div>
+</div>
+<p class="caption" style="text-align:center"><b>APM → Traces</b> · older than 15 minutes = <b>indexed spans</b>, a sample</p>
+  <div class="rule"></div>
+  <aside class="notes"><p>To find traces, go to APM and then Traces. In the search bar you can filter by service, resource, environment and duration. Duration is useful when you're looking for slow requests. For example, duration greater than five seconds shows only the slow ones.</p><p>Each row in this list is one span. They all have the same resource, GET /api/user/dashboard, and each has its own duration. This switch changes the list between one row per span and one row per trace.</p><p>There's one important detail here. For the last fifteen minutes, Datadog searches all the spans, and it would say Live Search. For older time ranges it says Indexed Spans, like here. That means Datadog only kept a sample of the spans, so the number of spans you see is not the number of requests.</p><p>To count requests, Datadog uses trace metrics, which count every request. We won't go into trace metrics today. The charts on the Service page, which we'll see in a minute, are built from them, and later you'll see Claude use them for you.</p></aside>
+</section>
+<!-- ============================================================ 6 · Three Views of One Trace -->
+<section>
+  <img class="mark" src="img/realmanage-mark.png" alt="">
+  <div class="kicker">Part 1 · APM orientation</div>
+  <h1>Three Views of One Trace</h1>
+  <div class="stack" style="gap:10px">
+  <div class="shot-frame">
+    <img class="shot" src="../assets/screenshots/trace-flame-graph-gap.png" alt="Flame Graph view">
+    <span class="pill navy" style="position:absolute; left:2%; bottom:9%">Flame Graph · shape and gaps</span>
+  </div>
+  <div class="cols2" style="gap:20px; align-items:start">
+    <div><img class="shot" src="../assets/screenshots/trace-waterfall.png" alt="Waterfall view"><p class="caption" style="margin-top:6px; font-size:22px"><b>Waterfall</b> · expand all</p></div>
+    <div><img class="shot" src="../assets/screenshots/trace-span-list.png" alt="Span List view"><p class="caption" style="margin-top:6px; font-size:22px"><b>Span List</b> · read Exec Time</p></div>
+  </div>
+</div>
+  <div class="rule"></div>
+  <aside class="notes"><p>When you click a row, the trace opens. Datadog can show the same spans in three different ways.</p><p>The flame graph is the same view as on the last slide. Time goes from left to right, and each span is drawn under the span that called it. It's the best view to see the overall shape of the request. You'll notice two resident-api rows with the same name. I'll explain why when we get to the Service page.</p><p>The waterfall shows the spans as a list on a timeline. Click expand all, otherwise the child spans are hidden.</p><p>The span list is a table. If you group it by service, look at the Exec Time column. Exec Time is the time spent in that service's own code, without the calls it made to other systems. There's also a Map tab that shows which services the trace went through, but we won't use it today.</p></aside>
+</section>
+<!-- ============================================================ 7 · No Span ≠ No Work: The Gap Is Our Code -->
+<section>
+  <img class="mark" src="img/realmanage-mark.png" alt="">
+  <div class="kicker">Part 1 · APM orientation</div>
+  <h1>No Span ≠ No Work: The Gap Is Our Code</h1>
+  <div class="shot-frame">
+  <img class="shot" src="../assets/screenshots/trace-flame-graph-gap.png" alt="Trace flame graph: the stored procedure ends near 6 seconds and the resident-api span runs to 11.6 seconds, leaving about 6 seconds with no spans under it">
+  <div class="callout" style="left:33.5%; top:46%; width:33%; height:16%"></div>
+  <div style="position:absolute; left:50%; top:71%; transform:translateX(-50%)"><span class="pill">≈ 6 s, nothing under the API span</span></div>
+</div>
+<div class="cols2" style="grid-template-columns:1.6fr 1fr; gap:30px; margin-top:44px; align-items:center">
+  <p class="caption" style="margin:0; font-size:26px">Tracing records the calls <b>out</b> of our code. When our own code is busy, tracing has no data for that time.</p>
+  <div class="card" style="padding:22px 26px"><p style="font-size:20px; margin:0 0 6px; color:#4C5A6E">Span List · resident-api</p><p style="margin:0"><b>Exec Time 6.24 s</b></p><p style="margin:4px 0 0; font-size:20px; color:#4C5A6E">11.6 s span minus 5.4 s of SQL = the gap</p></div>
+</div>
+  <div class="rule"></div>
+  <aside class="notes"><p>This is the most important slide in part one. It's a real dashboard request from production, and it took about eleven seconds in the API. The stored procedure takes about five seconds. After that there are two very small queries. Then, for about six seconds, the resident-api span is still running, but there are no spans under it.</p><p>So the API was still working during that time, but it didn't call anything that tracing records. Tracing only records calls from our code to other systems, like SQL, HTTP calls or the cache. When our own code is busy, for example running a loop, using reflection or building objects, tracing has no data for that time.</p><p>The span list on the right shows the same thing in numbers. Exec time is the span's time minus the time spent in the spans under it. Here that's 11.6 seconds minus about 5.4 seconds of SQL, so about six seconds, which is the gap.</p><p>So from the trace we know the request was slow, and we know the database was not the only reason. But we don't know which method used that time. We'll answer that in part two.</p></aside>
+</section>
+<!-- ============================================================ 8 · The Span Tabs -->
+<section>
+  <img class="mark" src="img/realmanage-mark.png" alt="">
+  <div class="kicker">Part 1 · APM orientation</div>
+  <h1>The Span Tabs</h1>
+  <div class="shot-frame" style="margin-top:16px">
+  <img class="shot" src="../assets/screenshots/span-sql-queries.png" alt="The span tab row with SQL Queries open, listing the stored procedure and another query with masked parameters">
+  <div class="callout" style="left:0.4%; top:11.6%; width:59.4%; height:12.4%"></div>
+</div>
+<div class="cols3" style="margin-top:40px; gap:22px 14px; font-size:25px">
+  <div><b>Overview</b> · attributes</div><div><b>Infrastructure</b> · the host</div><div><b>Metrics</b> · .NET runtime</div>
+  <div><b>Logs</b> · this trace's logs</div><div><b>SQL Queries</b> · every DB call</div><div><b style="color:#E0552F">Profiles</b> · our methods</div>
+</div>
+  <div class="rule"></div>
+  <aside class="notes"><p>When you click a span, these tabs appear under the trace. I'll go through them quickly.</p><p>Overview shows the attributes of the span, like environment, version, status code and URL. Infrastructure shows the host that handled the request. Metrics shows the .NET runtime metrics for that process, like CPU and memory. Logs shows the logs for this trace, if the service sends them to Datadog. You won't need Network and Processes very often.</p><p>SQL Queries lists every database call in the request, slowest first. Here you can see our stored procedure at the top. The last tab, Profiles, shows which of our methods were running during this span. That's the tab we'll use in part two.</p></aside>
+</section>
+<!-- ============================================================ 9 · The Service Page -->
+<section>
+  <img class="mark" src="img/realmanage-mark.png" alt="">
+  <div class="kicker">Part 1 · APM orientation</div>
+  <h1>The Service Page</h1>
+  <div class="cols2" style="grid-template-columns:1.3fr 1fr; gap:30px; align-items:center; margin-top:6px">
+  <div class="shot-frame">
+    <img class="shot" src="../assets/screenshots/service-page.png" alt="Service page for resident-api: the operation, env and version selectors at the top, and the left nav">
+    <div class="callout" style="left:0.5%; top:5%; width:26%; height:5%"></div>
+  </div>
+  <div class="stack" style="gap:16px">
+    <p style="font-size:26px; margin:0"><b>Check these first</b> (G10)</p>
+    <div class="card" style="padding:20px 24px"><h3 style="font-size:24px">Operation</h3><p style="font-size:21px; margin-bottom:12px">Our ASP.NET endpoints report under two:</p>
+      <p style="margin:0; font:700 21px/1.3 Consolas, ui-monospace, monospace; color:#121F38">aspnet.request</p>
+      <p style="margin:0 0 12px; font-size:19px; color:#4C5A6E">the whole request, as IIS and ASP.NET handle it</p>
+      <p style="margin:0; font:700 21px/1.3 Consolas, ui-monospace, monospace; color:#121F38">aspnet_webapi.request</p>
+      <p style="margin:0; font-size:19px; color:#4C5A6E">the part inside our Web API controller</p></div>
+    <div class="card" style="padding:20px 24px"><h3 style="font-size:24px">Env</h3><p style="font-size:21px">prod, qa or dev</p></div>
+  </div>
+</div>
+  <div class="rule"></div>
+  <aside class="notes"><p>To open the Service page, go to APM, then Service, and pick a service. This page is a dashboard for one service.</p><p>The charts on this page count every request, because they're built from the trace metrics I mentioned earlier.</p><p>Before you trust any number here, check the operation selector at the top. Our ASP.NET endpoints are measured twice, once by ASP.NET and once by Web API, so each request has two spans with different operation names: aspnet.request and aspnet_webapi.request. That's why the trace had two resident-api rows with the same name, and why each endpoint can appear twice on this page.</p><p>This isn't a bug. ASP.NET measures the whole request, and Web API measures the part inside our controller, so the outer span is always a little longer. If the duplicate rows bother you on the APM Traces page, switch the search from Spans to Traces, and you get one row per request. On .NET Core, Datadog has a setting that records only one span per request. That setting doesn't exist for our .NET Framework APIs, so on those you'll always see two.</p><p>Also check the environment selector next to it: prod, qa or dev. Make sure it's the one you meant.</p><p>You'll also see a Live Debugger tab on the left. We'll look at it in part three.</p></aside>
+</section>
+<!-- ============================================================ 10 · Demo: A Slow Request, End to End -->
+<section>
+  <img class="mark" src="img/realmanage-mark.png" alt="">
+  <div class="kicker">Part 1 · Demo</div>
+  <h1>Demo: A Slow Request, End to End</h1>
+  <div class="demo links"><span class="tag">D1</span><span class="tag tile">7 min</span><span class="where">Switch to the browser · Datadog</span><ol><li><b>APM → Traces</b>, search for slow dashboard requests <a class="go" href="https://us5.datadoghq.com/apm/traces?query=service%3Aresident-api%20resource_name%3A%22GET%20%2Fapi%2Fuser%2Fdashboard%22%20env%3Aprod%20%40duration%3A%3E5s" target="_blank" rel="noopener">Open the search ↗</a></li><li>Open a slow one: Flame Graph → Waterfall → Span List</li><li>Find the gap</li><li>Click the resident-api span and open the SQL Queries tab</li></ol><div class="query">service:resident-api resource_name:"GET /api/user/dashboard" env:prod @duration:&gt;5s</div></div>
+  <div class="rule"></div>
+  <aside class="notes"><p>(Click Open the search on the slide. It opens APM → Traces with the filters already set.)</p><p>This is the search from a few slides ago: resident-api, the dashboard endpoint, prod, and only requests that took more than five seconds. Every row here is one slow dashboard request.</p><p>(Switch Spans to Traces, then back.) If I switch from Spans to Traces, I get one row per request. That's the switch I mentioned for the duplicate rows.</p><p>(Open one of the slowest requests, ideally ten seconds or more. If none is in range, use the trace in browser tab 2.) Let's open one of the slow ones. This one took about … seconds. (Read the number off the screen.)</p><p>(Flame Graph tab.) This is the flame graph. At the top is the browser, in resident-ui. Under it are the two resident-api spans, the two operations we talked about. Under those, in purple, are the stored procedure and two short queries.</p><p>(Hover the stored procedure.) The stored procedure took about … seconds.</p><p>(Point at the empty space after the SQL calls.) And here's the gap. After the SQL calls finish, the resident-api span keeps running for a few more seconds, with nothing under it. So what was our code doing during that time? The trace can't tell us.</p><p>(Waterfall tab, click expand all.) The waterfall shows the same spans as a list on a timeline. Click expand all, so you see every child span.</p><p>(Span List tab, group by service.) The span list adds up the time by service. Look at Exec Time for resident-api: about … seconds of its own code, and most of that is the gap.</p><p>(Click the resident-api span, open SQL Queries.) When I click the span, I get the tabs we saw. SQL Queries shows the stored procedure at the top.</p><p>(Point at the Profiles tab, but don't open it.) The last tab, Profiles, can tell us what our code was doing during the gap. We'll open it in part two.</p></aside>
+</section>
+<!-- ============================================================ 11 · What Claude Can Do With the Datadog MCP -->
+<section>
+  <img class="mark" src="img/realmanage-mark.png" alt="">
+  <div class="kicker">Part 1 · With Claude</div>
+  <h1>What Claude Can Do With the Datadog MCP</h1>
+  <div class="cols2" style="grid-template-columns:1.1fr 1fr; gap:30px; align-items:center">
+  <div class="card" style="background:#121F38; color:#FFFFFF; font-family:ui-monospace,Consolas,monospace; font-size:22px; line-height:1.5">
+    <span style="color:#FF7350">&gt;</span> Which prod endpoints in resident-api have the worst p95 over the last 24 hours?
+  </div>
+  <div class="stack">
+    <div class="habit" style="grid-template-columns:1fr"><span><b style="margin-right:10px">Spans</b> search and pull traces</span></div>
+    <div class="habit" style="grid-template-columns:1fr"><span><b style="margin-right:10px">Metrics</b> unsampled trace.* numbers</span></div>
+    <div class="habit" style="grid-template-columns:1fr"><span><b style="margin-right:10px">Profiles</b> flame graphs by endpoint</span></div>
+    <div class="habit" style="grid-template-columns:1fr"><span><b style="margin-right:10px">Errors</b> issues and snapshots</span></div>
+    <div class="habit" style="grid-template-columns:1fr"><span><b style="margin-right:10px">Logpoints</b> Live Debugger, in dev</span></div>
+  </div>
+</div>
+<p class="caption" style="margin-top:26px">Ask in English → Claude runs the queries · the URL needs <code>?toolsets=all</code> (G11)</p>
+  <div class="rule"></div>
+  <aside class="notes"><p>Now let's see how Claude can help with this. Before today, you were asked to set up the Datadog MCP server in Claude Code. MCP is a standard way to give Claude extra tools, and this server gives it tools to query our Datadog account.</p><p>With those tools, Claude can search spans, open a trace, read the trace metrics, get flame graphs and compare time ranges. It can also read Error Tracking issues and Exception Replay snapshots, and it can even add a Live Debugger logpoint for you. We'll see each of these during the session.</p><p>You ask your question in normal English, and Claude decides which queries to run. So even if you only know the basics of Datadog, you can still get a detailed answer.</p><p>There's one setup detail that causes problems: the server URL must end with question mark, toolsets equals all. Without it, the profiling and Error Tracking tools are missing, and you don't get an error.</p></aside>
+</section>
+<!-- ============================================================ 12 · Demo: Claude Finds the Slow Request -->
+<section>
+  <img class="mark" src="img/realmanage-mark.png" alt="">
+  <div class="kicker">Part 1 · Demo</div>
+  <h1>Demo: Claude Finds the Slow Request</h1>
+  <div class="demo"><span class="tag">D2</span><span class="tag tile">6 min</span><span class="where">Switch to the terminal · Claude Code</span><ol><li><b>P2</b> Which prod endpoints are slowest? <span class="lede">(trace metrics, not span counts)</span></li><li><b>P3</b> Explain one slow dashboard request, including the gap</li><li>Compare with what we just found by hand</li></ol></div>
+  <div class="rule"></div>
+  <aside class="notes"><p>(Switch to the terminal and follow D2 in the run sheet. Paste P2, then P3.) Let's ask Claude to find the slowest endpoints, and then to explain one slow dashboard request like the one we just looked at. (While Claude works, explain which tools it's calling. Each prompt takes one to two and a half minutes. When P2 finishes, say that we asked for the trace metrics on purpose, because span counts are sampled, and check that it really used them. Explain that p95 means 95 percent of requests were faster than this number. Point out that it separates endpoints with only a few requests from busy ones. When P3 finishes, point out that Claude found the same gap we found in Datadog. If it also names the method from the profile, say that we'll learn how to do that ourselves in part two.)</p><p>(End of part one. Ask if anyone has a question, and take one or two. Keep it to about two minutes.)</p></aside>
+</section>
+<!-- ============================================================ 13 · DIVIDER · Part 2 of 4 -->
+<section class="is-divider" data-background-color="#121F38">
+  <img class="mark" src="img/realmanage-mark-white.png" alt="">
+  <div class="divider-wrap"><div class="part">Part 2 of 4</div><h1>Why Is It Slow?</h1></div>
+  <aside class="notes"><p>Part two is about slow requests. We'll answer the question we had from the trace: what was our code doing during the gap?</p></aside>
+</section>
+<!-- ============================================================ 14 · Tracing vs Profiling -->
+<section>
+  <img class="mark" src="img/realmanage-mark.png" alt="">
+  <div class="kicker">Part 2 · Profiling</div>
+  <h1>Tracing vs Profiling</h1>
+  <svg class="dia" viewBox="0 0 1160 380" role="img" aria-label="Two timelines of the same request. Tracing shows a 5-second stored procedure then an empty stretch with no spans; profiling shows samples all along, densest in that stretch, labelled UserBP.GetUserDashboardItems.">
+  <text x="0" y="40" font-size="24" font-weight="700" fill="#121F38">Tracing</text>
+  <text x="0" y="68" font-size="20" fill="#054549">that it was slow,</text><text x="0" y="92" font-size="20" fill="#054549">and what it called</text>
+  <rect x="300" y="18" width="840" height="28" rx="5" fill="#121F38"/><text x="312" y="38" font-size="16" fill="#FFFFFF">GET /api/user/dashboard · 11 s</text>
+  <rect x="310" y="56" width="400" height="24" rx="5" fill="#E0552F"/><text x="320" y="73" font-size="15" fill="#FFFFFF">stored procedure · 5 s</text>
+  <rect x="716" y="56" width="8" height="24" fill="#E0552F"/><rect x="728" y="56" width="10" height="24" fill="#E0552F"/>
+  <rect x="744" y="54" width="392" height="28" rx="5" fill="none" stroke="#121F38" stroke-dasharray="6 5"/><text x="940" y="73" text-anchor="middle" font-size="16" font-weight="500" fill="#121F38">? no spans</text>
+  <line x1="300" y1="130" x2="1140" y2="130" stroke="#D7E3F3" stroke-width="2"/>
+  <text x="0" y="200" font-size="24" font-weight="700" fill="#121F38">Profiling</text>
+  <text x="0" y="228" font-size="20" fill="#054549">what our code</text><text x="0" y="252" font-size="20" fill="#054549">was doing</text>
+  <g fill="#1A7FA8" opacity=".45"><rect x="310" y="182" width="6" height="40"/><rect x="360" y="182" width="6" height="40"/><rect x="410" y="182" width="6" height="40"/><rect x="460" y="182" width="6" height="40"/><rect x="510" y="182" width="6" height="40"/><rect x="560" y="182" width="6" height="40"/><rect x="610" y="182" width="6" height="40"/><rect x="660" y="182" width="6" height="40"/><rect x="710" y="182" width="6" height="40"/></g>
+  <g fill="#E0552F"><rect x="750" y="172" width="6" height="60"/><rect x="768" y="172" width="6" height="60"/><rect x="786" y="172" width="6" height="60"/><rect x="804" y="172" width="6" height="60"/><rect x="822" y="172" width="6" height="60"/><rect x="840" y="172" width="6" height="60"/><rect x="858" y="172" width="6" height="60"/><rect x="876" y="172" width="6" height="60"/><rect x="894" y="172" width="6" height="60"/><rect x="912" y="172" width="6" height="60"/><rect x="930" y="172" width="6" height="60"/><rect x="948" y="172" width="6" height="60"/><rect x="966" y="172" width="6" height="60"/><rect x="984" y="172" width="6" height="60"/><rect x="1002" y="172" width="6" height="60"/><rect x="1020" y="172" width="6" height="60"/><rect x="1038" y="172" width="6" height="60"/><rect x="1056" y="172" width="6" height="60"/><rect x="1074" y="172" width="6" height="60"/><rect x="1092" y="172" width="6" height="60"/><rect x="1110" y="172" width="6" height="60"/><rect x="1128" y="172" width="6" height="60"/></g>
+  <text x="510" y="266" text-anchor="middle" font-size="16" fill="#054549">threads waiting on SQL</text>
+  <text x="940" y="266" text-anchor="middle" font-size="18" font-weight="500" fill="#121F38">UserBP.GetUserDashboardItems</text>
+  <text x="0" y="340" font-size="19" fill="#121F38">The profiler samples every thread's stack many times a second, all day, for a few percent of CPU.</text>
+</svg>
+  <div class="rule"></div>
+  <aside class="notes"><p>Tracing records the calls our code makes to other systems, and how long they take. Profiling works in a different way. Many times per second, the profiler checks every thread and records its stack. The stack is the method that is running, and the methods that called it.</p><p>The profiler does this all day, for every request, and it only costs a few percent of CPU. When we turned it on, CPU on the web servers went up by about two and a half percentage points.</p><p>So where the trace has no spans, the profile still has samples. We turned on the profiler for all CiraNet .NET Framework APIs in dev, qa and prod on September 22nd, so traces from that day onward can have profile data.</p></aside>
+</section>
+<!-- ============================================================ 15 · Reading a Flame Graph -->
+<section>
+  <img class="mark" src="img/realmanage-mark.png" alt="">
+  <div class="kicker">Part 2 · Profiling</div>
+  <h1>Reading a Flame Graph</h1>
+  <svg class="dia" viewBox="0 0 1180 330" role="img" aria-label="A simplified flame graph. Framework frames are gray; our CiraNet frames are navy. Reading top-down: request pipeline, UserBP.GetUserDashboardItems, DashboardHelper.GetActivities, EnumExtensions.GetEnumFromDescription, which is the widest frame of ours and is circled.">
+  <rect x="20" y="20" width="860" height="40" rx="4" fill="#C9C4B8"/><text x="32" y="47" font-size="19" fill="#121F38">ASP.NET request pipeline</text><rect x="20" y="64" width="791" height="40" rx="4" fill="#C9C4B8"/><text x="32" y="91" font-size="19" fill="#121F38">Standard Library</text><rect x="20" y="108" width="688" height="40" rx="4" fill="#121F38"/><text x="32" y="135" font-size="19" fill="#FFFFFF">UserBP.GetUserDashboardItems()</text><rect x="20" y="152" width="430" height="40" rx="4" fill="#121F38"/><text x="32" y="179" font-size="19" fill="#FFFFFF">DashboardHelper.GetActivities</text><rect x="20" y="196" width="378" height="40" rx="4" fill="#121F38"/><text x="32" y="223" font-size="19" fill="#FFFFFF">GetEnumFromDescription</text><rect x="14" y="190" width="390" height="52" rx="8" fill="none" stroke="#FF7350" stroke-width="4"/><rect x="20" y="240" width="344" height="40" rx="4" fill="#C9C4B8"/><text x="32" y="267" font-size="19" fill="#121F38">Attribute.GetCustomAttribute</text>
+  <rect x="484" y="152" width="206" height="40" rx="4" fill="#C9C4B8"/><text x="496" y="179" font-size="19" fill="#121F38">Enumerable.ToList</text>
+  <text x="920" y="80" font-size="22" font-weight="700" fill="#121F38">Width = time</text>
+  <text x="920" y="112" font-size="20" fill="#054549">order left to right</text><text x="920" y="138" font-size="20" fill="#054549">means nothing</text>
+  <text x="920" y="200" font-size="22" font-weight="700" fill="#121F38">Top calls bottom</text>
+  <text x="920" y="262" font-size="22" font-weight="700" fill="#E0552F">Widest of ours</text><text x="920" y="292" font-size="20" fill="#054549">(navy = CiraNet…)</text>
+</svg>
+  <div class="rule"></div>
+  <aside class="notes"><p>In the profiler, a flame graph combines thousands of these stack samples into one picture. I'll give you three rules for reading it.</p><p>First, width means time. A wider box used more time, and the order from left to right doesn't mean anything. This is different from the flame graph in a trace. In a trace, left to right is time. In a profile, only the width matters.</p><p>Second, read it from top to bottom. The methods at the top call the methods below them.</p><p>Third, look for our own code. Skip the framework methods, find the methods in our namespaces, the ones that start with CiraNet, and follow them down to the widest one. That's usually where the problem is.</p></aside>
+</section>
+<!-- ============================================================ 16 · CPU Time vs Wall Time -->
+<section>
+  <img class="mark" src="img/realmanage-mark.png" alt="">
+  <div class="kicker">Part 2 · Profiling</div>
+  <h1>CPU Time vs Wall Time</h1>
+  <div class="cols2" style="grid-template-columns:1.5fr 1fr; gap:28px; align-items:start">
+  <img class="shot" src="../assets/screenshots/profiles-cpu-default.png" alt="Profiles explorer opening on CPU Time, with the Wall Time card beside it">
+  <div class="stack">
+    <div class="card"><h3>CPU Time</h3><p>running only · <b>the default</b></p></div>
+    <div class="card"><h3>Wall Time</h3><p>running + waiting</p></div>
+    <p style="font-size:26px"><b>Slow request? Use Wall Time</b> (G1)</p>
+    <p class="small muted">Wall counts idle threads too: filter to your endpoint and code (G2)</p>
+  </div>
+</div>
+  <div class="rule"></div>
+  <aside class="notes"><p>Our services collect a few profile types: CPU, wall time, exceptions, lock contention and garbage collection. Today we need two of them. CPU Time only counts the time a thread was actually running on the CPU. Wall Time counts all the time that passed, running or waiting.</p><p>The Profiles page opens with CPU Time selected, and that can be misleading. Look at the dashboard endpoint in this list. It only uses about two tenths of a second of CPU per minute, so it looks unimportant. That's because most dashboard requests are fast, and the slow ones spend a lot of their time waiting for SQL. That's why we switch to Wall Time for slow requests.</p><p>But wall time also counts threads that are just sleeping, so you should filter it to your endpoint and your own code. Also, a time range with little traffic gives a thin profile. If the graph looks empty, make the time range bigger.</p></aside>
+</section>
+<!-- ============================================================ 17 · From One Slow Trace to Its Profile -->
+<section>
+  <img class="mark" src="img/realmanage-mark.png" alt="">
+  <div class="kicker">Part 2 · Profiling</div>
+  <h1>From One Slow Trace to Its Profile</h1>
+  <img class="shot" src="../assets/screenshots/span-profiles-flame-graph.png" alt="The span's Profiles tab: threads busy after 5 seconds; UserBP.GetUserDashboardItems shows 5.05 seconds of CPU" style="height:430px; width:auto; max-width:100%">
+<p class="caption"><b>Span → Profiles</b> · the gap = <code>UserBP.GetUserDashboardItems</code>, 5.05 s · async nests under the awaited call (G4) · line 0 until DX-1570 (G5)</p>
+  <div class="rule"></div>
+  <aside class="notes"><p>Let's go back to our trace. Click the resident-api span, and then the Profiles tab. Look at the thread timeline. While SQL is running, the thread is not doing anything. Then, from about five seconds until the end, it's busy the whole time. That's the gap from the trace.</p><p>The flame graph below shows which method it was: UserBP.GetUserDashboardItems, with about five seconds of CPU time.</p><p>There are two things to notice here. First, it appears under the user repository and a caching method. This happens because the code is async. Code that runs after an await is shown under the method it waited for. The repository is not slow, so keep reading down to our widest method.</p><p>Second, every frame shows line zero. We need the symbol files to get line numbers, and that work is tracked in DX-1570. For now, use the method name to find the code.</p></aside>
+</section>
+<!-- ============================================================ 18 · The Answer: Filter the Flame Graph -->
+<section>
+  <img class="mark" src="img/realmanage-mark.png" alt="">
+  <div class="kicker">Part 2 · Profiling</div>
+  <h1>The Answer: Filter the Flame Graph</h1>
+  <div class="cols2" style="grid-template-columns:1.45fr 1fr; gap:26px; align-items:start">
+  <img class="shot" src="../assets/screenshots/profiles-wall-filtered.png" alt="Wall Time flame graph filtered to UserBP.GetUserDashboardItems">
+  <div class="stack">
+    <p style="font-size:24px"><b>Filter flame graph</b>, not the Method list (G3)</p>
+    <p><code>focus_on(method:"UserBP.GetUserDashboardItems()")</code></p>
+    <div class="card"><h3>Cross join × reflection</h3><p>Every feed item × every property calls <b>GetEnumFromDescription</b> → <b>GetCustomAttribute</b></p></div>
+    <p class="small muted">≈ ⅓ of the endpoint · under 1% of the service</p>
+  </div>
+</div>
+  <div class="rule"></div>
+  <aside class="notes"><p>To look at all requests, not just this one, click Open in Profiling. Choose the resident-api service, Wall Time, and the dashboard endpoint.</p><p>You might try to search for GetUserDashboardItems in the method list on the right, but it isn't there. That list sorts methods by their own time, and this method spends most of its time calling other methods. So use the Filter flame graph box instead. Pick the method and choose focus on.</p><p>Now we can read the stack. GetUserDashboardItems combines every activity feed item with every property, which is a cross join. For each pair, it calls GetEnumFromDescription, and that method calls GetCustomAttribute, which uses reflection, every single time. Then DashboardHelper.GetActivities does the same lookup again for each item.</p><p>In total, about a third of the endpoint's time is in that one helper method. But across the whole service it's less than one percent, so you would not find it by looking at the service as a whole.</p></aside>
+</section>
+<!-- ============================================================ 19 · Demo: Trace to Profile -->
+<section>
+  <img class="mark" src="img/realmanage-mark.png" alt="">
+  <div class="kicker">Part 2 · Demo</div>
+  <h1>Demo: Trace to Profile</h1>
+  <div class="demo"><span class="tag">D3</span><span class="tag tile">6 min</span><span class="where">Switch to the browser · Datadog</span><ol><li>Span → <b>Profiles</b> tab: read the timeline</li><li><b>Open in Profiling</b> → switch to <b>Wall Time</b></li><li>Method list fails → <b>Filter flame graph</b> → focus_on</li><li>Read down to the reflection</li></ol></div>
+  <div class="rule"></div>
+  <aside class="notes"><p>(Switch to the browser and follow D3 in the run sheet.) Let me show you this live. (Open the Profiles tab on the span and show the timeline. Then open it in Profiling, switch to Wall Time and add the filter. If the filtered graph is empty, change the time range to one day and explain that there weren't enough samples.)</p></aside>
+</section>
+<!-- ============================================================ 20 · Demo: Claude Reads the Profile -->
+<section>
+  <img class="mark" src="img/realmanage-mark.png" alt="">
+  <div class="kicker">Part 2 · Demo</div>
+  <h1>Demo: Claude Reads the Profile</h1>
+  <div class="demo"><span class="tag">D4</span><span class="tag tile">6 min</span><span class="where">Switch to the terminal · Claude Code</span><ol><li><b>P4</b> Pull the dashboard's wall-time profile: which of our methods?</li><li><b>P5</b> Workflow search: our C# or the database?</li></ol></div>
+  <div class="rule"></div>
+  <aside class="notes"><p>(Switch to the terminal and follow D4 in the run sheet. Paste P4, then P5.) Now let's ask Claude for the profile. (When P4 finishes, say that we asked for Wall Time on purpose, and check that it really used it. Point out that it found the same reflection problem we found with the filter. Then paste P5, which asks about the workflow search endpoint in management-api. When it finishes, explain the difference: here most of the profile is Entity Framework waiting for rows from SQL Server. That's also a useful result, because it tells us that making the C# faster won't help, and we should look at the query instead.)</p></aside>
+</section>
+<!-- ============================================================ 21 · The Contrast: When It&#x27;s the Database -->
+<section>
+  <img class="mark" src="img/realmanage-mark.png" alt="">
+  <div class="kicker">Part 2 · Profiling</div>
+  <h1>The Contrast: When It's the Database</h1>
+  <div class="cols2"><div><div class="card" style="padding:18px 22px"><h3>Dashboard</h3><p class="lede">Our code is wide → fix the code</p></div>
+<svg class="dia" viewBox="0 0 560 200" role="img" aria-label="Dashboard profile: our navy frames are wide, down to GetEnumFromDescription." style="margin-top:10px"><rect x="0" y="4" width="560" height="40" rx="4" fill="#C9C4B8"/><text x="12" y="31" font-size="19" fill="#121F38">request pipeline</text><rect x="0" y="50" width="482" height="40" rx="4" fill="#121F38"/><text x="12" y="77" font-size="19" fill="#FFFFFF">UserBP.GetUserDashboardItems</text><rect x="0" y="96" width="325" height="40" rx="4" fill="#121F38"/><text x="12" y="123" font-size="19" fill="#FFFFFF">DashboardHelper.GetActivities</text><rect x="0" y="142" width="291" height="40" rx="4" fill="#121F38"/><text x="12" y="169" font-size="19" fill="#FFFFFF">GetEnumFromDescription</text><rect x="-6" y="136" width="303" height="52" rx="8" fill="none" stroke="#FF7350" stroke-width="4"/></svg></div><div><div class="card" style="padding:18px 22px"><h3>Workflow search</h3><p class="lede">Waiting is wide → fix the query</p></div>
+<svg class="dia" viewBox="0 0 560 200" role="img" aria-label="Workflow search profile: gray framework frames waiting on SQL are wide; our navy frame is a thin sliver." style="margin-top:10px"><rect x="0" y="4" width="560" height="40" rx="4" fill="#C9C4B8"/><text x="12" y="31" font-size="19" fill="#121F38">request pipeline</text><rect x="0" y="50" width="504" height="40" rx="4" fill="#C9C4B8"/><text x="12" y="77" font-size="19" fill="#121F38">Entity Framework materialization</text><rect x="0" y="96" width="437" height="40" rx="4" fill="#C9C4B8"/><text x="12" y="123" font-size="19" fill="#121F38">SqlDataReader.ReadAsync (waiting)</text><rect x="-6" y="90" width="449" height="52" rx="8" fill="none" stroke="#FF7350" stroke-width="4"/><rect x="448" y="142" width="78" height="40" rx="4" fill="#121F38"/><text x="460" y="169" font-size="19" fill="#FFFFFF">ours</text></svg></div></div>
+  <div class="rule"></div>
+  <aside class="notes"><p>(If you skipped P5, first say that this is the workflow search endpoint in management-api.) Here are the two profiles next to each other. For the dashboard, our own methods take most of the width, so the fix is in our code.</p><p>For the workflow search, our methods are only a thin part. Most of the width is Entity Framework and the SQL reader waiting for data. The workflow search's stored procedure, api_mp_SearchWorkflows, takes most of the time in every slow request. So the same tool can point you to two very different fixes.</p><p>(End of part two. Ask for questions and take one or two.)</p></aside>
+</section>
+<!-- ============================================================ 22 · DIVIDER · Part 3 of 4 -->
+<section class="is-divider" data-background-color="#121F38">
+  <img class="mark" src="img/realmanage-mark-white.png" alt="">
+  <div class="divider-wrap"><div class="part">Part 3 of 4</div><h1>Why Did It Fail?</h1></div>
+  <aside class="notes"><p>So far we've looked at time, and where a slow request spends it. Part three is about requests that fail.</p><p>I'll show you two features that show the values of variables in running code. The first is Exception Replay, and the second is Live Debugger. Both are fairly new in Datadog and they have some limits, which I'll point out as we go. At the end of this part, you'll see Claude use both of them.</p></aside>
+</section>
+<!-- ============================================================ 23 · Exception Replay: The Values When It Failed -->
+<section>
+  <img class="mark" src="img/realmanage-mark.png" alt="">
+  <div class="kicker">Part 3 · Why did it fail?</div>
+  <h1>Exception Replay: The Values When It Failed</h1>
+  <svg class="dia" viewBox="0 0 1180 360" role="img" aria-label="Exception Replay in three steps. The first time an exception happens, Error Tracking records it but takes no snapshot. The second time, on the same server, the tracer saves the arguments and local variables of each frame. The Error Tracking issue then shows those values in the stack trace, with sensitive names such as a user ID shown as REDACTED.">
+  <rect x="10" y="30" width="300" height="230" rx="12" fill="#FFFFFF" stroke="#C9C4B8" stroke-width="3"/>
+  <text x="34" y="78" font-size="24" font-weight="700" fill="#4C5A6E">1st time</text>
+  <text x="34" y="122" font-size="21" fill="#121F38">Exception is tracked</text>
+  <text x="34" y="152" font-size="21" fill="#121F38">in Error Tracking</text>
+  <text x="34" y="206" font-size="21" fill="#4C5A6E">No snapshot yet</text>
+  <g transform="translate(322,133)"><path d="M0,0 L22,12 L0,24 Z" fill="#E0552F"/></g>
+  <rect x="356" y="30" width="330" height="230" rx="12" fill="#121F38"/>
+  <text x="380" y="78" font-size="24" font-weight="700" fill="#FF7350">2nd time, same server</text>
+  <text x="380" y="122" font-size="21" fill="#FFFFFF">The tracer saves the</text>
+  <text x="380" y="152" font-size="21" fill="#FFFFFF">arguments and locals</text>
+  <text x="380" y="182" font-size="21" fill="#FFFFFF">of every frame</text>
+  <text x="380" y="232" font-size="21" font-weight="700" fill="#FFFFFF">= a snapshot</text>
+  <g transform="translate(698,133)"><path d="M0,0 L22,12 L0,24 Z" fill="#E0552F"/></g>
+  <rect x="732" y="30" width="438" height="230" rx="12" fill="#FFFFFF" stroke="#E0552F" stroke-width="3"/>
+  <text x="756" y="78" font-size="22" font-weight="700" fill="#121F38">Error Tracking → Stack Trace</text>
+  <g class="mono" font-size="19">
+    <text x="756" y="120" fill="#121F38">▾ MyService.DoWork(…)</text>
+    <text x="786" y="152" fill="#054549">userID    = <tspan fill="#E0552F" font-weight="700">[REDACTED]</tspan></text>
+    <text x="786" y="182" fill="#054549">count     = 0</text>
+    <text x="786" y="212" fill="#054549">status    = "Closed"</text>
+    <text x="756" y="244" fill="#4C5A6E">▸ MyController.Get(…)</text>
+  </g>
+  <text x="590" y="318" text-anchor="middle" font-size="20" fill="#121F38">Already on for our services through Datadog's remote settings: nothing to install.</text>
+</svg><p class="caption" style="margin-top:10px">At most <b>1 snapshot per exception type, per server, per hour</b> (G13) · not every exception gets one (G14)</p>
+  <div class="rule"></div>
+  <aside class="notes"><p>Exception Replay works together with Error Tracking. Error Tracking is the Datadog page that groups the same exception into one issue. Normally, when an exception happens, Error Tracking shows the stack trace, which is the list of methods that were running. With Exception Replay, Datadog also saves the values of the arguments and local variables in each method of that stack trace. This is called a snapshot.</p><p>It's already on for our services through Datadog's remote settings, and we get snapshots from production today, so you don't need to set anything up.</p><p>There are some limits. Datadog doesn't take a snapshot the first time an exception happens. It starts on the second time, on the same server. After that, it takes at most one snapshot for each exception type, on each server, every hour.</p><p>Values with sensitive names, like passwords or tokens, are hidden, and you see the word redacted instead. It also doesn't work for every exception. Sometimes the issue only shows a message saying the data could not be captured.</p></aside>
+</section>
+<!-- ============================================================ 24 · What a Real Snapshot Looks Like -->
+<section>
+  <img class="mark" src="img/realmanage-mark.png" alt="">
+  <div class="kicker">Part 3 · Why did it fail?</div>
+  <h1>What a Real Snapshot Looks Like</h1>
+  <div class="shot-frame">
+  <img class="shot" src="../assets/screenshots/exception-replay-snapshot.png" alt="Error Tracking stack trace for a DbEntityValidationException in identity-api, with an Exception Replay snapshot panel under the PortalUserDBEntities.SaveChangesAsync frame listing this, @exception, entityValidationErrors, errorMessages, ex, newExceptionMessage and portalLog, and a Redaction: Targeted badge">
+  <div class="callout" style="left:85.2%; top:41.2%; width:12.5%; height:7.6%"></div>
+  <div class="callout" style="left:1.6%; top:61.6%; width:63.2%; height:6.2%"></div>
+</div>
+<p class="caption" style="margin-top:18px">Each line is a variable and <b>its value when the exception left this method</b> · prod, identity-api</p>
+  <div class="rule"></div>
+  <aside class="notes"><p>This is what a real snapshot looks like. It's from identity-api in production, and it's a validation error, so there's no customer data in it.</p><p>Under the method in the stack trace, you see the snapshot. Each line is a variable and its value at the moment the exception left this method. For example, entityValidationErrors holds the validation error the code collected, and newExceptionMessage is the message it built from it. The lines with an arrow are objects, and you can open them to see their fields.</p><p>On the right, you can see that this service uses targeted redaction. Targeted means that only values with sensitive names are hidden. Most of our production services use Strict, which is tighter. Now I'll show you one live.</p></aside>
+</section>
+<!-- ============================================================ 25 · Demo: A Real Exception Replay Snapshot -->
+<section>
+  <img class="mark" src="img/realmanage-mark.png" alt="">
+  <div class="kicker">Part 3 · Demo</div>
+  <h1>Demo: A Real Exception Replay Snapshot</h1>
+  <div class="demo"><span class="tag">D5</span><span class="tag tile">5 min</span><span class="where">Switch to the browser · live in Datadog · production data, no screenshots</span><ol><li><b>Error Tracking</b> → the issue you picked the day before</li><li><b>Stack Trace</b> → expand one frame: read the values</li><li>Point at the <b>Redaction</b> badge and any <b>[REDACTED]</b> value</li><li>Open an issue with no snapshot: read its message</li></ol></div>
+  <div class="rule"></div>
+  <aside class="notes"><p>(Switch to the browser and follow D5 in the run sheet. Use the production issue you picked the day before.) Let me show you a real snapshot from production. Please don't take screenshots of this part, because it shows production data. (Open the issue, scroll to the stack trace and expand one frame. Read two or three of the values out loud and explain what they tell you about the failure. Point at the redaction badge, and at any value that says redacted. Then open an issue without a snapshot and read its message, so people recognize it when they see it.)</p></aside>
+</section>
+<!-- ============================================================ 26 · Live Debugger: A Log Line Without a Deploy -->
+<section>
+  <img class="mark" src="img/realmanage-mark.png" alt="">
+  <div class="kicker">Part 3 · Why did it fail?</div>
+  <h1>Live Debugger: A Log Line Without a Deploy</h1>
+  <svg class="dia" viewBox="0 0 1180 380" role="img" aria-label="Live Debugger. A code panel for FilesController.cs with a logpoint marker on line 53. The logpoint has a message template and a condition so it only logs requests containing dx-training. When line 53 runs, it writes a log message with the values filled in. Labels: the debug session stops after about 60 minutes, and there is no code change, deploy or restart.">
+  <rect x="10" y="20" width="540" height="210" rx="12" fill="#121F38"/>
+  <text x="34" y="58" font-size="19" fill="#FF7350" class="mono">FilesController.cs</text>
+  <g class="mono" font-size="19">
+    <text x="34" y="104" fill="#8C98AB">52</text><text x="96" y="104" fill="#FFFFFF">string emailResourceKey = ERES ?? SERES;</text>
+    <circle cx="74" cy="140" r="9" fill="#E0552F"/>
+    <text x="34" y="146" fill="#FFFFFF">53</text><text x="96" y="146" fill="#FFFFFF">if (…)</text>
+    <text x="34" y="188" fill="#8C98AB">54</text><text x="96" y="188" fill="#8C98AB">…</text>
+  </g>
+  <g transform="translate(562,112)"><path d="M0,0 L22,12 L0,24 Z" fill="#E0552F"/></g>
+  <rect x="596" y="20" width="574" height="210" rx="12" fill="#FFFFFF" stroke="#E0552F" stroke-width="3"/>
+  <text x="620" y="60" font-size="22" font-weight="700" fill="#121F38">Logpoint · just before line 53</text>
+  <text x="620" y="100" font-size="19" fill="#4C5A6E">Template</text>
+  <g class="mono" font-size="17" fill="#121F38">
+    <text x="720" y="100">Course demo: ERES={ERES}</text>
+    <text x="720" y="126">IDENT={IDENT} resource={emailResourceKey}</text>
+  </g>
+  <text x="620" y="172" font-size="19" fill="#4C5A6E">When</text>
+  <text x="720" y="172" font-size="17" fill="#121F38" class="mono">IDENT contains "dx-training"</text>
+  <text x="620" y="208" font-size="17" fill="#4C5A6E">so only the presenter's request is logged</text>
+  <rect x="10" y="254" width="1160" height="54" rx="10" fill="#EBE7DE"/>
+  <text x="30" y="288" font-size="17" fill="#121F38" class="mono">Course demo: ERES=live-debugger-demo IDENT=hello-dx-training resource=live-debugger-demo</text>
+  <text x="10" y="352" font-size="20" font-weight="700" fill="#121F38">No code change · no deploy · no restart</text>
+  <text x="1170" y="352" text-anchor="end" font-size="20" fill="#054549">The debug session stops by itself after about 60 minutes</text>
+</svg><p class="caption" style="margin-top:10px"><b>Dev only today:</b> management-api (G15) · strict redaction blocks logpoints in prod (G16)</p>
+  <div class="rule"></div>
+  <aside class="notes"><p>Live Debugger is for a different kind of problem. Exception Replay only helps after an exception. With Live Debugger, you choose a line of code in a running service, and Datadog logs the values of variables every time that line runs. You don't change the code, and you don't deploy or restart anything.</p><p>First you start a debug session. Inside the session you add a logpoint. A logpoint has a file and a line number, and a message template that can include variable values in curly braces. You can also add a condition, so it only logs the requests you care about. The session stops by itself after about an hour, so nothing stays on by mistake.</p><p>Today it only works where we've turned it on in the service's own configuration, and at the moment that's management-api in dev. Most of our production services use Strict redaction, and Strict blocks logpoints. Turning it on for more services is tracked in DX-1573.</p></aside>
+</section>
+<!-- ============================================================ 27 · Demo: Add a Logpoint in Dev -->
+<section>
+  <img class="mark" src="img/realmanage-mark.png" alt="">
+  <div class="kicker">Part 3 · Demo</div>
+  <h1>Demo: Add a Logpoint in Dev</h1>
+  <div class="demo"><span class="tag">D6</span><span class="tag tile">7 min</span><span class="where">Browser, then the terminal · management-api, dev</span><ol><li><b>Live Debugger</b> → start a debug session</li><li>Add a logpoint: <code>FilesController.cs</code> line 53, template, condition</li><li>Wait until it's active (≈30 s), then send the test request</li><li>Open the snapshot on the session page · stop the session</li></ol><div class="query">IDENT != null &amp;&amp; contains(IDENT, "dx-training")</div></div>
+  <div class="rule"></div>
+  <aside class="notes"><p>(Switch to the browser and follow D6 in the run sheet.) Now I'll add a logpoint to management-api in dev. This endpoint serves files from links in our emails, for example the logo images inside an email. Line 53 decides which kind of link the request has. If someone reported a broken image in an email, we'd want to see the values the request actually received, and that's what this logpoint will log. (Create the session, then add the logpoint on line 53 of FilesController with the message template and the condition. Explain the condition: it only logs requests that contain the text dx-training, so other people's requests are not logged. Wait until the logpoint is active, which takes about thirty seconds. Then switch to the terminal and send the test request. The request returns an error 500, and that's expected, because the demo value isn't a real encrypted key, and the logpoint line runs before the error. Switch back to the browser. The capture is on the session page. Open it and show the argument values. Explain that the same entry also appears in Logs, but only after a few minutes. At the end, stop the session.)</p></aside>
+</section>
+<!-- ============================================================ 28 · Demo: Claude on an Error, Then a Logpoint -->
+<section>
+  <img class="mark" src="img/realmanage-mark.png" alt="">
+  <div class="kicker">Part 3 · Demo</div>
+  <h1>Demo: Claude on an Error, Then a Logpoint</h1>
+  <div class="demo"><span class="tag">D7</span><span class="tag tile">6 min</span><span class="where">Switch to the terminal · Claude Code</span><ol><li><b>P9</b> Explain an error from its Exception Replay snapshot</li><li><b>P10</b> Add a logpoint in dev, with a condition</li><li>Send the <code>curl</code> from the second tab</li><li><b>P10b</b> What did it capture? Then disable it</li></ol></div>
+  <div class="rule"></div>
+  <aside class="notes"><p>(Switch to the terminal and follow D7 in the run sheet.) Now let's ask Claude to do the same debugging work we just did by hand. (Paste P9. While it works, explain that it's reading the Error Tracking issue and the snapshot. When it answers, point out that it explains the failure from the captured values as well as the stack trace. If it suggests adding a logpoint, say something like: Live Debugger only works on management-api in dev today, so I'll ask Claude to add the same logpoint we added by hand in the last demo. Then paste P10. Claude creates the debug session and the logpoint in dev, with the condition. If Claude says Datadog returned an error while creating the logpoint, that's a known Datadog problem. The logpoint is usually created anyway, so Claude checks that it exists before it tries again. When it says the logpoint is ready, send the curl request from the second terminal tab. Then paste P10b: Claude shows what the logpoint captured and disables it. Say that this is the only demo prompt that changes something, which is why it only runs in dev, with a condition, and ends by disabling the logpoint.)</p><p>(End of part three. Ask for questions and take one or two.)</p></aside>
+</section>
+<!-- ============================================================ 29 · DIVIDER · Part 4 of 4 -->
+<section class="is-divider" data-background-color="#121F38">
+  <img class="mark" src="img/realmanage-mark-white.png" alt="">
+  <div class="divider-wrap"><div class="part">Part 4 of 4</div><h1>Trust, but Check</h1></div>
+  <aside class="notes"><p>You've now seen Claude answer questions about slow requests and errors. In the last part, I'll show you how to check those answers before you act on them.</p></aside>
+</section>
+<!-- ============================================================ 30 · Five Checking Habits -->
+<section>
+  <img class="mark" src="img/realmanage-mark.png" alt="">
+  <div class="kicker">Part 4 · Checking Claude's work</div>
+  <h1>Five Checking Habits</h1>
+  <div class="habits">
+  <div class="habit"><b>C1</b><span>Which query did you run? Give me a link.</span></div>
+  <div class="habit"><b>C2</b><span>Open the link and spot-check one number.</span></div>
+  <div class="habit"><b>C3</b><span>Distrust "0 results" and rates from span counts.</span></div>
+  <div class="habit"><b>C4</b><span>Compare with the same time yesterday.</span></div>
+  <div class="habit"><b>C5</b><span>Tell Claude what Datadog can't see.</span></div>
+</div>
+<p class="seen">Seen while building this course: two runs, two methods · "30 requests" from sampled spans · a Jira draft built on CPU Time</p>
+  <div class="rule"></div>
+  <aside class="notes"><p>There are five things I recommend you always do. One: ask Claude which query it ran, and ask for a link. Two: open the link and check one number in Datadog. Three: be careful with zero results, and with any rate that was calculated from span counts. Some filters return nothing without showing an error, and spans are sampled. Four: before you call something a regression, compare it with the same time the day before. Five: tell Claude about things that Datadog doesn't record.</p><p>All of these examples happened while I was preparing this course. I ran every prompt twice. The same question about the slowest endpoints gave two different numbers, because Claude used two different methods. One answer counted thirty requests in an hour, but the metrics show more than five hundred. And one Jira draft looked at CPU time, which is the default, and said our code was not the problem. The same prompt with wall time found the reflection problem.</p><p>In every case, asking Claude which query it ran showed me what really happened.</p></aside>
+</section>
+<!-- ============================================================ 31 · &quot;Is This Real?&quot; -->
+<section>
+  <img class="mark" src="img/realmanage-mark.png" alt="">
+  <div class="kicker">Part 4 · Checking Claude's work</div>
+  <h1>"Is This Real?"</h1>
+  <svg class="dia" viewBox="0 0 1180 410" role="img" aria-label="management-api p95 latency in 10-minute buckets, 18:00 to 19:20 UTC. On 2026-09-22 it holds near 0.7 seconds except one spike to 2.27 seconds at 18:40, then 0.68. On 2026-09-21 the same window stays between 0.65 and 0.78 seconds. The median is about 8 milliseconds on both days.">
+  <line x1="90" y1="360" x2="1110" y2="360" stroke="#E4E1D9" stroke-width="1"/><text x="80" y="366" text-anchor="end" font-size="17" fill="#4C5A6E">0 s</text><line x1="90" y1="296" x2="1110" y2="296" stroke="#E4E1D9" stroke-width="1"/><text x="80" y="302" text-anchor="end" font-size="17" fill="#4C5A6E">0.5 s</text><line x1="90" y1="232" x2="1110" y2="232" stroke="#E4E1D9" stroke-width="1"/><text x="80" y="238" text-anchor="end" font-size="17" fill="#4C5A6E">1 s</text><line x1="90" y1="168" x2="1110" y2="168" stroke="#E4E1D9" stroke-width="1"/><text x="80" y="174" text-anchor="end" font-size="17" fill="#4C5A6E">1.5 s</text><line x1="90" y1="104" x2="1110" y2="104" stroke="#E4E1D9" stroke-width="1"/><text x="80" y="110" text-anchor="end" font-size="17" fill="#4C5A6E">2 s</text><line x1="90" y1="40" x2="1110" y2="40" stroke="#E4E1D9" stroke-width="1"/><text x="80" y="46" text-anchor="end" font-size="17" fill="#4C5A6E">2.5 s</text><text x="110" y="392" text-anchor="middle" font-size="17" fill="#4C5A6E">18:00</text><text x="232" y="392" text-anchor="middle" font-size="17" fill="#4C5A6E">18:10</text><text x="354" y="392" text-anchor="middle" font-size="17" fill="#4C5A6E">18:20</text><text x="476" y="392" text-anchor="middle" font-size="17" fill="#4C5A6E">18:30</text><text x="598" y="392" text-anchor="middle" font-size="17" fill="#4C5A6E">18:40</text><text x="720" y="392" text-anchor="middle" font-size="17" fill="#4C5A6E">18:50</text><text x="842" y="392" text-anchor="middle" font-size="17" fill="#4C5A6E">19:00</text><text x="964" y="392" text-anchor="middle" font-size="17" fill="#4C5A6E">19:10</text><text x="1086" y="392" text-anchor="middle" font-size="17" fill="#4C5A6E">19:20</text>
+  <line x1="90" y1="359.0" x2="1110" y2="359.0" stroke="#121F38" stroke-width="2" stroke-dasharray="6 6"/>
+  <text x="1110" y="349" text-anchor="end" font-size="17" fill="#121F38">p50 ≈ 8 ms, both days</text>
+  <polyline points="110,260.2 232,274.2 354,270.4 476,276.8 598,273.0 720,273.0 842,262.7 964,269.1 1086,266.6" fill="none" stroke="#1A7FA8" stroke-width="3" stroke-linejoin="round"/><circle cx="110" cy="260.2" r="7" fill="#1A7FA8" stroke="#FFFFFF" stroke-width="2"><title>Sep 21 (day before) · 18:00 UTC · p95 0.78 s</title></circle><circle cx="232" cy="274.2" r="7" fill="#1A7FA8" stroke="#FFFFFF" stroke-width="2"><title>Sep 21 (day before) · 18:10 UTC · p95 0.67 s</title></circle><circle cx="354" cy="270.4" r="7" fill="#1A7FA8" stroke="#FFFFFF" stroke-width="2"><title>Sep 21 (day before) · 18:20 UTC · p95 0.70 s</title></circle><circle cx="476" cy="276.8" r="7" fill="#1A7FA8" stroke="#FFFFFF" stroke-width="2"><title>Sep 21 (day before) · 18:30 UTC · p95 0.65 s</title></circle><circle cx="598" cy="273.0" r="7" fill="#1A7FA8" stroke="#FFFFFF" stroke-width="2"><title>Sep 21 (day before) · 18:40 UTC · p95 0.68 s</title></circle><circle cx="720" cy="273.0" r="7" fill="#1A7FA8" stroke="#FFFFFF" stroke-width="2"><title>Sep 21 (day before) · 18:50 UTC · p95 0.68 s</title></circle><circle cx="842" cy="262.7" r="7" fill="#1A7FA8" stroke="#FFFFFF" stroke-width="2"><title>Sep 21 (day before) · 19:00 UTC · p95 0.76 s</title></circle><circle cx="964" cy="269.1" r="7" fill="#1A7FA8" stroke="#FFFFFF" stroke-width="2"><title>Sep 21 (day before) · 19:10 UTC · p95 0.71 s</title></circle><circle cx="1086" cy="266.6" r="7" fill="#1A7FA8" stroke="#FFFFFF" stroke-width="2"><title>Sep 21 (day before) · 19:20 UTC · p95 0.73 s</title></circle>
+  <polyline points="110,260.2 232,266.6 354,269.1 476,265.3 598,69.4 720,273.0 842,262.7 964,267.8 1086,267.8" fill="none" stroke="#E0552F" stroke-width="3" stroke-linejoin="round"/><circle cx="110" cy="260.2" r="7" fill="#E0552F" stroke="#FFFFFF" stroke-width="2"><title>Sep 22 (alert day) · 18:00 UTC · p95 0.78 s</title></circle><circle cx="232" cy="266.6" r="7" fill="#E0552F" stroke="#FFFFFF" stroke-width="2"><title>Sep 22 (alert day) · 18:10 UTC · p95 0.73 s</title></circle><circle cx="354" cy="269.1" r="7" fill="#E0552F" stroke="#FFFFFF" stroke-width="2"><title>Sep 22 (alert day) · 18:20 UTC · p95 0.71 s</title></circle><circle cx="476" cy="265.3" r="7" fill="#E0552F" stroke="#FFFFFF" stroke-width="2"><title>Sep 22 (alert day) · 18:30 UTC · p95 0.74 s</title></circle><circle cx="598" cy="69.4" r="7" fill="#E0552F" stroke="#FFFFFF" stroke-width="2"><title>Sep 22 (alert day) · 18:40 UTC · p95 2.27 s</title></circle><circle cx="720" cy="273.0" r="7" fill="#E0552F" stroke="#FFFFFF" stroke-width="2"><title>Sep 22 (alert day) · 18:50 UTC · p95 0.68 s</title></circle><circle cx="842" cy="262.7" r="7" fill="#E0552F" stroke="#FFFFFF" stroke-width="2"><title>Sep 22 (alert day) · 19:00 UTC · p95 0.76 s</title></circle><circle cx="964" cy="267.8" r="7" fill="#E0552F" stroke="#FFFFFF" stroke-width="2"><title>Sep 22 (alert day) · 19:10 UTC · p95 0.72 s</title></circle><circle cx="1086" cy="267.8" r="7" fill="#E0552F" stroke="#FFFFFF" stroke-width="2"><title>Sep 22 (alert day) · 19:20 UTC · p95 0.72 s</title></circle>
+  <text x="614" y="75" font-size="20" font-weight="700" fill="#121F38">2.27 s · one window</text>
+  <text x="1098" y="254" text-anchor="end" font-size="18" fill="#121F38">Sep 22</text>
+  <text x="1098" y="297" text-anchor="end" font-size="18" fill="#121F38">Sep 21</text>
+  <g transform="translate(110,18)"><rect width="16" height="16" rx="3" fill="#E0552F"/><text x="24" y="14" font-size="17" fill="#121F38">Sep 22 (alert day)</text>
+  <rect x="200" width="16" height="16" rx="3" fill="#1A7FA8"/><text x="224" y="14" font-size="17" fill="#121F38">Sep 21 (day before)</text>
+  <text x="430" y="14" font-size="17" fill="#4C5A6E">p95, trace.aspnet.request, prod, UTC</text></g>
+</svg><p class="caption" style="margin-top:4px">Median flat · one window · every host · straight back to baseline → <b>real regression, or something else?</b></p>
+  <div class="rule"></div>
+  <aside class="notes"><p>This is a real example from the day we rolled out the profiler. Watchdog, which is Datadog's automatic alerting, created latency alerts for management-api. The p95 latency went from about 0.7 seconds to 2.27 seconds for one ten-minute window, and then it went straight back down.</p><p>The median didn't change, and the same time window on the day before was normal. So is this a real regression, or something else? Let's ask Claude.</p></aside>
+</section>
+<!-- ============================================================ 32 · Demo: Is It Real? Then Check It -->
+<section>
+  <img class="mark" src="img/realmanage-mark.png" alt="">
+  <div class="kicker">Part 4 · Demo</div>
+  <h1>Demo: Is It Real? Then Check It</h1>
+  <div class="demo"><span class="tag">D8</span><span class="tag tile">6 min</span><span class="where">Switch to the terminal, then the browser</span><ol><li><b>P6</b> Real regression or noise? Compare with the day before</li><li><b>P7</b> Which queries did you run? Links please</li><li>Open one link in Datadog: check a number</li><li><b>P7b</b> Here's what you couldn't see: the recycle</li></ol></div>
+  <div class="rule"></div>
+  <aside class="notes"><p>(Switch to the terminal and follow D8 in the run sheet.) Let's ask Claude about this alert. (Paste P6. When it answers, paste P7 to ask for the queries and links. Open one link in the browser and check one number. Then say the next paragraph, paste P7b, and show how Claude changes its answer.)</p><p>There's one thing Claude couldn't see. Just before the spike, we changed the app pool configuration on all the web servers, and that restarts the app pools. Datadog doesn't record an event when that happens. Let's tell Claude and see if it changes its answer.</p><p>(After P7b answers, explain the cause in your own words.) When an app pool starts, it needs some time to warm up. It compiles code, builds the Entity Framework model and fills its caches. So Claude found the right evidence, but a person had to give it the cause.</p></aside>
+</section>
+<!-- ============================================================ 33 · Which Tool for Which Question -->
+<section>
+  <img class="mark" src="img/realmanage-mark.png" alt="">
+  <div class="kicker">Wrap-up</div>
+  <h1>Which Tool for Which Question</h1>
+  <div class="cols3">
+  <div class="card"><div class="num">?</div><h3>Why is it slow?</h3><p><b>Trace</b>, then <b>profile</b></p><p class="small muted">Parts 1 and 2</p></div>
+  <div class="card"><div class="num">!</div><h3>Why did it fail?</h3><p><b>Exception Replay</b></p><p class="small muted">Error Tracking → issue → Stack Trace</p></div>
+  <div class="card"><div class="num">▸</div><h3>What is this value, at this line?</h3><p><b>Live Debugger</b></p><p class="small muted">management-api, dev, for now</p></div>
+</div>
+<p class="caption" style="margin-top:30px"><b>Claude can do all three</b> · check its work (C1–C5) · if a debugging feature doesn't work, check <b>G13–G20</b></p>
+  <div class="rule"></div>
+  <aside class="notes"><p>Here's a short summary of today. If a request is slow, start with the trace, and then look at the profile. If a request fails with an exception, open the issue in Error Tracking and check whether it has an Exception Replay snapshot. If you need to see a value at a specific line and there's no exception, use Live Debugger. For now, that means management-api in dev.</p><p>For all three, you can ask Claude to do the research, as long as you check its work.</p><p>The two debugging features are still new, so if one doesn't work, check the gotchas page before you spend a lot of time on it.</p></aside>
+</section>
+<!-- ============================================================ 34 · Gotchas to Keep -->
+<section>
+  <img class="mark" src="img/realmanage-mark.png" alt="">
+  <div class="kicker">Wrap-up</div>
+  <h1>Gotchas to Keep</h1>
+  <div class="gotchas">
+  <div><b>G1</b>Profiles opens on CPU; use Wall</div><div><b>G2</b>Wall counts idle threads</div><div><b>G3</b>Method list can't find callers</div>
+  <div><b>G4</b>Async nests under the await</div><div><b>G5</b>Line 0 until DX-1570</div><div><b>G6</b>No profiles before 9/22</div>
+  <div><b>G7</b>Thin profile? Widen the range</div><div><b>G8</b>Span counts are sampled</div><div><b>G9</b>"0 results" may be a silent filter</div>
+  <div><b>G10</b>Check operation + env</div><div><b>G11</b>MCP URL needs toolsets=all</div><div><b>G12</b>Claude can't see recycles</div>
+  <div style="grid-column:1 / -1"><b>G13–G20</b>Exception Replay and Live Debugger: second occurrence · internal errors · local setting · strict prod · await lines · Logs delay · version pins · errors that aren't</div>
+</div>
+<p class="caption">All on the cheat sheet · keep three: <b>Wall Time</b>, <b>the flame graph filter</b>, <b>never a rate from span counts</b></p>
+  <div class="rule"></div>
+  <aside class="notes"><p>Here are the common mistakes from today on one slide. The ones for Exception Replay and Live Debugger are in the last row. You don't need to remember them, because they're all on the cheat sheet.</p><p>If you only want to remember three, remember these: use Wall Time, use the flame graph filter, and don't calculate rates from span counts.</p></aside>
+</section>
+<!-- ============================================================ 35 · Your Turn -->
+<section>
+  <img class="mark" src="img/realmanage-mark.png" alt="">
+  <div class="kicker">Wrap-up</div>
+  <h1>Your Turn</h1>
+  <div class="cols3">
+  <div class="card"><div class="num">1</div><h3>Keep the cheat sheet</h3><p>Every prompt and click path, one page</p></div>
+  <div class="card"><div class="num">2</div><h3>Post one finding</h3><p>Your own service, in the #ai-exchange thread, within two weeks</p></div>
+  <div class="card"><div class="num">3</div><h3>Feedback form</h3><p>Two minutes; it shapes the next version</p></div>
+</div>
+<p class="caption" style="margin-top:30px">Found something worth fixing? <b>P8</b> drafts the Jira ticket · check its evidence first</p>
+  <div class="rule"></div>
+  <aside class="notes"><p>For homework, please do one investigation in the next two weeks. Pick a service you work on, ask Claude for its slowest endpoints, and follow one of them down to a method. Then share what you found in the course thread in the ai-exchange channel on Slack. A screenshot and one sentence is enough.</p><p>If you find something worth fixing, there's a prompt on the cheat sheet, P8, that writes a draft Jira ticket for you. Check the evidence before you create the ticket. The cheat sheet has all the prompts and click paths.</p><p>Please also fill in the feedback form. It takes about two minutes, and it helps me improve the next version.</p><p>OK, does anyone have questions?</p></aside>
+</section>
+</div></div>
+<script src="reveal/dist/reveal.js"></script>
+<script src="reveal/plugin/notes/notes.js"></script>
+<script>
+  Reveal.initialize({
+    width: 1280, height: 720, margin: 0.05, minScale: 0.2, maxScale: 2.0,
+    center: false, hash: true, controls: true, progress: true, slideNumber: 'c/t',
+    transition: 'fade', transitionSpeed: 'default', plugins: [ RevealNotes ],
+  });
+</script>
+</body>
+</html>

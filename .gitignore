@@ -394,7 +394,17 @@ TestResults/
 
 # Add any project-specific exclusions below
 
+# Session recordings, transcripts and slide exports show internal data and must
+# never reach this publicly mirrored repo. Recordings live in the team's Teams channel.
+courses/**/*.mp4
+courses/**/*.mkv
+courses/**/*.webm
+courses/**/*.mov
+courses/**/*.vtt
+courses/**/*.pptx
+courses/**/*.key
+
 # Vendored reveal.js runtime for course slide decks — committed on purpose so the
 # decks run fully offline in the room. Overrides the generic `dist/` rule above.
-!courses/continuous-delivery-101/slides/reveal/dist/
-!courses/continuous-delivery-101/slides/reveal/dist/**
+!courses/*/slides/reveal/dist/
+!courses/*/slides/reveal/dist/**

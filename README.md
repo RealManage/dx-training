@@ -34,6 +34,16 @@ Move your team from weekly deployments with long-lived branches to true Continuo
 
 [**Start Course →**](./courses/continuous-delivery-101/README.md)
 
+### [Troubleshooting with Datadog 101: Slow Requests and Errors, with Claude + Datadog MCP](./courses/datadog-troubleshooting-101/)
+
+**Duration:** 1 session (about 90 minutes, plus questions)
+**Level:** Beginner
+**Status:** Draft
+
+Find out why a request is slow or why it failed. A short APM tour (traces, spans, the Service page), then Datadog's continuous profiler for slow requests (flame graphs, Wall vs CPU Time, jumping from one slow trace to its profile), then Exception Replay and Live Debugger for errors. Each part ends with Claude Code and the Datadog MCP server doing the same investigation, and the session closes with how to check Claude's work. Built around real CiraNet investigations.
+
+[**Start Course →**](./courses/datadog-troubleshooting-101/README.md)
+
 ### Coming Soon
 
 - **AI 102: Advanced Claude Code** — Agent Teams, spec-driven development, multi-agent orchestration, and enterprise trust patterns
@@ -124,6 +134,7 @@ cd dx-training
 - [AI 101: Claude Code](./courses/ai-101-claude-code/README.md) — Start with Week 1 setup
 - [BDD 101: Behavior-Driven Development](./courses/bdd-101/README.md) — Start with Session 1
 - [Continuous Delivery 101](./courses/continuous-delivery-101/README.md) — Start with Session 1
+- [Troubleshooting with Datadog 101](./courses/datadog-troubleshooting-101/README.md) — Start with the setup guide
 
 Each course README has prerequisites, setup instructions, and a weekly curriculum to follow.
 
@@ -182,6 +193,6 @@ You are free to share and adapt this material with appropriate credit to RealMan
 
 ---
 
-**Ready to start?** [AI 101: Claude Code →](./courses/ai-101-claude-code/README.md) | [BDD 101 →](./courses/bdd-101/README.md) | [Continuous Delivery 101 →](./courses/continuous-delivery-101/README.md)
+**Ready to start?** [AI 101: Claude Code →](./courses/ai-101-claude-code/README.md) | [BDD 101 →](./courses/bdd-101/README.md) | [Continuous Delivery 101 →](./courses/continuous-delivery-101/README.md) | [Troubleshooting with Datadog 101 →](./courses/datadog-troubleshooting-101/README.md)
 
 *"Investing in our team's growth is investing in RealManage's future."* — DX Team
