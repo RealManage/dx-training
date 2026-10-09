@@ -202,15 +202,13 @@
 
   (Point at CCCaching.AddOrGetCacheAsync and UserRepository.GetUserActivityFeed.) At the top there's a caching method and the user repository. They aren't the slow part. Our code is async, and code that runs after an await shows up under the method it was waiting for. So we keep reading down. (Point at UserBP.GetUserDashboardItems.) Here's the method that builds the dashboard, GetUserDashboardItems. (Point at DashboardHelper.GetActivities and the GetEnumFromDescription boxes.) Under it, most of the width is GetActivities and a small helper called GetEnumFromDescription, which shows up in several places. (Hover one of the GetEnumFromDescription boxes and read its time off the screen.)
 
-  So that's one request. Is it the same in every dashboard request? (Click All requests on the slide. It opens APM, then Profiles, in a new tab, already filtered to resident-api in prod and the dashboard endpoint, so the trace stays open in the D1 tab.) This is the Profiles page. It combines the profiles from all requests. You can get here yourself from APM, then Profiles, and pick the service and the endpoint.
+  So that's one request. Is it the same in every dashboard request? (Click All requests on the slide. It opens APM, then Profiles, in a new tab, already filtered to resident-api in prod and the dashboard endpoint, so the trace stays open in the D1 tab.) This is the Profiles page. It combines the profiles from all requests. You can get here yourself from APM, then Profiles, and pick the service and the endpoint. (Set the time range to Past 1 Day.) I'll use a full day, so there are enough requests to see the pattern.
 
   (Point at the CPU Time and Wall Time cards.) There are two ways to measure time here. CPU Time only counts the time a thread was actually running. Wall Time counts all the time that passed, running or waiting. In our trace, the profile said CPU Time, so during the gap our code was running, not waiting. That means CPU Time is the right one to look at. If a request were slow because it was waiting, for example for another API, you would switch to Wall Time.
 
   (Click the Filter flame graph box and choose focus_on from the list. Inside its brackets, type GetUserDashboardItems, and choose the UserBP.GetUserDashboardItems suggestion.) There's still a lot on this page, so I'll focus on our method. Focus on hides everything that isn't under GetUserDashboardItems. (Point at GetEnumFromDescription.) And it looks like our one trace: most of the CPU time goes to GetEnumFromDescription. So this isn't one unlucky request. Other dashboard requests spend their time in the same helper.
 
   One more thing before we move on. Sometimes a profile looks very different: most of the width is Entity Framework or the SQL reader waiting for rows, and our code is only a thin part. Then the problem is in the database, and making the C# faster won't help. Here, our own code is the wide part, so the fix is in our code.
-
-  (If the filtered graph is empty or very thin, set the time range to Past 1 Day. A quiet hour can have too few samples.)
 
 ## Slide 12 — What we just saw: a slow lookup, many times  ·  0:43
 

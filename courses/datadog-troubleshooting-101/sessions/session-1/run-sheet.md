@@ -104,13 +104,13 @@ Each demo lists what to switch to, what to do, and what you should see. If live 
 1. Click the `resident-api` span, then **Profiles** (the last span tab); drag the panel up if it's small. Point at the thread timeline: idle during SQL, busy through the gap.
 2. Click **Flame Graph** under the timeline. Width is time, left to right means nothing, read top to bottom. Gray **Standard Library** rows are framework; blue is our code. Point at **CPU Time** at the top: the thread was running, not waiting.
 3. Read down: `CCCaching.AddOrGetCacheAsync` and `UserRepository.GetUserActivityFeed` sit on top because the code is async ([G4](../../resources/gotchas.md#g4-async-code-nests-under-the-awaited-call)); then `UserBP.GetUserDashboardItems`, `DashboardHelper.GetActivities`, and `EnumExtensions.GetEnumFromDescription` in several places. Hover one and read its time.
-4. Click **All requests** on the slide (a new tab, so the trace stays open): APM → Profiles, resident-api in prod, the dashboard endpoint. It opens on **CPU Time**: stay there. Explain CPU vs Wall: the span's profile said CPU Time, so the gap is CPU work. **Wall Time** adds the waiting branches (other repository calls, SQL) and hides the helper, so don't switch.
+4. Click **All requests** on the slide (a new tab, so the trace stays open): APM → Profiles, resident-api in prod, the dashboard endpoint (ticked in the list on the right, maybe scrolled out of view). Set **Past 1 Day**: a single hour, especially a quiet one, has too few samples and shows only some of the call sites. It opens on **CPU Time**: stay there. Explain CPU vs Wall: the span's profile said CPU Time, so the gap is CPU work. **Wall Time** adds the waiting branches (other repository calls, SQL) and hides the helper, so don't switch.
 5. Click **Filter flame graph**, choose **focus_on** from the list, then type `GetUserDashboardItems` inside its brackets and pick `method:"UserBP.GetUserDashboardItems()"`. The same shape as the one trace: `GetEnumFromDescription` under `GetUserDashboardItems`.
 6. In passing: a profile that's mostly Entity Framework or the SQL reader waiting means the fix is in the database, not the C#.
 
 **Expected:** the span's flame graph shows `GetEnumFromDescription` under `GetUserDashboardItems`; the all-requests view, filtered, shows the same.
 
-**Fallback:** if the span's Profiles tab is empty, use the trace in tab 2 (you checked its profile the day before). An empty or thin filtered graph means a quiet window ([G7](../../resources/gotchas.md#g7-low-traffic-gives-thin-profiles)): set **Past 1 Day** and say why.
+**Fallback:** if the span's Profiles tab is empty, use the trace in tab 2 (you checked its profile the day before). If the graph is still thin at Past 1 Day, see [G7](../../resources/gotchas.md#g7-low-traffic-gives-thin-profiles).
 
 ### D4. Claude reads the profile and the code (7 min)
 
