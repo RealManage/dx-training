@@ -7,7 +7,7 @@
 >
 > **How Say is written:** plain, conversational English, the way you'd explain something to teammates, many of whom speak English as a second language. Use full sentences and common words. It should sound like something the presenter would actually say out loud. Don't open with short dramatic fragments ("Four words."), don't use metaphors or give software human traits ("people live in APM", "tracing sees a blank"), and don't use ALL CAPS for emphasis. Avoid phrasing that sounds machine-written: "it's not X, it's Y" contrasts, "here's the thing", "the key is", "that's where X comes in", neat groups of three, a question you answer yourself straight away, and colons or dashes used for effect. Stage directions go in parentheses. Split the Say text into short paragraphs, one idea each (indent continuation paragraphs two spaces under the bullet); each becomes its own paragraph in the speaker notes.
 >
-> **Timing:** about 90 minutes, plus about 10 minutes of questions (two minutes at the end of parts 1 to 3, and five at the end), in a two-hour slot. 27 slides, 4 part dividers and 8 live demos (**D1–D8**). Parts 1 and 2 are taught mostly live in Datadog, on one trace. Each part shows a task by hand in Datadog first, then a demo of Claude doing the same work. The minute budget per part is in each part heading, and per demo in the demo slides. The [run sheet](../sessions/session-1/run-sheet.md) has the clock times, window switches and fallbacks; the [demo prompts](../resources/demo-prompts.md) have the exact text to paste.
+> **Timing:** about 85 minutes, plus questions (two minutes at the end of parts 1 to 3, and the rest at the end), in a two-hour slot. 24 slides plus 1 backup slide, 4 part dividers and 7 live demos (**D1–D7**). Parts 1 and 2 are taught mostly live in Datadog, on one trace. Each part shows a task by hand in Datadog first, then a demo of Claude doing the same work. The minute budget per part is in each part heading, and per demo in the demo slides. The [run sheet](../sessions/session-1/run-sheet.md) has the clock times, window switches and fallbacks; the [demo prompts](../resources/demo-prompts.md) have the exact text to paste.
 >
 > **IDs:** P = prompt, G = gotcha, K = click path, C = check-Claude step. The slides point at them rather than repeating them.
 
@@ -26,9 +26,9 @@
 
 ## Slide 2 — What you'll leave with  ·  0:01
 
-- **Message:** Four skills: read a trace, find out why a request is slow, find out why it failed, and get Claude to do the research. Claude shows up in every part.
+- **Message:** Four skills: read a trace, find out why a request is slow, find the cause of an error, and get Claude to do the research. Claude shows up in every part.
 - **Visual:** Four tall numbered cards across the slide. No agenda or minutes: the timings live in the run sheet.
-- **On-slide text:** "1 · Find and understand a trace" · "2 · Why is it slow?" · "3 · Why did it fail?" · "4 · Investigate with Claude"
+- **On-slide text:** "1 · Find and understand a trace" · "2 · Why is it slow?" · "3 · Find the cause of an error" · "4 · Investigate with Claude"
 - **Say:** By the end of this session, you should be able to do four things.
 
   First, find a trace in Datadog and understand it. We'll start with a short refresher on Datadog APM.
@@ -248,150 +248,174 @@
 
 ---
 
-## Part 3 — Why did it fail? Exception Replay and Live Debugger  ·  26 minutes with questions (0:53–1:19)
+## Part 3 — Finding the cause of an error  ·  26 minutes with questions (0:53–1:19)
+
+> This part is a show and tell. Most of the room won't use Exception Replay or Live Debugger often; the goal is that they know these tools exist and think of them the next time an error doesn't make sense. Keep the talking short.
 
 ## Slide 14 — Divider: Part 3
 
-- **Message:** Two newer features that show the values of variables in running code.
+- **Message:** Part 3 follows one error from our email links, with two newer Datadog features that show the values of variables in running code.
 - **Visual:** Divider: solid navy, part number and title.
-- **On-slide text:** "Part 3 of 4" · "Why did it fail?"
-- **Say:** So far we've looked at time, and where a slow request spends it. Part three is about requests that fail.
+- **On-slide text:** "Part 3 of 4" · "Finding the Cause of an Error"
+- **Say:** In part three we'll look at errors, and we'll use a new example. Many of our emails show images, like a logo, and each image is a link to management-api. In production, some of those links fail with an error 500.
 
-  I'll show you two features that show the values of variables in running code. The first is Exception Replay, and the second is Live Debugger. Both are fairly new in Datadog and they have some limits, which I'll point out as we go. At the end of this part, you'll see Claude use both of them.
+  This part is more of a show and tell. These are newer Datadog features, and you may not need them often. But I want you to know they exist, so you think of them the next time you have an error you can't explain.
 
-## Slide 15 — Exception Replay: the values when it failed  ·  0:54
+## Slide 15 — Exception Replay: the values behind an error  ·  0:54
 
-- **Message:** When an exception happens again, Datadog saves the arguments and local variables of each frame in the stack trace, and shows them in Error Tracking.
-- **Visual:** Three-step diagram (made-up values): first occurrence (tracked, no snapshot) → second occurrence on the same server (snapshot taken) → Error Tracking issue with values per frame, one shown as `[REDACTED]`. Limit line underneath.
-- **On-slide text:** "2nd time it happens → snapshot of every frame's values" · "Error Tracking → issue → Stack Trace" · "1 per exception type, per server, per hour (G13)"
-- **Say:** Exception Replay works together with Error Tracking. Error Tracking is the Datadog page that groups the same exception into one issue. Normally, when an exception happens, Error Tracking shows the stack trace, which is the list of methods that were running. With Exception Replay, Datadog also saves the values of the arguments and local variables in each method of that stack trace. This is called a snapshot.
+- **Message:** When an exception happens again, Datadog saves the values of the variables in each method of the stack trace and shows them in Error Tracking. Sensitive values are hidden.
+- **Visual:** Three steps: 1st time (tracked, no snapshot) → 2nd time on the same server (a snapshot) → Error Tracking → Stack Trace, drawn on our example with type names only: `TripleDesEncryption.Decrypt(…)`, `cipherString = [REDACTED]`, `useHashing = True`, `@exception = FormatException`, `GetFileByEmailResource(…)`. Caption underneath.
+- **On-slide text:** "1st time: tracked, no snapshot yet" · "2nd time, same server: the arguments and locals of every frame = a snapshot" · "Error Tracking → Stack Trace" · "At most 1 snapshot per exception type, per server, per hour (G13) · not every exception gets one (G14)"
+- **Say:** Exception Replay works together with Error Tracking. Error Tracking is the Datadog page that groups the same exception into one issue, with its stack trace. With Exception Replay, Datadog also saves the values of the variables in each method of that stack trace. That's called a snapshot. Exception Replay is already on for our services, so there's nothing to set up.
 
-  It's already on for our services through Datadog's remote settings, and we get snapshots from production today, so you don't need to set anything up.
+  (Point at the first two boxes.) Datadog doesn't take a snapshot the first time an exception happens on a server, only from the second time, and then at most once an hour. So a rare error may only have a few snapshots.
 
-  There are some limits. Datadog doesn't take a snapshot the first time an exception happens. It starts on the second time, on the same server. After that, it takes at most one snapshot for each exception type, on each server, every hour.
+  (Point at the third box.) Values with sensitive names, like keys or encrypted text, are hidden. You'll see that on our real error in a moment.
 
-  Values with sensitive names, like passwords or tokens, are hidden, and you see the word redacted instead. It also doesn't work for every exception. Sometimes the issue only shows a message saying the data could not be captured.
+## Slide 16 — DEMO D5: an error from our email links  ·  5 minutes (0:56–1:01)
 
-## Slide 16 — What a real snapshot looks like  ·  0:56
+- **Message:** A real production snapshot of our example: where it failed, the exception message, and the value Datadog hid.
+- **Visual:** Demo card: "D5" and "5 min" tags, "Switch to the browser · production data, no screenshots", four numbered steps, and the search text. Step 1 carries an "Error Tracking ↗" link (Error Tracking filtered to management-api in prod and System.FormatException; no IDs, no time range).
+- **On-slide text:** "Demo · D5 · 5 min" · "1. Errors → Error Tracking: management-api FormatException [Error Tracking ↗]" · "2. Set Past 1 Week, open the issue in System.Convert.FromBase64_Decode" · "3. Error sample → Stack Trace: the snapshot under Decrypt" · "4. Expand cipherString: redacted" · `service:management-api env:prod error.type:System.FormatException`
+- **Say:** In this demo, I'll open Error Tracking in production and look at what Exception Replay saved for one of these email link errors. Please don't take screenshots of this part, because it's production data.
 
-- **Message:** A real production snapshot: the frame, the values under it, and the redaction mode.
-- **Visual:** `exception-replay-snapshot.png`: an identity-api `DbEntityValidationException`, with the snapshot panel under the `PortalUserDBEntities.SaveChangesAsync` frame and the **Redaction: Targeted** badge circled.
-- **On-slide text:** "Frame → Exception Replay snapshot (on exit)" · "Each line: a variable's value when the exception left the method"
-- **Say:** This is what a real snapshot looks like. It's from identity-api in production, and it's a validation error, so there's no customer data in it.
+  (Click Error Tracking on the slide. Set the time range to Past 1 Week.) This is Error Tracking. You can get here from Errors in the left menu. Each row is an issue, which means the same exception from the same place in the code, grouped together. (Open the issue whose location is System.Convert.FromBase64_Decode. The other one with the same message, in TripleDesEncryption.Decrypt, has no snapshot.) Here's our error. (Point at the count.) It's happened hundreds of times this week.
 
-  Under the method in the stack trace, you see the snapshot. Each line is a variable and its value at the moment the exception left this method. For example, entityValidationErrors holds the validation error the code collected, and newExceptionMessage is the message it built from it. The lines with an arrow are objects, and you can open them to see their fields.
+  (Scroll down to Error sample. The Stack Trace tab is open.) This is the stack trace, the list of methods that were running when the exception happened. (Point at the Decrypt method and Exception Replay snapshot under it.) And here's the snapshot. Each line is a variable in the Decrypt method, with its value at the moment of the error. (Point at the red message at the top.) The message says the input isn't a valid Base-64 string, so .NET couldn't even start to decrypt it.
 
-  On the right, you can see that this service uses targeted redaction. Targeted means that only values with sensitive names are hidden. Most of our production services use Strict, which is tighter. Now I'll show you one live.
+  (Expand cipherString.) But the value we'd most like to see is hidden. Datadog hides values based on the variable's name, so anything that looks like a key or encrypted text is redacted. That's good for security, but it means we can't see what was wrong with the link.
 
-## Slide 17 — DEMO D5: a real Exception Replay snapshot  ·  5 minutes (0:57–1:02)
+  (If the sample says Exception Replay data was not captured, click Previous until one has a snapshot. If none has one, open the identity-api issue in browser tab 4, and say that this error had no snapshot this week.)
 
-- **Message:** Watch a real production snapshot: the stack trace, the values in one frame, a redacted value, and what it looks like when nothing was captured.
-- **Visual:** Demo card. Browser icon, "D5", "5 min", "live in Datadog · production data, no screenshots".
-- **On-slide text:** "Demo · D5 · 5 min" · "Error Tracking → issue → Stack Trace → expand a frame"
-- **Say:** (Switch to the browser and follow D5 in the run sheet. Use the production issue you picked the day before.) Let me show you a real snapshot from production. Please don't take screenshots of this part, because it shows production data. (Open the issue, scroll to the stack trace and expand one frame. Read two or three of the values out loud and explain what they tell you about the failure. Point at the redaction badge, and at any value that says redacted. Then open an issue without a snapshot and read its message, so people recognize it when they see it.)
+## Slide 17 — Live Debugger: a log line without a deploy  ·  1:01
 
-## Slide 18 — Live Debugger: a log line without a deploy  ·  1:02
+- **Message:** Pick a line in a running service and log the values of its variables when it runs, with no code change, no deploy and no restart.
+- **Visual:** Unchanged: FilesController.cs line 53 with a logpoint, its template and condition, and the log line it produces. Caption: "Set up in dev today (G15) · prod would need Targeted redaction (G16)".
+- **On-slide text:** "Pick a line → log its values" · "No code change · no deploy · no restart" · "Set up in dev today (G15) · prod would need Targeted redaction (G16)"
+- **Say:** Exception Replay showed us where the request failed and why, but it hid the values. When you need to see more, there's Live Debugger.
 
-- **Message:** Pick a line in a running service and log the variable values when it runs, with no code change, no deploy and no restart.
-- **Visual:** Code panel with a logpoint marker on one line, a condition tag, and the log message it produces with the values filled in. Three labels: session (about 60 minutes), condition, no deploy.
-- **On-slide text:** "Pick a line → log its values" · "No code change · no deploy · no restart" · "Dev only today: management-api (G15, G16)"
-- **Say:** Live Debugger is for a different kind of problem. Exception Replay only helps after an exception. With Live Debugger, you choose a line of code in a running service, and Datadog logs the values of variables every time that line runs. You don't change the code, and you don't deploy or restart anything.
+  With Live Debugger, you pick a line of code in a running service, and Datadog logs the values of its variables every time that line runs. You don't change the code, and you don't deploy or restart anything. You can add a condition, so it only logs the requests you care about, and the session stops by itself after an hour.
 
-  First you start a debug session. Inside the session you add a logpoint. A logpoint has a file and a line number, and a message template that can include variable values in curly braces. You can also add a condition, so it only logs the requests you care about. The session stops by itself after about an hour, so nothing stays on by mistake.
+  Today we'll use it in dev. In production we keep tighter security settings for this feature, because it can show sensitive values.
 
-  Today it only works where we've turned it on in the service's own configuration, and at the moment that's management-api in dev. Most of our production services use Strict redaction, and Strict blocks logpoints. Turning it on for more services is tracked in DX-1573.
+## Slide 18 — DEMO D6: add a logpoint in dev  ·  6 minutes (1:03–1:09)
 
-## Slide 19 — DEMO D6: add a logpoint in dev  ·  7 minutes (1:04–1:11)
+- **Message:** A logpoint on the email link endpoint goes from nothing to a captured value in about a minute, on management-api in dev, with no code change.
+- **Visual:** Demo card: "D6" and "6 min" tags, "Switch to the browser · management-api in dev", five numbered steps, and the condition. Step 1 carries a "Live Debugger ↗" link (APM → Debugger), step 4 a "Test request ↗" link (the dev test URL, opens in a new tab), and step 5 a "Backup" link to the backup slide.
+- **On-slide text:** "Demo · D6 · 6 min" · "1. APM → Debugger → New Session → Start debugging manually [Live Debugger ↗]" · "2. management-api, dev · search FilesController → click line 53" · "3. Template, + Condition → Start Debug Session" · "4. Send the test request [Test request ↗]" · "5. Open the capture, then stop the session [Backup]" · `IDENT != null && contains(IDENT, "dx-training")`
+- **Say:** In this demo, I'll add a logpoint to the email link endpoint in dev, send it one test request, and look at what it captured.
 
-- **Message:** Watch a logpoint go from nothing to a captured value in about a minute, on management-api in dev.
-- **Visual:** Demo card. Browser and terminal icons, "D6", "7 min", the condition.
-- **On-slide text:** "Demo · D6 · 7 min" · "Live Debugger → session → logpoint → send a request → snapshot" · `IDENT != null && contains(IDENT, "dx-training")`
-- **Say:** (Switch to the browser and follow D6 in the run sheet.) Now I'll add a logpoint to management-api in dev. This endpoint serves files from links in our emails, for example the logo images inside an email. Line 53 decides which kind of link the request has. If someone reported a broken image in an email, we'd want to see the values the request actually received, and that's what this logpoint will log. (Create the session, then add the logpoint on line 53 of FilesController with the message template and the condition. Explain the condition: it only logs requests that contain the text dx-training, so other people's requests are not logged. Wait until the logpoint is active, which takes about thirty seconds. Then switch to the terminal and send the test request. The request returns an error 500, and that's expected, because the demo value isn't a real encrypted key, and the logpoint line runs before the error. Switch back to the browser. The capture is on the session page. Open it and show the argument values. Explain that the same entry also appears in Logs, but only after a few minutes. At the end, stop the session.)
+  (Click Live Debugger on the slide. It opens APM, then Debugger. Skip the Bits Live Debugger box at the top, and click New Session under Start debugging manually.) There's an AI helper at the top, but we'll do it by hand.
 
-## Slide 20 — DEMO D7: Claude on an error, then a logpoint  ·  6 minutes (1:11–1:17)
+  (Choose management-api and dev. Type FilesController in the search, pick the CLASS result, then click in the code to close the method list. Don't press Escape, because it closes the whole window. Scroll to line 53 and click just left of the line number.) This is the endpoint our email images call. Line 53 checks the two values from the link, before anything is decrypted.
 
-- **Message:** Claude reads an Exception Replay snapshot and explains the failure, then places a Live Debugger logpoint in dev and reads what it captured.
-- **Visual:** Demo card. Terminal icon. "P9 explain an error → P10 add a logpoint → curl → P10b read it and disable it".
-- **On-slide text:** "Demo · D7 · 6 min" · "P9 → P10 → curl → P10b"
-- **Say:** (Switch to the terminal and follow D7 in the run sheet.) Now let's ask Claude to do the same debugging work we just did by hand. (Paste P9. While it works, explain that it's reading the Error Tracking issue and the snapshot. When it answers, point out that it explains the failure from the captured values as well as the stack trace. If it suggests adding a logpoint, say something like: Live Debugger only works on management-api in dev today, so I'll ask Claude to add the same logpoint we added by hand in the last demo. Then paste P10. Claude creates the debug session and the logpoint in dev, with the condition. If Claude says Datadog returned an error while creating the logpoint, that's a known Datadog problem. The logpoint is usually created anyway, so Claude checks that it exists before it tries again. When it says the logpoint is ready, send the curl request from the second terminal tab. Then paste P10b: Claude shows what the logpoint captured and disables it. Say that this is the only demo prompt that changes something, which is why it only runs in dev, with a condition, and ends by disabling the logpoint.)
+  (Copy the template below and paste it over the text in with template.)
 
-  (End of part three. Ask for questions and take one or two.)
+  `Course demo: ERES={ERES} IDENT={IDENT} resource={emailResourceKey}`
+
+  (Click + Condition, then copy the condition below and paste it into when.)
+
+  `IDENT != null && contains(IDENT, "dx-training")`
+
+  The template is the log message, and the names in curly braces are replaced with the real values. The condition makes it log only my test request, not everyone else's. (Click Start Debug Session. Wait until the logpoint says Waiting for events, about thirty seconds.) And remember, we didn't change any code or deploy anything.
+
+  (Click Test request on the slide. A new tab opens and says Error retrieving file by link.) This is a test request to the same endpoint, with a made-up value, so it fails the same way as in production. (Go back to the Datadog tab. The capture shows up in the list under the code within about fifteen seconds. If it doesn't, switch the time range above the list from LIVE to Past 15 Minutes and back to LIVE. Open it.) Here's what the logpoint captured, the values of the variables at line 53. Here we can see them, because these variable names aren't hidden by our redaction settings.
+
+  (Close the panel, and click the pause icon next to Active at the top right.) When you're done, stop the session, so the logpoint doesn't keep running.
+
+  (If management-api isn't in the list, or nothing is captured within a minute, click Backup on the slide, and say that Live Debugger needs a setting on the service that isn't working today. Then click Back to D7.)
+
+## Slide 19 — DEMO D7: Claude explains the error  ·  8 minutes (1:09–1:17)
+
+- **Message:** Give Claude the same Error Tracking issue: it explains the error from the snapshot, then reads our code and finds that a broken link returns an error 500 instead of Not Found.
+- **Visual:** Demo card: "D7" and "8 min" tags, "Switch to the terminal · Claude Code", three short steps, and the prompt in the code box, with a dimmed "[paste the issue link]" line under it.
+- **On-slide text:** "Demo · D7 · 8 min" · "1. Paste the prompt below into Claude Code" · "2. From the D5 tab, copy the issue link and paste it after the prompt" · "3. Compare with what we found, then look at the fix" · the prompt · "[paste the issue link]"
+- **Say:** Now let's ask Claude about the same error. I'll give it the link to the issue we opened in D5. Like with the slow request, Claude Code can also read our code, so it can tell us what the user gets back and how we could handle this better.
+
+  (Click the prompt below once to select it, copy it, and paste it into Claude Code. Don't press Enter yet. Go to the D5 browser tab, where the issue is still open, and copy the URL from the address bar. Back in the terminal, paste it after the prompt, and press Enter.)
+
+  `For the Error Tracking issue below, from prod management-api, find a prod sample from the last week that has an Exception Replay snapshot, and then read our code. Answer in four short bullet points, in plain English: why did the request fail, what can't the snapshot show us, what does the user get back, and how could we handle this better? Don't quote any values from the request or the snapshot.`
+
+  (Claude takes about two minutes. Scroll slowly so the room can see its steps.) While it works, you can follow its steps on the screen. It reads the issue and its snapshot from Datadog, then searches our code for the methods in the stack trace and reads them.
+
+  (When it answers, point at each bullet. It should match D5: the link value wasn't valid Base-64, and the snapshot hid the values. Then point at what it found in the code: the code was meant to return Not Found for a bad link, but the exception happens first, so the user gets an error 500.)
+
+  (If Claude says the newest sample is a dev request, that's our test request from D6. It lands in the same issue, which is why the prompt asks for a prod sample.)
+
+  (If Claude can't open the link, paste only the issue ID, the long value after issueId in the link.)
+
+  So that's part three. These tools are newer, and you probably won't need them every day. But the next time you have an error you can't explain, remember that Datadog can show you the values from the moment it happened, and that Claude can read the error and our code for you.
+
+  Does anyone have a question before the last part? (Take one or two. Keep it to about two minutes.)
 
 ---
 
-## Part 4 — Checking Claude's work  ·  11 minutes (1:19–1:30)
+## Part 4 — Checking Claude's work  ·  6 minutes (1:19–1:25)
 
-## Slide 21 — Divider: Part 4
+## Slide 20 — Divider: Part 4
 
 - **Message:** Before you act on Claude's answer, check how it got there.
 - **Visual:** Divider: solid navy, part number and title.
 - **On-slide text:** "Part 4 of 4" · "Trust, but check"
 - **Say:** You've now seen Claude answer questions about slow requests and errors. In the last part, I'll show you how to check those answers before you act on them.
 
-## Slide 22 — Five checking habits  ·  1:20
+## Slide 21 — Three checking habits  ·  1:20
 
-- **Message:** Ask for the query and a link, spot-check it, distrust zeros and span-count rates, compare to a baseline, and tell Claude what Datadog can't see.
-- **Visual:** Five numbered habits, each with an icon. Beside them, three small "seen while building this course" tags.
-- **On-slide text:** "C1 Which query? Link?" · "C2 Open it, spot-check" · "C3 Distrust 0 and span-count rates" · "C4 Compare to a baseline" · "C5 Add what Datadog can't see"
-- **Say:** There are five things I recommend you always do. One: ask Claude which query it ran, and ask for a link. Two: open the link and check one number in Datadog. Three: be careful with zero results, and with any rate that was calculated from span counts. Some filters return nothing without showing an error, and spans are sampled. Four: before you call something a regression, compare it with the same time the day before. Five: tell Claude about things that Datadog doesn't record.
+- **Message:** Ask for the query and a link and check it yourself, be careful with zeros and span-count rates, and give Claude what Datadog can't see.
+- **Visual:** Three numbered habits, C1–C3.
+- **On-slide text:** "C1 Ask which query it ran and for a link, then check the results yourself" · "C2 Be careful with zero results and rates from span counts" · "C3 Give Claude the context that Datadog can't see"
+- **Say:** There are three habits I recommend for any answer from Claude that you plan to act on.
 
-  All of these examples happened while I was preparing this course. I ran every prompt twice. The same question about the slowest endpoints gave two different numbers, because Claude used two different methods. One answer counted thirty requests in an hour, but the metrics show more than five hundred. And one Jira draft looked at CPU time, which is the default, and said our code was not the problem. The same prompt with wall time found the reflection problem.
+  Ask Claude which query it ran, and ask for a link. Then open the link and look at the results yourself, to make sure they match what Claude told you.
 
-  In every case, asking Claude which query it ran showed me what really happened.
+  Be careful with two kinds of numbers. A result of zero isn't always true, because some filters match nothing without showing an error. And don't trust a rate that Claude worked out by counting spans, because Datadog only keeps a sample of them. Ask it to use the metrics instead.
 
-## Slide 23 — "Is this real?"  ·  1:22
+  And give Claude the context it can't get from Datadog. For example, a deploy or a config change, what users told you, or what you already ruled out. Claude can only research what it can see, so this kind of context helps it a lot.
 
-- **Message:** A real latency alert: one ten-minute spike on every host, the median flat, and the day before normal. Is it a regression? (The cause comes out in D8, after P7b.)
-- **Visual:** Line chart of management-api p95, 18:00–19:30 UTC on 2026-09-22 against the same window on 2026-09-21: one spike to 2.27 s at 18:40, otherwise ~0.7 s on both days. p50 flat underneath.
-- **On-slide text:** "p95 0.7 s → 2.27 s → 0.68 s" · "Median flat · one window · back to baseline" · "Real regression, or something else?"
-- **Say:** This is a real example from the day we rolled out the profiler. Watchdog, which is Datadog's automatic alerting, created latency alerts for management-api. The p95 latency went from about 0.7 seconds to 2.27 seconds for one ten-minute window, and then it went straight back down.
+## Slide 22 — "Is this real?"  ·  1:22
 
-  The median didn't change, and the same time window on the day before was normal. So is this a real regression, or something else? Let's ask Claude.
+- **Message:** A real latency alert that Claude got half right: not a code regression, but the wrong cause, until a person told it about the app pool recycle. That kind of spike should now be gone.
+- **Visual:** Line chart of management-api p95, 18:00–19:30 UTC on 2026-09-22 against the same window on 2026-09-21: one spike to 2.27 s at 18:40, otherwise ~0.7 s on both days. p50 flat underneath. Caption: "Median flat · one window · every host · back to baseline → app pools warming up, not a regression".
+- **On-slide text:** "p95 0.7 s → 2.27 s → 0.68 s" · "Median flat · one window · every host · back to baseline → app pools warming up, not a regression"
+- **Say:** Here's a real example of why that last habit matters. Watchdog, which is Datadog's automatic alerting, created a latency alert for management-api. The p95 latency went from about 0.7 seconds to more than 2 seconds for one ten-minute window, and then it went straight back down. The median didn't change, and the same time the day before was normal.
 
-## Slide 24 — DEMO D8: is it real? then check it  ·  6 minutes (1:24–1:30)
+  When we asked Claude, it said this wasn't a code regression, which was right. But it guessed that the database was the cause. What it couldn't see is that the app pools on every web server had just been recycled, because Datadog doesn't record that. Once we told Claude, it changed its answer: the servers were warming up after the restart.
 
-- **Message:** Watch Claude judge the spike, then check its queries and give it the missing context.
-- **Visual:** Demo card. Terminal icon. "D8 · P6 → P7 → P7b".
-- **On-slide text:** "Demo · D8 · 6 min" · "P6 is it real? → P7 which queries? → P7b here's what you couldn't see"
-- **Say:** (Switch to the terminal and follow D8 in the run sheet.) Let's ask Claude about this alert. (Paste P6. When it answers, paste P7 to ask for the queries and links. Open one link in the browser and check one number. Then say the next paragraph, paste P7b, and show how Claude changes its answer.)
-
-  There's one thing Claude couldn't see. Just before the spike, we changed the app pool configuration on all the web servers, and that restarts the app pools. Datadog doesn't record an event when that happens. Let's tell Claude and see if it changes its answer.
-
-  (After P7b answers, explain the cause in your own words.) When an app pool starts, it needs some time to warm up. It compiles code, builds the Entity Framework model and fills its caches. So Claude found the right evidence, but a person had to give it the cause.
+  This can happen any time the app pools recycle, whether it's scheduled or not. As of this week, we've fixed the warm-up in IIS with Application Initialization, so alerts like this one should be a thing of the past.
 
 ---
 
-## Wrap-up  ·  5 minutes, then questions (1:30–1:40)
+## Wrap-up  ·  4 minutes, then questions (1:25–1:40)
 
-## Slide 25 — Which tool for which question  ·  1:30
+## Slide 23 — Which tool for which question  ·  1:25
 
 - **Message:** Slow request: trace, then profile. An exception: Exception Replay. A value at a line, right now: Live Debugger. Claude can help with all three.
 - **Visual:** Three cards, one question each, with the tool underneath. A line under the cards about Claude.
-- **On-slide text:** "Why is it slow? → Trace, then profile" · "Why did it fail? → Exception Replay" · "What is this value, at this line? → Live Debugger" · "Claude can do all three · check its work (C1–C5)"
-- **Say:** Here's a short summary of today. If a request is slow, start with the trace, and then look at the profile. If a request fails with an exception, open the issue in Error Tracking and check whether it has an Exception Replay snapshot. If you need to see a value at a specific line and there's no exception, use Live Debugger. For now, that means management-api in dev.
+- **On-slide text:** "Why is it slow? → Trace, then profile" · "What caused this error? → Exception Replay" · "What is this value, at this line? → Live Debugger" · "Claude can do all three · check its work (C1–C3)"
+- **Say:** Here's a short summary of today. If a request is slow, start with the trace, and then look at the profile. If a request fails with an exception, open the issue in Error Tracking and check whether it has an Exception Replay snapshot. If you need to see a value at a specific line and there's no exception, use Live Debugger.
 
-  For all three, you can ask Claude to do the research, as long as you check its work.
+## Slide 24 — Your turn  ·  1:27
 
-  The two debugging features are still new, so if one doesn't work, check the gotchas page before you spend a lot of time on it.
-
-## Slide 26 — Gotchas to keep  ·  1:32
-
-- **Message:** Twenty traps, all hit for real during the rollout or while building this course. They're on the cheat sheet.
-- **Visual:** Compact grid of G1–G12 titles, then one row for G13–G20.
-- **On-slide text:** "CPU vs Wall · Idle threads · Method list vs filter · Async nesting · Line 0 · Since 9/22 · Thin profiles · Sampled spans · Silent zeros · Operation + env · toolsets=all · Claude can't see recycles" · "G13–G20: Exception Replay and Live Debugger"
-- **Say:** Here are the common mistakes from today on one slide. The ones for Exception Replay and Live Debugger are in the last row. You don't need to remember them, because they're all on the cheat sheet.
-
-  If you only want to remember three, remember these: use Wall Time, use the flame graph filter, and don't calculate rates from span counts.
-
-## Slide 27 — Your turn  ·  1:33
-
-- **Message:** Run one investigation on your own service in the next two weeks and post one finding.
-- **Visual:** Three items with icons: cheat sheet, Slack thread, feedback form. The P8 prompt shown small as "and when you find something: draft the ticket".
-- **On-slide text:** "Cheat sheet" · "Post one finding in the course thread" · "Feedback form (2 min)"
+- **Message:** Run one investigation on your own service in the next two weeks and post one finding; if it's worth fixing, turn it into a ticket with the sdlc plugin.
+- **Visual:** Three cards: keep the cheat sheet, post one finding, turn it into a ticket (the sdlc plugin).
+- **On-slide text:** "Keep the cheat sheet" · "Post one finding" · "Turn it into a ticket: the sdlc plugin creates it and starts the work"
 - **Say:** For homework, please do one investigation in the next two weeks. Pick a service you work on, ask Claude for its slowest endpoints, and follow one of them down to a method. Then share what you found in the course thread in the ai-exchange channel on Slack. A screenshot and one sentence is enough.
 
-  If you find something worth fixing, there's a prompt on the cheat sheet, P8, that writes a draft Jira ticket for you. Check the evidence before you create the ticket. The cheat sheet has all the prompts and click paths.
-
-  Please also fill in the feedback form. It takes about two minutes, and it helps me improve the next version.
+  If you find something worth fixing, you can use the sdlc plugin in Claude Code to create the Jira ticket and start working on it.
 
   OK, does anyone have questions?
+
+  (After the questions.) Thanks, everyone, for joining today. I hope this helps the next time you're troubleshooting something. Have a great rest of your day.
+
+---
+
+## Backup slides
+
+After the wrap-up. Reach them from the Backup link on a demo card; each has a link back.
+
+## Slide 25 — Backup: what a logpoint captures
+
+- **Message:** What D6 would have shown, if Live Debugger isn't working on the day.
+- **Visual:** `live-debugger-session.png`: the session page for management-api in dev, the logpoint form on line 53, and one captured log line. Caption with a "Back to D7" link.
+- **On-slide text:** "management-api in dev · the logpoint on line 53 and one capture" · "Back to D7"
+- **Say:** (Backup for D6.) Live Debugger needs a setting on the service, and it isn't working today, so here's a capture from an earlier test. (Point at the logpoint form, then at the log line.) This is the logpoint on line 53, and this is the log line it wrote, with the values filled in. (Click Back to D7.)

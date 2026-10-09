@@ -1,6 +1,6 @@
 # Session 1: Troubleshooting Slow Requests and Errors with Datadog and Claude
 
-**Duration:** about 90 minutes, plus questions (one session)
+**Duration:** about 85 minutes, plus questions (one session)
 **Format:** Presenter-led, with live demos in the browser (Datadog) and the terminal (Claude Code)
 **Prerequisites:** [Setup guide](../../SETUP-GUIDE.md) completed, so Claude Code can reach Datadog
 
@@ -146,7 +146,7 @@ One window, all hosts, median flat, straight back to baseline: that is cold-star
 
 ---
 
-## 5. Why did it fail? Exception Replay and Live Debugger
+## 5. Finding the cause of an error: Exception Replay and Live Debugger
 
 Profiling shows where the *time* goes. These two features show the *values* in running code. Both are fairly new in Datadog and have limits, listed below. Section 6 shows Claude using both.
 
@@ -178,7 +178,7 @@ The course demo puts a logpoint just before line 53 of `FilesController.cs` in `
 What to know before you try it:
 
 - It only works where the service has `DD_DYNAMIC_INSTRUMENTATION_ENABLED=true` in its own configuration. Today that's `management-api` in dev. Turning it on from Datadog's side wasn't enough, and DX-1573 tracks adding the setting everywhere ([G15](../../resources/gotchas.md#g15-live-debugger-needs-a-setting-on-the-service-itself)).
-- Most prod services are set to **Strict** redaction, which blocks logpoints ([G16](../../resources/gotchas.md#g16-production-blocks-logpoints)).
+- Most prod services are set to **Strict** redaction, which blocks logpoints ([G16](../../resources/gotchas.md#g16-strict-redaction-blocks-logpoints-in-prod)).
 - Lines with `await` can't be instrumented; use plain statements ([G17](../../resources/gotchas.md#g17-a-logpoint-on-an-await-line-never-fires)).
 - Watch the session page. Captures reach Logs search about three minutes later ([G18](../../resources/gotchas.md#g18-captures-appear-on-the-session-page-first)).
 - Leave **Target specific instances** empty, or the next deploy silently orphans the logpoint ([G19](../../resources/gotchas.md#g19-leave-the-version-empty-while-testing)).
@@ -223,11 +223,9 @@ Either way:
 
 Claude is only as good as the queries it runs, and some Datadog queries return misleading answers without any error. The habit, in full in [Checking Claude's work](../../resources/checking-claudes-work.md):
 
-1. Ask which query it ran, and for a Datadog link.
-2. Open the link and spot-check the answer in the UI.
-3. Be suspicious of "0 results" and of rates calculated from span counts.
-4. Compare against a baseline (the same time yesterday) before calling anything a regression.
-5. Tell it what Datadog can't see (recycles, config changes, manual work).
+1. Ask which query it ran and for a Datadog link, then check the results yourself.
+2. Be careful with "0 results" and with rates calculated from span counts.
+3. Give it the context Datadog can't see (deploys, config changes, recycles, what users reported).
 
 ---
 
@@ -235,4 +233,3 @@ Claude is only as good as the queries it runs, and some Datadog queries return m
 
 - Keep the [cheat sheet](../../resources/cheat-sheet.md).
 - Within two weeks, run one investigation on a service you own and post one finding in the course Slack thread.
-- Fill in the [feedback form](../../resources/feedback-form.md) link your presenter shares.

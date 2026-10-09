@@ -45,7 +45,7 @@
     <tr><td>P6</td><td>We got a latency alert on prod <em>service</em> around <em>time UTC</em>. Real regression or noise? Compare against the same time the day before.</td></tr>
     <tr><td>P7</td><td>Which exact queries, metrics and time windows did you use? Give me Datadog links.</td></tr>
     <tr><td>P8</td><td>Draft a Jira ticket (do not create it) for <em>endpoint</em>: summary, trace and profiler evidence with links, next step.</td></tr>
-    <tr><td>P9</td><td>Find the most recent Exception Replay snapshot for <em>exception type</em> in prod <em>service</em> and explain what the captured variables tell us about why it failed.</td></tr>
+    <tr><td>P9</td><td>For the Error Tracking issue below, from prod <em>service</em>, find a prod sample with an Exception Replay snapshot, then read our code: why did it fail, what can't the snapshot show, what does the user get back, how could we handle it better? Then paste the issue link.</td></tr>
     <tr><td>P10</td><td><b>Dev only.</b> Start a Live Debugger session on <em>service</em> in dev and add a logpoint just before line <em>N</em> of <em>file</em>, logging <em>variables</em>, only when <em>condition</em>. Don't pin a version. Then: <em>show me what it captured, then disable it.</em></td></tr>
   </table>
 
@@ -64,11 +64,9 @@
 
       <h2>Check Claude's work</h2>
       <ol>
-        <li><b>C1</b> Ask which query it ran, and for a link.</li>
-        <li><b>C2</b> Open the link; check service, env, time range, profile type, one number.</li>
-        <li><b>C3</b> Distrust "0 results" and rates from span counts.</li>
-        <li><b>C4</b> Compare with the same time yesterday before calling it a regression.</li>
-        <li><b>C5</b> Tell it what Datadog can't see: recycles, config changes, manual work.</li>
+        <li><b>C1</b> Ask which query it ran and for a link, then check the results yourself.</li>
+        <li><b>C2</b> Be careful with "0 results" and rates from span counts.</li>
+        <li><b>C3</b> Give it the context Datadog can't see: deploys, config changes, recycles, what users reported.</li>
       </ol>
     </section>
     <section>
@@ -89,7 +87,7 @@
         <li><b>G13</b> Exception Replay starts on the 2nd occurrence; max 1 per type, server, hour.</li>
         <li><b>G14</b> Some exceptions never get a snapshot ("internal error").</li>
         <li><b>G15</b> Live Debugger needs a setting on the service: management-api dev only for now.</li>
-        <li><b>G16</b> Strict redaction (most prod services) blocks logpoints.</li>
+        <li><b>G16</b> Strict redaction (most prod services) blocks logpoints; Targeted allows them.</li>
         <li><b>G17</b> Logpoints on <code>await</code> lines never fire.</li>
         <li><b>G18</b> Watch the session page; Logs lag about 3 min.</li>
         <li><b>G19</b> Leave <b>Target specific instances</b> empty while testing.</li>

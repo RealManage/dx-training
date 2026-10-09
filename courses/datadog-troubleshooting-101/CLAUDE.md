@@ -2,7 +2,7 @@
 
 ## Course overview
 
-A single presenter-led session of about 90 minutes, plus questions, in a two-hour slot. It teaches developers to troubleshoot slow requests and errors in Datadog: read APM traces, read continuous-profiler data (why is it slow?), see what Exception Replay and Live Debugger capture (why did it fail?), and at the end of each part watch Claude Code with the Datadog MCP server do the same work. The last part is checking Claude's work. It is built around one real example: the slow `GET /api/user/dashboard` on `resident-api`. It follows the DX-1605 profiler rollout; the course ticket is DX-1673.
+A single presenter-led session of about 85 minutes, plus questions, in a two-hour slot. It teaches developers to troubleshoot slow requests and errors in Datadog: read APM traces, read continuous-profiler data (why is it slow?), see what Exception Replay and Live Debugger capture (why did it fail?), and at the end of each part watch Claude Code with the Datadog MCP server do the same work. The last part is checking Claude's work. It is built around one real example: the slow `GET /api/user/dashboard` on `resident-api`. It follows the DX-1605 profiler rollout; the course ticket is DX-1673.
 
 ## Target audience
 
@@ -10,7 +10,7 @@ RealManage developers. Most know Datadog's everyday features; some have never us
 
 ## Course structure
 
-- **Duration:** about 90 minutes plus about 10 minutes of questions, one session. Parts: APM tour, why is it slow (profiling), why did it fail (Exception Replay, Live Debugger), checking Claude's work. Parts 1 to 3 each end with a Claude demo of the same task, then a short question break
+- **Duration:** about 85 minutes plus questions, one session. Parts: APM tour, why is it slow (profiling), finding the cause of an error (Exception Replay, Live Debugger), checking Claude's work. Parts 1 to 3 each end with a Claude demo of the same task, then a short question break
 - **Format:** a reveal.js deck (`slides/deck.html`, offline, S = speaker view) plus live demos in the browser (Datadog, US5 site) and the terminal (Claude Code). Why reveal.js: `docs/format-decision.md`
 - **Level:** Beginner
 - **Prerequisite:** attendees complete `SETUP-GUIDE.md` beforehand
@@ -24,7 +24,7 @@ RealManage developers. Most know Datadog's everyday features; some have never us
 | Prompts (P1–P10b) and good-answer criteria | `resources/demo-prompts.md` | run sheet, cheat sheet |
 | UI paths and deep links (K1–K7) | `resources/click-paths.md` | lesson, cheat sheet |
 | Gotchas (G1–G20) | `resources/gotchas.md` | lesson, outline, cheat sheet |
-| Checking habits (C1–C5) | `resources/checking-claudes-work.md` | lesson, cheat sheet |
+| Checking habits (C1–C3) | `resources/checking-claudes-work.md` | lesson, cheat sheet |
 | Worked-example facts | `sessions/session-1/README.md` §4 | outline |
 | Exception Replay and Live Debugger facts (Part 3) | `sessions/session-1/README.md` §5, `resources/gotchas.md` G13–G20 | outline, run sheet D5, D6, D7 |
 

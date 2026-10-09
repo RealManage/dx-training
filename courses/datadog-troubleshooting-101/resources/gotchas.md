@@ -100,11 +100,11 @@ order: 40
 - **Why:** Live Debugger needs `DD_DYNAMIC_INSTRUMENTATION_ENABLED=true` in the service's own configuration. Turning it on from Datadog's remote settings wasn't enough on our tracer, even on 3.54. Today only management-api in dev has the setting. DX-1573 tracks adding it to Web.config for every environment.
 - **Fix:** use management-api in dev for now. For another service, ask the DX team.
 
-## G16. Production blocks logpoints
+## G16. Strict redaction blocks logpoints in prod
 
 - **Symptom:** creating a logpoint on a prod service fails, or Claude reports that the service "is in strict redaction mode".
 - **Why:** redaction is set per service and environment (**APM → Debugger → Configuration**, the **Redaction** column). Most of our prod services are set to **Strict**, and that mode blocks logpoints. **Targeted** mode allows them, with sensitive names still redacted. Exception Replay snapshots show the mode in a **Redaction** badge.
-- **Fix:** debug in dev or qa. Changing a prod service to Targeted is a separate decision, not something to do for one investigation.
+- **Fix:** debug in dev or qa. Logpoints in prod are possible: turn Live Debugger on for the service and switch its redaction to Targeted. That's a team decision about how much production data can show, not something to do for one investigation.
 
 ## G17. A logpoint on an `await` line never fires
 
@@ -129,3 +129,15 @@ order: 40
 - **Symptom:** creating a logpoint (in the UI, or by Claude through the MCP) returns an error such as a 503, but the logpoint is there when you look.
 - **Why:** not known. The error came back although the logpoint had been saved. It happened in both P10 trials on 2026-09-30: a 503 once and a timeout once. Both times Claude listed the session, found the logpoint, and didn't retry.
 - **Fix:** before you try again, list the session's logpoints (or ask Claude to). Retrying blindly creates a second logpoint that logs every request twice.
+
+## G21. Async frames can show the wrong variables
+
+- **Symptom:** in an Exception Replay snapshot, a frame from an `async` method shows variables that aren't in that method, or says a value isn't available.
+- **Why:** the compiler rewrites async methods into a state machine, and the snapshot reads its fields. Seen on 2026-10-08 in the email-link error's snapshots.
+- **Fix:** read the snapshot of the plain (non-async) frame where the exception was thrown, such as `TripleDesEncryption.Decrypt`. Treat names in async frames above it as hints.
+
+## G22. The code view needs a GitLab sign-in
+
+- **Symptom:** Live Debugger, or a stack trace in Error Tracking, shows blurred code and "Log in to your GitLab account to access this content". In Live Debugger you can't click a line, and the logpoint form (template, condition) doesn't appear.
+- **Why:** Datadog loads source from GitLab with each viewer's own GitLab login. Seen on 2026-10-08 in a browser that wasn't signed in.
+- **Fix:** click **Sign-in with GitLab** once in that browser. **Input method or file:line manually** finds the file without it, but still shows no form, so sign in.

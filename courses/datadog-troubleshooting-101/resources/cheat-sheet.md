@@ -19,7 +19,7 @@ Items carry the IDs of their full versions in [prompts](demo-prompts.md) (P), [c
 | P6 | We got a latency alert on prod *service* around *time UTC*. Real regression or noise? Compare against the same time the day before. |
 | P7 | Which exact queries, metrics and time windows did you use? Give me Datadog links. |
 | P8 | Draft a Jira ticket (do not create it) for *endpoint*: summary, trace and profiler evidence with links, next step. |
-| P9 | Find the most recent Exception Replay snapshot for *exception type* in prod *service* and explain what the captured variables tell us about why it failed. |
+| P9 | For the Error Tracking issue below, from prod *service*, find a prod sample with an Exception Replay snapshot, then read our code: why did it fail, what can't the snapshot show, what does the user get back, how could we handle it better? Then paste the issue link. |
 | P10 | **Dev only.** Start a Live Debugger session on *service* in dev and add a logpoint just before line *N* of *file*, logging *variables*, only when *condition*. Don't pin a version. Then: *show me what it captured, then disable it.* |
 
 ## Click paths (us5.datadoghq.com)
@@ -51,7 +51,7 @@ Items carry the IDs of their full versions in [prompts](demo-prompts.md) (P), [c
 - **G13** Exception Replay starts on the 2nd occurrence; at most 1 snapshot per type, server and hour.
 - **G14** Some exceptions never get a snapshot ("internal error").
 - **G15** Live Debugger needs a setting on the service: management-api in dev only, for now.
-- **G16** Strict redaction (most prod services) blocks logpoints.
+- **G16** Strict redaction (most prod services) blocks logpoints; Targeted allows them.
 - **G17** Logpoints on `await` lines never fire.
 - **G18** Watch the session page; Logs lag about 3 minutes.
 - **G19** Leave **Target specific instances** empty while testing.
@@ -59,8 +59,6 @@ Items carry the IDs of their full versions in [prompts](demo-prompts.md) (P), [c
 
 ## Check Claude's work
 
-1. **C1** Ask which query it ran, and for a link.
-2. **C2** Open the link; check service, env, time range, profile type, and one number.
-3. **C3** Distrust "0 results" and rates from span counts.
-4. **C4** Compare with the same time yesterday before calling it a regression.
-5. **C5** Tell it what Datadog can't see: recycles, config changes, manual work.
+1. **C1** Ask which query it ran and for a link, then check the results yourself.
+2. **C2** Be careful with "0 results" and rates from span counts.
+3. **C3** Give it the context Datadog can't see: deploys, config changes, recycles, what users reported.

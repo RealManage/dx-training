@@ -3,11 +3,11 @@ order: 50
 ---
 # Checking Claude's Work
 
-> Claude is only as good as the queries it runs, and some Datadog queries return misleading answers with no error. These five habits catch it. Every example below happened while this course was being tested on 2026-09-25.
+> Claude is only as good as the queries it runs, and some Datadog queries return misleading answers with no error. These three habits catch it. The examples happened while this course was being tested in September and October 2026.
 
-## The five habits
+## The three habits
 
-### C1. Ask which query it ran, and for a link
+### C1. Ask which query it ran and for a link, then check the results yourself
 
 Follow any answer you'll act on with:
 
@@ -15,36 +15,24 @@ Follow any answer you'll act on with:
 Which exact queries, metrics and time windows did you use for that answer? Give me Datadog links so I can check the numbers myself.
 ```
 
+Then open one link and look at the results yourself. Check the service, env, time range and profile type in the page header, and that what you see matches what Claude said. Claude's profiler links go through an org-switch redirect first; that's normal.
+
 **Seen live:** the same "slowest endpoints" prompt (P2), run twice, came back with two different aggregation methods: one averaged short-interval p95s over 24 hours, the other used buckets starting at midnight UTC. The rankings were close and the numbers weren't. Neither was wrong, but you need to know which you're looking at.
 
-**Seen live:** asked C1 after the "is it real?" prompt (P6), both runs corrected themselves unprompted. They had used sampled spans instead of the `trace.*` metrics, and one had mixed request spans with SQL spans in a service-wide percentile.
-
-### C2. Open the link and spot-check
-
-Open one link Claude gives you and check one number in the UI. Check the service, env, time range and profile type in the page header. Claude's profiler links go through an org-switch redirect first; that's normal.
+**Seen live:** asked this after the "is it real?" prompt (P6), both runs corrected themselves unprompted. They had used sampled spans instead of the `trace.*` metrics, and one had mixed request spans with SQL spans in a service-wide percentile.
 
 **Seen live:** a profiler query for `GET /api/wf/search` also matched `/api/wf/search/vendors` and `/api/wf/search/defaultbegindate`, because the endpoint filter is a pattern, not an exact match. The answer read as one endpoint; the endpoint filter in the returned link listed all three.
 
-### C3. Be suspicious of "0 results" and span-count rates
+### C2. Be careful with zero results and rates from span counts
 
 - "No results" from a span query can mean the filter was silently ignored ([G9](gotchas.md#g9-some-span-filters-silently-return-nothing)). Ask Claude to group by env or service instead of filtering, or check in the UI.
 - Spans are sampled, and errors are kept at a higher rate than successes, so a rate worked out from span counts is biased ([G8](gotchas.md#g8-span-counts-are-sampled)). Ask for the `trace.*` metrics.
 
 **Seen live:** explaining one slow dashboard request (an earlier version of P3), Claude reported "30 requests in the hour" for the endpoint, counted from kept spans. The metrics put it at about 558.
 
-### C4. Compare against a baseline
+### C3. Give Claude the context that Datadog can't see
 
-Before calling anything a regression, compare the same window the day before (or a week before, to rule out weekday effects):
-
-```text
-Compare that against the same time yesterday. Is the median different, or only the slow tail? Does it last more than one window?
-```
-
-A spike that lasts one window, hits every host, leaves the median flat and returns to baseline is usually warm-up, not a regression.
-
-### C5. Tell it what Datadog can't see
-
-App pool recycles, config changes, manual fixes and data loads often leave no event in Datadog. Claude can't know about them, so it guesses. Tell it:
+Claude can only research what Datadog records. Deploys and config changes it can't see, app pool recycles, manual fixes, data loads, what users reported and what you already ruled out all change the answer. Tell it:
 
 ```text
 Context you could not see in Datadog: <what changed, where, and when, in UTC>. Does that change your conclusion?
@@ -58,4 +46,4 @@ Context you could not see in Datadog: <what changed, where, and when, in UTC>. D
 
 ## The live example in the session
 
-Demo D8 runs P6 → P7 → P7b in front of everyone: the answer, the self-correction, then the revision with context. Open one of the P7 links in the browser and check a number live. See the [run sheet](../sessions/session-1/run-sheet.md#d8-is-it-real-then-check-it-6-min).
+Slide 22 tells the Watchdog story from C3: Claude was right that it wasn't a code regression, guessed the database, and revised to a warm-up after the app pool recycle once it was told. P6, P7 and P7b on the [prompts page](demo-prompts.md) let you run the same sequence yourself.

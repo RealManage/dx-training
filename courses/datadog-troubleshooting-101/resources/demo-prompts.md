@@ -75,6 +75,8 @@ Is GET /api/wf/search on prod management-api slow because of our C# code or beca
 
 ## P6. Is it real?
 
+Not used live since 2026-10-09: D8 was dropped, and slide 22 tells the story. P6, P7 and P7b stay as a sequence for your own work.
+
 ```text
 We got a Watchdog latency alert on prod management-api around 2026-09-22 18:40 UTC. Is it a real regression or noise? Compare against the same time the day before.
 ```
@@ -85,6 +87,8 @@ We got a Watchdog latency alert on prod management-api around 2026-09-22 18:40 U
 
 ## P7. Which queries did you run? (follow-up to P6)
 
+Not used live since 2026-10-09: slide 21 covers the habit, and in testing Claude returned 7 to 11 links, too many to check in a demo. Kept as the follow-up for your own work.
+
 ```text
 Which exact queries, metrics and time windows did you use for that answer? Give me Datadog links so I can check the numbers myself.
 ```
@@ -92,7 +96,7 @@ Which exact queries, metrics and time windows did you use for that answer? Give 
 - **Shows:** the most useful checking question there is.
 - **A good answer:** a list of queries with links. In testing, both runs corrected themselves here: they had used sampled spans rather than the `trace.*` metrics, and one had mixed request and SQL spans in a service-wide percentile. Open one link and check one number in the UI.
 
-## P7b. Tell it what Datadog can't see (follow-up to P7)
+## P7b. Tell it what Datadog can't see (follow-up to P6)
 
 ```text
 Context you could not see in Datadog: at about 18:35-18:40 UTC we changed the IIS app pool configuration on every prod web host, which recycles the app pools. Does that change your conclusion?
@@ -114,16 +118,20 @@ Draft a Jira ticket (do not create it) for the slow GET /api/user/dashboard endp
 ## P9. Explain an error from its snapshot
 
 ```text
-Find the most recent Exception Replay snapshot for a DbEntityValidationException in prod identity-api and explain what the captured variables tell us about why it failed. Tell me which tools you used, and give me the Error Tracking link.
+For the Error Tracking issue below, from prod management-api, find a prod sample from the last week that has an Exception Replay snapshot, and then read our code. Answer in four short bullet points, in plain English: why did the request fail, what can't the snapshot show us, what does the user get back, and how could we handle this better? Don't quote any values from the request or the snapshot.
+
+[paste the issue link]
 ```
 
-In the session, swap in the exception type and service you showed in D5. On the cheat sheet: *Find the most recent Exception Replay snapshot for* exception type *in prod* service *and explain what the captured variables tell us about why it failed.*
+Used in D7, with the link to the Error Tracking issue opened in D5 (copy it from the address bar). Start Claude Code with `--add-dir` for your clones of `ciranet-management-api` and `ciranet-api-common`, so it can read the code.
 
-- **Shows:** Claude reading Error Tracking and an Exception Replay snapshot, then reasoning from the captured values rather than only the stack trace.
-- **A good answer:** the issue link; the failing field (`PORTAL_TYPE`, limited to one character) from `entityValidationErrors`; that Entity Framework rejected the save before SQL Server (`InnerException` null, validation on); and what the snapshot *can't* show (the rejected value, cut off by the capture depth). Both test runs also noticed the same bug split across two Error Tracking issues and suggested a logpoint to capture the missing value.
-- **Red flags:** a cause stated as fact that the snapshot doesn't show. Ask "what in the snapshot shows that?" ([C1](checking-claudes-work.md)).
+- **Shows:** Claude reading an Error Tracking issue and its Exception Replay snapshot, then reading the code behind the stack trace and suggesting a fix.
+- **A good answer:** four bullets. The link's encrypted value isn't valid Base-64, so `TripleDesEncryption.Decrypt` throws before anything is decrypted; the snapshot hides the values (redacted by name), so it can't say which character was bad or where the link was damaged; the user gets a 500 with "Error retrieving file by link." (a broken image in the email); and `FileLinkBP.GetFileByEmailResource` already returns "Invalid or corrupted email resource parameters" (a 404) for bad links, but the exception comes first, so a safe decrypt would let that check run. Tested on 2026-10-09: 98 and 102 seconds; both runs skipped the newest sample (D6's dev test request, which lands in the same issue) and used the Oct 6 prod sample with the snapshot. An earlier prompt without "find a prod sample from the last week that has an Exception Replay snapshot" read the dev sample after a D6 run, found no snapshot, and answered from the stack trace alone. Without "Don't quote any values", two earlier runs (102 and 123 s) also found the bad character in the request URL on the trace, which isn't redacted, and one printed a decoded value.
+- **Red flags:** a cause for the broken links stated as fact, any value quoted from the request or snapshot, or a fix for code it didn't read ([C1](checking-claudes-work.md)).
 
 ## P10. Add a logpoint in dev
+
+Not used live since 2026-10-08: D6 adds the logpoint by hand, and D7 stays read-only. Kept as a prompt for your own work.
 
 ```text
 On management-api in dev, start a Live Debugger session and add a logpoint just before line 53 of FilesController.cs. Log ERES, IDENT and emailResourceKey, and only log when IDENT contains "dx-training". Don't pin it to a version. Tell me when it's ready for a test request.
@@ -131,7 +139,7 @@ On management-api in dev, start a Live Debugger session and add a logpoint just 
 
 - **Shows:** Claude doing what D6 did by hand: it checks the line, creates the session and a conditional logpoint, and says when to test.
 - **A good answer:** a session link, the file and line, the message template, the condition, "not pinned", and "wait about 30 seconds". In both test runs it checked that line 53 matched the build running in dev, and warned that the condition would miss real, encrypted `IDENT` values. In both runs Datadog reported an error while creating the logpoint although it was created; Claude checked instead of retrying ([G20](gotchas.md#g20-a-logpoint-can-be-created-even-when-datadog-reports-an-error)).
-- **This one changes something.** It is the only demo prompt that isn't read-only. Keep it to dev, always with a condition, and always finish with P10b. Prod services are in Strict redaction and refuse logpoints anyway ([G16](gotchas.md#g16-production-blocks-logpoints)).
+- **This one changes something.** It is the only demo prompt that isn't read-only. Keep it to dev, always with a condition, and always finish with P10b. Prod services are in Strict redaction and refuse logpoints anyway ([G16](gotchas.md#g16-strict-redaction-blocks-logpoints-in-prod)).
 - **Red flags:** Claude offering to change the service's Live Debugger settings (for example `enable_live_debugger`). Say no; that's a settings change, not a logpoint ([G15](gotchas.md#g15-live-debugger-needs-a-setting-on-the-service-itself)).
 
 Then send the test request from Git Bash (it returns `500`, which is expected):

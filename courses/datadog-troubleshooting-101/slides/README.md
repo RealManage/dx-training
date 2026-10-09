@@ -6,7 +6,7 @@ The presenter deck, built on [reveal.js](https://revealjs.com). reveal.js and th
 
 | File | What it is |
 | - | - |
-| `deck.html` | The deck: 27 slides, 4 part dividers, 8 demo markers (D1–D8) |
+| `deck.html` | The deck: 24 slides plus 1 backup slide for D6, 4 part dividers, 7 demo markers (D1–D7) |
 | `deck-outline.md` | The per-slide source (Message / Visual / On-slide text / Say). **Edit this first**; the deck's speaker notes are its Say track, word for word |
 | `theme/dd101.css` | Deck theme: brand palette, type, layout pieces |
 | `fonts/` | Work Sans and Marcellus (SIL Open Font License, license texts included) |
@@ -33,7 +33,7 @@ Screenshots come from `../assets/screenshots/` (sanitized; see `../scripts/`).
 
 ## Switching to the browser and terminal
 
-Demo slides (D1–D8) say which window to switch to, and the [run sheet](../sessions/session-1/run-sheet.md) has the steps. Keep the deck, Datadog and Claude Code as three windows on the shared screen and **Alt+Tab** between them. Coming back, the deck is where you left it. If you share a single window instead of the screen, you'll have to re-share on each switch, so sharing the screen is smoother.
+Demo slides (D1–D7) say which window to switch to, and the [run sheet](../sessions/session-1/run-sheet.md) has the steps. Keep the deck, Datadog and Claude Code as three windows on the shared screen and **Alt+Tab** between them. Coming back, the deck is where you left it. If you share a single window instead of the screen, you'll have to re-share on each switch, so sharing the screen is smoother.
 
 ## PDF backup
 
