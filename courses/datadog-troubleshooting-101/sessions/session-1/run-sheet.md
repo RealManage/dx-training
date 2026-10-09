@@ -15,7 +15,7 @@ Each part follows the same pattern: explain on slides, show it by hand in Datado
   - [ ] Open the [slow dashboard search](https://us5.datadoghq.com/apm/traces?query=service%3Aresident-api%20resource_name%3A%22GET%20%2Fapi%2Fuser%2Fdashboard%22%20env%3Aprod%20%40duration%3A%3E8s) over the past day. Pick a trace of about 10 s or more whose waterfall shows the stored procedure followed by a gap; anything over 8 s almost always has one. Keep its tab.
   - [ ] Check its span's **Profiles** tab has data (traces from 2026-09-22 on only).
   - [ ] Open the [filtered wall-time profile](https://us5.datadoghq.com/profiling/explorer?query=service%3Aresident-api%20env%3Aprod&profile_type=wall-time&endpoint=%7B%22incl%22%3A%5B%22GET%20%2Fapi%2Fuser%2Fdashboard%22%5D%7D&profiling-flame-graph__filter=focus_on%28method%3A%22UserBP.GetUserDashboardItems%28%29%22%29&viz=flame_graph). If it's empty at 1 hour, set the time range to 1 day.
-- [ ] Run **P1** and **P4** once in Claude Code to confirm the Datadog MCP answers, and run the D2 prompt (**P3**) once with a trace link you picked. Run **P9** once with the exception you pick for D5 below, and check that Claude finds the same issue.
+- [ ] Run **P1** once in Claude Code to confirm the Datadog MCP answers, and run the D2 and D4 prompts (**P3**, **P4**) once with the trace link you picked. Run **P9** once with the exception you pick for D5 below, and check that Claude finds the same issue.
 - [ ] **Pick the Exception Replay example (D5).** Snapshots age and some samples have none, so pick one fresh:
   - [ ] Open the [Exception Replay snapshots search](https://us5.datadoghq.com/logs?query=source%3Add_debugger%20%40debugger.product%3Aer%20env%3Aprod&storage=flex_tier) over the past day (storage **Flex**). Note a service and method that come up often.
   - [ ] Open that service's issues in **Errors → Error Tracking** and find the issue whose **Stack Trace** shows **Exception Replay snapshot (on exit)**. Choose a harmless one: a validation or configuration error, with no customer names, emails, addresses or account numbers in the values. Keep its tab.
@@ -27,8 +27,8 @@ Each part follows the same pattern: explain on slides, show it by hand in Datado
 ## 15 minutes before
 
 - [ ] Close email, chat and anything with customer data. Turn on Do Not Disturb.
-- [ ] Browser: tabs in order: (1) the Datadog Dashboards list (the **Open Datadog** link on slide 5), (2) a backup slow trace you picked, (3) the filtered profile, (4) the Exception Replay issue you picked, (5) the issue with no snapshot, (6) **APM → Debugger**. Zoom to 125% so text reads over screen share.
-- [ ] Terminal: Claude Code started in an empty folder, font size bumped up, window cleared. `/mcp` shows datadog-mcp connected. A second terminal tab with the `curl` command for D6 and D7 typed but not run.
+- [ ] Browser: tabs in order: (1) the Datadog Dashboards list (the **Open Datadog** link on slide 5), (2) a backup slow trace you picked, (3) the all-requests profile (the **All requests** link on slide 11), (4) the Exception Replay issue you picked, (5) the issue with no snapshot, (6) **APM → Debugger**. Zoom to 125% so text reads over screen share.
+- [ ] Terminal: Claude Code started in an empty folder with the code added for D4: `claude --add-dir <your ciranet-resident-api clone> --add-dir <your ciranet-api-common clone>`. Use a folder with no CLAUDE.md of its own, so nothing changes what Claude does on screen. Then font size bumped up, window cleared. `/mcp` shows datadog-mcp connected. A second terminal tab with the `curl` command for D6 and D7 typed but not run.
 - [ ] Deck open: `slides/deck.html`, press **S** for the speaker window (notes, timer, next slide) and keep it on your own screen; press **F** in the main window. Share the screen showing the main deck window, never the speaker window.
 - [ ] Feedback form link, course site link and course Slack thread link ready to paste.
 - [ ] Start the recording (see [Recording](#recording-internal-only)).
@@ -46,27 +46,26 @@ Each part follows the same pattern: explain on slides, show it by hand in Datado
 | 0:19–0:21 | What Claude can do with the Datadog MCP | 7 | Slides | |
 | 0:21–0:26 | **Demo D2** | 8 | Terminal | One prompt: where did the time go? |
 | 0:26–0:28 | Questions | 8 | Slides | |
-| 0:28–0:38 | Part 2: Why is it slow? Profiling | 9–14 | Slides | |
-| 0:38–0:44 | **Demo D3** | 15 | Browser | Span Profiles tab → Open in Profiling → Wall Time → filter |
-| 0:44–0:50 | **Demo D4** | 16 | Terminal | P4 → P5 |
-| 0:50–0:51 | The contrast | 17 | Slides | |
-| 0:51–0:53 | Questions | 17 | Slides | |
-| 0:53–0:57 | Part 3: Why did it fail? Exception Replay, a real snapshot | 18–20 | Slides | |
-| 0:57–1:02 | **Demo D5** | 21 | Browser | Issue → Stack Trace → snapshot values → a "not captured" issue |
-| 1:02–1:04 | Live Debugger | 22 | Slides | |
-| 1:04–1:11 | **Demo D6** | 23 | Browser + terminal | New session → logpoint on line 53 → `curl` → snapshot |
-| 1:11–1:17 | **Demo D7** | 24 | Terminal | P9 → P10 → `curl` → P10b |
-| 1:17–1:19 | Questions | 24 | Slides | |
-| 1:19–1:24 | Part 4: Checking Claude's work; five habits; is this real? | 25–27 | Slides | |
-| 1:24–1:30 | **Demo D8** | 28 | Terminal + browser | P6 → P7 → open one link → P7b |
-| 1:30–1:35 | Which tool, gotchas, your turn | 29–31 | Slides | |
-| 1:35–1:40 | Questions, feedback link | 31 | Slides | |
+| 0:28–0:31 | Part 2: Why is it slow? Tracing vs profiling | 9–10 | Slides | |
+| 0:31–0:43 | **Demo D3** | 11 | Browser | Span → Profiles → timeline → flame graph → all requests: Wall Time → filter |
+| 0:43–0:44 | What we just saw: a slow lookup, many times | 12 | Slides | |
+| 0:44–0:51 | **Demo D4** | 13 | Terminal | P4 with the D1 trace link: the profile, then the code |
+| 0:51–0:53 | Questions | 13 | Slides | |
+| 0:53–0:57 | Part 3: Why did it fail? Exception Replay, a real snapshot | 14–16 | Slides | |
+| 0:57–1:02 | **Demo D5** | 17 | Browser | Issue → Stack Trace → snapshot values → a "not captured" issue |
+| 1:02–1:04 | Live Debugger | 18 | Slides | |
+| 1:04–1:11 | **Demo D6** | 19 | Browser + terminal | New session → logpoint on line 53 → `curl` → snapshot |
+| 1:11–1:17 | **Demo D7** | 20 | Terminal | P9 → P10 → `curl` → P10b |
+| 1:17–1:19 | Questions | 20 | Slides | |
+| 1:19–1:24 | Part 4: Checking Claude's work; five habits; is this real? | 21–23 | Slides | |
+| 1:24–1:30 | **Demo D8** | 24 | Terminal + browser | P6 → P7 → open one link → P7b |
+| 1:30–1:35 | Which tool, gotchas, your turn | 25–27 | Slides | |
+| 1:35–1:40 | Questions, feedback link | 27 | Slides | |
 
-Slides 32–35 are backup screenshots for D1, placed after the wrap-up. Use them only if the live demo doesn't cooperate.
 
 The slot runs to two hours, so about 20 minutes are spare. D7 and D8 are the demos most likely to run over, because each Claude prompt can take up to 3 minutes, so keep most of the spare time for them. Use the rest for longer question breaks.
 
-> **Running late?** Cut in this order: shorten the question breaks to one question, skip step 4 of D5, skip P5 in D4 (show slide 17 instead), run only P9 in D7, then shorten D1: skip the Live Search step and the span tabs other than SQL Queries. Never cut D8; checking Claude's work is the point.
+> **Running late?** Cut in this order: shorten the question breaks to one question, skip step 4 of D5, skip D3's all-requests view (checklist steps 4 and 5), run only P9 in D7, then shorten D1: skip the Live Search step and the span tabs other than SQL Queries. Never cut D8; checking Claude's work is the point.
 
 ---
 
@@ -88,7 +87,7 @@ Each demo lists what to switch to, what to do, and what you should see. If live 
 
 **Expected:** a 10+ second trace with a multi-second stored procedure and a multi-second gap after it. The Span List shows `resident-api` exec time in seconds.
 
-**Fallback:** if the Endpoints panel misbehaves, click **Traces search** on step 4 of the slide: it lands on the filtered result. If no slow trace is in range, use the trace in tab 2. If Datadog itself doesn't cooperate, use backup slides 32–35, then come back to slide 6.
+**Fallback:** if the Endpoints panel misbehaves, click **Traces search** on step 4 of the slide: it lands on the filtered result. If no slow trace is in range, use the trace in tab 2.
 
 ### D2. Claude helps analyze the slow request (5 min)
 
@@ -101,29 +100,31 @@ Each demo lists what to switch to, what to do, and what you should see. If live 
 
 **Fallback:** if Claude can't open the link, paste only the number after `traceID=`. If a prompt stalls past 3 minutes, press Esc and describe the expected answer. If Claude asks to authenticate, the token expired: `/mcp`, authenticate, continue.
 
-### D3. Trace to profile (6 min)
+### D3. From the trace to the profile (12 min)
 
-**Switch to:** browser, tab 2.
+**Switch to:** the D1 browser tab, with the slow trace still open. The full script is in slide 11's speaker notes; this is the checklist.
 
-1. On the `resident-api` span, open **Profiles**. Point at the thread timeline: idle during SQL, busy through the gap.
-2. In the flame graph below, hover `UserBP.GetUserDashboardItems()`. Point out it nests under the repository call (async, G4) and shows line 0 (G5).
-3. Click **Open in Profiling**, or go to tab 3.
-4. Show **CPU Time** first and find the dashboard low in the endpoint list (G1). Click **Wall Time**.
-5. Show the **Method** list failing to find `GetUserDashboardItems` (G3), then use **Filter flame graph** → `method:"UserBP.GetUserDashboardItems()"` → **focus_on**.
-6. Read the stack down to `EnumExtensions.GetEnumFromDescription` and `Attribute.GetCustomAttribute`.
+1. Click the `resident-api` span, then **Profiles** (the last span tab); drag the panel up if it's small. Point at the thread timeline: idle during SQL, busy through the gap.
+2. Click **Flame Graph** under the timeline. Width is time, left to right means nothing, read top to bottom. Gray **Standard Library** rows are framework; blue is our code. Point at **CPU Time** at the top: the thread was running, not waiting.
+3. Read down: `CCCaching.AddOrGetCacheAsync` and `UserRepository.GetUserActivityFeed` sit on top because the code is async ([G4](../../resources/gotchas.md#g4-async-code-nests-under-the-awaited-call)); then `UserBP.GetUserDashboardItems`, `DashboardHelper.GetActivities`, and `EnumExtensions.GetEnumFromDescription` in several places. Hover one and read its time.
+4. Click **All requests** on the slide (a new tab, so the trace stays open): APM → Profiles, resident-api in prod, the dashboard endpoint. It opens on **CPU Time**: stay there. Explain CPU vs Wall: the span's profile said CPU Time, so the gap is CPU work. **Wall Time** adds the waiting branches (other repository calls, SQL) and hides the helper, so don't switch.
+5. Click **Filter flame graph**, choose **focus_on** from the list, then type `GetUserDashboardItems` inside its brackets and pick `method:"UserBP.GetUserDashboardItems()"`. The same shape as the one trace: `GetEnumFromDescription` under `GetUserDashboardItems`.
+6. In passing: a profile that's mostly Entity Framework or the SQL reader waiting means the fix is in the database, not the C#.
 
-**Expected:** `UserBP.GetUserDashboardItems` → `DashboardHelper.GetActivities` → `EnumExtensions.GetEnumFromDescription`, with reflection underneath.
+**Expected:** the span's flame graph shows `GetEnumFromDescription` under `GetUserDashboardItems`; the all-requests view, filtered, shows the same.
 
-**Fallback:** "No Wall Time data after applying filter operations" means a thin window (G7). Widen to 1 day and say why. If still empty, use slide 14.
+**Fallback:** if the span's Profiles tab is empty, use the trace in tab 2 (you checked its profile the day before). An empty or thin filtered graph means a quiet window ([G7](../../resources/gotchas.md#g7-low-traffic-gives-thin-profiles)): set **Past 1 Day** and say why.
 
-### D4. Claude reads the profile (6 min)
+### D4. Claude reads the profile and the code (7 min)
 
-**Switch to:** terminal. Paste [P4](../../resources/demo-prompts.md#p4-name-the-method-with-the-profiler), then [P5](../../resources/demo-prompts.md#p5-our-code-or-the-database).
+**Switch to:** the terminal. The prompt is on slide 13 and in its speaker notes ([P4](../../resources/demo-prompts.md#p4-read-the-profile-and-the-code)); one click selects it in the notes. Paste it without pressing Enter, copy the trace URL from the D1 tab again, paste it after the prompt, then press Enter. Claude Code must have been started with `--add-dir` for the code (see 15 minutes before).
 
-1. **P4.** Talk about: we asked for Wall Time on purpose; check that it really used it, and that it found the same reflection hotspot as the filter in D3. Expected: `GetEnumFromDescription` reflection is about a third of the endpoint.
-2. **P5.** Talk about: the profiler can point *away* from our code. Expected: the database, `api_mp_SearchWorkflows`, with Entity Framework waiting on `ReadAsync`. Then move to slide 17 to show the two profiles side by side.
+1. While it works (about two minutes; 2:15 in a dry run), say what it does: it gets this request's profile, then finds and reads the methods in our code. Scroll slowly so the room can follow.
+2. When it answers, read its plain-language recap out loud, then compare it with D3: `GetEnumFromDescription` under `GetUserDashboardItems`, reflection on every call with nothing cached, run once per activity and property pair. Point at the fixes: cache the lookup, work out each category once.
 
-**Fallback:** as in D2. If time is short, skip P5 and use slide 17 to explain the contrast.
+**Expected:** a short answer naming `GetEnumFromDescription` (or `DashboardHelper.GetActivities` with it underneath), reflection through `Attribute.GetCustomAttribute`, the pairing in `UserBP`, and fixes. Both test runs also named the dashboard stored procedure as the database half of the request.
+
+**Fallback:** if Claude can't open the link, paste only the number after `traceID=`. If it can't find the code, check that Claude Code was started with `--add-dir` for both folders. For stalls and authentication, as in D2.
 
 ### Before D5 and D6: how the two features are switched on
 
@@ -142,7 +143,7 @@ Each demo lists what to switch to, what to do, and what you should see. If live 
 
 **Expected:** a stack trace with a snapshot panel under one frame, showing `this`, `exception` and several locals.
 
-**Fallback:** if the sample now shows no snapshot, try **Previous** and **Next**, or run the [snapshots search](https://us5.datadoghq.com/logs?query=source%3Add_debugger%20%40debugger.product%3Aer%20env%3Aprod&storage=flex_tier) and open a newer one. If nothing works in two minutes, go back to slide 20, which shows a real snapshot, and say that the live one didn't cooperate. That is also a fair picture of a preview feature.
+**Fallback:** if the sample now shows no snapshot, try **Previous** and **Next**, or run the [snapshots search](https://us5.datadoghq.com/logs?query=source%3Add_debugger%20%40debugger.product%3Aer%20env%3Aprod&storage=flex_tier) and open a newer one. If nothing works in two minutes, go back to slide 16, which shows a real snapshot, and say that the live one didn't cooperate. That is also a fair picture of a preview feature.
 
 ### D6. Add a logpoint in dev (7 min)
 
@@ -194,7 +195,7 @@ Each demo lists what to switch to, what to do, and what you should see. If live 
 1. Paste **P6**. Expected: not a code regression; one short burst across hosts, median flat, back to normal; a guessed cause.
 2. Paste **P7**. Expected: the list of queries, and Claude admitting it used sampled spans rather than metrics. Point out that this is why we ask Claude which queries it ran.
 3. **Switch to the browser.** Open one link from P7 and check one number (a time window or a count) against the answer.
-4. **Back to the terminal.** Slide 27 didn't give the cause, so tell the room now: the app pool configuration change just before the spike, which restarts the app pools. Paste **P7b** with that context. Expected: Claude revises to a cold start after the recycle. Then explain the warm-up in your own words.
+4. **Back to the terminal.** Slide 23 didn't give the cause, so tell the room now: the app pool configuration change just before the spike, which restarts the app pools. Paste **P7b** with that context. Expected: Claude revises to a cold start after the recycle. Then explain the warm-up in your own words.
 5. Finish with something like: "Claude found the right evidence, but we had to tell it the cause."
 
 **Fallback:** if time is short, run only P6 and P7b and describe P7. If Claude answers P6 without guessing a cause, ask "what caused it?" before P7b.

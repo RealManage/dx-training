@@ -40,7 +40,7 @@
     <tr><td>P1</td><td>List the services that have continuous profiling data in the last hour.</td></tr>
     <tr><td>P2</td><td>Which prod endpoints in <em>service</em> have the worst p95 over the last 24 hours? Use the trace metrics, not span counts, and give me a link.</td></tr>
     <tr><td>P3</td><td>For the trace below, from prod <em>service</em>, in three short bullets: how long did the request take, how much was SQL, how much was our own code? Then paste the trace link.</td></tr>
-    <tr><td>P4</td><td>Pull the wall-time profile for <em>endpoint</em> on prod <em>service</em> over the last 24 hours. Which of our own methods take the most time? Include the link.</td></tr>
+    <tr><td>P4</td><td>For the trace below, from prod <em>service</em>, use the profiler to find our slowest method, then read that code: what does it do, why is it slow, how could we make it faster? Then paste the trace link.</td></tr>
     <tr><td>P5</td><td>Is <em>endpoint</em> slow because of our C# or the database? Check traces and the profiler; tell me which queries you ran.</td></tr>
     <tr><td>P6</td><td>We got a latency alert on prod <em>service</em> around <em>time UTC</em>. Real regression or noise? Compare against the same time the day before.</td></tr>
     <tr><td>P7</td><td>Which exact queries, metrics and time windows did you use? Give me Datadog links.</td></tr>

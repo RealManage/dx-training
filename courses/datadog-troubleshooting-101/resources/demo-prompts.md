@@ -47,17 +47,23 @@ Used in D2, with the link to the trace opened in D1: copy it from the browser's 
 - **A good answer:** three plain bullets: the total time, the SQL time with `api_rp_GetResidentPortalUserDashboardInfo` named as most of it, and several seconds left for our own code, mostly after the last query. Tested on 2026-10-08 with an 8.7 s trace, once with the link below the prompt and once on the same line: both runs answered in under 30 seconds with 8.7 s total, about 4.4 s of SQL (4.1 s in the dashboard procedure) and about 4.3 s of our own code. Both also said the browser waited longer than the API took. The answer can name a database host: fine on screen, never in a commit.
 - **Red flags:** Claude searching for a different request instead of reading the link, or numbers that add up to more than the total. If it can't open the link, give it only the number after `traceID=`.
 
-## P4. Name the method with the profiler
+## P4. Read the profile and the code
 
 ```text
-Pull the wall-time profile for GET /api/user/dashboard on prod resident-api over the last 24 hours and tell me which of our own methods take the most time. Include the Datadog link.
+For the trace below, from prod resident-api, use the profiler to find which of our own methods took the most time during this request. Then read that code and answer in a few short bullet points, in plain English: what does it do, why is it slow, and how could we make it faster?
+
+[paste the trace link]
 ```
 
-- **Shows:** a wall-time flame graph filtered to one endpoint, summarized as "our methods, ranked".
-- **A good answer:** `UserBP.GetUserDashboardItems` as the entry point, most of it in `DashboardHelper.GetActivities`. `EnumExtensions.GetEnumFromDescription` is about a third of the endpoint, and almost all of it is reflection (`Attribute.GetCustomAttribute`). Both test runs agreed. It should also say the endpoint is a small share of the whole service.
-- **Red flags:** a CPU-time profile instead of wall time ([G1](gotchas.md#g1-the-profiles-page-opens-on-cpu-time)).
+Used in D4, with the same trace link as D2. Start Claude Code with `--add-dir` for your clones of `ciranet-resident-api` and `ciranet-api-common` (where `EnumExtensions` lives), so it can read the code, from a folder with no CLAUDE.md of its own.
+
+- **Shows:** Claude going from the profile to the code: it reads the profile for one request, finds our slowest method, reads it, explains it and suggests a fix.
+- **A good answer:** `EnumExtensions.GetEnumFromDescription` (or `DashboardHelper.GetActivities` with it underneath) as the hotspot, almost all of it in `Attribute.GetCustomAttribute`: reflection on every call, nothing cached. It also names the every-activity × every-property pairing in `UserBP.GetUserDashboardItems`, and fixes: cache the lookup per enum type, and work out each category once. Tested on 2026-10-08 with an 8.7 s trace: two runs, 74 and 112 seconds, same findings. Both also named the 4.1 s dashboard stored procedure as the database half, and both noticed the pairing may show some activities more than once.
+- **Red flags:** a service-wide profile instead of this request's, a framework method named as "ours", or fixes for code it didn't read. Its answer includes a Datadog link with an org-switch ID: fine on screen, never in a commit.
 
 ## P5. Our code or the database?
+
+Not used live since 2026-10-08: D3 mentions the database case in passing, and D4's answer usually names the stored procedure as the database half. Kept as a prompt for your own work.
 
 ```text
 Is GET /api/wf/search on prod management-api slow because of our C# code or because of the database? Check the traces and the profiler, and tell me which queries you ran.

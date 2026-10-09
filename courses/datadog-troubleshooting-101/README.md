@@ -37,7 +37,7 @@ Each part shows a task by hand in Datadog, then Claude doing the same work, then
 | - | - | - |
 | 0–4 | Welcome, goals, three words (service, span, trace) | |
 | 4–28 | **APM orientation**, mostly live in Datadog: the Service page, endpoints (resources), slow traces, three trace views, the gap and the span tabs. Then what Claude can do with the Datadog MCP, and Claude splitting one slow request into SQL and our own code | D1 (browser), D2 (terminal) |
-| 28–53 | **Why is it slow?** Tracing vs profiling, reading flame graphs, Wall vs CPU Time, trace to profile. Then Claude reading the profile, and a database-bound contrast | D3 (browser), D4 (terminal) |
+| 28–53 | **Why is it slow?** Tracing vs profiling, then live in Datadog on the same trace: its profile, reading a profile flame graph, and every dashboard request in Wall Time. Then Claude reading the profile and the code, and suggesting a fix | D3 (browser), D4 (terminal) |
 | 53–79 | **Why did it fail?** Exception Replay on a real prod error, a Live Debugger logpoint in dev, then Claude explaining the error from its snapshot and adding a logpoint in dev | D5 (browser), D6 (browser + terminal), D7 (terminal) |
 | 79–90 | **Checking Claude's work**: five habits and an "is this real?" investigation | D8 (terminal + browser) |
 | 90–100 | Which tool for which question, gotchas, homework, questions, feedback | |

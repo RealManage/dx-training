@@ -7,7 +7,7 @@
 >
 > **How Say is written:** plain, conversational English, the way you'd explain something to teammates, many of whom speak English as a second language. Use full sentences and common words. It should sound like something the presenter would actually say out loud. Don't open with short dramatic fragments ("Four words."), don't use metaphors or give software human traits ("people live in APM", "tracing sees a blank"), and don't use ALL CAPS for emphasis. Avoid phrasing that sounds machine-written: "it's not X, it's Y" contrasts, "here's the thing", "the key is", "that's where X comes in", neat groups of three, a question you answer yourself straight away, and colons or dashes used for effect. Stage directions go in parentheses. Split the Say text into short paragraphs, one idea each (indent continuation paragraphs two spaces under the bullet); each becomes its own paragraph in the speaker notes.
 >
-> **Timing:** about 90 minutes, plus about 10 minutes of questions (two minutes at the end of parts 1 to 3, and five at the end), in a two-hour slot. 31 slides plus 4 backup slides, 4 part dividers and 8 live demos (**D1–D8**). Part 1 is taught mostly live in Datadog. Each part shows a task by hand in Datadog first, then a demo of Claude doing the same work. The minute budget per part is in each part heading, and per demo in the demo slides. The [run sheet](../sessions/session-1/run-sheet.md) has the clock times, window switches and fallbacks; the [demo prompts](../resources/demo-prompts.md) have the exact text to paste.
+> **Timing:** about 90 minutes, plus about 10 minutes of questions (two minutes at the end of parts 1 to 3, and five at the end), in a two-hour slot. 27 slides, 4 part dividers and 8 live demos (**D1–D8**). Parts 1 and 2 are taught mostly live in Datadog, on one trace. Each part shows a task by hand in Datadog first, then a demo of Claude doing the same work. The minute budget per part is in each part heading, and per demo in the demo slides. The [run sheet](../sessions/session-1/run-sheet.md) has the clock times, window switches and fallbacks; the [demo prompts](../resources/demo-prompts.md) have the exact text to paste.
 >
 > **IDs:** P = prompt, G = gotcha, K = click path, C = check-Claude step. The slides point at them rather than repeating them.
 
@@ -100,7 +100,7 @@
 
   (Point at Historical Search, to the left of the time range.) Look here, next to the time range. It says Historical Search. That means we're searching indexed spans. Datadog keeps only a sample of our spans long term, chosen by retention filters, so the number of rows is not the number of requests. (Set the time range to Past 15 Minutes, and point at the number of indexed spans above the list.) For the last fifteen minutes, we only have a handful.
 
-  (Open the time picker again and choose LIVE 15 Minutes, at the top of the list.) Now it says Live Search, with a green Live label. Live Search looks at every span we sent, but only for the last fifteen minutes. (Point at the Ok count under Status, on the left.) It's the same fifteen minutes, and now we see every request. (Set the time range to Past 1 Day.) For older data, we're back to Historical Search. That's fine for finding slow requests, as long as you remember it's only a sample.
+  (Open the time picker again and choose LIVE 15 Minutes, at the top of the list.) Now it says Live Search, with a green Live label. Live Search searches every span we sent, but only for the last fifteen minutes. (Point at the Ok count under Status, on the left.) It's the same fifteen minutes, and now we see every request. (Set the time range to Past 1 Day.) For older data, we're back to Historical Search. That's fine for finding slow requests, as long as you remember it's only a sample.
 
   (In the search bar, add @duration:>8s and press Enter.) I'll add a duration filter, so we only see requests that took more than eight seconds. Every row here is now one slow user dashboard request.
 
@@ -176,99 +176,81 @@
 - **Message:** Profiling shows what our code was doing during the gap.
 - **Visual:** Divider: solid navy, part number and title.
 - **On-slide text:** "Part 2 of 4" · "Why is it slow?"
-- **Say:** Part two is about slow requests. We'll answer the question we had from the trace: what was our code doing during the gap?
+- **Say:** Part two is about slow requests. We'll answer the question we had from the trace: what was our code doing during the gap? Most of this part is a live demo again, on the same trace from part one.
 
 ## Slide 10 — Tracing vs profiling  ·  0:29
 
 - **Message:** Tracing shows that a request was slow and what it called. Profiling shows what our code was doing.
 - **Visual:** Two rows over the same timeline. Top: trace spans with the empty gap. Bottom: profiler samples as small ticks filling the whole timeline, dense inside the gap.
 - **On-slide text:** "Tracing: *that* it was slow, and what it called" · "Profiling: *what our code was doing*"
-- **Say:** Tracing records the calls our code makes to other systems, and how long they take. Profiling works in a different way. Many times per second, the profiler checks every thread and records its stack. The stack is the method that is running, and the methods that called it.
+- **Say:** So far we've used traces. A trace records the calls our code makes, like the SQL calls, and how long each one takes. (Point at the top row.) But it doesn't record what our own code does between those calls. That's why our trace had a gap.
 
-  The profiler does this all day, for every request, and it only costs a few percent of CPU. When we turned it on, CPU on the web servers went up by about two and a half percentage points.
+  The profiler works differently. Many times every second, it samples every thread and records which method is running, and which methods called it. (Point at the small marks on the bottom row.) Each of these marks is one sample. There are a lot of them during the gap, so the profile can tell us what our code was doing there.
 
-  So where the trace has no spans, the profile still has samples. We turned on the profiler for all CiraNet .NET Framework APIs in dev, qa and prod on September 22nd, so traces from that day onward can have profile data.
+## Slide 11 — DEMO D3: from the trace to the profile  ·  12 minutes (0:31–0:43)
 
-## Slide 11 — Reading a flame graph  ·  0:30
+- **Message:** On the same trace as D1, the span's profile shows what our code did during the gap; the Profiles page shows every dashboard request does the same.
+- **Visual:** Demo card: "D3" and "12 min" tags, "Switch to the browser · the D1 trace", six numbered steps, and the filter text. Step 5 carries an "All requests ↗" link to APM → Profiles, filtered to resident-api in prod and the dashboard endpoint, on CPU Time (the right view here: the gap is CPU work, and Wall Time adds the waiting branches, which hide the helper); it opens in a new tab so the trace stays open for D4.
+- **On-slide text:** "Demo · D3 · 12 min" · "1. Back to the D1 trace: click the resident-api span → Profiles" · "2. Thread timeline: idle during SQL, busy in the gap" · "3. Flame Graph tab: gray is framework, blue is our code" · "4. Read down to GetEnumFromDescription" · "5. APM → Profiles: every dashboard request, on CPU Time [All requests ↗]" · "6. Filter flame graph: focus on GetUserDashboardItems" · `focus_on(method:"UserBP.GetUserDashboardItems()")`
+- **Say:** In this demo, we'll go back to the same trace from part one and open its profile. We'll see what our code was doing during the gap, and then check if the same thing happens in every dashboard request.
 
-- **Message:** Width is time, read top-down, and follow our namespaces to the widest leaf.
-- **Visual:** A simplified flame graph (inline diagram) with framework frames grayed and `CiraNet` frames in color, the widest `CiraNet` leaf circled.
-- **On-slide text:** "Width = time" · "Top calls bottom" · "Follow CiraNet… to the widest leaf"
-- **Say:** In the profiler, a flame graph combines thousands of these stack samples into one picture. I'll give you three rules for reading it.
+  (Go to the D1 browser tab, where the slow trace is still open. Click the resident-api span, then Profiles, the last of the span tabs. If the panel is small, drag its top edge up.) This is the profile for just this span. (Point at the thread timeline.) This is the thread timeline. Like the trace, time goes from left to right. While SQL is running, the thread isn't doing anything. Then, after the SQL finishes, it's busy until the end. That's the gap from the trace.
 
-  First, width means time. A wider box used more time, and the order from left to right doesn't mean anything. This is different from the flame graph in a trace. In a trace, left to right is time. In a profile, only the width matters.
+  (Click Flame Graph, under the timeline.) This is a flame graph again, but in a profile you read it a little differently. In the trace, left to right was time. Here, only the width matters: a wider box means more time, and the order from left to right doesn't mean anything. We read it from top to bottom. Each method calls the methods under it.
 
-  Second, read it from top to bottom. The methods at the top call the methods below them.
+  (Point at the gray Standard Library rows, then the blue rows.) The gray rows that say Standard Library are .NET framework code, folded up so they don't get in the way. Our own code is in blue, so we skip the gray rows and follow the blue ones down. (Point at CPU Time at the top.) Also notice that it says CPU Time. The thread was actually running during the gap, not waiting for something, so this is work our own code was doing.
 
-  Third, look for our own code. Skip the framework methods, find the methods in our namespaces, the ones that start with CiraNet, and follow them down to the widest one. That's usually where the problem is.
+  (Point at CCCaching.AddOrGetCacheAsync and UserRepository.GetUserActivityFeed.) At the top there's a caching method and the user repository. They aren't the slow part. Our code is async, and code that runs after an await shows up under the method it was waiting for. So we keep reading down. (Point at UserBP.GetUserDashboardItems.) Here's the method that builds the dashboard, GetUserDashboardItems. (Point at DashboardHelper.GetActivities and the GetEnumFromDescription boxes.) Under it, most of the width is GetActivities and a small helper called GetEnumFromDescription, which shows up in several places. (Hover one of the GetEnumFromDescription boxes and read its time off the screen.)
 
-## Slide 12 — CPU Time vs Wall Time  ·  0:32
+  So that's one request. Is it the same in every dashboard request? (Click All requests on the slide. It opens APM, then Profiles, in a new tab, already filtered to resident-api in prod and the dashboard endpoint, so the trace stays open in the D1 tab.) This is the Profiles page. It combines the profiles from all requests. You can get here yourself from APM, then Profiles, and pick the service and the endpoint.
 
-- **Message:** The Profiles page opens on CPU Time. For slow requests that wait, switch to Wall Time.
-- **Visual:** `profiles-cpu-default.png` with the CPU Time card and the Wall Time card circled; the per-endpoint list showing the dashboard low on CPU.
-- **On-slide text:** "CPU Time = running" · "Wall Time = running + waiting" · "Slow request? Wall Time (G1)"
-- **Say:** Our services collect a few profile types: CPU, wall time, exceptions, lock contention and garbage collection. Today we need two of them. CPU Time only counts the time a thread was actually running on the CPU. Wall Time counts all the time that passed, running or waiting.
+  (Point at the CPU Time and Wall Time cards.) There are two ways to measure time here. CPU Time only counts the time a thread was actually running. Wall Time counts all the time that passed, running or waiting. In our trace, the profile said CPU Time, so during the gap our code was running, not waiting. That means CPU Time is the right one to look at. If a request were slow because it was waiting, for example for another API, you would switch to Wall Time.
 
-  The Profiles page opens with CPU Time selected, and that can be misleading. Look at the dashboard endpoint in this list. It only uses about two tenths of a second of CPU per minute, so it looks unimportant. That's because most dashboard requests are fast, and the slow ones spend a lot of their time waiting for SQL. That's why we switch to Wall Time for slow requests.
+  (Click the Filter flame graph box and choose focus_on from the list. Inside its brackets, type GetUserDashboardItems, and choose the UserBP.GetUserDashboardItems suggestion.) There's still a lot on this page, so I'll focus on our method. Focus on hides everything that isn't under GetUserDashboardItems. (Point at GetEnumFromDescription.) And it looks like our one trace: most of the CPU time goes to GetEnumFromDescription. So this isn't one unlucky request. Other dashboard requests spend their time in the same helper.
 
-  But wall time also counts threads that are just sleeping, so you should filter it to your endpoint and your own code. Also, a time range with little traffic gives a thin profile. If the graph looks empty, make the time range bigger.
+  One more thing before we move on. Sometimes a profile looks very different: most of the width is Entity Framework or the SQL reader waiting for rows, and our code is only a thin part. Then the problem is in the database, and making the C# faster won't help. Here, our own code is the wide part, so the fix is in our code.
 
-## Slide 13 — From one slow trace to its profile  ·  0:34
+  (If the filtered graph is empty or very thin, set the time range to Past 1 Day. A quiet hour can have too few samples.)
 
-- **Message:** The span's Profiles tab shows exactly which method filled the gap in that one request.
-- **Visual:** `span-profiles-flame-graph.png`: the thread timeline busy after 5 s, and the tooltip "UserBP.GetUserDashboardItems() CPU Time 5.05 s".
-- **On-slide text:** "Span → Profiles" · "The gap = GetUserDashboardItems, 5.05 s"
-- **Say:** Let's go back to our trace. Click the resident-api span, and then the Profiles tab. Look at the thread timeline. While SQL is running, the thread is not doing anything. Then, from about five seconds until the end, it's busy the whole time. That's the gap from the trace.
+## Slide 12 — What we just saw: a slow lookup, many times  ·  0:43
 
-  The flame graph below shows which method it was: UserBP.GetUserDashboardItems, with about five seconds of CPU time.
+- **Message:** The gap is one small helper doing reflection, uncached, once for every activity and property pair. Knowing this first makes Claude's answer in D4 easy to follow.
+- **Visual:** Left: our code as a small top-down flame graph: GetUserDashboardItems, then a row of repeated GetEnumFromDescription boxes labeled "for every activity × every property", each over a gray reflection box. Right: "What it does", "Why it's slow", "Why so often". Bottom: "The fix is in our code. Next, Claude reads the profile and the code."
+- **On-slide text:** "UserBP.GetUserDashboardItems()" · "for every activity × every property" · "EnumExtensions.GetEnumFromDescription(), called again each time" · "Attribute.GetCustomAttribute: reflection, nothing cached" · the three right-hand points · the bottom line
+- **Say:** Let's sum up what we found. During the gap, our code was running GetUserDashboardItems, and most of that time went to a small helper called GetEnumFromDescription.
 
-  There are two things to notice here. First, it appears under the user repository and a caching method. This happens because the code is async. Code that runs after an await is shown under the method it waited for. The repository is not slow, so keep reading down to our widest method.
+  That helper turns an activity's category text into an enum value. It does that with reflection, which is slow, and it never saves the answer, so it does the same slow lookup again on every call.
 
-  Second, every frame shows line zero. We need the symbol files to get line numbers, and that work is tracked in DX-1570. For now, use the method name to find the code.
+  It's also called many more times than it needs to be. The code pairs every activity with every property the user has, and does the lookup for each pair. So a user with many properties pays for it many times.
 
-## Slide 14 — The answer: filter the flame graph  ·  0:36
+  The profiler showed us where the time goes. To understand why, we have to read the code, and that's what we'll ask Claude to do next.
 
-- **Message:** In the Profiles explorer, Wall Time plus a flame graph filter names the exact code: a cross join with reflection on every pair.
-- **Visual:** `profiles-wall-filtered.png` with the filter box circled and `EnumExtensions.GetEnumFromDescription` highlighted.
-- **On-slide text:** "Filter flame graph → focus_on(method:\"UserBP.GetUserDashboardItems()\")" · "Reflection per pair (G3)"
-- **Say:** To look at all requests, not just this one, click Open in Profiling. Choose the resident-api service, Wall Time, and the dashboard endpoint.
+## Slide 13 — DEMO D4: Claude reads the profile and the code  ·  7 minutes (0:44–0:51)
 
-  You might try to search for GetUserDashboardItems in the method list on the right, but it isn't there. That list sorts methods by their own time, and this method spends most of its time calling other methods. So use the Filter flame graph box instead. Pick the method and choose focus on.
+- **Message:** Hand Claude the same trace link; it reads this request's profile, then the code, and explains the slow method and how to fix it.
+- **Visual:** Demo card: "D4" and "7 min" tags, "Switch to the terminal · Claude Code", three short steps, and the prompt in the code box, with a dimmed "[paste the trace link]" line under it.
+- **On-slide text:** "Demo · D4 · 7 min" · "1. Paste the prompt below into Claude Code" · "2. From the D1 tab, copy the trace link and paste it after the prompt" · "3. Compare with what we found: the method, why it's slow, the fix" · the prompt · "[paste the trace link]"
+- **Say:** Now let's ask Claude to do the same thing, and then go one step further. Claude Code can read our code, so after it finds the slow method in the profile, it can tell us what the method does and how to make it faster. We'll give it the same trace link again.
 
-  Now we can read the stack. GetUserDashboardItems combines every activity feed item with every property, which is a cross join. For each pair, it calls GetEnumFromDescription, and that method calls GetCustomAttribute, which uses reflection, every single time. Then DashboardHelper.GetActivities does the same lookup again for each item.
+  (Click the prompt below once to select it, copy it, and paste it into Claude Code. Don't press Enter yet. Go to the D1 browser tab and copy the trace link from the address bar again. Back in the terminal, paste it after the prompt, and press Enter.)
 
-  In total, about a third of the endpoint's time is in that one helper method. But across the whole service it's less than one percent, so you would not find it by looking at the service as a whole.
+  `For the trace below, from prod resident-api, use the profiler to find which of our own methods took the most time during this request. Then read that code and answer in a few short bullet points, in plain English: what does it do, why is it slow, and how could we make it faster?`
 
-## Slide 15 — DEMO D3: trace to profile  ·  6 minutes (0:38–0:44)
+  (Claude takes about two minutes. Scroll slowly so the room can see its steps.) While it works, you can follow its steps on the screen. First it gets the profile for this one request from Datadog. Then it searches our code for the methods in that profile, and opens and reads those files. That's the part we didn't do by hand, so it takes a couple of minutes.
 
-- **Message:** Watch the jump from one slow trace to the profile, then the filter.
-- **Visual:** Demo card. "D3", "6 min", browser icon.
-- **On-slide text:** "Demo · D3 · 6 min" · "Span → Profiles → Open in Profiling → Wall Time → Filter"
-- **Say:** (Switch to the browser and follow D3 in the run sheet.) Let me show you this live. (Open the Profiles tab on the span and show the timeline. Then open it in Profiling, switch to Wall Time and add the filter. If the filtered graph is empty, change the time range to one day and explain that there weren't enough samples.)
+  (When it answers, read its plain-language recap out loud. Then point at the method it names and the fixes it suggests. They should match D3: GetEnumFromDescription, reflection on every call, and a lookup that runs once for every activity and property pair. If it mentions the dashboard stored procedure, say that's the database half of the request, which is a separate problem.)
 
-## Slide 16 — DEMO D4: Claude reads the profile  ·  6 minutes (0:44–0:50)
+  (If Claude can't open the link, paste only the long number after traceID= in the link.)
 
-- **Message:** Watch Claude pull the wall-time profile and name our methods, then look at a different endpoint where the cause is the database.
-- **Visual:** Demo card. Terminal icon. "P4 which of our methods?" · "P5 our C# or the database?".
-- **On-slide text:** "Demo · D4 · 6 min" · "P4 → P5"
-- **Say:** (Switch to the terminal and follow D4 in the run sheet. Paste P4, then P5.) Now let's ask Claude for the profile. (When P4 finishes, say that we asked for Wall Time on purpose, and check that it really used it. Point out that it found the same reflection problem we found with the filter. Then paste P5, which asks about the workflow search endpoint in management-api. When it finishes, explain the difference: here most of the profile is Entity Framework waiting for rows from SQL Server. That's also a useful result, because it tells us that making the C# faster won't help, and we should look at the query instead.)
+  So that's part two. We started with a gap in the trace, and the profile told us which of our methods was running during that gap. Then Claude read that method in our code, explained why it's slow, and suggested a fix. You can do the same with your own slow endpoints.
 
-## Slide 17 — The contrast: when it's the database  ·  0:50
-
-- **Message:** A profile with little of our code in it means the fix is in the database rather than the C#.
-- **Visual:** Two mini flame graphs side by side. Left (dashboard): wide `CiraNet` frames. Right (`/api/wf/search`): wide `SqlDataReader.ReadAsync` / Entity Framework frames and a thin sliver of ours.
-- **On-slide text:** "Our code is wide → fix the code" · "Waiting is wide → fix the query"
-- **Say:** (If you skipped P5, first say that this is the workflow search endpoint in management-api.) Here are the two profiles next to each other. For the dashboard, our own methods take most of the width, so the fix is in our code.
-
-  For the workflow search, our methods are only a thin part. Most of the width is Entity Framework and the SQL reader waiting for data. The workflow search's stored procedure, api_mp_SearchWorkflows, takes most of the time in every slow request. So the same tool can point you to two very different fixes.
-
-  (End of part two. Ask for questions and take one or two.)
+  Before we move on, does anyone have a question? (Take one or two. Keep it to about two minutes.)
 
 ---
 
 ## Part 3 — Why did it fail? Exception Replay and Live Debugger  ·  26 minutes with questions (0:53–1:19)
 
-## Slide 18 — Divider: Part 3
+## Slide 14 — Divider: Part 3
 
 - **Message:** Two newer features that show the values of variables in running code.
 - **Visual:** Divider: solid navy, part number and title.
@@ -277,7 +259,7 @@
 
   I'll show you two features that show the values of variables in running code. The first is Exception Replay, and the second is Live Debugger. Both are fairly new in Datadog and they have some limits, which I'll point out as we go. At the end of this part, you'll see Claude use both of them.
 
-## Slide 19 — Exception Replay: the values when it failed  ·  0:54
+## Slide 15 — Exception Replay: the values when it failed  ·  0:54
 
 - **Message:** When an exception happens again, Datadog saves the arguments and local variables of each frame in the stack trace, and shows them in Error Tracking.
 - **Visual:** Three-step diagram (made-up values): first occurrence (tracked, no snapshot) → second occurrence on the same server (snapshot taken) → Error Tracking issue with values per frame, one shown as `[REDACTED]`. Limit line underneath.
@@ -290,7 +272,7 @@
 
   Values with sensitive names, like passwords or tokens, are hidden, and you see the word redacted instead. It also doesn't work for every exception. Sometimes the issue only shows a message saying the data could not be captured.
 
-## Slide 20 — What a real snapshot looks like  ·  0:56
+## Slide 16 — What a real snapshot looks like  ·  0:56
 
 - **Message:** A real production snapshot: the frame, the values under it, and the redaction mode.
 - **Visual:** `exception-replay-snapshot.png`: an identity-api `DbEntityValidationException`, with the snapshot panel under the `PortalUserDBEntities.SaveChangesAsync` frame and the **Redaction: Targeted** badge circled.
@@ -301,14 +283,14 @@
 
   On the right, you can see that this service uses targeted redaction. Targeted means that only values with sensitive names are hidden. Most of our production services use Strict, which is tighter. Now I'll show you one live.
 
-## Slide 21 — DEMO D5: a real Exception Replay snapshot  ·  5 minutes (0:57–1:02)
+## Slide 17 — DEMO D5: a real Exception Replay snapshot  ·  5 minutes (0:57–1:02)
 
 - **Message:** Watch a real production snapshot: the stack trace, the values in one frame, a redacted value, and what it looks like when nothing was captured.
 - **Visual:** Demo card. Browser icon, "D5", "5 min", "live in Datadog · production data, no screenshots".
 - **On-slide text:** "Demo · D5 · 5 min" · "Error Tracking → issue → Stack Trace → expand a frame"
 - **Say:** (Switch to the browser and follow D5 in the run sheet. Use the production issue you picked the day before.) Let me show you a real snapshot from production. Please don't take screenshots of this part, because it shows production data. (Open the issue, scroll to the stack trace and expand one frame. Read two or three of the values out loud and explain what they tell you about the failure. Point at the redaction badge, and at any value that says redacted. Then open an issue without a snapshot and read its message, so people recognize it when they see it.)
 
-## Slide 22 — Live Debugger: a log line without a deploy  ·  1:02
+## Slide 18 — Live Debugger: a log line without a deploy  ·  1:02
 
 - **Message:** Pick a line in a running service and log the variable values when it runs, with no code change, no deploy and no restart.
 - **Visual:** Code panel with a logpoint marker on one line, a condition tag, and the log message it produces with the values filled in. Three labels: session (about 60 minutes), condition, no deploy.
@@ -319,14 +301,14 @@
 
   Today it only works where we've turned it on in the service's own configuration, and at the moment that's management-api in dev. Most of our production services use Strict redaction, and Strict blocks logpoints. Turning it on for more services is tracked in DX-1573.
 
-## Slide 23 — DEMO D6: add a logpoint in dev  ·  7 minutes (1:04–1:11)
+## Slide 19 — DEMO D6: add a logpoint in dev  ·  7 minutes (1:04–1:11)
 
 - **Message:** Watch a logpoint go from nothing to a captured value in about a minute, on management-api in dev.
 - **Visual:** Demo card. Browser and terminal icons, "D6", "7 min", the condition.
 - **On-slide text:** "Demo · D6 · 7 min" · "Live Debugger → session → logpoint → send a request → snapshot" · `IDENT != null && contains(IDENT, "dx-training")`
 - **Say:** (Switch to the browser and follow D6 in the run sheet.) Now I'll add a logpoint to management-api in dev. This endpoint serves files from links in our emails, for example the logo images inside an email. Line 53 decides which kind of link the request has. If someone reported a broken image in an email, we'd want to see the values the request actually received, and that's what this logpoint will log. (Create the session, then add the logpoint on line 53 of FilesController with the message template and the condition. Explain the condition: it only logs requests that contain the text dx-training, so other people's requests are not logged. Wait until the logpoint is active, which takes about thirty seconds. Then switch to the terminal and send the test request. The request returns an error 500, and that's expected, because the demo value isn't a real encrypted key, and the logpoint line runs before the error. Switch back to the browser. The capture is on the session page. Open it and show the argument values. Explain that the same entry also appears in Logs, but only after a few minutes. At the end, stop the session.)
 
-## Slide 24 — DEMO D7: Claude on an error, then a logpoint  ·  6 minutes (1:11–1:17)
+## Slide 20 — DEMO D7: Claude on an error, then a logpoint  ·  6 minutes (1:11–1:17)
 
 - **Message:** Claude reads an Exception Replay snapshot and explains the failure, then places a Live Debugger logpoint in dev and reads what it captured.
 - **Visual:** Demo card. Terminal icon. "P9 explain an error → P10 add a logpoint → curl → P10b read it and disable it".
@@ -339,14 +321,14 @@
 
 ## Part 4 — Checking Claude's work  ·  11 minutes (1:19–1:30)
 
-## Slide 25 — Divider: Part 4
+## Slide 21 — Divider: Part 4
 
 - **Message:** Before you act on Claude's answer, check how it got there.
 - **Visual:** Divider: solid navy, part number and title.
 - **On-slide text:** "Part 4 of 4" · "Trust, but check"
 - **Say:** You've now seen Claude answer questions about slow requests and errors. In the last part, I'll show you how to check those answers before you act on them.
 
-## Slide 26 — Five checking habits  ·  1:20
+## Slide 22 — Five checking habits  ·  1:20
 
 - **Message:** Ask for the query and a link, spot-check it, distrust zeros and span-count rates, compare to a baseline, and tell Claude what Datadog can't see.
 - **Visual:** Five numbered habits, each with an icon. Beside them, three small "seen while building this course" tags.
@@ -357,7 +339,7 @@
 
   In every case, asking Claude which query it ran showed me what really happened.
 
-## Slide 27 — "Is this real?"  ·  1:22
+## Slide 23 — "Is this real?"  ·  1:22
 
 - **Message:** A real latency alert: one ten-minute spike on every host, the median flat, and the day before normal. Is it a regression? (The cause comes out in D8, after P7b.)
 - **Visual:** Line chart of management-api p95, 18:00–19:30 UTC on 2026-09-22 against the same window on 2026-09-21: one spike to 2.27 s at 18:40, otherwise ~0.7 s on both days. p50 flat underneath.
@@ -366,7 +348,7 @@
 
   The median didn't change, and the same time window on the day before was normal. So is this a real regression, or something else? Let's ask Claude.
 
-## Slide 28 — DEMO D8: is it real? then check it  ·  6 minutes (1:24–1:30)
+## Slide 24 — DEMO D8: is it real? then check it  ·  6 minutes (1:24–1:30)
 
 - **Message:** Watch Claude judge the spike, then check its queries and give it the missing context.
 - **Visual:** Demo card. Terminal icon. "D8 · P6 → P7 → P7b".
@@ -381,7 +363,7 @@
 
 ## Wrap-up  ·  5 minutes, then questions (1:30–1:40)
 
-## Slide 29 — Which tool for which question  ·  1:30
+## Slide 25 — Which tool for which question  ·  1:30
 
 - **Message:** Slow request: trace, then profile. An exception: Exception Replay. A value at a line, right now: Live Debugger. Claude can help with all three.
 - **Visual:** Three cards, one question each, with the tool underneath. A line under the cards about Claude.
@@ -392,7 +374,7 @@
 
   The two debugging features are still new, so if one doesn't work, check the gotchas page before you spend a lot of time on it.
 
-## Slide 30 — Gotchas to keep  ·  1:32
+## Slide 26 — Gotchas to keep  ·  1:32
 
 - **Message:** Twenty traps, all hit for real during the rollout or while building this course. They're on the cheat sheet.
 - **Visual:** Compact grid of G1–G12 titles, then one row for G13–G20.
@@ -401,7 +383,7 @@
 
   If you only want to remember three, remember these: use Wall Time, use the flame graph filter, and don't calculate rates from span counts.
 
-## Slide 31 — Your turn  ·  1:33
+## Slide 27 — Your turn  ·  1:33
 
 - **Message:** Run one investigation on your own service in the next two weeks and post one finding.
 - **Visual:** Three items with icons: cheat sheet, Slack thread, feedback form. The P8 prompt shown small as "and when you find something: draft the ticket".
@@ -413,37 +395,3 @@
   Please also fill in the feedback form. It takes about two minutes, and it helps me improve the next version.
 
   OK, does anyone have questions?
-
----
-
-## Backup slides
-
-These slides follow the wrap-up. Use them only if the live D1 demo doesn't cooperate (no slow trace in range, or Datadog is slow), and jump back to slide 6 afterwards.
-
-## Slide 32 — Backup: finding traces
-
-- **Message:** APM → Traces searches spans by service, resource, env and duration. Anything older than 15 minutes is a sample.
-- **Visual:** Screenshot `traces-explorer.png`, scaled to fit and centered. Callout boxes on the search bar, the Spans | Traces switch with "in Indexed Spans", and the Duration column. Caption underneath.
-- **On-slide text:** "APM → Traces" · "Older than 15 minutes = indexed spans (a sample)"
-- **Say:** (Backup for D1.) To find traces, go to APM and then Traces, and filter by service, resource, environment and duration. Next to the Spans and Traces switch, it says Live Search for the last fifteen minutes and Indexed Spans for older time ranges, like in this screenshot. Indexed spans are only a sample, so the number of rows is not the number of requests.
-
-## Slide 33 — Backup: three views of one trace
-
-- **Message:** Flame Graph, Waterfall and Span List show the same spans three ways.
-- **Visual:** `trace-flame-graph-gap.png` large, `trace-waterfall.png` and `trace-span-list.png` as smaller insets. Each view is labeled at its own screenshot.
-- **On-slide text:** "Flame Graph · Waterfall · Span List"
-- **Say:** (Backup for D1.) The same spans, three ways. The flame graph shows the shape of the request. The waterfall is a list on a timeline; click expand all. The span list groups the time by service, and its Exec Time column shows each service's own time.
-
-## Slide 34 — Backup: the span tabs
-
-- **Message:** Each span has tabs. Know what each one is for, and that Profiles is the one we'll use.
-- **Visual:** `span-sql-queries.png` with a box around the tab row. A one-line label for each tab underneath, in tab order.
-- **On-slide text:** "Overview · Infrastructure · Metrics · Logs · SQL Queries · Profiles"
-- **Say:** (Backup for D1.) When you click a span, these tabs appear under the trace. Overview shows the attributes, Infrastructure the host, Metrics the .NET runtime metrics, Logs the logs for this trace, SQL Queries every database call, and Profiles our methods, which we open in part two.
-
-## Slide 35 — Backup: the Service page
-
-- **Message:** The Service page is one service's dashboard. Check the operation and env selectors before trusting any number.
-- **Visual:** `service-page.png` on the left, with a box around the operation / env / version selectors. On the right: "Check these first (G10)", a card for Operation listing aspnet.request (the whole request, as IIS and ASP.NET handle it) and aspnet_webapi.request (the part inside our Web API controller), and a card for Env (prod, qa or dev).
-- **On-slide text:** "Check these first (G10)" · "Operation" with one line per operation · "Env: prod, qa or dev"
-- **Say:** (Backup for D1.) The Service page is a home page for one service. Before you trust a number, check the environment and operation selectors at the top. Our ASP.NET endpoints report under two operations, aspnet.request and aspnet_webapi.request, so each endpoint appears twice.

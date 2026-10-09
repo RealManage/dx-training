@@ -14,7 +14,7 @@ Items carry the IDs of their full versions in [prompts](demo-prompts.md) (P), [c
 | P1 | List the services that have continuous profiling data in the last hour. |
 | P2 | Which prod endpoints in *service* have the worst p95 over the last 24 hours? Use the trace metrics, not span counts, and give me a link. |
 | P3 | For the trace below, from prod *service*, in three short bullets: how long did the request take, how much was SQL, how much was our own code? Then paste the trace link. |
-| P4 | Pull the wall-time profile for *endpoint* on prod *service* over the last 24 hours. Which of our own methods take the most time? Include the link. |
+| P4 | For the trace below, from prod *service*, use the profiler to find our slowest method, then read that code: what does it do, why is it slow, how could we make it faster? Then paste the trace link. |
 | P5 | Is *endpoint* slow because of our C# or the database? Check traces and the profiler; tell me which queries you ran. |
 | P6 | We got a latency alert on prod *service* around *time UTC*. Real regression or noise? Compare against the same time the day before. |
 | P7 | Which exact queries, metrics and time windows did you use? Give me Datadog links. |
