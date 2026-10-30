@@ -50,7 +50,7 @@ commit ───▶ │ npm run build  (esbuild bundle)                         
 Why it matters:
 
 - **The bytes that pass qa are the bytes that reach prod.** No rebuild means no "works in qa, breaks in prod" from a different build.
-- **Environments differ by parameters only** — table names, flag values, log retention — passed at *deploy* time from `configuration/{env}.config`. The artifact never changes.
+- **Environments differ by parameters only** — flag values from `configuration/{env}.config` and `EnvironmentName` from the pipeline's target environment, both passed at *deploy* time; from `EnvironmentName` the artifact derives table names and, via the template's `EnvConfig` mapping, log retention. The artifact never changes.
 - **Secrets are never baked in.** Config references SSM/Secrets Manager ARNs; the artifact carries no secrets.
 
 Contrast with the anti-pattern: running `sam build` separately in each environment rebuilds the artifact three times, so prod runs something qa never saw.
